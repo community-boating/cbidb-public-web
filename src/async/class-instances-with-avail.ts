@@ -4,7 +4,7 @@ import { HttpMethod } from "../core/HttpMethod";
 import { OptionalString } from '../util/OptionalTypeValidators';
 import { Option, some, none } from 'fp-ts/lib/Option';
 
-export const validator = t.array(t.type({
+export const validatorSingleRow = t.type({
 	instanceId: t.number,
 	className: t.string,
 	firstDay: t.string,
@@ -14,7 +14,9 @@ export const validator = t.array(t.type({
 	spotsLeft: t.string,
 	action: t.string,
 	typeId: t.number
-}))
+})
+
+export const validator = t.array(validatorSingleRow)
 
 const path = "/class-instances-with-avail"
 

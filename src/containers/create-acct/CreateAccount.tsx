@@ -7,7 +7,9 @@ import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
 import formUpdateState from '../../util/form-update-state';
 import { Select } from '../../components/Select';
-import {validator} from "../../async/class-instances-with-avail"
+import {validator, validatorSingleRow, scrapeClassDayAndDate} from "../../async/class-instances-with-avail"
+import JoomlaReport from '../../theme/joomla/JoomlaReport';
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../../lov/magicStrings';
 
 type ApiResult = t.TypeOf<typeof validator>;
 
@@ -45,6 +47,42 @@ export default class CreateAccount extends React.Component<Props, {formData: For
 
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
+		function getClassDate(classObj: t.TypeOf<typeof validatorSingleRow>): Option<string> {
+			const parsedStartDate = scrapeClassDayAndDate(classObj.firstDay);
+			const parsedEndDate = scrapeClassDayAndDate(classObj.lastDay);
+			const stripYear = mmddyyyy => {
+				const regex = /(\d\d\/\d\d)\/\d\d\d\d/
+				return regex.exec(mmddyyyy)[1]
+			}
+			return parsedStartDate.chain(start => {
+				return parsedEndDate.map(end => {
+					return stripYear(start.date) + "&nbsp;-&nbsp;" + stripYear(end.date)
+				})
+			})
+		}
+
+		function classReport(classes: ApiResult) {
+			return (<JoomlaReport
+				headers={["Class Name", "First Day", "Last Day", "Class Time", "Spots Left", "Notes"]}
+				rows={classes.map(c => ([
+					getClassDate(c).getOrElse("-"),
+					c.className,
+					c.classTime,
+					c.spotsLeft,
+					c.notes.getOrElse("-")
+				]))}
+				cellStyles={[
+					{textAlign: "center"},
+					{textAlign: "center"},
+					{textAlign: "center"},
+					{textAlign: "center"},
+					{textAlign: "center"},
+					{}
+				]}
+				rawHtml={{0: true, 2: true, 4: true, 5: true}}
+			/>);
+		}
+
 		const main = (<React.Fragment>
 			<JoomlaArticleRegion title="Reserve Classes">
 				New sailors should take our two-week Beginner Sailing class.
@@ -78,6 +116,7 @@ export default class CreateAccount extends React.Component<Props, {formData: For
 					updateAction={updateState}
 					options={morningAfternoonValues.map(e => ({key: e, display: e}))}
 				/></tbody></table>
+				{classReport(self.props.apiResult.filter(c => c.typeId == jpClassTypeId_BeginnerSailing))}
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Intermediate Sailing">
 				<table><tbody><FormSelect
@@ -87,6 +126,7 @@ export default class CreateAccount extends React.Component<Props, {formData: For
 					updateAction={updateState}
 					options={morningAfternoonValues.map(e => ({key: e, display: e}))}
 				/></tbody></table>
+				{classReport(self.props.apiResult.filter(c => c.typeId == jpClassTypeId_IntermediateSailing))}
 			</JoomlaArticleRegion>
 		</React.Fragment>);
 
