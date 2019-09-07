@@ -34,7 +34,7 @@ class FormSelect extends Select<Form> {}
 export default class CreateAccount extends React.Component<Props, {formData: Form}> {
 	constructor(props: Props) {
 		super(props);
-		console.log("constructing createAccount")
+		console.log("constructing createAccount, ", props)
 		this.state = {
 			formData: defaultForm
 		};
@@ -71,22 +71,22 @@ export default class CreateAccount extends React.Component<Props, {formData: For
 				/></tbody></table>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Beginner Sailing">
-				<FormSelect
+				<table><tbody><FormSelect
 					id="beginnerMorningAfternoon"
 					label="Choose a time:  "
 					value={formData.beginnerMorningAfternoon}
 					updateAction={updateState}
 					options={morningAfternoonValues.map(e => ({key: e, display: e}))}
-				/>
+				/></tbody></table>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Intermediate Sailing">
-				<FormSelect
+				<table><tbody><FormSelect
 					id="intermediateMorningAfternoon"
 					label="Choose a time:  "
 					value={formData.intermediateMorningAfternoon}
 					updateAction={updateState}
 					options={morningAfternoonValues.map(e => ({key: e, display: e}))}
-				/>
+				/></tbody></table>
 			</JoomlaArticleRegion>
 		</React.Fragment>);
 

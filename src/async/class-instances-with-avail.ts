@@ -12,7 +12,8 @@ export const validator = t.array(t.type({
 	classTime: t.string,
 	notes: OptionalString,
 	spotsLeft: t.string,
-	action: t.string
+	action: t.string,
+	typeId: t.number
 }))
 
 const path = "/class-instances-with-avail"
@@ -29,7 +30,8 @@ export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
 		classTime: "CLASS_TIME",
 		notes: "NOTES",
 		spotsLeft: "SPOTS_LEFT",
-		action: "ACTION"
+		action: "ACTION",
+		typeId: "TYPE_ID"
 	}
 })
 

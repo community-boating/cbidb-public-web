@@ -67,8 +67,9 @@ export const PostJSON: <T_PostJSON>(jsonData: T_PostJSON) => PostJSON<T_PostJSON
 const searchJSCONMetaData: (metaData: any[]) => (toFind: string) => number = metaData => toFind => {
 	for (var i=0; i<metaData.length; i++) {
 		const name = metaData[i]["name"];
-		
+		if (name == toFind) return i;
 	}
+	return null;
 }
 
 
@@ -196,6 +197,8 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 			return ret2
 		}
 
+		// If this is a JSCON endoint, loop through the data array and map each obj array to an actual object,
+		// using the JSCON metadata and the defined mapping from our prop name to metadata column name
 		const candidate = (function() {
 			if (!self.config.jsconMap) return parsed;
 			else {
@@ -203,18 +206,27 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 					const rows = parsed["data"]["rows"];
 					const metaData = parsed["data"]["metaData"];
 
+					const mapFunction = searchJSCONMetaData(metaData)
+
+					// mapping from prop name we care about to position in the JSCON array
 					const columnMap = (function() {
 						let map: any = {};
 						for (var prop in self.config.jsconMap) {
 							const jsconColumnName = self.config.jsconMap[prop]
-
+							map[prop] = mapFunction(jsconColumnName)
 						}
+						return map;
 					}());
 
 					let retArray: any = [];
 					rows.forEach(row => {
-
+						let rowObject: any = {};
+						for (var prop in self.config.jsconMap) {
+							rowObject[prop] = row[columnMap[prop]];
+						}
+						retArray.push(rowObject)
 					})
+					return retArray;
 				} catch (e) {
 					return parsed;
 				}
