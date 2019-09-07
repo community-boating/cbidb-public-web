@@ -7,14 +7,19 @@ import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
 import formUpdateState from '../../util/form-update-state';
 import { Select } from '../../components/Select';
-import {validator, validatorSingleRow, scrapeClassDayAndDate} from "../../async/class-instances-with-avail"
+import {validator, validatorSingleRow} from "../../async/class-instances-with-avail"
 import JoomlaReport from '../../theme/joomla/JoomlaReport';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../../lov/magicStrings';
+import { Moment } from 'moment';
 
-type ApiResult = t.TypeOf<typeof validator>;
+type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
+	startDateMoment: Moment,
+	endDateMoment: Moment,
+	isMorning: boolean
+};
 
 type Props = {
-	apiResult: ApiResult
+	apiResult: ClassInstanceObject[]
 }
 
 const morningAfternoonValues = [
@@ -26,62 +31,83 @@ const defaultForm = {
 	juniorFirstName: none as Option<string>,
 	beginnerMorningAfternoon: some("Morning") as Option<string>,
 	intermediateMorningAfternoon: some("Morning") as Option<string>,
+	selectedBeginnerInstance: none as Option<string>,
+	selectedIntermediateInstance: none as Option<string>
 }
 
 export type Form = typeof defaultForm
 
+type State = {
+	formData: Form
+}
+
 class FormInput extends TextInput<Form> {}
 class FormSelect extends Select<Form> {}
 
-export default class CreateAccount extends React.Component<Props, {formData: Form}> {
+const getClassDate = (classObj: ClassInstanceObject) => `${classObj.startDateMoment.format("MM/DD")}&nbsp;-&nbsp;${classObj.endDateMoment.format("MM/DD")}`;
+
+function classReport(statePropName: keyof Form, update: (id: string, value: string) => void, selectedValue: Option<string>, classes: ClassInstanceObject[]) {
+	const getRadio = (instanceId: number) => (<input
+		type="radio"
+		id={`sel_${statePropName}_${instanceId}`}
+		name={`sel_${statePropName}`}
+		value={instanceId}
+		onChange={(e) => update(statePropName, e.target.value)}
+		checked={instanceId == -1 ? selectedValue.isNone() : selectedValue.getOrElse(null) == String(instanceId)}
+	/>);
+	const noneRow = [
+		getRadio(-1),
+		"NONE",
+		"-",
+		"-",
+		"-"
+	]
+	return (<JoomlaReport
+		headers={["Select", "Class Date", "Class Time", "Spots Left", "Notes"]}
+		rows={[noneRow].concat(classes.map(c => ([
+			getRadio(c.instanceId),
+			getClassDate(c),
+			c.classTime.replace(/ /g, "&nbsp;"),
+			c.spotsLeft,
+			c.notes.getOrElse("-")
+		])))}
+		cellStyles={[
+			{textAlign: "center"},
+			{textAlign: "center"},
+			{textAlign: "center"},
+			{textAlign: "center"},
+			{textAlign: "center"},
+			{}
+		]}
+		rawHtml={{1: true, 2: true, 3: true, 4: true}}
+	/>);
+}
+
+export default class CreateAccount extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
-		console.log("constructing createAccount, ", props)
 		this.state = {
 			formData: defaultForm
 		};
+	}
+	private timeUpdateState = (prop: string, value: string) => {
+		const selectedClassFormProp: keyof Form = (prop == "beginnerMorningAfternoon" ? "selectedBeginnerInstance" : "selectedIntermediateInstance");
+		let newFormPart = {};
+		newFormPart[prop] = some(value);
+		newFormPart[selectedClassFormProp] = none
+		this.setState({
+			...this.state,
+			formData: {
+				...this.state.formData,
+				...newFormPart
+			}
+		})
 	}
 	render() {
 		const self= this;
 		const formData = this.state.formData;
 
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
-
-		function getClassDate(classObj: t.TypeOf<typeof validatorSingleRow>): Option<string> {
-			const parsedStartDate = scrapeClassDayAndDate(classObj.firstDay);
-			const parsedEndDate = scrapeClassDayAndDate(classObj.lastDay);
-			const stripYear = mmddyyyy => {
-				const regex = /(\d\d\/\d\d)\/\d\d\d\d/
-				return regex.exec(mmddyyyy)[1]
-			}
-			return parsedStartDate.chain(start => {
-				return parsedEndDate.map(end => {
-					return stripYear(start.date) + "&nbsp;-&nbsp;" + stripYear(end.date)
-				})
-			})
-		}
-
-		function classReport(classes: ApiResult) {
-			return (<JoomlaReport
-				headers={["Class Name", "First Day", "Last Day", "Class Time", "Spots Left", "Notes"]}
-				rows={classes.map(c => ([
-					getClassDate(c).getOrElse("-"),
-					c.className,
-					c.classTime,
-					c.spotsLeft,
-					c.notes.getOrElse("-")
-				]))}
-				cellStyles={[
-					{textAlign: "center"},
-					{textAlign: "center"},
-					{textAlign: "center"},
-					{textAlign: "center"},
-					{textAlign: "center"},
-					{}
-				]}
-				rawHtml={{0: true, 2: true, 4: true, 5: true}}
-			/>);
-		}
 
 		const main = (<React.Fragment>
 			<JoomlaArticleRegion title="Reserve Classes">
@@ -113,20 +139,34 @@ export default class CreateAccount extends React.Component<Props, {formData: For
 					id="beginnerMorningAfternoon"
 					label="Choose a time:  "
 					value={formData.beginnerMorningAfternoon}
-					updateAction={updateState}
+					updateAction={self.timeUpdateState}
 					options={morningAfternoonValues.map(e => ({key: e, display: e}))}
 				/></tbody></table>
-				{classReport(self.props.apiResult.filter(c => c.typeId == jpClassTypeId_BeginnerSailing))}
+				{classReport(
+					"selectedBeginnerInstance",
+					updateState,
+					self.state.formData.selectedBeginnerInstance,
+					self.props.apiResult
+						.filter(c => c.typeId == jpClassTypeId_BeginnerSailing)
+						.filter(c => c.isMorning == (self.state.formData.beginnerMorningAfternoon.getOrElse("") == "Morning"))
+				)}
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Intermediate Sailing">
 				<table><tbody><FormSelect
 					id="intermediateMorningAfternoon"
 					label="Choose a time:  "
 					value={formData.intermediateMorningAfternoon}
-					updateAction={updateState}
+					updateAction={self.timeUpdateState}
 					options={morningAfternoonValues.map(e => ({key: e, display: e}))}
 				/></tbody></table>
-				{classReport(self.props.apiResult.filter(c => c.typeId == jpClassTypeId_IntermediateSailing))}
+				{classReport(
+					"selectedIntermediateInstance",
+					updateState,
+					self.state.formData.selectedIntermediateInstance,
+					self.props.apiResult
+						.filter(c => c.typeId == jpClassTypeId_IntermediateSailing)
+						.filter(c => c.isMorning == (self.state.formData.intermediateMorningAfternoon.getOrElse("") == "Morning"))
+				)}
 			</JoomlaArticleRegion>
 		</React.Fragment>);
 

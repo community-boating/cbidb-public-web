@@ -20,7 +20,6 @@ export default (props: Props) => (
 		{props.rows.zipWithIndex().map(([row, rowIndex]) => {
 			const isEven = rowIndex % 2 == 0;
 			const styles = props.cellStyles || []
-			console.log(styles)
 			return (
 				<tr className="highlight-row" key={`row_${rowIndex}`}>
 					{row.zipWithIndex().map(([cellContents, cellIndex]) => {

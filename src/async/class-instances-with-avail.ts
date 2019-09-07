@@ -13,7 +13,9 @@ export const validatorSingleRow = t.type({
 	notes: OptionalString,
 	spotsLeft: t.string,
 	action: t.string,
-	typeId: t.number
+	typeId: t.number,
+	startDatetimeRaw: t.string,
+	endDatetimeRaw: t.string
 })
 
 export const validator = t.array(validatorSingleRow)
@@ -33,19 +35,8 @@ export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
 		notes: "NOTES",
 		spotsLeft: "SPOTS_LEFT",
 		action: "ACTION",
-		typeId: "TYPE_ID"
+		typeId: "TYPE_ID",
+		startDatetimeRaw: "START_DATETIME_RAW",
+		endDatetimeRaw: "END_DATETIME_RAW"
 	}
 })
-
-// input: Tuesday  <br >  08/06/2019
-// scrape Tuesday and 08/06/2019
-export const scrapeClassDayAndDate: (raw: string) => Option<{day: string, date: string}> = raw => {
-	const regex = /([\w]+)[\s]*(?:<.*>)?[\s]*([0-9\/]+)/;
-	const result = regex.exec(raw)
-	if (result && result[1] && result[2]) {
-		return some({
-			day: result[1],
-			date: result[2]
-		});
-	} else return none;
-}

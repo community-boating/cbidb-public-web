@@ -20,6 +20,7 @@ import Currency from '../util/Currency';
 import extractURLParams from '../util/extractURLParams';
 import asc from './AppStateContainer';
 import { Option } from 'fp-ts/lib/Option';
+import moment = require('moment');
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -45,7 +46,15 @@ export default function (history: History<any>) {
 		<Route key="/create-acct" path="/create-acct" render={() => <PageWrapper
 			key="CreateAccountPage"
 			component={(urlProps: {}, async: t.TypeOf<typeof getClassesWithAvailValidator>) => <CreateAccount 
-				apiResult={async}
+				apiResult={async.map(row => {
+					const startDateMoment = moment(row.startDatetimeRaw, "MM/DD/YYYY HH:mm")
+					return {
+						...row,
+						startDateMoment,
+						endDateMoment: moment(row.endDatetimeRaw, "MM/DD/YYYY HH:mm"),
+						isMorning: Number(startDateMoment.format("HH")) < 12
+					};
+				})}
 			/>}
 			urlProps={{}}
 			shadowComponent={<span>hi!</span>}
