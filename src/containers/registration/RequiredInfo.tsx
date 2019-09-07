@@ -21,6 +21,7 @@ import range from "../../util/range";
 import moment = require('moment');
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 
+// TODO: are these used anymore?
 export const formName = "registrationRequiredInfo"
 
 type ApiType = t.TypeOf<typeof validator>

@@ -6,6 +6,7 @@ import { Redirect, Route, Router, Switch } from 'react-router';
 import { getWrapper as classTimesWrapper, validator as classTimesValidator } from "../async/junior/get-class-instances";
 import { getWrapper as seeTypesWrapper, validator as seeTypesValidator } from "../async/junior/see-types";
 import { apiw as welcomeAPI } from "../async/member-welcome";
+import {getWrapper as getClassesWithAvail, validator as getClassesWithAvailValidator} from "../async/class-instances-with-avail"
 import PageWrapper from '../core/PageWrapper';
 import SelectClassTime from "../containers/class-signup/SelectClassTime";
 import SelectClassType from "../containers/class-signup/SelectClassType";
@@ -34,13 +35,24 @@ export const paths = {
 	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId")
 }
 
+// TODO: real shadow components on everything
 export default function (history: History<any>) {
 	console.log("inside routing function")
 	console.log(asc.state)
 
 	const mustNotBeLoggedIn = [
 		<Route key="/precreate" path="/precreate" render={() => <Gatekeeper />} />,
-		<Route key="/create-acct" path="/create-acct" render={() => <CreateAccount />} />,
+		<Route key="/create-acct" path="/create-acct" render={() => <PageWrapper
+			key="CreateAccountPage"
+			component={(urlProps: {}, async: t.TypeOf<typeof getClassesWithAvailValidator>) => <CreateAccount 
+				apiResult={async}
+			/>}
+			urlProps={{}}
+			shadowComponent={<span>hi!</span>}
+			getAsyncProps={() => {
+				return getClassesWithAvail.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+			}}
+		/>} />,
 		<Route key="default" render={() => <LoginPage 
 			jpPrice={Currency.dollars(300)}
 			lastSeason={2018}

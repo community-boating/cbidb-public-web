@@ -27,7 +27,8 @@ interface ConfigCommon<T_ResponseValidator extends t.Any> {
 	type: string & HttpMethod,
 	path: string,
 	extraHeaders?: object, 
-	resultValidator: T_ResponseValidator
+	resultValidator: T_ResponseValidator,
+	jsconMap?: any
 }
 
 export interface GetConfig<T_ResponseValidator extends t.Any> extends ConfigCommon<T_ResponseValidator> {
@@ -62,6 +63,13 @@ export interface PostJSON<T_PostJSON> {
 }
 export const PostString: (urlEncodedData: string) => PostString = urlEncodedData => ({type: "urlEncoded", urlEncodedData})
 export const PostJSON: <T_PostJSON>(jsonData: T_PostJSON) => PostJSON<T_PostJSON> = jsonData => ({type: "json", jsonData})
+
+const searchJSCONMetaData: (metaData: any[]) => (toFind: string) => number = metaData => toFind => {
+	for (var i=0; i<metaData.length; i++) {
+		const name = metaData[i]["name"];
+		
+	}
+}
 
 
 export type PostType<T> = PostString | PostJSON<T>
@@ -167,6 +175,8 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 		type Result = t.TypeOf<T_ResponseValidator>;
 		type Return = ApiResult<t.TypeOf<T_ResponseValidator>>;
 
+		const self = this;
+
 		let parsed;
 		try {
 			parsed = JSON.parse(response)
@@ -186,7 +196,32 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 			return ret2
 		}
 
-		const decoded: Either<t.Errors, Result> = this.config.resultValidator.decode(parsed)
+		const candidate = (function() {
+			if (!self.config.jsconMap) return parsed;
+			else {
+				try {
+					const rows = parsed["data"]["rows"];
+					const metaData = parsed["data"]["metaData"];
+
+					const columnMap = (function() {
+						let map: any = {};
+						for (var prop in self.config.jsconMap) {
+							const jsconColumnName = self.config.jsconMap[prop]
+
+						}
+					}());
+
+					let retArray: any = [];
+					rows.forEach(row => {
+
+					})
+				} catch (e) {
+					return parsed;
+				}
+			}
+		}());
+
+		const decoded: Either<t.Errors, Result> = this.config.resultValidator.decode(candidate)
 		return (function() {
 			let ret: Return
 			if (decoded.isRight()) {

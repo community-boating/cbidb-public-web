@@ -35,8 +35,10 @@ export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T
 						readyToRender: true,
 						componentAsyncProps: asyncProps.success
 					});
-				} // TODO: else... do something
-
+				} else {
+					// TODO: else... do something
+					console.log("async error: ", asyncProps)
+				}
 			})
 		} else {
 			this.state = {
