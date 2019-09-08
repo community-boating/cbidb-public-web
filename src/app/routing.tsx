@@ -19,7 +19,7 @@ import RegistrationWizard from '../containers/registration/pageflow/Registration
 import Currency from '../util/Currency';
 import extractURLParams from '../util/extractURLParams';
 import asc from './AppStateContainer';
-import { Option } from 'fp-ts/lib/Option';
+import { Option, none, some, Some } from 'fp-ts/lib/Option';
 import moment = require('moment');
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
@@ -45,7 +45,16 @@ export default function (history: History<any>) {
 		<Route key="/precreate" path="/precreate" render={() => <Gatekeeper />} />,
 		<Route key="/create-acct" path="/create-acct" render={() => <PageWrapper
 			key="CreateAccountPage"
-			component={(urlProps: {}, async: t.TypeOf<typeof getClassesWithAvailValidator>) => <CreateAccount 
+			component={(urlProps: {}, async: t.TypeOf<typeof getClassesWithAvailValidator>) => <CreateAccount
+				preRegistrations={[{
+					firstName: "Timmy",
+					beginner: some({
+						instanceId: 123,
+						dateRange: "06/24 - 06/28",
+						timeRange: "09:00 - 12:00"
+					}),
+					intermediate: none
+				}]}
 				apiResult={async.map(row => {
 					const startDateMoment = moment(row.startDatetimeRaw, "MM/DD/YYYY HH:mm")
 					return {

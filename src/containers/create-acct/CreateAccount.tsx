@@ -18,8 +18,21 @@ type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	isMorning: boolean
 };
 
+type PreRegistrationClass = {
+	instanceId: number,
+	dateRange: string,
+	timeRange: string
+}
+
+type PreRegistration = {
+	firstName: string,
+	beginner: Option<PreRegistrationClass>,
+	intermediate: Option<PreRegistrationClass>
+}
+
 type Props = {
-	apiResult: ClassInstanceObject[]
+	apiResult: ClassInstanceObject[],
+	preRegistrations: PreRegistration[]
 }
 
 const morningAfternoonValues = [
@@ -34,6 +47,17 @@ const defaultForm = {
 	selectedBeginnerInstance: none as Option<string>,
 	selectedIntermediateInstance: none as Option<string>
 }
+
+const renderClassLine = (preregClass: Option<PreRegistrationClass>) => preregClass.fold(
+	"(None)",
+	c => c.dateRange + ", " + c.timeRange
+)
+
+const preRegRender = (prereg: PreRegistration) => (<tr><td>
+	<b>{prereg.firstName}</b><br />
+	Beginner: {renderClassLine(prereg.beginner)}<br />
+	Intermediate: {renderClassLine(prereg.intermediate)}<br />
+</td></tr>);
 
 export type Form = typeof defaultForm
 
@@ -170,8 +194,13 @@ export default class CreateAccount extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 		</React.Fragment>);
 
-		const sidebar = (<JoomlaSidebarRegion title="Your Juniors">
-			As you reserve classes for more juniors, they will appear in this box!
+		const sidebar = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>
+			{self.props.preRegistrations.length==0
+				? <tr><td>As you reserve classes for more juniors, they will appear in this box!</td></tr>
+				: self.props.preRegistrations.map(preRegRender)
+			}
+			</tbody></table>
+			
 		</JoomlaSidebarRegion>);
 
 		return <Joomla8_4 main={main} right={sidebar} />
