@@ -1,4 +1,4 @@
-import { Option, none, some } from 'fp-ts/lib/Option';
+import { Option, none, some, Some } from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
 import * as React from "react";
 import TextInput from "../../components/TextInput";
@@ -11,6 +11,9 @@ import {validator, validatorSingleRow} from "../../async/class-instances-with-av
 import JoomlaReport from '../../theme/joomla/JoomlaReport';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../../lov/magicStrings';
 import { Moment } from 'moment';
+import Button from '../../components/Button';
+import { PreRegistration, PreRegistrationClass } from '../../app/global-state/jp-pre-registrations';
+import asc from '../../app/AppStateContainer';
 
 type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -18,17 +21,6 @@ type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	isMorning: boolean
 };
 
-type PreRegistrationClass = {
-	instanceId: number,
-	dateRange: string,
-	timeRange: string
-}
-
-type PreRegistration = {
-	firstName: string,
-	beginner: Option<PreRegistrationClass>,
-	intermediate: Option<PreRegistrationClass>
-}
 
 type Props = {
 	apiResult: ClassInstanceObject[],
@@ -53,7 +45,7 @@ const renderClassLine = (preregClass: Option<PreRegistrationClass>) => preregCla
 	c => c.dateRange + ", " + c.timeRange
 )
 
-const preRegRender = (prereg: PreRegistration) => (<tr><td>
+const preRegRender = (prereg: PreRegistration, i: number) => (<tr key={`prereg_${i}`}><td>
 	<b>{prereg.firstName}</b><br />
 	Beginner: {renderClassLine(prereg.beginner)}<br />
 	Intermediate: {renderClassLine(prereg.intermediate)}<br />
@@ -73,6 +65,7 @@ const getClassDate = (classObj: ClassInstanceObject) => `${classObj.startDateMom
 function classReport(statePropName: keyof Form, update: (id: string, value: string) => void, selectedValue: Option<string>, classes: ClassInstanceObject[]) {
 	const getRadio = (instanceId: number) => (<input
 		type="radio"
+		key={`sel_${statePropName}_${instanceId}`}
 		id={`sel_${statePropName}_${instanceId}`}
 		name={`sel_${statePropName}`}
 		value={instanceId}
@@ -107,7 +100,7 @@ function classReport(statePropName: keyof Form, update: (id: string, value: stri
 	/>);
 }
 
-export default class CreateAccount extends React.Component<Props, State> {
+export default class ReserveClasses extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
@@ -192,6 +185,14 @@ export default class CreateAccount extends React.Component<Props, State> {
 						.filter(c => c.isMorning == (self.state.formData.intermediateMorningAfternoon.getOrElse("") == "Morning"))
 				)}
 			</JoomlaArticleRegion>
+			<Button text="Add Another Junior" onClick={() => {
+				asc.updateState.jpPreRegistrations.add({
+					firstName: self.state.formData.juniorFirstName.getOrElse(""),
+					beginner: none,
+					intermediate: none
+				})
+				window.scrollTo(0, 0)
+			}}/>
 		</React.Fragment>);
 
 		const sidebar = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>

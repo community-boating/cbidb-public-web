@@ -10,7 +10,7 @@ import {getWrapper as getClassesWithAvail, validator as getClassesWithAvailValid
 import PageWrapper from '../core/PageWrapper';
 import SelectClassTime from "../containers/class-signup/SelectClassTime";
 import SelectClassType from "../containers/class-signup/SelectClassType";
-import CreateAccount from '../containers/create-acct/CreateAccount';
+import ReserveClasses from '../containers/create-acct/ReserveClasses';
 import Gatekeeper from "../containers/create-acct/Gatekeeper";
 import HomePage, { Form as HomePageForm } from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
@@ -43,18 +43,10 @@ export default function (history: History<any>) {
 
 	const mustNotBeLoggedIn = [
 		<Route key="/precreate" path="/precreate" render={() => <Gatekeeper />} />,
-		<Route key="/create-acct" path="/create-acct" render={() => <PageWrapper
+		<Route key="/reserve" path="/reserve" render={() => <PageWrapper
 			key="CreateAccountPage"
-			component={(urlProps: {}, async: t.TypeOf<typeof getClassesWithAvailValidator>) => <CreateAccount
-				preRegistrations={[{
-					firstName: "Timmy",
-					beginner: some({
-						instanceId: 123,
-						dateRange: "06/24 - 06/28",
-						timeRange: "09:00 - 12:00"
-					}),
-					intermediate: none
-				}]}
+			component={(urlProps: {}, async: t.TypeOf<typeof getClassesWithAvailValidator>) => <ReserveClasses
+				preRegistrations={asc.state.jpPreRegistrations.preregistrations}
 				apiResult={async.map(row => {
 					const startDateMoment = moment(row.startDatetimeRaw, "MM/DD/YYYY HH:mm")
 					return {

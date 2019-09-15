@@ -29,7 +29,7 @@ export default class Gatekeeper extends React.PureComponent<Props> {
 			If you would like to pay for the membership of a child for whom you are not the parent or legal guardian, please call the boathouse at 617-523-1038 and inquire about purchasing a gift certificate.<br />
 			<br />
 			<ul>
-				<li><Link to="/create-acct">
+				<li><Link to="/reserve">
 					I am a parent/legal guardian of all juniors I am about to register (or have registered) under my name.
 				</Link></li>
 				<li><PlaceholderLink >I'm in the wrong place!  Please take me to Adult Program signups.</PlaceholderLink></li>

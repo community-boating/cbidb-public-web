@@ -2,6 +2,10 @@ import { none, Option, some } from 'fp-ts/lib/Option';
 
 import { apiw } from "../async/authenticate-member";
 import { PostString, ServerParams } from '../core/APIWrapper';
+import { defaultState as JpPreRegistrationDefaultState, PreRegistration } from './global-state/jp-pre-registrations';
+
+// TODO: some sort of state module class that creates reducers with current state and this.setState injected into them somehow
+
 
 type ServerConfig = {
     // TODO: dev vs prod config
@@ -36,7 +40,8 @@ type State = {
 	appProps: AppProps
 	login: {
 		authenticatedUserName: Option<string>
-	}
+	},
+	jpPreRegistrations: typeof JpPreRegistrationDefaultState
 }
 
 // TODO: should this not expose anything publically except the "reducer" functions to update state?  Seems like <App /> should be the only thing that can read state
@@ -88,6 +93,16 @@ class AppStateContainer {
 				...this.state,
 				appProps
 			})
+		},
+		jpPreRegistrations: {
+			add: (newVal: PreRegistration) => {
+				this.setState({
+					...this.state,
+					jpPreRegistrations: {
+						preregistrations: this.state.jpPreRegistrations.preregistrations.concat([newVal])
+					}
+				})
+			}
 		}
 	}
 	constructor() {
@@ -95,6 +110,9 @@ class AppStateContainer {
 			appProps: null,
 			login: {
 				authenticatedUserName: none
+			},
+			jpPreRegistrations: {
+				preregistrations: []
 			}
 		};
 	}
