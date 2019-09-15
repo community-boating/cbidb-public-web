@@ -14,6 +14,7 @@ import { Moment } from 'moment';
 import Button from '../../components/Button';
 import { PreRegistration, PreRegistrationClass } from '../../app/global-state/jp-pre-registrations';
 import asc from '../../app/AppStateContainer';
+import optionify from '../../util/optionify';
 
 type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -47,8 +48,8 @@ const renderClassLine = (preregClass: Option<PreRegistrationClass>) => preregCla
 
 const preRegRender = (prereg: PreRegistration, i: number) => (<tr key={`prereg_${i}`}><td>
 	<b>{prereg.firstName}</b><br />
-	Beginner: {renderClassLine(prereg.beginner)}<br />
-	Intermediate: {renderClassLine(prereg.intermediate)}<br />
+	Beginner:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.beginner)}}></span><br />
+	Intermediate:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.intermediate)}}></span><br />
 </td></tr>);
 
 export type Form = typeof defaultForm
@@ -61,6 +62,10 @@ class FormInput extends TextInput<Form> {}
 class FormSelect extends Select<Form> {}
 
 const getClassDate = (classObj: ClassInstanceObject) => `${classObj.startDateMoment.format("MM/DD")}&nbsp;-&nbsp;${classObj.endDateMoment.format("MM/DD")}`;
+const getClassTime = (classObj: ClassInstanceObject) => classObj.classTime.replace(/ /g, "&nbsp;");
+
+const wrapInLabel = (statePropName: string, instanceId: string) => (s: string) =>
+	<label htmlFor={`sel_${statePropName}_${instanceId}`}><span dangerouslySetInnerHTML={{__html: s as string}}></span></label>
 
 function classReport(statePropName: keyof Form, update: (id: string, value: string) => void, selectedValue: Option<string>, classes: ClassInstanceObject[]) {
 	const getRadio = (instanceId: number) => (<input
@@ -70,24 +75,36 @@ function classReport(statePropName: keyof Form, update: (id: string, value: stri
 		name={`sel_${statePropName}`}
 		value={instanceId}
 		onChange={(e) => update(statePropName, e.target.value)}
-		checked={instanceId == -1 ? selectedValue.isNone() : selectedValue.getOrElse(null) == String(instanceId)}
+		checked={(function() {
+			const ret = instanceId == -1 ? selectedValue.isNone() : selectedValue.getOrElse(null) == String(instanceId);
+			console.log("checking instanceId ", instanceId)
+			console.log("selectedVal is ", selectedValue)
+			console.log("do we select? ", ret)
+
+			return ret;
+		}())}
 	/>);
-	const noneRow = [
+	const wrapInLabelNone = wrapInLabel(statePropName, "-1")
+	const noneRow: React.ReactNode[] = [
 		getRadio(-1),
-		"NONE",
-		"-",
-		"-",
-		"-"
+		wrapInLabelNone("NONE"),
+		wrapInLabelNone("-"),
+		wrapInLabelNone("-"),
+		wrapInLabelNone("-")
 	]
+
 	return (<JoomlaReport
 		headers={["Select", "Class Date", "Class Time", "Spots Left", "Notes"]}
-		rows={[noneRow].concat(classes.map(c => ([
-			getRadio(c.instanceId),
-			getClassDate(c),
-			c.classTime.replace(/ /g, "&nbsp;"),
-			c.spotsLeft,
-			c.notes.getOrElse("-")
-		])))}
+		rows={[noneRow].concat(classes.map(c => {
+			const wrapInLabelSpecific = wrapInLabel(statePropName, String(c.instanceId))
+			return ([
+				getRadio(c.instanceId),
+				wrapInLabelSpecific(getClassDate(c)),
+				wrapInLabelSpecific(getClassTime(c)),
+				wrapInLabelSpecific(c.spotsLeft),
+				wrapInLabelSpecific(c.notes.getOrElse("-"))
+			]);
+		}))}
 		cellStyles={[
 			{textAlign: "center"},
 			{textAlign: "center"},
@@ -96,7 +113,6 @@ function classReport(statePropName: keyof Form, update: (id: string, value: stri
 			{textAlign: "center"},
 			{}
 		]}
-		rawHtml={{1: true, 2: true, 3: true, 4: true}}
 	/>);
 }
 
@@ -125,6 +141,14 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		const formData = this.state.formData;
 
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
+		const updateStateWrappedForID = (id: string, value: string) => {
+			if ((id == "selectedBeginnerInstance" || id == "selectedIntermediateInstance") && value == "-1") {
+				// empty string will be converted to none
+				updateState(id as any, "");
+			} else {
+				updateState(id as any, value);
+			}
+		}
 
 		const main = (<React.Fragment>
 			<JoomlaArticleRegion title="Reserve Classes">
@@ -161,7 +185,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				/></tbody></table>
 				{classReport(
 					"selectedBeginnerInstance",
-					updateState,
+					updateStateWrappedForID,
 					self.state.formData.selectedBeginnerInstance,
 					self.props.apiResult
 						.filter(c => c.typeId == jpClassTypeId_BeginnerSailing)
@@ -178,7 +202,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				/></tbody></table>
 				{classReport(
 					"selectedIntermediateInstance",
-					updateState,
+					updateStateWrappedForID,
 					self.state.formData.selectedIntermediateInstance,
 					self.props.apiResult
 						.filter(c => c.typeId == jpClassTypeId_IntermediateSailing)
@@ -186,10 +210,24 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				)}
 			</JoomlaArticleRegion>
 			<Button text="Add Another Junior" onClick={() => {
+				const beginner = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
+				const intermediate = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
 				asc.updateState.jpPreRegistrations.add({
 					firstName: self.state.formData.juniorFirstName.getOrElse(""),
-					beginner: none,
-					intermediate: none
+					beginner: beginner.map(c => ({
+						instanceId: c.instanceId,
+						dateRange: getClassDate(c),
+						timeRange: getClassTime(c)
+					})),
+					intermediate: intermediate.map(c => ({
+						instanceId: c.instanceId,
+						dateRange: getClassDate(c),
+						timeRange: getClassTime(c)
+					})),
+				})
+				this.setState({
+					...this.state,
+					formData: defaultForm
 				})
 				window.scrollTo(0, 0)
 			}}/>
