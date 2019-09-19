@@ -15,6 +15,7 @@ import Button from '../../components/Button';
 import { PreRegistration, PreRegistrationClass } from '../../app/global-state/jp-pre-registrations';
 import asc from '../../app/AppStateContainer';
 import optionify from '../../util/optionify';
+import {getWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
 
 type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -122,6 +123,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		this.state = {
 			formData: defaultForm
 		};
+		getProtoPersonCookie.send(null)
 	}
 	private timeUpdateState = (prop: string, value: string) => {
 		const selectedClassFormProp: keyof Form = (prop == "beginnerMorningAfternoon" ? "selectedBeginnerInstance" : "selectedIntermediateInstance");
