@@ -16,6 +16,8 @@ import { PreRegistration, PreRegistrationClass } from '../../app/global-state/jp
 import asc from '../../app/AppStateContainer';
 import optionify from '../../util/optionify';
 import {getWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
+import {postWrapper as addJuniorPostWrapper} from "../../async/junior/add-junior-class-reservation"
+import { PostJSON } from '../../core/APIWrapper';
 
 type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -214,24 +216,37 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			<Button text="Add Another Junior" onClick={() => {
 				const beginner = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
 				const intermediate = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
-				asc.updateState.jpPreRegistrations.add({
-					firstName: self.state.formData.juniorFirstName.getOrElse(""),
-					beginner: beginner.map(c => ({
-						instanceId: c.instanceId,
-						dateRange: getClassDate(c),
-						timeRange: getClassTime(c)
-					})),
-					intermediate: intermediate.map(c => ({
-						instanceId: c.instanceId,
-						dateRange: getClassDate(c),
-						timeRange: getClassTime(c)
-					})),
+				addJuniorPostWrapper.send(PostJSON({
+					juniorFirstName: self.state.formData.juniorFirstName.getOrElse(""),
+					beginnerInstanceId: beginner.map(c => c.instanceId),
+					intermediateInstanceId: intermediate.map(c => c.instanceId)
+				})).then(resp => {
+					// todo: dont add to asc without a protoperson id back from api
+					// then, use that ID in the delete call
+					asc.updateState.jpPreRegistrations.add({
+						firstName: self.state.formData.juniorFirstName.getOrElse(""),
+						beginner: beginner.map(c => ({
+							instanceId: c.instanceId,
+							dateRange: getClassDate(c),
+							timeRange: getClassTime(c)
+						})),
+						intermediate: intermediate.map(c => ({
+							instanceId: c.instanceId,
+							dateRange: getClassDate(c),
+							timeRange: getClassTime(c)
+						})),
+					})
+					this.setState({
+						...this.state,
+						formData: defaultForm
+					})
+				}, err => {
+					console.log("Error: ", err)
+				}).then(() => {
+					window.scrollTo(0, 0)
 				})
-				this.setState({
-					...this.state,
-					formData: defaultForm
-				})
-				window.scrollTo(0, 0)
+				
+				
 			}}/>
 		</React.Fragment>);
 
