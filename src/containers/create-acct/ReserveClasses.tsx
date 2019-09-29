@@ -15,11 +15,11 @@ import Button from '../../components/Button';
 import { PreRegistration, PreRegistrationClass } from '../../app/global-state/jp-pre-registrations';
 import asc from '../../app/AppStateContainer';
 import optionify from '../../util/optionify';
-import {getWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
 import {postWrapper as addJuniorPostWrapper} from "../../async/junior/add-junior-class-reservation"
+import { getWrapper as getReservations, validator as reservationAPIValidator } from '../../async/junior/get-junior-class-reservations'
 import { PostJSON } from '../../core/APIWrapper';
 
-type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
+export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
 	endDateMoment: Moment,
 	isMorning: boolean
@@ -119,13 +119,53 @@ function classReport(statePropName: keyof Form, update: (id: string, value: stri
 	/>);
 }
 
+// Given the global class instance data and a list of (name, instanceId) pairs, reconstitute the preregistrations prop as {name, beginner, instermediate}[]
+export const bundleReservationsFromAPI: (classData: ClassInstanceObject[]) => (reservationRows: t.TypeOf<typeof reservationAPIValidator>) => PreRegistration[] =
+classData => reservationRows => {
+	// first, map each instanceId to beginner or intermediate. Chuck anything that isn't one of those two classes
+	// TODO: should probably throw if we find an unexpected class
+	const reservationRowsWithTypeId = reservationRows.map(row => {
+		const cio = classData.find(cd => cd.instanceId == row.instanceId)
+		if (undefined == cio) return null;
+		return {
+			...row,
+			cio
+		}
+	}).filter(Boolean) // chuck nulls
+	.filter(r => r.cio.typeId == jpClassTypeId_BeginnerSailing || r.cio.typeId == jpClassTypeId_IntermediateSailing) // chuck anything thats not beginner or int
+
+	// next, bundle up per junior
+	const mapToPreregistration = (cio: ClassInstanceObject) => some({
+		instanceId: cio.instanceId,
+		dateRange: getClassDate(cio),
+		timeRange: getClassTime(cio)
+	});
+	const hashByJunior = reservationRowsWithTypeId.reduce((hash, row) => {
+		if (!hash[row.juniorFirstName]) {
+			hash[row.juniorFirstName] = {
+				firstName: row.juniorFirstName,
+				beginner: none,
+				intermediate: none
+			}
+		}
+		if (row.cio.typeId == jpClassTypeId_BeginnerSailing) {
+			hash[row.juniorFirstName].beginner = mapToPreregistration(row.cio)
+		}
+		else if (row.cio.typeId == jpClassTypeId_IntermediateSailing) {
+			hash[row.juniorFirstName].intermediate = mapToPreregistration(row.cio)
+		}
+		return hash;
+	}, {} as {[K: string]: PreRegistration})
+
+	return Object.values(hashByJunior);
+}
+
 export default class ReserveClasses extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
 			formData: defaultForm
 		};
-		getProtoPersonCookie.send(null)
 	}
 	private timeUpdateState = (prop: string, value: string) => {
 		const selectedClassFormProp: keyof Form = (prop == "beginnerMorningAfternoon" ? "selectedBeginnerInstance" : "selectedIntermediateInstance");

@@ -10,7 +10,7 @@ import {getWrapper as getClassesWithAvail, validator as getClassesWithAvailValid
 import PageWrapper from '../core/PageWrapper';
 import SelectClassTime from "../containers/class-signup/SelectClassTime";
 import SelectClassType from "../containers/class-signup/SelectClassType";
-import ReserveClasses from '../containers/create-acct/ReserveClasses';
+import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from '../containers/create-acct/ReserveClasses';
 import Gatekeeper from "../containers/create-acct/Gatekeeper";
 import HomePage, { Form as HomePageForm } from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
@@ -21,6 +21,8 @@ import extractURLParams from '../util/extractURLParams';
 import asc from './AppStateContainer';
 import { Option, none, some, Some } from 'fp-ts/lib/Option';
 import moment = require('moment');
+import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
+import { getWrapper as getReservations, validator as reservationAPIValidator } from '../async/junior/get-junior-class-reservations'
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -45,22 +47,38 @@ export default function (history: History<any>) {
 		<Route key="/precreate" path="/precreate" render={() => <Gatekeeper />} />,
 		<Route key="/reserve" path="/reserve" render={() => <PageWrapper
 			key="CreateAccountPage"
-			component={(urlProps: {}, async: t.TypeOf<typeof getClassesWithAvailValidator>) => <ReserveClasses
-				preRegistrations={asc.state.jpPreRegistrations.preregistrations}
-				apiResult={async.map(row => {
-					const startDateMoment = moment(row.startDatetimeRaw, "MM/DD/YYYY HH:mm")
-					return {
-						...row,
-						startDateMoment,
-						endDateMoment: moment(row.endDatetimeRaw, "MM/DD/YYYY HH:mm"),
-						isMorning: Number(startDateMoment.format("HH")) < 12
-					};
-				})}
+			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
+				preRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
+				apiResult={async.classes}
 			/>}
 			urlProps={{}}
 			shadowComponent={<span>hi!</span>}
 			getAsyncProps={() => {
-				return getClassesWithAvail.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+				return getProtoPersonCookie.send(null)
+				.then(() => {
+					return Promise.all([
+						getClassesWithAvail.send(null),
+						getReservations.send(null)
+					])
+				})
+				.then(([classes, prereg]) => {
+					if (classes.type == "Success" && prereg.type == "Success") {
+						return Promise.resolve({type: "Success", success: {
+							prereg: prereg.success,
+							classes: classes.success.map(row => {
+								const startDateMoment = moment(row.startDatetimeRaw, "MM/DD/YYYY HH:mm")
+								return {
+									...row,
+									startDateMoment,
+									endDateMoment: moment(row.endDatetimeRaw, "MM/DD/YYYY HH:mm"),
+									isMorning: Number(startDateMoment.format("HH")) < 12
+								};
+							})
+						}})
+					} else return Promise.reject();
+					
+				})
+				.catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
 		/>} />,
 		<Route key="default" render={() => <LoginPage 
