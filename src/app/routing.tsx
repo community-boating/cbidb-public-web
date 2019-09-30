@@ -45,9 +45,11 @@ export default function (history: History<any>) {
 
 	const mustNotBeLoggedIn = [
 		<Route key="/precreate" path="/precreate" render={() => <Gatekeeper />} />,
+		<Route key="/redirect/reserve" path="/redirect/reserve" render={() => <Redirect to="/reserve" />} />,
 		<Route key="/reserve" path="/reserve" render={() => <PageWrapper
 			key="CreateAccountPage"
 			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
+				history={history}
 				preRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
 				apiResult={async.classes}
 			/>}

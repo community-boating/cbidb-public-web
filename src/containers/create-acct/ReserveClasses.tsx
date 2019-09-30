@@ -18,6 +18,7 @@ import optionify from '../../util/optionify';
 import {postWrapper as addJuniorPostWrapper} from "../../async/junior/add-junior-class-reservation"
 import { getWrapper as getReservations, validator as reservationAPIValidator } from '../../async/junior/get-junior-class-reservations'
 import { PostJSON } from '../../core/APIWrapper';
+import { History } from 'history';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -28,7 +29,8 @@ export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 
 type Props = {
 	apiResult: ClassInstanceObject[],
-	preRegistrations: PreRegistration[]
+	preRegistrations: PreRegistration[],
+	history: History<any>
 }
 
 const morningAfternoonValues = [
@@ -253,7 +255,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						.filter(c => c.isMorning == (self.state.formData.intermediateMorningAfternoon.getOrElse("") == "Morning"))
 				)}
 			</JoomlaArticleRegion>
-			<Button text="Add Another Junior" onClick={() => {
+			<Button text={<span>Add Another Junior</span>} spinnerOnClick={true} onClick={() => {
 				const beginner = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
 				const intermediate = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
 				addJuniorPostWrapper.send(PostJSON({
@@ -283,7 +285,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				}, err => {
 					console.log("Error: ", err)
 				}).then(() => {
-					window.scrollTo(0, 0)
+					//window.scrollTo(0, 0)
+					self.props.history.push("/redirect/reserve");
 				})
 				
 				
