@@ -11,8 +11,8 @@ import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 interface Props {
 	history: History<any>
 	breadcrumb: JSX.Element,
-	goNext: () => void,
-	goPrev: () => void
+	goNext: () => Promise<void>,
+	goPrev: () => Promise<void>
 }
 
 export default class TermsConditions extends React.Component<Props, {radio: string}> {

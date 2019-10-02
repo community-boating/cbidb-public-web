@@ -28,8 +28,8 @@ class FormBoolean extends SingleCheckbox<Form>{}
 interface Props {
 	personId: number,
 	initialFormData: Form,
-	goNext: () => void,
-	goPrev: () => void,
+	goNext: () => Promise<void>,
+	goPrev: () => Promise<void>,
 	breadcrumb: JSX.Element,
 	history: History<any>
 }
@@ -137,7 +137,7 @@ export default class SurveyInfo extends React.Component<Props, State> {
             </JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" onClick={() => {
-				postWrapper(this.props.personId).send(PostJSON(this.state.formData)).then(self.props.goNext)
+				return postWrapper(this.props.personId).send(PostJSON(this.state.formData)).then(self.props.goNext)
 			}}/>
 		</JoomlaMainPage>
 	}

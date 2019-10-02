@@ -20,8 +20,8 @@ class FormRadio extends RadioGroup<Form> {}
 
 type Props = {
 	personId: number,
-	goNext: () => void,
-	goPrev: () => void,
+	goNext: () => Promise<void>,
+	goPrev: () => Promise<void>,
 	breadcrumb: JSX.Element,
 	jpDirectorNameFirst: string,
 	jpDirectorNameLast: string,
@@ -83,8 +83,8 @@ export default class SwimProof extends React.Component<Props, State> {
 			</JoomlaNotitleRegion>
 			<Button text="< Back" onClick={this.props.goPrev}/>
 			<Button text="Next >" onClick={() => {
-				postWrapper(this.props.personId).send(PostJSON({swimProofId: this.state.formData.swimProofId.map(Number)}))
-				.then(this.props.goNext)
+				return postWrapper(this.props.personId).send(PostJSON({swimProofId: this.state.formData.swimProofId.map(Number)}))
+					.then(this.props.goNext)
 			}}/>
 		</JoomlaMainPage>
 	}

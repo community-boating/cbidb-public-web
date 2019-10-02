@@ -19,6 +19,7 @@ import {postWrapper as addJuniorPostWrapper} from "../../async/junior/add-junior
 import { getWrapper as getReservations, validator as reservationAPIValidator } from '../../async/junior/get-junior-class-reservations'
 import { PostJSON } from '../../core/APIWrapper';
 import { History } from 'history';
+import ErrorDiv from '../../theme/joomla/ErrorDiv';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -60,7 +61,8 @@ const preRegRender = (prereg: PreRegistration, i: number) => (<tr key={`prereg_$
 export type Form = typeof defaultForm
 
 type State = {
-	formData: Form
+	formData: Form,
+	validationErrors: string[]
 }
 
 class FormInput extends TextInput<Form> {}
@@ -166,7 +168,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
-			formData: defaultForm
+			formData: defaultForm,
+			validationErrors: []
 		};
 	}
 	private timeUpdateState = (prop: string, value: string) => {
@@ -196,7 +199,14 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			}
 		}
 
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
+
 		const main = (<React.Fragment>
+			{errorPopup}
 			<JoomlaArticleRegion title="Reserve Classes">
 				New sailors should take our two-week Beginner Sailing class.
 				You may also sign your child up for a two-week Intermediate Sailing class.
@@ -258,38 +268,46 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			<Button text={<span>Add Another Junior</span>} spinnerOnClick={true} onClick={() => {
 				const beginner = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
 				const intermediate = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
-				addJuniorPostWrapper.send(PostJSON({
+				return addJuniorPostWrapper.send(PostJSON({
 					juniorFirstName: self.state.formData.juniorFirstName.getOrElse(""),
 					beginnerInstanceId: beginner.map(c => c.instanceId),
 					intermediateInstanceId: intermediate.map(c => c.instanceId)
 				})).then(resp => {
-					// todo: dont add to asc without a protoperson id back from api
-					// then, use that ID in the delete call
-					asc.updateState.jpPreRegistrations.add({
-						firstName: self.state.formData.juniorFirstName.getOrElse(""),
-						beginner: beginner.map(c => ({
-							instanceId: c.instanceId,
-							dateRange: getClassDate(c),
-							timeRange: getClassTime(c)
-						})),
-						intermediate: intermediate.map(c => ({
-							instanceId: c.instanceId,
-							dateRange: getClassDate(c),
-							timeRange: getClassTime(c)
-						})),
-					})
-					this.setState({
-						...this.state,
-						formData: defaultForm
-					})
+					console.log("came back:   ", resp)
+						if (resp.type == "Success") {
+						// todo: dont add to asc without a protoperson id back from api
+						// then, use that ID in the delete call
+						asc.updateState.jpPreRegistrations.add({
+							firstName: self.state.formData.juniorFirstName.getOrElse(""),
+							beginner: beginner.map(c => ({
+								instanceId: c.instanceId,
+								dateRange: getClassDate(c),
+								timeRange: getClassTime(c)
+							})),
+							intermediate: intermediate.map(c => ({
+								instanceId: c.instanceId,
+								dateRange: getClassDate(c),
+								timeRange: getClassTime(c)
+							})),
+						})
+						this.setState({
+							...this.state,
+							formData: defaultForm,
+							validationErrors: []
+						})
+					} else {
+						this.setState({
+							...this.state,
+							validationErrors: [resp.message || "An error has occurred; please try again later.  If this message persists contact the Front Office at 617-523-1038."]
+						})
+					}
+					
 				}, err => {
 					console.log("Error: ", err)
 				}).then(() => {
-					//window.scrollTo(0, 0)
-					self.props.history.push("/redirect/reserve");
+					window.scrollTo(0, 0)
+					//self.props.history.push("/redirect/reserve");
 				})
-				
-				
 			}}/>
 		</React.Fragment>);
 

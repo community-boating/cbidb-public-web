@@ -67,6 +67,7 @@ export default (props: {history: History<any>, personId: number, hasEIIResponse:
 					const dll = wizard.state.dll
 					// (just gonna assume scholarship is the only thing in the left side and push in an empty array rather than slice the existing arr)
 					wizard.pushNewDLL(new DoublyLinkedList([], dll.curr, dll.right))
+					return Promise.resolve();
 				}}
 			/>}
 			{...pageWrapperProps}

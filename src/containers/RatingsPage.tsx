@@ -56,7 +56,7 @@ export default class RatingsPage extends React.PureComponent<Props> {
 				<p style={{fontSize: "0.9em", color: "#777", fontStyle: "italic"}}>
 					*Expired ratings can be renewed in the first days of your class
 				</p>
-				<Button text="< Back" onClick={() => history.back()}/>
+				<Button text="< Back" onClick={() => Promise.resolve(history.back())}/>
 			</JoomlaArticleRegion>
 		</JoomlaMainPage>
 	}

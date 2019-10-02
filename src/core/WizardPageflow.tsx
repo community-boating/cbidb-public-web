@@ -4,8 +4,8 @@ import * as React from "react";
 import { DoublyLinkedList } from "../util/DoublyLinkedList";
 
 export interface ComponentPropsFromWizard {
-	goNext: () => void,
-	goPrev: () => void,
+	goNext: () => Promise<void>,
+	goPrev: () => Promise<void>,
 	prevNodes: WizardNode[],
 	currNode: WizardNode,
 	nextNodes: WizardNode[],
@@ -34,8 +34,8 @@ interface State {
 
 export default class WizardPageflow extends React.Component<Props, State> {
 	// personId: number
-	goNext: () => void
-	goPrev: () => void
+	goNext: () => Promise<void>
+	goPrev: () => Promise<void>
 	static getNextDLL: (dll: ElementDLL) => ElementDLL = dll => dll.next()
 	static getPrevDLL: (dll: ElementDLL) => ElementDLL = dll => dll.prev()
 	pushNewDLL(dll: ElementDLL) {
@@ -59,6 +59,7 @@ export default class WizardPageflow extends React.Component<Props, State> {
 				console.log("going to end: ", self.props.end)
 				self.props.history.push(self.props.end);
 			}
+			return Promise.resolve();
 		}
 
 		this.goPrev = () => {
@@ -72,7 +73,7 @@ export default class WizardPageflow extends React.Component<Props, State> {
 				console.log("going back to start: ", self.props.start)
 				self.props.history.push(self.props.start);
 			}
-			
+			return Promise.resolve();
 		}
 
 		const nodes = self.props.nodes.map((node, i, arr) => {

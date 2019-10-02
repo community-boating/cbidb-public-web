@@ -80,8 +80,8 @@ class FormTextArea extends TextArea<Form> {}
 interface Props {
 	personId: number,
 	initialFormData: ApiType,
-	goNext: () => void,
-	goPrev: () => void,
+	goNext: () => Promise<void>,
+	goPrev: () => Promise<void>,
 	breadcrumb: JSX.Element,
 	history: History<any>
 }
@@ -298,7 +298,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" onClick={() => {
-				postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(
+				return postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(
 					// api success
 					ret => {
 						if (ret.type == "Success") {

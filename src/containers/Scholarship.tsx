@@ -42,8 +42,8 @@ interface Props {
 	jpPrice: Currency,
 	parentPersonId: number,
 	history: History<any>,
-	goNext: () => void,
-	goPrev: () => void,
+	goNext: () => Promise<void>,
+	goPrev: () => Promise<void>,
 	breadcrumb: JSX.Element
 }
 
@@ -206,7 +206,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			const form = self.state.formData
 			const isApplying = form.isApplying.getOrElse("No") == "Yes"
 			if (isApplying) {
-				postYes().send(PostJSON({
+				return postYes().send(PostJSON({
 					numberWorkers: Number(form.numberAdults.getOrElse("0")),
 					hasBenefits: form.haveInsurance.getOrElse("N") == "Y",
 					infantCount:  Number(form.numberInfants.getOrElse("0")),
@@ -216,7 +216,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 					income:  Number(form.income.getOrElse("0"))
 				})).then(self.props.goNext)
 			} else {
-				postNo().send(PostJSON({})).then(self.props.goNext)
+				return postNo().send(PostJSON({})).then(self.props.goNext)
 			}
 			
 		}}/>

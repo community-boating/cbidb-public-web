@@ -79,8 +79,8 @@ class FormInput extends TextInput<Form> {}
 interface Props {
 	personId: number,
 	initialFormData: ApiType,
-	goNext: () => void,
-	goPrev: () => void,
+	goNext: () => Promise<void>,
+	goPrev: () => Promise<void>,
 	breadcrumb: JSX.Element,
 	history: History<any>
 }
@@ -200,7 +200,7 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" onClick={() => {
-				postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(self.props.goNext)
+				return postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(self.props.goNext)
 			}}/>
 		</JoomlaMainPage>
 	}
