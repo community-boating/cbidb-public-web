@@ -50,7 +50,7 @@ export default function (history: History<any>) {
 			key="CreateAccountPage"
 			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
 				history={history}
-				preRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
+				startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
 				apiResult={async.classes}
 			/>}
 			urlProps={{}}

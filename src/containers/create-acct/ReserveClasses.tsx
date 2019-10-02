@@ -30,7 +30,7 @@ export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 
 type Props = {
 	apiResult: ClassInstanceObject[],
-	preRegistrations: PreRegistration[],
+	startingPreRegistrations: PreRegistration[],
 	history: History<any>
 }
 
@@ -62,6 +62,7 @@ export type Form = typeof defaultForm
 
 type State = {
 	formData: Form,
+	preRegistrations: PreRegistration[],
 	validationErrors: string[]
 }
 
@@ -82,14 +83,7 @@ function classReport(statePropName: keyof Form, update: (id: string, value: stri
 		name={`sel_${statePropName}`}
 		value={instanceId}
 		onChange={(e) => update(statePropName, e.target.value)}
-		checked={(function() {
-			const ret = instanceId == -1 ? selectedValue.isNone() : selectedValue.getOrElse(null) == String(instanceId);
-			console.log("checking instanceId ", instanceId)
-			console.log("selectedVal is ", selectedValue)
-			console.log("do we select? ", ret)
-
-			return ret;
-		}())}
+		checked={instanceId == -1 ? selectedValue.isNone() : selectedValue.getOrElse(null) == String(instanceId)}
 	/>);
 	const wrapInLabelNone = wrapInLabel(statePropName, "-1")
 	const noneRow: React.ReactNode[] = [
@@ -169,7 +163,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		super(props);
 		this.state = {
 			formData: defaultForm,
-			validationErrors: []
+			validationErrors: [],
+			preRegistrations: this.props.startingPreRegistrations
 		};
 	}
 	private timeUpdateState = (prop: string, value: string) => {
@@ -274,25 +269,25 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					intermediateInstanceId: intermediate.map(c => c.instanceId)
 				})).then(resp => {
 					console.log("came back:   ", resp)
-						if (resp.type == "Success") {
+					if (resp.type == "Success") {
 						// todo: dont add to asc without a protoperson id back from api
 						// then, use that ID in the delete call
-						asc.updateState.jpPreRegistrations.add({
-							firstName: self.state.formData.juniorFirstName.getOrElse(""),
-							beginner: beginner.map(c => ({
-								instanceId: c.instanceId,
-								dateRange: getClassDate(c),
-								timeRange: getClassTime(c)
-							})),
-							intermediate: intermediate.map(c => ({
-								instanceId: c.instanceId,
-								dateRange: getClassDate(c),
-								timeRange: getClassTime(c)
-							})),
-						})
 						this.setState({
 							...this.state,
 							formData: defaultForm,
+							preRegistrations: this.state.preRegistrations.concat([{
+								firstName: self.state.formData.juniorFirstName.getOrElse(""),
+								beginner: beginner.map(c => ({
+									instanceId: c.instanceId,
+									dateRange: getClassDate(c),
+									timeRange: getClassTime(c)
+								})),
+								intermediate: intermediate.map(c => ({
+									instanceId: c.instanceId,
+									dateRange: getClassDate(c),
+									timeRange: getClassTime(c)
+								})),
+							}]),
 							validationErrors: []
 						})
 					} else {
@@ -312,9 +307,9 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		</React.Fragment>);
 
 		const sidebar = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>
-			{self.props.preRegistrations.length==0
+			{self.state.preRegistrations.length==0
 				? <tr><td>As you reserve classes for more juniors, they will appear in this box!</td></tr>
-				: self.props.preRegistrations.map(preRegRender)
+				: self.state.preRegistrations.map(preRegRender)
 			}
 			</tbody></table>
 			

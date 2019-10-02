@@ -9,10 +9,14 @@ export const validator = t.type({
 	intermediateInstanceId: OptionalNumber
 })
 
+const result = t.type({
+	personId: t.number
+})
+
 const path = "/junior/add-junior-class-reservation"
 
-export const postWrapper = new APIWrapper<typeof t.string, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper<typeof result, t.TypeOf<typeof validator>, {}>({
 	path,
 	type: HttpMethod.POST,
-	resultValidator: t.string
+	resultValidator: result
 })
