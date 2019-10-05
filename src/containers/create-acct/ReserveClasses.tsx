@@ -17,9 +17,10 @@ import asc from '../../app/AppStateContainer';
 import optionify from '../../util/optionify';
 import {postWrapper as addJuniorPostWrapper} from "../../async/junior/add-junior-class-reservation"
 import { getWrapper as getReservations, validator as reservationAPIValidator } from '../../async/junior/get-junior-class-reservations'
-import { PostJSON } from '../../core/APIWrapper';
+import { PostJSON, PostString } from '../../core/APIWrapper';
 import { History } from 'history';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import {postWrapper as deleteJunior} from '../../async/junior/delete-junior-class-reservation'
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -52,10 +53,10 @@ const renderClassLine = (preregClass: Option<PreRegistrationClass>) => preregCla
 	c => c.dateRange + ", " + c.timeRange
 )
 
-export const preRegRender = (prereg: PreRegistration, i: number) => (<tr key={`prereg_${i}`}><td>
+export const preRegRender = (then: () => void) => (prereg: PreRegistration, i: number) => (<tr key={`prereg_${i}`}><td>
 	<b><a href="#" onClick={() => {
 		if (window.confirm(`Do you really want to delete the reservations for ${prereg.firstName}?`)) {
-			window.alert("delete!")
+			deleteJunior.send(PostString("name=" + prereg.firstName)).then(then)
 		}
 	}}><img src="/images/delete.png" /></a>{"   " + prereg.firstName}</b><br />
 	Beginner:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.beginner)}}></span><br />
@@ -256,20 +257,18 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				We recommend signing up all new sailors/members for a one-hour Paddling Introduction so they can go paddling when not in class.
 				<br />
 				<br />
-				<p>
-					Please note the following important points:<br /><br />
-					<ul>
-						<li>
-							<span style={{color: "#F00", fontWeight: "bold"}}>
-								Your class signup is not finalized until registration is complete and payment is processed.
-							</span>  Your spots will be held for 60 minutes after submitting your first reservation.
-						</li>
-						<li>
-							Other class types are offered; signups are available once payment is processed and registration is complete.
-						</li>
-					</ul>
-					
-				</p>
+				
+				Please note the following important points:<br /><br />
+				<ul>
+					<li>
+						<span style={{color: "#F00", fontWeight: "bold"}}>
+							Your class signup is not finalized until registration is complete and payment is processed.
+						</span>  Your spots will be held for 60 minutes after submitting your first reservation.
+					</li>
+					<li>
+						Other class types are offered; signups are available once payment is processed and registration is complete.
+					</li>
+				</ul>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="First Junior">
 				Please enter the name of a junior member you'd like to register, and select any classes you'd like to reserve a spot in. 
@@ -332,7 +331,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		const sidebar = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>
 			{self.state.preRegistrations.length==0
 				? <tr><td>As you reserve classes for more juniors, they will appear in this box!</td></tr>
-				: self.state.preRegistrations.map(preRegRender)
+				: self.state.preRegistrations.map(preRegRender(() => self.props.history.push("/redirect/reserve")))
 			}
 			</tbody></table>
 			

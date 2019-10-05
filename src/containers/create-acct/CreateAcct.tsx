@@ -90,7 +90,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 		const sidebarPrereg = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>
 		{self.props.preRegistrations.length==0
 			? <tr><td>As you reserve classes for more juniors, they will appear in this box!</td></tr>
-			: self.props.preRegistrations.map(preRegRender)
+			: self.props.preRegistrations.map(preRegRender(() => self.props.history.push("/redirect/create-acct")))
 		}
 		</tbody></table>
 

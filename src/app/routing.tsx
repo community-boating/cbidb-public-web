@@ -72,9 +72,11 @@ export default function (history: History<any>) {
 	console.log("inside routing function")
 	console.log(asc.state)
 
+	// TODO: auto create all these redirect routes?
 	const mustNotBeLoggedIn = [
 		<Route key="/precreate" path="/precreate" render={() => <Gatekeeper />} />,
 		<Route key="/redirect/reserve" path="/redirect/reserve" render={() => <Redirect to="/reserve" />} />,
+		<Route key="/redirect/create-acct" path="/redirect/create-acct" render={() => <Redirect to="/create-acct" />} />,
 		<Route key="/reserve" path="/reserve" render={() => <PageWrapper
 			key="ReserveClasses"
 			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
