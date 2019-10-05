@@ -5,18 +5,7 @@ import PlaceholderLink from "../../components/PlaceholderLink";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 
-
-interface StateProps {
-
-}
-
-interface DispatchProps {
-
-}
-
-interface StaticProps { }
-
-type Props = StateProps & DispatchProps & StaticProps
+type Props = {}
 
 export default class Gatekeeper extends React.PureComponent<Props> {
 	constructor(props: Props) {
@@ -43,12 +32,3 @@ export default class Gatekeeper extends React.PureComponent<Props> {
 			</JoomlaMainPage>
 	}
 }
-
-// export default connect<StateProps, DispatchProps, StaticProps>(
-// 	() => ({
-
-// 	}),
-// 	() => ({
-
-// 	})
-// )(Gatekeeper)

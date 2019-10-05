@@ -52,8 +52,12 @@ const renderClassLine = (preregClass: Option<PreRegistrationClass>) => preregCla
 	c => c.dateRange + ", " + c.timeRange
 )
 
-const preRegRender = (prereg: PreRegistration, i: number) => (<tr key={`prereg_${i}`}><td>
-	<b>{prereg.firstName}</b><br />
+export const preRegRender = (prereg: PreRegistration, i: number) => (<tr key={`prereg_${i}`}><td>
+	<b><a href="#" onClick={() => {
+		if (window.confirm(`Do you really want to delete the reservations for ${prereg.firstName}?`)) {
+			window.alert("delete!")
+		}
+	}}><img src="/images/delete.png" /></a>{"   " + prereg.firstName}</b><br />
 	Beginner:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.beginner)}}></span><br />
 	Intermediate:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.intermediate)}}></span><br />
 </td></tr>);
@@ -200,6 +204,50 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			: ""
 		);
 
+		const submitAction = () => {
+			const beginner = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
+			const intermediate = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
+			return addJuniorPostWrapper.send(PostJSON({
+				juniorFirstName: self.state.formData.juniorFirstName.getOrElse(""),
+				beginnerInstanceId: beginner.map(c => c.instanceId),
+				intermediateInstanceId: intermediate.map(c => c.instanceId)
+			})).then(resp => {
+				console.log("came back:   ", resp)
+				if (resp.type == "Success") {
+					// todo: dont add to asc without a protoperson id back from api
+					// then, use that ID in the delete call
+					this.setState({
+						...this.state,
+						formData: defaultForm,
+						preRegistrations: this.state.preRegistrations.concat([{
+							firstName: self.state.formData.juniorFirstName.getOrElse(""),
+							beginner: beginner.map(c => ({
+								instanceId: c.instanceId,
+								dateRange: getClassDate(c),
+								timeRange: getClassTime(c)
+							})),
+							intermediate: intermediate.map(c => ({
+								instanceId: c.instanceId,
+								dateRange: getClassDate(c),
+								timeRange: getClassTime(c)
+							})),
+						}]),
+						validationErrors: []
+					})
+					return Promise.resolve();
+				} else {
+					this.setState({
+						...this.state,
+						validationErrors: [resp.message || "An error has occurred; please try again later.  If this message persists contact the Front Office at 617-523-1038."]
+					})
+					return Promise.reject();
+				}
+				
+			}, err => {
+				console.log("Error: ", err)
+			});
+		}
+
 		const main = (<React.Fragment>
 			{errorPopup}
 			<JoomlaArticleRegion title="Reserve Classes">
@@ -209,8 +257,18 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				<br />
 				<br />
 				<p>
-					<span style={{color: "#F00", fontWeight: "bold"}}>Note that your class signup is not finalized until registration is complete and payment is processed.  </span>
-					Your spots will be held for 60 minutes after submitting your first reservation.
+					Please note the following important points:<br /><br />
+					<ul>
+						<li>
+							<span style={{color: "#F00", fontWeight: "bold"}}>
+								Your class signup is not finalized until registration is complete and payment is processed.
+							</span>  Your spots will be held for 60 minutes after submitting your first reservation.
+						</li>
+						<li>
+							Other class types are offered; signups are available once payment is processed and registration is complete.
+						</li>
+					</ul>
+					
 				</p>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="First Junior">
@@ -260,50 +318,15 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						.filter(c => c.isMorning == (self.state.formData.intermediateMorningAfternoon.getOrElse("") == "Morning"))
 				)}
 			</JoomlaArticleRegion>
-			<Button text={<span>Add Another Junior</span>} spinnerOnClick={true} onClick={() => {
-				const beginner = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
-				const intermediate = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
-				return addJuniorPostWrapper.send(PostJSON({
-					juniorFirstName: self.state.formData.juniorFirstName.getOrElse(""),
-					beginnerInstanceId: beginner.map(c => c.instanceId),
-					intermediateInstanceId: intermediate.map(c => c.instanceId)
-				})).then(resp => {
-					console.log("came back:   ", resp)
-					if (resp.type == "Success") {
-						// todo: dont add to asc without a protoperson id back from api
-						// then, use that ID in the delete call
-						this.setState({
-							...this.state,
-							formData: defaultForm,
-							preRegistrations: this.state.preRegistrations.concat([{
-								firstName: self.state.formData.juniorFirstName.getOrElse(""),
-								beginner: beginner.map(c => ({
-									instanceId: c.instanceId,
-									dateRange: getClassDate(c),
-									timeRange: getClassTime(c)
-								})),
-								intermediate: intermediate.map(c => ({
-									instanceId: c.instanceId,
-									dateRange: getClassDate(c),
-									timeRange: getClassTime(c)
-								})),
-							}]),
-							validationErrors: []
-						})
-					} else {
-						this.setState({
-							...this.state,
-							validationErrors: [resp.message || "An error has occurred; please try again later.  If this message persists contact the Front Office at 617-523-1038."]
-						})
-					}
-					
-				}, err => {
-					console.log("Error: ", err)
-				}).then(() => {
-					window.scrollTo(0, 0)
-					//self.props.history.push("/redirect/reserve");
-				})
-			}}/>
+			<Button text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/"))}/>
+			<Button text={<span>Add and Add Another</span>} spinnerOnClick={true} onClick={() => submitAction().catch(() => Promise.resolve()).then(() => {
+				window.scrollTo(0, 0)
+			})}/>
+			<Button text={<span>Add and Finish ></span>} spinnerOnClick={true} onClick={() => submitAction().then(
+				() => self.props.history.push("/create-acct"),
+				() => window.scrollTo(0, 0)
+			)}/>
+			<Button text={<span>Skip ></span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/create-acct"))}/>
 		</React.Fragment>);
 
 		const sidebar = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>

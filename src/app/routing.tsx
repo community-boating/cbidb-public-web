@@ -23,6 +23,7 @@ import { Option, none, some, Some } from 'fp-ts/lib/Option';
 import moment = require('moment');
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import { getWrapper as getReservations, validator as reservationAPIValidator } from '../async/junior/get-junior-class-reservations'
+import CreateAccount from '../containers/create-acct/CreateAcct';
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -38,6 +39,34 @@ export const paths = {
 	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId")
 }
 
+const getClassesAndPreregistrations = () => {
+	return getProtoPersonCookie.send(null)
+	.then(() => {
+		return Promise.all([
+			getClassesWithAvail.send(null),
+			getReservations.send(null)
+		])
+	})
+	.then(([classes, prereg]) => {
+		if (classes.type == "Success" && prereg.type == "Success") {
+			return Promise.resolve({type: "Success", success: {
+				prereg: prereg.success,
+				classes: classes.success.map(row => {
+					const startDateMoment = moment(row.startDatetimeRaw, "MM/DD/YYYY HH:mm")
+					return {
+						...row,
+						startDateMoment,
+						endDateMoment: moment(row.endDatetimeRaw, "MM/DD/YYYY HH:mm"),
+						isMorning: Number(startDateMoment.format("HH")) < 12
+					};
+				})
+			}})
+		} else return Promise.reject();
+		
+	})
+	.catch(err => Promise.resolve(null));  // TODO: handle failure
+}
+
 // TODO: real shadow components on everything
 export default function (history: History<any>) {
 	console.log("inside routing function")
@@ -47,7 +76,7 @@ export default function (history: History<any>) {
 		<Route key="/precreate" path="/precreate" render={() => <Gatekeeper />} />,
 		<Route key="/redirect/reserve" path="/redirect/reserve" render={() => <Redirect to="/reserve" />} />,
 		<Route key="/reserve" path="/reserve" render={() => <PageWrapper
-			key="CreateAccountPage"
+			key="ReserveClasses"
 			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
 				history={history}
 				startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
@@ -55,33 +84,17 @@ export default function (history: History<any>) {
 			/>}
 			urlProps={{}}
 			shadowComponent={<span>hi!</span>}
-			getAsyncProps={() => {
-				return getProtoPersonCookie.send(null)
-				.then(() => {
-					return Promise.all([
-						getClassesWithAvail.send(null),
-						getReservations.send(null)
-					])
-				})
-				.then(([classes, prereg]) => {
-					if (classes.type == "Success" && prereg.type == "Success") {
-						return Promise.resolve({type: "Success", success: {
-							prereg: prereg.success,
-							classes: classes.success.map(row => {
-								const startDateMoment = moment(row.startDatetimeRaw, "MM/DD/YYYY HH:mm")
-								return {
-									...row,
-									startDateMoment,
-									endDateMoment: moment(row.endDatetimeRaw, "MM/DD/YYYY HH:mm"),
-									isMorning: Number(startDateMoment.format("HH")) < 12
-								};
-							})
-						}})
-					} else return Promise.reject();
-					
-				})
-				.catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
+			getAsyncProps={getClassesAndPreregistrations}
+		/>} />,
+		<Route key="/create-acct" path="/create-acct" render={() => <PageWrapper
+			key="CreateAccountPage"
+			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <CreateAccount
+				history={history}
+				preRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
+			/>}
+			urlProps={{}}
+			shadowComponent={<span>hi!</span>}
+			getAsyncProps={getClassesAndPreregistrations}
 		/>} />,
 		<Route key="default" render={() => <LoginPage 
 			jpPrice={Currency.dollars(300)}
