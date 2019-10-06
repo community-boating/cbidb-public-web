@@ -52,6 +52,14 @@ export interface ServerParams {
 
 interface PostValues {content: string, headers: {"Content-Type": string, "Content-Length": string}}
 
+export const PostURLEncoded: (o: object) => PostString = o => {
+	var arr = [];
+	for (var p in o) {
+		arr.push(encodeURIComponent(p) + "=" + encodeURIComponent(o[p]));
+	}
+	return PostString(arr.join('&'))
+}
+
 export interface PostString {
 	type: "urlEncoded",
 	urlEncodedData: string

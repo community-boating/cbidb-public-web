@@ -10,6 +10,8 @@ import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
 import Joomla8_4 from '../../theme/joomla/Joomla8_4';
 import { preRegRender } from './ReserveClasses';
 import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
+import { postWrapper as create } from '../../async/create-member'
+import { PostJSON, PostString, PostURLEncoded } from '../../core/APIWrapper';
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -45,7 +47,18 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 
 		const buttons = <div>
 			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push("/reserve"))}/>
-			<Button text="Register" onClick={() => Promise.resolve()}/>
+			<Button text="Register" onClick={() => create.send(PostURLEncoded({
+				username: self.state.formData.email.getOrElse(""),
+				password: self.state.formData.pw1.getOrElse(""),
+				firstName: self.state.formData.firstName.getOrElse(""),
+				lastName: self.state.formData.lastName.getOrElse(""),
+			})).then(res => {
+				if (res.type == "Success") {
+					self.props.history.push("/")
+				} else {
+					console.log(res)
+				}
+			})}/>
 		</div>
 		const main = <JoomlaArticleRegion title="First let's make you a parent account." buttons={buttons}>
 			<table><tbody>
