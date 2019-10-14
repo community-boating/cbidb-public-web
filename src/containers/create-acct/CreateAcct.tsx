@@ -13,6 +13,8 @@ import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
 import { postWrapper as create } from '../../async/create-member'
 import { PostJSON, PostString, PostURLEncoded } from '../../core/APIWrapper';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import { Either } from 'fp-ts/lib/Either';
+import Validation from '../../util/Validation';
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -36,6 +38,19 @@ type State = {
 
 class FormInput extends TextInput<Form> {}
 
+const validate: (state: State) => string[] = state => {
+	const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
+
+	const validations = [
+		new Validation(isNotNull(state.formData.email), "Email must be specified."),
+		new Validation(isNotNull(state.formData.pw1), "Password must be specified."),
+		new Validation(state.formData.pw1.getOrElse("") == state.formData.pw2.getOrElse(""), "Passwords must be equal."),
+		new Validation(state.formData.pw1.getOrElse("").length >= 6, "Password must be at least 6 characters long."),
+	];
+
+	return validations.filter(v => !v.pass).map(v => v.errorString);
+}
+
 export default class CreateAccount extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props);
@@ -50,21 +65,33 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 
 		const buttons = <div>
 			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push("/reserve"))}/>
-			<Button text="Register" onClick={() => create.send(PostURLEncoded({
-				username: self.state.formData.email.getOrElse(""),
-				password: self.state.formData.pw1.getOrElse(""),
-				firstName: self.state.formData.firstName.getOrElse(""),
-				lastName: self.state.formData.lastName.getOrElse(""),
-			})).then(res => {
-				if (res.type == "Success") {
-					//self.props.history.push("/")
-				} else {
+			<Button text="Register" onClick={() => {
+				const validationResults = validate(this.state);
+				if (validationResults.length > 0) {
 					self.setState({
 						...self.state,
-						validationErrors: res.message.split("\\n")
+						validationErrors: validationResults
+					})
+					return Promise.resolve();
+				} else {
+					return create.send(PostURLEncoded({
+						username: self.state.formData.email.getOrElse(""),
+						password: self.state.formData.pw1.getOrElse(""),
+						firstName: self.state.formData.firstName.getOrElse(""),
+						lastName: self.state.formData.lastName.getOrElse(""),
+					})).then(res => {
+						if (res.type == "Success") {
+							self.props.history.push("/")
+						} else {
+							self.setState({
+								...self.state,
+								validationErrors: res.message.split("\\n")
+							})
+						}
+						return Promise.resolve();
 					})
 				}
-			})}/>
+			}}/>
 		</div>
 
 		const errorPopup = (
