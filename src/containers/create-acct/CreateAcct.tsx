@@ -12,6 +12,7 @@ import { preRegRender } from './ReserveClasses';
 import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
 import { postWrapper as create } from '../../async/create-member'
 import { PostJSON, PostString, PostURLEncoded } from '../../core/APIWrapper';
+import ErrorDiv from '../../theme/joomla/ErrorDiv';
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -29,7 +30,8 @@ type Props = {
 }
 
 type State = {
-	formData: Form
+	formData: Form,
+	validationErrors: string[]
 }
 
 class FormInput extends TextInput<Form> {}
@@ -38,7 +40,8 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
-			formData: defaultForm
+			formData: defaultForm,
+			validationErrors: []
 		}
 	}
 	render() {
@@ -54,51 +57,64 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 				lastName: self.state.formData.lastName.getOrElse(""),
 			})).then(res => {
 				if (res.type == "Success") {
-					self.props.history.push("/")
+					//self.props.history.push("/")
 				} else {
-					console.log(res)
+					self.setState({
+						...self.state,
+						validationErrors: res.message.split("\\n")
+					})
 				}
 			})}/>
 		</div>
-		const main = <JoomlaArticleRegion title="First let's make you a parent account." buttons={buttons}>
-			<table><tbody>
-				<FormInput
-					id="firstName"
-					label="Parent First Name"
-					isPassword={false}
-					value={self.state.formData.firstName}
-					updateAction={updateState}
-				/>
-				<FormInput
-					id="lastName"
-					label="Parent Last Name"
-					isPassword={false}
-					value={self.state.formData.lastName}
-					updateAction={updateState}
-				/>
-				<FormInput
-					id="email"
-					label="Parent Email"
-					isPassword={false}
-					value={self.state.formData.email}
-					updateAction={updateState}
-				/>
-				<FormInput
-					id="pw1"
-					label="Create Password"
-					isPassword={true}
-					value={self.state.formData.pw1}
-					updateAction={updateState}
-				/>
-				<FormInput
-					id="pw2"
-					label="Confirm Password"
-					isPassword={true}
-					value={self.state.formData.pw2}
-					updateAction={updateState}
-				/>
-			</tbody></table>
-		</JoomlaArticleRegion>
+
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
+
+		const main = (<React.Fragment>
+			{errorPopup}
+			<JoomlaArticleRegion title="First let's make you a parent account." buttons={buttons}>
+				<table><tbody>
+					<FormInput
+						id="firstName"
+						label="Parent First Name"
+						isPassword={false}
+						value={self.state.formData.firstName}
+						updateAction={updateState}
+					/>
+					<FormInput
+						id="lastName"
+						label="Parent Last Name"
+						isPassword={false}
+						value={self.state.formData.lastName}
+						updateAction={updateState}
+					/>
+					<FormInput
+						id="email"
+						label="Parent Email"
+						isPassword={false}
+						value={self.state.formData.email}
+						updateAction={updateState}
+					/>
+					<FormInput
+						id="pw1"
+						label="Create Password"
+						isPassword={true}
+						value={self.state.formData.pw1}
+						updateAction={updateState}
+					/>
+					<FormInput
+						id="pw2"
+						label="Confirm Password"
+						isPassword={true}
+						value={self.state.formData.pw2}
+						updateAction={updateState}
+					/>
+				</tbody></table>
+			</JoomlaArticleRegion>
+		</React.Fragment>);
 
 		const sidebarPrereg = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>
 		{self.props.preRegistrations.length==0
