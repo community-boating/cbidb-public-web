@@ -19,6 +19,7 @@ export default class App extends React.Component<Props> {
 		console.log("in app constructor")
 		const self = this;
 		asc.setListener(() => {
+			console.log("asc updated; rerendering App")
 			self.forceUpdate()
 		})
 		this.state = {

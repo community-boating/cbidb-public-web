@@ -55,6 +55,10 @@ class AppStateContainer {
 	setListener=(listener: () => void) => {
 		this.listener = listener
 	}
+	poke() {
+		console.log("poking asc!")
+		this.setState(this.state);
+	}
 	updateState = {
 		login: {
 			setLoggedIn: (function(userName: string) {

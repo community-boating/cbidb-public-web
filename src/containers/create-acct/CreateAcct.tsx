@@ -15,6 +15,7 @@ import { PostJSON, PostString, PostURLEncoded } from '../../core/APIWrapper';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import { Either } from 'fp-ts/lib/Either';
 import Validation from '../../util/Validation';
+import asc from '../../app/AppStateContainer';
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -82,6 +83,9 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 					})).then(res => {
 						if (res.type == "Success") {
 							self.props.history.push("/")
+							console.log("did the transition...")
+							asc.poke();
+							console.log("... and poked!")
 						} else {
 							self.setState({
 								...self.state,
