@@ -84,7 +84,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 						if (res.type == "Success") {
 							self.props.history.push("/")
 							console.log("did the transition...")
-							asc.poke();
+							asc.updateState.login.setLoggedIn(self.state.formData.email.getOrElse(""))
 							console.log("... and poked!")
 						} else {
 							self.setState({

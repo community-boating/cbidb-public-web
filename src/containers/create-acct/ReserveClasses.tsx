@@ -208,45 +208,65 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		const submitAction = () => {
 			const beginner = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
 			const intermediate = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
-			return addJuniorPostWrapper.send(PostJSON({
-				juniorFirstName: self.state.formData.juniorFirstName.getOrElse(""),
-				beginnerInstanceId: beginner.map(c => c.instanceId),
-				intermediateInstanceId: intermediate.map(c => c.instanceId)
-			})).then(resp => {
-				console.log("came back:   ", resp)
-				if (resp.type == "Success") {
-					// todo: dont add to asc without a protoperson id back from api
-					// then, use that ID in the delete call
-					this.setState({
-						...this.state,
-						formData: defaultForm,
-						preRegistrations: this.state.preRegistrations.concat([{
-							firstName: self.state.formData.juniorFirstName.getOrElse(""),
-							beginner: beginner.map(c => ({
-								instanceId: c.instanceId,
-								dateRange: getClassDate(c),
-								timeRange: getClassTime(c)
-							})),
-							intermediate: intermediate.map(c => ({
-								instanceId: c.instanceId,
-								dateRange: getClassDate(c),
-								timeRange: getClassTime(c)
-							})),
-						}]),
-						validationErrors: []
-					})
-					return Promise.resolve();
-				} else {
-					this.setState({
-						...this.state,
-						validationErrors: [resp.message || "An error has occurred; please try again later.  If this message persists contact the Front Office at 617-523-1038."]
-					})
-					return Promise.reject();
-				}
-				
-			}, err => {
-				console.log("Error: ", err)
-			});
+			if (self.state.formData.juniorFirstName.getOrElse("").length == 0) {
+				this.setState({
+					...this.state,
+					validationErrors: ["Please provide junior name."]
+				})
+				return Promise.reject();
+			} else if (this.state.preRegistrations.find(p => p.firstName == self.state.formData.juniorFirstName.getOrElse(""))) {
+				this.setState({
+					...this.state,
+					validationErrors: ["There is already a junior by that name.  Please use unique nicknames (it's ok if they are not the real first names for now; you will be able to update them later)."]
+				})
+				return Promise.reject();
+			} else if (beginner.isNone() && intermediate.isNone()) {
+				this.setState({
+					...this.state,
+					validationErrors: ["Please specify class to reserve.  If you do not want to reserve classes at this time, click \"Skip\" below.  You will have the opportunity to add more juniors later."]
+				})
+				return Promise.reject();
+			} else {
+				return addJuniorPostWrapper.send(PostJSON({
+					juniorFirstName: self.state.formData.juniorFirstName.getOrElse(""),
+					beginnerInstanceId: beginner.map(c => c.instanceId),
+					intermediateInstanceId: intermediate.map(c => c.instanceId)
+				})).then(resp => {
+					console.log("came back:   ", resp)
+					if (resp.type == "Success") {
+						// todo: dont add to asc without a protoperson id back from api
+						// then, use that ID in the delete call
+						this.setState({
+							...this.state,
+							formData: defaultForm,
+							preRegistrations: this.state.preRegistrations.concat([{
+								firstName: self.state.formData.juniorFirstName.getOrElse(""),
+								beginner: beginner.map(c => ({
+									instanceId: c.instanceId,
+									dateRange: getClassDate(c),
+									timeRange: getClassTime(c)
+								})),
+								intermediate: intermediate.map(c => ({
+									instanceId: c.instanceId,
+									dateRange: getClassDate(c),
+									timeRange: getClassTime(c)
+								})),
+							}]),
+							validationErrors: []
+						})
+						return Promise.resolve();
+					} else {
+						this.setState({
+							...this.state,
+							validationErrors: [resp.message || "An error has occurred; please try again later.  If this message persists contact the Front Office at 617-523-1038."]
+						})
+						return Promise.reject();
+					}
+					
+				}, err => {
+					console.log("Error: ", err)
+				});
+			}
 		}
 
 		const main = (<React.Fragment>
