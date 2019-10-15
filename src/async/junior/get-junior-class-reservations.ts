@@ -5,7 +5,9 @@ import { HttpMethod } from "../../core/HttpMethod";
 export const validator = t.array(t.type({
 	juniorFirstName: t.string,
 	instanceId: t.number,
-	signupDatetime: t.string
+	signupDatetime: t.string,
+	expirationDateTime: t.string,
+	minutesRemaining: t.number
 }))
 
 const path = "/junior/get-junior-class-reservations"

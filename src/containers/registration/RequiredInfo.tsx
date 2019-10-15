@@ -20,6 +20,7 @@ import formUpdateState from '../../util/form-update-state';
 import range from "../../util/range";
 import moment = require('moment');
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import asc from '../../app/AppStateContainer';
 
 // TODO: are these used anymore?
 export const formName = "registrationRequiredInfo"
@@ -158,7 +159,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 						</label>
 					</td>
 					<td style={{ textAlign: "left" }}>
-						abcd@efg.com
+						{asc.state.login.authenticatedUserName.getOrElse("")}
 					</td>
 				</tr>
 				
@@ -226,6 +227,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 					extValue={formData.primaryPhoneExt}
 					typeValue={formData.primaryPhoneType}
 					updateAction={updateState}
+					isRequired={true}
 				/>
 				<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
 					label="Parent Alternate Phone"

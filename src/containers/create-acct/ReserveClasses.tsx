@@ -21,6 +21,7 @@ import { PostJSON, PostString } from '../../core/APIWrapper';
 import { History } from 'history';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import {postWrapper as deleteJunior} from '../../async/junior/delete-junior-class-reservation'
+import moment = require('moment');
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -61,6 +62,13 @@ export const preRegRender = (then: () => void) => (prereg: PreRegistration, i: n
 	}}><img src="/images/delete.png" /></a>{"   " + prereg.firstName}</b><br />
 	Beginner:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.beginner)}}></span><br />
 	Intermediate:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.intermediate)}}></span><br />
+	{function() {
+		const classToUse = prereg.beginner.getOrElse(null) || prereg.intermediate.getOrElse(null);
+		if (classToUse && classToUse.expirationDateTime && classToUse.minutesRemaining) {
+			console.log(classToUse)
+			return (<span style={{fontStyle:"italic"}}>Reservation expires: {classToUse.expirationDateTime.format("hh:mmA")} ({classToUse.minutesRemaining} min)</span>)
+		} else return "";
+	}()}
 </td></tr>);
 
 export type Form = typeof defaultForm
@@ -107,7 +115,11 @@ function classReport(statePropName: keyof Form, update: (id: string, value: stri
 				getRadio(c.instanceId),
 				wrapInLabelSpecific(getClassDate(c)),
 				wrapInLabelSpecific(getClassTime(c)),
-				wrapInLabelSpecific(c.spotsLeft),
+				wrapInLabelSpecific(
+					c.action == "Begun"
+					? '<span style="font-weight:bold; color:#777; font-style:italic;">Class has already begun</span>'
+					: c.spotsLeft
+				),
 				wrapInLabelSpecific(c.notes.getOrElse("-"))
 			]);
 		}))}
@@ -138,12 +150,14 @@ classData => reservationRows => {
 	.filter(r => r.cio.typeId == jpClassTypeId_BeginnerSailing || r.cio.typeId == jpClassTypeId_IntermediateSailing) // chuck anything thats not beginner or int
 
 	// next, bundle up per junior
-	const mapToPreregistration = (cio: ClassInstanceObject) => some({
+	const mapToPreregistration = (cio: ClassInstanceObject) => ({
 		instanceId: cio.instanceId,
 		dateRange: getClassDate(cio),
 		timeRange: getClassTime(cio)
 	});
 	const hashByJunior = reservationRowsWithTypeId.reduce((hash, row) => {
+		console.log(row.expirationDateTime)
+		console.log(moment(row.expirationDateTime, "YYYY-MM-DDTHH:mm:ss"))
 		if (!hash[row.juniorFirstName]) {
 			hash[row.juniorFirstName] = {
 				firstName: row.juniorFirstName,
@@ -152,10 +166,18 @@ classData => reservationRows => {
 			}
 		}
 		if (row.cio.typeId == jpClassTypeId_BeginnerSailing) {
-			hash[row.juniorFirstName].beginner = mapToPreregistration(row.cio)
+			hash[row.juniorFirstName].beginner = some({
+				...mapToPreregistration(row.cio),
+				expirationDateTime: moment(row.expirationDateTime, "YYYY-MM-DDTHH:mm:ss"),
+				minutesRemaining: row.minutesRemaining
+			});
 		}
 		else if (row.cio.typeId == jpClassTypeId_IntermediateSailing) {
-			hash[row.juniorFirstName].intermediate = mapToPreregistration(row.cio)
+			hash[row.juniorFirstName].intermediate = some({
+				...mapToPreregistration(row.cio),
+				expirationDateTime: moment(row.expirationDateTime, "YYYY-MM-DDTHH:mm:ss"),
+				minutesRemaining: row.minutesRemaining
+			});
 		}
 		return hash;
 	}, {} as {[K: string]: PreRegistration})
@@ -205,6 +227,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			: ""
 		);
 
+		const classStarted = (c: ClassInstanceObject) => c.action == "Begun"
+
 		const submitAction = () => {
 			const beginner = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
 			const intermediate = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
@@ -224,6 +248,12 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				this.setState({
 					...this.state,
 					validationErrors: ["Please specify class to reserve.  If you do not want to reserve classes at this time, click \"Skip\" below.  You will have the opportunity to add more juniors later."]
+				})
+				return Promise.reject();
+			} else if (beginner.map(classStarted).getOrElse(false) || intermediate.map(classStarted).getOrElse(false)) {
+				this.setState({
+					...this.state,
+					validationErrors: ["That class has already started."]
 				})
 				return Promise.reject();
 			} else {
@@ -283,10 +313,13 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					<li>
 						<span style={{color: "#F00", fontWeight: "bold"}}>
 							Your class signup is not finalized until registration is complete and payment is processed.
-						</span>  Your spots will be held for 60 minutes after submitting your first reservation.
+						</span>  Your spots will be held for 2 hours after submitting your first reservation.
 					</li>
 					<li>
-						Other class types are offered; signups are available once payment is processed and registration is complete.
+						Other class types are offered; signups are available once payment is processed and registration is complete. 
+					</li>
+					<li>
+						Wait listing in full classes is available once payment is processed and registration is complete.
 					</li>
 				</ul>
 			</JoomlaArticleRegion>
@@ -338,9 +371,10 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				)}
 			</JoomlaArticleRegion>
 			<Button text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/"))}/>
-			<Button text={<span>Add and Add Another</span>} spinnerOnClick={true} onClick={() => submitAction().catch(() => Promise.resolve()).then(() => {
-				window.scrollTo(0, 0)
-			})}/>
+			<Button text={<span>Add and Add Another</span>} spinnerOnClick={true} onClick={() => submitAction().then(
+				() => self.props.history.push("/redirect/reserve"),
+				() => window.scrollTo(0, 0)
+			)}/>
 			<Button text={<span>Add and Finish ></span>} spinnerOnClick={true} onClick={() => submitAction().then(
 				() => self.props.history.push("/create-acct"),
 				() => window.scrollTo(0, 0)
