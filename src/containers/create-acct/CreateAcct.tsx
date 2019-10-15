@@ -154,7 +154,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 
 		const sidebarInfo = <JoomlaSidebarRegion title="INFO">
 			<div>
-				Please supply an email address and password for your online account. Your account will allow you to register child(ren) for classes, renew their memberships, and sign them up for special Junior Program events.<br />
+				Please supply an email address and password for your online account. Your account will allow you to register your child(ren) for classes, renew their memberships, and sign them up for special Junior Program events.<br />
 				<br />
 				If you start the registration process and don't complete it, you can use this email/password to continue from where you left off.
 			</div>
