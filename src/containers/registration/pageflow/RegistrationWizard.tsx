@@ -16,6 +16,7 @@ import RequiredInfo from "../RequiredInfo";
 import SurveyInfo from "../SurveyInfo";
 import TermsConditions from "../TermsConditions";
 import { DoublyLinkedList } from "../../../util/DoublyLinkedList";
+import ScholarshipResultsPage from "../../ScholarshipResults";
 
 export const path = "/reg/:personId"
 
@@ -56,6 +57,18 @@ export default (props: {history: History<any>, personId: number, hasEIIResponse:
 				jpPrice={Currency.dollars(300)}
 				{...staticComponentProps}
 				{...mapWizardProps(fromWizard)}
+			/>}
+			{...pageWrapperProps}
+		/>,
+		breadcrumbHTML: <React.Fragment>Family<br />Information</React.Fragment>
+	}, {
+		clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+			key="ScholarshipResultsPage"
+			component={() => <ScholarshipResultsPage
+				jpPrice={Currency.dollars(300)}
+				jpOffseasonPrice={Currency.dollars(30)}
+				{...staticComponentProps}
+				{...mapWizardProps(fromWizard)}
 				goNext={() => {
 					// after submitting the scholarship page,
 					// do the normal goNext() stuff,
@@ -63,16 +76,22 @@ export default (props: {history: History<any>, personId: number, hasEIIResponse:
 					// and shove the new DLL in
 					// TODO: better way to structure this to avoid a double state update?
 					fromWizard.goNext()
-					const wizard = fromWizard.wizard;
-					const dll = wizard.state.dll
-					// (just gonna assume scholarship is the only thing in the left side and push in an empty array rather than slice the existing arr)
-					wizard.pushNewDLL(new DoublyLinkedList([], dll.curr, dll.right))
+
+					// updateState on the wizard seems to be async for this one.  Stick the DLL mutation at the end of the event queue
+					// so all the react async shit happens first
+					window.setTimeout(() => {
+						const wizard = fromWizard.wizard;
+						const dll = wizard.state.dll
+						// ASssuming two scholarship pages are at the start of the flow, so we can blindly pass an empty array to `left`
+						wizard.pushNewDLL(new DoublyLinkedList([], dll.curr, dll.right))
+					}, 0)
+
 					return Promise.resolve();
 				}}
 			/>}
 			{...pageWrapperProps}
 		/>,
-		breadcrumbHTML: <React.Fragment>Family<br />Information</React.Fragment>
+		breadcrumbHTML: <React.Fragment>Scholarship<br />Results</React.Fragment>
 	}]
 
 	const otherNodes = [{
@@ -85,7 +104,13 @@ export default (props: {history: History<any>, personId: number, hasEIIResponse:
 			/>}
 			getAsyncProps={(urlProps: {}) => {
 				console.log("in getAsyncProps for requiredInfo")
-				return requiredInfoAPI(props.personId).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+				return requiredInfoAPI(props.personId).send(null).then(ret => {
+					if (ret.type == "Failure") {
+						console.log("error getting reqInfo for junior " + props.personId, ret)
+						props.history.push("/")
+					}
+					return Promise.resolve(ret);
+				});
 			}}
 			{...pageWrapperProps}
 		/>,

@@ -51,10 +51,12 @@ export default class WizardPageflow extends React.Component<Props, State> {
 		this.goNext = () => {
 			console.log("pushed goNext!")
 			if (self.state.dll.hasNext()) {
+				console.log("about to update my own state: " + self.state.dll.left.length + ", " + self.state.dll.right.length)
 				self.setState({
 					...self.state,
 					dll: self.state.dll.next()
 				})
+				console.log("Just updated my own state: " + self.state.dll.left.length + ", " + self.state.dll.right.length)
 			} else {
 				console.log("going to end: ", self.props.end)
 				self.props.history.push(self.props.end);

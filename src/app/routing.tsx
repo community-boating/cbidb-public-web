@@ -24,6 +24,7 @@ import moment = require('moment');
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import { getWrapper as getReservations, validator as reservationAPIValidator } from '../async/junior/get-junior-class-reservations'
 import CreateAccount from '../containers/create-acct/CreateAcct';
+import ScholarshipResultsPage from '../containers/ScholarshipResults';
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
