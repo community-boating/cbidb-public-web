@@ -7,11 +7,14 @@ import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import JoomlaReport from "../theme/joomla/JoomlaReport";
 import homePageActions from "./HomePageActions";
+import Button from '../components/Button';
+import { History } from 'history';
 
 export type Form = t.TypeOf<typeof validator>;
 
 type Props = {
-	data: Form
+	data: Form,
+	history: History<any>
 }
 
 export default class HomePage extends React.Component<Props> {
@@ -34,6 +37,7 @@ export default class HomePage extends React.Component<Props> {
 
 		return <JoomlaMainPage navBar={NavBarLogoutOnly()}>
 			{mainTable}
+			<Button onClick={() => Promise.resolve(this.props.history.push("/reg"))} text="Add new Junior" />
 		</JoomlaMainPage>
 	}
 }

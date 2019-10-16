@@ -79,7 +79,7 @@ class FormSelect extends Select<Form> {}
 class FormTextArea extends TextArea<Form> {}
 
 interface Props {
-	personId: number,
+	personId: Option<number>,
 	initialFormData: ApiType,
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
@@ -128,7 +128,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 				/>
 				<FormInput
 					id="lastName"
-					label="Last Initial"
+					label="Last Name"
 					isRequired={true}
 					value={formData.lastName}
 					updateAction={updateState}
@@ -300,21 +300,27 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" onClick={() => {
-				return postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(
-					// api success
-					ret => {
-						if (ret.type == "Success") {
-							self.props.goNext()
-						} else {
-							console.log(ret)
-							window.scrollTo(0, 0);
-							self.setState({
-								...self.state,
-								validationErrors: ret.message.split("\\n") // TODO
-							});
+				if (this.props.personId.isNone()) {
+					console.log("woo create person!")
+					return Promise.resolve()
+				} else {
+					return postWrapper(this.props.personId.getOrElse(-1)).send(PostJSON(formToAPI(this.state.formData))).then(
+						// api success
+						ret => {
+							if (ret.type == "Success") {
+								self.props.goNext()
+							} else {
+								console.log(ret)
+								window.scrollTo(0, 0);
+								self.setState({
+									...self.state,
+									validationErrors: ret.message.split("\\n") // TODO
+								});
+							}
 						}
-					}
-				)
+					)
+				}
+				
 			}}/>
 		</JoomlaMainPage>
 	}

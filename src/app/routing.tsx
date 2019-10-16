@@ -25,6 +25,8 @@ import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-co
 import { getWrapper as getReservations, validator as reservationAPIValidator } from '../async/junior/get-junior-class-reservations'
 import CreateAccount from '../containers/create-acct/CreateAcct';
 import ScholarshipResultsPage from '../containers/ScholarshipResults';
+import RequiredInfo from '../containers/registration/RequiredInfo';
+import { defaultValue as requiredDefaultForm } from '../async/junior/required'
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -153,11 +155,12 @@ export default function (history: History<any>) {
 			}}
 		/>} />,
 
-		<Route key="reg" exact path={paths.reg.path} render={() => <PageWrapper
+		// TODO: remove this duplication
+		<Route key="reg" path={paths.reg.path} render={() => <PageWrapper
 			key="reg"
 			component={(urlProps: {personId: number}, async: HomePageForm) => <RegistrationWizard
 				history={history}
-				personId={urlProps.personId}
+				personId={some(urlProps.personId)}
 				jpPrice={async.jpPrice}
 				jpOffseasonPrice={async.jpOffseasonPrice}
 			/>}
@@ -174,10 +177,30 @@ export default function (history: History<any>) {
 			}}
 		/>} />,
 
+		<Route key="regEmpty" path={"/reg"} render={() => <PageWrapper
+			key="regEmpty"
+			component={(urlProps: {}, async: HomePageForm) => <RegistrationWizard
+				history={history}
+				personId={none}
+				jpPrice={async.jpPrice}
+				jpOffseasonPrice={async.jpOffseasonPrice}
+			/>}
+			urlProps={{}}
+			shadowComponent={<span>hi!</span>}
+			getAsyncProps={(urlProps: {}) => {
+				return welcomeAPI.send(null).then(ret => {
+					if (ret.type == "Success") {
+						return Promise.resolve(ret)
+					} else return Promise.reject();
+				}).catch(err => Promise.resolve(null));  // TODO: handle failure
+			}}
+		/>} />,
+
 		<Route key="default" render={() => <PageWrapper
 			key="HomePage"
 			component={(urlProps: {}, async: HomePageForm) => <HomePage
 				data={async}
+				history={history}
 			/>}
 			urlProps={{}}
 			shadowComponent={<span>hi!</span>}
