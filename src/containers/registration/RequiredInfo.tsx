@@ -300,26 +300,21 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" onClick={() => {
-				if (this.props.personId.isNone()) {
-					console.log("woo create person!")
-					return Promise.resolve()
-				} else {
-					return postWrapper(this.props.personId.getOrElse(-1)).send(PostJSON(formToAPI(this.state.formData))).then(
-						// api success
-						ret => {
-							if (ret.type == "Success") {
-								self.props.goNext()
-							} else {
-								console.log(ret)
-								window.scrollTo(0, 0);
-								self.setState({
-									...self.state,
-									validationErrors: ret.message.split("\\n") // TODO
-								});
-							}
+				return postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(
+					// api success
+					ret => {
+						if (ret.type == "Success") {
+							self.props.goNext()
+						} else {
+							console.log(ret)
+							window.scrollTo(0, 0);
+							self.setState({
+								...self.state,
+								validationErrors: ret.message.split("\\n") // TODO
+							});
 						}
-					)
-				}
+					}
+				)
 				
 			}}/>
 		</JoomlaMainPage>
