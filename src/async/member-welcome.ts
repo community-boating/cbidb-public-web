@@ -1,12 +1,13 @@
 import * as t from 'io-ts';
 import APIWrapper, { ServerParams } from '../core/APIWrapper';
 import { HttpMethod } from "../core/HttpMethod";
-import { OptionalString } from '../util/OptionalTypeValidators';
+import { OptionalString, OptionalNumber } from '../util/OptionalTypeValidators';
 
 export const validator = t.type({
 	parentPersonId: t.number,
 	userName: t.string,
-	hasEIIResponse: t.boolean,
+	jpPrice: OptionalNumber,
+	jpOffseasonPrice: OptionalNumber,
 	children: t.array(t.type({
 		personId: t.number,
 		nameFirst: OptionalString,

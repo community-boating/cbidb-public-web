@@ -154,11 +154,12 @@ export default function (history: History<any>) {
 		/>} />,
 
 		<Route key="reg" exact path={paths.reg.path} render={() => <PageWrapper
-			key="HomePage"
+			key="reg"
 			component={(urlProps: {personId: number}, async: HomePageForm) => <RegistrationWizard
 				history={history}
 				personId={urlProps.personId}
-				hasEIIResponse={async.hasEIIResponse}
+				jpPrice={async.jpPrice}
+				jpOffseasonPrice={async.jpOffseasonPrice}
 			/>}
 			urlProps={{
 				personId: Number(paths.reg.getParams(history.location.pathname).personId),

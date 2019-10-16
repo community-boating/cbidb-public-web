@@ -17,6 +17,9 @@ import SurveyInfo from "../SurveyInfo";
 import TermsConditions from "../TermsConditions";
 import { DoublyLinkedList } from "../../../util/DoublyLinkedList";
 import ScholarshipResultsPage from "../../ScholarshipResults";
+import { Option } from "fp-ts/lib/Option";
+import { apiw as welcomeAPI } from "../../../async/member-welcome";
+import { Form as HomePageForm } from '../../../containers/HomePage';
 
 export const path = "/reg/:personId"
 
@@ -27,7 +30,7 @@ const mapElementToBreadcrumbState: (element: WizardNode) => State = e => ({
 	display: e.breadcrumbHTML
 })
 
-export default (props: {history: History<any>, personId: number, hasEIIResponse: boolean}) => {
+export default (props: {history: History<any>, personId: number, jpPrice: Option<number>, jpOffseasonPrice: Option<number>}) => {
 	const staticComponentProps = {
 		history: props.history,
 		personId: props.personId,
@@ -48,7 +51,7 @@ export default (props: {history: History<any>, personId: number, hasEIIResponse:
 		shadowComponent: <span>hi!</span>
 	}
 
-	const maybeScholarship = props.hasEIIResponse ? [] : [{
+	const maybeScholarship = props.jpPrice.isSome() ? [] : [{
 		clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 			key="ScholarshipPage"
 			component={() => <ScholarshipPage
@@ -64,9 +67,9 @@ export default (props: {history: History<any>, personId: number, hasEIIResponse:
 	}, {
 		clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 			key="ScholarshipResultsPage"
-			component={() => <ScholarshipResultsPage
-				jpPrice={Currency.dollars(300)}
-				jpOffseasonPrice={Currency.dollars(30)}
+			component={(urlProps: {}, async: HomePageForm) => <ScholarshipResultsPage
+				jpPrice={Currency.dollars(async.jpPrice.getOrElse(-1))}
+				jpOffseasonPrice={Currency.dollars(async.jpOffseasonPrice.getOrElse(-1))}
 				{...staticComponentProps}
 				{...mapWizardProps(fromWizard)}
 				goNext={() => {
@@ -89,6 +92,17 @@ export default (props: {history: History<any>, personId: number, hasEIIResponse:
 					return Promise.resolve();
 				}}
 			/>}
+			shadowComponent={<span>hi!</span>}
+			getAsyncProps={() => {
+				return welcomeAPI.send(null).catch(err => Promise.resolve(null)).then(res => {
+					console.log("%%% ", res)
+					if (res.type != "Success" || !res.success || res.success.jpPrice.isNone() || res.success.jpOffseasonPrice.isNone()) {
+						// TODO: this is bad
+						props.history.push("/")
+						return Promise.reject()
+					} else return Promise.resolve(res)
+				});  // TODO: handle failure
+			}}
 			{...pageWrapperProps}
 		/>,
 		breadcrumbHTML: <React.Fragment>Scholarship<br />Results</React.Fragment>
