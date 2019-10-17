@@ -27,6 +27,7 @@ import CreateAccount from '../containers/create-acct/CreateAcct';
 import ScholarshipResultsPage from '../containers/ScholarshipResults';
 import RequiredInfo from '../containers/registration/RequiredInfo';
 import { defaultValue as requiredDefaultForm } from '../async/junior/required'
+import AccountSettingsPage from '../containers/AccountSettings';
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -111,6 +112,8 @@ export default function (history: History<any>) {
 
 	const mustBeLoggedIn = [
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
+
+		<Route key="/settings" path="/settings" render={() => <AccountSettingsPage history={history} />} />,
 
 		<Route key="ratings" path={paths.ratings.path} render={() => <PageWrapper
 			key="RatingsPage"
