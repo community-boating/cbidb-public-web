@@ -28,6 +28,7 @@ import ScholarshipResultsPage from '../containers/ScholarshipResults';
 import RequiredInfo from '../containers/registration/RequiredInfo';
 import { defaultValue as requiredDefaultForm } from '../async/junior/required'
 import AccountSettingsPage from '../containers/AccountSettings';
+import PaymentDetailsPage from '../containers/checkout/PaymentDetails';
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -124,6 +125,8 @@ export default function (history: History<any>) {
 				return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
 		/>} />,
+
+		<Route key="/checkout/payment" path="/checkout/payment" render={() => <PaymentDetailsPage />} />,
 
 		<Route key="ratings" path={paths.ratings.path} render={() => <PageWrapper
 			key="RatingsPage"
