@@ -21,5 +21,6 @@ asc.updateState.appProps(appProps);
 
 ReactDOM.render(<App
 	history={history}
+	asc={asc}
 />, document.getElementById("root"));
 

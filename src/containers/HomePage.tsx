@@ -37,6 +37,7 @@ export default class HomePage extends React.Component<Props> {
 
 		return <JoomlaMainPage navBar={NavBarLogoutOnly()}>
 			{mainTable}
+			<Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" />
 			<Button onClick={() => Promise.resolve(this.props.history.push("/reg"))} text="Add new Junior" />
 		</JoomlaMainPage>
 	}

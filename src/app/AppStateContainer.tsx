@@ -44,7 +44,7 @@ type State = {
 
 // TODO: should this not expose anything publically except the "reducer" functions to update state?  Seems like <App /> should be the only thing that can read state
 // and it should have to inheret downward
-class AppStateContainer {
+export class AppStateContainer {
 	state: State
 	setState = (state: State) => {
 		this.state = state;

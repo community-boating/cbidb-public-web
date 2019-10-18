@@ -113,7 +113,17 @@ export default function (history: History<any>) {
 	const mustBeLoggedIn = [
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
 
-		<Route key="/settings" path="/settings" render={() => <AccountSettingsPage history={history} />} />,
+		<Route key="/settings" path="/settings" render={() => <PageWrapper
+			key="RatingsPage"
+			component={(urlProps: {}, async: HomePageForm) => <AccountSettingsPage
+				history={history}
+			/>}
+			urlProps={{personId: Number(paths.ratings.getParams(history.location.pathname).personId)}}
+			shadowComponent={<span>hi!</span>}
+			getAsyncProps={() => {
+				return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+			}}
+		/>} />,
 
 		<Route key="ratings" path={paths.ratings.path} render={() => <PageWrapper
 			key="RatingsPage"

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import asc from '../app/AppStateContainer';
+import asc, { AppStateContainer } from '../app/AppStateContainer';
 import router from "../app/routing";
 import JoomlaBase from '../theme/joomla/JoomlaBase';
 import { Option, some, none } from 'fp-ts/lib/Option';
@@ -8,6 +8,7 @@ import {apiw as isLoggedInAsMember} from '../async/is-logged-in-as-member';
 
 interface Props {
 	history: any
+	asc: AppStateContainer
 }
 
 // TODO: make a wizard manager, call its update() in App constructor and SCU,
