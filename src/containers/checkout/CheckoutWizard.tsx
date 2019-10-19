@@ -9,7 +9,7 @@ import { Form as HomePageForm } from '../HomePage';
 import { apiw as welcomeAPI } from "../../async/member-welcome";
 import PaymentDetailsPage from "./PaymentDetails";
 import PaymentConfirmPage from "./PaymentConfirm";
-import { preRegRender } from "../create-acct/ReserveClasses";
+import { apiw as orderStatus, CardData, OrderStatus } from "../../async/order-status"
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -17,13 +17,6 @@ const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 })
 
 type Props = {history: History<any>};
-
-export type CardData = {
-	cardLast4: string,
-	cardExpMonth: string,
-	cardExpYear: string
-	cardZip: Option<string>,
-};
 
 type State = {
 	cardData: Option<CardData>	
@@ -48,28 +41,35 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 		const nodes = [{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="checkout details"
-				component={(urlProps: {}, async: HomePageForm) => <PaymentDetailsPage
+				component={(urlProps: {}, [welcome, orderStatus]) => <PaymentDetailsPage
 					{...mapWizardProps(fromWizard)}
-					welcomePackage={async}
+					welcomePackage={welcome}
+					orderStatus = {orderStatus}
 					setCardData={this.setCardData.bind(this)}
+					history={self.props.history}
 				/>}
 				urlProps={{}}
 				shadowComponent={<span>hi!</span>}
 				getAsyncProps={() => {
-					return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+					console.log("getting async for DETAILS")
+					return Promise.all([
+						welcomeAPI.send(null),
+						orderStatus.send(null)
+					]).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>
 		}, {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
-				key="checkout details"
-				component={(urlProps: {}) => <PaymentConfirmPage
+				key="checkout confirm"
+				component={(urlProps: {}, orderStatus: OrderStatus) => <PaymentConfirmPage
 					{...mapWizardProps(fromWizard)}
-					cardData={this.state.cardData.getOrElse(null)}
+					orderStatus = {orderStatus}
 				/>}
 				urlProps={{}}
 				shadowComponent={<span>hi!</span>}
 				getAsyncProps={() => {
-					return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+					console.log("getting async for CONFIRM")
+					return orderStatus.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>
 		}]

@@ -113,6 +113,7 @@ export default function (history: History<any>) {
 
 	const mustBeLoggedIn = [
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
+		<Route key="/redirect/checkout" path="/redirect/checkout" render={() => <Redirect to="/checkout" />} />,
 
 		<Route key="/settings" path="/settings" render={() => <PageWrapper
 			key="RatingsPage"

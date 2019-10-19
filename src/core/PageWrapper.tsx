@@ -29,7 +29,16 @@ export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T
 			// (if this is clientside, that fn will not do anything and that's fine)
 			this.props.getAsyncProps(this.props.urlProps).then(asyncProps => {
 				console.log("asyncProps: ", asyncProps)
-				if (asyncProps && asyncProps.type == "Success") {
+				if (asyncProps && asyncProps instanceof Array) {
+					const success = asyncProps.reduce((totalSuccess, e) => totalSuccess && e.type == "Success", true);
+					if (success) {
+						console.log("setting:  ", asyncProps.map(e => e.success))
+						self.setState({
+							readyToRender: true,
+							componentAsyncProps: asyncProps.map(e => e.success) as unknown as T_Async
+						});
+					}
+				} else if (asyncProps && asyncProps.type == "Success") {
 					console.log("$$$$$$$$$$$$$$$$   about to set state, has stuff?: ", asyncProps.success != null)
 					console.log("setting:  ", asyncProps.success)
 					self.setState({

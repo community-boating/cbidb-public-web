@@ -44,3 +44,14 @@ export const OptionalBoolean = new t.Type<Option<boolean>, string, unknown>(
 		}),
 		a => a.fold("None", (s) => `some(${s})`)
 )
+
+export const makeOptional = <T extends t.Any>(someValidator: T, name: string) => new t.Type<Option<t.TypeOf<T>>, string, unknown>(
+	'Optional' + name,
+	(u): u is Option<t.TypeOf<T>> => u instanceof Option,
+	(u, c) =>
+		t.union([someValidator as t.Any, t.null, t.undefined]).validate(u, c).chain(s => {
+			if (s === null || s === undefined) return t.success(<Option<t.TypeOf<T>>>none)
+			else return t.success(some(s))
+		}),
+		a => a.fold("None", (s) => `some(${s})`)
+)

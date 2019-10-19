@@ -1,24 +1,61 @@
 import * as React from "react";
+import * as t from 'io-ts';
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import StripeElement from "../../components/StripeElement";
 import { TokensResult } from "../../models/stripe/tokens";
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
-import { PostJSON } from "../../core/APIWrapper";
+import { PostJSON, PostString } from "../../core/APIWrapper";
 import { Form as HomePageForm } from "../HomePage";
-import { CardData } from "./CheckoutWizard";
+import { orderStatusValidator, CardData } from "../../async/order-status"
+import StripeConfirm from "../../components/StripeConfirm";
+import Button from "../../components/Button";
+import { postWrapper as clearCard } from '../../async/stripe/clear-card'
+import { History } from "history";
 
 export interface Props {
 	welcomePackage: HomePageForm,
+	orderStatus: t.TypeOf<typeof orderStatusValidator>
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
-	setCardData: (cardData: CardData) => void
+	setCardData: (cardData: CardData) => void,
+	history: History<any>
 }
 
 export default class PaymentDetailsPage extends React.PureComponent<Props> {
 	render() {
 		const self = this
+		console.log("welcome:: ", this.props.welcomePackage)
+		console.log("order status::  ", this.props.orderStatus)
+
+		const stripeElement = <StripeElement
+			formId="payment-form"
+			elementId="card-element"
+			cardErrorsId="card-errors"
+			then={(result: TokensResult) => {
+				console.log(result)
+				storeToken.send(PostJSON({
+					token: result.token.id,
+					orderId: self.props.welcomePackage.orderId
+				})).then(result => {
+					if (result.type == "Success") {
+						self.props.setCardData(result.success);
+						self.props.goNext();
+					}
+				})
+			}}
+		/>;
+
+		const confirm = this.props.orderStatus.cardData.map(cd => <StripeConfirm
+			cardData={cd}
+		/>);
+
+		const reset = (confirm.isSome()
+			? <a href="#" onClick={() => clearCard.send(PostString("")).then(() => self.props.history.push('/redirect/checkout'))}>Click here to use a different credit card.</a>
+			: "Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our payment processor."
+		);
+
 		return <JoomlaMainPage>
 			{/* <JoomlaArticleRegion title="Please consider making a donation to Community Boating.">
 				{`Community Boating, Inc. (CBI) is a 501(c)3 non-profit organization operating affordable and accessible programs
@@ -43,33 +80,12 @@ export default class PaymentDetailsPage extends React.PureComponent<Props> {
 				</td>	
 			</tr></tbody></table>
 			<JoomlaArticleRegion title="Credit Card Payment">
-				Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our payment processor.
+				{reset}
 				<br />
 				<br />
-				<StripeElement
-					formId="payment-form"
-					elementId="card-element"
-					cardErrorsId="card-errors"
-					then={(result: TokensResult) => {
-						console.log(result)
-						storeToken.send(PostJSON({
-							token: result.token.id,
-							orderId: self.props.welcomePackage.orderId
-						})).then(result => {
-							if (result.type == "Success") {
-								self.props.setCardData({
-									cardLast4: result.success.last4,
-									cardExpMonth: result.success.expMonth,
-									cardExpYear: result.success.expYear,
-									cardZip: result.success.zip
-								});
-								self.props.goNext();
-							}
-							
-						})
-					}}
-				 />
+				{confirm.getOrElse(stripeElement)}
 			</JoomlaArticleRegion>
+			{confirm.isSome() ? <Button text="Continue >" onClick={this.props.goNext} /> : ""}
 			
 		</JoomlaMainPage>
 	}
