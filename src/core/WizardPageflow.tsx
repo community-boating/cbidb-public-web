@@ -14,7 +14,7 @@ export interface ComponentPropsFromWizard {
 
 export interface WizardNode {
 	clazz: (fromWizard: ComponentPropsFromWizard) => JSX.Element,
-	breadcrumbHTML: JSX.Element
+	breadcrumbHTML?: JSX.Element
 }
 
 export type ElementDLL = DoublyLinkedList<() => JSX.Element>
@@ -22,7 +22,6 @@ export type ElementDLL = DoublyLinkedList<() => JSX.Element>
 
 interface Props {
 	history: History<any>,
-	formName: string,
 	nodes: WizardNode[],
 	start: string,
 	end: string,

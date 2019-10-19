@@ -7,9 +7,13 @@ import { TokensResult } from "../../models/stripe/tokens";
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
 import { PostJSON } from "../../core/APIWrapper";
 import { Form as HomePageForm } from "../HomePage";
+import { CardData } from "./CheckoutWizard";
 
 export interface Props {
-	welcomePackage: HomePageForm
+	welcomePackage: HomePageForm,
+	goNext: () => Promise<void>,
+	goPrev: () => Promise<void>,
+	setCardData: (cardData: CardData) => void
 }
 
 export default class PaymentDetailsPage extends React.PureComponent<Props> {
@@ -51,7 +55,18 @@ export default class PaymentDetailsPage extends React.PureComponent<Props> {
 						storeToken.send(PostJSON({
 							token: result.token.id,
 							orderId: self.props.welcomePackage.orderId
-						}))
+						})).then(result => {
+							if (result.type == "Success") {
+								self.props.setCardData({
+									cardLast4: result.success.last4,
+									cardExpMonth: result.success.expMonth,
+									cardExpYear: result.success.expYear,
+									cardZip: result.success.zip
+								});
+								self.props.goNext();
+							}
+							
+						})
 					}}
 				 />
 			</JoomlaArticleRegion>

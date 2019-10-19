@@ -23,7 +23,6 @@ import { Form as HomePageForm } from '../../../containers/HomePage';
 
 export const path = "/reg/:personId"
 
-export const formName = "registrationWizard"
 
 const mapElementToBreadcrumbState: (element: WizardNode) => State = e => ({
 	path: null,
@@ -197,7 +196,6 @@ export default class RegistrationWizard extends React.Component<Props> {
 		console.log("returning class")
 		return <WizardPageflow 
 			history={self.props.history}
-			formName={formName}
 			start="/"
 			end="/"
 			nodes={nodes}

@@ -29,6 +29,7 @@ import RequiredInfo from '../containers/registration/RequiredInfo';
 import { defaultValue as requiredDefaultForm } from '../async/junior/required'
 import AccountSettingsPage from '../containers/AccountSettings';
 import PaymentDetailsPage from '../containers/checkout/PaymentDetails';
+import CheckoutWizard from '../containers/checkout/CheckoutWizard';
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -125,16 +126,8 @@ export default function (history: History<any>) {
 			}}
 		/>} />,
 
-		<Route key="/checkout/payment" path="/checkout/payment" render={() => <PageWrapper
-			key="RatingsPage"
-			component={(urlProps: {}, async: HomePageForm) => <PaymentDetailsPage
-				welcomePackage={async}
-			/>}
-			urlProps={{}}
-			shadowComponent={<span>hi!</span>}
-			getAsyncProps={() => {
-				return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
+		<Route key="/checkout" path="/checkout" render={() => <CheckoutWizard
+			history={history}
 		/>} />,
 
 		<Route key="ratings" path={paths.ratings.path} render={() => <PageWrapper
