@@ -5,6 +5,7 @@ import { OptionalString, OptionalNumber } from '../util/OptionalTypeValidators';
 
 export const validator = t.type({
 	parentPersonId: t.number,
+	orderId: t.number,
 	parentFirstName: t.string,
 	parentLastName: t.string,
 	userName: t.string,

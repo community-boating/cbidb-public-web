@@ -107,7 +107,6 @@ export default function (history: History<any>) {
 			jpPrice={Currency.dollars(300)}
 			lastSeason={2018}
 			doLogin={asc.updateState.login.attemptLogin}
-
 		/>} />,
 	]
 
@@ -126,7 +125,17 @@ export default function (history: History<any>) {
 			}}
 		/>} />,
 
-		<Route key="/checkout/payment" path="/checkout/payment" render={() => <PaymentDetailsPage />} />,
+		<Route key="/checkout/payment" path="/checkout/payment" render={() => <PageWrapper
+			key="RatingsPage"
+			component={(urlProps: {}, async: HomePageForm) => <PaymentDetailsPage
+				welcomePackage={async}
+			/>}
+			urlProps={{}}
+			shadowComponent={<span>hi!</span>}
+			getAsyncProps={() => {
+				return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+			}}
+		/>} />,
 
 		<Route key="ratings" path={paths.ratings.path} render={() => <PageWrapper
 			key="RatingsPage"

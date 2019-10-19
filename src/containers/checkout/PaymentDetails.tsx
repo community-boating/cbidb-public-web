@@ -3,14 +3,18 @@ import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import StripeElement from "../../components/StripeElement";
+import { TokensResult } from "../../models/stripe/tokens";
+import { postWrapper as storeToken } from "../../async/stripe/store-token"
+import { PostJSON } from "../../core/APIWrapper";
+import { Form as HomePageForm } from "../HomePage";
 
 export interface Props {
-
+	welcomePackage: HomePageForm
 }
 
 export default class PaymentDetailsPage extends React.PureComponent<Props> {
 	render() {
-
+		const self = this
 		return <JoomlaMainPage>
 			{/* <JoomlaArticleRegion title="Please consider making a donation to Community Boating.">
 				{`Community Boating, Inc. (CBI) is a 501(c)3 non-profit organization operating affordable and accessible programs
@@ -35,11 +39,20 @@ export default class PaymentDetailsPage extends React.PureComponent<Props> {
 				</td>	
 			</tr></tbody></table>
 			<JoomlaArticleRegion title="Credit Card Payment">
-				Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our servers using SSL.
+				Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our payment processor.
+				<br />
+				<br />
 				<StripeElement
 					formId="payment-form"
 					elementId="card-element"
 					cardErrorsId="card-errors"
+					then={(result: TokensResult) => {
+						console.log(result)
+						storeToken.send(PostJSON({
+							token: result.token.id,
+							orderId: self.props.welcomePackage.orderId
+						}))
+					}}
 				 />
 			</JoomlaArticleRegion>
 			

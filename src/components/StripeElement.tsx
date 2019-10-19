@@ -1,15 +1,19 @@
 import * as React from 'react';
+import { TokensResult } from '../models/stripe/tokens';
+import { setFlagsFromString } from 'v8';
 
 type Props = {
 	formId: string, 		// "payment-form"
 	elementId: string,		// "card-element"
-	cardErrorsId: string	// "card-errors"
+	cardErrorsId: string,	// "card-errors"
+	then: (result: TokensResult) => any
 }
 
 declare var Stripe;
 
 export default class StripeElement extends React.Component<Props> {
 	componentDidMount() {
+		const self = this;
 		// TODO: put this somewhere
 		var stripe = Stripe('pk_test_9lGKKlihnP3TT7oPu4TKV5Vh');
 		var elements = stripe.elements();
@@ -33,7 +37,7 @@ export default class StripeElement extends React.Component<Props> {
 			card.mount(`#${this.props.elementId}`);
 
 			card.addEventListener('change', function(event) {
-				var displayError = document.getElementById(this.props.cardErrorsId);
+				var displayError = document.getElementById(self.props.cardErrorsId);
 				if (event.error) {
 					displayError.textContent = event.error.message;
 				} else {
@@ -44,16 +48,13 @@ export default class StripeElement extends React.Component<Props> {
 			var form = document.getElementById('payment-form');
 			form.addEventListener('submit', function(event) {
 				event.preventDefault();
-				console.log(card)
 				stripe.createToken(card).then(function(result) {
 					if (result.error) {
 						// Inform the customer that there was an error
 						var errorElement = document.getElementById('card-errors');
 						errorElement.textContent = result.error.message;
 					} else {
-						// Send the token to your server
-						console.log(result.token)
-						//stripeTokenHandler(result.token);
+						self.props.then(result)
 					}
 				});
 			});
