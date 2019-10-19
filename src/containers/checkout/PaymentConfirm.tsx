@@ -6,6 +6,8 @@ import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import Button from "../../components/Button";
 import StripeConfirm from "../../components/StripeConfirm";
 import {orderStatusValidator, CardData} from "../../async/order-status"
+import { postWrapper as submitPayment } from "../../async/stripe/submit-payment"
+import { PostString } from "../../core/APIWrapper";
 
 export interface Props {
 	goNext: () => Promise<void>,
@@ -25,6 +27,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props> {
 				<StripeConfirm cardData={this.props.orderStatus.cardData.getOrElse(null)} />
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={this.props.goPrev} />
+			<Button text="Submit Payment" onClick={() => submitPayment.send(PostString(""))} />
 		</JoomlaMainPage>);
 	}
 }
