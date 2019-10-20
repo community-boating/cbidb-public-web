@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { TokensResult } from '../models/stripe/tokens';
 import { setFlagsFromString } from 'v8';
+import Button from './Button';
 
 type Props = {
 	formId: string, 		// "payment-form"
@@ -11,7 +12,10 @@ type Props = {
 
 declare var Stripe;
 
+
+
 export default class StripeElement extends React.Component<Props> {
+	submit: () => void
 	componentDidMount() {
 		const self = this;
 		// TODO: put this somewhere
@@ -31,6 +35,17 @@ export default class StripeElement extends React.Component<Props> {
 			style: style
 		});
 
+		this.submit = () => {
+			stripe.createToken(card).then(function(result) {
+				if (result.error) {
+					// Inform the customer that there was an error
+					var errorElement = document.getElementById(self.props.cardErrorsId);
+					errorElement.textContent = result.error.message;
+				} else {
+					self.props.then(result)
+				}
+			});
+		}
 
 		// Add an instance of the card Element into the `card-element` <div>
 		if (document.getElementById(this.props.elementId)) {
@@ -45,18 +60,10 @@ export default class StripeElement extends React.Component<Props> {
 				}
 			});
 
-			var form = document.getElementById('payment-form');
+			var form = document.getElementById(self.props.formId);
 			form.addEventListener('submit', function(event) {
 				event.preventDefault();
-				stripe.createToken(card).then(function(result) {
-					if (result.error) {
-						// Inform the customer that there was an error
-						var errorElement = document.getElementById('card-errors');
-						errorElement.textContent = result.error.message;
-					} else {
-						self.props.then(result)
-					}
-				});
+				self.submit()
 			});
 		}
 	}
@@ -71,7 +78,7 @@ export default class StripeElement extends React.Component<Props> {
 					<div id={this.props.cardErrorsId} role="alert"></div>
 				</div>
 				<br />
-				<button>Submit Payment</button>
+				<Button text="Submit Card Details" spinnerOnClick onClick={() => Promise.resolve(this.submit())}/>
 			</form>
 		);
 		return paymentForm;

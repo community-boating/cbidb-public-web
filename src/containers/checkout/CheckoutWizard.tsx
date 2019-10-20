@@ -64,6 +64,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 				component={(urlProps: {}, orderStatus: OrderStatus) => <PaymentConfirmPage
 					{...mapWizardProps(fromWizard)}
 					orderStatus = {orderStatus}
+					history={self.props.history}
 				/>}
 				urlProps={{}}
 				shadowComponent={<span>hi!</span>}
