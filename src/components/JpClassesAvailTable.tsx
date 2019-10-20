@@ -1,11 +1,11 @@
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { validator } from "../async/junior/get-class-instances";
+import { InstanceInfo } from "../async/junior/get-class-instances";
 import JoomlaReport from "../theme/joomla/JoomlaReport";
 
 interface Props {
-	classes: t.TypeOf<typeof validator>
+	instances: InstanceInfo[]
 }
 
 // TODO: redo this without having to use dangerouslySetInnerHTML
@@ -13,9 +13,8 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 	render() {
 		return (
 			<JoomlaReport
-				headers={["Class Name", "First Day", "Last Day", "Class Time", "Spots Left", "Notes"]}
-				rows={this.props.classes.map(c => ([
-					c.className,
+				headers={["First Day", "Last Day", "Class Time", "Spots Left", "Notes"]}
+				rows={this.props.instances.map(c => ([
 					c.firstDay,
 					c.lastDay,
 					c.classTime,
@@ -27,10 +26,9 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 					{textAlign: "center"},
 					{textAlign: "center"},
 					{textAlign: "center"},
-					{textAlign: "center"},
 					{}
 				]}
-				rawHtml={{1: true, 2: true, 4: true, 5: true}}
+				rawHtml={{0: true, 1: true, 3: true, 4: true}}
 			/>
 		);
 	}

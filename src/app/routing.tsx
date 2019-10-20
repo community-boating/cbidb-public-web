@@ -3,7 +3,7 @@ import * as t from 'io-ts';
 import * as React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router';
 
-import { getWrapper as classTimesWrapper, validator as classTimesValidator } from "../async/junior/get-class-instances";
+import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTimesValidator } from "../async/junior/get-class-instances";
 import { getWrapper as seeTypesWrapper, validator as seeTypesValidator } from "../async/junior/see-types";
 import { apiw as welcomeAPI } from "../async/member-welcome";
 import {getWrapper as getClassesWithAvail, validator as getClassesWithAvailValidator} from "../async/class-instances-with-avail"
@@ -30,6 +30,7 @@ import { defaultValue as requiredDefaultForm } from '../async/junior/required'
 import AccountSettingsPage from '../containers/AccountSettings';
 import PaymentDetailsPage from '../containers/checkout/PaymentDetails';
 import CheckoutWizard from '../containers/checkout/CheckoutWizard';
+import {apiw as getWeeks, weeksValidator} from "../async/weeks"
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -160,9 +161,10 @@ export default function (history: History<any>) {
 
 		<Route key="classTime" path={paths.classTime.path} render={() => <PageWrapper
 			key="SelectClassTime"
-			component={(urlProps: {personId: number, typeId: number}, async: t.TypeOf<typeof classTimesValidator>) => <SelectClassTime
+			component={(urlProps: {personId: number, typeId: number}, [times, weeks]: [t.TypeOf<typeof classTimesValidator>, t.TypeOf<typeof weeksValidator>]) => <SelectClassTime
 				personId={urlProps.personId}
-				apiResult={async}
+				apiResult={times}
+				weeks={weeks}
 			/>}
 			urlProps={{
 				personId: Number(paths.classTime.getParams(history.location.pathname).personId),
@@ -170,7 +172,10 @@ export default function (history: History<any>) {
 			}}
 			shadowComponent={<span>hi!</span>}
 			getAsyncProps={(urlProps: {personId: number, typeId: number}) => {
-				return classTimesWrapper(urlProps.typeId, urlProps.personId).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+				return Promise.all([
+					classTimesWrapper(urlProps.typeId, urlProps.personId).send(null),
+					getWeeks.send(null)
+				]).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
 		/>} />,
 

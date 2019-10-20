@@ -4,7 +4,8 @@ interface Props {
 	headers: string[],
 	rows: React.ReactNode[][],
 	cellStyles?: React.CSSProperties[],
-	rawHtml?: {[K: number]: boolean}
+	rawHtml?: {[K: number]: boolean},
+	noRowsText?: string
 }
 
 // TODO: drop the rawHTML override
