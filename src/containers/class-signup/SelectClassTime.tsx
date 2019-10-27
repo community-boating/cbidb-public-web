@@ -15,6 +15,15 @@ import * as moment from 'moment'
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 
+enum ClassAction {
+	UNENROLL="Unenroll",
+	DELIST="Delist",
+	BEGUN="Begun",
+	ENROLL="Enroll",
+	WAIT_LIST="Wait List",
+	NOT_AVAILABLE="Not Available"
+}
+
 interface Props {
 	personId: number,
 	apiResult: APIResult,
