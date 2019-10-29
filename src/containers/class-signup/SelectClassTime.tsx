@@ -12,10 +12,11 @@ import { Select } from '../../components/Select';
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../../util/form-update-state';
 import * as moment from 'moment'
+import PlaceholderLink from '../../components/PlaceholderLink';
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 
-enum ClassAction {
+export enum ClassAction {
 	UNENROLL="Unenroll",
 	DELIST="Delist",
 	BEGUN="Begun",
