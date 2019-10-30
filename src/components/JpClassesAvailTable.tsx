@@ -9,19 +9,28 @@ import { postWrapper as doSignup } from "../async/junior/class-signup"
 import { PostJSON } from '../core/APIWrapper';
 
 interface Props {
-	instances: InstanceInfo[]
+	instances: InstanceInfo[],
+	juniorId: number
 }
 
-const actionToComponent = (action: ClassAction, instanceId: number) => {
+const actionToComponent = (action: ClassAction, instanceId: number, juniorId: number) => {
 	switch (action) {
 	case ClassAction.BEGUN:
 		return <span style={{fontWeight: "bold", color: "#777", fontStyle: "italic"}}>Class has already begun</span>;
 	case ClassAction.NOT_AVAILABLE:
 		return <span style={{fontWeight: "bold", color: "#777", fontStyle: "italic"}}>Wait&nbsp;List<br />not&nbsp;available</span>;
 	case ClassAction.ENROLL:
-		return <a href="#" onClick={() => Promise.resolve(doSignup.send(PostJSON({doEnroll: true})))}>Enroll</a>;
+		return <a href="#" onClick={() => Promise.resolve(doSignup.send(PostJSON({
+			doEnroll: true,
+			juniorId,
+			instanceId
+		})))}>Enroll</a>;
 	case ClassAction.WAIT_LIST:
-		return <a href="#" onClick={() => Promise.resolve(doSignup.send(PostJSON({doEnroll: false})))}>Wait List</a>;
+		return <a href="#" onClick={() => Promise.resolve(doSignup.send(PostJSON({
+			doEnroll: false,
+			juniorId,
+			instanceId
+		})))}>Wait List</a>;
 	case ClassAction.UNENROLL:
 		return (<React.Fragment>
 			<span style={{color: "green", fontWeight: "bold", fontStyle: "italic"}}>Enrolled</span>
@@ -52,7 +61,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 					c.lastDay,
 					c.classTime,
 					c.spotsLeft,
-					actionToComponent(c.action as ClassAction, c.instanceId),
+					actionToComponent(c.action as ClassAction, c.instanceId, this.props.juniorId),
 					c.notes.getOrElse("-")
 				]))}
 				cellStyles={[

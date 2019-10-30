@@ -3,6 +3,8 @@ import APIWrapper from '../../core/APIWrapper';
 import { HttpMethod } from "../../core/HttpMethod";
 
 export const validator = t.type({
+	juniorId: t.number,
+	instanceId: t.number,
 	doEnroll: t.boolean
 })
 

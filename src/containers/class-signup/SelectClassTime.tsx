@@ -70,7 +70,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		const times = (
 			shownInstances.length == 0
 			? `No ${self.props.apiResult.typeName} classes scheduled in that week.`
-			: <JpClassesAvailTable instances={shownInstances} />
+			: <JpClassesAvailTable instances={shownInstances} juniorId={this.props.personId} />
 		)
 
         const allRegions = (
