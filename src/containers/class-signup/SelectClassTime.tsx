@@ -13,6 +13,8 @@ import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../../util/form-update-state';
 import * as moment from 'moment'
 import PlaceholderLink from '../../components/PlaceholderLink';
+import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import { History } from 'history';
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 
@@ -28,7 +30,8 @@ export enum ClassAction {
 interface Props {
 	personId: number,
 	apiResult: APIResult,
-	weeks: t.TypeOf<typeof weeksValidator>
+	weeks: t.TypeOf<typeof weeksValidator>,
+	history: History<any>
 }
 
 const defaultForm = {
@@ -38,7 +41,8 @@ const defaultForm = {
 type Form = typeof defaultForm
 
 type State = {
-	formData: Form
+	formData: Form,
+	validationErrors: string[]
 }
 
 class FormSelect extends Select<Form> {}
@@ -54,7 +58,8 @@ export default class SelectClassTime extends React.Component<Props, State> {
 	constructor(props: Props){
 		super(props)
 		this.state = {
-			formData: defaultForm
+			formData: defaultForm,
+			validationErrors: []
 		}
 	}
 	render() {
@@ -70,11 +75,23 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		const times = (
 			shownInstances.length == 0
 			? `No ${self.props.apiResult.typeName} classes scheduled in that week.`
-			: <JpClassesAvailTable instances={shownInstances} juniorId={this.props.personId} />
+			: (<JpClassesAvailTable
+				instances={shownInstances}
+				juniorId={this.props.personId} 
+				history={this.props.history}
+				setValidationErrors={function(validationErrors: string[]) { console.log(validationErrors); return self.setState({ ...self.state, validationErrors }); }.bind(self)}
+				url={this.props.history.location.pathname}
+			/>)
 		)
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
 
         const allRegions = (
 			<React.Fragment>
+				{errorPopup}
 				<JoomlaArticleRegion title="Choose a Week">
 					{"All "}
 					{className}

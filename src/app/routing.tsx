@@ -79,6 +79,8 @@ export default function (history: History<any>) {
 	console.log("inside routing function")
 	console.log(asc.state)
 
+	console.log(`/redirect${paths.classTime.path}`);
+
 	// TODO: auto create all these redirect routes?
 	const mustNotBeLoggedIn = [
 		<Route key="/precreate" path="/precreate" render={() => <Gatekeeper />} />,
@@ -115,6 +117,14 @@ export default function (history: History<any>) {
 	const mustBeLoggedIn = [
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
 		<Route key="/redirect/checkout" path="/redirect/checkout" render={() => <Redirect to="/checkout" />} />,
+		<Route key={`/redirect${paths.classTime.path}`} path={`/redirect${paths.classTime.path}`} render={() => {
+			console.log("location ", history.location.pathname)
+			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${paths.classTime.path}`).getParams(history.location.pathname);
+			console.log(params)
+			const path = paths.classTime.path.replace(":personId", params.personId).replace(":typeId", params.typeId);
+			console.log("redirecting to ", path)
+			return <Redirect to={path} />;
+		}}/>,
 
 		<Route key="/settings" path="/settings" render={() => <PageWrapper
 			key="RatingsPage"
@@ -165,6 +175,7 @@ export default function (history: History<any>) {
 				personId={urlProps.personId}
 				apiResult={times}
 				weeks={weeks}
+				history={history}
 			/>}
 			urlProps={{
 				personId: Number(paths.classTime.getParams(history.location.pathname).personId),

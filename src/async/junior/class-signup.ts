@@ -8,11 +8,15 @@ export const validator = t.type({
 	doEnroll: t.boolean
 })
 
+const resultValidator = t.type({
+	signupId: t.number
+})
+
 const path = "/junior/class-signup"
 
-export const postWrapper = new APIWrapper<typeof t.string, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper<typeof resultValidator, t.TypeOf<typeof validator>, {}>({
 	path,
 	type: HttpMethod.POST,
-	resultValidator: t.string,
+	resultValidator,
 	fixedParams: {}
 })
