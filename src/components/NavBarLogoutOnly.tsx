@@ -3,9 +3,10 @@ import * as React from "react";
 import asc from "../app/AppStateContainer";
 import { logout } from "../async/logout";
 import PlaceholderLink from "./PlaceholderLink";
+import { History } from "history";
 
 
-export default () => (<React.Fragment>
+export default (props: {history: History<any>}) => (<React.Fragment>
 	System Time:  <span id="systime">12:12:35 PM</span> (refresh your browser to update!)
 	<PlaceholderLink>&nbsp;&nbsp;&nbsp;Adult Program</PlaceholderLink>
 	<a href="#" onClick={() => {
@@ -13,5 +14,6 @@ export default () => (<React.Fragment>
 		logout.send({type: "json", jsonData: {}}).then(() => {
 			asc.updateState.login.logout()
 		})
+		props.history.push("/");
 	}}>&nbsp;&nbsp;&nbsp;Logout</a>
 </React.Fragment>);

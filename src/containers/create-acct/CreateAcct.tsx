@@ -106,7 +106,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 
 		const main = (<React.Fragment>
 			{errorPopup}
-			<JoomlaArticleRegion title="First let's make you a parent account." buttons={buttons}>
+			<JoomlaArticleRegion title="Let's make you a parent account." buttons={buttons}>
 				<table><tbody>
 					<FormInput
 						id="firstName"
