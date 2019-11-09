@@ -3,6 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 const paths = require('./paths');
+const ini = require('ini');
+
+const config = ini.parse(fs.readFileSync(`./ini/private.ini`, 'utf-8'))
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
@@ -51,6 +54,7 @@ function getClientEnvironment(publicUrl) {
 				// This should only be used as an escape hatch. Normally you would put
 				// images into the `src` and `import` them in code to get their paths.
 				PUBLIC_URL: publicUrl,
+				config
 			}
 		);
 	// Stringify all values so we can feed into Webpack DefinePlugin
