@@ -10,6 +10,11 @@ import advanced from "./types/advanced";
 import beginner from "./types/beginner";
 import intermediate from "./types/intermediate";
 import other from './types/other';
+import JpClassSignupSidebar from '../../components/JpClassSignupSidebar';
+import { GetSignupsAPIResult } from '../../async/junior/get-signups';
+import { History } from 'history'
+import Button from '../../components/Button';
+import ErrorDiv from '../../theme/joomla/ErrorDiv';
 
 export const formName = "selectClassType"
 
@@ -36,14 +41,23 @@ const apiToForm = (apiResultArray: APIResult) => ({
 
 interface Props {
 	personId: number,
-	apiResultArray: APIResult
+	history: History<any>,
+	apiResultArray: APIResult,
+	signups: GetSignupsAPIResult
 }
 
-export default class SelectClassType extends React.Component<Props> {
+type State = {
+	validationErrors: string[]
+}
+
+export default class SelectClassType extends React.Component<Props, State> {
 	formData: Form
 	constructor(props: Props) {
 		super(props);
 		this.formData = apiToForm(this.props.apiResultArray);
+		this.state = {
+			validationErrors: []
+		}
 	}
 	render() {
 		const self = this;
@@ -89,8 +103,16 @@ export default class SelectClassType extends React.Component<Props> {
 			: ""
 		);
 
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
+
 		const allRegions = (
 			<React.Fragment>
+				{errorPopup}
+				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push("/"))}/>
 				{beginnerRegion}
 				{intermediateRegion}
 				{advancedRegion}
@@ -99,7 +121,11 @@ export default class SelectClassType extends React.Component<Props> {
 		);
 
 		return (
-			<Joomla8_4 main={allRegions} right={<JoomlaSidebarRegion title="sidebar"></JoomlaSidebarRegion>} />
+			<Joomla8_4 main={allRegions} right={<JpClassSignupSidebar
+				signups={self.props.signups}
+				history={self.props.history}
+				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}
+			/>} />
 		)
 	}
 }

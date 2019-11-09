@@ -15,6 +15,9 @@ import * as moment from 'moment'
 import PlaceholderLink from '../../components/PlaceholderLink';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import { History } from 'history';
+import JpClassSignupSidebar from '../../components/JpClassSignupSidebar';
+import { GetSignupsAPIResult } from '../../async/junior/get-signups';
+import Button from '../../components/Button';
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 
@@ -31,6 +34,7 @@ interface Props {
 	personId: number,
 	apiResult: APIResult,
 	weeks: t.TypeOf<typeof weeksValidator>,
+	signups: GetSignupsAPIResult,
 	history: History<any>
 }
 
@@ -91,6 +95,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 
         const allRegions = (
 			<React.Fragment>
+				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(`/class/${self.props.personId}`))}/>
 				{errorPopup}
 				<JoomlaArticleRegion title="Choose a Week">
 					{"All "}
@@ -115,7 +120,11 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		);
 
 		return (
-			<Joomla8_4 main={allRegions} right={<JoomlaSidebarRegion title="sidebar"></JoomlaSidebarRegion>} />
+			<Joomla8_4 main={allRegions} right={<JpClassSignupSidebar
+				signups={self.props.signups}
+				history={self.props.history}
+				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}
+			/>} />
 		)
 	}
 }

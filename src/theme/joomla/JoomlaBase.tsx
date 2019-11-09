@@ -472,7 +472,6 @@ class JoomlaHelmet extends React.Component {
 class JoomlaBody extends React.Component {
     render() {
         return (<div>
-            <div id="dhtmltooltip"></div>
             {/*
             <link rel="stylesheet" href="https://portal2.community-boating.org/ords/cbi_prod/r/files/static/v14Y/tooltip.css" type="text/css" media="screen" />
             <script src="https://portal2.community-boating.org/ords/cbi_prod/r/files/static/v14Y/tooltip.js" type="text/javascript"></script>

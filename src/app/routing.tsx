@@ -27,6 +27,7 @@ import CreateAccount from '../containers/create-acct/CreateAcct';
 import ScholarshipResultsPage from '../containers/ScholarshipResults';
 import RequiredInfo from '../containers/registration/RequiredInfo';
 import { defaultValue as requiredDefaultForm } from '../async/junior/required'
+import  {getWrapper as getSignups, GetSignupsAPIResult } from "../async/junior/get-signups"
 import AccountSettingsPage from '../containers/AccountSettings';
 import PaymentDetailsPage from '../containers/checkout/PaymentDetails';
 import CheckoutWizard from '../containers/checkout/CheckoutWizard';
@@ -118,11 +119,13 @@ export default function (history: History<any>) {
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
 		<Route key="/redirect/checkout" path="/redirect/checkout" render={() => <Redirect to="/checkout" />} />,
 		<Route key={`/redirect${paths.classTime.path}`} path={`/redirect${paths.classTime.path}`} render={() => {
-			console.log("location ", history.location.pathname)
 			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${paths.classTime.path}`).getParams(history.location.pathname);
-			console.log(params)
 			const path = paths.classTime.path.replace(":personId", params.personId).replace(":typeId", params.typeId);
-			console.log("redirecting to ", path)
+			return <Redirect to={path} />;
+		}}/>,
+		<Route key={`/redirect${paths.class.path}`} path={`/redirect${paths.class.path}`} render={() => {
+			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${paths.class.path}`).getParams(history.location.pathname);
+			const path = paths.class.path.replace(":personId", params.personId);
 			return <Redirect to={path} />;
 		}}/>,
 
@@ -158,24 +161,33 @@ export default function (history: History<any>) {
 
 		<Route key="class" path={paths.class.path} render={() => <PageWrapper
 			key="SelectClassType"
-			component={(urlProps: {personId: number}, async: t.TypeOf<typeof seeTypesValidator>) => <SelectClassType
+			component={(urlProps: {personId: number}, [apiResult, signups]: [t.TypeOf<typeof seeTypesValidator>, GetSignupsAPIResult]) => <SelectClassType
 				personId={urlProps.personId}
-				apiResultArray={async}
+				apiResultArray={apiResult}
+				history={history}
+				signups={signups}
 			/>}
 			urlProps={{personId: Number(paths.class.getParams(history.location.pathname).personId)}}
 			shadowComponent={<span>hi!</span>}
 			getAsyncProps={(urlProps: {personId: number}) => {
-				return seeTypesWrapper(urlProps.personId).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+				return Promise.all([
+					seeTypesWrapper(urlProps.personId).send(null),
+					getSignups(urlProps.personId).send(null)
+				]).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
 		/>} />,
 
 		<Route key="classTime" path={paths.classTime.path} render={() => <PageWrapper
 			key="SelectClassTime"
-			component={(urlProps: {personId: number, typeId: number}, [times, weeks]: [t.TypeOf<typeof classTimesValidator>, t.TypeOf<typeof weeksValidator>]) => <SelectClassTime
+			component={(
+				urlProps: {personId: number, typeId: number},
+				[times, weeks, signups]: [t.TypeOf<typeof classTimesValidator>, t.TypeOf<typeof weeksValidator>, GetSignupsAPIResult]
+			) => <SelectClassTime
 				personId={urlProps.personId}
 				apiResult={times}
 				weeks={weeks}
 				history={history}
+				signups={signups}
 			/>}
 			urlProps={{
 				personId: Number(paths.classTime.getParams(history.location.pathname).personId),
@@ -185,7 +197,8 @@ export default function (history: History<any>) {
 			getAsyncProps={(urlProps: {personId: number, typeId: number}) => {
 				return Promise.all([
 					classTimesWrapper(urlProps.typeId, urlProps.personId).send(null),
-					getWeeks.send(null)
+					getWeeks.send(null),
+					getSignups(urlProps.personId).send(null)
 				]).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
 		/>} />,
