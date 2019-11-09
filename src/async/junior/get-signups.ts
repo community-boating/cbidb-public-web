@@ -21,7 +21,8 @@ const waitListTopAPIResultValidator = t.type({
 	dateString: t.string,
 	timeString: t.string,
 	offerExpiresString: t.string,
-	offerExpDatetime: t.string
+	offerExpDatetime: t.string,
+	nowDateTime: t.string
 });
 
 export type WaitListTopAPIResult = t.TypeOf<typeof waitListTopAPIResultValidator>;

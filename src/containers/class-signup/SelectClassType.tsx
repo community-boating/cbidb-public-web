@@ -112,6 +112,7 @@ export default class SelectClassType extends React.Component<Props, State> {
 		const allRegions = (
 			<React.Fragment>
 				{errorPopup}
+				<br />
 				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push("/"))}/>
 				{beginnerRegion}
 				{intermediateRegion}
