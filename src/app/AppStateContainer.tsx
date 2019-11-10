@@ -1,4 +1,5 @@
 import { none, Option, some } from 'fp-ts/lib/Option';
+import * as Sentry from '@sentry/browser';
 
 import { apiw } from "../async/authenticate-member";
 import { PostString, ServerParams } from '../core/APIWrapper';
@@ -65,7 +66,10 @@ export class AppStateContainer {
 						...self.state.login,
 						authenticatedUserName: some(userName)
 					}
-				})
+				});
+				Sentry.configureScope(function(scope) {
+					scope.setUser({"username": userName});
+				});
 			}).bind(this),
 			attemptLogin: (function(userName: string, password: string): Promise<boolean> {
 				const self: AppStateContainer = this
