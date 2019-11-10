@@ -47,14 +47,14 @@ export const paths = {
 	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId")
 }
 
-const getClassesAndPreregistrations = () => {
+export const getClassesAndPreregistrations = () => {
 	return getProtoPersonCookie.send(null)
-	.then(() => {
-		return Promise.all([
-			getClassesWithAvail.send(null),
-			getReservations.send(null)
-		])
-	})
+	.then(() => getReservations.send(null))
+	.then(prereg => new Promise((resolve, reject) => {
+		getClassesWithAvail.send(null).then(classes => {
+			resolve([classes, prereg])
+		}, err => reject(err))
+	}))
 	.then(([classes, prereg]) => {
 		if (classes.type == "Success" && prereg.type == "Success") {
 			return Promise.resolve({type: "Success", success: {
@@ -92,7 +92,7 @@ export default function (history: History<any>) {
 			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
 				history={history}
 				startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
-				apiResult={async.classes}
+				apiResultStart={async.classes}
 			/>}
 			urlProps={{}}
 			shadowComponent={<span>hi!</span>}

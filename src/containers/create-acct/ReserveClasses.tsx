@@ -22,6 +22,8 @@ import { History } from 'history';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import {postWrapper as deleteJunior} from '../../async/junior/delete-junior-class-reservation'
 import moment = require('moment');
+import {getWrapper as getClassesWithAvail} from "../../async/class-instances-with-avail"
+import { getClassesAndPreregistrations } from '../../app/routing';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -29,9 +31,8 @@ export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	isMorning: boolean
 };
 
-
 type Props = {
-	apiResult: ClassInstanceObject[],
+	apiResultStart: ClassInstanceObject[],
 	startingPreRegistrations: PreRegistration[],
 	history: History<any>
 }
@@ -74,6 +75,7 @@ export const preRegRender = (then: () => void) => (prereg: PreRegistration, i: n
 export type Form = typeof defaultForm
 
 type State = {
+	apiResult: ClassInstanceObject[],
 	formData: Form,
 	preRegistrations: PreRegistration[],
 	validationErrors: string[]
@@ -189,6 +191,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
+			apiResult: props.apiResultStart,
 			formData: defaultForm,
 			validationErrors: [],
 			preRegistrations: this.props.startingPreRegistrations
@@ -230,8 +233,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		const classStarted = (c: ClassInstanceObject) => c.action == "Begun"
 
 		const submitAction = () => {
-			const beginner = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
-			const intermediate = optionify(self.props.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
+			const beginner = optionify(self.state.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
+			const intermediate = optionify(self.state.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
 			if (self.state.formData.juniorFirstName.getOrElse("").length == 0) {
 				this.setState({
 					...this.state,
@@ -286,11 +289,21 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						})
 						return Promise.resolve();
 					} else {
-						this.setState({
-							...this.state,
-							validationErrors: [resp.message || "An error has occurred; please try again later.  If this message persists contact the Front Office at 617-523-1038."]
+						return getClassesAndPreregistrations().then(res => {
+							if (res.type == "Success") {
+								this.setState({
+									...this.state,
+									apiResult: res.success.classes,
+									validationErrors: [resp.message || "An error has occurred; please try again later.  If this message persists contact the Front Office at 617-523-1038."]
+								});
+							} else {
+								this.setState({
+									...this.state,
+									validationErrors: [resp.message || "An error has occurred; please try again later.  If this message persists contact the Front Office at 617-523-1038."]
+								})
+							}							
+							return Promise.reject();
 						})
-						return Promise.reject();
 					}
 					
 				}, err => {
@@ -348,7 +361,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					"selectedBeginnerInstance",
 					updateStateWrappedForID,
 					self.state.formData.selectedBeginnerInstance,
-					self.props.apiResult
+					self.state.apiResult
 						.filter(c => c.typeId == jpClassTypeId_BeginnerSailing)
 						.filter(c => c.isMorning == (self.state.formData.beginnerMorningAfternoon.getOrElse("") == "Morning"))
 				)}
@@ -365,7 +378,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					"selectedIntermediateInstance",
 					updateStateWrappedForID,
 					self.state.formData.selectedIntermediateInstance,
-					self.props.apiResult
+					self.state.apiResult
 						.filter(c => c.typeId == jpClassTypeId_IntermediateSailing)
 						.filter(c => c.isMorning == (self.state.formData.intermediateMorningAfternoon.getOrElse("") == "Morning"))
 				)}
