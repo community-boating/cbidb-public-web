@@ -5,6 +5,7 @@ import * as React from "react";
 import { getWrapper as emergContactAPI, validator as emergContactValidator } from "../../../async/junior/emerg-contact";
 import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator, defaultValue as requiredFormDefault} from "../../../async/junior/required";
 import { getWrapper as surveyAPI, validator as surveyValidator } from "../../../async/junior/survey";
+import { getWrapper as swimAPI, validator as swimValidator } from "../../../async/junior/swim-proof";
 import PageWrapper from "../../../core/PageWrapper";
 import ProgressThermometer from "../../../components/ProgressThermometer";
 import { State as BreadcrumbState} from "../../../core/Breadcrumb";
@@ -20,6 +21,7 @@ import ScholarshipResultsPage from "../../ScholarshipResults";
 import { Option, some } from "fp-ts/lib/Option";
 import { apiw as welcomeAPI } from "../../../async/member-welcome";
 import { Form as HomePageForm } from '../../../containers/HomePage';
+import SwimProof from "../SwimProof";
 
 // TODO: these shouldnt be here, duplicative
 export const regPath = "/reg/:personId"
@@ -140,6 +142,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 				component={() => <TermsConditions
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
+					personId={self.state.personId.getOrElse(-1)}
 				/>}
 				{...pageWrapperProps}
 			/>,
@@ -192,10 +195,23 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 				{...pageWrapperProps}
 			/>,
 			breadcrumbHTML: <React.Fragment>Emergency<br />Contact</React.Fragment>
-		}, /*{
-			clazz: SwimProof,
+		}, {
+			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+				key="SwimProof"
+				component={(urlProps: {}, async: t.TypeOf<typeof swimValidator>) => <SwimProof
+					initialFormData={async}
+					{...staticComponentProps}
+					{...mapWizardProps(fromWizard)}
+					personId={self.state.personId.getOrElse(-1)}
+				/>}
+				getAsyncProps={(urlProps: {}) => {
+					if (self.state.personId.isNone()) return abort();
+					else return swimAPI(self.state.personId.getOrElse(-1)).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+				}}
+				{...pageWrapperProps}
+			/>,
 			breadcrumbHTML: <React.Fragment>Swim<br />Proof</React.Fragment>
-		}, */{
+		}, {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="SurveyInfo"
 				component={(urlProps: {}, async: t.TypeOf<typeof surveyValidator>) => <SurveyInfo

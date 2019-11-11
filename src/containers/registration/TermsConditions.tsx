@@ -1,4 +1,4 @@
-import { none, some } from "fp-ts/lib/Option";
+import { none, some, Option } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
 
@@ -7,8 +7,11 @@ import { RadioGroup } from "../../components/InputGroup";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
+import {apiw as accept} from "../../async/junior/accept-tos"
+import { PostJSON } from "../../core/APIWrapper";
 
 interface Props {
+	personId: number,
 	history: History<any>
 	breadcrumb: JSX.Element,
 	goNext: () => Promise<void>,
@@ -53,7 +56,9 @@ export default class TermsConditions extends React.Component<Props, {radio: stri
 				/>
 			</JoomlaNotitleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
-			{(self.state || {} as any).radio == "Yes" ? <Button text="Next >" onClick={self.props.goNext}/> : ""}
+			{(self.state || {} as any).radio == "Yes" ? <Button text="Next >" onClick={() => 
+				accept.send(PostJSON({personId: self.props.personId})).then(self.props.goNext)
+			}/> : ""}
 		</JoomlaMainPage>
 	}
 }

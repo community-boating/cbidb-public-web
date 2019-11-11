@@ -1,10 +1,10 @@
 import * as t from 'io-ts';
 import APIWrapper from '../../core/APIWrapper';
 import { HttpMethod } from "../../core/HttpMethod";
-import { OptionalNumber } from '../../util/OptionalTypeValidators';
+import { OptionalNumber, OptionalString } from '../../util/OptionalTypeValidators';
 
 export const validator = t.type({
-	swimProofId: OptionalNumber
+	swimProofId: OptionalString
 })
 
 const path = "/junior/swim-proof"

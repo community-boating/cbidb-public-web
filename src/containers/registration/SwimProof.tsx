@@ -1,4 +1,4 @@
-import { Option } from "fp-ts/lib/Option";
+import { Option, some } from "fp-ts/lib/Option";
 import * as React from "react";
 
 import { postWrapper } from "../../async/junior/swim-proof";
@@ -23,9 +23,6 @@ type Props = {
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
 	breadcrumb: JSX.Element,
-	jpDirectorNameFirst: string,
-	jpDirectorNameLast: string,
-	jpDirectorEmail: string,
 	initialFormData: Form,
 }
 
@@ -34,6 +31,12 @@ interface State {
 }
 
 export default class SwimProof extends React.Component<Props, State> {
+	constructor(props: Props) {
+		super(props);
+		this.state = {
+			formData: props.initialFormData
+		}
+	}
 	render() {
 		const self = this;
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
@@ -53,8 +56,6 @@ export default class SwimProof extends React.Component<Props, State> {
                 ability on Pool Letterhead" swim proof option for your child.
             </div>
         </JoomlaNotitleRegion>)
-
-		const mailto = "mailto:" + self.props.jpDirectorEmail
 	
 		return <JoomlaMainPage>
 			<JoomlaNotitleRegion>
@@ -78,14 +79,15 @@ export default class SwimProof extends React.Component<Props, State> {
                 <span>
                 If you believe you have a proof of swimming ability not on the above list,
                 <br />
-                please email {self.props.jpDirectorNameFirst} {self.props.jpDirectorNameLast} at <a href={mailto}>{self.props.jpDirectorEmail}</a>.
+                please email Niko Kotsatos, Junior Program Director, at <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
                 </span>
 			</JoomlaNotitleRegion>
 			<Button text="< Back" onClick={this.props.goPrev}/>
-			<Button text="Next >" onClick={() => {
-				return postWrapper(this.props.personId).send(PostJSON({swimProofId: this.state.formData.swimProofId.map(Number)}))
+			{self.state.formData.swimProofId.getOrElse("-1") != "-1" ? <Button text="Next >" onClick={() => {
+				return postWrapper(this.props.personId).send(PostJSON({swimProofId: this.state.formData.swimProofId} ))
 					.then(this.props.goNext)
-			}}/>
+			}}/> : null}
+			
 		</JoomlaMainPage>
 	}
 }
