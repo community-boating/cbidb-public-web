@@ -1,4 +1,5 @@
 const countries = [
+    {key: "US", display: "United States"},
     {key: "AX", display: "Aland Islands"},
     {key: "AL", display: "Albania"},
     {key: "DZ", display: "Algeria"},
@@ -228,7 +229,6 @@ const countries = [
     {key: "UA", display: "Ukraine"},
     {key: "AE", display: "United Arab Emirates"},
     {key: "GB", display: "United Kingdom"},
-    {key: "US", display: "United States"},
     {key: "UM", display: "United States Minor Outlying Islands"},
     {key: "UY", display: "Uruguay"},
     {key: "UZ", display: "Uzbekistan"},
