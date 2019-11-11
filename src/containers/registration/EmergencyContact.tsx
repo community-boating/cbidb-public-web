@@ -13,6 +13,7 @@ import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../util/form-update-state';
+import ErrorDiv from "../../theme/joomla/ErrorDiv";
 
 export const formName = "emergencyContact"
 
@@ -86,14 +87,16 @@ interface Props {
 }
 
 interface State {
-	formData: Form
+	formData: Form,
+	validationErrors: string[]
 }
 
 export default class EmergencyContact extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
-			formData: apiToForm(this.props.initialFormData)
+			formData: apiToForm(this.props.initialFormData),
+			validationErrors: []
 		};
 	}
 	render() {
@@ -190,8 +193,14 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 			</tbody></table>
 		);
 
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
 		
 		return <JoomlaMainPage>
+			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
@@ -200,7 +209,17 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" onClick={() => {
-				return postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(self.props.goNext)
+				return postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(res => {
+					if (res.type == "Success") {
+						self.props.goNext()
+					} else {
+						window.scrollTo(0, 0);
+						self.setState({
+							...self.state,
+							validationErrors: res.message.split("\\n") // TODO
+						});
+					}
+				})
 			}}/>
 		</JoomlaMainPage>
 	}

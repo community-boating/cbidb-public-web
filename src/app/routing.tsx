@@ -32,6 +32,7 @@ import AccountSettingsPage from '../containers/AccountSettings';
 import PaymentDetailsPage from '../containers/checkout/PaymentDetails';
 import CheckoutWizard from '../containers/checkout/CheckoutWizard';
 import {apiw as getWeeks, weeksValidator} from "../async/weeks"
+import {apiw as getStaticYearly} from "../async/static-yearly-data"
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -43,6 +44,7 @@ function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 export const paths = {
 	ratings: pathAndParamsExtractor<{personId: string}>("/ratings/:personId"),
 	reg: pathAndParamsExtractor<{personId: string}>("/reg/:personId"),
+	edit: pathAndParamsExtractor<{personId: string}>("/edit/:personId"),
 	class: pathAndParamsExtractor<{personId: string}>("/class/:personId"),
 	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId")
 }
@@ -108,10 +110,24 @@ export default function (history: History<any>) {
 			shadowComponent={<span>hi!</span>}
 			getAsyncProps={getClassesAndPreregistrations}
 		/>} />,
-		<Route key="default" render={() => <LoginPage 
-			jpPrice={Currency.dollars(300)}
-			lastSeason={2018}
-			doLogin={asc.updateState.login.attemptLogin}
+		<Route key="default" render={() => <PageWrapper
+			key="CreateAccountPage"
+			component={(urlProps: {}, async: any) => <LoginPage 
+				jpPrice={async[0]}
+				lastSeason={async[1]}
+				doLogin={asc.updateState.login.attemptLogin}
+			/>}
+			urlProps={{}}
+			shadowComponent={<span>hi!</span>}
+			getAsyncProps={(urlProps: {}) => {
+				return getStaticYearly.send(null).then(res => {
+					if (res.type == "Failure") {
+						return Promise.resolve({type: "Success", success: [none, none]})
+					} else {
+						return Promise.resolve({type: "Success", success: [some(Currency.dollars(res.success.data.rows[0][0])), some(res.success.data.rows[0][1]-1)]})
+					}
+				});  // TODO: handle failure
+			}}
 		/>} />,
 	]
 
@@ -208,12 +224,39 @@ export default function (history: History<any>) {
 			key="reg"
 			component={(urlProps: {personId: number}, async: HomePageForm) => <RegistrationWizard
 				history={history}
-				personId={some(urlProps.personId)}
+				personIdStart={some(urlProps.personId)}
 				jpPrice={async.jpPrice}
 				jpOffseasonPrice={async.jpOffseasonPrice}
+				includeTOS={true}
+				parentPersonId={async.parentPersonId}
+				currentSeason={async.season}
 			/>}
 			urlProps={{
 				personId: Number(paths.reg.getParams(history.location.pathname).personId),
+			}}
+			shadowComponent={<span>hi!</span>}
+			getAsyncProps={(urlProps: {}) => {
+				return welcomeAPI.send(null).then(ret => {
+					if (ret.type == "Success") {
+						return Promise.resolve(ret)
+					} else return Promise.reject();
+				}).catch(err => Promise.resolve(null));  // TODO: handle failure
+			}}
+		/>} />,
+
+		<Route key="edit" path={paths.edit.path} render={() => <PageWrapper
+			key="edit"
+			component={(urlProps: {personId: number}, async: HomePageForm) => <RegistrationWizard
+				history={history}
+				personIdStart={some(urlProps.personId)}
+				jpPrice={async.jpPrice}
+				jpOffseasonPrice={async.jpOffseasonPrice}
+				includeTOS={false}
+				parentPersonId={async.parentPersonId}
+				currentSeason={async.season}
+			/>}
+			urlProps={{
+				personId: Number(paths.edit.getParams(history.location.pathname).personId),
 			}}
 			shadowComponent={<span>hi!</span>}
 			getAsyncProps={(urlProps: {}) => {
@@ -229,9 +272,12 @@ export default function (history: History<any>) {
 			key="regEmpty"
 			component={(urlProps: {}, async: HomePageForm) => <RegistrationWizard
 				history={history}
-				personId={none}
+				personIdStart={none}
 				jpPrice={async.jpPrice}
 				jpOffseasonPrice={async.jpOffseasonPrice}
+				includeTOS={true}
+				parentPersonId={async.parentPersonId}
+				currentSeason={async.season}
 			/>}
 			urlProps={{}}
 			shadowComponent={<span>hi!</span>}

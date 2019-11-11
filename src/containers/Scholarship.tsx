@@ -182,8 +182,8 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 						<br />
 						<br />
 						Adjusted Gross Income is defined as gross income minus adjustments to income.
-						We suggest you refer to your 2017 federal income tax return to get a quick estimate of your 2018 AGI.
-						On your 2017 return, please refer to:<br />
+						We suggest you refer to your {self.props.currentSeason-2} federal income tax return to get a quick estimate of your {self.props.currentSeason-1} AGI.
+						On your {self.props.currentSeason-2} return, please refer to:<br />
 						<br />
 						<ul>
 							<li>Line 4 if you filed a Form 1040EZ</li>

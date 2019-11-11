@@ -18,7 +18,9 @@ export const validator = t.type({
 		status: OptionalString,
 		actions: OptionalString,
 		ratings: OptionalString
-	}))
+	})),
+	serverTime: t.string,
+	season: t.number
 })
 
 type Result = t.TypeOf<typeof validator>

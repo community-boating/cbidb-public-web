@@ -9,6 +9,7 @@ import JoomlaReport from "../theme/joomla/JoomlaReport";
 import homePageActions from "./HomePageActions";
 import Button from '../components/Button';
 import { History } from 'history';
+import moment = require('moment');
 
 export type Form = t.TypeOf<typeof validator>;
 
@@ -35,7 +36,7 @@ export default class HomePage extends React.Component<Props> {
 			<JoomlaReport headers={["Name", "Status", "Actions"]} rows={rowData.map(r => [r.name, r.status, r.actions])}/>
 		</JoomlaArticleRegion>
 
-		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history})}>
+		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: moment(this.props.data.serverTime)})}>
 			{mainTable}
 			<Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" />
 			<Button onClick={() => Promise.resolve(this.props.history.push("/reg"))} text="Add new Junior" />

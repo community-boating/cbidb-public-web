@@ -7,7 +7,7 @@ import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator, defa
 import { getWrapper as surveyAPI, validator as surveyValidator } from "../../../async/junior/survey";
 import PageWrapper from "../../../core/PageWrapper";
 import ProgressThermometer from "../../../components/ProgressThermometer";
-import { State } from "../../../core/Breadcrumb";
+import { State as BreadcrumbState} from "../../../core/Breadcrumb";
 import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "../../../core/WizardPageflow";
 import Currency from "../../../util/Currency";
 import ScholarshipPage from "../../Scholarship";
@@ -17,26 +17,46 @@ import SurveyInfo from "../SurveyInfo";
 import TermsConditions from "../TermsConditions";
 import { DoublyLinkedList } from "../../../util/DoublyLinkedList";
 import ScholarshipResultsPage from "../../ScholarshipResults";
-import { Option } from "fp-ts/lib/Option";
+import { Option, some } from "fp-ts/lib/Option";
 import { apiw as welcomeAPI } from "../../../async/member-welcome";
 import { Form as HomePageForm } from '../../../containers/HomePage';
 
-export const path = "/reg/:personId"
+// TODO: these shouldnt be here, duplicative
+export const regPath = "/reg/:personId"
+export const editPath = "/edit/:personId"
 
 
-const mapElementToBreadcrumbState: (element: WizardNode) => State = e => ({
+const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
 	display: e.breadcrumbHTML
 })
 
-type Props = {history: History<any>, personId: Option<number>, jpPrice: Option<number>, jpOffseasonPrice: Option<number>};
+type Props = {
+	history: History<any>,
+	personIdStart: Option<number>,
+	jpPrice: Option<number>,
+	jpOffseasonPrice: Option<number>,
+	includeTOS: boolean,
+	parentPersonId: number,
+	currentSeason: number
+};
 
-export default class RegistrationWizard extends React.Component<Props> {
+type State = {
+	personId: Option<number>,
+}
+
+export default class RegistrationWizard extends React.Component<Props, State> {
+	constructor(props){
+		super(props)
+		this.state = {
+			personId: props.personIdStart
+		};
+	}
 	render() {
 		const self = this;
 		const staticComponentProps = {
 			history: this.props.history,
-			personId: this.props.personId,
+			personId: this.state.personId,
 		}
 
 		const abort = () => {
@@ -63,9 +83,9 @@ export default class RegistrationWizard extends React.Component<Props> {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="ScholarshipPage"
 				component={() => <ScholarshipPage
-					parentPersonId={188911} //TODO: replace with app state
-					currentSeason={2018}
-					jpPrice={Currency.dollars(300)}
+					parentPersonId={self.props.parentPersonId} //TODO: replace with app state
+					currentSeason={self.props.currentSeason}
+					jpPrice={Currency.dollars(self.props.jpPrice.getOrElse(300))}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
@@ -103,7 +123,6 @@ export default class RegistrationWizard extends React.Component<Props> {
 				shadowComponent={<span>hi!</span>}
 				getAsyncProps={() => {
 					return welcomeAPI.send(null).catch(err => Promise.resolve(null)).then(res => {
-						console.log("%%% ", res)
 						if (res.type != "Success" || !res.success || res.success.jpPrice.isNone() || res.success.jpOffseasonPrice.isNone()) {
 							// TODO: this is bad
 							return abort();
@@ -114,26 +133,39 @@ export default class RegistrationWizard extends React.Component<Props> {
 			/>,
 			breadcrumbHTML: <React.Fragment>Scholarship<br />Results</React.Fragment>
 		}]
+
+		const maybeTOS = this.props.includeTOS ? [{
+			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+				key="TermsConditions"
+				component={() => <TermsConditions
+					{...staticComponentProps}
+					{...mapWizardProps(fromWizard)}
+				/>}
+				{...pageWrapperProps}
+			/>,
+			breadcrumbHTML: <React.Fragment>Terms and <br />Conditions</React.Fragment>
+		}] : [];
 	
 		const otherNodes = [{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="RequiredInfo"
 				component={(urlProps: {}, async: t.TypeOf<typeof requiredInfoValidator>) => <RequiredInfo
 					initialFormData={async}
+					bindPersonId={personId => self.setState({ ...self.state, personId: some(personId) })}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
 				getAsyncProps={(urlProps: {}) => {
 					console.log("in getAsyncProps for requiredInfo")
-					if (self.props.personId.isNone()) {
+					if (self.state.personId.isNone()) {
 						return Promise.resolve({
 							type: "Success",
 							success: requiredFormDefault
 						});
 					} else {
-						return requiredInfoAPI(self.props.personId.getOrElse(-1)).send(null).then(ret => {
+						return requiredInfoAPI(self.state.personId.getOrElse(-1)).send(null).then(ret => {
 							if (ret.type == "Failure") {
-								console.log("error getting reqInfo for junior " + self.props.personId, ret)
+								console.log("error getting reqInfo for junior " + self.state.personId, ret)
 								self.props.history.push("/")
 							}
 							return Promise.resolve(ret);
@@ -151,11 +183,11 @@ export default class RegistrationWizard extends React.Component<Props> {
 					initialFormData={async}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
-					personId={staticComponentProps.personId.getOrElse(-1)}
+					personId={self.state.personId.getOrElse(-1)}
 				/>}
 				getAsyncProps={(urlProps: {}) => {
-					if (self.props.personId.isNone()) return abort();
-					else return emergContactAPI(self.props.personId.getOrElse(-1)).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+					if (self.state.personId.isNone()) return abort();
+					else return emergContactAPI(self.state.personId.getOrElse(-1)).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 				{...pageWrapperProps}
 			/>,
@@ -173,23 +205,13 @@ export default class RegistrationWizard extends React.Component<Props> {
 					personId={staticComponentProps.personId.getOrElse(-1)}
 				/>}
 				getAsyncProps={(urlProps: {}) => {
-					if (self.props.personId.isNone()) return abort();
-					else return surveyAPI(self.props.personId.getOrElse(-1)).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+					if (self.state.personId.isNone()) return abort();
+					else return surveyAPI(self.state.personId.getOrElse(-1)).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 				{...pageWrapperProps}
 			/>,
 			breadcrumbHTML: <React.Fragment>Survey<br />Information</React.Fragment>
-		}, {
-			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
-				key="TermsConditions"
-				component={() => <TermsConditions
-					{...staticComponentProps}
-					{...mapWizardProps(fromWizard)}
-				/>}
-				{...pageWrapperProps}
-			/>,
-			breadcrumbHTML: <React.Fragment>Terms and <br />Conditions</React.Fragment>
-		}]
+		}].concat(maybeTOS)
 	
 		const nodes = maybeScholarship.concat(otherNodes)
 	

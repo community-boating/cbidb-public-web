@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Link } from 'react-router-dom';
 
 import PlaceholderLink from "../components/PlaceholderLink";
-import {path as registrationPath} from "../containers/registration/pageflow/RegistrationWizard"
+import {regPath, editPath} from "../containers/registration/pageflow/RegistrationWizard"
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)
@@ -10,10 +10,11 @@ function testBit(num: number, bit: number){
 
 //TODO: paths are duplicated here, import from classes and replace :personId
 export default (bv: number, juniorId: number) => {
-	const req = registrationPath.replace(":personId", String(juniorId))
+	const reg = regPath.replace(":personId", String(juniorId))
+	const edit = editPath.replace(":personId", String(juniorId))
     const actions = [{
         place: 3,
-        element: <Link to={req}>{"Edit Information"}</Link>
+        element: <Link to={edit}>{"Edit Information"}</Link>
     }, {
         place: 4,
         element: <Link to={"/ratings/" + juniorId}>{"View Ratings"}</Link>
@@ -54,11 +55,11 @@ export default (bv: number, juniorId: number) => {
 
     return (function() {
         if (testBit(bv, 0)) {
-            return [<Link to={req}>{"Purchase Summer Membership and/or Spring Class"}</Link>];
+            return [<Link to={reg}>{"Purchase Summer Membership and/or Spring Class"}</Link>];
         } else if (testBit(bv, 1)) {
-            return [<Link to={req}>{"Purchase Summer Membership"}</Link>];
+            return [<Link to={reg}>{"Purchase Summer Membership"}</Link>];
         } else if (testBit(bv, 2)) {
-            return [<Link to={req}>{"Edit Registration"}</Link>]
+            return [<Link to={reg}>{"Edit Registration"}</Link>]
         } else return [];
     }()).concat(actions.filter(({place}) => testBit(bv, place)).map(({element}) => element))
     .map((element, i) => <li key={i}>{element}</li>)

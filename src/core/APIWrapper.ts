@@ -172,11 +172,13 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 			return ret;
 		}, err => {
 			console.log("Error: ", err)
-			const ret: Return = Promise.resolve({type: "Failure", code: "fail_during_send", message: "An internal error has occurred.", extra: {err}})
+			const ret: Return = Promise.resolve({type: "Failure", code: "fail_during_send", message: "An internal error has occurred.", extra: {err}});
+			console.log(ret);
 			return ret;
 		})
 		.catch(err => {
 			const ret: Return = Promise.resolve({type: "Failure", code: "fail_during_parse", message: "An internal error has occurred.", extra: {err}});
+			console.log(ret)
 			return ret;
 		})
 	}
@@ -191,6 +193,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 			parsed = JSON.parse(response)
 		} catch (e) {
 			const catchRet: Return = {type: "Failure", code: "client_not_json", message: "An internal error has occurred.", extra: {rawResponse: response}};
+			console.log(catchRet)
 			return catchRet;
 		}
 		
@@ -202,6 +205,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 				asc.updateState.login.logout();
 			}
 			const ret2: Return = {type: "Failure", code: parsed.error.code, message: parsed.error.message, extra: parsed.error}
+			console.log(ret2)
 			return ret2
 		}
 
@@ -248,6 +252,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 				ret = {type: "Success", success: decoded.getOrElse(null)};
 			} else {
 				ret = {type: "Failure", code: "parse_failure", message: "An internal error has occurred.", extra: {parseError: PathReporter.report(decoded).join(", ")}};
+				console.log(ret)
 			} 
 			return ret;
 		}());

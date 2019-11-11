@@ -34,8 +34,8 @@ export const formDefault = {
 // })
 
 interface Props {
-	jpPrice: Currency,
-	lastSeason: number,
+	jpPrice: Option<Currency>,
+	lastSeason: Option<number>,
 	doLogin: (userName: string, password: string) => Promise<boolean>
 }
 
@@ -102,8 +102,8 @@ export default class LoginPage extends React.Component<Props, State> {
 
 		const scholarshipRegion = (
 			<JoomlaArticleRegion title="Scholarships are available to provide sailing for all.">
+				{self.props.jpPrice.isSome() ? `The price of a Junior Program membership is ${self.props.jpPrice.getOrElse(null).format(true)}.` : ""}
 				{`
-					The price of a Junior Program membership is ${self.props.jpPrice.format(true)}.
 					Community Boating Inc. provides scholarships for families in need
 					so that every child has an opportunity to enroll in the Junior Program.
 					To find out if you qualify for a scholarship,
@@ -123,7 +123,7 @@ export default class LoginPage extends React.Component<Props, State> {
 						</Link></li>
 					</ul>
 					<br />
-					{`If your child was a member in ${self.props.lastSeason}, please use your email and password from last season, ` + 
+					{`If your child was a member last season, please use your email and password from last season, ` + 
 					`rather than creating a new account.`}
 				</div>
 			</JoomlaArticleRegion>

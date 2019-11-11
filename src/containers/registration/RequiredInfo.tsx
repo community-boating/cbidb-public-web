@@ -84,7 +84,8 @@ interface Props {
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
 	breadcrumb: JSX.Element,
-	history: History<any>
+	history: History<any>,
+	bindPersonId: (personId: number) => void
 }
 
 interface State {
@@ -304,9 +305,9 @@ export default class RequiredInfo extends React.Component<Props, State> {
 					// api success
 					ret => {
 						if (ret.type == "Success") {
+							self.props.bindPersonId(ret.success.personId)
 							self.props.goNext()
 						} else {
-							console.log(ret)
 							window.scrollTo(0, 0);
 							self.setState({
 								...self.state,

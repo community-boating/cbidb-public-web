@@ -4,13 +4,13 @@ import asc from "../app/AppStateContainer";
 import { logout } from "../async/logout";
 import PlaceholderLink from "./PlaceholderLink";
 import { History } from "history";
+import { Moment } from "moment";
 
 
-export default (props: {history: History<any>}) => (<React.Fragment>
-	System Time:  <span id="systime">12:12:35 PM</span> (refresh your browser to update!)
+export default (props: {history: History<any>, sysdate: Moment}) => (<React.Fragment>
+	System Time:  <span id="systime">{props.sysdate.format("hh:mm:ss A")}</span> (refresh your browser to update!)
 	<PlaceholderLink>&nbsp;&nbsp;&nbsp;Adult Program</PlaceholderLink>
 	<a href="#" onClick={() => {
-		console.log("clicked logout!")
 		logout.send({type: "json", jsonData: {}}).then(() => {
 			asc.updateState.login.logout()
 		})
