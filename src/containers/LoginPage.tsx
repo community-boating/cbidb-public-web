@@ -9,29 +9,12 @@ import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";
 import Currency from "../util/Currency";
 import formUpdateState from "../util/form-update-state";
-
-
-// export const formName = "login"
+import ErrorDiv from "../theme/joomla/ErrorDiv";
 
 export const formDefault = {
 	username: none as Option<string>,
 	password: none as Option<string>
 }
-
-
-// const mapStateToProps = (rootState: RootState) => ({
-
-// 	form: {
-// 		username: rootState.loginForm.data.map(d => d.username).getOrElse(null),
-// 		password: rootState.loginForm.data.map(d => d.password).getOrElse(null)
-// 	},
-// 	selfServerParams: rootState.staticState.selfServerParams
-// })
-
-// const mapDispatchToProps = (dispatch: Dispatch) => ({
-// 	login: (selfServerParams: ServerParams, form: Form) => login(selfServerParams)(dispatch, form.username.getOrElse(""), form.password.getOrElse("")),
-// 	updateField: (name: keyof Form, value: string) => dispatchFormUpdate(dispatch, formName)(name, value)
-// })
 
 interface Props {
 	jpPrice: Option<Currency>,
@@ -41,7 +24,8 @@ interface Props {
 
 type State = {
 	formData: typeof formDefault
-	loginProcessing: boolean
+	loginProcessing: boolean,
+	validationErrors: string[]
 };
 
 class FormInput extends TextInput<typeof formDefault> {}
@@ -51,7 +35,8 @@ export default class LoginPage extends React.Component<Props, State> {
 		super(props)
 		this.state = {
 			formData: formDefault,
-			loginProcessing: false
+			loginProcessing: false,
+			validationErrors: []
 		}
 	}
 	loginFunction = () => {
@@ -59,7 +44,8 @@ export default class LoginPage extends React.Component<Props, State> {
 		if (!self.state.loginProcessing) {
 			self.setState({
 				...this.state,
-				loginProcessing: true
+				loginProcessing: true,
+				validationErrors: []
 			})
 			return self.props.doLogin(self.state.formData.username.getOrElse(""), self.state.formData.password.getOrElse(""))
 			.then(x => {
@@ -71,7 +57,8 @@ export default class LoginPage extends React.Component<Props, State> {
 							...self.state.formData,
 							password: none
 						},
-						loginProcessing: false
+						loginProcessing: false,
+						validationErrors: ["Login unsuccesful."]
 					})
 				}
 			})
@@ -173,12 +160,19 @@ export default class LoginPage extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 		)
 
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
+
 		const leftColumn = <div>
 			{welcomeRegion}
 			{scholarshipRegion}
 		</div>
 
 		const rightColumn = <div>
+			{errorPopup}
 			{newAcctRegion}
 			{loginRegion}
 			{inPersonRegion}
