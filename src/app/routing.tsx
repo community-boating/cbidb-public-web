@@ -97,7 +97,7 @@ export default function (history: History<any>) {
 				apiResultStart={async.classes}
 			/>}
 			urlProps={{}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={getClassesAndPreregistrations}
 		/>} />,
 		<Route key="/create-acct" path="/create-acct" render={() => <PageWrapper
@@ -107,7 +107,7 @@ export default function (history: History<any>) {
 				preRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
 			/>}
 			urlProps={{}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={getClassesAndPreregistrations}
 		/>} />,
 		<Route key="default" render={() => <PageWrapper
@@ -118,7 +118,7 @@ export default function (history: History<any>) {
 				doLogin={asc.updateState.login.attemptLogin}
 			/>}
 			urlProps={{}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={(urlProps: {}) => {
 				return getStaticYearly.send(null).then(res => {
 					if (res.type == "Failure") {
@@ -151,7 +151,7 @@ export default function (history: History<any>) {
 				history={history}
 			/>}
 			urlProps={{personId: Number(paths.ratings.getParams(history.location.pathname).personId)}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={() => {
 				return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
@@ -169,7 +169,7 @@ export default function (history: History<any>) {
 				personId={urlProps.personId}
 			/>}
 			urlProps={{personId: Number(paths.ratings.getParams(history.location.pathname).personId)}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={() => {
 				return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
@@ -184,7 +184,7 @@ export default function (history: History<any>) {
 				signups={signups}
 			/>}
 			urlProps={{personId: Number(paths.class.getParams(history.location.pathname).personId)}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={(urlProps: {personId: number}) => {
 				return Promise.all([
 					seeTypesWrapper(urlProps.personId).send(null),
@@ -209,7 +209,7 @@ export default function (history: History<any>) {
 				personId: Number(paths.classTime.getParams(history.location.pathname).personId),
 				typeId: Number(paths.classTime.getParams(history.location.pathname).typeId)
 			}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={(urlProps: {personId: number, typeId: number}) => {
 				return Promise.all([
 					classTimesWrapper(urlProps.typeId, urlProps.personId).send(null),
@@ -234,7 +234,7 @@ export default function (history: History<any>) {
 			urlProps={{
 				personId: Number(paths.reg.getParams(history.location.pathname).personId),
 			}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={(urlProps: {}) => {
 				return welcomeAPI.send(null).then(ret => {
 					if (ret.type == "Success") {
@@ -258,7 +258,7 @@ export default function (history: History<any>) {
 			urlProps={{
 				personId: Number(paths.edit.getParams(history.location.pathname).personId),
 			}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={(urlProps: {}) => {
 				return welcomeAPI.send(null).then(ret => {
 					if (ret.type == "Success") {
@@ -280,7 +280,7 @@ export default function (history: History<any>) {
 				currentSeason={async.season}
 			/>}
 			urlProps={{}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={(urlProps: {}) => {
 				return welcomeAPI.send(null).then(ret => {
 					if (ret.type == "Success") {
@@ -297,7 +297,7 @@ export default function (history: History<any>) {
 				history={history}
 			/>}
 			urlProps={{}}
-			shadowComponent={<span>hi!</span>}
+			shadowComponent={<span></span>}
 			getAsyncProps={(urlProps: {}) => {
 				return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}

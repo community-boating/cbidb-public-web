@@ -78,7 +78,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 	
 		const pageWrapperProps = {
 			urlProps: {},
-			shadowComponent: <span>hi!</span>
+			shadowComponent: <span></span>
 		}
 	
 		const maybeScholarship = this.props.jpPrice.isSome() ? [] : [{
@@ -122,7 +122,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 						return Promise.resolve();
 					}}
 				/>}
-				shadowComponent={<span>hi!</span>}
+				shadowComponent={<span></span>}
 				getAsyncProps={() => {
 					return welcomeAPI.send(null).catch(err => Promise.resolve(null)).then(res => {
 						if (res.type != "Success" || !res.success || res.success.jpPrice.isNone() || res.success.jpOffseasonPrice.isNone()) {

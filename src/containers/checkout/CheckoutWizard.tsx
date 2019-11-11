@@ -49,7 +49,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					history={self.props.history}
 				/>}
 				urlProps={{}}
-				shadowComponent={<span>hi!</span>}
+				shadowComponent={<span></span>}
 				getAsyncProps={() => {
 					console.log("getting async for DETAILS")
 					return Promise.all([
@@ -67,7 +67,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					history={self.props.history}
 				/>}
 				urlProps={{}}
-				shadowComponent={<span>hi!</span>}
+				shadowComponent={<span></span>}
 				getAsyncProps={() => {
 					console.log("getting async for CONFIRM")
 					return orderStatus.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
