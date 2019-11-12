@@ -133,6 +133,7 @@ export default function (history: History<any>) {
 
 	const mustBeLoggedIn = [
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
+		<Route key="home" path="/redirect/home" render={() => <Redirect to="/" />} />,
 		<Route key="/redirect/checkout" path="/redirect/checkout" render={() => <Redirect to="/checkout" />} />,
 		<Route key={`/redirect${paths.classTime.path}`} path={`/redirect${paths.classTime.path}`} render={() => {
 			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${paths.classTime.path}`).getParams(history.location.pathname);

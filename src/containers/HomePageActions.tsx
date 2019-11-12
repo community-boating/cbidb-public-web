@@ -3,13 +3,16 @@ import { Link } from 'react-router-dom';
 
 import PlaceholderLink from "../components/PlaceholderLink";
 import {regPath, editPath} from "../containers/registration/pageflow/RegistrationWizard"
+import { postWrapper as abortRegistration } from "../async/junior/abort-mem-reg"
+import { PostJSON } from '../core/APIWrapper';
+import { History } from 'history';
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)
 }
 
 //TODO: paths are duplicated here, import from classes and replace :personId
-export default (bv: number, juniorId: number) => {
+export default (bv: number, juniorId: number, history: History<any>) => {
 	const reg = regPath.replace(":personId", String(juniorId))
 	const edit = editPath.replace(":personId", String(juniorId))
     const actions = [{
@@ -21,16 +24,21 @@ export default (bv: number, juniorId: number) => {
     }, {
         place: 5,
         element: <Link to={"/class/" + juniorId}>{"Signup for Summer Classes"}</Link>
-    }, {
+    }, /*{
         place: 6,
         element: <PlaceholderLink>{"Signup for Fall Classes"}</PlaceholderLink>
     }, {
         place: 7,
         element: <PlaceholderLink>{"Signup for Spring Classes"}</PlaceholderLink>
-    }, {
+    }, */{
         place: 8,
-        element: <PlaceholderLink>{"Cancel Membership Purchase"}</PlaceholderLink>
-    }, {
+        element: <a href="#" onClick={e => {
+            e.preventDefault();
+            if (window.confirm(`Do you really want to abort membership registration?`)) {
+                abortRegistration.send(PostJSON({juniorId})).then(() => history.push("/redirect/home"))
+            }
+        }}>{"Cancel Membership Purchase"}</a>
+    }/*, {
         place: 9,
         element: <PlaceholderLink>{"Cancel Class Purchase"}</PlaceholderLink>
     }, {
@@ -51,7 +59,7 @@ export default (bv: number, juniorId: number) => {
     }, {
         place: 15,
         element: <PlaceholderLink>{"Buy 4th of July Tickets"}</PlaceholderLink>
-    }]
+    }*/]
 
     return (function() {
         if (testBit(bv, 0)) {

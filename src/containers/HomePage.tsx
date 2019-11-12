@@ -20,6 +20,7 @@ type Props = {
 
 export default class HomePage extends React.Component<Props> {
 	render() {
+		const self = this;
 		const rowData: {
 			personId: number,
 			name: string,
@@ -29,7 +30,7 @@ export default class HomePage extends React.Component<Props> {
 			personId: c.personId,
 			name: c.nameFirst.getOrElse("") + " " + c.nameLast.getOrElse(""),
 			status: <span dangerouslySetInnerHTML={{__html: c.status.getOrElse("")}}/>,
-			actions: <ul>{homePageActions(Number(c.actions.getOrElse("")), c.personId)}</ul>,
+			actions: <ul>{homePageActions(Number(c.actions.getOrElse("")), c.personId, self.props.history)}</ul>,
 		}))
 
 		const mainTable = <JoomlaArticleRegion title="My Junior Program Memberships">

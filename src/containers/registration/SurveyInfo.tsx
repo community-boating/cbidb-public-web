@@ -76,7 +76,15 @@ export default class SurveyInfo extends React.Component<Props, State> {
 						}
                         columns={3}
                         values={referralSources}
-                        updateAction={updateState}
+                        updateAction={(id: string, value: string) => {
+							updateState(id, value);
+							window.setTimeout(() => {
+								if (!(this.state.formData.referral || some([])).getOrElse([]).contains("Other")) {
+									formUpdateState(self.state, self.setState.bind(self), "formData")("referralOther", "");
+								}
+							}, 0)
+							
+						}}
 						value={(data.referral || none)}
                     />
 					{
@@ -104,7 +112,14 @@ export default class SurveyInfo extends React.Component<Props, State> {
                         label="Ethnicity"
                         columns={3}
                         values={ethnicities}
-                        updateAction={updateState}
+                        updateAction={(id: string, value: string) => {
+							updateState(id, value);
+							window.setTimeout(() => {
+								if (!(this.state.formData.ethnicity || some([])).getOrElse([]).contains("Other")) {
+									formUpdateState(self.state, self.setState.bind(self), "formData")("ethnicityOther", "");
+								}
+							}, 0)
+						}}
 						value={(data.ethnicity || none)}
                     />
 					{
