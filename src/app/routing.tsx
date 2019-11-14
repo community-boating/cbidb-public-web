@@ -219,6 +219,7 @@ export default function (history: History<any>) {
 				urlProps: {personId: number, typeId: number},
 				[times, weeks, signups]: [t.TypeOf<typeof classTimesValidator>, t.TypeOf<typeof weeksValidator>, GetSignupsAPIResult]
 			) => <SelectClassTime
+				typeId={urlProps.typeId}
 				personId={urlProps.personId}
 				apiResult={times}
 				weeks={weeks}

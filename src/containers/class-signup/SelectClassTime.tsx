@@ -31,6 +31,7 @@ export enum ClassAction {
 }
 
 interface Props {
+	typeId: number,
 	personId: number,
 	apiResult: APIResult,
 	weeks: t.TypeOf<typeof weeksValidator>,
@@ -80,6 +81,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 			shownInstances.length == 0
 			? `No ${self.props.apiResult.typeName} classes scheduled in that week.`
 			: (<JpClassesAvailTable
+				typeId={this.props.typeId}
 				instances={shownInstances}
 				juniorId={this.props.personId} 
 				history={this.props.history}
