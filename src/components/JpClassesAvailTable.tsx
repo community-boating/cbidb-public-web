@@ -63,19 +63,29 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 			return (<React.Fragment>
 				<span style={{color: "green", fontWeight: "bold", fontStyle: "italic"}}>Enrolled</span>
 				<br />
-				<a href="#" onClick={e => this.makeAction(instanceId, false, deleteSignup, e, {
-					juniorId,
-					instanceId
-				})}>Unenroll</a>
+				<a href="#" onClick={e => {
+					e.preventDefault();
+					if (confirm("Are you sure you want to unenroll from this class?  Your seat will be permanently lost and this cannot be undone.")) {
+						this.makeAction(instanceId, false, deleteSignup, e, {
+							juniorId,
+							instanceId
+						});
+					}
+				}}>Unenroll</a>
 			</React.Fragment>);
 		case ClassAction.DELIST:
 			return (<React.Fragment>
 				<span style={{color: "red", fontWeight: "bold", fontStyle: "italic"}}>Wait&nbsp;Listed</span>
 				<br />
-				<a href="#" onClick={e => this.makeAction(instanceId, false, deleteSignup, e, {
-					juniorId,
-					instanceId
-				})}>Delist</a>
+				<a href="#" onClick={e => {
+					e.preventDefault();
+					if (confirm("Are you sure you want to leave this wait list?  Your place in line will be permanently lost and this cannot be undone.")) {
+						this.makeAction(instanceId, false, deleteSignup, e, {
+							juniorId,
+							instanceId
+						});
+					}
+				}}>Delist</a>
 			</React.Fragment>);
 		default:
 			const check: never = action;

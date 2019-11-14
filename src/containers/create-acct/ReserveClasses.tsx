@@ -34,7 +34,8 @@ export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 type Props = {
 	apiResultStart: ClassInstanceObject[],
 	startingPreRegistrations: PreRegistration[],
-	history: History<any>
+	history: History<any>,
+	noSignupJuniors: string[]
 }
 
 const morningAfternoonValues = [
@@ -141,7 +142,7 @@ export const bundleReservationsFromAPI: (classData: ClassInstanceObject[]) => (r
 classData => reservationRows => {
 	// first, map each instanceId to beginner or intermediate. Chuck anything that isn't one of those two classes
 	// TODO: should probably throw if we find an unexpected class
-	const reservationRowsWithTypeId = reservationRows.map(row => {
+	const reservationRowsWithTypeId = reservationRows.instances.map(row => {
 		const cio = classData.find(cd => cd.instanceId == row.instanceId)
 		if (undefined == cio) return null;
 		return {
@@ -184,7 +185,14 @@ classData => reservationRows => {
 		return hash;
 	}, {} as {[K: string]: PreRegistration})
 
-	return Object.values(hashByJunior);
+	const ret = Object.values(hashByJunior).concat(reservationRows.noSignups.map(j => ({
+		firstName: j,
+		beginner: none,
+		intermediate: none
+	})));
+	console.log(reservationRows)
+	console.log(ret)
+	return ret;
 }
 
 export default class ReserveClasses extends React.Component<Props, State> {

@@ -55,12 +55,21 @@ export const paths = {
 export const getClassesAndPreregistrations = () => {
 	return getProtoPersonCookie.send(null)
 	.then(() => getReservations.send(null))
+	.then(res => {
+		if (res.type == "Success") {
+			return Promise.resolve({
+				type: "Success",
+				success: res.success
+			})
+		} else return Promise.reject()
+	})
 	.then(prereg => new Promise((resolve, reject) => {
 		getClassesWithAvail.send(null).then(classes => {
 			resolve([classes, prereg])
 		}, err => reject(err))
 	}))
 	.then(([classes, prereg]) => {
+		console.log("dfg")
 		if (classes.type == "Success" && prereg.type == "Success") {
 			return Promise.resolve({type: "Success", success: {
 				prereg: prereg.success,
@@ -95,6 +104,7 @@ export default function (history: History<any>) {
 			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
 				history={history}
 				startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
+				noSignupJuniors={async.prereg.noSignups}
 				apiResultStart={async.classes}
 			/>}
 			urlProps={{}}
@@ -106,6 +116,7 @@ export default function (history: History<any>) {
 			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <CreateAccount
 				history={history}
 				preRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
+				noSignupJuniors={async.prereg.noSignups}
 			/>}
 			urlProps={{}}
 			shadowComponent={<span></span>}
@@ -320,7 +331,12 @@ export default function (history: History<any>) {
 			urlProps={{}}
 			shadowComponent={<span></span>}
 			getAsyncProps={(urlProps: {}) => {
-				return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+				return Promise.all([
+					getProtoPersonCookie.send(null),
+					welcomeAPI.send(null)
+				]).then(([whatever, welcome]) => {
+					return Promise.resolve(welcome);
+				}).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
 		/>} />
 	]

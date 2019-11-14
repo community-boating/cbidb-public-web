@@ -89,10 +89,15 @@ export default (props: {
 					{e.week}<br />
 					{e.dateString}<br />
 					{e.timeString}<br />
-					<a href="#" onClick={ev => makeAction(deleteSignup, ev, {
-						juniorId: props.signups.juniorId,
-						instanceId: e.instanceId
-					})}>Unenroll</a>{signupNoteMaybe(e.typeId, props.signups.juniorId, e.instanceId)}
+					<a href="#" onClick={ev => {
+						ev.preventDefault();
+						if (confirm("Are you sure you want to unenroll from this class?  Your seat will be permanently lost and this cannot be undone.")) {
+							makeAction(deleteSignup, ev, {
+								juniorId: props.signups.juniorId,
+								instanceId: e.instanceId
+							});
+						}
+					}}>Unenroll</a>{signupNoteMaybe(e.typeId, props.signups.juniorId, e.instanceId)}
 				</td></tr>))}
 			</tbody></table></div>	);
 		}
@@ -113,10 +118,15 @@ export default (props: {
 					doEnroll: false,
 					juniorId: props.signups.juniorId,
 					instanceId: t.instanceId
-				})}>Take Next Seat</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick={ev => makeAction(deleteSignup, ev, {
-					juniorId: props.signups.juniorId,
-					instanceId: t.instanceId
-				})}>Delist</a><br />
+				})}>Take Next Seat</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick={ev => {
+					ev.preventDefault();
+					if (confirm("Are you sure you want to leave this wait list?  Your place in line will be permanently lost and this cannot be undone.")) {
+						makeAction(deleteSignup, ev, {
+							juniorId: props.signups.juniorId,
+							instanceId: t.instanceId
+						});
+					}
+				}}>Delist</a><br />
 				<i>This offer already expired,<br />
 				but you can still take<br />
 				the next available spot.</i><br />
@@ -138,10 +148,15 @@ export default (props: {
 				doEnroll: true,
 				juniorId: props.signups.juniorId,
 				instanceId: t.instanceId
-			})}>Join the Class</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick={ev => makeAction(deleteSignup, ev, {
-				juniorId: props.signups.juniorId,
-				instanceId: t.instanceId
-			})}>Delist</a><br />
+			})}>Join the Class</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" onClick={ev => {
+				ev.preventDefault();
+				if (confirm("Are you sure you want to leave this wait list?  Your place in line will be permanently lost and this cannot be undone.")) {
+					makeAction(deleteSignup, ev, {
+						juniorId: props.signups.juniorId,
+						instanceId: t.instanceId
+					});
+				}
+			}}>Delist</a><br />
 			<span
 				style={{color: "#2358A6", cursor: "help"}}
 				onMouseOver={() => {ddrivetip(wlTopTooltip,'lightYellow',300); resizeRatings();}}
@@ -173,10 +188,15 @@ export default (props: {
 					{wl.week}<br />
 					{wl.dateString}<br />
 					{wl.timeString}<br />
-					<a href="#" onClick={ev => makeAction(deleteSignup, ev, {
-						juniorId: props.signups.juniorId,
-						instanceId: wl.instanceId
-					})}>Delist</a>{signupNoteMaybe(wl.typeId, props.signups.juniorId, wl.instanceId)}<br />
+					<a href="#" onClick={ev => {
+						ev.preventDefault();
+						if (confirm("Are you sure you want to leave this wait list?  Your place in line will be permanently lost and this cannot be undone.")) {
+							makeAction(deleteSignup, ev, {
+								juniorId: props.signups.juniorId,
+								instanceId: wl.instanceId
+							})
+						}
+					}}>Delist</a>{signupNoteMaybe(wl.typeId, props.signups.juniorId, wl.instanceId)}<br />
 					<i>You are in position {wl.wlPosition} in line.</i><br />
 					<span
 						style={{color: "#2358A6", cursor: "help"}}

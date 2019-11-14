@@ -29,7 +29,8 @@ type Form = typeof defaultForm
 
 type Props = {
 	history: History<any>,
-	preRegistrations: PreRegistration[]
+	preRegistrations: PreRegistration[],
+	noSignupJuniors: string[]
 }
 
 type State = {

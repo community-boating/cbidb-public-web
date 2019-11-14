@@ -10,6 +10,7 @@ import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";
 import Currency from "../util/Currency";
 import formUpdateState from "../util/form-update-state";
 import ErrorDiv from "../theme/joomla/ErrorDiv";
+import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -38,6 +39,7 @@ export default class LoginPage extends React.Component<Props, State> {
 			loginProcessing: false,
 			validationErrors: []
 		}
+		getProtoPersonCookie.send(null)
 	}
 	loginFunction = () => {
 		const self = this;
