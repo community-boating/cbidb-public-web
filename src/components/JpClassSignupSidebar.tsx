@@ -9,6 +9,7 @@ import { History } from 'history';
 import * as moment from 'moment';
 import { paths } from '../app/routing';
 import { Link } from 'react-router-dom';
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../lov/magicStrings';
 
 function resizeRatings(){
 	var heightPx = window.getComputedStyle(document.getElementById('dhtmltooltip').getElementsByTagName('table')[0]).getPropertyValue('height');
@@ -25,6 +26,13 @@ const getSignupNoteURL = (personId: number, instanceId: number) =>
 	paths.signupNote.path
 	.replace(":personId", String(personId))
 	.replace(":instanceId", String(instanceId));
+
+const showSignupNote = (typeId: number) => typeId == jpClassTypeId_BeginnerSailing || typeId == jpClassTypeId_IntermediateSailing;
+const signupNoteMaybe = (typeId: number, juniorId: number, instanceId: number) => (
+	showSignupNote(typeId)
+	? <React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link to={getSignupNoteURL(juniorId, instanceId)}>Signup Note</Link></React.Fragment>
+	: null
+)
 
 declare var ddrivetip;
 declare var hideddrivetip;
@@ -84,7 +92,7 @@ export default (props: {
 					<a href="#" onClick={ev => makeAction(deleteSignup, ev, {
 						juniorId: props.signups.juniorId,
 						instanceId: e.instanceId
-					})}>Unenroll</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link to={getSignupNoteURL(props.signups.juniorId, e.instanceId)}>Signup Note</Link>
+					})}>Unenroll</a>{signupNoteMaybe(e.typeId, props.signups.juniorId, e.instanceId)}
 				</td></tr>))}
 			</tbody></table></div>	);
 		}
@@ -168,7 +176,7 @@ export default (props: {
 					<a href="#" onClick={ev => makeAction(deleteSignup, ev, {
 						juniorId: props.signups.juniorId,
 						instanceId: wl.instanceId
-					})}>Delist</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link to={getSignupNoteURL(props.signups.juniorId, wl.instanceId)}>Signup Note</Link><br />
+					})}>Delist</a>{signupNoteMaybe(wl.typeId, props.signups.juniorId, wl.instanceId)}<br />
 					<i>You are in position {wl.wlPosition} in line.</i><br />
 					<span
 						style={{color: "#2358A6", cursor: "help"}}
