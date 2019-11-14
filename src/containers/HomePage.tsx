@@ -37,11 +37,13 @@ export default class HomePage extends React.Component<Props> {
 			<JoomlaReport headers={["Name", "Status", "Actions"]} rows={rowData.map(r => [r.name, r.status, r.actions])}/>
 		</JoomlaArticleRegion>
 
+		const checkoutButton = (<Button onClick={() => Promise.resolve(this.props.history.push("/checkout"))} text="Checkout" />);
+
 		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: moment(this.props.data.serverTime)})}>
 			{mainTable}
 			<Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" />
 			<Button onClick={() => Promise.resolve(this.props.history.push("/reg"))} text="Add new Junior" />
-			<Button onClick={() => Promise.resolve(this.props.history.push("/checkout"))} text="Checkout" />
+			{self.props.data.canCheckout ? checkoutButton : null}
 		</JoomlaMainPage>
 	}
 }

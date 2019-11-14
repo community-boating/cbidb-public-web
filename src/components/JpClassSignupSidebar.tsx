@@ -7,6 +7,8 @@ import { postWrapper as deleteSignup } from "../async/junior/class-signup-delete
 import APIWrapper, { PostJSON } from '../core/APIWrapper';
 import { History } from 'history';
 import * as moment from 'moment';
+import { paths } from '../app/routing';
+import { Link } from 'react-router-dom';
 
 function resizeRatings(){
 	var heightPx = window.getComputedStyle(document.getElementById('dhtmltooltip').getElementsByTagName('table')[0]).getPropertyValue('height');
@@ -18,6 +20,11 @@ function resizeRatings(){
 	document.getElementById('dhtmltooltip').style.width = width+"px";
 	document.getElementById('dhtmltooltip').style.height = height+"px";
 }
+
+const getSignupNoteURL = (personId: number, instanceId: number) => 
+	paths.signupNote.path
+	.replace(":personId", String(personId))
+	.replace(":instanceId", String(instanceId));
 
 declare var ddrivetip;
 declare var hideddrivetip;
@@ -77,7 +84,7 @@ export default (props: {
 					<a href="#" onClick={ev => makeAction(deleteSignup, ev, {
 						juniorId: props.signups.juniorId,
 						instanceId: e.instanceId
-					})}>Unenroll</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<PlaceholderLink>Signup Note</PlaceholderLink>
+					})}>Unenroll</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link to={getSignupNoteURL(props.signups.juniorId, e.instanceId)}>Signup Note</Link>
 				</td></tr>))}
 			</tbody></table></div>	);
 		}
@@ -161,7 +168,7 @@ export default (props: {
 					<a href="#" onClick={ev => makeAction(deleteSignup, ev, {
 						juniorId: props.signups.juniorId,
 						instanceId: wl.instanceId
-					})}>Delist</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<PlaceholderLink>Signup Note</PlaceholderLink><br />
+					})}>Delist</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link to={getSignupNoteURL(props.signups.juniorId, wl.instanceId)}>Signup Note</Link><br />
 					<i>You are in position {wl.wlPosition} in line.</i><br />
 					<span
 						style={{color: "#2358A6", cursor: "help"}}

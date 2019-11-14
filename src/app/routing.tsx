@@ -33,6 +33,8 @@ import PaymentDetailsPage from '../containers/checkout/PaymentDetails';
 import CheckoutWizard from '../containers/checkout/CheckoutWizard';
 import {apiw as getWeeks, weeksValidator} from "../async/weeks"
 import {apiw as getStaticYearly} from "../async/static-yearly-data"
+import SignupNotePage from '../containers/class-signup/SignupNotePage';
+import {getWrapper as getSignupNote} from "../async/junior/signup-note"
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -46,7 +48,8 @@ export const paths = {
 	reg: pathAndParamsExtractor<{personId: string}>("/reg/:personId"),
 	edit: pathAndParamsExtractor<{personId: string}>("/edit/:personId"),
 	class: pathAndParamsExtractor<{personId: string}>("/class/:personId"),
-	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId")
+	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId"),
+	signupNote: pathAndParamsExtractor<{personId: string, instanceId: string}>("/class-note/:personId/:instanceId")
 }
 
 export const getClassesAndPreregistrations = () => {
@@ -81,8 +84,6 @@ export const getClassesAndPreregistrations = () => {
 export default function (history: History<any>) {
 	console.log("inside routing function")
 	console.log(asc.state)
-
-	console.log(`/redirect${paths.classTime.path}`);
 
 	// TODO: auto create all these redirect routes?
 	const mustNotBeLoggedIn = [
@@ -191,6 +192,24 @@ export default function (history: History<any>) {
 					seeTypesWrapper(urlProps.personId).send(null),
 					getSignups(urlProps.personId).send(null)
 				]).catch(err => Promise.resolve(null));  // TODO: handle failure
+			}}
+		/>} />,
+
+		<Route key="signupNote" path={paths.signupNote.path} render={() => <PageWrapper
+			key="signupNote"
+			component={(urlProps: {personId: number, instanceId: number}, async: {signupNote: Option<string>}) => <SignupNotePage
+				history={history}
+				personId={urlProps.personId}
+				instanceId={urlProps.instanceId}
+				initialNote={async.signupNote}
+			/>}
+			urlProps={{
+				personId: Number(paths.signupNote.getParams(history.location.pathname).personId),
+				instanceId: Number(paths.signupNote.getParams(history.location.pathname).instanceId),
+			}}
+			shadowComponent={<span></span>}
+			getAsyncProps={(urlProps: {personId: number, instanceId: number}) => {
+				return getSignupNote(urlProps.personId, urlProps.instanceId).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
 		/>} />,
 

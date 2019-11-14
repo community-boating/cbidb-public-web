@@ -20,7 +20,8 @@ export const validator = t.type({
 		ratings: OptionalString
 	})),
 	serverTime: t.string,
-	season: t.number
+	season: t.number,
+	canCheckout: t.boolean
 })
 
 type Result = t.TypeOf<typeof validator>

@@ -22,9 +22,16 @@ export default class Currency {
             var raw = String(Math.round(self.cents % 100))
             while (raw.length < 2) raw += "0"
             return raw
-        }())
+		}())
+		
+		const preNegative = (function() {
+			const dollarsAbs = Math.abs(dollars);
+			if (skipCents && this.cents % 100 == 0) return "$" + dollarsAbs
+			else return "$" + dollarsAbs + "." + cents
+		}.bind(this)());
 
-        if (skipCents && this.cents % 100 == 0) return "$" + dollars
-        else return "$" + dollars + "." + cents
+		if (dollars < 0) {
+			return `(-${preNegative})`
+		} else return preNegative;
     }
 }

@@ -13,6 +13,9 @@ import StripeConfirm from "../../components/StripeConfirm";
 import Button from "../../components/Button";
 import { postWrapper as clearCard } from '../../async/stripe/clear-card'
 import { History } from "history";
+import { setCheckoutImage } from "../../util/set-bg-image";
+import { CartItem } from "../../async/get-cart-items"
+import FullCartReport from "../../components/FullCartReport";
 
 export interface Props {
 	welcomePackage: HomePageForm,
@@ -20,14 +23,19 @@ export interface Props {
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
 	setCardData: (cardData: CardData) => void,
+	cartItems: CartItem[],
 	history: History<any>
 }
 
 export default class PaymentDetailsPage extends React.PureComponent<Props> {
+	componentDidMount() {
+		setCheckoutImage()
+	}
 	render() {
 		const self = this
 		console.log("welcome:: ", this.props.welcomePackage)
 		console.log("order status::  ", this.props.orderStatus)
+		console.log("cart::  ", this.props.cartItems)
 
 		const stripeElement = <StripeElement
 			formId="payment-form"
@@ -69,7 +77,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props> {
 			<table><tbody><tr>
 				<td style={{width: "100%"}}>
 					<JoomlaArticleRegion title="Order Summary">
-						<JoomlaReport headers={["Item Name", "Member Name", "Price"]} rows={[]}/>
+						<FullCartReport cartItems={self.props.cartItems}/>
 					</JoomlaArticleRegion>
 				</td>	
 				<td>

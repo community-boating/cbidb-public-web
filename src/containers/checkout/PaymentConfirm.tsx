@@ -10,9 +10,13 @@ import { postWrapper as submitPayment } from "../../async/stripe/submit-payment"
 import { PostString } from "../../core/APIWrapper";
 import ErrorDiv from "../../theme/joomla/ErrorDiv";
 import { History } from "history";
+import { setCheckoutImage } from "../../util/set-bg-image";
+import FullCartReport from "../../components/FullCartReport";
+import { CartItem } from "../../async/get-cart-items";
 
 export interface Props {
 	history: History<any>,
+	cartItems: CartItem[],
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
 	orderStatus: t.TypeOf<typeof orderStatusValidator>
@@ -29,6 +33,9 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 			validationErrors: []
 		};
 	}
+	componentDidMount() {
+		setCheckoutImage()
+	}
 	render() {
 		const self = this
 		const errorPopup = (
@@ -39,7 +46,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 		return (<JoomlaMainPage>
 			{errorPopup}
 			<JoomlaArticleRegion title="Order Summary">
-				<JoomlaReport headers={["Item Name", "Member Name", "Price"]} rows={[]}/>
+				<FullCartReport cartItems={self.props.cartItems}/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Your Billing Info">
 				<StripeConfirm cardData={this.props.orderStatus.cardData.getOrElse(null)} />
