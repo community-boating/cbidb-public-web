@@ -1,12 +1,15 @@
 import * as React from "react";
+import{ History } from 'history';
 import { ApiResult, Success } from "./APIWrapper";
+import { doEFuseCheck } from "../util/checkUpgraded";
 
 interface Props<T_URL, T_Async> {
 	key: string,
 	urlProps: T_URL
 	component: (urlProps: T_URL, asyncProps: T_Async) => JSX.Element
 	getAsyncProps?: (urlProps: T_URL) => Promise<ApiResult<T_Async>>,
-	shadowComponent?: JSX.Element
+	shadowComponent?: JSX.Element,
+	history: History<any>
 }
 
 interface State<T> {
@@ -19,6 +22,8 @@ export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T
 		super(props);
 		console.log("constructing a PageWrapper")
 		const self = this
+
+		doEFuseCheck(props.history);
 
 		if (this.props.getAsyncProps != undefined) {
 			this.state = {

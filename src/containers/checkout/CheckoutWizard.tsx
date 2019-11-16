@@ -52,6 +52,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 		const nodes = [{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="checkout details"
+				history={self.props.history}
 				component={(urlProps: {}, [welcome, orderStatus, cartItems]) => <PaymentDetailsPage
 					{...mapWizardProps(fromWizard)}
 					welcomePackage={welcome}
@@ -74,6 +75,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 		}, {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="checkout confirm"
+				history={self.props.history}
 				component={(urlProps: {}, [orderStatus, cartItems]) => <PaymentConfirmPage
 					{...mapWizardProps(fromWizard)}
 					orderStatus = {orderStatus}

@@ -1,6 +1,7 @@
 import { none, Option } from "fp-ts/lib/Option";
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { History } from 'history';
 
 import Button from "../components/Button";
 import PlaceholderLink from "../components/PlaceholderLink";
@@ -11,6 +12,7 @@ import Currency from "../util/Currency";
 import formUpdateState from "../util/form-update-state";
 import ErrorDiv from "../theme/joomla/ErrorDiv";
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
+import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -20,7 +22,8 @@ export const formDefault = {
 interface Props {
 	jpPrice: Option<Currency>,
 	lastSeason: Option<number>,
-	doLogin: (userName: string, password: string) => Promise<boolean>
+	doLogin: (userName: string, password: string) => Promise<boolean>,
+	history: History<any>
 }
 
 type State = {
@@ -37,7 +40,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		this.state = {
 			formData: formDefault,
 			loginProcessing: false,
-			validationErrors: []
+			validationErrors: checkUpgradedAsValidationErrorArray(this.props.history, (process.env as any).eFuse)
 		}
 		getProtoPersonCookie.send(null)
 	}
@@ -174,11 +177,14 @@ export default class LoginPage extends React.Component<Props, State> {
 		</div>
 
 		const rightColumn = <div>
-			{errorPopup}
 			{newAcctRegion}
 			{loginRegion}
 			{inPersonRegion}
 		</div>
-		return <JoomlaTwoColumns left={leftColumn} right={rightColumn}></JoomlaTwoColumns>
+		return (
+			<JoomlaTwoColumns left={leftColumn} right={rightColumn}>
+				{errorPopup}
+			</JoomlaTwoColumns>
+		);
 	}
 }

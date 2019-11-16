@@ -84,6 +84,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 		const maybeScholarship = this.props.jpPrice.isSome() ? [] : [{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="ScholarshipPage"
+				history={self.props.history}
 				component={() => <ScholarshipPage
 					parentPersonId={self.props.parentPersonId} //TODO: replace with app state
 					currentSeason={self.props.currentSeason}
@@ -97,6 +98,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 		}, {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="ScholarshipResultsPage"
+				history={self.props.history}
 				component={(urlProps: {}, async: HomePageForm) => <ScholarshipResultsPage
 					jpPrice={Currency.dollars(async.jpPrice.getOrElse(-1))}
 					jpOffseasonPrice={Currency.dollars(async.jpOffseasonPrice.getOrElse(-1))}
@@ -139,6 +141,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 		const maybeTOS = this.props.includeTOS ? [{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="TermsConditions"
+				history={self.props.history}
 				component={() => <TermsConditions
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
@@ -152,6 +155,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 		const otherNodes = [{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="RequiredInfo"
+				history={self.props.history}
 				component={(urlProps: {}, async: t.TypeOf<typeof requiredInfoValidator>) => <RequiredInfo
 					initialFormData={async}
 					bindPersonId={personId => self.setState({ ...self.state, personId: some(personId) })}
@@ -182,6 +186,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 		}, {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="EmergencyContact"
+				history={self.props.history}
 				component={(urlProps: {}, async: t.TypeOf<typeof emergContactValidator>) => <EmergencyContact
 					initialFormData={async}
 					{...staticComponentProps}
@@ -198,6 +203,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 		}, {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="SwimProof"
+				history={self.props.history}
 				component={(urlProps: {}, async: t.TypeOf<typeof swimValidator>) => <SwimProof
 					initialFormData={async}
 					{...staticComponentProps}
@@ -214,6 +220,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 		}, {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="SurveyInfo"
+				history={self.props.history}
 				component={(urlProps: {}, async: t.TypeOf<typeof surveyValidator>) => <SurveyInfo
 					initialFormData={async}
 					{...staticComponentProps}

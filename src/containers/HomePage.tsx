@@ -10,6 +10,8 @@ import homePageActions from "./HomePageActions";
 import Button from '../components/Button';
 import { History } from 'history';
 import moment = require('moment');
+import { checkUpgradedAsValidationErrorArray } from '../util/checkUpgraded';
+import ErrorDiv from '../theme/joomla/ErrorDiv';
 
 export type Form = t.TypeOf<typeof validator>;
 
@@ -18,7 +20,17 @@ type Props = {
 	history: History<any>
 }
 
-export default class HomePage extends React.Component<Props> {
+type State = {
+	validationErrors: string[]
+}
+
+export default class HomePage extends React.Component<Props, State> {
+	constructor(props: Props) {
+		super(props);
+		this.state = {
+			validationErrors: checkUpgradedAsValidationErrorArray(this.props.history, (process.env as any).eFuse)
+		}
+	}
 	render() {
 		const self = this;
 		const rowData: {
@@ -39,7 +51,14 @@ export default class HomePage extends React.Component<Props> {
 
 		const checkoutButton = (<Button onClick={() => Promise.resolve(this.props.history.push("/checkout"))} text="Checkout" />);
 
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
+
 		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: moment(this.props.data.serverTime)})}>
+			{errorPopup}
 			{mainTable}
 			{/* <Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" /> */}
 			<Button onClick={() => Promise.resolve(this.props.history.push("/reg"))} text="Add new Junior" />

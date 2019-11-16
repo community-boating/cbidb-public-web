@@ -35,6 +35,8 @@ import {apiw as getWeeks, weeksValidator} from "../async/weeks"
 import {apiw as getStaticYearly} from "../async/static-yearly-data"
 import SignupNotePage from '../containers/class-signup/SignupNotePage';
 import {getWrapper as getSignupNote} from "../async/junior/signup-note"
+import MaintenanceSplash from "../containers/MaintenanceSplash"
+
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -101,6 +103,7 @@ export default function (history: History<any>) {
 		<Route key="/redirect/create-acct" path="/redirect/create-acct" render={() => <Redirect to="/create-acct" />} />,
 		<Route key="/reserve" path="/reserve" render={() => <PageWrapper
 			key="ReserveClasses"
+			history={history}
 			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
 				history={history}
 				startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
@@ -113,6 +116,7 @@ export default function (history: History<any>) {
 		/>} />,
 		<Route key="/create-acct" path="/create-acct" render={() => <PageWrapper
 			key="CreateAccountPage"
+			history={history}
 			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <CreateAccount
 				history={history}
 				preRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
@@ -124,7 +128,9 @@ export default function (history: History<any>) {
 		/>} />,
 		<Route key="default" render={() => <PageWrapper
 			key="CreateAccountPage"
+			history={history}
 			component={(urlProps: {}, async: any) => <LoginPage 
+				history={history}
 				jpPrice={async[0]}
 				lastSeason={async[1]}
 				doLogin={asc.updateState.login.attemptLogin}
@@ -160,6 +166,7 @@ export default function (history: History<any>) {
 
 		<Route key="/settings" path="/settings" render={() => <PageWrapper
 			key="RatingsPage"
+			history={history}
 			component={(urlProps: {}, async: HomePageForm) => <AccountSettingsPage
 				history={history}
 			/>}
@@ -176,6 +183,7 @@ export default function (history: History<any>) {
 
 		<Route key="ratings" path={paths.ratings.path} render={() => <PageWrapper
 			key="RatingsPage"
+			history={history}
 			component={(urlProps: {personId: number}, async: HomePageForm) => <RatingsPage
 				history={history}
 				welcomePackage={async}
@@ -190,6 +198,7 @@ export default function (history: History<any>) {
 
 		<Route key="class" path={paths.class.path} render={() => <PageWrapper
 			key="SelectClassType"
+			history={history}
 			component={(urlProps: {personId: number}, [apiResult, signups]: [t.TypeOf<typeof seeTypesValidator>, GetSignupsAPIResult]) => <SelectClassType
 				personId={urlProps.personId}
 				apiResultArray={apiResult}
@@ -208,6 +217,7 @@ export default function (history: History<any>) {
 
 		<Route key="signupNote" path={paths.signupNote.path} render={() => <PageWrapper
 			key="signupNote"
+			history={history}
 			component={(urlProps: {personId: number, instanceId: number}, async: {signupNote: Option<string>}) => <SignupNotePage
 				history={history}
 				personId={urlProps.personId}
@@ -226,6 +236,7 @@ export default function (history: History<any>) {
 
 		<Route key="classTime" path={paths.classTime.path} render={() => <PageWrapper
 			key="SelectClassTime"
+			history={history}
 			component={(
 				urlProps: {personId: number, typeId: number},
 				[times, weeks, signups]: [t.TypeOf<typeof classTimesValidator>, t.TypeOf<typeof weeksValidator>, GetSignupsAPIResult]
@@ -254,6 +265,7 @@ export default function (history: History<any>) {
 		// TODO: remove this duplication
 		<Route key="reg" path={paths.reg.path} render={() => <PageWrapper
 			key="reg"
+			history={history}
 			component={(urlProps: {personId: number}, async: HomePageForm) => <RegistrationWizard
 				history={history}
 				personIdStart={some(urlProps.personId)}
@@ -278,6 +290,7 @@ export default function (history: History<any>) {
 
 		<Route key="edit" path={paths.edit.path} render={() => <PageWrapper
 			key="edit"
+			history={history}
 			component={(urlProps: {personId: number}, async: HomePageForm) => <RegistrationWizard
 				history={history}
 				personIdStart={some(urlProps.personId)}
@@ -302,6 +315,7 @@ export default function (history: History<any>) {
 
 		<Route key="regEmpty" path={"/reg"} render={() => <PageWrapper
 			key="regEmpty"
+			history={history}
 			component={(urlProps: {}, async: HomePageForm) => <RegistrationWizard
 				history={history}
 				personIdStart={none}
@@ -324,6 +338,7 @@ export default function (history: History<any>) {
 
 		<Route key="default" render={() => <PageWrapper
 			key="HomePage"
+			history={history}
 			component={(urlProps: {}, async: HomePageForm) => <HomePage
 				data={async}
 				history={history}
@@ -345,11 +360,16 @@ export default function (history: History<any>) {
 
 	const authedDependedRoutes = isLoggedIn ? mustBeLoggedIn : mustNotBeLoggedIn
 
+	const universalRoutes = [
+		<Route key="/maintenance" path="/maintenance" render={() => <MaintenanceSplash />} />
+	]
+
 	console.log("routing function returning Router component")
 	return (
 		<React.Fragment>
 			<Router history={history}>
 				<Switch>
+					{...universalRoutes}
 					{...authedDependedRoutes}
 				</Switch>
 			</Router>

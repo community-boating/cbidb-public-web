@@ -17,6 +17,7 @@ export default class JoomlaTwoColumns extends Page<JoomlaTwoColumnsProps> {
                             <div id="rt-mainbody">
                                 <div className="component-content rt-joomla">
                                     <div className="rt-joomla">
+										{this.props.children}
                                         <table style={{width: "100%:"}}>
                                             <tbody>
                                                 <tr>
