@@ -146,7 +146,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 				</JoomlaArticleRegion>
 			</React.Fragment>
 
-		const next = <Button text="Next >" onClick={() => {
+		const next = <Button text="Next >" spinnerOnClick onClick={() => {
 			const form = self.state.formData
 			const isApplying = form.isApplying.getOrElse("No") == "Yes"
 			if (isApplying) {
@@ -156,7 +156,9 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 					income:  Number(form.income.getOrElse("0"))
 				})).then(self.props.goNext)
 			} else {
-				return postNo().send(PostJSON({})).then(self.props.goNext)
+				return postNo().send(PostJSON({})).then(() => {
+					window.location.href = window.location.pathname
+				})
 			}
 			
 		}}/>

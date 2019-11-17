@@ -19,16 +19,14 @@ export default class ScholarshipResultsPage extends React.Component<Props> {
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-			<JoomlaArticleRegion title="Scholarship Results">
+			<JoomlaArticleRegion title="Reduced Fee Application">
 				Your Junior Program fee for this year has been computed to be <b>{this.props.jpPrice.format()}</b>
-				, and your (optional) off-season class fee has been computed to be <b>{this.props.jpOffseasonPrice.format()}</b>
 				.  This price will automatically apply to all junior memberships you purchase this season.
 				<br />
 				<br />
-				Community Boating Inc.'s sliding scale for membership is based on the <a href="http://www.liveworkthrive.org/site/assets/docs/MASS%20INDEX%20FINALWEB.pdf" target="_blank">
-					Crittenton Women's Union Economic Independence Index
+				Community Boating Inc.'s sliding scale for membership is based on the <a href="https://livingwage.mit.edu/resources/Living-Wage-User-Guide-and-Technical-Notes-2018.pdf" target="_blank">
+					MIT Living Wage Calculator
 				</a>
-				. This index reports what it takes for a family to make ends meet in Massachusetts without relying on public or private assistance, taking into account family size and makeup.
 				<br />
 				<br />
 				If you have a unique circumstance regarding membership fees, please contact Niko Kotsatos, Junior Program Director, at <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
