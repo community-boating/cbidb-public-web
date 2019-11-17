@@ -36,6 +36,7 @@ import {apiw as getStaticYearly} from "../async/static-yearly-data"
 import SignupNotePage from '../containers/class-signup/SignupNotePage';
 import {getWrapper as getSignupNote} from "../async/junior/signup-note"
 import MaintenanceSplash from "../containers/MaintenanceSplash"
+import ReservationSignupNote from '../containers/create-acct/ReservationSignupNote';
 
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
@@ -51,7 +52,8 @@ export const paths = {
 	edit: pathAndParamsExtractor<{personId: string}>("/edit/:personId"),
 	class: pathAndParamsExtractor<{personId: string}>("/class/:personId"),
 	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId"),
-	signupNote: pathAndParamsExtractor<{personId: string, instanceId: string}>("/class-note/:personId/:instanceId")
+	signupNote: pathAndParamsExtractor<{personId: string, instanceId: string}>("/class-note/:personId/:instanceId"),
+	reservationNotes: pathAndParamsExtractor<{personId: string}>("/reserve-notes/:personId"),
 }
 
 export const getClassesAndPreregistrations = () => {
@@ -111,6 +113,20 @@ export default function (history: History<any>) {
 				apiResultStart={async.classes}
 			/>}
 			urlProps={{}}
+			shadowComponent={<span></span>}
+			getAsyncProps={getClassesAndPreregistrations}
+		/>} />,
+		<Route key={paths.reservationNotes.path} path={paths.reservationNotes.path} render={() => <PageWrapper
+			key="reservationNotes"
+			history={history}
+			component={(urlProps: {personId: number}, async:{ classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReservationSignupNote
+				history={history}
+				personId={urlProps.personId}
+				startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
+			/>}
+			urlProps={{
+				personId: Number(paths.reservationNotes.getParams(history.location.pathname).personId),
+			}}
 			shadowComponent={<span></span>}
 			getAsyncProps={getClassesAndPreregistrations}
 		/>} />,

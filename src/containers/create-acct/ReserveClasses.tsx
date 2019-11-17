@@ -23,7 +23,7 @@ import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import {postWrapper as deleteJunior} from '../../async/junior/delete-junior-class-reservation'
 import moment = require('moment');
 import {getWrapper as getClassesWithAvail} from "../../async/class-instances-with-avail"
-import { getClassesAndPreregistrations } from '../../app/routing';
+import { getClassesAndPreregistrations, paths } from '../../app/routing';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -163,6 +163,7 @@ classData => reservationRows => {
 		console.log(moment(row.expirationDateTime, "YYYY-MM-DDTHH:mm:ss"))
 		if (!hash[row.juniorFirstName]) {
 			hash[row.juniorFirstName] = {
+				juniorPersonId: row.juniorPersonId,
 				firstName: row.juniorFirstName,
 				beginner: none,
 				intermediate: none
@@ -172,20 +173,23 @@ classData => reservationRows => {
 			hash[row.juniorFirstName].beginner = some({
 				...mapToPreregistration(row.cio),
 				expirationDateTime: moment(row.expirationDateTime, "YYYY-MM-DDTHH:mm:ss"),
-				minutesRemaining: row.minutesRemaining
+				minutesRemaining: row.minutesRemaining,
+				signupNote: row.signupNote
 			});
 		}
 		else if (row.cio.typeId == jpClassTypeId_IntermediateSailing) {
 			hash[row.juniorFirstName].intermediate = some({
 				...mapToPreregistration(row.cio),
 				expirationDateTime: moment(row.expirationDateTime, "YYYY-MM-DDTHH:mm:ss"),
-				minutesRemaining: row.minutesRemaining
+				minutesRemaining: row.minutesRemaining,
+				signupNote: row.signupNote
 			});
 		}
 		return hash;
 	}, {} as {[K: string]: PreRegistration})
 
 	const ret = Object.values(hashByJunior).concat(reservationRows.noSignups.map(j => ({
+		juniorPersonId: -1, // TODO: currently no reason this is needed but it sucks to leave it like this
 		firstName: j,
 		beginner: none,
 		intermediate: none
@@ -258,7 +262,13 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			} else if (beginner.isNone() && intermediate.isNone()) {
 				this.setState({
 					...this.state,
-					validationErrors: ["Please specify class to reserve.  If you do not want to reserve classes at this time, click \"Skip\" below.  You will have the opportunity to add more juniors later."]
+					validationErrors: ["Please specify class to reserve.  If you do not want to reserve classes at this time, click \"Continue to Registration\" below.  You will have the opportunity to add more juniors later."]
+				})
+				return Promise.reject();
+			} else if (beginner.isNone() && intermediate.isSome()) {
+				this.setState({
+					...this.state,
+					validationErrors: ["You may not sign up for Intermediate Sailing without signing up for a Beginner Sailing as well.  If you are looking for advanced placement, contact the Front Office by emailing info@community-boating.org or calling 617-523-1038."]
 				})
 				return Promise.reject();
 			} else if (beginner.map(classStarted).getOrElse(false) || intermediate.map(classStarted).getOrElse(false)) {
@@ -281,21 +291,24 @@ export default class ReserveClasses extends React.Component<Props, State> {
 							...this.state,
 							formData: defaultForm,
 							preRegistrations: this.state.preRegistrations.concat([{
+								juniorPersonId: resp.success.personId,
 								firstName: self.state.formData.juniorFirstName.getOrElse(""),
 								beginner: beginner.map(c => ({
 									instanceId: c.instanceId,
 									dateRange: getClassDate(c),
-									timeRange: getClassTime(c)
+									timeRange: getClassTime(c),
+									signupNote: none
 								})),
 								intermediate: intermediate.map(c => ({
 									instanceId: c.instanceId,
 									dateRange: getClassDate(c),
-									timeRange: getClassTime(c)
+									timeRange: getClassTime(c),
+									signupNote: none
 								})),
 							}]),
 							validationErrors: []
 						})
-						return Promise.resolve();
+						return Promise.resolve(resp.success.personId);
 					} else {
 						return getClassesAndPreregistrations().then(res => {
 							if (res.type == "Success") {
@@ -343,8 +356,10 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						Wait listing in full classes is available once payment is processed and registration is complete.
 					</li>
 				</ul>
+				<br />
+				<Button text={<span>Continue to Registration ></span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/create-acct"))}/>
 			</JoomlaArticleRegion>
-			<JoomlaArticleRegion title="First Junior">
+			<JoomlaArticleRegion title="Add a Junior">
 				Please enter the name of a junior member you'd like to register, and select any classes you'd like to reserve a spot in. 
 				If you have multiple juniors to register, click "Add Another Junior" below to add more.
 				<br />
@@ -392,15 +407,10 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				)}
 			</JoomlaArticleRegion>
 			<Button text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/"))}/>
-			<Button text={<span>Add and Add Another</span>} spinnerOnClick={true} onClick={() => submitAction().then(
-				() => self.props.history.push("/redirect/reserve"),
+			<Button text={<span>Add Junior</span>} spinnerOnClick={true} onClick={() => submitAction().then(
+				personId =>self.props.history.push(paths.reservationNotes.path.replace(":personId", String(personId))),
 				() => window.scrollTo(0, 0)
 			)}/>
-			<Button text={<span>Add and Finish ></span>} spinnerOnClick={true} onClick={() => submitAction().then(
-				() => self.props.history.push("/create-acct"),
-				() => window.scrollTo(0, 0)
-			)}/>
-			<Button text={<span>Skip ></span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/create-acct"))}/>
 		</React.Fragment>);
 
 		const sidebar = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>

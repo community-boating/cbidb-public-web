@@ -6,10 +6,12 @@ export type PreRegistrationClass = {
 	dateRange: string,
 	timeRange: string,
 	expirationDateTime?: Moment,
-	minutesRemaining?: number
+	minutesRemaining?: number,
+	signupNote: Option<string>
 }
 
 export type PreRegistration = {
+	juniorPersonId: number,
 	firstName: string,
 	beginner: Option<PreRegistrationClass>,
 	intermediate: Option<PreRegistrationClass>
