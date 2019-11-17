@@ -31,6 +31,11 @@ export default class HomePage extends React.Component<Props, State> {
 			validationErrors: checkUpgradedAsValidationErrorArray(this.props.history, (process.env as any).eFuse)
 		}
 	}
+	componentDidMount() {
+		if (this.props.data.children.length == 0) {
+			this.props.history.push("/reg")
+		}
+	}
 	render() {
 		const self = this;
 		const rowData: {

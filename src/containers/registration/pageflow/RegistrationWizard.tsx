@@ -88,7 +88,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 				component={() => <ScholarshipPage
 					parentPersonId={self.props.parentPersonId} //TODO: replace with app state
 					currentSeason={self.props.currentSeason}
-					jpPrice={Currency.dollars(self.props.jpPrice.getOrElse(300))}
+					jpPrice={Currency.dollars(self.props.jpPrice.getOrElse(349))} // TODO: hardcoded jp price
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
