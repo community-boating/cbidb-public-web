@@ -23,11 +23,7 @@ export const formName = "scholarshipForm"
 export interface Form {
 	isApplying: Option<string>,
 	numberAdults: Option<string>,
-	haveInsurance: Option<string>,
-	numberInfants: Option<string>,
-	numberPreschoolers: Option<string>,
-	numberSchoolagers: Option<string>,
-	numberTeenagers: Option<string>,
+	numberChildren: Option<string>,
 	income: Option<string>,
 	doAgree: Option<boolean>
 }
@@ -71,11 +67,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			formData: {
 				isApplying: none,
 				numberAdults: none,
-				haveInsurance: none,
-				numberInfants: none,
-				numberPreschoolers: none,
-				numberSchoolagers: none,
-				numberTeenagers: none,
+				numberChildren: none,
 				income: none,
 				doAgree: none
 			},
@@ -88,10 +80,10 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 
 		const radioValues = [{
 			key: "No",
-			display: <span><b>No, </b>{`I would like to purchase a ${this.props.currentSeason} Junior Program membership and/or off-season class at full price.`}</span>
+			display: <span><b>No, </b>{`I'd like to purchase a Junior Program membership at full price.`}</span>
 		}, {
 			key: "Yes",
-			display: <span><b>Yes, </b>{`I would like to apply for a scholarship for which I will need to provide information about my family.`}</span>
+			display: <span><b>Yes, </b>{`I'd like to apply for a reduced fee and will provide information about my family makeup and household income.`}</span>
 		}]
 
 		const familyInfo =
@@ -104,67 +96,19 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 								id="numberAdults"
 								justElement={true}
 								nullDisplay="- Select -"
-								options={generateOptions("Adult", "Adults", 0, 3)}
+								options={generateOptions("Adult", "Adults", 1, 2)}
 								value={self.state.formData.numberAdults}
 								updateAction={updateState}
 							/></td>
 						</tr>	
 						<tr>
-							<td>Do you have employment based health insurance?</td>
+							<td>How many children are in your immediate family?</td>
 							<td><FormSelect
-								id="haveInsurance"
+								id="numberChildren"
 								justElement={true}
 								nullDisplay="- Select -"
-								options={[{
-									key: "Y", display: "Yes"
-								}, {
-									key: "N", display: "No"
-								}]}
-								value={self.state.formData.haveInsurance}
-								updateAction={updateState}
-							/></td>
-						</tr>	
-						<tr>
-							<td>How many infants (children aged 0-2) are in your immediate family?</td>
-							<td><FormSelect
-								id="numberInfants"
-								justElement={true}
-								nullDisplay="- Select -"
-								options={generateOptions("Infant", "Infants", 0, 7)}
-								value={self.state.formData.numberInfants}
-								updateAction={updateState}
-							/></td>
-						</tr>	
-						<tr>
-							<td>How many preschool-age children (ages 3-4) are in your immediate family?</td>
-							<td><FormSelect
-								id="numberPreschoolers"
-								justElement={true}
-								nullDisplay="- Select -"
-								options={generateOptions("Preschooler", "Preschoolers", 0, 7)}
-								value={self.state.formData.numberPreschoolers}
-								updateAction={updateState}
-							/></td>
-						</tr>	
-						<tr>
-							<td>How many school-age children (ages 5-12) are in your immediate family?</td>
-							<td><FormSelect
-								id="numberSchoolagers"
-								justElement={true}
-								nullDisplay="- Select -"
-								options={generateOptions("School-age Child", "School-age Children", 0, 7)}
-								value={self.state.formData.numberSchoolagers}
-								updateAction={updateState}
-							/></td>
-						</tr>	
-						<tr>
-							<td>How many teenagers (ages 13-17) are in your immediate family?</td>
-							<td><FormSelect
-								id="numberTeenagers"
-								justElement={true}
-								nullDisplay="- Select -"
-								options={generateOptions("Teenager", "Teenagers", 0, 7)}
-								value={self.state.formData.numberTeenagers}
+								options={generateOptions("Child", "Children", 1, 6)}
+								value={self.state.formData.numberChildren}
 								updateAction={updateState}
 							/></td>
 						</tr>	
@@ -172,7 +116,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 							<td>Please enter your Adjusted Gross Income:*</td>
 							<td>
 								<FormInput id="income" justElement={true} value={self.state.formData.income} updateAction={updateState} />
-								<span style={{color: "#777", fontSize: "0.9em"}}>(ex. $50,000)</span>
+								<span style={{color: "#777", fontSize: "0.9em"}}>(e.g. $50,000)</span>
 							</td>
 						</tr>	
 					</tbody></table></div>
@@ -208,11 +152,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			if (isApplying) {
 				return postYes().send(PostJSON({
 					numberWorkers: Number(form.numberAdults.getOrElse("0")),
-					hasBenefits: form.haveInsurance.getOrElse("N") == "Y",
-					infantCount:  Number(form.numberInfants.getOrElse("0")),
-					preschoolerCount:  Number(form.numberPreschoolers.getOrElse("0")),
-					schoolagerCount:  Number(form.numberSchoolagers.getOrElse("0")),
-					teenagerCount:  Number(form.numberTeenagers.getOrElse("0")),
+					childCount: Number(form.numberChildren.getOrElse("0")),
 					income:  Number(form.income.getOrElse("0"))
 				})).then(self.props.goNext)
 			} else {
@@ -232,12 +172,14 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-			<JoomlaArticleRegion title="Scholarships are available to provide sailing for all.">
-				We strive to make Junior Memberships affordable for all.<br />
+			<JoomlaArticleRegion title="We offer reduced fees to enable sailing for all!">
 				{
-					`The fee for Junior Program membership is on a sliding scale from $1 - ${self.props.jpPrice.format(true)} for the entire summer; 
-					all classes included in this fee. Families can find out if they qualify for an income based reduced fee by filling out
-					our form online during registration. `
+					`We strive to make Junior Membership affordable to all. Our fee is on a generous need-based sliding scale
+					from $1 to ${self.props.jpPrice.format(true)} and includes membership, classes, and boat usage;
+					everything we offer for ten summer weeks! Please apply below for a reduced price membership
+					based on household income and family makeup. Memberships are non-refundable and non-transferable.
+					Register before Jan 1 to lock in last year's pricing!
+					`
 				}
 				<br />
 				<br />
