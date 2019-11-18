@@ -113,6 +113,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 						id="firstName"
 						label="Parent First Name"
 						isPassword={false}
+						isRequired
 						value={self.state.formData.firstName}
 						updateAction={updateState}
 					/>
@@ -120,6 +121,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 						id="lastName"
 						label="Parent Last Name"
 						isPassword={false}
+						isRequired
 						value={self.state.formData.lastName}
 						updateAction={updateState}
 					/>
@@ -127,6 +129,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 						id="email"
 						label="Parent Email"
 						isPassword={false}
+						isRequired
 						value={self.state.formData.email}
 						updateAction={updateState}
 					/>
@@ -134,13 +137,16 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 						id="pw1"
 						label="Create Password"
 						isPassword={true}
+						isRequired
 						value={self.state.formData.pw1}
+						appendToElementCell={<span style={{color: "#777", fontSize: "0.8em"}}>  (Must be at least 6 characters long)</span>}
 						updateAction={updateState}
 					/>
 					<FormInput
 						id="pw2"
 						label="Confirm Password"
 						isPassword={true}
+						isRequired
 						value={self.state.formData.pw2}
 						updateAction={updateState}
 					/>

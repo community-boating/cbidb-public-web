@@ -369,6 +369,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					label="Junior First Name"
 					value={formData.juniorFirstName}
 					updateAction={updateState}
+					isRequired
 					appendToElementCell={<span style={{color: "#777", fontSize: "0.8em"}}>  (We'll collect more information later)</span>}
 				/></tbody></table>
 			</JoomlaArticleRegion>
