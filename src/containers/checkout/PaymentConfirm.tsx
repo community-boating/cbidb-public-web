@@ -46,6 +46,9 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 		return (<JoomlaMainPage>
 			{errorPopup}
 			<JoomlaArticleRegion title="Order Summary">
+				Please confirm your order and payment information are correct, and then click "Submit Payment" below!
+				<br />
+				<br />
 				<FullCartReport cartItems={self.props.cartItems}/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Your Billing Info">
@@ -65,7 +68,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 						});
 					} else {
 						// TODO: catch any bullcrap error after payment process
-						self.props.history.push("/")
+						self.props.goNext()
 					}
 				})
 			}} />

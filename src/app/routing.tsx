@@ -37,6 +37,7 @@ import SignupNotePage from '../containers/class-signup/SignupNotePage';
 import {getWrapper as getSignupNote} from "../async/junior/signup-note"
 import MaintenanceSplash from "../containers/MaintenanceSplash"
 import ReservationSignupNote from '../containers/create-acct/ReservationSignupNote';
+import ThankYouPage from '../containers/checkout/ThankYou';
 
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
@@ -191,6 +192,10 @@ export default function (history: History<any>) {
 
 		<Route key="/checkout" path="/checkout" render={() => <CheckoutWizard
 			history={history}
+		/>} />,
+
+		<Route key="/thank-you" path="/thank-you" render={() => <ThankYouPage
+			
 		/>} />,
 
 		<Route key="ratings" path={paths.ratings.path} render={() => <PageWrapper

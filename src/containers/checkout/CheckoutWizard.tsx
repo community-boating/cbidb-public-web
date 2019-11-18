@@ -68,7 +68,14 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 						welcomeAPI.send(null),
 						orderStatus.send(null),
 						getCartItems.send(null)
-					]).catch(err => Promise.resolve(null));  // TODO: handle failure
+					]).then(([welcome, order, cart]) => {
+						if (welcome.type == "Success" && !welcome.success.canCheckout) {
+							self.props.history.push("/");
+							return Promise.resolve(null);
+						} else {
+							return Promise.resolve([welcome, order, cart])
+						}
+					}).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>
 		}, {
@@ -95,7 +102,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 		return <WizardPageflow
 			history={self.props.history}
 			start="/"
-			end="/"
+			end="/thank-you"
 			nodes={nodes}
 		/>
 	}
