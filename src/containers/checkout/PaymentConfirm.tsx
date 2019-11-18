@@ -58,7 +58,6 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 					validationErrors: []
 				});
 				return submitPayment.send(PostString("")).then(res => {
-					console.log(res)
 					if (res.type == "Failure" && res.code == "process_err") {
 						self.setState({
 							...self.state,

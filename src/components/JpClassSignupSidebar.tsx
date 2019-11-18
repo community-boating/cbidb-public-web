@@ -66,10 +66,8 @@ export default (props: {
 		e.preventDefault();
 		return apiw.send(PostJSON(payload)).then(ret => {
 			if (ret.type == "Success") {
-				console.log("going to ", `/redirect${window.location.pathname}`)
 				props.history.push(`/redirect${window.location.pathname}`)
 			} else {
-				console.log(ret)
 				window.scrollTo(0, 0);
 				props.setValidationErrors(ret.message.split("\\n") );
 			}
@@ -106,7 +104,6 @@ export default (props: {
 		const expires = moment(t.offerExpDatetime);
 		const now = moment(t.nowDateTime);
 		const isExpired = expires.isBefore(now);
-		console.log("now: ", now)
 		if (isExpired) {
 			return (<tr><td style={{backgroundColor: "#eef"}}>
 				<b>Beginner Sailing</b><br />

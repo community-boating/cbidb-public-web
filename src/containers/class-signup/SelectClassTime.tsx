@@ -84,7 +84,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 				instances={shownInstances}
 				juniorId={this.props.personId} 
 				history={this.props.history}
-				setValidationErrors={function(validationErrors: string[]) { console.log(validationErrors); return self.setState({ ...self.state, validationErrors }); }.bind(self)}
+				setValidationErrors={function(validationErrors: string[]) { return self.setState({ ...self.state, validationErrors }); }.bind(self)}
 				url={this.props.history.location.pathname}
 			/>)
 		)

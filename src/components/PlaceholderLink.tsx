@@ -5,4 +5,3 @@ export default class PlaceholderLink extends React.PureComponent<{href?: string,
 		return <a href="#" style={this.props.style}>{this.props.children}</a>
 	}	
 }
-export const placeholderAction = () => console.log("placeholder!")

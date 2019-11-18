@@ -31,10 +31,8 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 					? `/class-note/${self.props.juniorId}/${instanceId}`
 					: `/redirect${this.props.url}`
 				);
-				console.log("going to ", url)
 				this.props.history.push(url)
 			} else {
-				console.log(ret)
 				window.scrollTo(0, 0);
 				this.props.setValidationErrors(ret.message.split("\\n") );
 			}

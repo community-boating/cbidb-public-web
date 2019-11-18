@@ -14,7 +14,6 @@ export interface Props {
 
 export default class RatingsPage extends React.PureComponent<Props> {
 	render() {
-		console.log("in ratings page render")
 		const self = this;
 
 		const kid = this.props.welcomePackage.children.find(e => e.personId == this.props.personId)

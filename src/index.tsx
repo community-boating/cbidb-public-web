@@ -16,8 +16,6 @@ export const history = createBrowserHistory()
 
 const seedState = replaceWithOption((window as any).initialStateFromServer)
 
-console.log("seedstate from server: ", seedState)
-
 require("./array-polyfill")
 
 asc.updateState.appProps(appProps);

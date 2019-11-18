@@ -73,7 +73,6 @@ export const getClassesAndPreregistrations = () => {
 		}, err => reject(err))
 	}))
 	.then(([classes, prereg]) => {
-		console.log("dfg")
 		if (classes.type == "Success" && prereg.type == "Success") {
 			return Promise.resolve({type: "Success", success: {
 				prereg: prereg.success,
@@ -95,9 +94,6 @@ export const getClassesAndPreregistrations = () => {
 
 // TODO: real shadow components on everything
 export default function (history: History<any>) {
-	console.log("inside routing function")
-	console.log(asc.state)
-
 	// TODO: auto create all these redirect routes?
 	const mustNotBeLoggedIn = [
 		<Route key="/precreate" path="/precreate" render={() => <Gatekeeper />} />,
@@ -380,7 +376,6 @@ export default function (history: History<any>) {
 		<Route key="/maintenance" path="/maintenance" render={() => <MaintenanceSplash />} />
 	]
 
-	console.log("routing function returning Router component")
 	return (
 		<React.Fragment>
 			<Router history={history}>

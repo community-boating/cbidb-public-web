@@ -67,7 +67,6 @@ export const preRegRender = (then: () => void) => (prereg: PreRegistration, i: n
 	{function() {
 		const classToUse = prereg.beginner.getOrElse(null) || prereg.intermediate.getOrElse(null);
 		if (classToUse && classToUse.expirationDateTime && classToUse.minutesRemaining) {
-			console.log(classToUse)
 			return (<span style={{fontStyle:"italic"}}>Reservation expires: {classToUse.expirationDateTime.format("hh:mmA")} ({classToUse.minutesRemaining} min)</span>)
 		} else return "";
 	}()}
@@ -159,8 +158,6 @@ classData => reservationRows => {
 		timeRange: getClassTime(cio)
 	});
 	const hashByJunior = reservationRowsWithTypeId.reduce((hash, row) => {
-		console.log(row.expirationDateTime)
-		console.log(moment(row.expirationDateTime, "YYYY-MM-DDTHH:mm:ss"))
 		if (!hash[row.juniorFirstName]) {
 			hash[row.juniorFirstName] = {
 				juniorPersonId: row.juniorPersonId,
@@ -194,8 +191,6 @@ classData => reservationRows => {
 		beginner: none,
 		intermediate: none
 	})));
-	console.log(reservationRows)
-	console.log(ret)
 	return ret;
 }
 
@@ -283,7 +278,6 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					beginnerInstanceId: beginner.map(c => c.instanceId),
 					intermediateInstanceId: intermediate.map(c => c.instanceId)
 				})).then(resp => {
-					console.log("came back:   ", resp)
 					if (resp.type == "Success") {
 						// todo: dont add to asc without a protoperson id back from api
 						// then, use that ID in the delete call

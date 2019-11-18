@@ -49,7 +49,6 @@ export class AppStateContainer {
 	state: State
 	setState = (state: State) => {
 		this.state = state;
-		console.log("asc updated state: ", this.state)
 		if (this.listener) this.listener();
 	}
 	listener: () => void

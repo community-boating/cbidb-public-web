@@ -48,30 +48,24 @@ export default class WizardPageflow extends React.Component<Props, State> {
 		const self = this
 		
 		this.goNext = () => {
-			console.log("pushed goNext!")
 			if (self.state.dll.hasNext()) {
-				console.log("about to update my own state: " + self.state.dll.left.length + ", " + self.state.dll.right.length)
 				self.setState({
 					...self.state,
 					dll: self.state.dll.next()
 				})
-				console.log("Just updated my own state: " + self.state.dll.left.length + ", " + self.state.dll.right.length)
 			} else {
-				console.log("going to end: ", self.props.end)
 				self.props.history.push(self.props.end);
 			}
 			return Promise.resolve();
 		}
 
 		this.goPrev = () => {
-			console.log("pushed goPrev!")
 			if (self.state.dll.hasPrev()) {
 				self.setState({
 					...self.state,
 					dll: self.state.dll.prev()
 				})
 			} else {
-				console.log("going back to start: ", self.props.start)
 				self.props.history.push(self.props.start);
 			}
 			return Promise.resolve();
@@ -93,21 +87,8 @@ export default class WizardPageflow extends React.Component<Props, State> {
 		this.state = {
 			dll: DoublyLinkedList.from(nodes)
 		}
-
-		console.log("wizard constructor: setting this.dll ", this.state.dll)
-		
-
-		// console.log("about to set DLL in redux:  ", dll)
-		// this.dll = dll
-		// set(self.props.dispatch, config.formName, dll)
 	}
-	// componentWillReceiveProps(props: Props) {
-	// 	// this.dll = config.getDLL(props.state).getOrElse(DoublyLinkedList.from([this.placeholder]))
-	// 	// console.log("in wizard CDU, updating this.dll", this.dll)
-	// }
 	render() {
-		console.log("rendering.....")
-		console.log(this.state.dll)
 		return this.state.dll.curr()
 	}
 }

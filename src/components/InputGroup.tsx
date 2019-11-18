@@ -37,14 +37,10 @@ abstract class InputGroup<T_Form, T_Props extends Props, T_ValueType> extends Ap
 		const self = this
         const columns = this.props.columns || 1;
 
-        console.log(this.isCheckbox)
-
         const group = this.isCheckbox ? "checkbox_group" : "radio_group"
         const apexItem = this.isCheckbox ? "apex-item-checkbox" : "apex-item-radio"
 		const type = this.isCheckbox ? "checkbox" : "radio"
 		
-		console.log("rendering input group, value is " + this.props.value)
-
         return this.props.blurBox ? (<div></div>) : (<div id={this.props.id} className={group + " apex-item-group apex-item-group--rc " + apexItem}><div className={"apex-item-grid " + group}>
             {this.values.grouped(columns).map((cells, i) => {
                 return (

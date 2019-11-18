@@ -163,7 +163,6 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 					{...mapWizardProps(fromWizard)}
 				/>}
 				getAsyncProps={(urlProps: {}) => {
-					console.log("in getAsyncProps for requiredInfo")
 					if (self.state.personId.isNone()) {
 						return Promise.resolve({
 							type: "Success",
@@ -172,7 +171,6 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 					} else {
 						return requiredInfoAPI(self.state.personId.getOrElse(-1)).send(null).then(ret => {
 							if (ret.type == "Failure") {
-								console.log("error getting reqInfo for junior " + self.state.personId, ret)
 								self.props.history.push("/")
 							}
 							return Promise.resolve(ret);
@@ -238,7 +236,6 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 	
 		const nodes = maybeScholarship.concat(otherNodes)
 	
-		console.log("returning class")
 		return <WizardPageflow 
 			history={self.props.history}
 			start="/"

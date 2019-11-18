@@ -64,7 +64,6 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 				urlProps={{}}
 				shadowComponent={<CheckoutPageShadowComponent />}
 				getAsyncProps={() => {
-					console.log("getting async for DETAILS")
 					return Promise.all([
 						welcomeAPI.send(null),
 						orderStatus.send(null),
@@ -85,7 +84,6 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 				urlProps={{}}
 				shadowComponent={<CheckoutPageShadowComponent />}
 				getAsyncProps={() => {
-					console.log("getting async for CONFIRM")
 					return Promise.all([
 						orderStatus.send(null),
 						getCartItems.send(null)
@@ -94,7 +92,6 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 			/>
 		}]
 	
-		console.log("returning class")
 		return <WizardPageflow
 			history={self.props.history}
 			start="/"

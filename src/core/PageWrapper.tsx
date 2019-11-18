@@ -20,7 +20,6 @@ interface State<T> {
 export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T_URL, T_Async>, State<T_Async>> {
 	constructor(props: Props<T_URL, T_Async>) {
 		super(props);
-		console.log("constructing a PageWrapper")
 		const self = this
 
 		doEFuseCheck(props.history);
@@ -33,19 +32,15 @@ export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T
 			// When API comes back, manually trigger `serverSideResolveOnAsyncComplete`
 			// (if this is clientside, that fn will not do anything and that's fine)
 			this.props.getAsyncProps(this.props.urlProps).then(asyncProps => {
-				console.log("asyncProps: ", asyncProps)
 				if (asyncProps && asyncProps instanceof Array) {
 					const success = asyncProps.reduce((totalSuccess, e) => totalSuccess && e.type == "Success", true);
 					if (success) {
-						console.log("setting:  ", asyncProps.map(e => e.success))
 						self.setState({
 							readyToRender: true,
 							componentAsyncProps: asyncProps.map(e => e.success) as unknown as T_Async
 						});
 					}
 				} else if (asyncProps && asyncProps.type == "Success") {
-					console.log("$$$$$$$$$$$$$$$$   about to set state, has stuff?: ", asyncProps.success != null)
-					console.log("setting:  ", asyncProps.success)
 					self.setState({
 						readyToRender: true,
 						componentAsyncProps: asyncProps.success
@@ -66,13 +61,9 @@ export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T
 		window.scrollTo(0, 0)
 	}
 	render() {
-		console.log("in PageWrapper render ....")
-		console.log(this.state)
 		if (this.state.readyToRender) {
-			console.log(".... rendering the real deal")
 			return this.props.component(this.props.urlProps, this.state.componentAsyncProps)
 		} else {
-			console.log(".... rendering the crap")
 			return this.props.shadowComponent
 		}
 	}

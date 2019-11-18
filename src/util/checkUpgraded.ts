@@ -18,8 +18,6 @@ export function checkUpgraded(nodeHistory: History<any>, currentClientEFuse: num
 		const parsedQs = querystring.parse(parsedUrl.query);
 		const requiredEFuse = Number(parsedQs[upgradedParamName]);
 		const satisfied = currentClientEFuse >= requiredEFuse;
-		console.log(`Attempting to satisfy minimum efuse ${requiredEFuse}, did a full refresh and client is running efuse ${currentClientEFuse}`)
-		console.log("Are we satisfied? ", satisfied);
 		if (!satisfied) {
 			nodeHistory.replace("/maintenance")
 		}
@@ -37,7 +35,6 @@ export function checkUpgradedAsValidationErrorArray(nodeHistory: History<any>, c
 export function doEFuseCheck(nodeHistory: History<any>) {
 	if (!didWeJustReload()) {
 		getEFuse.send(null).then(res => {
-			console.log("efuse result: ", res)
 			if (res.type == "Success") {
 				const requiredEFuse = Number(res.success);
 				const clientEFuse = Number((process.env as any).eFuse);

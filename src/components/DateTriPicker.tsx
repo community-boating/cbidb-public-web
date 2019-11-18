@@ -26,9 +26,6 @@ const dobMonthValues: KeyAndDisplay[] = months.map((m, i) => ({key: leadingZero(
 const days = range(1,31).map(i => ({key: String(leadingZero(i)), display: String(i)}))
 
 export function componentsToDate(month: Option<string>, date: Option<string>, year: Option<string>): Option<string> {
-	console.log(month)
-	console.log(date)
-	console.log(year)
 	if (
 		month.isNone() || date.isNone() || year.isNone() ||
 		isNaN(Number(month.getOrElse(null))) || isNaN(Number(date.getOrElse(null))) || isNaN(Number(year.getOrElse(null))) || 
@@ -36,7 +33,6 @@ export function componentsToDate(month: Option<string>, date: Option<string>, ye
 	) return none
 	const candidate = `${month.getOrElse(null)}/${date.getOrElse(null)}/${year.getOrElse(null)}`
 	const candidateMoment = moment(candidate, "MM/DD/YYYY");
-	console.log("setting date: ", candidateMoment)
 	if (candidateMoment.isValid()) return some(candidate)
 	else return none
 }
@@ -45,8 +41,6 @@ export function dateStringToComponents(dateString: Option<string>): Option<{mont
 	return dateString.chain(s => {
 		const dobRegex = /(\d{2})\/(\d{2})\/(\d{4})/
 		const dobResult = dobRegex.exec(s)
-		console.log("dobResult: ", dobResult)
-		console.log("input: ",s )
 		if (dobResult == null) return none
 		else return some({month: dobResult[1], date: dobResult[2], year: dobResult[3]})
 	})
@@ -55,7 +49,6 @@ export function dateStringToComponents(dateString: Option<string>): Option<{mont
 export default class DateTriPicker<U, T extends DateTriPickerProps<U>> extends React.PureComponent<T> {
 	render() {
 		const self = this
-		console.log("here we go datePicker ", self.props)
 		const dobDateAndYear = (function() {
 			const date = <Select<U>
 				id={self.props.dayID}

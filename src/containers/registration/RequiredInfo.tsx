@@ -65,7 +65,6 @@ const apiToForm: (api: ApiType) => Form = api => {
 }
 
 const formToAPI: (form: Form) => ApiType = form => {
-	console.log("inside formToAPI")
 	return {
 		...form,
 		dob: componentsToDate(form.dobMonth, form.dobDate, form.dobYear),

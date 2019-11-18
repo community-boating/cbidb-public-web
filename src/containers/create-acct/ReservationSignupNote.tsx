@@ -125,9 +125,6 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 						saveBeginner.getOrElse(() => Promise.resolve(null))(),
 						saveIntermediate.getOrElse(() => Promise.resolve(null))(),
 					]).then(([beginnerResult, intermediateResult]) => {
-						console.log("all done!")
-						console.log(beginnerResult)
-						console.log(intermediateResult)
 						self.props.history.push("/reserve")
 					})
 				}}/>

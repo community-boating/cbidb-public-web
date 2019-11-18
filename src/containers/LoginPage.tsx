@@ -54,7 +54,6 @@ export default class LoginPage extends React.Component<Props, State> {
 			})
 			return self.props.doLogin(self.state.formData.username.getOrElse(""), self.state.formData.password.getOrElse(""))
 			.then(x => {
-				console.log("about to update login page ", x)
 				if (!x) {
 					self.setState({
 						...self.state,
@@ -72,7 +71,6 @@ export default class LoginPage extends React.Component<Props, State> {
 	};
 	render() {
 		const self = this;
-		console.log("login page props: ", this.props)
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 		const loginButton = (<Button key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={this.loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
 		

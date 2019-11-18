@@ -17,19 +17,15 @@ export default class App extends React.Component<Props> {
 	registrationWizard: React.ComponentType
 	constructor(props: Props) {
 		super(props)
-		console.log("in app constructor")
 		const self = this;
 		asc.setListener(() => {
-			console.log("asc updated; rerendering App")
 			self.forceUpdate()
 		})
 		this.state = {
 			loggedInUserName: none
 		}
 		isLoggedInAsMember.send(null).then(usernameResult => {
-			console.log("is logged in came back....", usernameResult)
 			if (usernameResult.type == "Success") {
-				console.log("SETTING LOGGED IN:   " + usernameResult.success.value)
 				asc.updateState.login.setLoggedIn(usernameResult.success.value)
 			}
 		}, () => {
@@ -37,7 +33,6 @@ export default class App extends React.Component<Props> {
 		})
 	}
 	render() {
-		console.log("=========================================== in app render")
 		const self = this;
 
 		const ret = (

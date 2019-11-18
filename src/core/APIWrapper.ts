@@ -111,7 +111,6 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 							...data.jsonData,
 							...(self.config.fixedParams || {})
 						}))
-						console.log(postData)
 						if (postData == undefined) return none;
 						else return some({
 							content: postData,
@@ -135,9 +134,6 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 					...postValues.map(v => v.headers).getOrElse(<any>{})
 				}
 			};
-			console.log("making request to " + options.hostname + ":" + options.port + options.path)
-			console.log(options)
-			console.log("serverParams: ", serverParams)
 	
 			// TODO: should we embed the special case for logout directive on any response?  Seems heavy handed
 			const reqCallback = (res: any) => {
@@ -167,7 +163,6 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 			req.end();
 		})
 		.then((result: string) => {
-			console.log("Got result from api: ", result.substr(0,50));
 			const ret: Return = Promise.resolve(this.parseResponse(result));
 			return ret;
 		}, err => {

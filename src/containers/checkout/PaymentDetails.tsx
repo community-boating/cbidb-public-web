@@ -33,16 +33,12 @@ export default class PaymentDetailsPage extends React.PureComponent<Props> {
 	}
 	render() {
 		const self = this
-		console.log("welcome:: ", this.props.welcomePackage)
-		console.log("order status::  ", this.props.orderStatus)
-		console.log("cart::  ", this.props.cartItems)
 
 		const stripeElement = <StripeElement
 			formId="payment-form"
 			elementId="card-element"
 			cardErrorsId="card-errors"
 			then={(result: TokensResult) => {
-				console.log(result)
 				storeToken.send(PostJSON({
 					token: result.token.id,
 					orderId: self.props.welcomePackage.orderId
