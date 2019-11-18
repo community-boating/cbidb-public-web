@@ -65,38 +65,40 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 		const self= this;
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
+		const doRegister = () => {
+			const validationResults = validate(this.state);
+			if (validationResults.length > 0) {
+				self.setState({
+					...self.state,
+					validationErrors: validationResults
+				})
+				return Promise.resolve();
+			} else {
+				return create.send(PostURLEncoded({
+					username: self.state.formData.email.getOrElse(""),
+					password: self.state.formData.pw1.getOrElse(""),
+					firstName: self.state.formData.firstName.getOrElse(""),
+					lastName: self.state.formData.lastName.getOrElse(""),
+				})).then(res => {
+					if (res.type == "Success") {
+						self.props.history.push("/")
+						console.log("did the transition...")
+						asc.updateState.login.setLoggedIn(self.state.formData.email.getOrElse(""))
+						console.log("... and poked!")
+					} else {
+						self.setState({
+							...self.state,
+							validationErrors: res.message.split("\\n")
+						})
+					}
+					return Promise.resolve();
+				})
+			}
+		}
+
 		const buttons = <div>
 			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push("/reserve"))}/>
-			<Button text="Register" onClick={() => {
-				const validationResults = validate(this.state);
-				if (validationResults.length > 0) {
-					self.setState({
-						...self.state,
-						validationErrors: validationResults
-					})
-					return Promise.resolve();
-				} else {
-					return create.send(PostURLEncoded({
-						username: self.state.formData.email.getOrElse(""),
-						password: self.state.formData.pw1.getOrElse(""),
-						firstName: self.state.formData.firstName.getOrElse(""),
-						lastName: self.state.formData.lastName.getOrElse(""),
-					})).then(res => {
-						if (res.type == "Success") {
-							self.props.history.push("/")
-							console.log("did the transition...")
-							asc.updateState.login.setLoggedIn(self.state.formData.email.getOrElse(""))
-							console.log("... and poked!")
-						} else {
-							self.setState({
-								...self.state,
-								validationErrors: res.message.split("\\n")
-							})
-						}
-						return Promise.resolve();
-					})
-				}
-			}}/>
+			<Button text="Register" onClick={doRegister}/>
 		</div>
 
 		const errorPopup = (
@@ -141,6 +143,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 						value={self.state.formData.pw1}
 						appendToElementCell={<span style={{color: "#777", fontSize: "0.8em"}}>  (Must be at least 6 characters long)</span>}
 						updateAction={updateState}
+						onEnter={doRegister}
 					/>
 					<FormInput
 						id="pw2"
@@ -149,6 +152,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 						isRequired
 						value={self.state.formData.pw2}
 						updateAction={updateState}
+						onEnter={doRegister}
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
