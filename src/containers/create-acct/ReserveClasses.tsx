@@ -356,12 +356,10 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						Wait listing in full classes is available once payment is processed and registration is complete.
 					</li>
 				</ul>
-				<br />
-				<Button text={<span>Continue to Registration ></span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/create-acct"))}/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Add a Junior">
 				Please enter the name of a junior member you'd like to register, and select any classes you'd like to reserve a spot in. 
-				If you have multiple juniors to register, click "Add Another Junior" below to add more.
+				If you have multiple juniors to register, complete this page one at a time, and click "Proceed to Register" on the right when you are finished.
 				<br />
 				<br />
 				<table><tbody><FormInput
@@ -370,7 +368,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					value={formData.juniorFirstName}
 					updateAction={updateState}
 					isRequired
-					appendToElementCell={<span style={{color: "#777", fontSize: "0.8em"}}>  (We'll collect more information later)</span>}
+					extraCells={<span style={{color: "#777", fontSize: "0.8em"}}>  (This is just to help you keep track of which class reservations are for which kids; we'll collect full information later)</span>}
 				/></tbody></table>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Beginner Sailing">
@@ -408,7 +406,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				)}
 			</JoomlaArticleRegion>
 			<Button text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/"))}/>
-			<Button text={<span>Add Junior</span>} spinnerOnClick={true} onClick={() => submitAction().then(
+			<Button text={<span>Create Junior</span>} spinnerOnClick={true} onClick={() => submitAction().then(
 				personId =>self.props.history.push(paths.reservationNotes.path.replace(":personId", String(personId))),
 				() => window.scrollTo(0, 0)
 			)}/>
@@ -416,9 +414,11 @@ export default class ReserveClasses extends React.Component<Props, State> {
 
 		const sidebar = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>
 			{self.state.preRegistrations.length==0
-				? <tr><td>As you reserve classes for more juniors, they will appear in this box!</td></tr>
+				? <tr><td>As you reserve classes for more juniors, they will appear in this box.  When you have reserved a class for all your juniors, click the button below!</td></tr>
 				: self.state.preRegistrations.map(preRegRender(() => self.props.history.push("/redirect/reserve")))
 			}
+			<br />
+			<Button text={<span>Proceed to Register ></span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/create-acct"))}/>
 			</tbody></table>
 			
 		</JoomlaSidebarRegion>);
