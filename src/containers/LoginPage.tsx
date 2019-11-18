@@ -87,7 +87,7 @@ export default class LoginPage extends React.Component<Props, State> {
 					for classes and view his/her progression throughout the summer.
 					<br />
 					<br />
-					If you were looking for <b>{"Adult Program"}</b> registration, please <PlaceholderLink>click here!</PlaceholderLink>
+					If you were looking for <b>{"Adult Program"}</b> registration, please <a href="https://portal2.community-boating.org/ords/f?p=610">click here!</a>
 				</div>
 			</JoomlaArticleRegion>
 		);

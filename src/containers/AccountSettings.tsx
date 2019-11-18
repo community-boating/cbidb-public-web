@@ -8,7 +8,6 @@ import { Form as HomePageForm } from "./HomePage";
 import TextInput from '../components/TextInput';
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
-import PlaceholderLink from '../components/PlaceholderLink';
 
 export interface Props {
 	history: History<any>
@@ -86,9 +85,9 @@ export default class AccountSettingsPage extends React.PureComponent<Props, Stat
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
-			<p>
+			{/* <p>
 				<PlaceholderLink style={{fontSize: "1.3em"}}>Click here to (re-)apply for a Junior Program Scholarship (changes on this page will not be saved)</PlaceholderLink>
-			</p>
+			</p> */}
 			<Button text="Cancel" onClick={() => Promise.resolve(this.props.history.push("/"))}/>
 		</JoomlaMainPage>
 	}

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import PlaceholderLink from "../../components/PlaceholderLink";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 
@@ -21,7 +20,7 @@ export default class Gatekeeper extends React.PureComponent<Props> {
 				<li><Link to="/reserve">
 					I am a parent/legal guardian of all juniors I am about to register (or have registered) under my name.
 				</Link></li>
-				<li><PlaceholderLink >I'm in the wrong place!  Please take me to Adult Program signups.</PlaceholderLink></li>
+				<li><a href="https://portal2.community-boating.org/ords/f?p=610">I'm in the wrong place!  Please take me to Adult Program signups.</a></li>
 			</ul>
 		</div>
 

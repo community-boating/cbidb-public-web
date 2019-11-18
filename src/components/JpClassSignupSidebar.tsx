@@ -1,6 +1,5 @@
 import * as React from 'react';
 import JoomlaSidebarRegion from "../theme/joomla/JoomlaSidebarRegion";
-import PlaceholderLink from './PlaceholderLink';
 import { GetSignupsAPIResult, EnrollmentAPIResult, WaitListTopAPIResult, WaitListAPIResult } from '../async/junior/get-signups';
 import { postWrapper as doSignup } from "../async/junior/class-signup"
 import { postWrapper as deleteSignup } from "../async/junior/class-signup-delete"

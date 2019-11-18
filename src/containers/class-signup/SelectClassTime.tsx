@@ -12,7 +12,6 @@ import { Select } from '../../components/Select';
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../../util/form-update-state';
 import * as moment from 'moment'
-import PlaceholderLink from '../../components/PlaceholderLink';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import { History } from 'history';
 import JpClassSignupSidebar from '../../components/JpClassSignupSidebar';

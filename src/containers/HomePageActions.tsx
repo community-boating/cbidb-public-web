@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom';
 
-import PlaceholderLink from "../components/PlaceholderLink";
 import {regPath, editPath} from "../containers/registration/pageflow/RegistrationWizard"
 import { postWrapper as abortRegistration } from "../async/junior/abort-mem-reg"
 import { PostJSON } from '../core/APIWrapper';
