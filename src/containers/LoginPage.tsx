@@ -143,7 +143,7 @@ export default class LoginPage extends React.Component<Props, State> {
 							onEnter={self.loginFunction}
 						/>
 						<tr><td></td><td><span>
-							<PlaceholderLink >I forgot my password!</PlaceholderLink>
+							<Link to="/forgot-pw">I forgot my password!</Link>
 						</span></td></tr>
 					</tbody></table>
 				</div>

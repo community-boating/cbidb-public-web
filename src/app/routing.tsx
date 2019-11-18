@@ -38,6 +38,9 @@ import {getWrapper as getSignupNote} from "../async/junior/signup-note"
 import MaintenanceSplash from "../containers/MaintenanceSplash"
 import ReservationSignupNote from '../containers/create-acct/ReservationSignupNote';
 import ThankYouPage from '../containers/checkout/ThankYou';
+import ForgotPasswordPage from '../containers/ForgotPasswordPage';
+import NewPasswordPage from '../containers/NewPasswordPage';
+import ForgotPasswordSentPage from '../containers/ForgotPasswordSent';
 
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
@@ -55,6 +58,7 @@ export const paths = {
 	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId"),
 	signupNote: pathAndParamsExtractor<{personId: string, instanceId: string}>("/class-note/:personId/:instanceId"),
 	reservationNotes: pathAndParamsExtractor<{personId: string}>("/reserve-notes/:personId"),
+	resetPassword: pathAndParamsExtractor<{email: string, hash: string}>("/reset-pw/:email/:hash"),
 }
 
 export const getClassesAndPreregistrations = () => {
@@ -138,6 +142,25 @@ export default function (history: History<any>) {
 			urlProps={{}}
 			shadowComponent={<span></span>}
 			getAsyncProps={getClassesAndPreregistrations}
+		/>} />,
+		<Route key="/forgot-pw" path="/forgot-pw" render={() => <ForgotPasswordPage 
+			history={history}
+		/>} />,
+		<Route key="/forgot-pw-sent" path="/forgot-pw-sent" render={() => <ForgotPasswordSentPage
+			history={history}
+		/>} />,
+		<Route key="/reset-pw" path="/reset-pw" render={() => <PageWrapper
+			key="CreateAccountPage"
+			history={history}
+			component={(urlProps: {email: string, hash: string}, async: any) => <NewPasswordPage
+				history={history}
+				email={urlProps.email}
+				hash={urlProps.hash}
+			/>}
+			urlProps={{
+				email: paths.resetPassword.getParams(history.location.pathname).email,
+				hash: paths.resetPassword.getParams(history.location.pathname).hash,
+			}}
 		/>} />,
 		<Route key="default" render={() => <PageWrapper
 			key="CreateAccountPage"
