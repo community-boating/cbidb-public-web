@@ -300,7 +300,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 				{specNeedsFields}
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
-			<Button text="Next >" onClick={() => {
+			<Button text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(
 					// api success
 					ret => {

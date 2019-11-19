@@ -57,7 +57,7 @@ export default class TermsConditions extends React.Component<Props, {radio: stri
 				/>
 			</JoomlaNotitleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
-			{(self.state || {} as any).radio == "Yes" ? <Button text="Next >" onClick={() => 
+			{(self.state || {} as any).radio == "Yes" ? <Button text="Next >" spinnerOnClick onClick={() => 
 				accept.send(PostJSON({personId: self.props.personId})).then(self.props.goNext)
 			}/> : ""}
 		</JoomlaMainPage>

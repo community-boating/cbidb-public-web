@@ -209,7 +209,7 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 				{emergFields}
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
-			<Button text="Next >" onClick={() => {
+			<Button text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(res => {
 					if (res.type == "Success") {
 						self.props.goNext()

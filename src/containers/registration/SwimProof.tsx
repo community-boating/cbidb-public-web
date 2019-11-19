@@ -86,7 +86,7 @@ export default class SwimProof extends React.Component<Props, State> {
                 </span>
 			</JoomlaNotitleRegion>
 			<Button text="< Back" onClick={this.props.goPrev}/>
-			{self.state.formData.swimProofId.getOrElse("-1") != "-1" ? <Button text="Next >" onClick={() => {
+			{self.state.formData.swimProofId.getOrElse("-1") != "-1" ? <Button text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper(this.props.personId).send(PostJSON({swimProofId: this.state.formData.swimProofId} ))
 					.then(this.props.goNext)
 			}}/> : null}
