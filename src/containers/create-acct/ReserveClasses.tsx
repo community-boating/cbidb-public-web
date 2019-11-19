@@ -412,7 +412,21 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				: self.state.preRegistrations.map(preRegRender(() => self.props.history.push("/redirect/reserve")))
 			}
 			<br />
-			<Button text={<span>Register {self.state.preRegistrations.length} Jr(s) ></span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/create-acct"))}/>
+			<Button
+				text={<span style={{fontSize: "0.9em"}}>Continue with {self.state.preRegistrations.length} Junior(s) ></span>}
+				spinnerOnClick={true}
+				onClick={() => {
+					const formData = self.state.formData;
+					const didStuff = formData.juniorFirstName.isSome() || formData.selectedBeginnerInstance.isSome() || formData.selectedIntermediateInstance.isSome();
+					const juniorCt = self.state.preRegistrations.length;
+					const s = juniorCt == 1 ? "" : "s";
+					if (!didStuff || confirm(`You have unsaved work on this page.  Continue to finalize registration with ${juniorCt} junior${s}?`)) {
+						return Promise.resolve(self.props.history.push("/create-acct"))
+					} else {
+						return Promise.resolve();
+					}
+				}}
+			/>
 			</tbody></table>
 			
 		</JoomlaSidebarRegion>);

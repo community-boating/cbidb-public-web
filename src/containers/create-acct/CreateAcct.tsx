@@ -96,7 +96,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 
 		const buttons = <div>
 			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push("/reserve"))}/>
-			<Button text="Register" onClick={doRegister}/>
+			<Button text="Register" spinnerOnClick onClick={doRegister}/>
 		</div>
 
 		const errorPopup = (
