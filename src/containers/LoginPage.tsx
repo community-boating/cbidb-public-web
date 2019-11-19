@@ -79,10 +79,11 @@ export default class LoginPage extends React.Component<Props, State> {
 		const welcomeRegion = (
 			<JoomlaArticleRegion title={<span>Welcome to CBI Online!<br />-  Junior Program  -</span>}>
 				<div>
-					If you are new to Community Boating and would like to purchase a Junior Program membership for your child,
-					<b>{" click on the first option "}</b>
-					{"to the right.  Once your child's registration is complete you can return here to sign him/her up "}
-					for classes and view his/her progression throughout the summer.
+					If you're new to Community Boating and would like to sign up for youth novice classes,
+					choose the first option on the right. Once your child's registration is complete
+					you can return here to sign up for additional classes throughout the season.
+					Parents with existing accounts should use the second section to the right.
+					New parents with experienced youth should contact the JP Directors or call the boathouse at 617-523-1038.
 					<br />
 					<br />
 					If you were looking for <b>{"Adult Program"}</b> registration, please <a href="https://portal2.community-boating.org/ords/f?p=610">click here!</a>
@@ -90,31 +91,29 @@ export default class LoginPage extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 		);
 
+		const jpPrice = self.props.jpPrice.getOrElse(Currency.dollars(349))
+
 		const scholarshipRegion = (
-			<JoomlaArticleRegion title="Scholarships are available to provide sailing for all.">
-				{self.props.jpPrice.isSome() ? `The price of a Junior Program membership is ${self.props.jpPrice.getOrElse(null).format(true)}.` : ""}
-				{`
-					Community Boating Inc. provides scholarships for families in need
-					so that every child has an opportunity to enroll in the Junior Program.
-					To find out if you qualify for a scholarship,
-					please create an account and fill out the scholarship form.
-				`}
+			<JoomlaArticleRegion title="Reduced fee available to provide sailing for all.">
+				We strive to make Junior Membership affordable to all.
+				Our fee is on a generous need-based sliding scale from $1 to {jpPrice.format(true)} and includes membership, classes, and boat usage;
+				everything we offer for ten summer weeks!
+				During registration, our fee calculator considers household income and family makeup.
+				Memberships are non-refundable and non-transferable. Register before Jan 1 to lock in last year's pricing!
 			</JoomlaArticleRegion>
 		);
 
 		// right columns 
 
 		const newAcctRegion = (
-			<JoomlaArticleRegion title="My child and I are new to Community Boating.">
+			<JoomlaArticleRegion title="New CBI Parents...">
 				<div>
-					<ul style={{ fontSize: "0.92em", marginLeft: "20px" }}>
-						<li><Link to="/precreate">
-							Click here to create a parent account.
-						</Link></li>
-					</ul>
+					<Link to="/reserve">
+						...click here to sign up your child(ren)!
+					</Link>
 					<br />
-					{`If your child was a member last season, please use your email and password from last season, ` + 
-					`rather than creating a new account.`}
+					<br />
+					{`Existing parent account holders: sign in below to purchase memberships and sign up for classes.`}
 				</div>
 			</JoomlaArticleRegion>
 		);
@@ -153,12 +152,9 @@ export default class LoginPage extends React.Component<Props, State> {
 		const inPersonRegion = (
 			<JoomlaArticleRegion title="I purchased a membership in person.">
 				<div>
-					{`If you have already purchased a membership for this year in person,
-					you should have received an email with a link to set a password for your account.
-					If you did not receive the email, click \"I Forgot My Password\" to the right
-					and we will send you another `}
-					<b>(IMPORTANT: Be sure to use the same email address used for initial registration)</b>
-					{`. If you still have difficulty accessing your account, please call the boathouse at 617-523-1038.`}
+					If you purchased a membership in person, you should have received an email with a link to set an account password.
+					If you did not receive an email, click "I Forgot My Password" above and we'll send you an email <b>(IMPORTANT: use the same email address used for initial registration)</b>.
+					If you still have difficulty accessing your account, please call the boathouse at 617-523-1038.
 				</div>
 			</JoomlaArticleRegion>
 		)

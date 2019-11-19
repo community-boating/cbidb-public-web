@@ -11,7 +11,6 @@ import PageWrapper from '../core/PageWrapper';
 import SelectClassTime from "../containers/class-signup/SelectClassTime";
 import SelectClassType from "../containers/class-signup/SelectClassType";
 import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from '../containers/create-acct/ReserveClasses';
-import Gatekeeper from "../containers/create-acct/Gatekeeper";
 import HomePage, { Form as HomePageForm } from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
 import RatingsPage from '../containers/RatingsPage';
@@ -101,7 +100,6 @@ export const getClassesAndPreregistrations = () => {
 export default function (history: History<any>) {
 	// TODO: auto create all these redirect routes?
 	const mustNotBeLoggedIn = [
-		<Route key="/precreate" path="/precreate" render={() => <Gatekeeper />} />,
 		<Route key="/redirect/reserve" path="/redirect/reserve" render={() => <Redirect to="/reserve" />} />,
 		<Route key="/redirect/create-acct" path="/redirect/create-acct" render={() => <Redirect to="/create-acct" />} />,
 		<Route key="/reserve" path="/reserve" render={() => <PageWrapper

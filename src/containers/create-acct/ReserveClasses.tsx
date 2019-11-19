@@ -330,30 +330,33 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		const main = (<React.Fragment>
 			{errorPopup}
 			<JoomlaArticleRegion title="Reserve Classes">
-				New sailors should take our two-week Beginner Sailing class.
-				You may also sign your child up for a two-week Intermediate Sailing class.
-				We recommend signing up all new sailors/members for a one-hour Paddling Introduction so they can go paddling when not in class.
+				Novice sailors start with our two-week Beginner Sailing.
+				They may also sign up now for our two-week Intermediate Sailing starting after their beginner session concludes.
+				Our sliding scale junior membership fee covers all classes and boat signouts.
 				<br />
 				<br />
 				
-				Please note the following important points:<br /><br />
+				Please note:<br /><br />
 				<ul>
 					<li>
 						<span style={{color: "#F00", fontWeight: "bold"}}>
-							Your class signup is not finalized until registration is complete and payment is processed.
-						</span>  Your spots will be held for 2 hours after submitting your first reservation.
+							Class signup is NOT finalized until registration is complete and payment processed. 
+						</span>  Spots are only reserved for two hours.
 					</li>
 					<li>
-						Other class types are offered; signups are available once payment is processed and registration is complete. 
+						Signup for additional offerings is available after completing registration.
 					</li>
 					<li>
-						Wait listing in full classes is available once payment is processed and registration is complete.
+						Completed payment and registration is required in order to waitlist.
+					</li>
+					<li>
+						Experienced sailors should click "Continue" on the right without making any reservations, and contact the JP directors for proper placement.
 					</li>
 				</ul>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Add a Junior">
-				Please enter the name of a junior member you'd like to register, and select any classes you'd like to reserve a spot in. 
-				If you have multiple juniors to register, complete this page one at a time, and click "Proceed to Register" on the right when you are finished.
+				Please enter the name of a junior member you'd like to register, select any classes you'd like to reserve a spot in, and then hit submit.
+				Once you've signed up and submitted all your children, click "Continue" on the right when you are finished.
 				<br />
 				<br />
 				<table><tbody><FormInput
