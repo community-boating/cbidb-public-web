@@ -153,7 +153,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 				return postYes().send(PostJSON({
 					numberWorkers: Number(form.numberAdults.getOrElse("0")),
 					childCount: Number(form.numberChildren.getOrElse("0")),
-					income:  Number(form.income.getOrElse("0"))
+					income:  Number(form.income.getOrElse("0").replace(",","").replace("$",""))
 				})).then(self.props.goNext)
 			} else {
 				return postNo().send(PostJSON({})).then(() => {
