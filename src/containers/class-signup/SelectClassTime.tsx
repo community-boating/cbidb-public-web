@@ -90,7 +90,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		)
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <ErrorDiv errors={this.state.validationErrors.flatMap(ve => ve.split("<br><br>"))}/>
 			: ""
 		);
 
