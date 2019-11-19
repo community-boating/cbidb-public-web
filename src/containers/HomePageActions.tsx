@@ -66,7 +66,7 @@ export default (bv: number, juniorId: number, history: History<any>) => {
         } else if (testBit(bv, 1)) {
             return [<Link to={reg}>{"Purchase Summer Membership"}</Link>];
         } else if (testBit(bv, 2)) {
-            return [<Link to={reg}>{"Edit Registration"}</Link>]
+            return [<Link to={reg}>{"Complete Registration"}</Link>]
         } else return [];
     }()).concat(actions.filter(({place}) => testBit(bv, place)).map(({element}) => element))
     .map((element, i) => <li key={i}>{element}</li>)
