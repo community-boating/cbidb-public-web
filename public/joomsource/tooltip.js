@@ -17,7 +17,6 @@ if (ie || ns6)
 function ietruebody() {
 	return (document.compatMode && document.compatMode != "BackCompat") ? document.documentElement : document.body
 }
-console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@hi from tooltip js")
 
 function ddrivetip(thetext, thecolor, thewidth) {
 	if (ns6 || ie) {
