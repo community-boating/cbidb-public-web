@@ -1,4 +1,4 @@
-import { Option } from "fp-ts/lib/Option";
+import { Option, none } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
@@ -14,6 +14,7 @@ import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../util/form-update-state';
 import ErrorDiv from "../../theme/joomla/ErrorDiv";
+import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 
 export const formName = "emergencyContact"
 
@@ -199,7 +200,7 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 			: ""
 		);
 		
-		return <JoomlaMainPage>
+		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}

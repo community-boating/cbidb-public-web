@@ -1,5 +1,6 @@
-import { Option, some } from "fp-ts/lib/Option";
+import { Option, some, none } from "fp-ts/lib/Option";
 import * as React from "react";
+import { History } from 'history';
 
 import { postWrapper } from "../../async/junior/swim-proof";
 import Button from "../../components/Button";
@@ -10,6 +11,7 @@ import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from "../../util/form-update-state";
+import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 
 export interface Form {
 	swimProofId: Option<string>
@@ -20,6 +22,7 @@ class FormRadio extends RadioGroup<Form> {}
 
 type Props = {
 	personId: number,
+	history: History<any>,
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
 	breadcrumb: JSX.Element,
@@ -57,7 +60,7 @@ export default class SwimProof extends React.Component<Props, State> {
             </div>
         </JoomlaNotitleRegion>)
 	
-		return <JoomlaMainPage>
+		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>

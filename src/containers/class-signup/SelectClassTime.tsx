@@ -17,6 +17,7 @@ import { History } from 'history';
 import JpClassSignupSidebar from '../../components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '../../async/junior/get-signups';
 import Button from '../../components/Button';
+import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 
@@ -122,7 +123,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		);
 
 		return (
-			<Joomla8_4 main={allRegions} right={<JpClassSignupSidebar
+			<Joomla8_4 navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})} main={allRegions} right={<JpClassSignupSidebar
 				signups={self.props.signups}
 				history={self.props.history}
 				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}

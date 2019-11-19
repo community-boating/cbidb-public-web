@@ -9,6 +9,7 @@ import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import {apiw as accept} from "../../async/junior/accept-tos"
 import { PostJSON } from "../../core/APIWrapper";
+import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 
 interface Props {
 	personId: number,
@@ -21,7 +22,7 @@ interface Props {
 export default class TermsConditions extends React.Component<Props, {radio: string}> {
 	render() {
 		const self = this;
-		return <JoomlaMainPage>
+		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>

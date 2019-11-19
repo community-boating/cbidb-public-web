@@ -3,7 +3,8 @@ import Page from "../../components/Page";
 
 interface Joomla8_4Props {
 	main: React.ReactNode,
-	right: React.ReactNode
+	right: React.ReactNode,
+	navBar?: JSX.Element
 }
 
 export default class Joomla8_4 extends Page<Joomla8_4Props> {
@@ -16,7 +17,7 @@ export default class Joomla8_4 extends Page<Joomla8_4Props> {
 				<div className="rt-grid-8">
 					<div id="rt-main-column" className="page-content-light">
 						<div className="rt-block component-block" style={({minHeight: "350px"})}>
-							<div style={({position: "absolute", "right": "20px"})}></div>
+							<div style={({position: "absolute", "right": "20px"})}>{this.props.navBar}</div>
 							<div id="rt-mainbody">
 								<div className="component-content rt-joomla">
 									<div className="rt-joomla ">

@@ -15,6 +15,7 @@ import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../util/form-update-state';
+import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 
 export const formName = "surveyInfoForm"
  
@@ -53,7 +54,7 @@ export default class SurveyInfo extends React.Component<Props, State> {
 
 		// TODO: blank out the "other" fields in state when the toggling checkbox is unchecked
 
-		return <JoomlaMainPage>
+		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>

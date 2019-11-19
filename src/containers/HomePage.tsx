@@ -12,6 +12,7 @@ import { History } from 'history';
 import moment = require('moment');
 import { checkUpgradedAsValidationErrorArray } from '../util/checkUpgraded';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
+import { some } from 'fp-ts/lib/Option';
 
 export type Form = t.TypeOf<typeof validator>;
 
@@ -62,7 +63,7 @@ export default class HomePage extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: moment(this.props.data.serverTime)})}>
+		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime))})}>
 			{errorPopup}
 			{mainTable}
 			{/* <Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" /> */}

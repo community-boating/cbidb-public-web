@@ -21,6 +21,7 @@ import range from "../../util/range";
 import moment = require('moment');
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import asc from '../../app/AppStateContainer';
+import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
 
 // TODO: are these used anymore?
 export const formName = "registrationRequiredInfo"
@@ -284,7 +285,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage>
+		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}

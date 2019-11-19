@@ -15,6 +15,8 @@ import { GetSignupsAPIResult } from '../../async/junior/get-signups';
 import { History } from 'history'
 import Button from '../../components/Button';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
+import { none } from 'fp-ts/lib/Option';
 
 export const formName = "selectClassType"
 
@@ -122,7 +124,7 @@ export default class SelectClassType extends React.Component<Props, State> {
 		);
 
 		return (
-			<Joomla8_4 main={allRegions} right={<JpClassSignupSidebar
+			<Joomla8_4 navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})} main={allRegions} right={<JpClassSignupSidebar
 				signups={self.props.signups}
 				history={self.props.history}
 				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}
