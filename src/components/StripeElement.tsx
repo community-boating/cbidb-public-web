@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { TokensResult } from '../models/stripe/tokens';
-import { setFlagsFromString } from 'v8';
 import Button from './Button';
 
 type Props = {
@@ -19,7 +18,7 @@ export default class StripeElement extends React.Component<Props> {
 	componentDidMount() {
 		const self = this;
 		// TODO: put this somewhere
-		var stripe = Stripe('pk_test_9lGKKlihnP3TT7oPu4TKV5Vh');
+		var stripe = Stripe((process.env.config as any).stripeKey);
 		var elements = stripe.elements();
 		// Custom styling can be passed to options when creating an Element.
 		var style = {
