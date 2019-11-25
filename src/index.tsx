@@ -1,3 +1,6 @@
+import 'react-app-polyfill/ie11';
+// Above must be the first line
+
 import { none, some } from 'fp-ts/lib/Option';
 import { createBrowserHistory } from 'history';
 
