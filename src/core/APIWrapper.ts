@@ -91,7 +91,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 	}
 	send: (data: PostType<T_PostJSON>) => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = data => this.sendWithParams(none)(data)
 	sendWithParams: (serverParamsOption: Option<ServerParams>) => (data: PostType<T_PostJSON>) => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = serverParamsOption => data => {
-		const serverParams = serverParamsOption.getOrElse(asc.state.appProps.serverToUseForAPI);
+		const serverParams = serverParamsOption.getOrElse((process.env as any).serverToUseForAPI);
 		const self = this;
 		type Return = Promise<ApiResult<t.TypeOf<T_ResponseValidator>>>;
 		return new Promise((resolve, reject) => {

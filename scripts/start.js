@@ -14,7 +14,10 @@ process.on('unhandledRejection', err => {
 // Ensure environment variables are read.
 require('../config/env');
 
+const serverConfig = require("../config/readIni");
+
 const fs = require('fs');
+const ini = require('ini');
 const chalk = require('react-dev-utils/chalk');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
@@ -40,7 +43,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 }
 
 // Tools like Cloud9 rely on this.
-const {host, port} = require("../src/server").SELF
+const {host, port} = serverConfig.serverConfig.SELF
 process.env.HOST = host;
 process.env.PORT = port;
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8081;

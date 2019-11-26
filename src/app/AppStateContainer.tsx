@@ -30,10 +30,6 @@ export interface AppProps {
 	jpDirectorEmail: string,
 	jpPriceCents: number,
 	currentSeason: number,
-	apiServerParams: ServerParams,
-	selfServerParams: ServerParams,
-	serverConfig: ServerConfig,
-	serverToUseForAPI: ServerParams
 }
 
 type State = {
