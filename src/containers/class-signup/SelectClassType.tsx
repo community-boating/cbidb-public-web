@@ -18,8 +18,6 @@ import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
 
-export const formName = "selectClassType"
-
 export const path = "/class/:personId"
 
 type ClassIDHash = {[K: string]: boolean};

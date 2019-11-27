@@ -17,9 +17,6 @@ import Currency from "../util/Currency";
 import formUpdateState from '../util/form-update-state';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 
-
-export const formName = "scholarshipForm"
-
 export interface Form {
 	isApplying: Option<string>,
 	numberAdults: Option<string>,
