@@ -16,8 +16,6 @@ import formUpdateState from '../../util/form-update-state';
 import ErrorDiv from "../../theme/joomla/ErrorDiv";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 
-export const formName = "emergencyContact"
-
 type ApiType = t.TypeOf<typeof validator>
 
 export type Form = ApiType & {

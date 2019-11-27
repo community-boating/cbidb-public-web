@@ -17,9 +17,6 @@ import Currency from "../util/Currency";
 import formUpdateState from '../util/form-update-state';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 
-
-export const formName = "scholarshipForm"
-
 export interface Form {
 	isApplying: Option<string>,
 	numberAdults: Option<string>,
@@ -150,10 +147,12 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			const form = self.state.formData
 			const isApplying = form.isApplying.getOrElse("No") == "Yes"
 			if (isApplying) {
+				const rawIncome = form.income.getOrElse("0");
+				const afterReplace = rawIncome.replace(/,/g,"").replace(/\$/g,"");
 				return postYes().send(PostJSON({
 					numberWorkers: Number(form.numberAdults.getOrElse("0")),
 					childCount: Number(form.numberChildren.getOrElse("0")),
-					income:  Number(form.income.getOrElse("0").replace(",","").replace("$",""))
+					income:  Number(afterReplace)
 				})).then(self.props.goNext)
 			} else {
 				return postNo().send(PostJSON({})).then(() => {

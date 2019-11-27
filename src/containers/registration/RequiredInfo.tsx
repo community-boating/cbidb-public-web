@@ -23,9 +23,6 @@ import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import asc from '../../app/AppStateContainer';
 import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
 
-// TODO: are these used anymore?
-export const formName = "registrationRequiredInfo"
-
 type ApiType = t.TypeOf<typeof validator>
 
 export type Form = ApiType & {

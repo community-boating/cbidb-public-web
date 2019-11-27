@@ -16,8 +16,6 @@ import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../util/form-update-state';
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
-
-export const formName = "surveyInfoForm"
  
 export type Form = t.TypeOf<typeof validator>
 
