@@ -12,11 +12,6 @@ const serverConfig = (function() {
 			https: true,
 			pathPrefix: "/api",
 			port: 443
-		},
-		API: {
-			host: "localhost",
-			https: false,
-			port: 300
 		}
 	}
 	
