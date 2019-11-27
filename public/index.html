@@ -1,6 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
   <head>
+<!--[if IE]>
+<script type="text/javascript">
+window.location = "https://" + window.location.host + "/ie";
+</script>
+<![endif]-->
+<script>
+var isIE=navigator.userAgent.indexOf('MSIE')!==-1|| navigator.appVersion.indexOf('Trident/') > -1;
+if (isIE) {
+  window.location = "https://" + window.location.host + "/ie";
+}
+</script>
+
 	  <!--
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
