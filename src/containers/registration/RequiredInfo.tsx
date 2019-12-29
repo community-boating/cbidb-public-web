@@ -123,6 +123,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 					label="Middle Initial"
 					value={formData.middleInitial}
 					updateAction={updateState}
+					maxLength={5}
 				/>
 				<FormInput
 					id="lastName"
