@@ -255,6 +255,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 					value={formData.allergies}
 					updateAction={updateState}
 					placeholder="Please leave blank if none"
+					maxLength={3999}
 				/>
 				<FormTextArea
 					id="medications"
@@ -264,6 +265,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 					value={formData.medications}
 					updateAction={updateState}
 					placeholder="Please leave blank if none"
+					maxLength={3999}
 				/>
 				<FormTextArea
 					id="specialNeeds"
@@ -273,6 +275,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 					value={formData.specialNeeds}
 					updateAction={updateState}
 					placeholder="Please leave blank if none"
+					maxLength={3999}
 				/>
 			</tbody></table>
 		);
