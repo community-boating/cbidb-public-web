@@ -91,7 +91,7 @@ export default class LoginPage extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 		);
 
-		const jpPrice = self.props.jpPrice.getOrElse(Currency.dollars(349))
+		const jpPrice = self.props.jpPrice.getOrElse(Currency.dollars(375))
 
 		const scholarshipRegion = (
 			<JoomlaArticleRegion title="Reduced fee available to provide sailing for all.">
