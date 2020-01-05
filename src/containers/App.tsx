@@ -3,7 +3,7 @@ import * as React from 'react';
 import asc, { AppStateContainer } from '../app/AppStateContainer';
 import router from "../app/routing";
 import JoomlaBase from '../theme/joomla/JoomlaBase';
-import { Option, some, none } from 'fp-ts/lib/Option';
+import {  none } from 'fp-ts/lib/Option';
 import {apiw as isLoggedInAsMember} from '../async/is-logged-in-as-member';
 
 interface Props {

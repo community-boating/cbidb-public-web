@@ -16,10 +16,10 @@ type Props = {
 	startingPreRegistrations: PreRegistration[]
 }
 
-type ClassState = {
-	instanceId: number,
-	signupNote: Option<string>
-}
+// type ClassState = {
+// 	instanceId: number,
+// 	signupNote: Option<string>
+// }
 
 type Form = {
 	beginnerInstanceId: Option<number>,

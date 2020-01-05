@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ClassType } from "../../class-description";
 
-
 const data: ClassType = {
 	typeId: 1241,
 	typeName: "Paddle Adventure",

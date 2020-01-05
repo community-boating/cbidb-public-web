@@ -11,7 +11,6 @@ const resultValidator = t.type({
 	success: t.boolean
 })
 
-
 const path = "/junior/class-signup-delete"
 
 export const postWrapper = new APIWrapper<typeof resultValidator, t.TypeOf<typeof validator>, {}>({

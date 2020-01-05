@@ -33,8 +33,8 @@ const signupNoteMaybe = (typeId: number, juniorId: number, instanceId: number) =
 	: null
 )
 
-declare var ddrivetip;
-declare var hideddrivetip;
+declare var ddrivetip: any;
+declare var hideddrivetip: any;
 
 const wlTopTooltip = `<table style="font-size:1.1em;"><tr><td>
 A seat in the class has opened and you are next in line!  Click "Join the class" to enroll, or "Delist" if you are no longer interested (choosing "Delist" will permanently remove you from the wait list).  If this class conflicts with any others you are already signed up for, you will be prompted to unenroll from each of them before continuing.<br />

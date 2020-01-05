@@ -1,6 +1,6 @@
 import * as React from "react";
 import{ History } from 'history';
-import { ApiResult, Success } from "./APIWrapper";
+import { ApiResult } from "./APIWrapper";
 import { doEFuseCheck } from "../util/checkUpgraded";
 
 interface Props<T_URL, T_Async> {

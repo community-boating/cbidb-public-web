@@ -1,4 +1,3 @@
-import * as t from 'io-ts';
 import * as React from "react";
 
 import { InstanceInfo } from "../async/junior/get-class-instances";
@@ -9,6 +8,7 @@ import { postWrapper as deleteSignup } from "../async/junior/class-signup-delete
 import APIWrapper, { PostJSON } from '../core/APIWrapper';
 import { History } from 'history';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../lov/magicStrings';
+import assertNever from "../util/assertNever";
 
 interface Props {
 	typeId: number,
@@ -85,7 +85,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 				}}>Delist</a>
 			</React.Fragment>);
 		default:
-			const check: never = action;
+			assertNever(action);
 			return "";
 		}
 	}

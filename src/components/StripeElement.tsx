@@ -9,9 +9,7 @@ type Props = {
 	then: (result: TokensResult) => any
 }
 
-declare var Stripe;
-
-
+declare var Stripe: any;
 
 export default class StripeElement extends React.Component<Props> {
 	submit: () => void
@@ -35,7 +33,7 @@ export default class StripeElement extends React.Component<Props> {
 		});
 
 		this.submit = () => {
-			stripe.createToken(card).then(function(result) {
+			stripe.createToken(card).then(function(result: any) {
 				if (result.error) {
 					// Inform the customer that there was an error
 					var errorElement = document.getElementById(self.props.cardErrorsId);
@@ -50,7 +48,7 @@ export default class StripeElement extends React.Component<Props> {
 		if (document.getElementById(this.props.elementId)) {
 			card.mount(`#${this.props.elementId}`);
 
-			card.addEventListener('change', function(event) {
+			card.addEventListener('change', function(event: any) {
 				var displayError = document.getElementById(self.props.cardErrorsId);
 				if (event.error) {
 					displayError.textContent = event.error.message;

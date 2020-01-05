@@ -2,10 +2,9 @@ import * as React from "react";
 import * as t from 'io-ts';
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import Button from "../../components/Button";
 import StripeConfirm from "../../components/StripeConfirm";
-import {orderStatusValidator, CardData} from "../../async/order-status"
+import {orderStatusValidator} from "../../async/order-status"
 import { postWrapper as submitPayment } from "../../async/stripe/submit-payment"
 import { PostString } from "../../core/APIWrapper";
 import ErrorDiv from "../../theme/joomla/ErrorDiv";

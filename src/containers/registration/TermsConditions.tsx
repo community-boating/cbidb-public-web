@@ -1,4 +1,4 @@
-import { none, some, Option } from "fp-ts/lib/Option";
+import { none, some } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
 

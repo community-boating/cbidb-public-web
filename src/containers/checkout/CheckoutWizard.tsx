@@ -1,15 +1,12 @@
 import { History } from "history";
-import * as t from 'io-ts';
 import * as React from "react";
-import WizardPageflow, { WizardNode, ComponentPropsFromWizard } from "../../core/WizardPageflow";
-import { State as BreadcrumbState } from "../../core/Breadcrumb"
-import { Option, none, Some, some } from "fp-ts/lib/Option";
+import WizardPageflow, { ComponentPropsFromWizard } from "../../core/WizardPageflow";
+import { Option, none, some } from "fp-ts/lib/Option";
 import PageWrapper from "../../core/PageWrapper";
-import { Form as HomePageForm } from '../HomePage';
 import { apiw as welcomeAPI } from "../../async/member-welcome";
 import PaymentDetailsPage from "./PaymentDetails";
 import PaymentConfirmPage from "./PaymentConfirm";
-import { apiw as orderStatus, CardData, OrderStatus } from "../../async/order-status"
+import { apiw as orderStatus, CardData } from "../../async/order-status"
 import { setCheckoutImage } from "../../util/set-bg-image";
 import { apiw as getCartItems } from "../../async/get-cart-items"
 

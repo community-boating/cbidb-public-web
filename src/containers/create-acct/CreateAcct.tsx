@@ -1,7 +1,6 @@
 import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
 import TextInput from "../../components/TextInput";
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
 import Button from '../../components/Button';
 import { History } from 'history';
 import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
@@ -11,9 +10,8 @@ import Joomla8_4 from '../../theme/joomla/Joomla8_4';
 import { preRegRender } from './ReserveClasses';
 import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
 import { postWrapper as create } from '../../async/create-member'
-import { PostJSON, PostString, PostURLEncoded } from '../../core/APIWrapper';
+import { PostURLEncoded } from '../../core/APIWrapper';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
-import { Either } from 'fp-ts/lib/Either';
 import Validation from '../../util/Validation';
 import asc from '../../app/AppStateContainer';
 

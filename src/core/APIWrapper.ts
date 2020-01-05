@@ -52,7 +52,7 @@ export interface ServerParams {
 
 interface PostValues {content: string, headers: {"Content-Type": string, "Content-Length": string}}
 
-export const PostURLEncoded: (o: object) => PostString = o => {
+export const PostURLEncoded: (o: any) => PostString = o => {
 	var arr = [];
 	for (var p in o) {
 		arr.push(encodeURIComponent(p) + "=" + encodeURIComponent(o[p]));
@@ -226,7 +226,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 					}());
 
 					let retArray: any = [];
-					rows.forEach(row => {
+					rows.forEach((row: any) => {
 						let rowObject: any = {};
 						for (var prop in self.config.jsconMap) {
 							rowObject[prop] = row[columnMap[prop]];

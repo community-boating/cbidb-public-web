@@ -2,7 +2,6 @@ import { none, Option } from 'fp-ts/lib/Option';
 import { History } from "history";
 import * as React from "react";
 
-import asc from "../app/AppStateContainer";
 import { postWrapper as postNo } from "../async/junior/scholarship-no";
 import { postWrapper as postYes } from "../async/junior/scholarship-yes";
 import Button from "../components/Button";

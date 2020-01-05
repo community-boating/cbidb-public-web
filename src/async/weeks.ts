@@ -1,7 +1,6 @@
 import * as t from 'io-ts';
-import APIWrapper, { ServerParams } from '../core/APIWrapper';
+import APIWrapper from '../core/APIWrapper';
 import { HttpMethod } from "../core/HttpMethod";
-import { OptionalString, OptionalNumber, makeOptional } from '../util/OptionalTypeValidators';
 
 export const weekValidator = t.type({
 	weekNumber: t.number,
@@ -13,7 +12,6 @@ export const weekValidator = t.type({
 export type Week = t.TypeOf<typeof weekValidator>
 
 export const weeksValidator = t.array(weekValidator)
-
 
 const path = "/weeks"
 

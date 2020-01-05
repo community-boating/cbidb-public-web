@@ -4,13 +4,11 @@ import * as React from "react";
 import Button from "../components/Button";
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
-import { Form as HomePageForm } from "./HomePage";
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
 import TextInput from '../components/TextInput';
 import {apiw} from "../async/forgot-pw"
-import { PostJSON, PostURLEncoded } from '../core/APIWrapper';
-import { setFlagsFromString } from 'v8';
+import { PostURLEncoded } from '../core/APIWrapper';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 
 type Props = {

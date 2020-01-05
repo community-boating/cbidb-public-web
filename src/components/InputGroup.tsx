@@ -19,7 +19,6 @@ type PropsWithValues = Props & {
 	values: KeyValuePair[]
 }
 
-
 // TODO: test pre-pop value from server state
 
 // TODO: checkbox needs to add or remove value from running agg, return new agg

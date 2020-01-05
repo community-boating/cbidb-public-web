@@ -1,4 +1,4 @@
-import { Option, none, some, Some } from 'fp-ts/lib/Option';
+import { Option, none, some } from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
 import * as React from "react";
 import TextInput from "../../components/TextInput";
@@ -7,22 +7,20 @@ import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
 import formUpdateState from '../../util/form-update-state';
 import { Select } from '../../components/Select';
-import {validator, validatorSingleRow} from "../../async/class-instances-with-avail"
+import { validatorSingleRow } from "../../async/class-instances-with-avail"
 import JoomlaReport from '../../theme/joomla/JoomlaReport';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../../lov/magicStrings';
 import { Moment } from 'moment';
 import Button from '../../components/Button';
 import { PreRegistration, PreRegistrationClass } from '../../app/global-state/jp-pre-registrations';
-import asc from '../../app/AppStateContainer';
 import optionify from '../../util/optionify';
 import {postWrapper as addJuniorPostWrapper} from "../../async/junior/add-junior-class-reservation"
-import { getWrapper as getReservations, validator as reservationAPIValidator } from '../../async/junior/get-junior-class-reservations'
+import { validator as reservationAPIValidator } from '../../async/junior/get-junior-class-reservations'
 import { PostJSON, PostString } from '../../core/APIWrapper';
 import { History } from 'history';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import {postWrapper as deleteJunior} from '../../async/junior/delete-junior-class-reservation'
 import moment = require('moment');
-import {getWrapper as getClassesWithAvail} from "../../async/class-instances-with-avail"
 import { getClassesAndPreregistrations, paths } from '../../app/routing';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
@@ -206,7 +204,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 	}
 	private timeUpdateState = (prop: string, value: string) => {
 		const selectedClassFormProp: keyof Form = (prop == "beginnerMorningAfternoon" ? "selectedBeginnerInstance" : "selectedIntermediateInstance");
-		let newFormPart = {};
+		let newFormPart: any = {};
 		newFormPart[prop] = some(value);
 		newFormPart[selectedClassFormProp] = none
 		this.setState({

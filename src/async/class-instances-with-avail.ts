@@ -2,7 +2,6 @@ import * as t from 'io-ts';
 import APIWrapper from '../core/APIWrapper';
 import { HttpMethod } from "../core/HttpMethod";
 import { OptionalString } from '../util/OptionalTypeValidators';
-import { Option, some, none } from 'fp-ts/lib/Option';
 
 export const validatorSingleRow = t.type({
 	instanceId: t.number,

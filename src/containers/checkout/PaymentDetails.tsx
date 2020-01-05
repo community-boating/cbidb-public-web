@@ -2,7 +2,6 @@ import * as React from "react";
 import * as t from 'io-ts';
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import StripeElement from "../../components/StripeElement";
 import { TokensResult } from "../../models/stripe/tokens";
 import { postWrapper as storeToken } from "../../async/stripe/store-token"

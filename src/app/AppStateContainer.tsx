@@ -2,26 +2,25 @@ import { none, Option, some } from 'fp-ts/lib/Option';
 import * as Sentry from '@sentry/browser';
 
 import { apiw } from "../async/authenticate-member";
-import { PostString, ServerParams } from '../core/APIWrapper';
+import { PostString } from '../core/APIWrapper';
 
 // TODO: some sort of state module class that creates reducers with current state and this.setState injected into them somehow
 
+// type ServerConfig = {
+//     // TODO: dev vs prod config
 
-type ServerConfig = {
-    // TODO: dev vs prod config
-
-    SELF: {
-        host: string,
-        https: boolean,
-        pathPrefix: string,
-        port: number
-    },
-    API: {
-        host: string,
-        https: boolean,
-        port: number
-    }
-}
+//     SELF: {
+//         host: string,
+//         https: boolean,
+//         pathPrefix: string,
+//         port: number
+//     },
+//     API: {
+//         host: string,
+//         https: boolean,
+//         port: number
+//     }
+// }
 
 export interface AppProps {
 	isServer: boolean,

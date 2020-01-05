@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
-import APIWrapper, { ServerParams } from '../core/APIWrapper';
+import APIWrapper from '../core/APIWrapper';
 import { HttpMethod } from "../core/HttpMethod";
-import { OptionalString, OptionalNumber, makeOptional } from '../util/OptionalTypeValidators';
+import { OptionalString, makeOptional } from '../util/OptionalTypeValidators';
 
 export const cardDataValidator = t.type({
 	token: t.string,
@@ -21,8 +21,6 @@ export const orderStatusValidator = t.type({
 })
 
 export type OrderStatus = t.TypeOf<typeof orderStatusValidator>;
-
-type Result = t.TypeOf<typeof orderStatusValidator>
 
 const path = "/order-status"
 

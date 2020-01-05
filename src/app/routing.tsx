@@ -6,7 +6,7 @@ import { Redirect, Route, Router, Switch } from 'react-router';
 import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTimesValidator } from "../async/junior/get-class-instances";
 import { getWrapper as seeTypesWrapper, validator as seeTypesValidator } from "../async/junior/see-types";
 import { apiw as welcomeAPI } from "../async/member-welcome";
-import {getWrapper as getClassesWithAvail, validator as getClassesWithAvailValidator} from "../async/class-instances-with-avail"
+import {getWrapper as getClassesWithAvail} from "../async/class-instances-with-avail"
 import PageWrapper from '../core/PageWrapper';
 import SelectClassTime from "../containers/class-signup/SelectClassTime";
 import SelectClassType from "../containers/class-signup/SelectClassType";
@@ -18,17 +18,13 @@ import RegistrationWizard from '../containers/registration/pageflow/Registration
 import Currency from '../util/Currency';
 import extractURLParams from '../util/extractURLParams';
 import asc from './AppStateContainer';
-import { Option, none, some, Some } from 'fp-ts/lib/Option';
+import { Option, none, some } from 'fp-ts/lib/Option';
 import moment = require('moment');
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import { getWrapper as getReservations, validator as reservationAPIValidator } from '../async/junior/get-junior-class-reservations'
 import CreateAccount from '../containers/create-acct/CreateAcct';
-import ScholarshipResultsPage from '../containers/ScholarshipResults';
-import RequiredInfo from '../containers/registration/RequiredInfo';
-import { defaultValue as requiredDefaultForm } from '../async/junior/required'
 import  {getWrapper as getSignups, GetSignupsAPIResult } from "../async/junior/get-signups"
 import AccountSettingsPage from '../containers/AccountSettings';
-import PaymentDetailsPage from '../containers/checkout/PaymentDetails';
 import CheckoutWizard from '../containers/checkout/CheckoutWizard';
 import {apiw as getWeeks, weeksValidator} from "../async/weeks"
 import {apiw as getStaticYearly} from "../async/static-yearly-data"
@@ -40,7 +36,7 @@ import ThankYouPage from '../containers/checkout/ThankYou';
 import ForgotPasswordPage from '../containers/ForgotPasswordPage';
 import NewPasswordPage from '../containers/NewPasswordPage';
 import ForgotPasswordSentPage from '../containers/ForgotPasswordSent';
-
+import { Success } from '../core/APIWrapper';
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -68,15 +64,15 @@ export const getClassesAndPreregistrations = () => {
 			return Promise.resolve({
 				type: "Success",
 				success: res.success
-			})
+			} as Success<typeof res.success>)
 		} else return Promise.reject()
 	})
-	.then(prereg => new Promise((resolve, reject) => {
-		getClassesWithAvail.send(null).then(classes => {
-			resolve([classes, prereg])
-		}, err => reject(err))
-	}))
-	.then(([classes, prereg]) => {
+	.then(prereg => {
+		return getClassesWithAvail.send(null).then(classes => {
+			return Promise.resolve({ classes, prereg })
+		}, err => Promise.reject(err))
+	})
+	.then(({classes, prereg}) => {
 		if (classes.type == "Success" && prereg.type == "Success") {
 			return Promise.resolve({type: "Success", success: {
 				prereg: prereg.success,

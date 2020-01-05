@@ -3,7 +3,6 @@ import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
 
-import asc from "../../app/AppStateContainer";
 import { postWrapper, validator } from "../../async/junior/emerg-contact";
 import Button from "../../components/Button";
 import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../components/PhoneTriBox";

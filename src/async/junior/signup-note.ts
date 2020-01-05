@@ -2,8 +2,6 @@ import * as t from 'io-ts';
 import APIWrapper from '../../core/APIWrapper';
 import { HttpMethod } from "../../core/HttpMethod";
 import { OptionalString } from '../../util/OptionalTypeValidators';
-import { none, Option } from 'fp-ts/lib/Option';
-
 
 export const validator = t.type({
 	juniorId: t.number,

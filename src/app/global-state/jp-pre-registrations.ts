@@ -21,6 +21,6 @@ export type JpPreRegistrationState = {
 	preregistrations: PreRegistration[]
 }
 
-export const defaultState = {
+export const defaultState: JpPreRegistrationState = {
 	preregistrations: []
 }

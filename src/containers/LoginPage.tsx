@@ -4,15 +4,14 @@ import { Link } from "react-router-dom";
 import { History } from 'history';
 
 import Button from "../components/Button";
-import PlaceholderLink from "../components/PlaceholderLink";
 import TextInput from "../components/TextInput";
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";
-import Currency from "../util/Currency";
 import formUpdateState from "../util/form-update-state";
 import ErrorDiv from "../theme/joomla/ErrorDiv";
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
+import Currency from "../util/Currency";
 
 export const formDefault = {
 	username: none as Option<string>,

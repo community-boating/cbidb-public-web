@@ -1,12 +1,10 @@
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { getClassInstancesValidator, instanceValidator, InstanceInfo } from '../../async/junior/get-class-instances';
+import { getClassInstancesValidator, InstanceInfo } from '../../async/junior/get-class-instances';
 import JpClassesAvailTable from "../../components/JpClassesAvailTable";
 import Joomla8_4 from "../../theme/joomla/Joomla8_4";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaSidebarRegion from "../../theme/joomla/JoomlaSidebarRegion";
-import JoomlaNotitleRegion from '../../theme/joomla/JoomlaNotitleRegion';
 import { weeksValidator, Week } from '../../async/weeks';
 import { Select } from '../../components/Select';
 import { Option, none } from 'fp-ts/lib/Option';
