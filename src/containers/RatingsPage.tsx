@@ -16,6 +16,7 @@ export interface Props {
 
 export default class RatingsPage extends React.PureComponent<Props> {
 	render() {
+		console.log("ratings page!")
 		const kid = this.props.welcomePackage.children.find(e => e.personId == this.props.personId)
 
 		// TODO: specific kid.  Also welcome package seems to sometimes be empty

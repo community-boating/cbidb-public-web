@@ -5,6 +5,7 @@ import {regPath, editPath} from "../containers/registration/pageflow/Registratio
 import { postWrapper as abortRegistration } from "../async/junior/abort-mem-reg"
 import { PostJSON } from '../core/APIWrapper';
 import { History } from 'history';
+import ratingsPageRoute from '../app/routes/jp/ratings'
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)
@@ -19,7 +20,7 @@ export default (bv: number, juniorId: number, history: History<any>) => {
         element: <Link to={edit}>{"Edit Information"}</Link>
     }, {
         place: 4,
-        element: <Link to={"/ratings/" + juniorId}>{"View Ratings"}</Link>
+        element: <Link to={ratingsPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"View Ratings"}</Link>
     }, {
         place: 5,
         element: <Link to={"/class/" + juniorId}>{"Signup for Summer Classes"}</Link>

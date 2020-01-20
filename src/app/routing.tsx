@@ -13,7 +13,6 @@ import SelectClassType from "../containers/class-signup/SelectClassType";
 import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from '../containers/create-acct/ReserveClasses';
 import HomePage, { Form as HomePageForm } from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
-import RatingsPage from '../containers/RatingsPage';
 import RegistrationWizard from '../containers/registration/pageflow/RegistrationWizard';
 import Currency from '../util/Currency';
 import extractURLParams from '../util/extractURLParams';
@@ -24,7 +23,6 @@ import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-co
 import { getWrapper as getReservations, validator as reservationAPIValidator } from '../async/junior/get-junior-class-reservations'
 import CreateAccount from '../containers/create-acct/CreateAcct';
 import  {getWrapper as getSignups, GetSignupsAPIResult } from "../async/junior/get-signups"
-import AccountSettingsPage from '../containers/AccountSettings';
 import CheckoutWizard from '../containers/checkout/CheckoutWizard';
 import {apiw as getWeeks, weeksValidator} from "../async/weeks"
 import {apiw as getStaticYearly} from "../async/static-yearly-data"
@@ -37,6 +35,7 @@ import ForgotPasswordPage from '../containers/ForgotPasswordPage';
 import NewPasswordPage from '../containers/NewPasswordPage';
 import ForgotPasswordSentPage from '../containers/ForgotPasswordSent';
 import { Success } from '../core/APIWrapper';
+import ratingsPageRoute from './routes/jp/ratings'
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -46,7 +45,6 @@ function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 }
 
 export const paths = {
-	ratings: pathAndParamsExtractor<{personId: string}>("/ratings/:personId"),
 	reg: pathAndParamsExtractor<{personId: string}>("/reg/:personId"),
 	edit: pathAndParamsExtractor<{personId: string}>("/edit/:personId"),
 	class: pathAndParamsExtractor<{personId: string}>("/class/:personId"),
@@ -194,18 +192,8 @@ export default function (history: History<any>) {
 			return <Redirect to={path} />;
 		}}/>,
 
-		<Route key="/settings" path="/settings" render={() => <PageWrapper
-			key="RatingsPage"
-			history={history}
-			component={(urlProps: {}, async: HomePageForm) => <AccountSettingsPage
-				history={history}
-			/>}
-			urlProps={{personId: Number(paths.ratings.getParams(history.location.pathname).personId)}}
-			shadowComponent={<span></span>}
-			getAsyncProps={() => {
-				return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
-		/>} />,
+
+		
 
 		<Route key="/checkout" path="/checkout" render={() => <CheckoutWizard
 			history={history}
@@ -215,20 +203,7 @@ export default function (history: History<any>) {
 			
 		/>} />,
 
-		<Route key="ratings" path={paths.ratings.path} render={() => <PageWrapper
-			key="RatingsPage"
-			history={history}
-			component={(urlProps: {personId: number}, async: HomePageForm) => <RatingsPage
-				history={history}
-				welcomePackage={async}
-				personId={urlProps.personId}
-			/>}
-			urlProps={{personId: Number(paths.ratings.getParams(history.location.pathname).personId)}}
-			shadowComponent={<span></span>}
-			getAsyncProps={() => {
-				return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
-		/>} />,
+		ratingsPageRoute.asRoute(history),
 
 		<Route key="class" path={paths.class.path} render={() => <PageWrapper
 			key="SelectClassType"
@@ -393,6 +368,8 @@ export default function (history: History<any>) {
 	const isLoggedIn = (asc.state.login.authenticatedUserName as Option<string>).isSome();
 
 	const authedDependedRoutes = isLoggedIn ? mustBeLoggedIn : mustNotBeLoggedIn
+
+	console.log(authedDependedRoutes)
 
 	const universalRoutes = [
 		<Route key="/maintenance" path="/maintenance" render={() => <MaintenanceSplash />} />
