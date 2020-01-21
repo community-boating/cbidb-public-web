@@ -23,11 +23,6 @@ import { apiw as welcomeAPI } from "../../../async/member-welcome";
 import { Form as HomePageForm } from '../../../containers/HomePage';
 import SwimProof from "../SwimProof";
 
-// TODO: these shouldnt be here, duplicative
-export const regPath = "/reg/:personId"
-export const editPath = "/edit/:personId"
-
-
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
 	display: e.breadcrumbHTML

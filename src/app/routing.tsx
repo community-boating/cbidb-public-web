@@ -13,7 +13,6 @@ import SelectClassType from "../containers/class-signup/SelectClassType";
 import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from '../containers/create-acct/ReserveClasses';
 import HomePage, { Form as HomePageForm } from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
-import RegistrationWizard from '../containers/registration/pageflow/RegistrationWizard';
 import Currency from '../util/Currency';
 import extractURLParams from '../util/extractURLParams';
 import asc from './AppStateContainer';
@@ -36,6 +35,9 @@ import NewPasswordPage from '../containers/NewPasswordPage';
 import ForgotPasswordSentPage from '../containers/ForgotPasswordSent';
 import { Success } from '../core/APIWrapper';
 import ratingsPageRoute from './routes/jp/ratings'
+import regPageRoute from './routes/jp/reg'
+import regEmptyPageRoute from './routes/jp/regEmpty'
+import editPageRoute from './routes/jp/edit'
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -45,8 +47,6 @@ function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 }
 
 export const paths = {
-	reg: pathAndParamsExtractor<{personId: string}>("/reg/:personId"),
-	edit: pathAndParamsExtractor<{personId: string}>("/edit/:personId"),
 	class: pathAndParamsExtractor<{personId: string}>("/class/:personId"),
 	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId"),
 	signupNote: pathAndParamsExtractor<{personId: string, instanceId: string}>("/class-note/:personId/:instanceId"),
@@ -109,6 +109,9 @@ export default function (history: History<any>) {
 			shadowComponent={<span></span>}
 			getAsyncProps={getClassesAndPreregistrations}
 		/>} />,
+
+
+
 		<Route key={paths.reservationNotes.path} path={paths.reservationNotes.path} render={() => <PageWrapper
 			key="reservationNotes"
 			history={history}
@@ -271,79 +274,11 @@ export default function (history: History<any>) {
 			}}
 		/>} />,
 
-		// TODO: remove this duplication
-		<Route key="reg" path={paths.reg.path} render={() => <PageWrapper
-			key="reg"
-			history={history}
-			component={(urlProps: {personId: number}, async: HomePageForm) => <RegistrationWizard
-				history={history}
-				personIdStart={some(urlProps.personId)}
-				jpPrice={async.jpPrice}
-				jpOffseasonPrice={async.jpOffseasonPrice}
-				includeTOS={true}
-				parentPersonId={async.parentPersonId}
-				currentSeason={async.season}
-			/>}
-			urlProps={{
-				personId: Number(paths.reg.getParams(history.location.pathname).personId),
-			}}
-			shadowComponent={<span></span>}
-			getAsyncProps={(urlProps: {}) => {
-				return welcomeAPI.send(null).then(ret => {
-					if (ret.type == "Success") {
-						return Promise.resolve(ret)
-					} else return Promise.reject();
-				}).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
-		/>} />,
+		regPageRoute.asRoute(history),
 
-		<Route key="edit" path={paths.edit.path} render={() => <PageWrapper
-			key="edit"
-			history={history}
-			component={(urlProps: {personId: number}, async: HomePageForm) => <RegistrationWizard
-				history={history}
-				personIdStart={some(urlProps.personId)}
-				jpPrice={async.jpPrice}
-				jpOffseasonPrice={async.jpOffseasonPrice}
-				includeTOS={false}
-				parentPersonId={async.parentPersonId}
-				currentSeason={async.season}
-			/>}
-			urlProps={{
-				personId: Number(paths.edit.getParams(history.location.pathname).personId),
-			}}
-			shadowComponent={<span></span>}
-			getAsyncProps={(urlProps: {}) => {
-				return welcomeAPI.send(null).then(ret => {
-					if (ret.type == "Success") {
-						return Promise.resolve(ret)
-					} else return Promise.reject();
-				}).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
-		/>} />,
+		editPageRoute.asRoute(history),
 
-		<Route key="regEmpty" path={"/reg"} render={() => <PageWrapper
-			key="regEmpty"
-			history={history}
-			component={(urlProps: {}, async: HomePageForm) => <RegistrationWizard
-				history={history}
-				personIdStart={none}
-				jpPrice={async.jpPrice}
-				jpOffseasonPrice={async.jpOffseasonPrice}
-				includeTOS={true}
-				parentPersonId={async.parentPersonId}
-				currentSeason={async.season}
-			/>}
-			urlProps={{}}
-			shadowComponent={<span></span>}
-			getAsyncProps={(urlProps: {}) => {
-				return welcomeAPI.send(null).then(ret => {
-					if (ret.type == "Success") {
-						return Promise.resolve(ret)
-					} else return Promise.reject();
-				}).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
-		/>} />,
+		regEmptyPageRoute.asRoute(history),
 
 		<Route key="default" render={() => <PageWrapper
 			key="HomePage"
@@ -376,13 +311,11 @@ export default function (history: History<any>) {
 	]
 
 	return (
-		<React.Fragment>
-			<Router history={history}>
-				<Switch>
-					{...universalRoutes}
-					{...authedDependedRoutes}
-				</Switch>
-			</Router>
-		</React.Fragment>
+		<Router history={history}>
+			<Switch>
+				{...universalRoutes}
+				{...authedDependedRoutes}
+			</Switch>
+		</Router>
 	);
 } 

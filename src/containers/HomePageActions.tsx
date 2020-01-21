@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom';
 
-import {regPath, editPath} from "../containers/registration/pageflow/RegistrationWizard"
 import { postWrapper as abortRegistration } from "../async/junior/abort-mem-reg"
 import { PostJSON } from '../core/APIWrapper';
 import { History } from 'history';
 import ratingsPageRoute from '../app/routes/jp/ratings'
+import regRoute from '../app/routes/jp/reg'
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)
@@ -13,8 +13,8 @@ function testBit(num: number, bit: number){
 
 //TODO: paths are duplicated here, import from classes and replace :personId
 export default (bv: number, juniorId: number, history: History<any>) => {
-	const reg = regPath.replace(":personId", String(juniorId))
-	const edit = editPath.replace(":personId", String(juniorId))
+	const reg = regRoute.getPathFromArgs({personId: String(juniorId)}) //regPath.replace(":personId", String(juniorId))
+	const edit = "/edit/:personId".replace(":personId", String(juniorId))
     const actions = [{
         place: 3,
         element: <Link to={edit}>{"Edit Information"}</Link>

@@ -13,6 +13,7 @@ import moment = require('moment');
 import { checkUpgradedAsValidationErrorArray } from '../util/checkUpgraded';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import { some } from 'fp-ts/lib/Option';
+import regEmptyRoute from '../app/routes/jp/regEmpty'
 
 export type Form = t.TypeOf<typeof validator>;
 
@@ -34,7 +35,7 @@ export default class HomePage extends React.Component<Props, State> {
 	}
 	componentDidMount() {
 		if (this.props.data.children.length == 0) {
-			this.props.history.push("/reg")
+			this.props.history.push(regEmptyRoute.pathSegment.path)
 		}
 	}
 	render() {
@@ -67,7 +68,7 @@ export default class HomePage extends React.Component<Props, State> {
 			{errorPopup}
 			{mainTable}
 			{/* <Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" /> */}
-			<Button onClick={() => Promise.resolve(this.props.history.push("/reg"))} text="Add new Junior" />
+			<Button onClick={() => Promise.resolve(this.props.history.push(regEmptyRoute.pathSegment.path))} text="Add new Junior" />
 			{self.props.data.canCheckout ? checkoutButton : null}
 		</JoomlaMainPage>
 	}
