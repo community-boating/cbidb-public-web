@@ -161,6 +161,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 					bindPersonId={personId => self.setState({ ...self.state, personId: some(personId) })}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
+					personId={self.state.personId}
 				/>}
 				getAsyncProps={(urlProps: {}) => {
 					if (self.state.personId.isNone()) {
