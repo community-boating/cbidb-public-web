@@ -5,6 +5,7 @@ import { postWrapper as abortRegistration } from "../async/junior/abort-mem-reg"
 import { PostJSON } from '../core/APIWrapper';
 import { History } from 'history';
 import ratingsPageRoute from '../app/routes/jp/ratings'
+import classPageRoute from '../app/routes/jp/class'
 import regRoute from '../app/routes/jp/reg'
 
 function testBit(num: number, bit: number){
@@ -23,7 +24,7 @@ export default (bv: number, juniorId: number, history: History<any>) => {
         element: <Link to={ratingsPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"View Ratings"}</Link>
     }, {
         place: 5,
-        element: <Link to={"/class/" + juniorId}>{"Signup for Summer Classes"}</Link>
+        element: <Link to={classPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"Signup for Summer Classes"}</Link>
     }, /*{
         place: 6,
         element: <PlaceholderLink>{"Signup for Fall Classes"}</PlaceholderLink>

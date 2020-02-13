@@ -2,14 +2,11 @@ import { History } from 'history';
 import * as t from 'io-ts';
 import * as React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router';
-
 import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTimesValidator } from "../async/junior/get-class-instances";
-import { getWrapper as seeTypesWrapper, validator as seeTypesValidator } from "../async/junior/see-types";
 import { apiw as welcomeAPI } from "../async/member-welcome";
 import {getWrapper as getClassesWithAvail} from "../async/class-instances-with-avail"
 import PageWrapper from '../core/PageWrapper';
 import SelectClassTime from "../containers/class-signup/SelectClassTime";
-import SelectClassType from "../containers/class-signup/SelectClassType";
 import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from '../containers/create-acct/ReserveClasses';
 import HomePage, { Form as HomePageForm } from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
@@ -38,6 +35,7 @@ import ratingsPageRoute from './routes/jp/ratings'
 import regPageRoute from './routes/jp/reg'
 import regEmptyPageRoute from './routes/jp/regEmpty'
 import editPageRoute from './routes/jp/edit'
+import classPageRoute from '../app/routes/jp/class'
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -47,7 +45,6 @@ function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 }
 
 export const paths = {
-	class: pathAndParamsExtractor<{personId: string}>("/class/:personId"),
 	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId"),
 	signupNote: pathAndParamsExtractor<{personId: string, instanceId: string}>("/class-note/:personId/:instanceId"),
 	reservationNotes: pathAndParamsExtractor<{personId: string}>("/reserve-notes/:personId"),
@@ -189,13 +186,11 @@ export default function (history: History<any>) {
 			const path = paths.classTime.path.replace(":personId", params.personId).replace(":typeId", params.typeId);
 			return <Redirect to={path} />;
 		}}/>,
-		<Route key={`/redirect${paths.class.path}`} path={`/redirect${paths.class.path}`} render={() => {
-			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${paths.class.path}`).getParams(history.location.pathname);
-			const path = paths.class.path.replace(":personId", params.personId);
+		<Route key={`/redirect${classPageRoute.pathSegment.path}`} path={`/redirect${classPageRoute.pathSegment.path}`} render={() => {
+			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${classPageRoute.pathSegment.path}`).getParams(history.location.pathname);
+			const path = classPageRoute.pathSegment.getPathFromArgs({ personId: params.personId });
 			return <Redirect to={path} />;
 		}}/>,
-
-
 		
 
 		<Route key="/checkout" path="/checkout" render={() => <CheckoutWizard
@@ -208,24 +203,7 @@ export default function (history: History<any>) {
 
 		ratingsPageRoute.asRoute(history),
 
-		<Route key="class" path={paths.class.path} render={() => <PageWrapper
-			key="SelectClassType"
-			history={history}
-			component={(urlProps: {personId: number}, [apiResult, signups]: [t.TypeOf<typeof seeTypesValidator>, GetSignupsAPIResult]) => <SelectClassType
-				personId={urlProps.personId}
-				apiResultArray={apiResult}
-				history={history}
-				signups={signups}
-			/>}
-			urlProps={{personId: Number(paths.class.getParams(history.location.pathname).personId)}}
-			shadowComponent={<span></span>}
-			getAsyncProps={(urlProps: {personId: number}) => {
-				return Promise.all([
-					seeTypesWrapper(urlProps.personId).send(null),
-					getSignups(urlProps.personId).send(null)
-				]).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
-		/>} />,
+		classPageRoute.asRoute(history),
 
 		<Route key="signupNote" path={paths.signupNote.path} render={() => <PageWrapper
 			key="signupNote"
