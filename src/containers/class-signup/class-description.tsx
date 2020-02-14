@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import { paths } from "../../app/routing";
+import classTimePageRoute from "../../app/routes/jp/classTime"
 
 export interface ClassType {
 	typeId: number,
@@ -19,7 +19,7 @@ export const asFragment = (juniorId: number) => (ct: ClassType) => (
 		<br />
 		{ct.description}
 		<br /><br />
-		<Link to={paths.classTime.path.replace(":personId", String(juniorId)).replace(":typeId", String(ct.typeId))}>Click here to sign up!</Link>
+		<Link to={classTimePageRoute.pathSegment.getPathFromArgs({ personId: String(juniorId), typeId: String(ct.typeId) })}>Click here to sign up!</Link>
 		<br /><br />
 	</React.Fragment>
 )

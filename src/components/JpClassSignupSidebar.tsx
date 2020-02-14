@@ -6,9 +6,9 @@ import { postWrapper as deleteSignup } from "../async/junior/class-signup-delete
 import APIWrapper, { PostJSON } from '../core/APIWrapper';
 import { History } from 'history';
 import * as moment from 'moment';
-import { paths } from '../app/routing';
 import { Link } from 'react-router-dom';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../lov/magicStrings';
+import signupNotePageRoute from "../app/routes/jp/signupNote";
 
 function resizeRatings(){
 	var heightPx = window.getComputedStyle(document.getElementById('dhtmltooltip').getElementsByTagName('table')[0]).getPropertyValue('height');
@@ -22,7 +22,7 @@ function resizeRatings(){
 }
 
 const getSignupNoteURL = (personId: number, instanceId: number) => 
-	paths.signupNote.path
+	signupNotePageRoute.getPathFromArgs({ personId: String(personId), instanceId: String(instanceId) })
 	.replace(":personId", String(personId))
 	.replace(":instanceId", String(instanceId));
 

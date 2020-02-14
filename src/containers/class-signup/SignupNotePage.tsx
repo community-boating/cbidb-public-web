@@ -8,6 +8,7 @@ import Button from '../../components/Button';
 import { History } from 'history';
 import { postWrapper as saveNote } from "../../async/junior/signup-note"
 import { PostJSON } from '../../core/APIWrapper';
+import classPageRoute from "../../app/routes/jp/class"
 
 type Props = {
 	history: History<any>,
@@ -57,14 +58,16 @@ export default class SignupNotePage extends React.Component<Props, State> {
 				></FormTextArea>
 				</tbody></table>
 				<br />
-				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(`/class/${self.props.personId}`))}/>
+				<Button text="< Back" onClick={
+					() => Promise.resolve(self.props.history.push(classPageRoute.getPathFromArgs({ personId: String(self.props.personId) })))
+				}/>
 				<Button text="Save >" spinnerOnClick={true} onClick={() => {
 					return saveNote.send(PostJSON({
 						juniorId: self.props.personId,
 						instanceId: self.props.instanceId,
 						signupNote: self.state.formData.signupNote
 					})).then(
-						ret => Promise.resolve(self.props.history.push(`/class/${self.props.personId}`))
+						ret => Promise.resolve(self.props.history.push(classPageRoute.getPathFromArgs({ personId: String(self.props.personId) })))
 					)
 				}}/>
 			</JoomlaArticleRegion>

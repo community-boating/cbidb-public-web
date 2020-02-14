@@ -16,6 +16,7 @@ import JpClassSignupSidebar from '../../components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '../../async/junior/get-signups';
 import Button from '../../components/Button';
 import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
+import classPageRoute from "../../app/routes/jp/class"
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 
@@ -97,7 +98,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 			<React.Fragment>
 				{errorPopup}
 				<br />
-				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(`/class/${self.props.personId}`))}/>
+				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(classPageRoute.pathSegment.getPathFromArgs({ personId: String(self.props.personId) })))}/>
 				<JoomlaArticleRegion title="Choose a Week">
 					{"All "}
 					{className}

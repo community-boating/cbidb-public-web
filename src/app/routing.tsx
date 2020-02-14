@@ -2,11 +2,9 @@ import { History } from 'history';
 import * as t from 'io-ts';
 import * as React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router';
-import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTimesValidator } from "../async/junior/get-class-instances";
 import { apiw as welcomeAPI } from "../async/member-welcome";
 import {getWrapper as getClassesWithAvail} from "../async/class-instances-with-avail"
 import PageWrapper from '../core/PageWrapper';
-import SelectClassTime from "../containers/class-signup/SelectClassTime";
 import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from '../containers/create-acct/ReserveClasses';
 import HomePage, { Form as HomePageForm } from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
@@ -18,12 +16,8 @@ import moment = require('moment');
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import { getWrapper as getReservations, validator as reservationAPIValidator } from '../async/junior/get-junior-class-reservations'
 import CreateAccount from '../containers/create-acct/CreateAcct';
-import  {getWrapper as getSignups, GetSignupsAPIResult } from "../async/junior/get-signups"
 import CheckoutWizard from '../containers/checkout/CheckoutWizard';
-import {apiw as getWeeks, weeksValidator} from "../async/weeks"
 import {apiw as getStaticYearly} from "../async/static-yearly-data"
-import SignupNotePage from '../containers/class-signup/SignupNotePage';
-import {getWrapper as getSignupNote} from "../async/junior/signup-note"
 import MaintenanceSplash from "../containers/MaintenanceSplash"
 import ReservationSignupNote from '../containers/create-acct/ReservationSignupNote';
 import ThankYouPage from '../containers/checkout/ThankYou';
@@ -36,6 +30,8 @@ import regPageRoute from './routes/jp/reg'
 import regEmptyPageRoute from './routes/jp/regEmpty'
 import editPageRoute from './routes/jp/edit'
 import classPageRoute from '../app/routes/jp/class'
+import classTimePageRoute from '../app/routes/jp/classTime'
+import signupNotePageRoute from '../app/routes/jp/signupNote'
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -45,8 +41,6 @@ function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 }
 
 export const paths = {
-	classTime: pathAndParamsExtractor<{personId: string, typeId: string}>("/class-time/:personId/:typeId"),
-	signupNote: pathAndParamsExtractor<{personId: string, instanceId: string}>("/class-note/:personId/:instanceId"),
 	reservationNotes: pathAndParamsExtractor<{personId: string}>("/reserve-notes/:personId"),
 	resetPassword: pathAndParamsExtractor<{email: string, hash: string}>("/reset-pw/:email/:hash"),
 }
@@ -181,9 +175,9 @@ export default function (history: History<any>) {
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
 		<Route key="home" path="/redirect/home" render={() => <Redirect to="/" />} />,
 		<Route key="/redirect/checkout" path="/redirect/checkout" render={() => <Redirect to="/checkout" />} />,
-		<Route key={`/redirect${paths.classTime.path}`} path={`/redirect${paths.classTime.path}`} render={() => {
-			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${paths.classTime.path}`).getParams(history.location.pathname);
-			const path = paths.classTime.path.replace(":personId", params.personId).replace(":typeId", params.typeId);
+		<Route key={`/redirect${classTimePageRoute.pathSegment.path}`} path={`/redirect${classTimePageRoute.pathSegment.path}`} render={() => {
+			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${classTimePageRoute.pathSegment.path}`).getParams(history.location.pathname);
+			const path = classTimePageRoute.pathSegment.getPathFromArgs({ personId: params.personId, typeId: params.typeId });
 			return <Redirect to={path} />;
 		}}/>,
 		<Route key={`/redirect${classPageRoute.pathSegment.path}`} path={`/redirect${classPageRoute.pathSegment.path}`} render={() => {
@@ -205,52 +199,9 @@ export default function (history: History<any>) {
 
 		classPageRoute.asRoute(history),
 
-		<Route key="signupNote" path={paths.signupNote.path} render={() => <PageWrapper
-			key="signupNote"
-			history={history}
-			component={(urlProps: {personId: number, instanceId: number}, async: {signupNote: Option<string>}) => <SignupNotePage
-				history={history}
-				personId={urlProps.personId}
-				instanceId={urlProps.instanceId}
-				initialNote={async.signupNote}
-			/>}
-			urlProps={{
-				personId: Number(paths.signupNote.getParams(history.location.pathname).personId),
-				instanceId: Number(paths.signupNote.getParams(history.location.pathname).instanceId),
-			}}
-			shadowComponent={<span></span>}
-			getAsyncProps={(urlProps: {personId: number, instanceId: number}) => {
-				return getSignupNote(urlProps.personId, urlProps.instanceId).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
-		/>} />,
+		signupNotePageRoute.asRoute(history),
 
-		<Route key="classTime" path={paths.classTime.path} render={() => <PageWrapper
-			key="SelectClassTime"
-			history={history}
-			component={(
-				urlProps: {personId: number, typeId: number},
-				[times, weeks, signups]: [t.TypeOf<typeof classTimesValidator>, t.TypeOf<typeof weeksValidator>, GetSignupsAPIResult]
-			) => <SelectClassTime
-				typeId={urlProps.typeId}
-				personId={urlProps.personId}
-				apiResult={times}
-				weeks={weeks}
-				history={history}
-				signups={signups}
-			/>}
-			urlProps={{
-				personId: Number(paths.classTime.getParams(history.location.pathname).personId),
-				typeId: Number(paths.classTime.getParams(history.location.pathname).typeId)
-			}}
-			shadowComponent={<span></span>}
-			getAsyncProps={(urlProps: {personId: number, typeId: number}) => {
-				return Promise.all([
-					classTimesWrapper(urlProps.typeId, urlProps.personId).send(null),
-					getWeeks.send(null),
-					getSignups(urlProps.personId).send(null)
-				]).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
-		/>} />,
+		classTimePageRoute.asRoute(history),
 
 		regPageRoute.asRoute(history),
 
