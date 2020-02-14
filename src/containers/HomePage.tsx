@@ -35,7 +35,7 @@ export default class HomePage extends React.Component<Props, State> {
 	}
 	componentDidMount() {
 		if (this.props.data.children.length == 0) {
-			this.props.history.push(regEmptyRoute.pathSegment.path)
+			this.props.history.push(regEmptyRoute.pathWrapper.path)
 		}
 	}
 	render() {
@@ -68,7 +68,7 @@ export default class HomePage extends React.Component<Props, State> {
 			{errorPopup}
 			{mainTable}
 			{/* <Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" /> */}
-			<Button onClick={() => Promise.resolve(this.props.history.push(regEmptyRoute.pathSegment.path))} text="Add new Junior" />
+			<Button onClick={() => Promise.resolve(this.props.history.push(regEmptyRoute.pathWrapper.path))} text="Add new Junior" />
 			{self.props.data.canCheckout ? checkoutButton : null}
 		</JoomlaMainPage>
 	}

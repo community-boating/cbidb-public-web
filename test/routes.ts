@@ -1,10 +1,10 @@
 import * as assert from "assert"
-import PathSegment from "../src/core/PathSegment"
+import PathWrapper from "../src/core/PathWrapper"
 
-const jp = new PathSegment("jp")
+const jp = new PathWrapper("jp")
 const ratings = jp.appendPathSegment<{ personId: string }>("ratings/:personId/")
 
-describe("PathSegment", function (){
+describe("PathWrapper", function (){
 	it("concatenates path on append", function () {
 		assert.equal(ratings.path, '/jp/ratings/:personId');
 	})

@@ -7,7 +7,7 @@ export type RouteWrapper = {
 	requiresAuth: boolean
 }
 
-export default class PathSegment<T extends StringObject> {
+export default class PathWrapper<T extends StringObject> {
 	public path: string;
 
 	static removeLeadingTrailingSlashes(path: string): string {
@@ -17,7 +17,7 @@ export default class PathSegment<T extends StringObject> {
 		path: string
 	) {
 		// remove leading or trailing slashes
-		this.path = '/' + PathSegment.removeLeadingTrailingSlashes(path);
+		this.path = '/' + PathWrapper.removeLeadingTrailingSlashes(path);
 	}
 
 	extractURLParams(location: string): T {
@@ -29,7 +29,7 @@ export default class PathSegment<T extends StringObject> {
 	}
 
 	appendPathSegment<T_NewProps extends StringObject>(subPath: string) {
-		return new PathSegment<T & T_NewProps>(this.path + '/' + PathSegment.removeLeadingTrailingSlashes(subPath))
+		return new PathWrapper<T & T_NewProps>(this.path + '/' + PathWrapper.removeLeadingTrailingSlashes(subPath))
 	}
 
 	getPathFromArgs(args: T): string {

@@ -98,7 +98,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 			<React.Fragment>
 				{errorPopup}
 				<br />
-				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(classPageRoute.pathSegment.getPathFromArgs({ personId: String(self.props.personId) })))}/>
+				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(classPageRoute.pathWrapper.getPathFromArgs({ personId: String(self.props.personId) })))}/>
 				<JoomlaArticleRegion title="Choose a Week">
 					{"All "}
 					{className}

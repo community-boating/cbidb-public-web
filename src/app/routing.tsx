@@ -175,14 +175,14 @@ export default function (history: History<any>) {
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
 		<Route key="home" path="/redirect/home" render={() => <Redirect to="/" />} />,
 		<Route key="/redirect/checkout" path="/redirect/checkout" render={() => <Redirect to="/checkout" />} />,
-		<Route key={`/redirect${classTimePageRoute.pathSegment.path}`} path={`/redirect${classTimePageRoute.pathSegment.path}`} render={() => {
-			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${classTimePageRoute.pathSegment.path}`).getParams(history.location.pathname);
-			const path = classTimePageRoute.pathSegment.getPathFromArgs({ personId: params.personId, typeId: params.typeId });
+		<Route key={`/redirect${classTimePageRoute.pathWrapper.path}`} path={`/redirect${classTimePageRoute.pathWrapper.path}`} render={() => {
+			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${classTimePageRoute.pathWrapper.path}`).getParams(history.location.pathname);
+			const path = classTimePageRoute.pathWrapper.getPathFromArgs({ personId: params.personId, typeId: params.typeId });
 			return <Redirect to={path} />;
 		}}/>,
-		<Route key={`/redirect${classPageRoute.pathSegment.path}`} path={`/redirect${classPageRoute.pathSegment.path}`} render={() => {
-			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${classPageRoute.pathSegment.path}`).getParams(history.location.pathname);
-			const path = classPageRoute.pathSegment.getPathFromArgs({ personId: params.personId });
+		<Route key={`/redirect${classPageRoute.pathWrapper.path}`} path={`/redirect${classPageRoute.pathWrapper.path}`} render={() => {
+			const params = pathAndParamsExtractor<{personId: string, typeId: string}>(`/redirect${classPageRoute.pathWrapper.path}`).getParams(history.location.pathname);
+			const path = classPageRoute.pathWrapper.getPathFromArgs({ personId: params.personId });
 			return <Redirect to={path} />;
 		}}/>,
 		

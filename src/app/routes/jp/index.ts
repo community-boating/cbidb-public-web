@@ -1,3 +1,3 @@
-import PathSegment from "../../../core/PathSegment";
+import PathWrapper from "../../../core/PathWrapper";
 
-export default new PathSegment('jp')
+export default new PathWrapper('jp')

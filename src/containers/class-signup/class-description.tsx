@@ -19,7 +19,7 @@ export const asFragment = (juniorId: number) => (ct: ClassType) => (
 		<br />
 		{ct.description}
 		<br /><br />
-		<Link to={classTimePageRoute.pathSegment.getPathFromArgs({ personId: String(juniorId), typeId: String(ct.typeId) })}>Click here to sign up!</Link>
+		<Link to={classTimePageRoute.pathWrapper.getPathFromArgs({ personId: String(juniorId), typeId: String(ct.typeId) })}>Click here to sign up!</Link>
 		<br /><br />
 	</React.Fragment>
 )
