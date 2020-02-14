@@ -3,18 +3,16 @@ import * as t from 'io-ts';
 import * as React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router';
 import { apiw as welcomeAPI } from "../async/member-welcome";
-import {getWrapper as getClassesWithAvail} from "../async/class-instances-with-avail"
 import PageWrapper from '../core/PageWrapper';
-import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from '../containers/create-acct/ReserveClasses';
+import { bundleReservationsFromAPI, ClassInstanceObject } from '../containers/create-acct/ReserveClasses';
 import HomePage, { Form as HomePageForm } from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
 import Currency from '../util/Currency';
 import extractURLParams from '../util/extractURLParams';
 import asc from './AppStateContainer';
 import { Option, none, some } from 'fp-ts/lib/Option';
-import moment = require('moment');
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
-import { getWrapper as getReservations, validator as reservationAPIValidator } from '../async/junior/get-junior-class-reservations'
+import { validator as reservationAPIValidator } from '../async/junior/get-junior-class-reservations'
 import CreateAccount from '../containers/create-acct/CreateAcct';
 import CheckoutWizard from '../containers/checkout/CheckoutWizard';
 import {apiw as getStaticYearly} from "../async/static-yearly-data"
@@ -24,7 +22,6 @@ import ThankYouPage from '../containers/checkout/ThankYou';
 import ForgotPasswordPage from '../containers/ForgotPasswordPage';
 import NewPasswordPage from '../containers/NewPasswordPage';
 import ForgotPasswordSentPage from '../containers/ForgotPasswordSent';
-import { Success } from '../core/APIWrapper';
 import ratingsPageRoute from './routes/jp/ratings'
 import regPageRoute from './routes/jp/reg'
 import regEmptyPageRoute from './routes/jp/regEmpty'
@@ -32,6 +29,8 @@ import editPageRoute from './routes/jp/edit'
 import classPageRoute from '../app/routes/jp/class'
 import classTimePageRoute from '../app/routes/jp/classTime'
 import signupNotePageRoute from '../app/routes/jp/signupNote'
+import reservePageRoute from '../app/routes/jp/reserve'
+import getClassesAndPreregistrations from '../async/util/getClassesAndPreregistrations';
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -45,63 +44,14 @@ export const paths = {
 	resetPassword: pathAndParamsExtractor<{email: string, hash: string}>("/reset-pw/:email/:hash"),
 }
 
-export const getClassesAndPreregistrations = () => {
-	return getProtoPersonCookie.send(null)
-	.then(() => getReservations.send(null))
-	.then(res => {
-		if (res.type == "Success") {
-			return Promise.resolve({
-				type: "Success",
-				success: res.success
-			} as Success<typeof res.success>)
-		} else return Promise.reject()
-	})
-	.then(prereg => {
-		return getClassesWithAvail.send(null).then(classes => {
-			return Promise.resolve({ classes, prereg })
-		}, err => Promise.reject(err))
-	})
-	.then(({classes, prereg}) => {
-		if (classes.type == "Success" && prereg.type == "Success") {
-			return Promise.resolve({type: "Success", success: {
-				prereg: prereg.success,
-				classes: classes.success.map(row => {
-					const startDateMoment = moment(row.startDatetimeRaw, "MM/DD/YYYY HH:mm")
-					return {
-						...row,
-						startDateMoment,
-						endDateMoment: moment(row.endDatetimeRaw, "MM/DD/YYYY HH:mm"),
-						isMorning: Number(startDateMoment.format("HH")) < 12
-					};
-				})
-			}})
-		} else return Promise.reject();
-		
-	})
-	.catch(err => Promise.resolve(null));  // TODO: handle failure
-}
-
 // TODO: real shadow components on everything
 export default function (history: History<any>) {
 	// TODO: auto create all these redirect routes?
 	const mustNotBeLoggedIn = [
 		<Route key="/redirect/reserve" path="/redirect/reserve" render={() => <Redirect to="/reserve" />} />,
 		<Route key="/redirect/create-acct" path="/redirect/create-acct" render={() => <Redirect to="/create-acct" />} />,
-		<Route key="/reserve" path="/reserve" render={() => <PageWrapper
-			key="ReserveClasses"
-			history={history}
-			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
-				history={history}
-				startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
-				noSignupJuniors={async.prereg.noSignups}
-				apiResultStart={async.classes}
-			/>}
-			urlProps={{}}
-			shadowComponent={<span></span>}
-			getAsyncProps={getClassesAndPreregistrations}
-		/>} />,
-
-
+		
+		reservePageRoute.asRoute(history),
 
 		<Route key={paths.reservationNotes.path} path={paths.reservationNotes.path} render={() => <PageWrapper
 			key="reservationNotes"

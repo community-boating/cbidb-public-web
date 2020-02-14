@@ -14,6 +14,7 @@ import { PostURLEncoded } from '../../core/APIWrapper';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import Validation from '../../util/Validation';
 import asc from '../../app/AppStateContainer';
+import reservePageRoute from "../../app/routes/jp/reserve"
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -93,7 +94,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 		}
 
 		const buttons = <div>
-			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push("/reserve"))}/>
+			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(reservePageRoute.getPathFromArgs({})))}/>
 			<Button text="Register" spinnerOnClick onClick={doRegister}/>
 		</div>
 

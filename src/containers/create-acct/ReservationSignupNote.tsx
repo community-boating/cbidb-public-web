@@ -9,6 +9,7 @@ import { History } from 'history';
 import { postWrapper as saveNote } from "../../async/junior/signup-note-proto"
 import { PostJSON } from '../../core/APIWrapper';
 import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
+import reservePageRoute from "../../app/routes/jp/reserve"
 
 type Props = {
 	history: History<any>,
@@ -107,7 +108,7 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 				{this.state.formData.beginnerInstanceId.isSome() ? beginnerTextArea : null}
 				{this.state.formData.intermediateInstanceId.isSome() ? intermediateTextArea : null}
 				<br />
-				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(`/reserve`))}/>
+				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(reservePageRoute.getPathFromArgs({})))}/>
 				<Button text="Save >" spinnerOnClick={true} onClick={() => {
 					const saveBeginner = self.state.formData.beginnerInstanceId.map(b => () => saveNote.send(PostJSON({
 						juniorId: self.props.personId,
@@ -125,7 +126,7 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 						saveBeginner.getOrElse(() => Promise.resolve(null))(),
 						saveIntermediate.getOrElse(() => Promise.resolve(null))(),
 					]).then(([beginnerResult, intermediateResult]) => {
-						self.props.history.push("/reserve")
+						self.props.history.push(reservePageRoute.getPathFromArgs({}))
 					})
 				}}/>
 			</JoomlaArticleRegion>

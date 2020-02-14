@@ -21,7 +21,8 @@ import { History } from 'history';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import {postWrapper as deleteJunior} from '../../async/junior/delete-junior-class-reservation'
 import moment = require('moment');
-import { getClassesAndPreregistrations, paths } from '../../app/routing';
+import { paths } from '../../app/routing';
+import getClassesAndPreregistrations from '../../async/util/getClassesAndPreregistrations';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,

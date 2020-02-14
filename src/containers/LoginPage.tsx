@@ -12,6 +12,7 @@ import ErrorDiv from "../theme/joomla/ErrorDiv";
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
 import Currency from "../util/Currency";
+import reservePageRoute from "../app/routes/jp/reserve"
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -107,7 +108,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		const newAcctRegion = (
 			<JoomlaArticleRegion title="New CBI Parents...">
 				<div>
-					<Link to="/reserve">
+					<Link to={reservePageRoute.getPathFromArgs({})}>
 						...click here to sign up your child(ren)!
 					</Link>
 					<br />
