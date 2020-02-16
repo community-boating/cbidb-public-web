@@ -415,8 +415,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				? <tr><td>As you reserve classes for more juniors, they will appear in this box.  When you have reserved a class for all your juniors, click the button below!</td></tr>
 				: self.state.preRegistrations.map(preRegRender(() => self.props.history.push(`/redirect${reservePageRoute.getPathFromArgs({})}`)))
 			}
-			<br />
-			<Button
+			<tr><td>&nbsp;</td></tr>
+			<tr><td><Button
 				text={<span style={{fontSize: "0.9em"}}>Continue with {self.state.preRegistrations.length} Junior(s) ></span>}
 				spinnerOnClick={true}
 				onClick={() => {
@@ -430,7 +430,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						return Promise.resolve();
 					}
 				}}
-			/>
+			/></td></tr>
 			</tbody></table>
 			
 		</JoomlaSidebarRegion>);
