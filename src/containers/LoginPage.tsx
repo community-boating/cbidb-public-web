@@ -13,6 +13,7 @@ import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-co
 import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
 import Currency from "../util/Currency";
 import {reservePageRoute} from "../app/routes/jp/reserve"
+import { forgotPasswordPageRoute } from "../app/routes/jp/forgot-pw";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -142,7 +143,7 @@ export default class LoginPage extends React.Component<Props, State> {
 							onEnter={self.loginFunction}
 						/>
 						<tr><td></td><td><span>
-							<Link to="/forgot-pw">I forgot my password!</Link>
+							<Link to={forgotPasswordPageRoute.getPathFromArgs({})}>I forgot my password!</Link>
 						</span></td></tr>
 					</tbody></table>
 				</div>

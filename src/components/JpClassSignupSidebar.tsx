@@ -21,15 +21,10 @@ function resizeRatings(){
 	document.getElementById('dhtmltooltip').style.height = height+"px";
 }
 
-const getSignupNoteURL = (personId: number, instanceId: number) => 
-	signupNotePageRoute.getPathFromArgs({ personId: String(personId), instanceId: String(instanceId) })
-	.replace(":personId", String(personId))
-	.replace(":instanceId", String(instanceId));
-
 const showSignupNote = (typeId: number) => typeId == jpClassTypeId_BeginnerSailing || typeId == jpClassTypeId_IntermediateSailing;
 const signupNoteMaybe = (typeId: number, juniorId: number, instanceId: number) => (
 	showSignupNote(typeId)
-	? <React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link to={getSignupNoteURL(juniorId, instanceId)}>Signup Note</Link></React.Fragment>
+	? <React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link to={signupNotePageRoute.getPathFromArgs({ personId: String(juniorId), instanceId: String(instanceId) })}>Signup Note</Link></React.Fragment>
 	: null
 )
 

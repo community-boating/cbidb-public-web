@@ -10,6 +10,7 @@ import TextInput from '../components/TextInput';
 import {apiw} from "../async/forgot-pw"
 import { PostURLEncoded } from '../core/APIWrapper';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
+import { forgotPasswordSentPageRoute } from '../app/routes/jp/forgot-pw-sent';
 
 type Props = {
 	history: History<any>
@@ -53,7 +54,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 				// api success
 				ret => {
 					if (ret.type == "Success") {
-						self.props.history.push("/forgot-pw-sent")
+						self.props.history.push(forgotPasswordSentPageRoute.getPathFromArgs({}))
 					} else {
 						window.scrollTo(0, 0);
 						self.setState({

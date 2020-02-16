@@ -15,6 +15,7 @@ import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import Validation from '../../util/Validation';
 import asc from '../../app/AppStateContainer';
 import {reservePageRoute} from "../../app/routes/jp/reserve"
+import { createAcctPageRoute } from '../../app/routes/jp/create-acct';
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -158,7 +159,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 		const sidebarPrereg = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>
 		{self.props.preRegistrations.length==0
 			? <tr><td>You have no reserved any classes yet.  This is ok; you can always sign up for classes after purchasing a membership.</td></tr>
-			: self.props.preRegistrations.map(preRegRender(() => self.props.history.push("/redirect/create-acct")))
+			: self.props.preRegistrations.map(preRegRender(() => self.props.history.push(`/redirect${createAcctPageRoute.getPathFromArgs({})}`)))
 		}
 		</tbody></table>
 

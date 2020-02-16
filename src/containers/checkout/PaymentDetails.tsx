@@ -15,6 +15,7 @@ import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";
 import { CartItem } from "../../async/get-cart-items"
 import FullCartReport from "../../components/FullCartReport";
+import { checkoutPageRoute } from "../../app/routes/common/checkout";
 
 export interface Props {
 	welcomePackage: HomePageForm,
@@ -55,7 +56,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props> {
 		/>);
 
 		const reset = (confirm.isSome()
-			? <a href="#" onClick={() => clearCard.send(PostString("")).then(() => self.props.history.push('/redirect/checkout'))}>Click here to use a different credit card.</a>
+			? <a href="#" onClick={() => clearCard.send(PostString("")).then(() => self.props.history.push(`/redirect${checkoutPageRoute.getPathFromArgs({})}`))}>Click here to use a different credit card.</a>
 			: "Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our payment processor."
 		);
 

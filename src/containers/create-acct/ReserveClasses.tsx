@@ -24,6 +24,7 @@ import moment = require('moment');
 import getClassesAndPreregistrations from '../../async/util/getClassesAndPreregistrations';
 import { reserveNotesPageRoute } from '../../app/routes/jp/reserve-notes';
 import { createAcctPageRoute } from '../../app/routes/jp/create-acct';
+import { reservePageRoute } from '../../app/routes/jp/reserve';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -412,7 +413,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		const sidebar = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>
 			{self.state.preRegistrations.length==0
 				? <tr><td>As you reserve classes for more juniors, they will appear in this box.  When you have reserved a class for all your juniors, click the button below!</td></tr>
-				: self.state.preRegistrations.map(preRegRender(() => self.props.history.push("/redirect/reserve")))
+				: self.state.preRegistrations.map(preRegRender(() => self.props.history.push(`/redirect${reservePageRoute.getPathFromArgs({})}`)))
 			}
 			<br />
 			<Button
