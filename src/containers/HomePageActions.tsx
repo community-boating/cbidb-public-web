@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import { postWrapper as abortRegistration } from "../async/junior/abort-mem-reg"
 import { PostJSON } from '../core/APIWrapper';
 import { History } from 'history';
-import ratingsPageRoute from '../app/routes/jp/ratings'
-import classPageRoute from '../app/routes/jp/class'
-import regRoute from '../app/routes/jp/reg'
+import {ratingsPageRoute} from '../app/routes/jp/ratings'
+import {classPageRoute} from '../app/routes/jp/class'
+import {regPageRoute} from '../app/routes/jp/reg'
+import {editPageRoute} from "../app/routes/jp/edit"
+
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)
@@ -14,11 +16,11 @@ function testBit(num: number, bit: number){
 
 //TODO: paths are duplicated here, import from classes and replace :personId
 export default (bv: number, juniorId: number, history: History<any>) => {
-	const reg = regRoute.getPathFromArgs({personId: String(juniorId)}) //regPath.replace(":personId", String(juniorId))
-	const edit = "/edit/:personId".replace(":personId", String(juniorId))
+	const reg = regPageRoute.getPathFromArgs({personId: String(juniorId)});
+
     const actions = [{
         place: 3,
-        element: <Link to={edit}>{"Edit Information"}</Link>
+        element: <Link to={editPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"Edit Information"}</Link>
     }, {
         place: 4,
         element: <Link to={ratingsPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"View Ratings"}</Link>

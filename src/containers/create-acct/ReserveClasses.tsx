@@ -21,8 +21,9 @@ import { History } from 'history';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import {postWrapper as deleteJunior} from '../../async/junior/delete-junior-class-reservation'
 import moment = require('moment');
-import { paths } from '../../app/routing';
 import getClassesAndPreregistrations from '../../async/util/getClassesAndPreregistrations';
+import { reserveNotesPageRoute } from '../../app/routes/jp/reserve-notes';
+import { createAcctPageRoute } from '../../app/routes/jp/create-acct';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -256,7 +257,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			} else if (beginner.isNone() && intermediate.isNone()) {
 				this.setState({
 					...this.state,
-					validationErrors: ["Please specify class to reserve.  If you do not want to reserve classes at this time, click \"Continue to Registration\" below.  You will have the opportunity to add more juniors later."]
+					validationErrors: ["Please specify class to reserve.  If you do not want to reserve classes at this time, click \"Continue\" to the right.  You will have the opportunity to add more juniors later."]
 				})
 				return Promise.reject();
 			} else if (beginner.isNone() && intermediate.isSome()) {
@@ -403,7 +404,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 			<Button text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/"))}/>
 			<Button text={<span>Create Junior</span>} spinnerOnClick={true} onClick={() => submitAction().then(
-				personId =>self.props.history.push(paths.reservationNotes.path.replace(":personId", String(personId))),
+				personId =>self.props.history.push(reserveNotesPageRoute.getPathFromArgs({personId: String(personId)})),
 				() => window.scrollTo(0, 0)
 			)}/>
 		</React.Fragment>);
@@ -423,7 +424,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					const juniorCt = self.state.preRegistrations.length;
 					const s = juniorCt == 1 ? "" : "s";
 					if (!didStuff || confirm(`You have unsaved work on this page.  Continue to finalize registration with ${juniorCt} junior${s}?`)) {
-						return Promise.resolve(self.props.history.push("/create-acct"))
+						return Promise.resolve(self.props.history.push(createAcctPageRoute.getPathFromArgs({})))
 					} else {
 						return Promise.resolve();
 					}

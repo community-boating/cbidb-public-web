@@ -9,7 +9,7 @@ import APIWrapper, { PostJSON } from '../core/APIWrapper';
 import { History } from 'history';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../lov/magicStrings';
 import assertNever from "../util/assertNever";
-import classNotePageRoute from "../app/routes/jp/signupNote"
+import {signupNotePageRoute} from "../app/routes/jp/signupNote"
 
 interface Props {
 	typeId: number,
@@ -29,7 +29,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 			if (ret.type == "Success") {
 				const url = (
 					goToNote && (self.props.typeId == jpClassTypeId_BeginnerSailing || self.props.typeId == jpClassTypeId_IntermediateSailing)
-					? classNotePageRoute.getPathFromArgs({ personId: String(self.props.juniorId), instanceId: String(instanceId) })
+					? signupNotePageRoute.getPathFromArgs({ personId: String(self.props.juniorId), instanceId: String(instanceId) })
 					: `/redirect${this.props.url}`
 				);
 				this.props.history.push(url)

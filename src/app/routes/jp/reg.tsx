@@ -9,7 +9,7 @@ import { some } from 'fp-ts/lib/Option';
 
 const path = parentPath.appendPathSegment<{ personId: string }>("/reg/:personId");
 
-export default new RouteWrapper(true, path, history => <PageWrapper
+export const regPageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="reg"
     history={history}
     component={(urlProps: {personId: number}, async: HomePageForm) => <RegistrationWizard

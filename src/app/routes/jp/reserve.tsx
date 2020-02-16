@@ -9,7 +9,7 @@ import getClassesAndPreregistrations from '../../../async/util/getClassesAndPrer
 
 const path = parentPath.appendPathSegment('/reserve');
 
-export default new RouteWrapper(true, path, history => <PageWrapper
+export const reservePageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="ReserveClasses"
     history={history}
     component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses

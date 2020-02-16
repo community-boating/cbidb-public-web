@@ -1,10 +1,8 @@
 import { History } from 'history';
-import * as t from 'io-ts';
 import * as React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router';
 import { apiw as welcomeAPI } from "../async/member-welcome";
 import PageWrapper from '../core/PageWrapper';
-import { bundleReservationsFromAPI, ClassInstanceObject } from '../containers/create-acct/ReserveClasses';
 import HomePage, { Form as HomePageForm } from '../containers/HomePage';
 import LoginPage from '../containers/LoginPage';
 import Currency from '../util/Currency';
@@ -12,25 +10,23 @@ import extractURLParams from '../util/extractURLParams';
 import asc from './AppStateContainer';
 import { Option, none, some } from 'fp-ts/lib/Option';
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
-import { validator as reservationAPIValidator } from '../async/junior/get-junior-class-reservations'
-import CreateAccount from '../containers/create-acct/CreateAcct';
-import CheckoutWizard from '../containers/checkout/CheckoutWizard';
 import {apiw as getStaticYearly} from "../async/static-yearly-data"
-import MaintenanceSplash from "../containers/MaintenanceSplash"
-import ReservationSignupNote from '../containers/create-acct/ReservationSignupNote';
-import ThankYouPage from '../containers/checkout/ThankYou';
 import ForgotPasswordPage from '../containers/ForgotPasswordPage';
 import NewPasswordPage from '../containers/NewPasswordPage';
 import ForgotPasswordSentPage from '../containers/ForgotPasswordSent';
-import ratingsPageRoute from './routes/jp/ratings'
-import regPageRoute from './routes/jp/reg'
-import regEmptyPageRoute from './routes/jp/regEmpty'
-import editPageRoute from './routes/jp/edit'
-import classPageRoute from '../app/routes/jp/class'
-import classTimePageRoute from '../app/routes/jp/classTime'
-import signupNotePageRoute from '../app/routes/jp/signupNote'
-import reservePageRoute from '../app/routes/jp/reserve'
-import getClassesAndPreregistrations from '../async/util/getClassesAndPreregistrations';
+import {ratingsPageRoute} from './routes/jp/ratings'
+import {regPageRoute} from './routes/jp/reg'
+import {regEmptyPageRoute} from './routes/jp/regEmpty'
+import {editPageRoute} from './routes/jp/edit'
+import {classPageRoute} from './routes/jp/class'
+import {classTimePageRoute} from './routes/jp/classTime'
+import {signupNotePageRoute} from './routes/jp/signupNote'
+import {reservePageRoute} from './routes/jp/reserve'
+import {reserveNotesPageRoute} from './routes/jp/reserve-notes'
+import {checkoutPageRoute} from "./routes/common/checkout"
+import {thankyouPageRoute} from "./routes/common/thank-you"
+import { maintenancePageRoute } from './routes/common/maintenance';
+import { createAcctPageRoute } from './routes/jp/create-acct';
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -40,7 +36,6 @@ function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 }
 
 export const paths = {
-	reservationNotes: pathAndParamsExtractor<{personId: string}>("/reserve-notes/:personId"),
 	resetPassword: pathAndParamsExtractor<{email: string, hash: string}>("/reset-pw/:email/:hash"),
 }
 
@@ -53,32 +48,10 @@ export default function (history: History<any>) {
 		
 		reservePageRoute.asRoute(history),
 
-		<Route key={paths.reservationNotes.path} path={paths.reservationNotes.path} render={() => <PageWrapper
-			key="reservationNotes"
-			history={history}
-			component={(urlProps: {personId: number}, async:{ classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReservationSignupNote
-				history={history}
-				personId={urlProps.personId}
-				startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
-			/>}
-			urlProps={{
-				personId: Number(paths.reservationNotes.getParams(history.location.pathname).personId),
-			}}
-			shadowComponent={<span></span>}
-			getAsyncProps={getClassesAndPreregistrations}
-		/>} />,
-		<Route key="/create-acct" path="/create-acct" render={() => <PageWrapper
-			key="CreateAccountPage"
-			history={history}
-			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <CreateAccount
-				history={history}
-				preRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
-				noSignupJuniors={async.prereg.noSignups}
-			/>}
-			urlProps={{}}
-			shadowComponent={<span></span>}
-			getAsyncProps={getClassesAndPreregistrations}
-		/>} />,
+		reserveNotesPageRoute.asRoute(history),
+
+		createAcctPageRoute.asRoute(history),
+		
 		<Route key="/forgot-pw" path="/forgot-pw" render={() => <ForgotPasswordPage 
 			history={history}
 		/>} />,
@@ -136,14 +109,9 @@ export default function (history: History<any>) {
 			return <Redirect to={path} />;
 		}}/>,
 		
+		checkoutPageRoute.asRoute(history),
 
-		<Route key="/checkout" path="/checkout" render={() => <CheckoutWizard
-			history={history}
-		/>} />,
-
-		<Route key="/thank-you" path="/thank-you" render={() => <ThankYouPage
-			
-		/>} />,
+		thankyouPageRoute.asRoute(history),
 
 		ratingsPageRoute.asRoute(history),
 
@@ -186,7 +154,7 @@ export default function (history: History<any>) {
 	console.log(authedDependedRoutes)
 
 	const universalRoutes = [
-		<Route key="/maintenance" path="/maintenance" render={() => <MaintenanceSplash />} />
+		maintenancePageRoute.asRoute(history)
 	]
 
 	return (

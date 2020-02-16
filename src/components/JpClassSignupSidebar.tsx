@@ -8,7 +8,7 @@ import { History } from 'history';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../lov/magicStrings';
-import signupNotePageRoute from "../app/routes/jp/signupNote";
+import {signupNotePageRoute} from "../app/routes/jp/signupNote";
 
 function resizeRatings(){
 	var heightPx = window.getComputedStyle(document.getElementById('dhtmltooltip').getElementsByTagName('table')[0]).getPropertyValue('height');

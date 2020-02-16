@@ -9,6 +9,7 @@ import PaymentConfirmPage from "./PaymentConfirm";
 import { apiw as orderStatus, CardData } from "../../async/order-status"
 import { setCheckoutImage } from "../../util/set-bg-image";
 import { apiw as getCartItems } from "../../async/get-cart-items"
+import { thankyouPageRoute } from "../../app/routes/common/thank-you";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -99,7 +100,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 		return <WizardPageflow
 			history={self.props.history}
 			start="/"
-			end="/thank-you"
+			end={thankyouPageRoute.getPathFromArgs({})}
 			nodes={nodes}
 		/>
 	}

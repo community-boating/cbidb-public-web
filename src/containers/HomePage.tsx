@@ -13,7 +13,8 @@ import moment = require('moment');
 import { checkUpgradedAsValidationErrorArray } from '../util/checkUpgraded';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import { some } from 'fp-ts/lib/Option';
-import regEmptyRoute from '../app/routes/jp/regEmpty'
+import {regEmptyPageRoute} from '../app/routes/jp/regEmpty'
+import { checkoutPageRoute } from '../app/routes/common/checkout';
 
 export type Form = t.TypeOf<typeof validator>;
 
@@ -35,7 +36,7 @@ export default class HomePage extends React.Component<Props, State> {
 	}
 	componentDidMount() {
 		if (this.props.data.children.length == 0) {
-			this.props.history.push(regEmptyRoute.pathWrapper.path)
+			this.props.history.push(regEmptyPageRoute.pathWrapper.path)
 		}
 	}
 	render() {
@@ -56,7 +57,7 @@ export default class HomePage extends React.Component<Props, State> {
 			<JoomlaReport headers={["Name", "Status", "Actions"]} rows={rowData.map(r => [r.name, r.status, r.actions])}/>
 		</JoomlaArticleRegion>
 
-		const checkoutButton = (<Button onClick={() => Promise.resolve(this.props.history.push("/checkout"))} text="Checkout" />);
+		const checkoutButton = (<Button onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
@@ -68,7 +69,7 @@ export default class HomePage extends React.Component<Props, State> {
 			{errorPopup}
 			{mainTable}
 			{/* <Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" /> */}
-			<Button onClick={() => Promise.resolve(this.props.history.push(regEmptyRoute.pathWrapper.path))} text="Add new Junior" />
+			<Button onClick={() => Promise.resolve(this.props.history.push(regEmptyPageRoute.pathWrapper.path))} text="Add new Junior" />
 			{self.props.data.canCheckout ? checkoutButton : null}
 		</JoomlaMainPage>
 	}

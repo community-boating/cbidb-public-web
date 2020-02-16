@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import classTimePageRoute from "../../app/routes/jp/classTime"
+import {classTimePageRoute} from "../../app/routes/jp/classTime"
 
 export interface ClassType {
 	typeId: number,

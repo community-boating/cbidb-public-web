@@ -9,7 +9,7 @@ import { getWrapper as getSignups, GetSignupsAPIResult } from '../../../async/ju
 
 const path = parentPath.appendPathSegment<{ personId: string }>("/class/:personId");
 
-export default new RouteWrapper(true, path, history => <PageWrapper
+export const classPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="SelectClassType"
 	history={history}
 	component={(urlProps: {personId: number}, [apiResult, signups]: [t.TypeOf<typeof seeTypesValidator>, GetSignupsAPIResult]) => <SelectClassType

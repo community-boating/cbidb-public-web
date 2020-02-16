@@ -8,7 +8,7 @@ import Button from '../../components/Button';
 import { History } from 'history';
 import { postWrapper as saveNote } from "../../async/junior/signup-note"
 import { PostJSON } from '../../core/APIWrapper';
-import classPageRoute from "../../app/routes/jp/class"
+import {classPageRoute} from "../../app/routes/jp/class"
 
 type Props = {
 	history: History<any>,

@@ -8,7 +8,7 @@ import { apiw as welcomeAPI } from "../../../async/member-welcome";
 
 const path = parentPath.appendPathSegment<{ personId: string }>('/ratings/:personId');
 
-export default new RouteWrapper(true, path, history => <PageWrapper
+export const ratingsPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="RatingsPage"
 	history={history}
 	component={(urlProps: {personId: number}, async: HomePageForm) => <RatingsPage

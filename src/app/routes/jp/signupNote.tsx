@@ -8,7 +8,7 @@ import {getWrapper as getSignupNote} from "../../../async/junior/signup-note"
 
 const path = parentPath.appendPathSegment<{ personId: string, instanceId: string }>("/class-note/:personId/:instanceId");
 
-export default new RouteWrapper(true, path, history => <PageWrapper
+export const signupNotePageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="signupNote"
     history={history}
     component={(urlProps: {personId: number, instanceId: number}, async: {signupNote: Option<string>}) => <SignupNotePage

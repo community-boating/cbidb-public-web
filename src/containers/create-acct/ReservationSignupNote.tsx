@@ -9,7 +9,7 @@ import { History } from 'history';
 import { postWrapper as saveNote } from "../../async/junior/signup-note-proto"
 import { PostJSON } from '../../core/APIWrapper';
 import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
-import reservePageRoute from "../../app/routes/jp/reserve"
+import {reservePageRoute} from "../../app/routes/jp/reserve"
 
 type Props = {
 	history: History<any>,

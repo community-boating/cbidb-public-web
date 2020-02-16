@@ -14,7 +14,7 @@ import { PostURLEncoded } from '../../core/APIWrapper';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import Validation from '../../util/Validation';
 import asc from '../../app/AppStateContainer';
-import reservePageRoute from "../../app/routes/jp/reserve"
+import {reservePageRoute} from "../../app/routes/jp/reserve"
 
 const defaultForm = {
 	firstName: none as Option<string>,

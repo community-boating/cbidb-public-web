@@ -10,7 +10,7 @@ import {apiw as getWeeks, weeksValidator} from "../../../async/weeks";
 
 const path = parentPath.appendPathSegment<{ personId: string, typeId: string }>("/class-time/:personId/:typeId");
 
-export default new RouteWrapper(true, path, history => <PageWrapper
+export const classTimePageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="SelectClassTime"
     history={history}
     component={(

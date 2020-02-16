@@ -12,7 +12,7 @@ import ErrorDiv from "../theme/joomla/ErrorDiv";
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
 import Currency from "../util/Currency";
-import reservePageRoute from "../app/routes/jp/reserve"
+import {reservePageRoute} from "../app/routes/jp/reserve"
 
 export const formDefault = {
 	username: none as Option<string>,
