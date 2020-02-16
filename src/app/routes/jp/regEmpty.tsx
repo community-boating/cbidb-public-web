@@ -7,7 +7,7 @@ import { apiw as welcomeAPI } from "../../../async/member-welcome";
 import RegistrationWizard from '../../../containers/registration/pageflow/RegistrationWizard';
 import { none } from 'fp-ts/lib/Option';
 
-const path = parentPath.appendPathSegment<{ personId: string }>("/reg");
+const path = parentPath.appendPathSegment("/reg");
 
 export const regEmptyPageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="regEmpty"

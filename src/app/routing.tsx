@@ -11,9 +11,6 @@ import asc from './AppStateContainer';
 import { Option, none, some } from 'fp-ts/lib/Option';
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import {apiw as getStaticYearly} from "../async/static-yearly-data"
-import ForgotPasswordPage from '../containers/ForgotPasswordPage';
-import NewPasswordPage from '../containers/NewPasswordPage';
-import ForgotPasswordSentPage from '../containers/ForgotPasswordSent';
 import {ratingsPageRoute} from './routes/jp/ratings'
 import {regPageRoute} from './routes/jp/reg'
 import {regEmptyPageRoute} from './routes/jp/regEmpty'
@@ -27,6 +24,9 @@ import {checkoutPageRoute} from "./routes/common/checkout"
 import {thankyouPageRoute} from "./routes/common/thank-you"
 import { maintenancePageRoute } from './routes/common/maintenance';
 import { createAcctPageRoute } from './routes/jp/create-acct';
+import { forgotPasswordPageRoute } from './routes/jp/forgot-pw';
+import { forgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
+import { resetPasswordPageRoute } from './routes/jp/reset-pw';
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
@@ -36,7 +36,7 @@ function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 }
 
 export const paths = {
-	resetPassword: pathAndParamsExtractor<{email: string, hash: string}>("/reset-pw/:email/:hash"),
+	resetPassword: pathAndParamsExtractor<{email: string, hash: string}>(""),
 }
 
 // TODO: real shadow components on everything
@@ -51,28 +51,15 @@ export default function (history: History<any>) {
 		reserveNotesPageRoute.asRoute(history),
 
 		createAcctPageRoute.asRoute(history),
-		
-		<Route key="/forgot-pw" path="/forgot-pw" render={() => <ForgotPasswordPage 
-			history={history}
-		/>} />,
-		<Route key="/forgot-pw-sent" path="/forgot-pw-sent" render={() => <ForgotPasswordSentPage
-			history={history}
-		/>} />,
-		<Route key="/reset-pw" path="/reset-pw" render={() => <PageWrapper
-			key="CreateAccountPage"
-			history={history}
-			component={(urlProps: {email: string, hash: string}, async: any) => <NewPasswordPage
-				history={history}
-				email={urlProps.email}
-				hash={urlProps.hash}
-			/>}
-			urlProps={{
-				email: paths.resetPassword.getParams(history.location.pathname).email,
-				hash: paths.resetPassword.getParams(history.location.pathname).hash,
-			}}
-		/>} />,
+
+		forgotPasswordPageRoute.asRoute(history),
+
+		forgotPasswordSentPageRoute.asRoute(history),
+
+		resetPasswordPageRoute.asRoute(history),
+
 		<Route key="default" render={() => <PageWrapper
-			key="CreateAccountPage"
+			key="Loginpage"
 			history={history}
 			component={(urlProps: {}, async: any) => <LoginPage 
 				history={history}
@@ -150,8 +137,6 @@ export default function (history: History<any>) {
 	const isLoggedIn = (asc.state.login.authenticatedUserName as Option<string>).isSome();
 
 	const authedDependedRoutes = isLoggedIn ? mustBeLoggedIn : mustNotBeLoggedIn
-
-	console.log(authedDependedRoutes)
 
 	const universalRoutes = [
 		maintenancePageRoute.asRoute(history)
