@@ -59,10 +59,10 @@ export default (bv: number, juniorId: number, history: History<any>) => {
     }, {
         place: 14,
         element: <PlaceholderLink>{"Rejoin Waitlist"}</PlaceholderLink>
-    }, {
+    }*/ , {
         place: 15,
-        element: <PlaceholderLink>{"Buy 4th of July Tickets"}</PlaceholderLink>
-    }*/]
+        element: <a target="_blank" href="https://sailabration.eventbrite.com/?discount=CBIjr">{"Buy 4th of July Tickets"}</a>
+    }]
 
     return (function() {
         if (testBit(bv, 0)) {
