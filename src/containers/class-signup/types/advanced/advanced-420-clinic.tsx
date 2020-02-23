@@ -6,7 +6,7 @@ const data: ClassType = {
 	typeId: 1262,
 	typeName: "Advanced 420 Clinic",
 	prereq: "420 Green rating",
-	sessionCt: 3,
+	sessionCt: 2,
 	sessionLength: 2.5,
 	classSize: 16,
 	description: (<React.Fragment>

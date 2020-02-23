@@ -6,7 +6,7 @@ const data: ClassType = {
 	typeId: 1263,
 	typeName: "Advanced Laser Clinic",
 	prereq: "Laser Green rating",
-	sessionCt: 3,
+	sessionCt: 2,
 	sessionLength: 2.5,
 	classSize: 8,
 	description: (<React.Fragment>

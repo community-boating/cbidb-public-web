@@ -6,7 +6,7 @@ const data: ClassType = {
 	typeId: 1261,
 	typeName: "Advanced Keelboat Clinic",
 	prereq: "Sonar Green or Ideal 18 Green rating",
-	sessionCt: 2,
+	sessionCt: 3,
 	sessionLength: 2.5,
 	classSize: 6,
 	description: (<React.Fragment>
