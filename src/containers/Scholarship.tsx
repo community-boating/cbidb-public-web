@@ -123,8 +123,8 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 						<br />
 						<br />
 						Adjusted Gross Income is defined as gross income minus adjustments to income.
-						We suggest you refer to your {self.props.currentSeason-2} federal income tax return to get a quick estimate of your {self.props.currentSeason-1} AGI.
-						On your {self.props.currentSeason-2} return, please refer to:<br />
+						We suggest you refer to your most recent federal income tax return to get a quick estimate of your current AGI.
+						On your most recent return, please refer to:<br />
 						<br />
 						<ul>
 							<li>Line 4 if you filed a Form 1040EZ</li>
@@ -179,7 +179,6 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 					from $1 to ${self.props.jpPrice.format(true)} and includes membership, classes, and boat usage;
 					everything we offer for ten summer weeks! Please apply below for a reduced price membership
 					based on household income and family makeup. Memberships are non-refundable and non-transferable.
-					Register before Jan 1 to lock in last year's pricing!
 					`
 				}
 				<br />
