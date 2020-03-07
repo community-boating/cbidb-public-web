@@ -95,7 +95,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 		const self = this;
 		return (
 			<JoomlaReport
-				headers={["First Day", "Last Day", "Class Time", "Spots Left", "Notes", "Action"]}
+				headers={["First Day", "Last Day", "Class Time", "Spots Left", "Action", "Notes"]}
 				rows={this.props.instances.map(c => ([
 					c.firstDay,
 					c.lastDay,
