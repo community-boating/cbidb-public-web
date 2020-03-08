@@ -113,6 +113,8 @@ export default function (history: History<any>) {
 
 		regEmptyPageRoute.asRoute(history),
 
+		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
+
 		<Route key="home" path="/" exact render={() => <PageWrapper
 			key="HomePage"
 			history={history}

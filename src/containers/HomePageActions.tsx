@@ -8,6 +8,7 @@ import {ratingsPageRoute} from '../app/routes/jp/ratings'
 import {classPageRoute} from '../app/routes/jp/class'
 import {regPageRoute} from '../app/routes/jp/reg'
 import {editPageRoute} from "../app/routes/jp/edit"
+import {postWrapper as offseasonWLDelete} from "../async/junior/offseason-wl-delete"
 
 
 function testBit(num: number, bit: number){
@@ -38,7 +39,7 @@ export default (bv: number, juniorId: number, history: History<any>) => {
         element: <a href="#" onClick={e => {
             e.preventDefault();
             if (window.confirm(`Do you really want to abort membership registration?`)) {
-                abortRegistration.send(PostJSON({juniorId})).then(() => history.push("/redirect/home"))
+                abortRegistration.send(PostJSON({juniorId})).then(() => history.push("/home"))
             }
         }}>{"Cancel Membership Purchase"}</a>
     }/*, {
@@ -53,10 +54,15 @@ export default (bv: number, juniorId: number, history: History<any>) => {
     }, {
         place: 12,
         element: <PlaceholderLink>{"Cancel Fall Class Waitlist"}</PlaceholderLink>
-    }, {
+    }*/, {
         place: 13,
-        element: <PlaceholderLink>{"Cancel Spring Class Waitlist"}</PlaceholderLink>
-    }, {
+        element: <a href="#" onClick={e => {
+            e.preventDefault();
+            if (window.confirm(`Do you really want to leave the waitlist?  This action cannot be undone.`)) {
+                offseasonWLDelete.send(PostJSON({juniorId})).then(() => history.push("/home"))
+            }
+        }}>{"Cancel Spring Class Waitlist"}</a>
+    }/*, {
         place: 14,
         element: <PlaceholderLink>{"Rejoin Waitlist"}</PlaceholderLink>
     }*/ , {
