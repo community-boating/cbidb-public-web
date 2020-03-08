@@ -9,6 +9,7 @@ import {classPageRoute} from '../app/routes/jp/class'
 import {regPageRoute} from '../app/routes/jp/reg'
 import {editPageRoute} from "../app/routes/jp/edit"
 import {postWrapper as offseasonWLDelete} from "../async/junior/offseason-wl-delete"
+import {offseasonPageRoute} from "../app/routes/jp/offseason"
 
 
 function testBit(num: number, bit: number){
@@ -31,10 +32,10 @@ export default (bv: number, juniorId: number, history: History<any>) => {
     }, /*{
         place: 6,
         element: <PlaceholderLink>{"Signup for Fall Classes"}</PlaceholderLink>
-    }, {
+    }, */ {
         place: 7,
-        element: <PlaceholderLink>{"Signup for Spring Classes"}</PlaceholderLink>
-    }, */{
+        element: <Link to={offseasonPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"Signup for Spring Classes"}</Link>
+    }, {
         place: 8,
         element: <a href="#" onClick={e => {
             e.preventDefault();

@@ -13,21 +13,30 @@ export interface ClassType {
 	description: JSX.Element
 }
 
-export const asFragment = (juniorId: number) => (ct: ClassType) => (
+export const asFragmentOptionalSignupLink = (includeLink: boolean) => (juniorId: number) => (ct: ClassType) => (
 	<React.Fragment key={ct.typeId}>
 		<i>Prerequisite: {ct.prereq}.  Duration: {ct.sessionCt} days; {ct.sessionLength} hours/day.  Class Size: {ct.classSize == 0 ? "No Limit" : String(ct.classSize)}.</i>
 		<br />
 		{ct.description}
 		<br /><br />
-		<Link to={classTimePageRoute.pathWrapper.getPathFromArgs({ personId: String(juniorId), typeId: String(ct.typeId) })}>Click here to sign up!</Link>
-		<br /><br />
+		{includeLink ? (
+			<React.Fragment>
+				<Link to={classTimePageRoute.pathWrapper.getPathFromArgs({ personId: String(juniorId), typeId: String(ct.typeId) })}>Click here to sign up!</Link>
+				<br /><br />
+			</React.Fragment>
+		) : null}
+
 	</React.Fragment>
 )
 
+export const asFragment = asFragmentOptionalSignupLink(true)
 
-export const asDiv = (juniorId: number) => (ct: ClassType) => (
+
+export const asDivOptionalSignupLink = (includeLink: boolean) => (juniorId: number) => (ct: ClassType) => (
 	<div style={{ paddingLeft: "40px"}} key={ct.typeId}>
 		<h3 style={{ textTransform: "none", fontSize: "1.4em" }}><span style={{ fontStyle: "italic" }}>{ct.typeName}</span></h3>
-		{asFragment(juniorId)(ct)}
+		{asFragmentOptionalSignupLink(includeLink)(juniorId)(ct)}
 	</div>
 )
+
+export const asDiv = (juniorId: number) => (ct: ClassType) => asDivOptionalSignupLink(true);

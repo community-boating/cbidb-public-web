@@ -28,6 +28,7 @@ import { forgotPasswordPageRoute } from './routes/jp/forgot-pw';
 import { forgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
 import { resetPasswordPageRoute } from './routes/jp/reset-pw';
 import PathWrapper from '../core/PathWrapper';
+import { offseasonPageRoute } from './routes/jp/offseason'
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -112,6 +113,8 @@ export default function (history: History<any>) {
 		editPageRoute.asRoute(history),
 
 		regEmptyPageRoute.asRoute(history),
+
+		offseasonPageRoute.asRoute(history),
 
 		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
 

@@ -9,6 +9,8 @@ export const validator = t.type({
 	parentFirstName: t.string,
 	parentLastName: t.string,
 	userName: t.string,
+	jpPriceBase: t.number,
+	jpOffseasonPriceBase: t.number,
 	jpPrice: OptionalNumber,
 	jpOffseasonPrice: OptionalNumber,
 	children: t.array(t.type({
