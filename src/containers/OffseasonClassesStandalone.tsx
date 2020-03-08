@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as t from 'io-ts';
 import { History } from 'history';
 import Joomla8_4 from '../theme/joomla/Joomla8_4';
 import JoomlaArticleRegion from '../theme/joomla/JoomlaArticleRegion';
@@ -7,12 +8,14 @@ import JoomlaSidebarRegion from '../theme/joomla/JoomlaSidebarRegion';
 
 import { asDivOptionalSignupLink, ClassType } from "./class-signup/class-description";
 import raceTeam from './class-signup/types/other/race-team'
+import {validator as offseasonClassesValidator} from "../async/junior/offseason-classes"
 
 type Props = {
 	history: History<any>,
 	personId: number,
 	currentSeason: number,
-	offseasonPriceBase: Currency
+	offseasonPriceBase: Currency,
+	offseasonClasses: t.TypeOf<typeof offseasonClassesValidator>
 }
 
 type State = {
@@ -28,6 +31,7 @@ export default class OffseasonClassesStandalone extends React.Component<Props, S
 	}
 	render() {
 		const self = this;
+		console.log(self.props.offseasonClasses)
 
 		const header = <JoomlaArticleRegion title="Spring Classes">
 			Spring classes are available to all {self.props.currentSeason} Juniors. Classes are {self.props.offseasonPriceBase.format(true)} but discounts based on income will automatically apply.<br />

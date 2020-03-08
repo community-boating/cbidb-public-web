@@ -1,26 +1,46 @@
 import * as React from 'react';
+import * as t from 'io-ts';
 import parentPath from './index'
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
-import { Form as HomePageForm } from '../../../containers/HomePage';
-import { apiw as welcomeAPI } from "../../../async/member-welcome";
+import { apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome";
 import OffseasonClassesStandalone from '../../../containers/OffseasonClassesStandalone';
 import Currency from '../../../util/Currency';
+import {getWrapper as getOffseasonClasses, validator as offseasonClassesValidator} from "../../../async/junior/offseason-classes"
 
 const path = parentPath.appendPathSegment<{ personId: string }>('/offseason/:personId');
+
+type CombinedApiResult = {
+	welcome: t.TypeOf<typeof welcomeValidator>,
+	offseasonClasses: t.TypeOf<typeof offseasonClassesValidator>
+}
 
 export const offseasonPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="OffseasonPage"
 	history={history}
-	component={(urlProps: {personId: number}, async: HomePageForm) => <OffseasonClassesStandalone
+	component={(urlProps: {personId: number}, async: CombinedApiResult) => <OffseasonClassesStandalone
 		history={history}
 		personId={urlProps.personId}
-		currentSeason={async.season}
-		offseasonPriceBase={Currency.dollars(async.jpOffseasonPriceBase)}
+		currentSeason={async.welcome.season}
+		offseasonPriceBase={Currency.dollars(async.welcome.jpOffseasonPriceBase)}
+		offseasonClasses={async.offseasonClasses}
 	/>}
 	urlProps={{personId: Number(path.extractURLParams(history.location.pathname).personId)}}
 	shadowComponent={<span></span>}
-	getAsyncProps={() => {
-		return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+	getAsyncProps={(urlProps: {personId: number}) => {
+		return Promise.all([
+			getOffseasonClasses(urlProps.personId).send(null),
+			welcomeAPI.send(null)
+		]).then(([offseasonClasses, welcome]) => {
+			if (welcome.type == "Success" && offseasonClasses.type == "Success") {
+				return Promise.resolve({
+					type: "Success",
+					success: {
+						welcome: welcome.success,
+						offseasonClasses: offseasonClasses.success
+					}
+				})
+			} else return Promise.resolve(null);
+		}).catch(err => Promise.resolve(null));
 	}}
 />);
