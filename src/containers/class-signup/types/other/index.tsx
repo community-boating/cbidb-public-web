@@ -10,7 +10,7 @@ import robosail from "./robosail";
 import sup from "./sup";
 import ws from "./ws";
 import wsRacingClinic from "./ws-racing-clinic";
-
+import kayakAdventure from "./kayak-adventure";
 
 export default ([
 	mercFastTrack,
@@ -18,6 +18,7 @@ export default ([
 	mercClinic,
 	sup,
 	paddleAdventure,
+	kayakAdventure,
 	ws,
 	advWSClinic,
 	wsRacingClinic,
