@@ -45,7 +45,7 @@ import ForgotPasswordSentPage from '../containers/ForgotPasswordSent';
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
 	return {
 		path,
-		getParams: extractURLParams<T>(path)
+		getParams: extractURLParams(path)
 	}
 }
 
