@@ -8,21 +8,29 @@ export interface ClassType {
 	typeName: string,
 	prereq: string,
 	sessionCt: number,
-	sessionLength: number,
+	sessionLength?: number,
+	sessionLengthMinutes?: number,
 	classSize: number,
 	description: JSX.Element
 }
 
-export const asFragment = (juniorId: number) => (ct: ClassType) => (
-	<React.Fragment key={ct.typeId}>
-		<i>Prerequisite: {ct.prereq}.  Duration: {ct.sessionCt} days; {ct.sessionLength} hours/day.  Class Size: {ct.classSize == 0 ? "No Limit" : String(ct.classSize)}.</i>
-		<br />
-		{ct.description}
-		<br /><br />
-		<Link to={paths.classTime.path.replace(":personId", String(juniorId)).replace(":typeId", String(ct.typeId))}>Click here to sign up!</Link>
-		<br /><br />
-	</React.Fragment>
-)
+export const asFragment = (juniorId: number) => (ct: ClassType) => {
+	const lengthString = (
+		ct.sessionLengthMinutes
+		? `${ct.sessionLengthMinutes} minutes/day`
+		: `${ct.sessionLength} hours/day`
+	);
+	return (
+		<React.Fragment key={ct.typeId}>
+			<i>Prerequisite: {ct.prereq}.  Duration: {ct.sessionCt} days; {lengthString}.  Class Size: {ct.classSize == 0 ? "No Limit" : String(ct.classSize)}.</i>
+			<br />
+			{ct.description}
+			<br /><br />
+			<Link to={paths.classTime.path.replace(":personId", String(juniorId)).replace(":typeId", String(ct.typeId))}>Click here to sign up!</Link>
+			<br /><br />
+		</React.Fragment>
+	);
+}
 
 
 export const asDiv = (juniorId: number) => (ct: ClassType) => (

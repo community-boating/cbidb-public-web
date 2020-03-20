@@ -70,7 +70,6 @@ export default class SelectClassTime extends React.Component<Props, State> {
 	render() {
 		const self = this;
 		const formData = this.state.formData
-		const className = <span style={{fontWeight: "bold"}}>{self.props.apiResult.typeName}</span>;
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
 		const filterInstancesByWeek = (i: InstanceInfo) => self.state.formData.selectedWeek.isNone() || String(i.week) == self.state.formData.selectedWeek.getOrElse(null)
@@ -100,12 +99,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 				{errorPopup}
 				<br />
 				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(`/class/${self.props.personId}`))}/>
-				<JoomlaArticleRegion title="Choose a Week">
-					{"All "}
-					{className}
-					{` classes are ${self.props.apiResult.sessionLength} hours per day for ${self.props.apiResult.sessionCt} day(s) unless otherwise indicated.`}
-					<br />
-					<br />
+				<JoomlaArticleRegion title={`Choose a Week - ${self.props.apiResult.typeName}`}>
 					<table><tbody><FormSelect
 						id="selectedWeek"
 						label=""
