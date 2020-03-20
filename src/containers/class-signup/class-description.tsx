@@ -47,4 +47,4 @@ export const asDivOptionalSignupLink = (includeLink: boolean) => (juniorId: numb
 	</div>
 )
 
-export const asDiv = (juniorId: number) => (ct: ClassType) => asDivOptionalSignupLink(true);
+export const asDiv = asDivOptionalSignupLink(true);
