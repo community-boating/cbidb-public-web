@@ -1,12 +1,10 @@
 import * as React from 'react';
-import parentPath from './index'
+import path from "../../paths/jp/ratings";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import RatingsPage from '../../../containers/RatingsPage';
 import { Form as HomePageForm } from '../../../containers/HomePage';
 import { apiw as welcomeAPI } from "../../../async/member-welcome";
-
-const path = parentPath.appendPathSegment<{ personId: string }>('/ratings/:personId');
 
 export const ratingsPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="RatingsPage"

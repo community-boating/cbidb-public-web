@@ -10,7 +10,7 @@ import Joomla8_4 from '../../theme/joomla/Joomla8_4';
 import { preRegRender } from './ReserveClasses';
 import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
 import { postWrapper as create } from '../../async/create-member'
-import { PostURLEncoded } from '../../core/APIWrapper';
+import { PostURLEncoded } from '../../core/APIWrapperUtil';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import Validation from '../../util/Validation';
 import asc from '../../app/AppStateContainer';

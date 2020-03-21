@@ -8,7 +8,7 @@ import Button from "../components/Button";
 import { RadioGroup, SingleCheckbox } from "../components/InputGroup";
 import { Select } from "../components/Select";
 import TextInput from "../components/TextInput";
-import { PostJSON } from "../core/APIWrapper";
+import { makePostJSON } from "../core/APIWrapperUtil";
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../theme/joomla/JoomlaNotitleRegion";
@@ -148,13 +148,13 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			if (isApplying) {
 				const rawIncome = form.income.getOrElse("0");
 				const afterReplace = rawIncome.replace(/,/g,"").replace(/\$/g,"");
-				return postYes().send(PostJSON({
+				return postYes().send(makePostJSON({
 					numberWorkers: Number(form.numberAdults.getOrElse("0")),
 					childCount: Number(form.numberChildren.getOrElse("0")),
 					income:  Number(afterReplace)
 				})).then(self.props.goNext)
 			} else {
-				return postNo().send(PostJSON({})).then(() => {
+				return postNo().send(makePostJSON({})).then(() => {
 					window.location.href = window.location.pathname
 				})
 			}

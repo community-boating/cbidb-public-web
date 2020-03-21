@@ -5,7 +5,7 @@ import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import StripeElement from "../../components/StripeElement";
 import { TokensResult } from "../../models/stripe/tokens";
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
-import { PostJSON, PostString } from "../../core/APIWrapper";
+import { makePostJSON, makePostString } from "../../core/APIWrapperUtil";
 import { Form as HomePageForm } from "../HomePage";
 import { orderStatusValidator, CardData } from "../../async/order-status"
 import StripeConfirm from "../../components/StripeConfirm";
@@ -39,7 +39,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props> {
 			elementId="card-element"
 			cardErrorsId="card-errors"
 			then={(result: TokensResult) => {
-				storeToken.send(PostJSON({
+				storeToken.send(makePostJSON({
 					token: result.token.id,
 					orderId: self.props.welcomePackage.orderId
 				})).then(result => {
@@ -56,7 +56,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props> {
 		/>);
 
 		const reset = (confirm.isSome()
-			? <a href="#" onClick={() => clearCard.send(PostString("")).then(() => self.props.history.push(`/redirect${checkoutPageRoute.getPathFromArgs({})}`))}>Click here to use a different credit card.</a>
+			? <a href="#" onClick={() => clearCard.send(makePostString("")).then(() => self.props.history.push(`/redirect${checkoutPageRoute.getPathFromArgs({})}`))}>Click here to use a different credit card.</a>
 			: "Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our payment processor."
 		);
 

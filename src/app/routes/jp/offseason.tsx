@@ -1,14 +1,12 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import parentPath from './index'
+import path from "../../paths/jp/offseason";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome";
 import OffseasonClassesStandalone from '../../../containers/OffseasonClassesStandalone';
 import Currency from '../../../util/Currency';
 import {getWrapper as getOffseasonClasses, validator as offseasonClassesValidator} from "../../../async/junior/offseason-classes"
-
-const path = parentPath.appendPathSegment<{ personId: string }>('/offseason/:personId');
 
 type CombinedApiResult = {
 	welcome: t.TypeOf<typeof welcomeValidator>,

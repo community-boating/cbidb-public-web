@@ -1,13 +1,11 @@
 import * as React from 'react';
-import parentPath from './index'
+import path from "../../paths/jp/reg";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { Form as HomePageForm } from '../../../containers/HomePage';
 import { apiw as welcomeAPI } from "../../../async/member-welcome";
 import RegistrationWizard from '../../../containers/registration/pageflow/RegistrationWizard';
 import { some } from 'fp-ts/lib/Option';
-
-const path = parentPath.appendPathSegment<{ personId: string }>("/reg/:personId");
 
 export const regPageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="reg"

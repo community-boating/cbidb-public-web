@@ -1,13 +1,11 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import parentPath from './index'
+import path from "../../paths/jp/reserve";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from "../../../containers/create-acct/ReserveClasses"
 import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
 import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
-
-const path = parentPath.appendPathSegment('/reserve');
 
 export const reservePageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="ReserveClasses"

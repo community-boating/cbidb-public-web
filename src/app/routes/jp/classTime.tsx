@@ -1,14 +1,12 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import parentPath from './index'
+import path from "../../paths/jp/classTime";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { getWrapper as getSignups, GetSignupsAPIResult } from '../../../async/junior/get-signups';
 import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTimesValidator } from "../../../async/junior/get-class-instances";
 import SelectClassTime from "../../../containers/class-signup/SelectClassTime";
 import {apiw as getWeeks, weeksValidator} from "../../../async/weeks";
-
-const path = parentPath.appendPathSegment<{ personId: string, typeId: string }>("/class-time/:personId/:typeId");
 
 export const classTimePageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="SelectClassTime"

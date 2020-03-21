@@ -1,8 +1,8 @@
 import { none, Option, some } from 'fp-ts/lib/Option';
 import * as Sentry from '@sentry/browser';
 
-import { apiw } from "../async/authenticate-member";
-import { PostString } from '../core/APIWrapper';
+import { makePostString } from '../core/APIWrapperUtil';
+import { PostString } from '../core/APIWrapperTypes';
 
 // TODO: some sort of state module class that creates reducers with current state and this.setState injected into them somehow
 
@@ -29,6 +29,7 @@ export interface AppProps {
 	jpDirectorEmail: string,
 	jpPriceCents: number,
 	currentSeason: number,
+	attemptLoginFunction: (userName: string, payload: PostString) => Promise<boolean>
 }
 
 type State = {
@@ -67,13 +68,8 @@ export class AppStateContainer {
 			}).bind(this),
 			attemptLogin: (function(userName: string, password: string): Promise<boolean> {
 				const self: AppStateContainer = this
-				const payload = PostString("username=" + encodeURIComponent(userName) + "&password=" + encodeURIComponent(password))
-				return apiw().send(payload).then(res => {
-					if (res.type == "Success" && res.success) {
-						self.updateState.login.setLoggedIn(userName);
-						return true;
-					} else return false;
-				})
+				const payload = makePostString("username=" + encodeURIComponent(userName) + "&password=" + encodeURIComponent(password))
+				return self.state.appProps.attemptLoginFunction(userName, payload);
 			}).bind(this),
 			logout: () => {
 				this.setState({

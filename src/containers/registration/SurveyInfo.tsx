@@ -7,7 +7,7 @@ import { postWrapper, validator } from "../../async/junior/survey";
 import Button from "../../components/Button";
 import { CheckboxGroup, RadioGroup, SingleCheckbox } from "../../components/InputGroup";
 import TextInput from "../../components/TextInput";
-import { PostJSON } from "../../core/APIWrapper";
+import { makePostJSON } from "../../core/APIWrapperUtil";
 import ethnicities from "../../lov/ethnicities";
 import genders from "../../lov/genders";
 import referralSources from "../../lov/referralSources";
@@ -151,7 +151,7 @@ export default class SurveyInfo extends React.Component<Props, State> {
             </JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId).send(PostJSON(this.state.formData)).then(self.props.goNext)
+				return postWrapper(this.props.personId).send(makePostJSON(this.state.formData)).then(self.props.goNext)
 			}}/>
 		</JoomlaMainPage>
 	}

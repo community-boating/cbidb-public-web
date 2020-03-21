@@ -5,7 +5,8 @@ import JoomlaReport from "../theme/joomla/JoomlaReport";
 import { ClassAction } from '../containers/class-signup/SelectClassTime';
 import { postWrapper as doSignup } from "../async/junior/class-signup"
 import { postWrapper as deleteSignup } from "../async/junior/class-signup-delete"
-import APIWrapper, { PostJSON } from '../core/APIWrapper';
+import APIWrapper from '../core/APIWrapper';
+import { makePostJSON } from '../core/APIWrapperUtil';
 import { History } from 'history';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../lov/magicStrings';
 import assertNever from "../util/assertNever";
@@ -25,7 +26,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 	makeAction(instanceId: number, goToNote: boolean, apiw: APIWrapper<any, any, any>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, payload: any){
 		const self = this;
 		e.preventDefault();
-		return apiw.send(PostJSON(payload)).then(ret => {
+		return apiw.send(makePostJSON(payload)).then(ret => {
 			if (ret.type == "Success") {
 				const url = (
 					goToNote && (self.props.typeId == jpClassTypeId_BeginnerSailing || self.props.typeId == jpClassTypeId_IntermediateSailing)

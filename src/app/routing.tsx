@@ -5,12 +5,9 @@ import { Redirect, Route, Router, Switch } from 'react-router';
 import { apiw as welcomeAPI } from "../async/member-welcome";
 import PageWrapper from '../core/PageWrapper';
 import HomePage, { Form as HomePageForm } from '../containers/HomePage';
-import LoginPage from '../containers/LoginPage';
-import Currency from '../util/Currency';
 import asc from './AppStateContainer';
-import { Option, none, some } from 'fp-ts/lib/Option';
+import { Option } from 'fp-ts/lib/Option';
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
-import {apiw as getStaticYearly} from "../async/static-yearly-data"
 import {ratingsPageRoute} from './routes/jp/ratings'
 import {regPageRoute} from './routes/jp/reg'
 import {regEmptyPageRoute} from './routes/jp/regEmpty'
@@ -27,6 +24,7 @@ import { createAcctPageRoute } from './routes/jp/create-acct';
 import { forgotPasswordPageRoute } from './routes/jp/forgot-pw';
 import { forgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
 import { resetPasswordPageRoute } from './routes/jp/reset-pw';
+import { jpLoginPageRoute } from './routes/jp/_base';
 import PathWrapper from '../core/PathWrapper';
 import { offseasonPageRoute } from './routes/jp/offseason'
 
@@ -68,27 +66,10 @@ export default function (history: History<any>) {
 
 		resetPasswordPageRoute.asRoute(history),
 
-		<Route key="login" path="/" exact render={() => <PageWrapper
-			key="Loginpage"
-			history={history}
-			component={(urlProps: {}, async: any) => <LoginPage 
-				history={history}
-				jpPrice={async[0]}
-				lastSeason={async[1]}
-				doLogin={asc.updateState.login.attemptLogin}
-			/>}
-			urlProps={{}}
-			shadowComponent={<span></span>}
-			getAsyncProps={(urlProps: {}) => {
-				return getStaticYearly.send(null).then(res => {
-					if (res.type == "Failure") {
-						return Promise.resolve({type: "Success", success: [none, none]})
-					} else {
-						return Promise.resolve({type: "Success", success: [some(Currency.dollars(res.success.data.rows[0][0])), some(res.success.data.rows[0][1]-1)]})
-					}
-				});  // TODO: handle failure
-			}}
-		/>} />,
+		jpLoginPageRoute.asRoute(history),
+
+		// TODO: eventually there should be a combined landing page or something
+		<Route key="login" path="/" render={() => <Redirect to="/jp" />} />,
 
 		<Route key="default" render={defaultRouteRender} />,
 	]

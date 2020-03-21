@@ -8,7 +8,7 @@ import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
 import TextInput from '../components/TextInput';
 import {apiw} from "../async/forgot-pw"
-import { PostURLEncoded } from '../core/APIWrapper';
+import { PostURLEncoded } from '../core/APIWrapperUtil';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import { forgotPasswordSentPageRoute } from '../app/routes/jp/forgot-pw-sent';
 

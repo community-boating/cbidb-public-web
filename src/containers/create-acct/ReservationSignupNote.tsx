@@ -7,7 +7,7 @@ import formUpdateState from '../../util/form-update-state';
 import Button from '../../components/Button';
 import { History } from 'history';
 import { postWrapper as saveNote } from "../../async/junior/signup-note-proto"
-import { PostJSON } from '../../core/APIWrapper';
+import { makePostJSON } from '../../core/APIWrapperUtil';
 import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
 import {reservePageRoute} from "../../app/routes/jp/reserve"
 
@@ -110,13 +110,13 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 				<br />
 				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(reservePageRoute.getPathFromArgs({})))}/>
 				<Button text="Save >" spinnerOnClick={true} onClick={() => {
-					const saveBeginner = self.state.formData.beginnerInstanceId.map(b => () => saveNote.send(PostJSON({
+					const saveBeginner = self.state.formData.beginnerInstanceId.map(b => () => saveNote.send(makePostJSON({
 						juniorId: self.props.personId,
 						instanceId: b,
 						signupNote: self.state.formData.beginnerSignupNote
 					})));
 
-					const saveIntermediate = self.state.formData.intermediateInstanceId.map(i => () => saveNote.send(PostJSON({
+					const saveIntermediate = self.state.formData.intermediateInstanceId.map(i => () => saveNote.send(makePostJSON({
 						juniorId: self.props.personId,
 						instanceId: i,
 						signupNote: self.state.formData.intermediateSignupNote

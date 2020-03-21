@@ -7,7 +7,7 @@ import { postWrapper, validator } from "../../async/junior/emerg-contact";
 import Button from "../../components/Button";
 import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../components/PhoneTriBox";
 import TextInput from "../../components/TextInput";
-import { PostJSON } from "../../core/APIWrapper";
+import { makePostJSON } from "../../core/APIWrapperUtil";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
@@ -207,7 +207,7 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(res => {
+				return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(res => {
 					if (res.type == "Success") {
 						self.props.goNext()
 					} else {

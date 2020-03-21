@@ -1,10 +1,8 @@
 import * as React from 'react';
-import parentPath from './index'
+import path from "../../paths/jp/reset-pw";
 import RouteWrapper from "../../../core/RouteWrapper";
 import NewPasswordPage from '../../../containers/NewPasswordPage';
 import PageWrapper from '../../../core/PageWrapper';
-
-const path = parentPath.appendPathSegment<{email: string, hash: string}>("/reset-pw/:email/:hash");
 
 export const resetPasswordPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="ResetPwPage"

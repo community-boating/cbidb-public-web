@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Link } from 'react-router-dom';
 
 import { postWrapper as abortRegistration } from "../async/junior/abort-mem-reg"
-import { PostJSON } from '../core/APIWrapper';
+import { makePostJSON } from '../core/APIWrapperUtil';
 import { History } from 'history';
 import {ratingsPageRoute} from '../app/routes/jp/ratings'
 import {classPageRoute} from '../app/routes/jp/class'
@@ -40,7 +40,7 @@ export default (bv: number, juniorId: number, history: History<any>) => {
         element: <a href="#" onClick={e => {
             e.preventDefault();
             if (window.confirm(`Do you really want to abort membership registration?`)) {
-                abortRegistration.send(PostJSON({juniorId})).then(() => history.push("/home"))
+                abortRegistration.send(makePostJSON({juniorId})).then(() => history.push("/home"))
             }
         }}>{"Cancel Membership Purchase"}</a>
     }/*, {
@@ -60,7 +60,7 @@ export default (bv: number, juniorId: number, history: History<any>) => {
         element: <a href="#" onClick={e => {
             e.preventDefault();
             if (window.confirm(`Do you really want to leave the waitlist?  This action cannot be undone.`)) {
-                offseasonWLDelete.send(PostJSON({juniorId})).then(() => history.push("/home"))
+                offseasonWLDelete.send(makePostJSON({juniorId})).then(() => history.push("/home"))
             }
         }}>{"Cancel Spring Class Waitlist"}</a>
     }/*, {

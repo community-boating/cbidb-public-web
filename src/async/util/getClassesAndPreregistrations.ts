@@ -1,6 +1,6 @@
 import {getWrapper as getClassesWithAvail} from "../class-instances-with-avail"
 import moment = require('moment');
-import { Success } from '../../core/APIWrapper';
+import { Success } from '../../core/APIWrapperTypes';
 import {getWrapper as getProtoPersonCookie} from "../check-proto-person-cookie"
 import { getWrapper as getReservations } from '../junior/get-junior-class-reservations'
 

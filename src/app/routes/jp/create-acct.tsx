@@ -1,14 +1,12 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import parentPath from './index'
+import path from "../../paths/jp/create-acct";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { bundleReservationsFromAPI, ClassInstanceObject } from "../../../containers/create-acct/ReserveClasses"
 import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
 import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
 import CreateAccount from '../../../containers/create-acct/CreateAcct';
-
-const path = parentPath.appendPathSegment('/create-acct');
 
 export const createAcctPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="CreateAccountPage"

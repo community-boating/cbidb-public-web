@@ -8,7 +8,7 @@ import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import {apiw as accept} from "../../async/junior/accept-tos"
-import { PostJSON } from "../../core/APIWrapper";
+import { makePostJSON } from "../../core/APIWrapperUtil";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 
 interface Props {
@@ -58,7 +58,7 @@ export default class TermsConditions extends React.Component<Props, {radio: stri
 			</JoomlaNotitleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			{(self.state || {} as any).radio == "Yes" ? <Button text="Next >" spinnerOnClick onClick={() => 
-				accept.send(PostJSON({personId: self.props.personId})).then(self.props.goNext)
+				accept.send(makePostJSON({personId: self.props.personId})).then(self.props.goNext)
 			}/> : ""}
 		</JoomlaMainPage>
 	}

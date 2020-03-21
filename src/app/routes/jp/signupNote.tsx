@@ -1,12 +1,10 @@
 import * as React from 'react';
-import parentPath from './index'
+import path from "../../paths/jp/signup-note";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { Option } from 'fp-ts/lib/Option';
 import SignupNotePage from '../../../containers/class-signup/SignupNotePage';
 import {getWrapper as getSignupNote} from "../../../async/junior/signup-note"
-
-const path = parentPath.appendPathSegment<{ personId: string, instanceId: string }>("/class-note/:personId/:instanceId");
 
 export const signupNotePageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="signupNote"

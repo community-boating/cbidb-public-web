@@ -1,13 +1,11 @@
 import * as React from 'react';
-import parentPath from './index'
+import path from "../../paths/jp/regEmpty";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { Form as HomePageForm } from '../../../containers/HomePage';
 import { apiw as welcomeAPI } from "../../../async/member-welcome";
 import RegistrationWizard from '../../../containers/registration/pageflow/RegistrationWizard';
 import { none } from 'fp-ts/lib/Option';
-
-const path = parentPath.appendPathSegment("/reg");
 
 export const regEmptyPageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="regEmpty"

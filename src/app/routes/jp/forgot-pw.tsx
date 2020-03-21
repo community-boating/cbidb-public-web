@@ -1,8 +1,6 @@
 import * as React from 'react';
-import parentPath from './index'
+import path from "../../paths/jp/forgot-pw";
 import RouteWrapper from "../../../core/RouteWrapper";
 import ForgotPasswordPage from '../../../containers/ForgotPasswordPage';
-
-const path = parentPath.appendPathSegment("/forgot-pw");
 
 export const forgotPasswordPageRoute = new RouteWrapper(true, path, history => <ForgotPasswordPage history={history} />);

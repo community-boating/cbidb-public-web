@@ -6,7 +6,7 @@ import Button from "../../components/Button";
 import StripeConfirm from "../../components/StripeConfirm";
 import {orderStatusValidator} from "../../async/order-status"
 import { postWrapper as submitPayment } from "../../async/stripe/submit-payment"
-import { PostString } from "../../core/APIWrapper";
+import { makePostString } from "../../core/APIWrapperUtil";
 import ErrorDiv from "../../theme/joomla/ErrorDiv";
 import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";
@@ -59,7 +59,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 					...self.state,
 					validationErrors: []
 				});
-				return submitPayment.send(PostString("")).then(res => {
+				return submitPayment.send(makePostString("")).then(res => {
 					if (res.type == "Failure" && res.code == "process_err") {
 						self.setState({
 							...self.state,

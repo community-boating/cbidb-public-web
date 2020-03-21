@@ -3,7 +3,8 @@ import JoomlaSidebarRegion from "../theme/joomla/JoomlaSidebarRegion";
 import { GetSignupsAPIResult, EnrollmentAPIResult, WaitListTopAPIResult, WaitListAPIResult } from '../async/junior/get-signups';
 import { postWrapper as doSignup } from "../async/junior/class-signup"
 import { postWrapper as deleteSignup } from "../async/junior/class-signup-delete"
-import APIWrapper, { PostJSON } from '../core/APIWrapper';
+import APIWrapper from '../core/APIWrapper';
+import { makePostJSON } from '../core/APIWrapperUtil';
 import { History } from 'history';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -59,7 +60,7 @@ export default (props: {
 }) => {
 	function makeAction(apiw: APIWrapper<any, any, any>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, payload: any){
 		e.preventDefault();
-		return apiw.send(PostJSON(payload)).then(ret => {
+		return apiw.send(makePostJSON(payload)).then(ret => {
 			if (ret.type == "Success") {
 				props.history.push(`/redirect${window.location.pathname}`)
 			} else {

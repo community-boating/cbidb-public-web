@@ -5,7 +5,7 @@ import { History } from 'history';
 import { postWrapper } from "../../async/junior/swim-proof";
 import Button from "../../components/Button";
 import { RadioGroup } from "../../components/InputGroup";
-import { PostJSON } from "../../core/APIWrapper";
+import { makePostJSON } from "../../core/APIWrapperUtil";
 import swimProofValues from "../../lov/swimProof";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
@@ -87,7 +87,7 @@ export default class SwimProof extends React.Component<Props, State> {
 			</JoomlaNotitleRegion>
 			<Button text="< Back" onClick={this.props.goPrev}/>
 			{self.state.formData.swimProofId.getOrElse("-1") != "-1" ? <Button text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId).send(PostJSON({swimProofId: this.state.formData.swimProofId} ))
+				return postWrapper(this.props.personId).send(makePostJSON({swimProofId: this.state.formData.swimProofId} ))
 					.then(this.props.goNext)
 			}}/> : null}
 			

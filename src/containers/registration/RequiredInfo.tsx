@@ -10,7 +10,7 @@ import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../c
 import { Select } from "../../components/Select";
 import TextArea from "../../components/TextArea";
 import TextInput from "../../components/TextInput";
-import { PostJSON } from '../../core/APIWrapper';
+import { makePostJSON } from '../../core/APIWrapperUtil';
 import countries from "../../lov/countries";
 import states from "../../lov/states";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
@@ -302,7 +302,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId).send(PostJSON(formToAPI(this.state.formData))).then(
+				return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(
 					// api success
 					ret => {
 						if (ret.type == "Success") {

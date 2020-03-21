@@ -16,7 +16,7 @@ import { PreRegistration, PreRegistrationClass } from '../../app/global-state/jp
 import optionify from '../../util/optionify';
 import {postWrapper as addJuniorPostWrapper} from "../../async/junior/add-junior-class-reservation"
 import { validator as reservationAPIValidator } from '../../async/junior/get-junior-class-reservations'
-import { PostJSON, PostString } from '../../core/APIWrapper';
+import { makePostJSON, makePostString } from '../../core/APIWrapperUtil';
 import { History } from 'history';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import {postWrapper as deleteJunior} from '../../async/junior/delete-junior-class-reservation'
@@ -60,7 +60,7 @@ const renderClassLine = (preregClass: Option<PreRegistrationClass>) => preregCla
 export const preRegRender = (then: () => void) => (prereg: PreRegistration, i: number) => (<tr key={`prereg_${i}`}><td>
 	<b><a href="#" onClick={() => {
 		if (window.confirm(`Do you really want to delete the reservations for ${prereg.firstName}?`)) {
-			deleteJunior.send(PostString("name=" + prereg.firstName)).then(then)
+			deleteJunior.send(makePostString("name=" + prereg.firstName)).then(then)
 		}
 	}}><img src="/images/delete.png" /></a>{"   " + prereg.firstName}</b><br />
 	Beginner:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.beginner)}}></span><br />
@@ -274,7 +274,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				})
 				return Promise.reject();
 			} else {
-				return addJuniorPostWrapper.send(PostJSON({
+				return addJuniorPostWrapper.send(makePostJSON({
 					juniorFirstName: self.state.formData.juniorFirstName.getOrElse(""),
 					beginnerInstanceId: beginner.map(c => c.instanceId),
 					intermediateInstanceId: intermediate.map(c => c.instanceId)

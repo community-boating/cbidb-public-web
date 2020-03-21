@@ -8,69 +8,9 @@ import { PathReporter } from 'io-ts/lib/PathReporter';
 import asc from "../app/AppStateContainer";
 import { removeOptions } from '../util/deserializeOption';
 import { HttpMethod } from "./HttpMethod";
-
-export interface Success<T> {
-	type: "Success",
-	success: T
-}
-
-export interface Failure {
-	type: "Failure",
-	code: string,
-	message?: string,
-	extra?: any
-}
-
-export type ApiResult<T_Success> = Success<T_Success> | Failure
-
-interface ConfigCommon<T_ResponseValidator extends t.Any> {
-	type: string & HttpMethod,
-	path: string,
-	extraHeaders?: object, 
-	resultValidator: T_ResponseValidator,
-	jsconMap?: any
-}
-
-export interface GetConfig<T_ResponseValidator extends t.Any> extends ConfigCommon<T_ResponseValidator> {
-	type: HttpMethod.GET,
-}
-
-export interface PostConfig<T_ResponseValidator extends t.Any, T_FixedParams> extends ConfigCommon<T_ResponseValidator> {
-	type: HttpMethod.POST,
-	fixedParams?: T_FixedParams
-}
-
-export type Config<T_ResponseValidator extends t.Any, T_FixedParams> = GetConfig<T_ResponseValidator> | PostConfig<T_ResponseValidator, T_FixedParams>;
-
-export interface ServerParams {
-	host: string,
-	https: boolean,
-	port: number,
-	pathPrefix?: string,
-	staticHeaders?: object
-}
+import { PostType, Config, ApiResult, ServerParams } from './APIWrapperTypes';
 
 interface PostValues {content: string, headers: {"Content-Type": string, "Content-Length": string}}
-
-export const PostURLEncoded: (o: any) => PostString = o => {
-	var arr = [];
-	for (var p in o) {
-		arr.push(encodeURIComponent(p) + "=" + encodeURIComponent(o[p]));
-	}
-	return PostString(arr.join('&'))
-}
-
-export interface PostString {
-	type: "urlEncoded",
-	urlEncodedData: string
-}
-
-export interface PostJSON<T_PostJSON> {
-	type: "json",
-	jsonData: T_PostJSON
-}
-export const PostString: (urlEncodedData: string) => PostString = urlEncodedData => ({type: "urlEncoded", urlEncodedData})
-export const PostJSON: <T_PostJSON>(jsonData: T_PostJSON) => PostJSON<T_PostJSON> = jsonData => ({type: "json", jsonData})
 
 const searchJSCONMetaData: (metaData: any[]) => (toFind: string) => number = metaData => toFind => {
 	for (var i=0; i<metaData.length; i++) {
@@ -79,9 +19,6 @@ const searchJSCONMetaData: (metaData: any[]) => (toFind: string) => number = met
 	}
 	return null;
 }
-
-
-export type PostType<T> = PostString | PostJSON<T>
 
 // TODO: do we still need do() vs send() vs sendWithHeaders(), can probably tidy this all up into one function that does the thing
 export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T_FixedParams> {

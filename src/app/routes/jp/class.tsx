@@ -1,13 +1,11 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import parentPath from './index'
+import path from "../../paths/jp/class";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { getWrapper as seeTypesWrapper, validator as seeTypesValidator } from "../../../async/junior/see-types";
 import SelectClassType from "../../../containers/class-signup/SelectClassType";
 import { getWrapper as getSignups, GetSignupsAPIResult } from '../../../async/junior/get-signups';
-
-const path = parentPath.appendPathSegment<{ personId: string }>("/class/:personId");
 
 export const classPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="SelectClassType"

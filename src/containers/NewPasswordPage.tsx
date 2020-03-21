@@ -8,7 +8,7 @@ import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
 import TextInput from '../components/TextInput';
 import {apiw} from "../async/reset-pw"
-import { PostURLEncoded } from '../core/APIWrapper';
+import { PostURLEncoded } from '../core/APIWrapperUtil';
 import Validation from '../util/Validation'
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import asc from '../app/AppStateContainer';
