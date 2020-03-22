@@ -69,9 +69,9 @@ export default function (history: History<any>) {
 		jpLoginPageRoute.asRoute(history),
 
 		// TODO: eventually there should be a combined landing page or something
-		<Route key="login" path="/" render={() => <Redirect to="/jp" />} />,
+		<Route key="loginRedirect" path="/" render={() => <Redirect to="/jp" />} />,
 
-		<Route key="default" render={defaultRouteRender} />,
+		<Route key="defaultPub" render={defaultRouteRender} />,
 	]
 
 	const mustBeLoggedIn = [
@@ -118,7 +118,7 @@ export default function (history: History<any>) {
 			}}
 		/>} />,
 
-		<Route key="default" render={defaultRouteRender} />,
+		<Route key="defaultAuth" render={defaultRouteRender} />,
 	]
 
 	const isLoggedIn = (asc.state.login.authenticatedUserName as Option<string>).isSome();
@@ -127,7 +127,18 @@ export default function (history: History<any>) {
 
 	const universalRoutes = [
 		maintenancePageRoute.asRoute(history)
-	]
+	];
+
+	// check on boot for duplicate route keys
+	universalRoutes.concat(mustBeLoggedIn).concat(mustNotBeLoggedIn).reduce((hash: any, r) => {
+		const {key} = r;
+		if (undefined !== hash[key]) {
+			console.log("Duplicate route key " + key)
+			Sentry.captureMessage("Duplicate route key " + key);
+		}
+		hash[key] = true;
+		return hash;
+	}, {})
 
 	return (
 		<Router history={history}>
