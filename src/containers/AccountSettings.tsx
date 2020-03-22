@@ -7,6 +7,7 @@ import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import TextInput from '../components/TextInput';
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
+import { setJPImage } from '../util/set-bg-image';
 
 export interface Props {
 	history: History<any>
@@ -40,7 +41,7 @@ export default class AccountSettingsPage extends React.PureComponent<Props, Stat
 		const formData = this.state.formData
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
-		return <JoomlaMainPage>
+		return <JoomlaMainPage setBGImage={setJPImage}>
 			<JoomlaArticleRegion title="Edit Account Info">
 				<table><tbody>
 					<FormInput

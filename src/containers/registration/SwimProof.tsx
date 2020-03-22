@@ -12,6 +12,7 @@ import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from "../../util/form-update-state";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
+import { setJPImage } from "../../util/set-bg-image";
 
 export interface Form {
 	swimProofId: Option<string>
@@ -60,7 +61,7 @@ export default class SwimProof extends React.Component<Props, State> {
             </div>
         </JoomlaNotitleRegion>)
 	
-		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>

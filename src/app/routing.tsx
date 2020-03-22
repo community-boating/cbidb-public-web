@@ -27,6 +27,8 @@ import { resetPasswordPageRoute } from './routes/jp/reset-pw';
 import { jpLoginPageRoute } from './routes/jp/_base';
 import PathWrapper from '../core/PathWrapper';
 import { offseasonPageRoute } from './routes/jp/offseason'
+import { setJPImage } from '../util/set-bg-image';
+import JoomlaLoadingPage from '../theme/joomla/JoomlaLoadingPage';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -99,7 +101,7 @@ export default function (history: History<any>) {
 
 		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
 
-		<Route key="home" path="/" exact render={() => <PageWrapper
+		<Route key="home" path="/jp" exact render={() => <PageWrapper
 			key="HomePage"
 			history={history}
 			component={(urlProps: {}, async: HomePageForm) => <HomePage
@@ -107,7 +109,7 @@ export default function (history: History<any>) {
 				history={history}
 			/>}
 			urlProps={{}}
-			shadowComponent={<span></span>}
+			shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
 			getAsyncProps={(urlProps: {}) => {
 				return Promise.all([
 					getProtoPersonCookie.send(null),
@@ -117,6 +119,9 @@ export default function (history: History<any>) {
 				}).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
 		/>} />,
+
+		// TODO: eventually there should be a combined landing page or something
+		<Route key="homeRedirect" path="/" render={() => <Redirect to="/jp" />} />,
 
 		<Route key="defaultAuth" render={defaultRouteRender} />,
 	]

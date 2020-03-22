@@ -10,6 +10,7 @@ import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import {apiw as accept} from "../../async/junior/accept-tos"
 import { makePostJSON } from "../../core/APIWrapperUtil";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
+import { setJPImage } from "../../util/set-bg-image";
 
 interface Props {
 	personId: number,
@@ -22,7 +23,7 @@ interface Props {
 export default class TermsConditions extends React.Component<Props, {radio: string}> {
 	render() {
 		const self = this;
-		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>

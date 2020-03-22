@@ -7,6 +7,8 @@ import { getWrapper as getSignups, GetSignupsAPIResult } from '../../../async/ju
 import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTimesValidator } from "../../../async/junior/get-class-instances";
 import SelectClassTime from "../../../containers/class-signup/SelectClassTime";
 import {apiw as getWeeks, weeksValidator} from "../../../async/weeks";
+import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
+import { setJPImage } from '../../../util/set-bg-image';
 
 export const classTimePageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="SelectClassTime"
@@ -26,7 +28,7 @@ export const classTimePageRoute = new RouteWrapper(true, path, history => <PageW
         personId: Number(path.extractURLParams(history.location.pathname).personId),
         typeId: Number(path.extractURLParams(history.location.pathname).typeId)
     }}
-    shadowComponent={<span></span>}
+    shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={(urlProps: {personId: number, typeId: number}) => {
         return Promise.all([
             classTimesWrapper(urlProps.typeId, urlProps.personId).send(null),

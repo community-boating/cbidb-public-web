@@ -1,9 +1,8 @@
 import * as React from "react";
-import { setJPImage } from "../util/set-bg-image";
 
-export default class Page<T> extends React.Component<T> {
+export default class Page<T> extends React.Component<T & {setBGImage: () => void}> {
     componentDidMount() {
-      window.scrollTo(0, 0)
-      setJPImage();
+	  window.scrollTo(0, 0)
+	  this.props.setBGImage();
     }
 }

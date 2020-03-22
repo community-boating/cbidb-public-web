@@ -15,6 +15,7 @@ import ErrorDiv from '../theme/joomla/ErrorDiv';
 import { some } from 'fp-ts/lib/Option';
 import {regEmptyPageRoute} from '../app/routes/jp/regEmpty'
 import { checkoutPageRoute } from '../app/routes/common/checkout';
+import { setJPImage } from '../util/set-bg-image';
 
 export type Form = t.TypeOf<typeof validator>;
 
@@ -65,7 +66,7 @@ export default class HomePage extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime))})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime))})}>
 			{errorPopup}
 			{mainTable}
 			{/* <Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" /> */}

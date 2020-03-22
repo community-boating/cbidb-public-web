@@ -6,6 +6,8 @@ import RouteWrapper from "../../../core/RouteWrapper";
 import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from "../../../containers/create-acct/ReserveClasses"
 import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
 import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
+import { setJPImage } from '../../../util/set-bg-image';
+import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 
 export const reservePageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="ReserveClasses"
@@ -17,6 +19,6 @@ export const reservePageRoute = new RouteWrapper(true, path, history => <PageWra
         apiResultStart={async.classes}
     />}
     urlProps={{}}
-    shadowComponent={<span></span>}
+    shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={getClassesAndPreregistrations}
 />);

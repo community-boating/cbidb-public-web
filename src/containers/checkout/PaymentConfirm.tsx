@@ -42,7 +42,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 			? <ErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
-		return (<JoomlaMainPage>
+		return (<JoomlaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Order Summary">
 				Please confirm your order and payment information are correct, and then click "Submit Payment" below!

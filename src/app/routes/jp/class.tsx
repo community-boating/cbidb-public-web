@@ -6,6 +6,8 @@ import RouteWrapper from "../../../core/RouteWrapper";
 import { getWrapper as seeTypesWrapper, validator as seeTypesValidator } from "../../../async/junior/see-types";
 import SelectClassType from "../../../containers/class-signup/SelectClassType";
 import { getWrapper as getSignups, GetSignupsAPIResult } from '../../../async/junior/get-signups';
+import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
+import { setJPImage } from '../../../util/set-bg-image';
 
 export const classPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="SelectClassType"
@@ -19,7 +21,7 @@ export const classPageRoute = new RouteWrapper(true, path, history => <PageWrapp
 	urlProps={{
         personId: Number(path.extractURLParams(history.location.pathname).personId),
     }}
-	shadowComponent={<span></span>}
+	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {personId: number}) => {
 		return Promise.all([
 			seeTypesWrapper(urlProps.personId).send(null),

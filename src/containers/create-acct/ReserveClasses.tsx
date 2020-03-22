@@ -25,6 +25,7 @@ import getClassesAndPreregistrations from '../../async/util/getClassesAndPreregi
 import { reserveNotesPageRoute } from '../../app/routes/jp/reserve-notes';
 import { createAcctPageRoute } from '../../app/routes/jp/create-acct';
 import { reservePageRoute } from '../../app/routes/jp/reserve';
+import { setJPImage } from '../../util/set-bg-image';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -435,6 +436,6 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			
 		</JoomlaSidebarRegion>);
 
-		return <Joomla8_4 main={main} right={sidebar} />
+		return <Joomla8_4 setBGImage={setJPImage} main={main} right={sidebar} />
 	}
 }

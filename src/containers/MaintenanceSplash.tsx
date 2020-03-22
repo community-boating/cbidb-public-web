@@ -1,6 +1,7 @@
 import * as React from 'react';
 import JoomlaMainPage from '../theme/joomla/JoomlaMainPage';
 import JoomlaArticleRegion from '../theme/joomla/JoomlaArticleRegion';
+import { setJPImage } from '../util/set-bg-image';
 
 export default class MaintenanceSplash extends React.PureComponent {
 	componentDidMount() {
@@ -8,7 +9,7 @@ export default class MaintenanceSplash extends React.PureComponent {
 	}
 	render() {
 		return (
-			<JoomlaMainPage>
+			<JoomlaMainPage setBGImage={setJPImage}>
 				<JoomlaArticleRegion title={"Temporarily Offline for Maintenance"}>
 					The CBI online portal is currently down for maintenance.  Please check back later!<br />
 					<br />

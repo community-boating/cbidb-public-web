@@ -60,7 +60,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props> {
 			: "Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our payment processor."
 		);
 
-		return <JoomlaMainPage>
+		return <JoomlaMainPage setBGImage={setCheckoutImage}>
 			{/* <JoomlaArticleRegion title="Please consider making a donation to Community Boating.">
 				{`Community Boating, Inc. (CBI) is a 501(c)3 non-profit organization operating affordable and accessible programs
 				for kids, adults and individuals with special needs under the mission of 'sailing for all.'

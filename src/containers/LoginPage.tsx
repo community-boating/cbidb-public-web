@@ -14,6 +14,7 @@ import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
 import Currency from "../util/Currency";
 import {reservePageRoute} from "../app/routes/jp/reserve"
 import { forgotPasswordPageRoute } from "../app/routes/jp/forgot-pw";
+import { setJPImage } from "../util/set-bg-image";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -177,7 +178,7 @@ export default class LoginPage extends React.Component<Props, State> {
 			{inPersonRegion}
 		</div>
 		return (
-			<JoomlaTwoColumns left={leftColumn} right={rightColumn}>
+			<JoomlaTwoColumns setBGImage={setJPImage} left={leftColumn} right={rightColumn}>
 				{errorPopup}
 			</JoomlaTwoColumns>
 		);

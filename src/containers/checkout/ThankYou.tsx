@@ -23,7 +23,7 @@ export default class ThankYouPage extends React.PureComponent<Props, State> {
 		setCheckoutImage()
 	}
 	render() {
-		return (<JoomlaMainPage>
+		return (<JoomlaMainPage setBGImage={setCheckoutImage}>
 			<JoomlaArticleRegion title="Thank you for your order!">
 			Your order is complete!  Please feel free to call us at 617-523-1038 with any questions.
 			<br />

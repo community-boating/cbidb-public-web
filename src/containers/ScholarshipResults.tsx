@@ -4,6 +4,7 @@ import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../theme/joomla/JoomlaNotitleRegion";
 import Currency from "../util/Currency";
 import Button from "../components/Button";
+import { setJPImage } from "../util/set-bg-image";
 
 interface Props {
 	jpPrice: Currency,
@@ -15,7 +16,7 @@ interface Props {
 
 export default class ScholarshipResultsPage extends React.Component<Props> {
 	render() {
-		return <JoomlaMainPage>
+		return <JoomlaMainPage setBGImage={setJPImage}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>

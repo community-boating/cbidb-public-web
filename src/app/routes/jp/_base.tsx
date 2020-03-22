@@ -7,6 +7,8 @@ import asc from '../../AppStateContainer';
 import {apiw as getStaticYearly} from "../../../async/static-yearly-data"
 import { none, some } from 'fp-ts/lib/Option';
 import Currency from '../../../util/Currency';
+import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
+import { setJPImage } from '../../../util/set-bg-image';
 
 export const jpLoginPageRoute = new RouteWrapper(true, jpPath, history => <PageWrapper
 	key="Loginpage"
@@ -18,7 +20,7 @@ export const jpLoginPageRoute = new RouteWrapper(true, jpPath, history => <PageW
 		doLogin={asc.updateState.login.attemptLogin}
 	/>}
 	urlProps={{}}
-	shadowComponent={<span></span>}
+	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {}) => {
 		return getStaticYearly.send(null).then(res => {
 			if (res.type == "Failure") {

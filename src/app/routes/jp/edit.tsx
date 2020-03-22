@@ -6,6 +6,8 @@ import { Form as HomePageForm } from '../../../containers/HomePage';
 import { apiw as welcomeAPI } from "../../../async/member-welcome";
 import RegistrationWizard from '../../../containers/registration/pageflow/RegistrationWizard';
 import { some } from 'fp-ts/lib/Option';
+import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
+import { setJPImage } from '../../../util/set-bg-image';
 
 export const editPageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="edit"
@@ -22,7 +24,7 @@ export const editPageRoute = new RouteWrapper(true, path, history => <PageWrappe
     urlProps={{
         personId: Number(path.extractURLParams(history.location.pathname).personId),
     }}
-    shadowComponent={<span></span>}
+    shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={(urlProps: {}) => {
         return welcomeAPI.send(null).then(ret => {
             if (ret.type == "Success") {

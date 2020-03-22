@@ -16,6 +16,7 @@ import Validation from '../../util/Validation';
 import asc from '../../app/AppStateContainer';
 import {reservePageRoute} from "../../app/routes/jp/reserve"
 import { createAcctPageRoute } from '../../app/routes/jp/create-acct';
+import { setJPImage } from '../../util/set-bg-image';
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -173,7 +174,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 				Note that class sign-up is only saved for two hours.
 			</div>
 		</JoomlaSidebarRegion>
-		return <Joomla8_4 main={main} right={(
+		return <Joomla8_4 setBGImage={setJPImage} main={main} right={(
 			<React.Fragment>
 				{sidebarInfo}
 				{sidebarPrereg}

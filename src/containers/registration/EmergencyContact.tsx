@@ -14,6 +14,7 @@ import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../util/form-update-state';
 import ErrorDiv from "../../theme/joomla/ErrorDiv";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
+import { setJPImage } from "../../util/set-bg-image";
 
 type ApiType = t.TypeOf<typeof validator>
 
@@ -197,7 +198,7 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 			: ""
 		);
 		
-		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}

@@ -10,6 +10,7 @@ import { postWrapper as saveNote } from "../../async/junior/signup-note-proto"
 import { makePostJSON } from '../../core/APIWrapperUtil';
 import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
 import {reservePageRoute} from "../../app/routes/jp/reserve"
+import { setJPImage } from '../../util/set-bg-image';
 
 type Props = {
 	history: History<any>,
@@ -100,7 +101,7 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 			</React.Fragment>
 		);
 
-		return <JoomlaMainPage>
+		return <JoomlaMainPage setBGImage={setJPImage}>
 			<JoomlaArticleRegion title="These classes may have multiple sections.">
 			These classes may be split into multiple sections, each section with its own classroom and instructor.
 				If you would like your child to be in class with another junior, please leave their name below.

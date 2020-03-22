@@ -7,6 +7,8 @@ import { bundleReservationsFromAPI, ClassInstanceObject } from "../../../contain
 import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
 import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
 import ReservationSignupNote from '../../../containers/create-acct/ReservationSignupNote';
+import { setJPImage } from '../../../util/set-bg-image';
+import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 
 export const reserveNotesPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="reservationNotes"
@@ -19,6 +21,6 @@ export const reserveNotesPageRoute = new RouteWrapper(true, path, history => <Pa
 	urlProps={{
 		personId: Number(path.extractURLParams(history.location.pathname).personId),
 	}}
-	shadowComponent={<span></span>}
+	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={getClassesAndPreregistrations}
 />);

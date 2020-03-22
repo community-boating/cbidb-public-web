@@ -15,6 +15,7 @@ import JoomlaNotitleRegion from "../theme/joomla/JoomlaNotitleRegion";
 import Currency from "../util/Currency";
 import formUpdateState from '../util/form-update-state';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
+import { setJPImage } from '../util/set-bg-image';
 
 export interface Form {
 	isApplying: Option<string>,
@@ -167,7 +168,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage>
+		return <JoomlaMainPage setBGImage={setJPImage}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}

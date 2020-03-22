@@ -7,6 +7,8 @@ import { bundleReservationsFromAPI, ClassInstanceObject } from "../../../contain
 import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
 import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
 import CreateAccount from '../../../containers/create-acct/CreateAcct';
+import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
+import { setJPImage } from '../../../util/set-bg-image';
 
 export const createAcctPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="CreateAccountPage"
@@ -17,6 +19,6 @@ export const createAcctPageRoute = new RouteWrapper(true, path, history => <Page
 		noSignupJuniors={async.prereg.noSignups}
 	/>}
 	urlProps={{}}
-	shadowComponent={<span></span>}
+	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={getClassesAndPreregistrations}
 />);

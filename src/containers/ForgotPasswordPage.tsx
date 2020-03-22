@@ -11,6 +11,7 @@ import {apiw} from "../async/forgot-pw"
 import { PostURLEncoded } from '../core/APIWrapperUtil';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import { forgotPasswordSentPageRoute } from '../app/routes/jp/forgot-pw-sent';
+import { setJPImage } from '../util/set-bg-image';
 
 type Props = {
 	history: History<any>
@@ -65,7 +66,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 				}
 			)
 		}
-		return <JoomlaMainPage>
+		return <JoomlaMainPage setBGImage={setJPImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Enter your email address and we'll get your password reset.">
 				<table><tbody>

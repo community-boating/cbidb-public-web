@@ -22,6 +22,7 @@ import moment = require('moment');
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import asc from '../../app/AppStateContainer';
 import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
+import { setJPImage } from '../../util/set-bg-image';
 
 type ApiType = t.TypeOf<typeof validator>
 
@@ -286,7 +287,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}

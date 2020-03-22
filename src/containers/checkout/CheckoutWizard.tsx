@@ -10,6 +10,7 @@ import { apiw as orderStatus, CardData } from "../../async/order-status"
 import { setCheckoutImage } from "../../util/set-bg-image";
 import { apiw as getCartItems } from "../../async/get-cart-items"
 import { thankyouPageRoute } from "../../app/routes/common/thank-you";
+import JoomlaLoadingPage from "../../theme/joomla/JoomlaLoadingPage";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -20,15 +21,6 @@ type Props = {history: History<any>};
 
 type State = {
 	cardData: Option<CardData>	
-}
-
-class CheckoutPageShadowComponent extends React.PureComponent {
-	componentWillMount() {
-		setCheckoutImage();
-	}
-	render() {
-		return <span></span>;
-	}
 }
 
 export default class CheckoutWizard extends React.Component<Props, State> {
@@ -60,7 +52,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					cartItems={cartItems}
 				/>}
 				urlProps={{}}
-				shadowComponent={<CheckoutPageShadowComponent />}
+				shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
 						welcomeAPI.send(null),
@@ -87,7 +79,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					cartItems={cartItems}
 				/>}
 				urlProps={{}}
-				shadowComponent={<CheckoutPageShadowComponent />}
+				shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
 						orderStatus.send(null),

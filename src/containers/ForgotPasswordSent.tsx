@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import { none } from 'fp-ts/lib/Option';
+import { setJPImage } from '../util/set-bg-image';
 
 type Props = {
 	history: History<any>
@@ -22,7 +23,7 @@ export default class ForgotPasswordSentPage extends React.PureComponent<Props> {
 	}
 	render() {
 		const self = this;
-		return <JoomlaMainPage>
+		return <JoomlaMainPage setBGImage={setJPImage}>
 			<JoomlaArticleRegion title="Request Submitted.">
 				Check your email for a link to reset your password.<br />
 				<br />

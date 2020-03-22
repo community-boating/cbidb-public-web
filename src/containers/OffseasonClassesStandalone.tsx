@@ -9,6 +9,7 @@ import JoomlaSidebarRegion from '../theme/joomla/JoomlaSidebarRegion';
 import { asDivOptionalSignupLink, ClassType } from "./class-signup/class-description";
 import raceTeam from './class-signup/types/other/race-team'
 import {validator as offseasonClassesValidator} from "../async/junior/offseason-classes"
+import { setJPImage } from '../util/set-bg-image';
 
 type Props = {
 	history: History<any>,
@@ -56,7 +57,7 @@ export default class OffseasonClassesStandalone extends React.Component<Props, S
 		const sidebar = <JoomlaSidebarRegion title="Register for Classes"></JoomlaSidebarRegion>
 
 
-		return <Joomla8_4 main={main} right={sidebar}>
+		return <Joomla8_4 setBGImage={setJPImage} main={main} right={sidebar}>
 		</Joomla8_4>
 	}
 }

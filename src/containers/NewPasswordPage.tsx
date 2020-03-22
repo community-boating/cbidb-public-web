@@ -12,6 +12,7 @@ import { PostURLEncoded } from '../core/APIWrapperUtil';
 import Validation from '../util/Validation'
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import asc from '../app/AppStateContainer';
+import { setJPImage } from '../util/set-bg-image';
 
 type Props = {
 	history: History<any>,
@@ -89,7 +90,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 				)
 			}
 		}
-		return <JoomlaMainPage>
+		return <JoomlaMainPage setBGImage={setJPImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Enter your new password.">
 				<table><tbody>

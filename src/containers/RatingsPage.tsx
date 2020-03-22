@@ -7,6 +7,7 @@ import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import { Form as HomePageForm } from "./HomePage";
 import NavBarLogoutOnly from '../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
+import { setJPImage } from '../util/set-bg-image';
 
 export interface Props {
 	personId: number,
@@ -23,7 +24,7 @@ export default class RatingsPage extends React.PureComponent<Props> {
 		const ratings = kid ? kid.ratings.getOrElse("") : "<span></span>"
 
 		// TODO: grab specific child based on url
-		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			<JoomlaArticleRegion title="Ratings">
 				<span dangerouslySetInnerHTML={{__html: ratings}}/>
 				<p>
