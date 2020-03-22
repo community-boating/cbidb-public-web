@@ -25,6 +25,7 @@ import { forgotPasswordPageRoute } from './routes/jp/forgot-pw';
 import { forgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
 import { resetPasswordPageRoute } from './routes/jp/reset-pw';
 import { jpLoginPageRoute } from './routes/jp/_base';
+import { apLoginPageRoute } from './routes/ap/_base';
 import PathWrapper from '../core/PathWrapper';
 import { offseasonPageRoute } from './routes/jp/offseason'
 import { setJPImage } from '../util/set-bg-image';
@@ -69,6 +70,8 @@ export default function (history: History<any>) {
 		resetPasswordPageRoute.asRoute(history),
 
 		jpLoginPageRoute.asRoute(history),
+
+		apLoginPageRoute.asRoute(history),
 
 		// TODO: eventually there should be a combined landing page or something
 		<Route key="loginRedirect" path="/" render={() => <Redirect to="/jp" />} />,

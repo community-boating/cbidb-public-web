@@ -6,3 +6,8 @@ export default class Page<T> extends React.Component<T & {setBGImage: () => void
 	  this.props.setBGImage();
     }
 }
+
+export enum PageFlavor {
+	AP = "AP",
+	JP = "JP"
+}

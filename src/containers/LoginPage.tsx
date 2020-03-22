@@ -14,7 +14,10 @@ import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
 import Currency from "../util/Currency";
 import {reservePageRoute} from "../app/routes/jp/reserve"
 import { forgotPasswordPageRoute } from "../app/routes/jp/forgot-pw";
-import { setJPImage } from "../util/set-bg-image";
+import { setJPImage, setAPImage } from "../util/set-bg-image";
+import { PageFlavor } from "../components/Page";
+import assertNever from "../util/assertNever";
+import PlaceholderLink from "../components/PlaceholderLink";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -25,7 +28,8 @@ interface Props {
 	jpPrice: Option<Currency>,
 	lastSeason: Option<number>,
 	doLogin: (userName: string, password: string) => Promise<boolean>,
-	history: History<any>
+	history: History<any>,
+	flavor: PageFlavor
 }
 
 type State = {
@@ -78,7 +82,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		
 		// left column 
 
-		const welcomeRegion = (
+		const jpWelcomeRegion = (
 			<JoomlaArticleRegion title={<span>Welcome to CBI Online!<br />-  Junior Program  -</span>}>
 				<div>
 					If you're new to Community Boating and would like to sign up for youth novice classes,
@@ -88,7 +92,27 @@ export default class LoginPage extends React.Component<Props, State> {
 					New parents with experienced youth should contact the JP Directors or call the boathouse at 617-523-1038.
 					<br />
 					<br />
-					If you were looking for <b>{"Adult Program"}</b> registration, please <a href="https://portal2.community-boating.org/ords/f?p=610">click here!</a>
+					If you were looking for <b>{"Adult Program"}</b> registration, please <Link to="/ap">click here!</Link>
+				</div>
+			</JoomlaArticleRegion>
+		);
+
+		const apWelcomeRegion = (
+			<JoomlaArticleRegion title={<span>Welcome to CBI Online!<br />-  Adult Program  -</span>}>
+				<div>
+				<a href="https://www.community-boating.org" target="_blank">Click here for our Main Website:<br />
+				www.community-boating.org</a><br />
+				<br />
+				If you have already purchased a membership in person, either this year or last year,
+				please <b>click on the first option</b> to the right and you will be prompted to create a password and update your personal information.<br />
+				<br />
+				If you are new to Community Boating and would like to purchase a membership now,
+				<b>click on the second option</b> to the right. Once your account is complete you can return here to signup for classes
+				and view your progression throughout the summer.<br />
+				<br />
+				If you want to register as a guest so you can go sailing with a CBI member, click on the fourth option to the right to skip the line at the Front Desk and get your guest card right away!<br />
+				<br />
+				If you were looking for <b>Junior Program</b> registration, please <Link to="/jp">click here!</Link>
 				</div>
 			</JoomlaArticleRegion>
 		);
@@ -107,7 +131,7 @@ export default class LoginPage extends React.Component<Props, State> {
 
 		// right columns 
 
-		const newAcctRegion = (
+		const jpNewAcctRegion = (
 			<JoomlaArticleRegion title="New CBI Parents...">
 				<div>
 					<Link to={reservePageRoute.getPathFromArgs({})}>
@@ -117,6 +141,17 @@ export default class LoginPage extends React.Component<Props, State> {
 					<br />
 					{`Existing parent account holders: sign in below to purchase memberships and sign up for classes.`}
 				</div>
+			</JoomlaArticleRegion>
+		);
+
+		const apNewAcctRegion = (
+			<JoomlaArticleRegion title="I don't have a password yet.">
+				<ul style={{fontSize: "0.92em"}}>
+					<li><PlaceholderLink>Click here if you are already an adult member but don't yet have an online account.</PlaceholderLink></li>
+					<li><PlaceholderLink>Click here if you are new to CBI.</PlaceholderLink></li>
+					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Click here to purchase a gift certificate.</a></li>
+					<li><PlaceholderLink>Click here to register as a guest.</PlaceholderLink></li>
+				</ul>
 			</JoomlaArticleRegion>
 		);
 
@@ -167,18 +202,39 @@ export default class LoginPage extends React.Component<Props, State> {
 			: ""
 		);
 
-		const leftColumn = <div>
-			{welcomeRegion}
-			{scholarshipRegion}
-		</div>
+		const {leftColumn, setBGImage, rightColumn} = (function() {
+			switch(self.props.flavor) {
+			case PageFlavor.JP:
+				return {
+					setBGImage: setJPImage,
+					leftColumn: <div>
+						{jpWelcomeRegion}
+						{scholarshipRegion}
+					</div>,
+					rightColumn: <div>
+						{jpNewAcctRegion}
+						{loginRegion}
+						{inPersonRegion}
+					</div>
+				};
+			case PageFlavor.AP:
+				return {
+					setBGImage: setAPImage,
+					leftColumn: <div>
+						{apWelcomeRegion}
+					</div>,
+					rightColumn: <div>
+						{apNewAcctRegion}
+						{loginRegion}
+					</div>
+				};
+			default:
+				assertNever(self.props.flavor);
+			}
+		}());
 
-		const rightColumn = <div>
-			{newAcctRegion}
-			{loginRegion}
-			{inPersonRegion}
-		</div>
 		return (
-			<JoomlaTwoColumns setBGImage={setJPImage} left={leftColumn} right={rightColumn}>
+			<JoomlaTwoColumns setBGImage={setBGImage} left={leftColumn} right={rightColumn}>
 				{errorPopup}
 			</JoomlaTwoColumns>
 		);

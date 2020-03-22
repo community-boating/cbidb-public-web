@@ -7,3 +7,9 @@ export function setJPImage() {
 	const node = document.getElementById('rt-bg-image');
 	if (node) node.style.background = 'url(/joomsource/jpback.jpg)';
 }
+
+export function setAPImage() {
+	const node = document.getElementById('rt-bg-image');
+	if (node) node.style.background = 'url(/joomsource/6aa30e3f-3c38-4d9e-ebba-c09df60d59f5.jpg)';
+}
+
