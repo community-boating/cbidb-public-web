@@ -26,7 +26,7 @@ export const validator = t.type({
 	canCheckout: t.boolean
 })
 
-const path = "/member-welcome"
+const path = "/member-welcome-jp"
 
 export const apiw = new APIWrapper({
 	path,
