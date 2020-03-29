@@ -1,10 +1,12 @@
 import * as Sentry from '@sentry/browser';
+import * as t from 'io-ts';
 import { History } from 'history';
 import * as React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router';
-import { apiw as welcomeAPI } from "../async/member-welcome";
+import { apiw as welcomeAPIJP, validator as welcomeValidatorJP } from "../async/member-welcome-jp";
+import { apiw as welcomeAPIAP, validator as welcomeValidatorAP } from "../async/member-welcome-ap";
 import PageWrapper from '../core/PageWrapper';
-import HomePage, { Form as HomePageForm } from '../containers/HomePage';
+import HomePageJP from '../containers/HomePageJP';
 import asc from './AppStateContainer';
 import { Option } from 'fp-ts/lib/Option';
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
@@ -28,8 +30,9 @@ import { jpLoginPageRoute } from './routes/jp/_base';
 import { apLoginPageRoute } from './routes/ap/_base';
 import PathWrapper from '../core/PathWrapper';
 import { offseasonPageRoute } from './routes/jp/offseason'
-import { setJPImage } from '../util/set-bg-image';
+import { setJPImage, setAPImage } from '../util/set-bg-image';
 import JoomlaLoadingPage from '../theme/joomla/JoomlaLoadingPage';
+import HomePageAP from '../containers/HomePageAP';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -107,7 +110,7 @@ export default function (history: History<any>) {
 		<Route key="home" path="/jp" exact render={() => <PageWrapper
 			key="HomePage"
 			history={history}
-			component={(urlProps: {}, async: HomePageForm) => <HomePage
+			component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidatorJP>) => <HomePageJP
 				data={async}
 				history={history}
 			/>}
@@ -116,7 +119,26 @@ export default function (history: History<any>) {
 			getAsyncProps={(urlProps: {}) => {
 				return Promise.all([
 					getProtoPersonCookie.send(null),
-					welcomeAPI.send(null)
+					welcomeAPIJP.send(null)
+				]).then(([whatever, welcome]) => {
+					return Promise.resolve(welcome);
+				}).catch(err => Promise.resolve(null));  // TODO: handle failure
+			}}
+		/>} />,
+
+		<Route key="home" path="/ap" exact render={() => <PageWrapper
+			key="HomePage"
+			history={history}
+			component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidatorAP>) => <HomePageAP
+				data={async}
+				history={history}
+			/>}
+			urlProps={{}}
+			shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
+			getAsyncProps={(urlProps: {}) => {
+				return Promise.all([
+					getProtoPersonCookie.send(null),
+					welcomeAPIAP.send(null)
 				]).then(([whatever, welcome]) => {
 					return Promise.resolve(welcome);
 				}).catch(err => Promise.resolve(null));  // TODO: handle failure

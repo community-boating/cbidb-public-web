@@ -1,9 +1,9 @@
 import * as React from 'react';
+import * as t from 'io-ts';
 import path from "../../paths/jp/edit";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
-import { Form as HomePageForm } from '../../../containers/HomePage';
-import { apiw as welcomeAPI } from "../../../async/member-welcome";
+import { apiw as welcomeAPI, validator as welcomeJPValidator } from "../../../async/member-welcome-jp";
 import RegistrationWizard from '../../../containers/registration/pageflow/RegistrationWizard';
 import { some } from 'fp-ts/lib/Option';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
@@ -12,7 +12,7 @@ import { setJPImage } from '../../../util/set-bg-image';
 export const editPageRoute = new RouteWrapper(true, path, history => <PageWrapper
     key="edit"
     history={history}
-    component={(urlProps: {personId: number}, async: HomePageForm) => <RegistrationWizard
+    component={(urlProps: {personId: number}, async: t.TypeOf<typeof welcomeJPValidator>) => <RegistrationWizard
         history={history}
         personIdStart={some(urlProps.personId)}
         jpPrice={async.jpPrice}

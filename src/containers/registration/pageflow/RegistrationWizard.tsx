@@ -19,8 +19,7 @@ import TermsConditions from "../TermsConditions";
 import { DoublyLinkedList } from "../../../util/DoublyLinkedList";
 import ScholarshipResultsPage from "../../ScholarshipResults";
 import { Option, some } from "fp-ts/lib/Option";
-import { apiw as welcomeAPI } from "../../../async/member-welcome";
-import { Form as HomePageForm } from '../../../containers/HomePage';
+import { apiw as welcomeAPI, validator as welcomeJPValidator } from "../../../async/member-welcome-jp";
 import SwimProof from "../SwimProof";
 import { setJPImage } from "../../../util/set-bg-image";
 import JoomlaLoadingPage from "../../../theme/joomla/JoomlaLoadingPage";
@@ -96,7 +95,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="ScholarshipResultsPage"
 				history={self.props.history}
-				component={(urlProps: {}, async: HomePageForm) => <ScholarshipResultsPage
+				component={(urlProps: {}, async: t.TypeOf<typeof welcomeJPValidator>) => <ScholarshipResultsPage
 					jpPrice={Currency.dollars(async.jpPrice.getOrElse(-1))}
 					jpOffseasonPrice={Currency.dollars(async.jpOffseasonPrice.getOrElse(-1))}
 					{...staticComponentProps}

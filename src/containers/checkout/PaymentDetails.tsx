@@ -6,7 +6,6 @@ import StripeElement from "../../components/StripeElement";
 import { TokensResult } from "../../models/stripe/tokens";
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
 import { makePostJSON, makePostString } from "../../core/APIWrapperUtil";
-import { Form as HomePageForm } from "../HomePage";
 import { orderStatusValidator, CardData } from "../../async/order-status"
 import StripeConfirm from "../../components/StripeConfirm";
 import Button from "../../components/Button";
@@ -16,9 +15,10 @@ import { setCheckoutImage } from "../../util/set-bg-image";
 import { CartItem } from "../../async/get-cart-items"
 import FullCartReport from "../../components/FullCartReport";
 import { checkoutPageRoute } from "../../app/routes/common/checkout";
+import { validator as welcomeJPValidator } from "../../async/member-welcome-jp";
 
 export interface Props {
-	welcomePackage: HomePageForm,
+	welcomePackage: t.TypeOf<typeof welcomeJPValidator>,
 	orderStatus: t.TypeOf<typeof orderStatusValidator>
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,

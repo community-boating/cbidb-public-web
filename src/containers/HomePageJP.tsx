@@ -1,7 +1,6 @@
-import * as t from 'io-ts';
 import * as React from "react";
-
-import { validator } from "../async/member-welcome";
+import * as t from 'io-ts';
+import { validator } from "../async/member-welcome-jp";
 import NavBarLogoutOnly from "../components/NavBarLogoutOnly";
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
@@ -17,10 +16,8 @@ import {regEmptyPageRoute} from '../app/routes/jp/regEmpty'
 import { checkoutPageRoute } from '../app/routes/common/checkout';
 import { setJPImage } from '../util/set-bg-image';
 
-export type Form = t.TypeOf<typeof validator>;
-
 type Props = {
-	data: Form,
+	data: t.TypeOf<typeof validator>,
 	history: History<any>
 }
 
@@ -28,7 +25,7 @@ type State = {
 	validationErrors: string[]
 }
 
-export default class HomePage extends React.Component<Props, State> {
+export default class HomePageJP extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {

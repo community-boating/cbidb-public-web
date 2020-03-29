@@ -3,7 +3,7 @@ import * as React from "react";
 import WizardPageflow, { ComponentPropsFromWizard } from "../../core/WizardPageflow";
 import { Option, none, some } from "fp-ts/lib/Option";
 import PageWrapper from "../../core/PageWrapper";
-import { apiw as welcomeAPI } from "../../async/member-welcome";
+import { apiw as welcomeAPI } from "../../async/member-welcome-jp";
 import PaymentDetailsPage from "./PaymentDetails";
 import PaymentConfirmPage from "./PaymentConfirm";
 import { apiw as orderStatus, CardData } from "../../async/order-status"

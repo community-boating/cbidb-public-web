@@ -3,7 +3,7 @@ import * as t from 'io-ts';
 import path from "../../paths/jp/offseason";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
-import { apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome";
+import { apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome-jp";
 import OffseasonClassesStandalone from '../../../containers/OffseasonClassesStandalone';
 import Currency from '../../../util/Currency';
 import {getWrapper as getOffseasonClasses, validator as offseasonClassesValidator} from "../../../async/junior/offseason-classes"
