@@ -5,7 +5,7 @@ import NavBarLogoutOnly from "../components/NavBarLogoutOnly";
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import JoomlaReport from "../theme/joomla/JoomlaReport";
-import homePageActions from "./HomePageActions";
+import homePageActions from "./HomePageActionsJP";
 import Button from '../components/Button';
 import { History } from 'history';
 import moment = require('moment');

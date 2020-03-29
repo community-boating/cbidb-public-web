@@ -10,6 +10,9 @@ export const validator = t.type({
 	userName: t.string,
 	serverTime: t.string,
 	season: t.number,
+	status: t.string,
+	actions: t.number,
+	ratings: t.string,
 	canCheckout: t.boolean
 })
 

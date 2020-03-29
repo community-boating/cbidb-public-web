@@ -14,6 +14,7 @@ import ErrorDiv from '../theme/joomla/ErrorDiv';
 import { some } from 'fp-ts/lib/Option';
 import { checkoutPageRoute } from '../app/routes/common/checkout';
 import { setAPImage } from '../util/set-bg-image';
+import homePageActions from "./HomePageActionsAP";
 
 type Props = {
 	data:  t.TypeOf<typeof validator>,
@@ -35,8 +36,25 @@ export default class HomePageAP extends React.Component<Props, State> {
 		const self = this;
 
 		const mainTable = <JoomlaArticleRegion title="My Membership">
-			<JoomlaReport headers={["Name", "Status", "Actions"]} rows={[["name", "status", "actions"]]}/>
+			<JoomlaReport
+				headers={["Name", "Status", "Actions"]}
+				rows={[[
+					`${self.props.data.firstName} ${self.props.data.lastName}`,
+					self.props.data.status,
+					homePageActions(self.props.data.actions, self.props.data.personId, self.props.history)
+				]]}
+				rawHtml={{1: true}}
+			/>
 		</JoomlaArticleRegion>
+
+		const ratings = <JoomlaArticleRegion title="My Ratings">
+			<span dangerouslySetInnerHTML={{__html: self.props.data.ratings}}/>
+			<p>
+				<span style={{fontWeight: "bold", color:"red"}}>Acquired Rating</span>
+				<br />
+				Unacquired Rating
+			</p>
+		</JoomlaArticleRegion>;
 
 		const checkoutButton = (<Button onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
 
@@ -50,6 +68,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 			{errorPopup}
 			{mainTable}
 			{self.props.data.canCheckout ? checkoutButton : null}
+			{ratings}
 		</JoomlaMainPage>
 	}
 }
