@@ -3,7 +3,7 @@ import { History } from 'history';
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { validator } from "../../../async/junior/required";
+import { validator } from "../../../async/member/required";
 import Button from "../../../components/Button";
 import DateTriPicker, {  dateStringToComponents, DateTriPickerProps } from "../../../components/DateTriPicker";
 import PhoneTriBox, { PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
@@ -111,6 +111,13 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 		const reqFields = (
 			<table><tbody>
 				<FormInput
+					id="namePrefix"
+					label="Name Prefix"
+					value={formData.middleInitial}
+					updateAction={updateState}
+					maxLength={5}
+				/>
+				<FormInput
 					id="firstName"
 					label="First Name"
 					isRequired={true}
@@ -131,6 +138,13 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 					value={formData.lastName}
 					updateAction={updateState}
 				/>
+				<FormInput
+					id="nameSuffix"
+					label="Name Suffix"
+					value={formData.middleInitial}
+					updateAction={updateState}
+					maxLength={5}
+				/>
 				<DateTriPicker<Form, DateTriPickerProps<Form>>
 					years={years}
 					monthID="dobMonth"
@@ -142,18 +156,10 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 					yearValue={formData.dobYear}
 					updateAction={updateState}
 				/>
-				<FormInput
-					id="childEmail"
-					label="Child Email"
-					value={formData.childEmail}
-					updateAction={updateState}
-				/>
-				{// TODO: actual parent email
-				}
 				<tr>
 					<td style={{ textAlign: "right" }}>
 						<label>
-							<span className="optional">Parent Email</span>
+							<span className="optional">Email</span>
 						</label>
 					</td>
 					<td style={{ textAlign: "left" }}>
@@ -213,7 +219,7 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 					nullDisplay="- Select -"
 				/>
 				<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
-					label="Parent Primary Phone"
+					label="Primary Phone"
 					firstID="primaryPhoneFirst"
 					secondID="primaryPhoneSecond"
 					thirdID="primaryPhoneThird"
@@ -228,7 +234,7 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 					isRequired={true}
 				/>
 				<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
-					label="Parent Alternate Phone"
+					label="Alternate Phone"
 					firstID="alternatePhoneFirst"
 					secondID="alternatePhoneSecond"
 					thirdID="alternatePhoneThird"
@@ -241,11 +247,6 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 					typeValue={formData.alternatePhoneType}
 					updateAction={updateState}
 				/>
-			</tbody></table>
-		);
-
-		const specNeedsFields = (
-			<table><tbody>
 				<FormTextArea
 					id="allergies"
 					label="Allergies"
@@ -285,19 +286,18 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 			: ""
 		);
 
+		const headerRegion = <JoomlaArticleRegion title="Please take a moment to confirm your personal information.">
+			New address or phone number? Need to change your emergency contact? Help us keep our records up-to-date.
+		</JoomlaArticleRegion>;
+
 		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
+			{headerRegion}
 			<JoomlaArticleRegion title="All information on this page is required (if applicable).">
 				{reqFields}
-			</JoomlaArticleRegion>
-			<JoomlaArticleRegion title="Does your child have any allergies, medications, or special needs we should be aware of?">
-				{"If not, please leave the following fields blank." }
-				<br />
-				<br />
-				{specNeedsFields}
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" spinnerOnClick onClick={() => {

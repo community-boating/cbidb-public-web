@@ -6,10 +6,11 @@ import ProgressThermometer from "../../../components/ProgressThermometer";
 import { State as BreadcrumbState} from "../../../core/Breadcrumb";
 import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "../../../core/WizardPageflow";
 import ApRequiredInfo from "./ApRequiredInfo";
-import { Option, none } from "fp-ts/lib/Option";
+import { Option } from "fp-ts/lib/Option";
 import JoomlaLoadingPage from "../../../theme/joomla/JoomlaLoadingPage";
 import { setAPImage } from "../../../util/set-bg-image";
 import { apBasePath } from "../../../app/paths/ap/_base";
+import { defaultValue } from "../../../async/member/required"
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -68,27 +69,7 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 					key="APRequiredInfo"
 					history={self.props.history}
 					component={(urlProps: {}, async: {}) => <ApRequiredInfo
-						initialFormData={{
-							firstName: none as Option<string>,
-							lastName: none as Option<string>,
-							middleInitial: none as Option<string>,
-							dob: none as Option<string>,
-							childEmail: none as Option<string>,
-							addr1: none as Option<string>,
-							addr2: none as Option<string>,
-							addr3: none as Option<string>,
-							city: none as Option<string>,
-							state: none as Option<string>,
-							zip: none as Option<string>,
-							country: none as Option<string>,
-							primaryPhone: none as Option<string>,
-							primaryPhoneType: none as Option<string>,
-							alternatePhone: none as Option<string>,
-							alternatePhoneType: none as Option<string>,
-							allergies: none as Option<string>,
-							medications: none as Option<string>,
-							specialNeeds: none as Option<string>
-						}}
+						initialFormData={defaultValue}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 						personId={self.state.personId}
