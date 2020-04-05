@@ -1,22 +1,22 @@
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { validator } from "../../async/junior/see-types";
-import Joomla8_4 from "../../theme/joomla/Joomla8_4";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import { validator } from "../../../async/junior/see-types";
+import Joomla8_4 from "../../../theme/joomla/Joomla8_4";
+import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
 import { asDiv, asFragment, ClassType } from "./class-description";
 import advanced from "./types/advanced";
 import beginner from "./types/beginner";
 import intermediate from "./types/intermediate";
 import other from './types/other';
-import JpClassSignupSidebar from '../../components/JpClassSignupSidebar';
-import { GetSignupsAPIResult } from '../../async/junior/get-signups';
+import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
+import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
 import { History } from 'history'
-import Button from '../../components/Button';
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
-import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
+import Button from '../../../components/Button';
+import ErrorDiv from '../../../theme/joomla/ErrorDiv';
+import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
-import { setJPImage } from '../../util/set-bg-image';
+import { setJPImage } from '../../../util/set-bg-image';
 
 export const path = "/class/:personId"
 

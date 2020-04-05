@@ -1,23 +1,23 @@
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { getClassInstancesValidator, InstanceInfo } from '../../async/junior/get-class-instances';
-import JpClassesAvailTable from "../../components/JpClassesAvailTable";
-import Joomla8_4 from "../../theme/joomla/Joomla8_4";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import { weeksValidator, Week } from '../../async/weeks';
-import { Select } from '../../components/Select';
+import { getClassInstancesValidator, InstanceInfo } from '../../../async/junior/get-class-instances';
+import JpClassesAvailTable from "../../../components/JpClassesAvailTable";
+import Joomla8_4 from "../../../theme/joomla/Joomla8_4";
+import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import { weeksValidator, Week } from '../../../async/weeks';
+import { Select } from '../../../components/Select';
 import { Option, none } from 'fp-ts/lib/Option';
-import formUpdateState from '../../util/form-update-state';
+import formUpdateState from '../../../util/form-update-state';
 import * as moment from 'moment'
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import ErrorDiv from '../../../theme/joomla/ErrorDiv';
 import { History } from 'history';
-import JpClassSignupSidebar from '../../components/JpClassSignupSidebar';
-import { GetSignupsAPIResult } from '../../async/junior/get-signups';
-import Button from '../../components/Button';
-import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
-import {classPageRoute} from "../../app/routes/jp/class"
-import { setJPImage } from '../../util/set-bg-image';
+import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
+import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
+import Button from '../../../components/Button';
+import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
+import {classPageRoute} from "../../../app/routes/jp/class"
+import { setJPImage } from '../../../util/set-bg-image';
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 

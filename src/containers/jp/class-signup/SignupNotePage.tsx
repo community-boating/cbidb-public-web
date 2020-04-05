@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { Option } from 'fp-ts/lib/Option';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
-import TextArea from "../../components/TextArea";
-import formUpdateState from '../../util/form-update-state';
-import Button from '../../components/Button';
+import JoomlaArticleRegion from '../../../theme/joomla/JoomlaArticleRegion';
+import JoomlaMainPage from '../../../theme/joomla/JoomlaMainPage';
+import TextArea from "../../../components/TextArea";
+import formUpdateState from '../../../util/form-update-state';
+import Button from '../../../components/Button';
 import { History } from 'history';
-import { postWrapper as saveNote } from "../../async/junior/signup-note"
-import { makePostJSON } from '../../core/APIWrapperUtil';
-import {classPageRoute} from "../../app/routes/jp/class"
-import { setJPImage } from '../../util/set-bg-image';
+import { postWrapper as saveNote } from "../../../async/junior/signup-note"
+import { makePostJSON } from '../../../core/APIWrapperUtil';
+import {classPageRoute} from "../../../app/routes/jp/class"
+import { setJPImage } from '../../../util/set-bg-image';
 
 type Props = {
 	history: History<any>,

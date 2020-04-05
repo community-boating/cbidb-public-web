@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { InstanceInfo } from "../async/junior/get-class-instances";
 import JoomlaReport from "../theme/joomla/JoomlaReport";
-import { ClassAction } from '../containers/class-signup/SelectClassTime';
+import { ClassAction } from '../containers/jp/class-signup/SelectClassTime';
 import { postWrapper as doSignup } from "../async/junior/class-signup"
 import { postWrapper as deleteSignup } from "../async/junior/class-signup-delete"
 import APIWrapper from '../core/APIWrapper';

@@ -3,7 +3,7 @@ import path from "../../paths/jp/signup-note";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { Option } from 'fp-ts/lib/Option';
-import SignupNotePage from '../../../containers/class-signup/SignupNotePage';
+import SignupNotePage from '../../../containers/jp/class-signup/SignupNotePage';
 import {getWrapper as getSignupNote} from "../../../async/junior/signup-note"
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';

@@ -6,8 +6,8 @@ import JoomlaArticleRegion from '../theme/joomla/JoomlaArticleRegion';
 import Currency from '../util/Currency';
 import JoomlaSidebarRegion from '../theme/joomla/JoomlaSidebarRegion';
 
-import { asDivOptionalSignupLink, ClassType } from "./class-signup/class-description";
-import raceTeam from './class-signup/types/other/race-team'
+import { asDivOptionalSignupLink, ClassType } from "./jp/class-signup/class-description";
+import raceTeam from './jp/class-signup/types/other/race-team'
 import {validator as offseasonClassesValidator} from "../async/junior/offseason-classes"
 import { setJPImage } from '../util/set-bg-image';
 

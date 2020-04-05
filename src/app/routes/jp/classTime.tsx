@@ -5,7 +5,7 @@ import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { getWrapper as getSignups, GetSignupsAPIResult } from '../../../async/junior/get-signups';
 import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTimesValidator } from "../../../async/junior/get-class-instances";
-import SelectClassTime from "../../../containers/class-signup/SelectClassTime";
+import SelectClassTime from "../../../containers/jp/class-signup/SelectClassTime";
 import {apiw as getWeeks, weeksValidator} from "../../../async/weeks";
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';

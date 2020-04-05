@@ -4,7 +4,7 @@ import path from "../../paths/jp/class";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { getWrapper as seeTypesWrapper, validator as seeTypesValidator } from "../../../async/junior/see-types";
-import SelectClassType from "../../../containers/class-signup/SelectClassType";
+import SelectClassType from "../../../containers/jp/class-signup/SelectClassType";
 import { getWrapper as getSignups, GetSignupsAPIResult } from '../../../async/junior/get-signups';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';
