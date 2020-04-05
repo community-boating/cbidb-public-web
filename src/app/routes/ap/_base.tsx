@@ -1,6 +1,6 @@
 import RouteWrapper from "../../../core/RouteWrapper";
-import apPath from "../../paths/ap/_base"
+import {apBasePath} from "../../paths/ap/_base"
 import { PageFlavor } from '../../../components/Page';
 import LoginRoute from "../common/login";
 
-export const apLoginPageRoute = new RouteWrapper(true, apPath, LoginRoute(PageFlavor.AP));
+export const apLoginPageRoute = new RouteWrapper(true, apBasePath, LoginRoute(PageFlavor.AP));

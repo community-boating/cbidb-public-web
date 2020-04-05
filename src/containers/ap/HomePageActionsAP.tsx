@@ -1,14 +1,15 @@
 import * as React from 'react'
 import { History } from 'history';
-import PlaceholderLink from '../components/PlaceholderLink';
-
+import PlaceholderLink from '../../components/PlaceholderLink';
+import {apRegPageRoute} from "../../app/routes/ap/reg"
+import { Link } from 'react-router-dom';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
 }
 
 const LINKS = {
-	regLink: (text: string) => <PlaceholderLink>{text}</PlaceholderLink>,
+	regLink: (text: string) => <Link to={apRegPageRoute.getPathFromArgs({})}>{text}</Link>,
 	abort: () => <PlaceholderLink>Abort Registration</PlaceholderLink>,
 	classes: () => <PlaceholderLink>Signup for Classes</PlaceholderLink>,
 	edit: () => <PlaceholderLink>Edit Information</PlaceholderLink>,
@@ -39,7 +40,10 @@ export default (bv: number, juniorId: number, history: History<any>) => {
 		]
 	}, {
 		place: 4,
-		elements: [<PlaceholderLink>renew</PlaceholderLink>] //TODO: Inject renewal price and grace period end
+		elements: [
+			LINKS.regLink("renew"),//TODO: Inject renewal price and grace period end
+			<PlaceholderLink>renew</PlaceholderLink>
+		] 
 	}, {
 		place: 5,
 		elements: [
@@ -53,7 +57,10 @@ export default (bv: number, juniorId: number, history: History<any>) => {
 		]
 	}, {
 		place: 7,
-		elements: [<PlaceholderLink>renew</PlaceholderLink>] //TODO: Inject renewal price and grace period end
+		elements: [
+			LINKS.regLink("renew"),//TODO: Inject renewal price and grace period end
+			<PlaceholderLink>renew</PlaceholderLink>
+		]
 	}, {
 		place: 8,
 		elements: [

@@ -32,7 +32,8 @@ import PathWrapper from '../core/PathWrapper';
 import { offseasonPageRoute } from './routes/jp/offseason'
 import { setJPImage, setAPImage } from '../util/set-bg-image';
 import JoomlaLoadingPage from '../theme/joomla/JoomlaLoadingPage';
-import HomePageAP from '../containers/HomePageAP';
+import HomePageAP from '../containers/ap/HomePageAP';
+import { apRegPageRoute } from './routes/ap/reg';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -104,6 +105,8 @@ export default function (history: History<any>) {
 		regEmptyPageRoute.asRoute(history),
 
 		offseasonPageRoute.asRoute(history),
+
+		apRegPageRoute.asRoute(history),
 
 		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
 

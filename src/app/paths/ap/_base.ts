@@ -1,3 +1,3 @@
 import PathWrapper from "../../../core/PathWrapper";
 
-export default new PathWrapper('ap')
+export const apBasePath = new PathWrapper('ap')

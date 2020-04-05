@@ -6,7 +6,7 @@ import { History } from "history";
 import { Moment } from "moment";
 import { Option } from "fp-ts/lib/Option";
 import { Link } from "react-router-dom";
-import apPath from "../app/paths/ap/_base"
+import {apBasePath} from "../app/paths/ap/_base"
 import jpPath from "../app/paths/jp/_base"
 
 export default (props: {history: History<any>, sysdate: Option<Moment>}) => {
@@ -14,7 +14,7 @@ export default (props: {history: History<any>, sysdate: Option<Moment>}) => {
 	const program = pathComponents[1];
 	const switchLink = (function() {
 		if (program == "jp") {
-			return <Link to={apPath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Adult Program</Link>;
+			return <Link to={apBasePath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Adult Program</Link>;
 		} else if (program == "ap") {
 			return <Link to={jpPath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Junior Program</Link>;
 		} else return null;
