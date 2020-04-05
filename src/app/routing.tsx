@@ -107,7 +107,7 @@ export default function (history: History<any>) {
 
 		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
 
-		<Route key="home" path="/jp" exact render={() => <PageWrapper
+		<Route key="homeJP" path="/jp" exact render={() => <PageWrapper
 			key="HomePage"
 			history={history}
 			component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidatorJP>) => <HomePageJP
@@ -126,7 +126,7 @@ export default function (history: History<any>) {
 			}}
 		/>} />,
 
-		<Route key="home" path="/ap" exact render={() => <PageWrapper
+		<Route key="homeAP" path="/ap" exact render={() => <PageWrapper
 			key="HomePage"
 			history={history}
 			component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidatorAP>) => <HomePageAP

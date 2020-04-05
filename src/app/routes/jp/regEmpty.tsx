@@ -4,7 +4,7 @@ import path from "../../paths/jp/regEmpty";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { apiw as welcomeAPI, validator as welcomeJPValidator } from "../../../async/member-welcome-jp";
-import RegistrationWizard from '../../../containers/registration/pageflow/RegistrationWizard';
+import RegistrationWizard from '../../../containers/jp-registration/pageflow/RegistrationWizard';
 import { none } from 'fp-ts/lib/Option';
 import { setJPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
