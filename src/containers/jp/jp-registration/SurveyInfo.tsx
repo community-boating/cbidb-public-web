@@ -3,20 +3,20 @@ import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { postWrapper, validator } from "../../async/junior/survey";
-import Button from "../../components/Button";
-import { CheckboxGroup, RadioGroup, SingleCheckbox } from "../../components/InputGroup";
-import TextInput from "../../components/TextInput";
-import { makePostJSON } from "../../core/APIWrapperUtil";
-import ethnicities from "../../lov/ethnicities";
-import genders from "../../lov/genders";
-import referralSources from "../../lov/referralSources";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
-import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
-import formUpdateState from '../../util/form-update-state';
-import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
-import { setJPImage } from "../../util/set-bg-image";
+import { postWrapper, validator } from "../../../async/junior/survey";
+import Button from "../../../components/Button";
+import { CheckboxGroup, RadioGroup, SingleCheckbox } from "../../../components/InputGroup";
+import TextInput from "../../../components/TextInput";
+import { makePostJSON } from "../../../core/APIWrapperUtil";
+import ethnicities from "../../../lov/ethnicities";
+import genders from "../../../lov/genders";
+import referralSources from "../../../lov/referralSources";
+import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
+import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import formUpdateState from '../../../util/form-update-state';
+import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
+import { setJPImage } from "../../../util/set-bg-image";
  
 export type Form = t.TypeOf<typeof validator>
 

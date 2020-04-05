@@ -3,26 +3,26 @@ import { History } from 'history';
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { postWrapper, validator } from "../../async/junior/required";
-import Button from "../../components/Button";
-import DateTriPicker, { componentsToDate, dateStringToComponents, DateTriPickerProps } from "../../components/DateTriPicker";
-import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../components/PhoneTriBox";
-import { Select } from "../../components/Select";
-import TextArea from "../../components/TextArea";
-import TextInput from "../../components/TextInput";
-import { makePostJSON } from '../../core/APIWrapperUtil';
-import countries from "../../lov/countries";
-import states from "../../lov/states";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
-import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
-import formUpdateState from '../../util/form-update-state';
-import range from "../../util/range";
+import { postWrapper, validator } from "../../../async/junior/required";
+import Button from "../../../components/Button";
+import DateTriPicker, { componentsToDate, dateStringToComponents, DateTriPickerProps } from "../../../components/DateTriPicker";
+import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
+import { Select } from "../../../components/Select";
+import TextArea from "../../../components/TextArea";
+import TextInput from "../../../components/TextInput";
+import { makePostJSON } from '../../../core/APIWrapperUtil';
+import countries from "../../../lov/countries";
+import states from "../../../lov/states";
+import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
+import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import formUpdateState from '../../../util/form-update-state';
+import range from "../../../util/range";
 import moment = require('moment');
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
-import asc from '../../app/AppStateContainer';
-import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
-import { setJPImage } from '../../util/set-bg-image';
+import ErrorDiv from '../../../theme/joomla/ErrorDiv';
+import asc from '../../../app/AppStateContainer';
+import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
+import { setJPImage } from '../../../util/set-bg-image';
 
 type ApiType = t.TypeOf<typeof validator>
 

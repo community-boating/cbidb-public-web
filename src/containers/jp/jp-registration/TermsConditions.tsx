@@ -2,15 +2,15 @@ import { none, some } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
 
-import Button from "../../components/Button";
-import { RadioGroup } from "../../components/InputGroup";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
-import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
-import {apiw as accept} from "../../async/junior/accept-tos"
-import { makePostJSON } from "../../core/APIWrapperUtil";
-import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
-import { setJPImage } from "../../util/set-bg-image";
+import Button from "../../../components/Button";
+import { RadioGroup } from "../../../components/InputGroup";
+import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
+import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import {apiw as accept} from "../../../async/junior/accept-tos"
+import { makePostJSON } from "../../../core/APIWrapperUtil";
+import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
+import { setJPImage } from "../../../util/set-bg-image";
 
 interface Props {
 	personId: number,

@@ -2,17 +2,17 @@ import { Option, none } from "fp-ts/lib/Option";
 import * as React from "react";
 import { History } from 'history';
 
-import { postWrapper } from "../../async/junior/swim-proof";
-import Button from "../../components/Button";
-import { RadioGroup } from "../../components/InputGroup";
-import { makePostJSON } from "../../core/APIWrapperUtil";
-import swimProofValues from "../../lov/swimProof";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
-import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
-import formUpdateState from "../../util/form-update-state";
-import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
-import { setJPImage } from "../../util/set-bg-image";
+import { postWrapper } from "../../../async/junior/swim-proof";
+import Button from "../../../components/Button";
+import { RadioGroup } from "../../../components/InputGroup";
+import { makePostJSON } from "../../../core/APIWrapperUtil";
+import swimProofValues from "../../../lov/swimProof";
+import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
+import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import formUpdateState from "../../../util/form-update-state";
+import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
+import { setJPImage } from "../../../util/set-bg-image";
 
 export interface Form {
 	swimProofId: Option<string>

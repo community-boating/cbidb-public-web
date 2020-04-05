@@ -3,18 +3,18 @@ import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { postWrapper, validator } from "../../async/junior/emerg-contact";
-import Button from "../../components/Button";
-import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../components/PhoneTriBox";
-import TextInput from "../../components/TextInput";
-import { makePostJSON } from "../../core/APIWrapperUtil";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
-import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
-import formUpdateState from '../../util/form-update-state';
-import ErrorDiv from "../../theme/joomla/ErrorDiv";
-import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
-import { setJPImage } from "../../util/set-bg-image";
+import { postWrapper, validator } from "../../../async/junior/emerg-contact";
+import Button from "../../../components/Button";
+import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
+import TextInput from "../../../components/TextInput";
+import { makePostJSON } from "../../../core/APIWrapperUtil";
+import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
+import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import formUpdateState from '../../../util/form-update-state';
+import ErrorDiv from "../../../theme/joomla/ErrorDiv";
+import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
+import { setJPImage } from "../../../util/set-bg-image";
 
 type ApiType = t.TypeOf<typeof validator>
 
