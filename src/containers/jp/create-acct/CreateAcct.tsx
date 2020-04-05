@@ -1,22 +1,22 @@
 import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
-import TextInput from "../../components/TextInput";
-import Button from '../../components/Button';
+import TextInput from "../../../components/TextInput";
+import Button from '../../../components/Button';
 import { History } from 'history';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import formUpdateState from '../../util/form-update-state';
-import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
-import Joomla8_4 from '../../theme/joomla/Joomla8_4';
+import JoomlaArticleRegion from '../../../theme/joomla/JoomlaArticleRegion';
+import formUpdateState from '../../../util/form-update-state';
+import JoomlaSidebarRegion from '../../../theme/joomla/JoomlaSidebarRegion';
+import Joomla8_4 from '../../../theme/joomla/Joomla8_4';
 import { preRegRender } from './ReserveClasses';
-import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
-import { postWrapper as create } from '../../async/create-member'
-import { PostURLEncoded } from '../../core/APIWrapperUtil';
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
-import Validation from '../../util/Validation';
-import asc from '../../app/AppStateContainer';
-import {reservePageRoute} from "../../app/routes/jp/reserve"
-import { createAcctPageRoute } from '../../app/routes/jp/create-acct';
-import { setJPImage } from '../../util/set-bg-image';
+import { PreRegistration } from '../../../app/global-state/jp-pre-registrations';
+import { postWrapper as create } from '../../../async/create-member'
+import { PostURLEncoded } from '../../../core/APIWrapperUtil';
+import ErrorDiv from '../../../theme/joomla/ErrorDiv';
+import Validation from '../../../util/Validation';
+import asc from '../../../app/AppStateContainer';
+import {reservePageRoute} from "../../../app/routes/jp/reserve"
+import { createAcctPageRoute } from '../../../app/routes/jp/create-acct';
+import { setJPImage } from '../../../util/set-bg-image';
 
 const defaultForm = {
 	firstName: none as Option<string>,

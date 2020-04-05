@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { Option, none } from 'fp-ts/lib/Option';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
-import TextArea from "../../components/TextArea";
-import formUpdateState from '../../util/form-update-state';
-import Button from '../../components/Button';
+import JoomlaArticleRegion from '../../../theme/joomla/JoomlaArticleRegion';
+import JoomlaMainPage from '../../../theme/joomla/JoomlaMainPage';
+import TextArea from "../../../components/TextArea";
+import formUpdateState from '../../../util/form-update-state';
+import Button from '../../../components/Button';
 import { History } from 'history';
-import { postWrapper as saveNote } from "../../async/junior/signup-note-proto"
-import { makePostJSON } from '../../core/APIWrapperUtil';
-import { PreRegistration } from '../../app/global-state/jp-pre-registrations';
-import {reservePageRoute} from "../../app/routes/jp/reserve"
-import { setJPImage } from '../../util/set-bg-image';
+import { postWrapper as saveNote } from "../../../async/junior/signup-note-proto"
+import { makePostJSON } from '../../../core/APIWrapperUtil';
+import { PreRegistration } from '../../../app/global-state/jp-pre-registrations';
+import {reservePageRoute} from "../../../app/routes/jp/reserve"
+import { setJPImage } from '../../../util/set-bg-image';
 
 type Props = {
 	history: History<any>,

@@ -1,31 +1,31 @@
 import { Option, none, some } from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
 import * as React from "react";
-import TextInput from "../../components/TextInput";
-import Joomla8_4 from '../../theme/joomla/Joomla8_4';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
-import formUpdateState from '../../util/form-update-state';
-import { Select } from '../../components/Select';
-import { validatorSingleRow } from "../../async/class-instances-with-avail"
-import JoomlaReport from '../../theme/joomla/JoomlaReport';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../../lov/magicStrings';
+import TextInput from "../../../components/TextInput";
+import Joomla8_4 from '../../../theme/joomla/Joomla8_4';
+import JoomlaArticleRegion from '../../../theme/joomla/JoomlaArticleRegion';
+import JoomlaSidebarRegion from '../../../theme/joomla/JoomlaSidebarRegion';
+import formUpdateState from '../../../util/form-update-state';
+import { Select } from '../../../components/Select';
+import { validatorSingleRow } from "../../../async/class-instances-with-avail"
+import JoomlaReport from '../../../theme/joomla/JoomlaReport';
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../../../lov/magicStrings';
 import { Moment } from 'moment';
-import Button from '../../components/Button';
-import { PreRegistration, PreRegistrationClass } from '../../app/global-state/jp-pre-registrations';
-import optionify from '../../util/optionify';
-import {postWrapper as addJuniorPostWrapper} from "../../async/junior/add-junior-class-reservation"
-import { validator as reservationAPIValidator } from '../../async/junior/get-junior-class-reservations'
-import { makePostJSON, makePostString } from '../../core/APIWrapperUtil';
+import Button from '../../../components/Button';
+import { PreRegistration, PreRegistrationClass } from '../../../app/global-state/jp-pre-registrations';
+import optionify from '../../../util/optionify';
+import {postWrapper as addJuniorPostWrapper} from "../../../async/junior/add-junior-class-reservation"
+import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
+import { makePostJSON, makePostString } from '../../../core/APIWrapperUtil';
 import { History } from 'history';
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
-import {postWrapper as deleteJunior} from '../../async/junior/delete-junior-class-reservation'
+import ErrorDiv from '../../../theme/joomla/ErrorDiv';
+import {postWrapper as deleteJunior} from '../../../async/junior/delete-junior-class-reservation'
 import moment = require('moment');
-import getClassesAndPreregistrations from '../../async/util/getClassesAndPreregistrations';
-import { reserveNotesPageRoute } from '../../app/routes/jp/reserve-notes';
-import { createAcctPageRoute } from '../../app/routes/jp/create-acct';
-import { reservePageRoute } from '../../app/routes/jp/reserve';
-import { setJPImage } from '../../util/set-bg-image';
+import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
+import { reserveNotesPageRoute } from '../../../app/routes/jp/reserve-notes';
+import { createAcctPageRoute } from '../../../app/routes/jp/create-acct';
+import { reservePageRoute } from '../../../app/routes/jp/reserve';
+import { setJPImage } from '../../../util/set-bg-image';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,

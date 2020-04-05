@@ -3,10 +3,10 @@ import * as t from 'io-ts';
 import path from "../../paths/jp/reserve-notes";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
-import { bundleReservationsFromAPI, ClassInstanceObject } from "../../../containers/create-acct/ReserveClasses"
+import { bundleReservationsFromAPI, ClassInstanceObject } from "../../../containers/jp/create-acct/ReserveClasses"
 import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
 import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
-import ReservationSignupNote from '../../../containers/create-acct/ReservationSignupNote';
+import ReservationSignupNote from '../../../containers/jp/create-acct/ReservationSignupNote';
 import { setJPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 
