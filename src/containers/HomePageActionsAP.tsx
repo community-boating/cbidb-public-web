@@ -7,54 +7,90 @@ function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
 }
 
-//TODO: paths are duplicated here, import from classes and replace :personId
+const LINKS = {
+	regLink: (text: string) => <PlaceholderLink>{text}</PlaceholderLink>,
+	abort: () => <PlaceholderLink>Abort Registration</PlaceholderLink>,
+	classes: () => <PlaceholderLink>Signup for Classes</PlaceholderLink>,
+	edit: () => <PlaceholderLink>Edit Information</PlaceholderLink>,
+}
+
 export default (bv: number, juniorId: number, history: History<any>) => {
 	const actions = [{
 		place: 0,
-		element: <PlaceholderLink>0</PlaceholderLink>
+		elements: [
+			LINKS.regLink("Purchase an Adult Program membership!")
+		]
 	}, {
 		place: 1,
-		element: <PlaceholderLink>1</PlaceholderLink>
+		elements: [
+			LINKS.regLink("Continue Registration"),
+			LINKS.abort()
+		]
 	}, {
 		place: 2,
-		element: <PlaceholderLink>2</PlaceholderLink>
+		elements: [
+			LINKS.regLink("Edit Registration"),
+			LINKS.abort()
+		]
 	}, {
 		place: 3,
-		element: <PlaceholderLink>3</PlaceholderLink>
+		elements: [
+			LINKS.classes()
+		]
 	}, {
 		place: 4,
-		element: <PlaceholderLink>4</PlaceholderLink>
+		elements: [<PlaceholderLink>renew</PlaceholderLink>] //TODO: Inject renewal price and grace period end
 	}, {
 		place: 5,
-		element: <PlaceholderLink>5</PlaceholderLink>
+		elements: [
+			LINKS.regLink("Extend your membership")
+		]
 	}, {
 		place: 6,
-		element: <PlaceholderLink>6</PlaceholderLink>
+		elements: [
+			LINKS.edit(),
+			<PlaceholderLink>4th </PlaceholderLink> // TODO: 4th links, dock party etc
+		]
 	}, {
 		place: 7,
-		element: <PlaceholderLink>7</PlaceholderLink>
+		elements: [<PlaceholderLink>renew</PlaceholderLink>] //TODO: Inject renewal price and grace period end
 	}, {
 		place: 8,
-		element: <PlaceholderLink>8</PlaceholderLink>
+		elements: [
+			LINKS.regLink("Purchase Membership"),
+			LINKS.edit()
+		]
 	}, {
 		place: 9,
-		element: <PlaceholderLink>9</PlaceholderLink>
+		elements: [
+			LINKS.classes()
+		]
 	}, {
 		place: 10,
-		element: <PlaceholderLink>10</PlaceholderLink>
+		elements: [
+			LINKS.regLink("Continue Registration"),
+			LINKS.abort()
+		]
 	}, {
 		place: 11,
-		element: <PlaceholderLink>11</PlaceholderLink>
+		elements: [
+			LINKS.classes()
+		]
 	}, {
 		place: 12,
-		element: <PlaceholderLink>12</PlaceholderLink>
+		elements: [
+			LINKS.regLink("Edit Registration"),
+			LINKS.abort()
+		]
 	}, {
 		place: 13,
-		element: <PlaceholderLink>13</PlaceholderLink>
+		elements: [
+			LINKS.edit()
+		]
 	}]
 
 	return actions
 		.filter(({ place }) => testBit(bv, place))
-		.map(({ element }) => element)
+		.flatMap(({ elements }) => elements)
 		.map((element, i) => <li key={i}>{element}</li>)
 }
