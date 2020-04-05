@@ -6,7 +6,7 @@ import { Redirect, Route, Router, Switch } from 'react-router';
 import { apiw as welcomeAPIJP, validator as welcomeValidatorJP } from "../async/member-welcome-jp";
 import { apiw as welcomeAPIAP, validator as welcomeValidatorAP } from "../async/member-welcome-ap";
 import PageWrapper from '../core/PageWrapper';
-import HomePageJP from '../containers/HomePageJP';
+import HomePageJP from '../containers/jp/HomePageJP';
 import asc from './AppStateContainer';
 import { Option } from 'fp-ts/lib/Option';
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"

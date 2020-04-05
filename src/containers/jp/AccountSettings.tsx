@@ -1,13 +1,13 @@
 import { History } from 'history';
 import * as React from "react";
 
-import Button from "../components/Button";
-import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
-import TextInput from '../components/TextInput';
+import Button from "../../components/Button";
+import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
+import TextInput from '../../components/TextInput';
 import { Option, none } from 'fp-ts/lib/Option';
-import formUpdateState from '../util/form-update-state';
-import { setJPImage } from '../util/set-bg-image';
+import formUpdateState from '../../util/form-update-state';
+import { setJPImage } from '../../util/set-bg-image';
 
 export interface Props {
 	history: History<any>

@@ -2,13 +2,13 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import Button from "../components/Button";
-import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
-import NavBarLogoutOnly from '../components/NavBarLogoutOnly';
+import Button from "../../components/Button";
+import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
+import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
-import { setJPImage } from '../util/set-bg-image';
-import { validator as welcomeJPValidator } from "../async/member-welcome-jp";
+import { setJPImage } from '../../util/set-bg-image';
+import { validator as welcomeJPValidator } from "../../async/member-welcome-jp";
 
 export interface Props {
 	personId: number,

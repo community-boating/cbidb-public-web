@@ -3,7 +3,7 @@ import * as t from 'io-ts';
 import path from "../../paths/jp/ratings";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
-import RatingsPage from '../../../containers/RatingsPage';
+import RatingsPage from '../../../containers/jp/RatingsPage';
 import { apiw as welcomeAPI, validator as welcomeJPValidator } from "../../../async/member-welcome-jp";
 import { setJPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';

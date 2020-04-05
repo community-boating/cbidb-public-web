@@ -2,20 +2,20 @@ import { none, Option } from 'fp-ts/lib/Option';
 import { History } from "history";
 import * as React from "react";
 
-import { postWrapper as postNo } from "../async/junior/scholarship-no";
-import { postWrapper as postYes } from "../async/junior/scholarship-yes";
-import Button from "../components/Button";
-import { RadioGroup, SingleCheckbox } from "../components/InputGroup";
-import { Select } from "../components/Select";
-import TextInput from "../components/TextInput";
-import { makePostJSON } from "../core/APIWrapperUtil";
-import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
-import JoomlaNotitleRegion from "../theme/joomla/JoomlaNotitleRegion";
-import Currency from "../util/Currency";
-import formUpdateState from '../util/form-update-state';
-import ErrorDiv from '../theme/joomla/ErrorDiv';
-import { setJPImage } from '../util/set-bg-image';
+import { postWrapper as postNo } from "../../async/junior/scholarship-no";
+import { postWrapper as postYes } from "../../async/junior/scholarship-yes";
+import Button from "../../components/Button";
+import { RadioGroup, SingleCheckbox } from "../../components/InputGroup";
+import { Select } from "../../components/Select";
+import TextInput from "../../components/TextInput";
+import { makePostJSON } from "../../core/APIWrapperUtil";
+import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
+import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
+import Currency from "../../util/Currency";
+import formUpdateState from '../../util/form-update-state';
+import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import { setJPImage } from '../../util/set-bg-image';
 
 export interface Form {
 	isApplying: Option<string>,

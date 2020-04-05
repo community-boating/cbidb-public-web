@@ -4,7 +4,7 @@ import path from "../../paths/jp/offseason";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome-jp";
-import OffseasonClassesStandalone from '../../../containers/OffseasonClassesStandalone';
+import OffseasonClassesStandalone from '../../../containers/jp/OffseasonClassesStandalone';
 import Currency from '../../../util/Currency';
 import {getWrapper as getOffseasonClasses, validator as offseasonClassesValidator} from "../../../async/junior/offseason-classes"
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';

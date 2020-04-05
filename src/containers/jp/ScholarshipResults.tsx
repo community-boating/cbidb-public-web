@@ -1,10 +1,10 @@
 import * as React from "react";
-import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
-import JoomlaNotitleRegion from "../theme/joomla/JoomlaNotitleRegion";
-import Currency from "../util/Currency";
-import Button from "../components/Button";
-import { setJPImage } from "../util/set-bg-image";
+import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
+import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
+import Currency from "../../util/Currency";
+import Button from "../../components/Button";
+import { setJPImage } from "../../util/set-bg-image";
 
 interface Props {
 	jpPrice: Currency,

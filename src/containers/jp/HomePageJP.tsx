@@ -1,20 +1,20 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import { validator } from "../async/member-welcome-jp";
-import NavBarLogoutOnly from "../components/NavBarLogoutOnly";
-import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
-import JoomlaReport from "../theme/joomla/JoomlaReport";
+import { validator } from "../../async/member-welcome-jp";
+import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
+import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
+import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import homePageActions from "./HomePageActionsJP";
-import Button from '../components/Button';
+import Button from '../../components/Button';
 import { History } from 'history';
 import moment = require('moment');
-import { checkUpgradedAsValidationErrorArray } from '../util/checkUpgraded';
-import ErrorDiv from '../theme/joomla/ErrorDiv';
+import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';
+import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import { some } from 'fp-ts/lib/Option';
-import {regEmptyPageRoute} from '../app/routes/jp/regEmpty'
-import { checkoutPageRoute } from '../app/routes/common/checkout';
-import { setJPImage } from '../util/set-bg-image';
+import {regEmptyPageRoute} from '../../app/routes/jp/regEmpty'
+import { checkoutPageRoute } from '../../app/routes/common/checkout';
+import { setJPImage } from '../../util/set-bg-image';
 
 type Props = {
 	data: t.TypeOf<typeof validator>,
