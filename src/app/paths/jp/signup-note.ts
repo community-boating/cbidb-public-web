@@ -1,3 +1,3 @@
-import jpPath from "./_base";
+import {jpBasePath} from "./_base";
 
-export default jpPath.appendPathSegment<{ personId: string, instanceId: string }>("/class-note/:personId/:instanceId");
+export const jpPathSignupNote = jpBasePath.appendPathSegment<{ personId: string, instanceId: string }>("/class-note/:personId/:instanceId");

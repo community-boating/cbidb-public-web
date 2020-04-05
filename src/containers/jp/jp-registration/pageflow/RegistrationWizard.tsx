@@ -23,6 +23,7 @@ import { apiw as welcomeAPI, validator as welcomeJPValidator } from "../../../..
 import SwimProof from "../SwimProof";
 import { setJPImage } from "../../../../util/set-bg-image";
 import JoomlaLoadingPage from "../../../../theme/joomla/JoomlaLoadingPage";
+import { jpBasePath } from "../../../../app/paths/jp/_base";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -235,8 +236,8 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 	
 		return <WizardPageflow 
 			history={self.props.history}
-			start="/"
-			end="/"
+			start={jpBasePath.getPathFromArgs({})}
+			end={jpBasePath.getPathFromArgs({})}
 			nodes={nodes}
 		/>
 	}

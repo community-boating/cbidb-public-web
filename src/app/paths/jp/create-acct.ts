@@ -1,3 +1,3 @@
-import jpPath from "./_base";
+import {jpBasePath} from "./_base";
 
-export default jpPath.appendPathSegment('/create-acct');
+export const jpPathCreateAcct = jpBasePath.appendPathSegment('/create-acct');

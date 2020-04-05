@@ -1,3 +1,3 @@
-import jpPath from "./_base";
+import {jpBasePath} from "./_base";
 
-export default jpPath.appendPathSegment<{email: string, hash: string}>("/reset-pw/:email/:hash");
+export const jpPathResetPW =  jpBasePath.appendPathSegment<{email: string, hash: string}>("/reset-pw/:email/:hash");

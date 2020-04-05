@@ -1,3 +1,3 @@
 import PathWrapper from "../../../core/PathWrapper";
 
-export default new PathWrapper('jp');
+export const jpBasePath = new PathWrapper('jp');

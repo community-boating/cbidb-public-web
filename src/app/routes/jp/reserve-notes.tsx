@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import path from "../../paths/jp/reserve-notes";
+import {jpPathReserveNotes} from "../../paths/jp/reserve-notes";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { bundleReservationsFromAPI, ClassInstanceObject } from "../../../containers/jp/create-acct/ReserveClasses"
@@ -10,7 +10,7 @@ import ReservationSignupNote from '../../../containers/jp/create-acct/Reservatio
 import { setJPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 
-export const reserveNotesPageRoute = new RouteWrapper(true, path, history => <PageWrapper
+export const reserveNotesPageRoute = new RouteWrapper(true, jpPathReserveNotes, history => <PageWrapper
 	key="reservationNotes"
 	history={history}
 	component={(urlProps: {personId: number}, async:{ classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReservationSignupNote
@@ -19,7 +19,7 @@ export const reserveNotesPageRoute = new RouteWrapper(true, path, history => <Pa
 		startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
 	/>}
 	urlProps={{
-		personId: Number(path.extractURLParams(history.location.pathname).personId),
+		personId: Number(jpPathReserveNotes.extractURLParams(history.location.pathname).personId),
 	}}
 	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={getClassesAndPreregistrations}

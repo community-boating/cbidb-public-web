@@ -49,7 +49,13 @@ const defaultRouteRender = () => {
 		const jpRegexMatchResult = jpRegex.exec(window.location.pathname);
 		if (jpRegexMatchResult) {
 			console.log("it does have a jp in front and its still nothing.  GIve up")
-			return <Redirect to="/" />;
+			const apRegex = /^\/jp\/ap\/(.*)$/;
+			const apRegexMatchResult = apRegex.exec(window.location.pathname);
+			if (apRegexMatchResult) {
+				return <Redirect to="/ap" />;
+			} else {
+				return <Redirect to="/jp" />;
+			}
 		} else {
 			console.log("... its doesnt have a jp in front, lets try adding one")
 			Sentry.captureMessage("Uncaught route " + window.location.pathname)
@@ -147,9 +153,6 @@ export default function (history: History<any>) {
 				}).catch(err => Promise.resolve(null));  // TODO: handle failure
 			}}
 		/>} />,
-
-		// TODO: eventually there should be a combined landing page or something
-		<Route key="homeRedirect" path="/" render={() => <Redirect to="/jp" />} />,
 
 		<Route key="defaultAuth" render={defaultRouteRender} />,
 	]

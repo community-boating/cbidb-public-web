@@ -1,3 +1,3 @@
-import jpPath from "./_base";
+import {jpBasePath} from "./_base";
 
-export default jpPath.appendPathSegment('/reserve');
+export const jpPathReserve = jpBasePath.appendPathSegment('/reserve');

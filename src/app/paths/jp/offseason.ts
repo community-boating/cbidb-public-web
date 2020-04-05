@@ -1,3 +1,3 @@
-import jpPath from "./_base";
+import {jpBasePath} from "./_base";
 
-export default jpPath.appendPathSegment<{ personId: string }>('/offseason/:personId');
+export const jpPathOffseason = jpBasePath.appendPathSegment<{ personId: string }>('/offseason/:personId');

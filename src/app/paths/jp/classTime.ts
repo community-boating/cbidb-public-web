@@ -1,3 +1,3 @@
-import jpPath from "./_base";
+import {jpBasePath} from "./_base";
 
-export default jpPath.appendPathSegment<{ personId: string, typeId: string }>("/class-time/:personId/:typeId");
+export const jpPathClassTime = jpBasePath.appendPathSegment<{ personId: string, typeId: string }>("/class-time/:personId/:typeId");

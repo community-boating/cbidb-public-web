@@ -1,3 +1,3 @@
-import jpPath from "./_base";
+import {jpBasePath} from "./_base";
 
-export default jpPath.appendPathSegment("/forgot-pw-sent");
+export const jpPathForgotPWSent = jpBasePath.appendPathSegment("/forgot-pw-sent");

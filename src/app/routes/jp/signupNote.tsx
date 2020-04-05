@@ -1,5 +1,5 @@
 import * as React from 'react';
-import path from "../../paths/jp/signup-note";
+import {jpPathSignupNote} from "../../paths/jp/signup-note";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { Option } from 'fp-ts/lib/Option';
@@ -8,7 +8,7 @@ import {getWrapper as getSignupNote} from "../../../async/junior/signup-note"
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';
 
-export const signupNotePageRoute = new RouteWrapper(true, path, history => <PageWrapper
+export const signupNotePageRoute = new RouteWrapper(true, jpPathSignupNote, history => <PageWrapper
     key="signupNote"
     history={history}
     component={(urlProps: {personId: number, instanceId: number}, async: {signupNote: Option<string>}) => <SignupNotePage
@@ -18,8 +18,8 @@ export const signupNotePageRoute = new RouteWrapper(true, path, history => <Page
         initialNote={async.signupNote}
     />}
     urlProps={{
-        personId: Number(path.extractURLParams(history.location.pathname).personId),
-        instanceId: Number(path.extractURLParams(history.location.pathname).instanceId),
+        personId: Number(jpPathSignupNote.extractURLParams(history.location.pathname).personId),
+        instanceId: Number(jpPathSignupNote.extractURLParams(history.location.pathname).instanceId),
     }}
     shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={(urlProps: {personId: number, instanceId: number}) => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import path from "../../paths/jp/reserve";
+import {jpPathReserve} from "../../paths/jp/reserve";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from "../../../containers/jp/create-acct/ReserveClasses"
@@ -9,7 +9,7 @@ import getClassesAndPreregistrations from '../../../async/util/getClassesAndPrer
 import { setJPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 
-export const reservePageRoute = new RouteWrapper(true, path, history => <PageWrapper
+export const reservePageRoute = new RouteWrapper(true, jpPathReserve, history => <PageWrapper
     key="ReserveClasses"
     history={history}
     component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses

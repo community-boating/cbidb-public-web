@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import path from "../../paths/jp/regEmpty";
+import {jpPathRegEmpty} from "../../paths/jp/regEmpty";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { apiw as welcomeAPI, validator as welcomeJPValidator } from "../../../async/member-welcome-jp";
@@ -9,7 +9,7 @@ import { none } from 'fp-ts/lib/Option';
 import { setJPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 
-export const regEmptyPageRoute = new RouteWrapper(true, path, history => <PageWrapper
+export const regEmptyPageRoute = new RouteWrapper(true, jpPathRegEmpty, history => <PageWrapper
     key="regEmpty"
     history={history}
     component={(urlProps: {}, async: t.TypeOf<typeof welcomeJPValidator>) => <RegistrationWizard

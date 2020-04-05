@@ -7,24 +7,24 @@ import { Moment } from "moment";
 import { Option } from "fp-ts/lib/Option";
 import { Link } from "react-router-dom";
 import {apBasePath} from "../app/paths/ap/_base"
-import jpPath from "../app/paths/jp/_base"
+import {jpBasePath} from "../app/paths/jp/_base"
 
 export default (props: {history: History<any>, sysdate: Option<Moment>}) => {
 	const pathComponents = props.history.location.pathname.split("/");
 	const program = pathComponents[1];
 	const switchLink = (function() {
 		if (program == "jp") {
-			return <Link to={apBasePath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Adult Program</Link>;
+			return <Link key="ap" to={apBasePath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Adult Program</Link>;
 		} else if (program == "ap") {
-			return <Link to={jpPath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Junior Program</Link>;
+			return <Link key="jp" to={jpBasePath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Junior Program</Link>;
 		} else return null;
 	}());
 
 	const navComponents = [
-		props.sysdate.map(d => <React.Fragment>System Time:  <span id="systime">{d.format("hh:mm:ss A")}</span> (refresh your browser to update!)</React.Fragment>)
+		props.sysdate.map(d => <React.Fragment key="sysdate">System Time:  <span id="systime">{d.format("hh:mm:ss A")}</span> (refresh your browser to update!)</React.Fragment>)
 		.getOrElse(null),
 		switchLink,
-		<a href="#" onClick={() => {
+		<a key="logout" href="#" onClick={() => {
 			logout.send({type: "json", jsonData: {}}).then(() => {
 				asc.updateState.login.logout()
 			})

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import path from "../../paths/jp/class";
+import {jpPathClass} from "../../paths/jp/class";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { getWrapper as seeTypesWrapper, validator as seeTypesValidator } from "../../../async/junior/see-types";
@@ -9,7 +9,7 @@ import { getWrapper as getSignups, GetSignupsAPIResult } from '../../../async/ju
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';
 
-export const classPageRoute = new RouteWrapper(true, path, history => <PageWrapper
+export const classPageRoute = new RouteWrapper(true, jpPathClass, history => <PageWrapper
 	key="SelectClassType"
 	history={history}
 	component={(urlProps: {personId: number}, [apiResult, signups]: [t.TypeOf<typeof seeTypesValidator>, GetSignupsAPIResult]) => <SelectClassType
@@ -19,7 +19,7 @@ export const classPageRoute = new RouteWrapper(true, path, history => <PageWrapp
 		signups={signups}
 	/>}
 	urlProps={{
-        personId: Number(path.extractURLParams(history.location.pathname).personId),
+        personId: Number(jpPathClass.extractURLParams(history.location.pathname).personId),
     }}
 	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {personId: number}) => {

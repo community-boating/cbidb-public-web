@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import path from "../../paths/jp/create-acct";
+import {jpPathCreateAcct} from "../../paths/jp/create-acct";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { bundleReservationsFromAPI, ClassInstanceObject } from "../../../containers/jp/create-acct/ReserveClasses"
@@ -10,7 +10,7 @@ import CreateAccount from '../../../containers/jp/create-acct/CreateAcct';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';
 
-export const createAcctPageRoute = new RouteWrapper(true, path, history => <PageWrapper
+export const createAcctPageRoute = new RouteWrapper(true, jpPathCreateAcct, history => <PageWrapper
 	key="CreateAccountPage"
 	history={history}
 	component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <CreateAccount

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import path from "../../paths/jp/offseason";
+import {jpPathOffseason} from "../../paths/jp/offseason";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome-jp";
@@ -15,7 +15,7 @@ type CombinedApiResult = {
 	offseasonClasses: t.TypeOf<typeof offseasonClassesValidator>
 }
 
-export const offseasonPageRoute = new RouteWrapper(true, path, history => <PageWrapper
+export const offseasonPageRoute = new RouteWrapper(true, jpPathOffseason, history => <PageWrapper
 	key="OffseasonPage"
 	history={history}
 	component={(urlProps: {personId: number}, async: CombinedApiResult) => <OffseasonClassesStandalone
@@ -25,7 +25,7 @@ export const offseasonPageRoute = new RouteWrapper(true, path, history => <PageW
 		offseasonPriceBase={Currency.dollars(async.welcome.jpOffseasonPriceBase)}
 		offseasonClasses={async.offseasonClasses}
 	/>}
-	urlProps={{personId: Number(path.extractURLParams(history.location.pathname).personId)}}
+	urlProps={{personId: Number(jpPathOffseason.extractURLParams(history.location.pathname).personId)}}
 	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {personId: number}) => {
 		return Promise.all([
