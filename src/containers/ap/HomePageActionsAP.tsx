@@ -3,19 +3,28 @@ import { History } from 'history';
 import PlaceholderLink from '../../components/PlaceholderLink';
 import {apRegPageRoute} from "../../app/routes/ap/reg"
 import { Link } from 'react-router-dom';
+import Currency from '../../util/Currency';
+import { Option } from 'fp-ts/lib/Option';
+import { Moment } from 'moment';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
 }
 
 const LINKS = {
-	regLink: (text: string) => <Link to={apRegPageRoute.getPathFromArgs({})}>{text}</Link>,
+	regLink: (text: React.ReactNode) => <Link to={apRegPageRoute.getPathFromArgs({})}>{text}</Link>,
 	abort: () => <PlaceholderLink>Abort Registration</PlaceholderLink>,
 	classes: () => <PlaceholderLink>Signup for Classes</PlaceholderLink>,
 	edit: () => <PlaceholderLink>Edit Information</PlaceholderLink>,
 }
 
-export default (bv: number, juniorId: number, history: History<any>) => {
+export default (bv: number, personId: number, history: History<any>, discountAmt: Currency, expirationDate: Option<Moment>, show4th: boolean) => {
+	const renewText = () => (<React.Fragment>
+		Renew for a year
+		<br />
+		({discountAmt.format()} discount until {expirationDate.getOrElse(null).clone().add(7, 'days').format("MM/DD/YYYY")})
+		</React.Fragment>);
+
 	const actions = [{
 		place: 0,
 		elements: [
@@ -41,8 +50,7 @@ export default (bv: number, juniorId: number, history: History<any>) => {
 	}, {
 		place: 4,
 		elements: [
-			LINKS.regLink("renew"),//TODO: Inject renewal price and grace period end
-			<PlaceholderLink>renew</PlaceholderLink>
+			LINKS.regLink(renewText())
 		] 
 	}, {
 		place: 5,
@@ -50,16 +58,16 @@ export default (bv: number, juniorId: number, history: History<any>) => {
 			LINKS.regLink("Extend your membership")
 		]
 	}, {
+		// Dock party etc links here
 		place: 6,
 		elements: [
 			LINKS.edit(),
-			<PlaceholderLink>4th </PlaceholderLink> // TODO: 4th links, dock party etc
+			(show4th ? <a target="_blank" href={`https://sailabration-${personId}.eventbrite.com/?discount=FYAdult`}>Buy 4th of July Tickets</a> : null)
 		]
 	}, {
 		place: 7,
 		elements: [
-			LINKS.regLink("renew"),//TODO: Inject renewal price and grace period end
-			<PlaceholderLink>renew</PlaceholderLink>
+			LINKS.regLink(renewText())
 		]
 	}, {
 		place: 8,
@@ -99,5 +107,6 @@ export default (bv: number, juniorId: number, history: History<any>) => {
 	return actions
 		.filter(({ place }) => testBit(bv, place))
 		.flatMap(({ elements }) => elements)
+		.filter(Boolean)
 		.map((element, i) => <li key={i}>{element}</li>)
 }

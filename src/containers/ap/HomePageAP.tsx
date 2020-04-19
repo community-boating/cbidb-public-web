@@ -15,6 +15,7 @@ import { some } from 'fp-ts/lib/Option';
 import { checkoutPageRoute } from '../../app/routes/common/checkout';
 import { setAPImage } from '../../util/set-bg-image';
 import homePageActions from "./HomePageActionsAP";
+import Currency from '../../util/Currency';
 
 type Props = {
 	data:  t.TypeOf<typeof validator>,
@@ -35,13 +36,22 @@ export default class HomePageAP extends React.Component<Props, State> {
 	render() {
 		const self = this;
 
+		const expirationDate = self.props.data.expirationDate.map(d => moment(d))
+
 		const mainTable = <JoomlaArticleRegion title="My Membership">
 			<JoomlaReport
 				headers={["Name", "Status", "Actions"]}
 				rows={[[
 					`${self.props.data.firstName} ${self.props.data.lastName}`,
 					self.props.data.status,
-					homePageActions(self.props.data.actions, self.props.data.personId, self.props.history)
+					<ul style={{fontSize: "0.8em"}}>{homePageActions(
+						self.props.data.actions,
+						self.props.data.personId,
+						self.props.history,
+						Currency.dollars(self.props.data.renewalDiscountAmt),
+						expirationDate,
+						self.props.data.show4thLink
+					)}</ul>
 				]]}
 				rawHtml={{1: true}}
 			/>

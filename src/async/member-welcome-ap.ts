@@ -1,6 +1,7 @@
 import * as t from 'io-ts';
 import APIWrapper from '../core/APIWrapper';
 import { HttpMethod } from "../core/HttpMethod";
+import { OptionalString } from '../util/OptionalTypeValidators';
 
 export const validator = t.type({
 	personId: t.number,
@@ -13,7 +14,10 @@ export const validator = t.type({
 	status: t.string,
 	actions: t.number,
 	ratings: t.string,
-	canCheckout: t.boolean
+	canCheckout: t.boolean,
+	renewalDiscountAmt: t.number,
+	expirationDate: OptionalString,
+	show4thLink: t.boolean
 })
 
 const path = "/member-welcome-ap"
