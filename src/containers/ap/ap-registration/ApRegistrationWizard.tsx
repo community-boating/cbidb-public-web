@@ -1,4 +1,5 @@
 import { History } from "history";
+import * as t from 'io-ts';
 import * as React from "react";
 
 import PageWrapper from "../../../core/PageWrapper";
@@ -10,7 +11,7 @@ import { Option } from "fp-ts/lib/Option";
 import JoomlaLoadingPage from "../../../theme/joomla/JoomlaLoadingPage";
 import { setAPImage } from "../../../util/set-bg-image";
 import { apBasePath } from "../../../app/paths/ap/_base";
-import { defaultValue } from "../../../async/member/required"
+import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator, defaultValue as requiredFormDefault} from "../../../async/member/required";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -68,12 +69,28 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="APRequiredInfo"
 					history={self.props.history}
-					component={(urlProps: {}, async: {}) => <ApRequiredInfo
-						initialFormData={defaultValue}
+					component={(urlProps: {}, async: t.TypeOf<typeof requiredInfoValidator>) => <ApRequiredInfo
+						initialFormData={async}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 						personId={self.state.personId}
 					/>}
+					getAsyncProps={(urlProps: {}) => {
+						if (self.state.personId.isNone()) {
+							return Promise.resolve({
+								type: "Success",
+								success: requiredFormDefault
+							});
+						} else {
+							return requiredInfoAPI.send(null).then(ret => {
+								if (ret.type == "Failure") {
+									self.props.history.push(apBasePath.getPathFromArgs({}))
+								}
+								return Promise.resolve(ret);
+							});
+						}
+						
+					}}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Required<br />Info</React.Fragment>

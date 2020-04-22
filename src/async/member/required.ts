@@ -56,8 +56,8 @@ export const postValidator = t.type({
 
 const path = "/member/required"
 
-export const getWrapper = (personId: number) => new APIWrapper<typeof validator, {}, {}>({
-	path: path + "?personId=" + personId,
+export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
+	path: path,
 	type: HttpMethod.GET,
 	resultValidator: validator
 })

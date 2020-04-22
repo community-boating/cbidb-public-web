@@ -3,10 +3,10 @@ import { History } from 'history';
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { validator } from "../../../async/member/required";
+import { validator, postWrapper } from "../../../async/member/required";
 import Button from "../../../components/Button";
-import DateTriPicker, {  dateStringToComponents, DateTriPickerProps } from "../../../components/DateTriPicker";
-import PhoneTriBox, { PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
+import DateTriPicker, {  dateStringToComponents, DateTriPickerProps, componentsToDate } from "../../../components/DateTriPicker";
+import PhoneTriBox, { PhoneTriBoxProps, splitPhone, combinePhone } from "../../../components/PhoneTriBox";
 import { Select } from "../../../components/Select";
 import TextArea from "../../../components/TextArea";
 import TextInput from "../../../components/TextInput";
@@ -22,6 +22,7 @@ import ErrorDiv from '../../../theme/joomla/ErrorDiv';
 import asc from '../../../app/AppStateContainer';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import { setAPImage } from '../../../util/set-bg-image';
+import { makePostJSON } from '../../../core/APIWrapperUtil';
 
 type ApiType = t.TypeOf<typeof validator>
 
@@ -62,14 +63,14 @@ const apiToForm: (api: ApiType) => Form = api => {
 	}
 }
 
-// const formToAPI: (form: Form) => ApiType = form => {
-// 	return {
-// 		...form,
-// 		dob: componentsToDate(form.dobMonth, form.dobDate, form.dobYear),
-// 		primaryPhone: combinePhone(form.primaryPhoneFirst, form.primaryPhoneSecond, form.primaryPhoneThird, form.primaryPhoneExt),
-// 		alternatePhone: combinePhone(form.alternatePhoneFirst, form.alternatePhoneSecond, form.alternatePhoneThird, form.alternatePhoneExt)
-// 	}
-// }
+const formToAPI: (form: Form) => ApiType = form => {
+	return {
+		...form,
+		dob: componentsToDate(form.dobMonth, form.dobDate, form.dobYear),
+		primaryPhone: combinePhone(form.primaryPhoneFirst, form.primaryPhoneSecond, form.primaryPhoneThird, form.primaryPhoneExt),
+		alternatePhone: combinePhone(form.alternatePhoneFirst, form.alternatePhoneSecond, form.alternatePhoneThird, form.alternatePhoneExt)
+	}
+}
 
 class FormInput extends TextInput<Form> {}
 class FormSelect extends Select<Form> {}
@@ -301,22 +302,20 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" spinnerOnClick onClick={() => {
-				self.props.goNext()
-				return Promise.resolve(true)
-				// return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(
-				// 	// api success
-				// 	ret => {
-				// 		if (ret.type == "Success") {
-				// 			
-				// 		} else {
-				// 			window.scrollTo(0, 0);
-				// 			self.setState({
-				// 				...self.state,
-				// 				validationErrors: ret.message.split("\\n") // TODO
-				// 			});
-				// 		}
-				// 	}
-				// )
+				return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(
+					// api success
+					ret => {
+						if (ret.type == "Success") {
+							self.props.goNext()
+						} else {
+							window.scrollTo(0, 0);
+							self.setState({
+								...self.state,
+								validationErrors: ret.message.split("\\n") // TODO
+							});
+						}
+					}
+				)
 				
 			}}/>
 		</JoomlaMainPage>
