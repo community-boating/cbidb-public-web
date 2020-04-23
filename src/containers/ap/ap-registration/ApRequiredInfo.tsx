@@ -104,7 +104,7 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
 		const thisYear = Number(moment().format("YYYY"))
-		const years = range(thisYear-20, thisYear)
+		const years = range(thisYear-120, thisYear-15)
 
 		// TODO: DOB constituent dropdowns could react to each others changes
 		// e.g. pick day=31, then month=feb, day should blank out
@@ -114,7 +114,7 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 				<FormInput
 					id="namePrefix"
 					label="Name Prefix"
-					value={formData.middleInitial}
+					value={formData.namePrefix}
 					updateAction={updateState}
 					maxLength={5}
 				/>
@@ -142,7 +142,7 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 				<FormInput
 					id="nameSuffix"
 					label="Name Suffix"
-					value={formData.middleInitial}
+					value={formData.nameSuffix}
 					updateAction={updateState}
 					maxLength={5}
 				/>
@@ -213,7 +213,6 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 				<FormSelect		// TODO: default to US
 					id="country"
 					label="Country"
-					isRequired={true}
 					value={formData.country}
 					updateAction={updateState}
 					options={countries}
