@@ -9,6 +9,7 @@ import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
 import { setJPImage } from '../../util/set-bg-image';
 import { validator as welcomeJPValidator } from "../../async/member-welcome-jp";
+import { jpBasePath } from '../../app/paths/jp/_base';
 
 export interface Props {
 	personId: number,
@@ -38,7 +39,7 @@ export default class RatingsPage extends React.PureComponent<Props> {
 				<p style={{fontSize: "0.9em", color: "#777", fontStyle: "italic"}}>
 					*Expired ratings can be renewed in the first days of your class
 				</p>
-				<Button text="< Back" onClick={() => Promise.resolve(this.props.history.push("/"))}/>
+				<Button text="< Back" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 			</JoomlaArticleRegion>
 		</JoomlaMainPage>
 	}

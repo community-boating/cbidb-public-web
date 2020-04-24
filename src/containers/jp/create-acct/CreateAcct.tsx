@@ -17,6 +17,7 @@ import asc from '../../../app/AppStateContainer';
 import {reservePageRoute} from "../../../app/routes/jp/reserve"
 import { createAcctPageRoute } from '../../../app/routes/jp/create-acct';
 import { setJPImage } from '../../../util/set-bg-image';
+import { jpBasePath } from '../../../app/paths/jp/_base';
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -82,7 +83,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 					lastName: self.state.formData.lastName.getOrElse(""),
 				})).then(res => {
 					if (res.type == "Success") {
-						self.props.history.push("/")
+						self.props.history.push(jpBasePath.getPathFromArgs({}))
 						asc.updateState.login.setLoggedIn(self.state.formData.email.getOrElse(""))
 					} else {
 						self.setState({

@@ -10,6 +10,7 @@ import {regPageRoute} from '../../app/routes/jp/reg'
 import {editPageRoute} from "../../app/routes/jp/edit"
 import {postWrapper as offseasonWLDelete} from "../../async/junior/offseason-wl-delete"
 import {offseasonPageRoute} from "../../app/routes/jp/offseason"
+import { jpBasePath } from '../../app/paths/jp/_base';
 
 
 function testBit(num: number, bit: number){
@@ -40,7 +41,7 @@ export default (bv: number, juniorId: number, history: History<any>) => {
         element: <a href="#" onClick={e => {
             e.preventDefault();
             if (window.confirm(`Do you really want to abort membership registration?`)) {
-                abortRegistration.send(makePostJSON({juniorId})).then(() => history.push("/home"))
+                abortRegistration.send(makePostJSON({juniorId})).then(() => history.push("/redirect" + jpBasePath.getPathFromArgs({})))
             }
         }}>{"Cancel Membership Purchase"}</a>
     }/*, {
@@ -60,7 +61,7 @@ export default (bv: number, juniorId: number, history: History<any>) => {
         element: <a href="#" onClick={e => {
             e.preventDefault();
             if (window.confirm(`Do you really want to leave the waitlist?  This action cannot be undone.`)) {
-                offseasonWLDelete.send(makePostJSON({juniorId})).then(() => history.push("/home"))
+                offseasonWLDelete.send(makePostJSON({juniorId})).then(() => history.push("/redirect" + jpBasePath.getPathFromArgs({})))
             }
         }}>{"Cancel Spring Class Waitlist"}</a>
     }/*, {

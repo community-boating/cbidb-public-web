@@ -12,6 +12,7 @@ import { PostURLEncoded } from '../core/APIWrapperUtil';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import { forgotPasswordSentPageRoute } from '../app/routes/jp/forgot-pw-sent';
 import { setJPImage } from '../util/set-bg-image';
+import { jpBasePath } from '../app/paths/jp/_base';
 
 type Props = {
 	history: History<any>
@@ -79,7 +80,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
-			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push("/"))}/>
+			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 			<Button text="Next >" onClick={submit}/>
 		</JoomlaMainPage>
 	}

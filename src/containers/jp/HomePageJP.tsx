@@ -66,7 +66,6 @@ export default class HomePageJP extends React.Component<Props, State> {
 		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime))})}>
 			{errorPopup}
 			{mainTable}
-			{/* <Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" /> */}
 			<Button onClick={() => Promise.resolve(this.props.history.push(regEmptyPageRoute.pathWrapper.path))} text="Add new Junior" />
 			{self.props.data.canCheckout ? checkoutButton : null}
 		</JoomlaMainPage>

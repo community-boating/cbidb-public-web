@@ -26,6 +26,7 @@ import { reserveNotesPageRoute } from '../../../app/routes/jp/reserve-notes';
 import { createAcctPageRoute } from '../../../app/routes/jp/create-acct';
 import { reservePageRoute } from '../../../app/routes/jp/reserve';
 import { setJPImage } from '../../../util/set-bg-image';
+import { jpBasePath } from '../../../app/paths/jp/_base';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -404,7 +405,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						.filter(c => c.isMorning == (self.state.formData.intermediateMorningAfternoon.getOrElse("") == "Morning"))
 				)}
 			</JoomlaArticleRegion>
-			<Button text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/"))}/>
+			<Button text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 			<Button text={<span>Create Junior</span>} spinnerOnClick={true} onClick={() => submitAction().then(
 				personId =>self.props.history.push(reserveNotesPageRoute.getPathFromArgs({personId: String(personId)})),
 				() => window.scrollTo(0, 0)

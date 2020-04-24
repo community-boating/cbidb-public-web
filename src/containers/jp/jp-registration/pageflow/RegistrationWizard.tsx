@@ -59,7 +59,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 		}
 
 		const abort = () => {
-			self.props.history.push("/")
+			self.props.history.push(jpBasePath.getPathFromArgs({}))
 			return Promise.reject()
 		}
 	
@@ -169,7 +169,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 					} else {
 						return requiredInfoAPI(self.state.personId.getOrElse(-1)).send(null).then(ret => {
 							if (ret.type == "Failure") {
-								self.props.history.push("/")
+								self.props.history.push(jpBasePath.getPathFromArgs({}))
 							}
 							return Promise.resolve(ret);
 						});

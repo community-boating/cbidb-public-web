@@ -11,6 +11,7 @@ import { setCheckoutImage } from "../../util/set-bg-image";
 import { apiw as getCartItems } from "../../async/get-cart-items"
 import { thankyouPageRoute } from "../../app/routes/common/thank-you";
 import JoomlaLoadingPage from "../../theme/joomla/JoomlaLoadingPage";
+import { jpBasePath } from "../../app/paths/jp/_base";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -60,7 +61,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 						getCartItems.send(null)
 					]).then(([welcome, order, cart]) => {
 						if (welcome.type == "Success" && !welcome.success.canCheckout) {
-							self.props.history.push("/");
+							self.props.history.push(jpBasePath.getPathFromArgs({}));
 							return Promise.resolve(null);
 						} else {
 							return Promise.resolve([welcome, order, cart])

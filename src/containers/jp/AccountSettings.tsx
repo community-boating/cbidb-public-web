@@ -8,6 +8,7 @@ import TextInput from '../../components/TextInput';
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../../util/form-update-state';
 import { setJPImage } from '../../util/set-bg-image';
+import { jpBasePath } from '../../app/paths/jp/_base';
 
 export interface Props {
 	history: History<any>
@@ -88,7 +89,7 @@ export default class AccountSettingsPage extends React.PureComponent<Props, Stat
 			{/* <p>
 				<PlaceholderLink style={{fontSize: "1.3em"}}>Click here to (re-)apply for a Junior Program Scholarship (changes on this page will not be saved)</PlaceholderLink>
 			</p> */}
-			<Button text="Cancel" onClick={() => Promise.resolve(this.props.history.push("/"))}/>
+			<Button text="Cancel" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 		</JoomlaMainPage>
 	}
 }

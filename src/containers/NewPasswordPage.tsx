@@ -13,6 +13,7 @@ import Validation from '../util/Validation'
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import asc from '../app/AppStateContainer';
 import { setJPImage } from '../util/set-bg-image';
+import { jpBasePath } from '../app/paths/jp/_base';
 
 type Props = {
 	history: History<any>,
@@ -77,7 +78,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 					// api success
 					ret => {
 						if (ret.type == "Success") {
-							self.props.history.push("/")
+							self.props.history.push(jpBasePath.getPathFromArgs({}))
 							asc.updateState.login.setLoggedIn(self.props.email)
 						} else {
 							window.scrollTo(0, 0);

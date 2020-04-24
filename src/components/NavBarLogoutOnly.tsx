@@ -28,7 +28,7 @@ export default (props: {history: History<any>, sysdate: Option<Moment>}) => {
 			logout.send({type: "json", jsonData: {}}).then(() => {
 				asc.updateState.login.logout()
 			})
-			props.history.push("/");
+			props.history.push(jpBasePath.getPathFromArgs({}));
 		}}>&nbsp;&nbsp;&nbsp;Logout</a>
 	].filter(Boolean);
 	return (<React.Fragment>

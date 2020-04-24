@@ -17,6 +17,7 @@ import ErrorDiv from '../../../theme/joomla/ErrorDiv';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
 import { setJPImage } from '../../../util/set-bg-image';
+import { jpBasePath } from '../../../app/paths/jp/_base';
 
 export const path = "/class/:personId"
 
@@ -113,7 +114,7 @@ export default class SelectClassType extends React.Component<Props, State> {
 			<React.Fragment>
 				{errorPopup}
 				<br />
-				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push("/"))}/>
+				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 				{beginnerRegion}
 				{intermediateRegion}
 				{advancedRegion}
