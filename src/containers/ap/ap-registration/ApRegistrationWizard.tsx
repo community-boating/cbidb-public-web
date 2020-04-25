@@ -12,6 +12,8 @@ import JoomlaLoadingPage from "../../../theme/joomla/JoomlaLoadingPage";
 import { setAPImage } from "../../../util/set-bg-image";
 import { apBasePath } from "../../../app/paths/ap/_base";
 import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator, defaultValue as requiredFormDefault} from "../../../async/member/required";
+import { getWrapper as emergAPI, validator as emergValidator} from "../../../async/member/emerg-contact";
+import ApEmergencyContact from "./ApEmergencyContact";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -94,6 +96,20 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Required<br />Info</React.Fragment>
+			}, {
+				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+					key="EmergencyContact"
+					history={self.props.history}
+					component={(urlProps: {}, async: t.TypeOf<typeof emergValidator>) => <ApEmergencyContact
+						initialFormData={async}
+						{...staticComponentProps}
+						{...mapWizardProps(fromWizard)}
+						personId={self.state.personId.getOrElse(-1)}
+					/>}
+					getAsyncProps={(urlProps: {}) => emergAPI.send(null).catch(err => Promise.resolve(null))}
+					{...pageWrapperProps}
+				/>,
+				breadcrumbHTML: <React.Fragment>Emergency<br />Contact</React.Fragment>
 			}]}
 		/>
 	}
