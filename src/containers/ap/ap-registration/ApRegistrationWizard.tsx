@@ -15,6 +15,9 @@ import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator, defa
 import { getWrapper as emergAPI, validator as emergValidator} from "../../../async/member/emerg-contact";
 import ApEmergencyContact from "./ApEmergencyContact";
 import GuestPrivs from "./GuestPrivs";
+import DamageWaiver from "./DamageWaiver";
+import ApSurveyInfo from "./ApSurveyInfo";
+import { getWrapper as surveyAPI, validator as surveyValidator} from "../../../async/member/survey";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -113,7 +116,7 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 				breadcrumbHTML: <React.Fragment>Emergency<br />Contact</React.Fragment>
 			}, {
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
-					key="EmergencyContact"
+					key="GustPrivs"
 					history={self.props.history}
 					component={(urlProps: {}, async: {}) => <GuestPrivs
 						{...staticComponentProps}
@@ -122,6 +125,30 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Guest<br />Privileges</React.Fragment>
+			}, {
+				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+					key="DamageWaiver"
+					history={self.props.history}
+					component={(urlProps: {}, async: {}) => <DamageWaiver
+						{...staticComponentProps}
+						{...mapWizardProps(fromWizard)}
+					/>}
+					{...pageWrapperProps}
+				/>,
+				breadcrumbHTML: <React.Fragment>Damage<br />Waiver</React.Fragment>
+			}, {
+				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+					key="ApSurveyInfo"
+					history={self.props.history}
+					component={(urlProps: {}, async: t.TypeOf<typeof surveyValidator>) => <ApSurveyInfo
+						initialFormData={async}
+						{...staticComponentProps}
+						{...mapWizardProps(fromWizard)}
+					/>}
+					getAsyncProps={(urlProps: {}) => surveyAPI(self.state.personId.getOrElse(-1)).send(null).catch(err => Promise.resolve(null))}
+					{...pageWrapperProps}
+				/>,
+				breadcrumbHTML: <React.Fragment>Survey<br />Information</React.Fragment>
 			}]}
 		/>
 	}
