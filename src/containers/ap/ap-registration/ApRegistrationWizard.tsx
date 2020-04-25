@@ -14,6 +14,7 @@ import { apBasePath } from "../../../app/paths/ap/_base";
 import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator, defaultValue as requiredFormDefault} from "../../../async/member/required";
 import { getWrapper as emergAPI, validator as emergValidator} from "../../../async/member/emerg-contact";
 import ApEmergencyContact from "./ApEmergencyContact";
+import GuestPrivs from "./GuestPrivs";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -110,6 +111,17 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Emergency<br />Contact</React.Fragment>
+			}, {
+				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+					key="EmergencyContact"
+					history={self.props.history}
+					component={(urlProps: {}, async: {}) => <GuestPrivs
+						{...staticComponentProps}
+						{...mapWizardProps(fromWizard)}
+					/>}
+					{...pageWrapperProps}
+				/>,
+				breadcrumbHTML: <React.Fragment>Guest<br />Privileges</React.Fragment>
 			}]}
 		/>
 	}
