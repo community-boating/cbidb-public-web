@@ -18,6 +18,7 @@ import GuestPrivs from "./GuestPrivs";
 import DamageWaiver from "./DamageWaiver";
 import ApSurveyInfo from "./ApSurveyInfo";
 import { getWrapper as surveyAPI, validator as surveyValidator} from "../../../async/member/survey";
+import ApTermsConditions from "./ApTermsConditions";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -145,10 +146,22 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
-					getAsyncProps={(urlProps: {}) => surveyAPI(self.state.personId.getOrElse(-1)).send(null).catch(err => Promise.resolve(null))}
+					getAsyncProps={(urlProps: {}) => surveyAPI.send(null).catch(err => Promise.resolve(null))}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Survey<br />Information</React.Fragment>
+			}, {
+				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+					key="ApTermsConditions"
+					history={self.props.history}
+					component={(urlProps: {}, async: t.TypeOf<typeof surveyValidator>) => <ApTermsConditions
+						{...staticComponentProps}
+						{...mapWizardProps(fromWizard)}
+					/>}
+					getAsyncProps={(urlProps: {}) => surveyAPI.send(null).catch(err => Promise.resolve(null))}
+					{...pageWrapperProps}
+				/>,
+				breadcrumbHTML: <React.Fragment>Terms and <br />Conditions</React.Fragment>
 			}]}
 		/>
 	}

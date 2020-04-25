@@ -3,11 +3,11 @@ import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { /*postWrapper,*/ validator } from "../../../async/member/survey";
+import { postWrapper, validator } from "../../../async/member/survey";
 import Button from "../../../components/Button";
-import { CheckboxGroup, RadioGroup, SingleCheckbox } from "../../../components/InputGroup";
+import { CheckboxGroup, RadioGroup } from "../../../components/InputGroup";
 import TextInput from "../../../components/TextInput";
-//import { makePostJSON } from "../../../core/APIWrapperUtil";
+import { makePostJSON } from "../../../core/APIWrapperUtil";
 import ethnicities from "../../../lov/ethnicities";
 import genders from "../../../lov/genders";
 import referralSources from "../../../lov/referralSources";
@@ -23,7 +23,6 @@ export type Form = t.TypeOf<typeof validator>
 class FormInput extends TextInput<Form> {}
 class FormRadio extends RadioGroup<Form> {}
 class FormCheckbox extends CheckboxGroup<Form>{}
-class FormBoolean extends SingleCheckbox<Form>{}
 
 interface Props {
 	initialFormData: Form,
@@ -120,9 +119,9 @@ export default class ApSurveyInfo extends React.Component<Props, State> {
                         id="matchingContributions"
                         label={<React.Fragment>Does your company match<br />employee contributions?</React.Fragment>}
                         values={[
-							{ key: "Yes", display: "Yes"},
-							{ key: "No", display: "No"},
-							{ key: "I don't know/Not applicable", display: "I don't know/Not applicable"},
+							{ key: "Y", display: "Yes"},
+							{ key: "N", display: "No"},
+							{ key: "?", display: "I don't know/Not applicable"},
 						]}
                         updateAction={updateState}
                         value={data.matchingContributions || none}
@@ -162,18 +161,39 @@ export default class ApSurveyInfo extends React.Component<Props, State> {
 						/>
 						: null
 					}
-					<FormBoolean
-						id="student"
-						label="Student"
-						value={data.student}
-						updateAction={updateState}
-					/>
+                    <FormRadio
+                        id="student"
+                        label="Student"
+                        values={[
+							{ key: "Y", display: "Yes"},
+							{ key: "N", display: "No"},
+						]}
+                        updateAction={(id: string, value: string) => {
+							updateState(id, value);
+							window.setTimeout(() => {
+								if ((this.state.formData.student || some("Y")).getOrElse("Y") == "N") {
+									formUpdateState(self.state, self.setState.bind(self), "formData")("school", "");
+								}
+							}, 0)
+							
+						}}
+                        value={data.student || none}
+                    />
+					{
+						(data.student.getOrElse("N") == "Y")
+						? <FormInput
+							id="school"
+							label="School"
+							value={data.school || none}
+							updateAction={updateState}
+						/>
+						: null
+					}
                 </tbody></table>
             </JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" spinnerOnClick onClick={() => {
-				return self.props.goNext();
-			//	return postWrapper(this.props.personId).send(makePostJSON(this.state.formData)).then(self.props.goNext)
+				return postWrapper.send(makePostJSON(this.state.formData)).then(self.props.goNext)
 			}}/>
 		</JoomlaMainPage>
 	}
