@@ -17,7 +17,11 @@ export const validator = t.type({
 	canCheckout: t.boolean,
 	renewalDiscountAmt: t.number,
 	expirationDate: OptionalString,
-	show4thLink: t.boolean
+	show4thLink: t.boolean,
+	canRenew: t.boolean,
+	eligibleForSeniorOnline: t.boolean,
+	eligibleForVeteranOnline: t.boolean,
+	eligibleForYouthOnline: t.boolean,
 })
 
 const path = "/member-welcome-ap"
