@@ -6,16 +6,24 @@ import { Link } from 'react-router-dom';
 import Currency from '../../util/Currency';
 import { Option } from 'fp-ts/lib/Option';
 import { Moment } from 'moment';
+import { makePostJSON } from '../../core/APIWrapperUtil';
+import {postWrapper as abortRegistration} from "../../async/member/abort-mem-reg"
+import { apBasePath } from '../../app/paths/ap/_base';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
 }
 
 const LINKS = {
-	regLink: (text: React.ReactNode) => () => <Link to={apRegPageRoute.getPathFromArgs({})}>{text}</Link>,
-	abort: () => <PlaceholderLink>Abort Registration</PlaceholderLink>,
-	classes: () => <PlaceholderLink>Signup for Classes</PlaceholderLink>,
-	edit: () => <PlaceholderLink>Edit Information</PlaceholderLink>,
+	regLink: (text: React.ReactNode) => (history: History<any>) => <Link to={apRegPageRoute.getPathFromArgs({})}>{text}</Link>,
+	abort: (history: History<any>) => <a href="#" onClick={e => {
+		e.preventDefault();
+		if (window.confirm(`Do you really want to abort membership registration?`)) {
+			abortRegistration.send(makePostJSON({})).then(() => history.push("/redirect" + apBasePath.getPathFromArgs({})))
+		}
+	}}>{"Cancel Membership Purchase"}</a>,
+	classes: (history: History<any>) => <PlaceholderLink>Signup for Classes</PlaceholderLink>,
+	edit: (history: History<any>) => <PlaceholderLink>Edit Information</PlaceholderLink>,
 }
 
 export default (bv: number, personId: number, history: History<any>, discountAmt: Currency, expirationDate: Option<Moment>, show4th: boolean) => {
@@ -26,7 +34,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		</React.Fragment>);
 
 	const actions: {
-		place: number, getElements: (() => JSX.Element)[]
+		place: number, getElements: ((history: History<any>) => JSX.Element)[]
 	}[] = [{
 		place: 0,
 		getElements: [
@@ -52,7 +60,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 	}, {
 		place: 4,
 		getElements: [
-			() => LINKS.regLink(renewText())()
+			(history: History<any>) => LINKS.regLink(renewText())(history)
 		] 
 	}, {
 		place: 5,
@@ -69,7 +77,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 	}, {
 		place: 7,
 		getElements: [
-			() => LINKS.regLink(renewText())()
+			(history: History<any>) => LINKS.regLink(renewText())(history)
 		]
 	}, {
 		place: 8,
@@ -108,7 +116,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 
 	return actions
 		.filter(({ place }) => testBit(bv, place))
-		.flatMap(({ getElements }) => getElements.map(e => e()))
+		.flatMap(({ getElements }) => getElements.map(e => e(history)))
 		.filter(Boolean)
 		.map((element, i) => <li key={i}>{element}</li>)
 }
