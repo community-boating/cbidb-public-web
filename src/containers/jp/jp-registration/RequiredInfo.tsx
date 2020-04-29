@@ -287,7 +287,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}

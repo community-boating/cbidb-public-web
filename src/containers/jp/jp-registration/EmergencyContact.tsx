@@ -198,7 +198,7 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 			: ""
 		);
 		
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}

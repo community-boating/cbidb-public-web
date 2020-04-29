@@ -9,13 +9,13 @@ import { Link } from "react-router-dom";
 import {apBasePath} from "../app/paths/ap/_base"
 import {jpBasePath} from "../app/paths/jp/_base"
 
-export default (props: {history: History<any>, sysdate: Option<Moment>}) => {
+export default (props: {history: History<any>, sysdate: Option<Moment>, showProgramLink: boolean}) => {
 	const pathComponents = props.history.location.pathname.split("/");
 	const program = pathComponents[1];
 	const switchLink = (function() {
-		if (program == "jp") {
+		if (props.showProgramLink && program == "jp") {
 			return <Link key="ap" to={apBasePath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Adult Program</Link>;
-		} else if (program == "ap") {
+		} else if (props.showProgramLink && program == "ap") {
 			return <Link key="jp" to={jpBasePath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Junior Program</Link>;
 		} else return null;
 	}());

@@ -117,7 +117,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		);
 
 		return (
-			<Joomla8_4 setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})} main={allRegions} right={<JpClassSignupSidebar
+			<Joomla8_4 setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})} main={allRegions} right={<JpClassSignupSidebar
 				signups={self.props.signups}
 				history={self.props.history}
 				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}

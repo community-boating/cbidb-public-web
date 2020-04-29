@@ -53,7 +53,7 @@ export default class SurveyInfo extends React.Component<Props, State> {
 
 		// TODO: blank out the "other" fields in state when the toggling checkbox is unchecked
 
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>

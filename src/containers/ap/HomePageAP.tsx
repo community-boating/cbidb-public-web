@@ -74,7 +74,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime))})}>
+		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
 			{errorPopup}
 			{mainTable}
 			{self.props.data.canCheckout ? checkoutButton : null}

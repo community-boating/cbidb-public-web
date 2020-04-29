@@ -20,7 +20,7 @@ interface Props {
 export default class GuestPrivs extends React.Component<Props, {radio: string}> {
 	render() {
 		const self = this;
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>

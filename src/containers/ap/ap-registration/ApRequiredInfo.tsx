@@ -290,7 +290,7 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 			New address or phone number? Need to change your emergency contact? Help us keep our records up-to-date.
 		</JoomlaArticleRegion>;
 
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}

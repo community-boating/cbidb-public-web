@@ -23,7 +23,7 @@ interface Props {
 export default class TermsConditions extends React.Component<Props, {radio: string}> {
 	render() {
 		const self = this;
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>

@@ -19,6 +19,7 @@ import DamageWaiver from "./DamageWaiver";
 import ApSurveyInfo from "./ApSurveyInfo";
 import { getWrapper as surveyAPI, validator as surveyValidator} from "../../../async/member/survey";
 import ApTermsConditions from "./ApTermsConditions";
+import ApPurchaseOptions from "./ApPurchaseOptions";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -100,7 +101,7 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 					}}
 					{...pageWrapperProps}
 				/>,
-				breadcrumbHTML: <React.Fragment>Required<br />Info</React.Fragment>
+				breadcrumbHTML: <React.Fragment>Required<br />Information</React.Fragment>
 			}, {
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="EmergencyContact"
@@ -115,6 +116,17 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Emergency<br />Contact</React.Fragment>
+			}, {
+				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+					key="GustPrivs"
+					history={self.props.history}
+					component={(urlProps: {}, async: {}) => <ApPurchaseOptions
+						{...staticComponentProps}
+						{...mapWizardProps(fromWizard)}
+					/>}
+					{...pageWrapperProps}
+				/>,
+				breadcrumbHTML: <React.Fragment>Purchasing<br />Options</React.Fragment>
 			}, {
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="GustPrivs"

@@ -61,7 +61,7 @@ export default class SwimProof extends React.Component<Props, State> {
             </div>
         </JoomlaNotitleRegion>)
 	
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>

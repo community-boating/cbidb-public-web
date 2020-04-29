@@ -198,7 +198,7 @@ export default class ApEmergencyContact extends React.PureComponent<Props, State
 			: ""
 		);
 		
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}

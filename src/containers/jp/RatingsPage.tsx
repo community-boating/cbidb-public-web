@@ -26,7 +26,7 @@ export default class RatingsPage extends React.PureComponent<Props> {
 		const ratings = kid ? kid.ratings.getOrElse("") : "<span></span>"
 
 		// TODO: grab specific child based on url
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none})}>
+		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: true})}>
 			<JoomlaArticleRegion title="Ratings">
 				<span dangerouslySetInnerHTML={{__html: ratings}}/>
 				<p>
