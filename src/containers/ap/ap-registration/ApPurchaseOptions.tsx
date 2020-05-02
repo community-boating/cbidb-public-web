@@ -1,14 +1,19 @@
 import { none } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
+import * as t from 'io-ts';
 
 import Button from "../../../components/Button";
 import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
+import {validator as discountValidator} from "../../../async/member/discount-eligibility"
+
+type DiscountEligibility = t.TypeOf<typeof discountValidator>;
 
 interface Props {
+	discountEligibility: DiscountEligibility,
 	history: History<any>
 	breadcrumb: JSX.Element,
 	goNext: () => Promise<void>,

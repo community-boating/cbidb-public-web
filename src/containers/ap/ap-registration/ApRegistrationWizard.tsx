@@ -20,6 +20,7 @@ import ApSurveyInfo from "./ApSurveyInfo";
 import { getWrapper as surveyAPI, validator as surveyValidator} from "../../../async/member/survey";
 import ApTermsConditions from "./ApTermsConditions";
 import ApPurchaseOptions from "./ApPurchaseOptions";
+import {getWrapper as getDiscountEligibilities, validator as discountValidator} from "../../../async/member/discount-eligibility"
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -120,10 +121,12 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="GustPrivs"
 					history={self.props.history}
-					component={(urlProps: {}, async: {}) => <ApPurchaseOptions
+					component={(urlProps: {}, async: t.TypeOf<typeof discountValidator>) => <ApPurchaseOptions
+						discountEligibility={async}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
+					getAsyncProps={(urlProps: {}) => getDiscountEligibilities.send(null).catch(err => Promise.resolve(null))}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Purchasing<br />Options</React.Fragment>
