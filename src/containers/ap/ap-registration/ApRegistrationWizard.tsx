@@ -20,7 +20,7 @@ import ApSurveyInfo from "./ApSurveyInfo";
 import { getWrapper as surveyAPI, validator as surveyValidator} from "../../../async/member/survey";
 import ApTermsConditions from "./ApTermsConditions";
 import ApPurchaseOptions from "./ApPurchaseOptions";
-import {getWrapper as getDiscountEligibilities, validator as discountValidator} from "../../../async/member/discount-eligibility"
+import {apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome-ap"
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -74,7 +74,7 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 			history={self.props.history}
 			start={apBasePath.getPathFromArgs({})}
 			end={apBasePath.getPathFromArgs({})}
-			nodes={[{
+			nodes={[/*{
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="APRequiredInfo"
 					history={self.props.history}
@@ -117,16 +117,25 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Emergency<br />Contact</React.Fragment>
-			}, {
+			}, */{
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="GustPrivs"
 					history={self.props.history}
-					component={(urlProps: {}, async: t.TypeOf<typeof discountValidator>) => <ApPurchaseOptions
-						discountEligibility={async}
+					component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidator>) => <ApPurchaseOptions
+						discountsProps={async.discountsResult}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
-					getAsyncProps={(urlProps: {}) => getDiscountEligibilities.send(null).catch(err => Promise.resolve(null))}
+					getAsyncProps={(urlProps: {}) => welcomeAPI.send(null).catch(err => Promise.resolve(null)).then(r => Promise.resolve({
+						type: "Success",
+						success: {
+							...r.success,
+							discountsResult: {
+								...r.success.discountsResult,
+								canRenew: false
+							}
+						}
+					}))}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Purchasing<br />Options</React.Fragment>

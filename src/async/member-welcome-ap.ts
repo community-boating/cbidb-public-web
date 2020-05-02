@@ -3,6 +3,20 @@ import APIWrapper from '../core/APIWrapper';
 import { HttpMethod } from "../core/HttpMethod";
 import { OptionalString } from '../util/OptionalTypeValidators';
 
+export const discountsValidator = t.type({
+	eligibleForSeniorOnline: t.boolean,
+	eligibleForYouthOnline: t.boolean,
+	eligibleForVeteranOnline: t.boolean,
+	canRenew: t.boolean,
+	renewalDiscountAmt: t.number,
+	seniorDiscountAmt: t.number,
+	youthDiscountAmt: t.number,
+	studentDiscountAmt: t.number,
+	veteranDiscountAmt: t.number,
+	mghDiscountAmt: t.number,
+	fyBasePrice: t.number
+})
+
 export const validator = t.type({
 	personId: t.number,
 	orderId: t.number,
@@ -15,13 +29,9 @@ export const validator = t.type({
 	actions: t.number,
 	ratings: t.string,
 	canCheckout: t.boolean,
-	renewalDiscountAmt: t.number,
 	expirationDate: OptionalString,
 	show4thLink: t.boolean,
-	canRenew: t.boolean,
-	eligibleForSeniorOnline: t.boolean,
-	eligibleForVeteranOnline: t.boolean,
-	eligibleForYouthOnline: t.boolean,
+	discountsResult: discountsValidator
 })
 
 const path = "/member-welcome-ap"
