@@ -34,6 +34,7 @@ import { setJPImage, setAPImage } from '../util/set-bg-image';
 import JoomlaLoadingPage from '../theme/joomla/JoomlaLoadingPage';
 import HomePageAP from '../containers/ap/HomePageAP';
 import { apRegPageRoute } from './routes/ap/reg';
+import { apClassesPageRoute } from './routes/ap/classes';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -113,6 +114,8 @@ export default function (history: History<any>) {
 		offseasonPageRoute.asRoute(history),
 
 		apRegPageRoute.asRoute(history),
+
+		apClassesPageRoute.asRoute(history),
 
 		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
 

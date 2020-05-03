@@ -9,6 +9,7 @@ import { Moment } from 'moment';
 import { makePostJSON } from '../../core/APIWrapperUtil';
 import {postWrapper as abortRegistration} from "../../async/member/abort-mem-reg"
 import { apBasePath } from '../../app/paths/ap/_base';
+import { apClassesPageRoute } from '../../app/routes/ap/classes';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -22,7 +23,7 @@ const LINKS = {
 			abortRegistration.send(makePostJSON({})).then(() => history.push("/redirect" + apBasePath.getPathFromArgs({})))
 		}
 	}}>{"Cancel Membership Purchase"}</a>,
-	classes: (history: History<any>) => <PlaceholderLink>Signup for Classes</PlaceholderLink>,
+	classes: (history: History<any>) => <Link to={apClassesPageRoute.getPathFromArgs({})}>Signup for Classes</Link>,
 	edit: (history: History<any>) => <PlaceholderLink>Edit Information</PlaceholderLink>,
 }
 
