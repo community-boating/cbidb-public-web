@@ -6,7 +6,7 @@ const appProps: AppProps = {
 	jpDirectorNameLast: "Kotsatos",
 	jpDirectorEmail: "niko@community-boating.org",
 	jpPriceCents: 32500,	// TODO: get from welcome pkg
-	currentSeason: 2019
+	currentSeason: 2020
 }
 
 export default appProps;
