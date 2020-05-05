@@ -18,7 +18,7 @@ import Button from '../../../components/Button';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import {classPageRoute} from "../../../app/routes/jp/class"
 import { setJPImage } from '../../../util/set-bg-image';
-import asc from '../../app/AppStateContainer';
+import asc from '../../../app/AppStateContainer';
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 
