@@ -9,8 +9,11 @@ import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
+import {postWrapper as submit} from "../../../async/member/select-damage-waiver"
+import { makePostJSON } from "../../../core/APIWrapperUtil";
 
 interface Props {
+	selected: boolean,
 	history: History<any>
 	breadcrumb: JSX.Element,
 	goNext: () => Promise<void>,
@@ -18,6 +21,12 @@ interface Props {
 }
 
 export default class DamageWaiver extends React.Component<Props, {radio: string}> {
+	constructor(props: Props) {
+		super(props);
+		this.state = {
+			radio: props.selected ? "Yes" : null
+		}
+	}
 	render() {
 		const self = this;
 		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
@@ -54,9 +63,21 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 				/>
 			</JoomlaNotitleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
-			{(self.state || {} as any).radio != undefined ? <Button text="Next >" spinnerOnClick onClick={() => 
-				self.props.goNext()
-			}/> : ""}
+			{(self.state || {} as any).radio != undefined ? <Button text="Next >" spinnerOnClick onClick={() => {
+				return submit.send(makePostJSON({
+					wantIt: self.state.radio == "Yes"
+				})).then(res => {
+					if (res.type == "Success") {
+						self.props.goNext()
+					} else {
+						window.scrollTo(0, 0);
+						// self.setState({
+						// 	...self.state,
+						// 	validationErrors: res.message.split("\\n") // TODO
+						// });
+					}
+				})
+			}}/> : ""}
 		</JoomlaMainPage>
 	}
 }

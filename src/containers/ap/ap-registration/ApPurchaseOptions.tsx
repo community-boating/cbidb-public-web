@@ -1,4 +1,4 @@
-import { none } from "fp-ts/lib/Option";
+import { none, some, Option } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
 import * as t from 'io-ts';
@@ -11,6 +11,9 @@ import { setAPImage } from "../../../util/set-bg-image";
 import {discountsValidator} from "../../../async/member-welcome-ap"
 import Currency from "../../../util/Currency";
 import assertNever from "../../../util/assertNever";
+import {postWrapper as submit} from "../../../async/member/select-for-purchase"
+import { makePostJSON } from "../../../core/APIWrapperUtil";
+import { MAGIC_NUMBERS } from "../../../app/magicNumbers";
 
 type DiscountsProps = t.TypeOf<typeof discountsValidator>;
 
@@ -30,7 +33,8 @@ interface Props {
 }
 
 export default class ApPurchaseOptions extends React.Component<Props, { radio: string }> {
-	static discountRow(title: string, price: Currency, state: DiscountState) {
+	static discountRow(title: string, price: Currency, state: DiscountState, buyButton: JSX.Element) {
+		const self = this;
 		switch (state) {
 		case DiscountState.disabled:
 			// return (<React.Fragment>
@@ -48,19 +52,38 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 			return (<tr>
 				<td style={{ textAlign: "right" }}>{title}:</td>
 				<td>{price.format(true)}</td>
-				<td><a href="#" className="readon" style={{ margin: "0 5px" }}><span>Buy</span></a></td>
+				<td>{buyButton}</td>
 				<td><span className="not-available"> - <span style={{fontWeight: "bold", color: "red"}}>Your membership will be on hold</span> until you can verify eligibility with the Front Office.</span></td>
 			</tr>);
 		case DiscountState.eligible:
 			return (<tr>
 				<td style={{ textAlign: "right" }}>{title}:</td>
 				<td>{price.format(true)}</td>
-				<td><a href="#" className="readon" style={{ margin: "0 5px" }}><span>Buy</span></a></td>
+				<td>{buyButton}</td>
 				<td><span className="not-available"> - You are pre-approved for this discount and do not need to verify eligibility.</span></td>
 			</tr>);
 		default:
 			assertNever(state)
 		}
+	}
+	makeBuyButton(memTypeId: number, requestedDiscountId: Option<number>) {
+		const self = this;
+		return (<Button text="Buy" onClick={() => {
+			return submit.send(makePostJSON({
+				memTypeId: memTypeId,
+				requestedDiscountId
+			})).then(res => {
+				if (res.type == "Success") {
+					self.props.goNext()
+				} else {
+					window.scrollTo(0, 0);
+					// self.setState({
+					// 	...self.state,
+					// 	validationErrors: res.message.split("\\n") // TODO
+					// });
+				}
+			})
+		}}/>)
 	}
 	render() {
 		const self = this;
@@ -95,7 +118,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 
 
 					<table><tbody><tr><td>
-						<a href="#" className="readon" style={{ margin: "0 5px" }}><span>Buy</span></a>
+						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, none)}
 					</td><td>
 							<h2 style={{ visibility: "visible", fontSize: "1.7em" }}>{fyHeader}</h2>
 						</td></tr></tbody></table>
@@ -106,32 +129,35 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 							{ApPurchaseOptions.discountRow(
 								"Young Adult (18-20)",
 								Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.youthDiscountAmt),
-								DiscountState.superceded
+								DiscountState.superceded,
+								self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(MAGIC_NUMBERS.DISCOUNT_ID.YOUTH_DISCOUNT_ID))
 							)}
 							{ApPurchaseOptions.discountRow(
 								"Sr. Citizen (65+)",
 								Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.seniorDiscountAmt),
-								DiscountState.disabled
+								DiscountState.disabled,
+								self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(MAGIC_NUMBERS.DISCOUNT_ID.SENIOR_DISCOUNT_ID))
 							)}
 							{ApPurchaseOptions.discountRow(
 								"Student",
 								Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.studentDiscountAmt),
-								DiscountState.superceded
+								DiscountState.superceded,
+								self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(MAGIC_NUMBERS.DISCOUNT_ID.STUDENT_DISCOUNT_ID))
 							)}
 							{ApPurchaseOptions.discountRow(
 								"MGH/Partners Employee",
 								Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.mghDiscountAmt),
-								DiscountState.eligible
+								DiscountState.eligible,
+								self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(MAGIC_NUMBERS.DISCOUNT_ID.MGH_DISCOUNT_ID))
 							)}
 							{ApPurchaseOptions.discountRow(
 								"Veteran/First Responder",
 								Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.veteranDiscountAmt),
-								DiscountState.available
+								DiscountState.available,
+								self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(MAGIC_NUMBERS.DISCOUNT_ID.VETERAN_DISCOUNT_ID))
 							)}
 						</tbody></table>
 					<br /><br />
-
-
 					<p>Includes:</p>
 					<ul>
 						<li>Access to all boats</li>
@@ -144,7 +170,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 
 
 					<table><tbody><tr><td>
-						<a href="#" className="readon" style={{ margin: "0 5px" }}><span>Buy</span></a>
+						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_60_DAY, none)}
 					</td><td>
 							<h2 id="h0-2-60-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>60 Day Membership: $269</h2>
 						</td></tr></tbody></table>
@@ -157,7 +183,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					</ul><br />
 
 					<table><tbody><tr><td>
-						<a href="#" className="readon" style={{ margin: "0 5px" }}><span>Buy</span></a>
+						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY, none)}
 					</td><td>
 							<h2 id="h0-2-30-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>30 Day Membership: $169</h2>
 						</td></tr></tbody></table>
@@ -171,7 +197,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 
 
 					<table><tbody><tr><td>
-						<a href="#" className="readon" style={{ margin: "0 5px" }}><span>Buy</span></a>
+						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY_WICKED_BASIC, none)}
 					</td><td>
 							<h2 id="h0-3-30-day-intro-to-sailing-99" style={{ visibility: "visible", fontSize: "1.7em" }}>30 Day Wicked Basic, No Frills, Sailing Pass: $99</h2>
 						</td></tr></tbody></table>
@@ -183,7 +209,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					</ul><br />
 
 					<table><tbody><tr><td>
-						<a href="#" className="readon" style={{ margin: "0 5px" }}><span>Buy</span></a>
+						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR_PADDLING, none)}
 					</td><td>
 							<h2 id="h0-3-FY-paddling" style={{ visibility: "visible", fontSize: "1.7em" }}>Full Year Paddling Pass: $189</h2>
 						</td></tr></tbody></table>

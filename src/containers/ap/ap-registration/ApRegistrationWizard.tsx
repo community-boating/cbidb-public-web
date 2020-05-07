@@ -21,6 +21,8 @@ import { getWrapper as surveyAPI, validator as surveyValidator} from "../../../a
 import ApTermsConditions from "./ApTermsConditions";
 import ApPurchaseOptions from "./ApPurchaseOptions";
 import {apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome-ap"
+import {getWrapper as gpGet } from "../../../async/member/select-guest-privs"
+import {getWrapper as dwGet } from "../../../async/member/select-damage-waiver"
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -74,7 +76,7 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 			history={self.props.history}
 			start={apBasePath.getPathFromArgs({})}
 			end={apBasePath.getPathFromArgs({})}
-			nodes={[/*{
+			nodes={[{
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="APRequiredInfo"
 					history={self.props.history}
@@ -117,9 +119,9 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Emergency<br />Contact</React.Fragment>
-			}, */{
+			}, {
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
-					key="GustPrivs"
+					key="ApPurchaseOptions"
 					history={self.props.history}
 					component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidator>) => <ApPurchaseOptions
 						discountsProps={async.discountsResult}
@@ -141,12 +143,14 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 				breadcrumbHTML: <React.Fragment>Purchasing<br />Options</React.Fragment>
 			}, {
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
-					key="GustPrivs"
+					key="GuestPrivs"
 					history={self.props.history}
-					component={(urlProps: {}, async: {}) => <GuestPrivs
+					component={(urlProps: {}, async: {wantIt: boolean}) => <GuestPrivs
+						selected={async.wantIt}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
+					getAsyncProps={(urlProps: {}) => gpGet.send(null).catch(err => Promise.resolve(null))}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Guest<br />Privileges</React.Fragment>
@@ -154,10 +158,12 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="DamageWaiver"
 					history={self.props.history}
-					component={(urlProps: {}, async: {}) => <DamageWaiver
+					component={(urlProps: {}, async: {wantIt: boolean}) => <DamageWaiver
+						selected={async.wantIt}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
+					getAsyncProps={(urlProps: {}) => dwGet.send(null).catch(err => Promise.resolve(null))}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Damage<br />Waiver</React.Fragment>
