@@ -131,11 +131,7 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 					getAsyncProps={(urlProps: {}) => welcomeAPI.send(null).catch(err => Promise.resolve(null)).then(r => Promise.resolve({
 						type: "Success",
 						success: {
-							...r.success,
-							discountsResult: {
-								...r.success.discountsResult,
-								canRenew: false
-							}
+							...r.success
 						}
 					}))}
 					{...pageWrapperProps}
