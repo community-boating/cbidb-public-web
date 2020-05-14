@@ -6,6 +6,7 @@ import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import Button from "../../components/Button";
 import {History} from 'history'
 import Calendar from "../../components/Calendar";
+import moment = require("moment");
 
 
 type Props = {
@@ -21,7 +22,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 		const self = this;
 		return <JoomlaMainPage setBGImage={setAPImage}>
 			<JoomlaArticleRegion title="AP Class Calendar">
-				<Calendar />
+				<Calendar monthStartOnDate={0} today={moment()} />
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(apBasePath.getPathFromArgs({})))}/>
 		</JoomlaMainPage>
