@@ -77,7 +77,6 @@ const formToAPI: (form: Form) => ApiType = form => ({
 class FormInput extends TextInput<Form> {}
 
 interface Props {
-	personId: number,
 	initialFormData: ApiType,
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,

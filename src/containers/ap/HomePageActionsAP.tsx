@@ -10,6 +10,7 @@ import { makePostJSON } from '../../core/APIWrapperUtil';
 import {postWrapper as abortRegistration} from "../../async/member/abort-mem-reg"
 import { apBasePath } from '../../app/paths/ap/_base';
 import { apClassesPageRoute } from '../../app/routes/ap/classes';
+import { apEditPageRoute } from '../../app/routes/ap/edit';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -24,7 +25,7 @@ const LINKS = {
 		}
 	}}>{"Cancel Membership Purchase"}</a>,
 	classes: (history: History<any>) => <Link to={apClassesPageRoute.getPathFromArgs({})}>Signup for Classes</Link>,
-	edit: (history: History<any>) => <PlaceholderLink>Edit Information</PlaceholderLink>,
+	edit: (history: History<any>) => <Link to={apEditPageRoute.getPathFromArgs({})}>Edit Information</Link>,
 }
 
 export default (bv: number, personId: number, history: History<any>, discountAmt: Currency, expirationDate: Option<Moment>, show4th: boolean) => {

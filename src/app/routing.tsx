@@ -35,6 +35,8 @@ import JoomlaLoadingPage from '../theme/joomla/JoomlaLoadingPage';
 import HomePageAP from '../containers/ap/HomePageAP';
 import { apRegPageRoute } from './routes/ap/reg';
 import { apClassesPageRoute } from './routes/ap/classes';
+import { apEditPageRoute } from './routes/ap/edit';
+import { fundInfoRoute } from './routes/common/funds';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -117,6 +119,8 @@ export default function (history: History<any>) {
 
 		apClassesPageRoute.asRoute(history),
 
+		apEditPageRoute.asRoute(history),
+
 		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
 
 		<Route key="homeJP" path="/jp" exact render={() => <PageWrapper
@@ -165,7 +169,8 @@ export default function (history: History<any>) {
 	const authedDependedRoutes = isLoggedIn ? mustBeLoggedIn : mustNotBeLoggedIn
 
 	const universalRoutes = [
-		maintenancePageRoute.asRoute(history)
+		maintenancePageRoute.asRoute(history),
+		fundInfoRoute.asRoute(history)
 	];
 
 	// check on boot for duplicate route keys

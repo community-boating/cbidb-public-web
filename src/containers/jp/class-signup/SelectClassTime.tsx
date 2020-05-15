@@ -37,7 +37,8 @@ interface Props {
 	apiResult: APIResult,
 	weeks: t.TypeOf<typeof weeksValidator>,
 	signups: GetSignupsAPIResult,
-	history: History<any>
+	history: History<any>,
+	currentSeason: number
 }
 
 const defaultForm = {
@@ -96,7 +97,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		);
 
 		const showCovidMessage = (
-			asc.state.appProps.currentSeason == 2020 &&
+			this.props.currentSeason == 2020 &&
 			this.state.formData.selectedWeek.filter(w => Number(w) < 3).isSome()
 		);
 

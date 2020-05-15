@@ -12,6 +12,7 @@ import { apiw as getCartItems } from "../../async/get-cart-items"
 import { thankyouPageRoute } from "../../app/routes/common/thank-you";
 import JoomlaLoadingPage from "../../theme/joomla/JoomlaLoadingPage";
 import { jpBasePath } from "../../app/paths/jp/_base";
+import {getWrapper as getDonationFunds} from "../../async/donation-funds"
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -44,13 +45,14 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="checkout details"
 				history={self.props.history}
-				component={(urlProps: {}, [welcome, orderStatus, cartItems]) => <PaymentDetailsPage
+				component={(urlProps: {}, [welcome, orderStatus, cartItems, funds]) => <PaymentDetailsPage
 					{...mapWizardProps(fromWizard)}
 					welcomePackage={welcome}
 					orderStatus = {orderStatus}
 					setCardData={this.setCardData.bind(this)}
 					history={self.props.history}
 					cartItems={cartItems}
+					donationFunds={funds}
 				/>}
 				urlProps={{}}
 				shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
@@ -58,13 +60,14 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					return Promise.all([
 						welcomeAPI.send(null),
 						orderStatus.send(null),
-						getCartItems.send(null)
-					]).then(([welcome, order, cart]) => {
+						getCartItems.send(null),
+						getDonationFunds.send(null)
+					]).then(([welcome, order, cart, funds]) => {
 						if (welcome.type == "Success" && !welcome.success.canCheckout) {
 							self.props.history.push(jpBasePath.getPathFromArgs({}));
 							return Promise.resolve(null);
 						} else {
-							return Promise.resolve([welcome, order, cart])
+							return Promise.resolve([welcome, order, cart, funds])
 						}
 					}).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}

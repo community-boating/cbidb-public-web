@@ -28,7 +28,6 @@ export interface AppProps {
 	jpDirectorNameLast: string,
 	jpDirectorEmail: string,
 	jpPriceCents: number,
-	currentSeason: number,
 	attemptLoginFunction: (userName: string, payload: PostString) => Promise<boolean>
 }
 

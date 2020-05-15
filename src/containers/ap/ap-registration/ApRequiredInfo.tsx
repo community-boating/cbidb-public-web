@@ -77,7 +77,6 @@ class FormSelect extends Select<Form> {}
 class FormTextArea extends TextArea<Form> {}
 
 interface Props {
-	personId: Option<number>,
 	initialFormData: ApiType,
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
@@ -301,7 +300,7 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(
+				return postWrapper.send(makePostJSON(formToAPI(this.state.formData))).then(
 					// api success
 					ret => {
 						if (ret.type == "Success") {

@@ -9,7 +9,6 @@ const appProps: AppProps = {
 	jpDirectorNameLast: "Kotsatos",
 	jpDirectorEmail: "niko@community-boating.org",
 	jpPriceCents: 32500,	// TODO: get from welcome pkg
-	currentSeason: 2020,
 	attemptLoginFunction: (userName: string, payload: PostString) => {
 		return login().send(payload).then(res => {
 			if (res.type == "Success" && res.success) {

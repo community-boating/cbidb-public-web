@@ -31,30 +31,19 @@ const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e 
 
 type Props = {
 	history: History<any>,
-	personIdStart: Option<number>,
-	jpPrice: Option<number>,
-	jpOffseasonPrice: Option<number>,
-	includeTOS: boolean,
-	parentPersonId: number,
-	currentSeason: number
+	currentSeason: number,
+	editOnly: boolean
 };
 
 type State = {
-	personId: Option<number>,
 }
 
 export default class ApRegistrationWizard extends React.Component<Props, State> {
-	constructor(props: Props){
-		super(props)
-		this.state = {
-			personId: props.personIdStart
-		};
-	}
+
 	render() {
 		const self = this;
 		const staticComponentProps = {
-			history: this.props.history,
-			personId: this.state.personId,
+			history: this.props.history
 		}
 	
 		const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
@@ -71,6 +60,66 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 			urlProps: {},
 			shadowComponent: <JoomlaLoadingPage setBGImage={setAPImage} />
 		}
+
+		const purchaseNodes = [{
+			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+				key="ApPurchaseOptions"
+				history={self.props.history}
+				component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidator>) => <ApPurchaseOptions
+					discountsProps={async.discountsResult}
+					{...staticComponentProps}
+					{...mapWizardProps(fromWizard)}
+				/>}
+				getAsyncProps={(urlProps: {}) => welcomeAPI.send(null).catch(err => Promise.resolve(null)).then(r => Promise.resolve({
+					type: "Success",
+					success: {
+						...r.success
+					}
+				}))}
+				{...pageWrapperProps}
+			/>,
+			breadcrumbHTML: <React.Fragment>Purchasing<br />Options</React.Fragment>
+		}, {
+			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+				key="GuestPrivs"
+				history={self.props.history}
+				component={(urlProps: {}, async: {wantIt: boolean}) => <GuestPrivs
+					selected={async.wantIt}
+					{...staticComponentProps}
+					{...mapWizardProps(fromWizard)}
+				/>}
+				getAsyncProps={(urlProps: {}) => gpGet.send(null).catch(err => Promise.resolve(null))}
+				{...pageWrapperProps}
+			/>,
+			breadcrumbHTML: <React.Fragment>Guest<br />Privileges</React.Fragment>
+		}, {
+			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+				key="DamageWaiver"
+				history={self.props.history}
+				component={(urlProps: {}, async: {wantIt: boolean}) => <DamageWaiver
+					selected={async.wantIt}
+					{...staticComponentProps}
+					{...mapWizardProps(fromWizard)}
+				/>}
+				getAsyncProps={(urlProps: {}) => dwGet.send(null).catch(err => Promise.resolve(null))}
+				{...pageWrapperProps}
+			/>,
+			breadcrumbHTML: <React.Fragment>Damage<br />Waiver</React.Fragment>
+		}];
+
+		const termsAndConditions = {
+			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+				key="ApTermsConditions"
+				history={self.props.history}
+				component={(urlProps: {}, async: t.TypeOf<typeof surveyValidator>) => <ApTermsConditions
+					{...staticComponentProps}
+					{...mapWizardProps(fromWizard)}
+				/>}
+				getAsyncProps={(urlProps: {}) => surveyAPI.send(null).catch(err => Promise.resolve(null))}
+				{...pageWrapperProps}
+			/>,
+			breadcrumbHTML: <React.Fragment>Terms and <br />Conditions</React.Fragment>
+		};
 	
 		return <WizardPageflow 
 			history={self.props.history}
@@ -84,24 +133,13 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 						initialFormData={async}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
-						personId={self.state.personId}
 					/>}
-					getAsyncProps={(urlProps: {}) => {
-						if (self.state.personId.isNone()) {
-							return Promise.resolve({
-								type: "Success",
-								success: requiredFormDefault
-							});
-						} else {
-							return requiredInfoAPI.send(null).then(ret => {
-								if (ret.type == "Failure") {
-									self.props.history.push(apBasePath.getPathFromArgs({}))
-								}
-								return Promise.resolve(ret);
-							});
+					getAsyncProps={(urlProps: {}) => requiredInfoAPI.send(null).then(ret => {
+						if (ret.type == "Failure") {
+							self.props.history.push(apBasePath.getPathFromArgs({}))
 						}
-						
-					}}
+						return Promise.resolve(ret);
+					})}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Required<br />Information</React.Fragment>
@@ -113,57 +151,14 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 						initialFormData={async}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
-						personId={self.state.personId.getOrElse(-1)}
 					/>}
 					getAsyncProps={(urlProps: {}) => emergAPI.send(null).catch(err => Promise.resolve(null))}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Emergency<br />Contact</React.Fragment>
-			}, {
-				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
-					key="ApPurchaseOptions"
-					history={self.props.history}
-					component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidator>) => <ApPurchaseOptions
-						discountsProps={async.discountsResult}
-						{...staticComponentProps}
-						{...mapWizardProps(fromWizard)}
-					/>}
-					getAsyncProps={(urlProps: {}) => welcomeAPI.send(null).catch(err => Promise.resolve(null)).then(r => Promise.resolve({
-						type: "Success",
-						success: {
-							...r.success
-						}
-					}))}
-					{...pageWrapperProps}
-				/>,
-				breadcrumbHTML: <React.Fragment>Purchasing<br />Options</React.Fragment>
-			}, {
-				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
-					key="GuestPrivs"
-					history={self.props.history}
-					component={(urlProps: {}, async: {wantIt: boolean}) => <GuestPrivs
-						selected={async.wantIt}
-						{...staticComponentProps}
-						{...mapWizardProps(fromWizard)}
-					/>}
-					getAsyncProps={(urlProps: {}) => gpGet.send(null).catch(err => Promise.resolve(null))}
-					{...pageWrapperProps}
-				/>,
-				breadcrumbHTML: <React.Fragment>Guest<br />Privileges</React.Fragment>
-			}, {
-				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
-					key="DamageWaiver"
-					history={self.props.history}
-					component={(urlProps: {}, async: {wantIt: boolean}) => <DamageWaiver
-						selected={async.wantIt}
-						{...staticComponentProps}
-						{...mapWizardProps(fromWizard)}
-					/>}
-					getAsyncProps={(urlProps: {}) => dwGet.send(null).catch(err => Promise.resolve(null))}
-					{...pageWrapperProps}
-				/>,
-				breadcrumbHTML: <React.Fragment>Damage<br />Waiver</React.Fragment>
-			}, {
+			}]
+			.concat(this.props.editOnly ? [] : purchaseNodes)
+			.concat([{
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="ApSurveyInfo"
 					history={self.props.history}
@@ -176,19 +171,8 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Survey<br />Information</React.Fragment>
-			}, {
-				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
-					key="ApTermsConditions"
-					history={self.props.history}
-					component={(urlProps: {}, async: t.TypeOf<typeof surveyValidator>) => <ApTermsConditions
-						{...staticComponentProps}
-						{...mapWizardProps(fromWizard)}
-					/>}
-					getAsyncProps={(urlProps: {}) => surveyAPI.send(null).catch(err => Promise.resolve(null))}
-					{...pageWrapperProps}
-				/>,
-				breadcrumbHTML: <React.Fragment>Terms and <br />Conditions</React.Fragment>
-			}]}
+			}])
+		.concat(this.props.editOnly ? [] : [termsAndConditions])}
 		/>
 	}
 }

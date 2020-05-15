@@ -7,6 +7,7 @@ import { getWrapper as getSignups, GetSignupsAPIResult } from '../../../async/ju
 import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTimesValidator } from "../../../async/junior/get-class-instances";
 import SelectClassTime from "../../../containers/jp/class-signup/SelectClassTime";
 import {apiw as getWeeks, weeksValidator} from "../../../async/weeks";
+import {apiw as welcomeAPI, validator as welcomeValidator} from "../../../async/member-welcome-jp"
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';
 
@@ -15,8 +16,9 @@ export const classTimePageRoute = new RouteWrapper(true, jpPathClassTime, histor
     history={history}
     component={(
         urlProps: {personId: number, typeId: number},
-        [times, weeks, signups]: [t.TypeOf<typeof classTimesValidator>, t.TypeOf<typeof weeksValidator>, GetSignupsAPIResult]
+        [times, weeks, signups, welcome]: [t.TypeOf<typeof classTimesValidator>, t.TypeOf<typeof weeksValidator>, GetSignupsAPIResult, t.TypeOf<typeof welcomeValidator>]
     ) => <SelectClassTime
+		currentSeason={welcome.season}
         typeId={urlProps.typeId}
         personId={urlProps.personId}
         apiResult={times}
@@ -33,7 +35,8 @@ export const classTimePageRoute = new RouteWrapper(true, jpPathClassTime, histor
         return Promise.all([
             classTimesWrapper(urlProps.typeId, urlProps.personId).send(null),
             getWeeks.send(null),
-            getSignups(urlProps.personId).send(null)
+			getSignups(urlProps.personId).send(null),
+			welcomeAPI.send(null)
         ]).catch(err => Promise.resolve(null));  // TODO: handle failure
     }}
 />);
