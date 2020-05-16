@@ -16,12 +16,18 @@ import { CartItem } from "../../async/get-cart-items"
 import FullCartReport from "../../components/FullCartReport";
 import { checkoutPageRoute } from "../../app/routes/common/checkout";
 import { validator as welcomeJPValidator } from "../../async/member-welcome-jp";
-import { Option, none } from "fp-ts/lib/Option";
+import { Option, none, some } from "fp-ts/lib/Option";
 import { RadioGroup } from "../../components/InputGroup";
 import formUpdateState from "../../util/form-update-state";
 import {donationFundValidator} from "../../async/donation-funds"
 import { Select } from "../../components/Select";
 import newPopWin from "../../util/newPopWin";
+import TextInput from "../../components/TextInput";
+import ErrorDiv from "../../theme/joomla/ErrorDiv";
+import { left, right, Either } from "fp-ts/lib/Either";
+import {postWrapper as addDonation} from "../../async/member/add-donation"
+
+type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
 export interface Props {
 	welcomePackage: t.TypeOf<typeof welcomeJPValidator>,
@@ -31,42 +37,111 @@ export interface Props {
 	setCardData: (cardData: CardData) => void,
 	cartItems: CartItem[],
 	history: History<any>,
-	donationFunds: t.TypeOf<typeof donationFundValidator>[]
+	donationFunds: DonationFund[]
 }
 
 type Form = {
 	selectedDonationAmount: Option<string>,
-	selectedFund: Option<string>
+	selectedFund: Option<string>,
+	otherAmount: Option<string>
 }
 
 type State = {
-	formData: Form
+	availableFunds: DonationFund[],
+	formData: Form,
+	validationErrors: string[]
 }
 
+class FormInput extends TextInput<Form> {}
 class FormRadio extends RadioGroup<Form> {}
 class FormSelect extends Select<Form> {}
 
 export default class PaymentDetailsPage extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props)
+		const fundIsUnused = (fund: t.TypeOf<typeof donationFundValidator>) => {
+			return !this.props.cartItems.find(item => item.fundId.getOrElse(null) == fund.fundId)
+		}
+
+		const availableFunds = this.props.donationFunds.filter(fundIsUnused)
+
 		this.state = {
+			availableFunds,
 			formData: {
 				selectedDonationAmount: none,
-				selectedFund: none
-			}
+				selectedFund: availableFunds.length > 0 ? some(String(availableFunds[0].fundId)) : none,
+				otherAmount: none
+			},
+			validationErrors: []
 		}
 	}
 	componentDidMount() {
 		setCheckoutImage()
+	}
+	validateDonationOtherAmt(): Either<string, number> {
+		if (this.state.formData.selectedDonationAmount.getOrElse(null) != "Other") {
+			return right(null);
+		} else {
+			const rawAmt = this.state.formData.otherAmount.getOrElse("");
+			const removeDollarSignAndCommas = Number(rawAmt.replace(/\$/g, "").replace(/,/g, ""));
+			if (isNaN(removeDollarSignAndCommas)) {
+				return left("Donation amount is invalid"); 
+			} else {
+				return right(removeDollarSignAndCommas);
+			}
+		}
+	}
+	clearErrors() {
+		this.setState({
+			...this.state,
+			validationErrors: []
+		})
+	}
+	doAddDonation() {
+		const self = this;
+		console.log(this.state.formData)
+		this.clearErrors();
+		
+		const errorOrOtherAmt: Either<string, number> = (function() {
+			const selectedAmount = self.state.formData.selectedDonationAmount.getOrElse("None");
+			if (selectedAmount == "None") {
+				return left("No donation amount selected.") as Either<string, number>
+			} else if (selectedAmount == "Other") {
+				return self.validateDonationOtherAmt();
+			} else {
+				return right(Number(selectedAmount)) as Either<string, number>
+			}
+		}());
+
+		if (errorOrOtherAmt.isLeft()) {
+			window.scrollTo(0, 0);
+			this.setState({
+				...this.state,
+				validationErrors: [errorOrOtherAmt.swap().getOrElse(null)]
+			});
+			return Promise.resolve()
+		} else {
+			console.log("looks ok ", errorOrOtherAmt.getOrElse(null))
+			return addDonation.send(makePostJSON({fundId: this.state.formData.selectedFund.map(Number).getOrElse(null), amount: errorOrOtherAmt.getOrElse(null)}))
+			.then(ret => {
+				if (ret.type == "Success") {
+					self.props.history.push("/redirect" + window.location.pathname)
+				} else {
+					window.scrollTo(0, 0);
+					self.setState({
+						...self.state,
+						validationErrors: ret.message.split("\\n") // TODO
+					});
+				}
+			})
+		}
 	}
 	render() {
 		const self = this;
 
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
-		const fundIsUnused = (fund: t.TypeOf<typeof donationFundValidator>) => {
-			return !this.props.cartItems.find(item => item.fundId.getOrElse(null) == fund.fundId)
-		}
+
 
 		const donationAmountCell = (<div>
 			How much can you give this season?<br />
@@ -99,6 +174,20 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				updateAction={updateState}
 				value={this.state.formData.selectedDonationAmount || none}
 			/>
+			{
+				(this.state.formData.selectedDonationAmount.getOrElse(null) == "Other")
+				? 
+				<FormInput
+					id="otherAmount"
+					label="$"
+					value={this.state.formData.otherAmount}
+					updateAction={updateState}
+					size={10}
+					maxLength={10}
+				/>
+				: null
+			}
+			<Button text="Add Donation" onClick={() => this.doAddDonation()}/>
 		</div>)
 
 		const fundCell = (<div>
@@ -109,7 +198,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				label=""
 				value={this.state.formData.selectedFund}
 				updateAction={updateState}
-				options={this.props.donationFunds.filter(fundIsUnused).map(fund => ({
+				options={this.state.availableFunds.map(fund => ({
 					key: String(fund.fundId),
 					display: fund.fundName
 				}))}
@@ -118,10 +207,10 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			<a href="#" onClick={() => newPopWin('/funds#funds', 1100, 800)} >Click here for more information about our funds.</a>
 		</div>)
 
-		const donationRow = (<table style={{width: "100%"}}><tbody><tr>
+		const donationRow = this.state.availableFunds.length > 0 ? (<table style={{width: "100%"}}><tbody><tr>
 			<td style={{verticalAlign: "top"}}>{donationAmountCell}</td>
 			<td style={{verticalAlign: "top"}}>{fundCell}</td>
-		</tr></tbody></table>);
+		</tr></tbody></table>) : null;
 
 		const stripeElement = <StripeElement
 			formId="payment-form"
@@ -149,7 +238,22 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			: "Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our payment processor."
 		);
 
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
+
+		const setErrors = (errors: string) => {
+			window.scrollTo(0, 0);
+			self.setState({
+				...self.state,
+				validationErrors: errors.split("\\n") // TODO
+			});
+		}
+
 		return <JoomlaMainPage setBGImage={setCheckoutImage}>
+			{errorPopup}
 			<JoomlaArticleRegion title="Please consider making a donation to Community Boating.">
 				{`Community Boating, Inc. (CBI) is a 501(c)3 non-profit organization operating affordable and accessible programs
 				for kids, adults and individuals with special needs under the mission of 'sailing for all.'
@@ -163,7 +267,11 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			<table><tbody><tr>
 				<td style={{ width: "100%" }}>
 					<JoomlaArticleRegion title="Order Summary">
-						<FullCartReport cartItems={self.props.cartItems} />
+						<FullCartReport
+							cartItems={self.props.cartItems}
+							history={this.props.history}
+							setErrors={setErrors}
+						/>
 					</JoomlaArticleRegion>
 				</td>
 				<td>
