@@ -26,6 +26,8 @@ import TextInput from "../../components/TextInput";
 import ErrorDiv from "../../theme/joomla/ErrorDiv";
 import { left, right, Either } from "fp-ts/lib/Either";
 import {postWrapper as addDonation} from "../../async/member/add-donation"
+import {postWrapper as addPromo} from "../../async/member/add-promo-code"
+import {postWrapper as applyGC} from "../../async/member/apply-gc"
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -43,7 +45,10 @@ export interface Props {
 type Form = {
 	selectedDonationAmount: Option<string>,
 	selectedFund: Option<string>,
-	otherAmount: Option<string>
+	otherAmount: Option<string>,
+	promoCode: Option<string>,
+	gcNumber: Option<string>,
+	gcCode: Option<string>
 }
 
 type State = {
@@ -70,7 +75,10 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			formData: {
 				selectedDonationAmount: none,
 				selectedFund: availableFunds.length > 0 ? some(String(availableFunds[0].fundId)) : none,
-				otherAmount: none
+				otherAmount: none,
+				promoCode: none,
+				gcNumber: none,
+				gcCode: none
 			},
 			validationErrors: []
 		}
@@ -264,7 +272,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				You can donate to multiple areas if you wish; simply choose a fund, click "Add Donation," and repeat for as many funds as you like.
 			</JoomlaArticleRegion>
 			{donationRow}
-			<table><tbody><tr>
+			<table><tbody><tr style={{verticalAlign: "top"}}>
 				<td style={{ width: "100%" }}>
 					<JoomlaArticleRegion title="Order Summary">
 						<FullCartReport
@@ -275,10 +283,70 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 					</JoomlaArticleRegion>
 				</td>
 				<td>
-					{/* <JoomlaArticleRegion title="Promotional Code">
+					<JoomlaArticleRegion title="Promotional Code">
+						Enter promotional code:
+						<FormInput
+							id="promoCode"
+							value={this.state.formData.promoCode}
+							justElement={true}
+							updateAction={updateState}
+							size={30}
+							maxLength={30}
+						/>
+						<Button text="Apply" onClick={() => {
+							return addPromo.send(makePostJSON({ promoCode: this.state.formData.promoCode.getOrElse(null)}))
+							.then(ret => {
+								if (ret.type == "Success") {
+									self.props.history.push("/redirect" + window.location.pathname)
+								} else {
+									window.scrollTo(0, 0);
+									self.setState({
+										...self.state,
+										validationErrors: ret.message.split("\\n") // TODO
+									});
+								}
+							})
+						}}/>
 					</JoomlaArticleRegion>
 					<JoomlaArticleRegion title="Gift Certificate">
-					</JoomlaArticleRegion> */}
+						Enter Certificate Number<br />
+						(e.g. "1380300")
+						<FormInput
+							id="gcNumber"
+							value={this.state.formData.gcNumber}
+							justElement={true}
+							updateAction={updateState}
+							size={30}
+							maxLength={30}
+						/>
+						Enter Redemption Code<br />
+						(e.g. "F5BY8")
+						<FormInput
+							id="gcCode"
+							value={this.state.formData.gcCode}
+							justElement={true}
+							updateAction={updateState}
+							size={30}
+							maxLength={30}
+						/>
+						<Button text="Apply" onClick={() => {
+							return applyGC.send(makePostJSON({ 
+								gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
+								gcCode: this.state.formData.gcCode.getOrElse(null)
+							}))
+							.then(ret => {
+								if (ret.type == "Success") {
+									self.props.history.push("/redirect" + window.location.pathname)
+								} else {
+									window.scrollTo(0, 0);
+									self.setState({
+										...self.state,
+										validationErrors: ret.message.split("\\n") // TODO
+									});
+								}
+							})
+						}}/>
+					</JoomlaArticleRegion>
 				</td>
 			</tr></tbody></table>
 			<JoomlaArticleRegion title="Credit Card Payment">
