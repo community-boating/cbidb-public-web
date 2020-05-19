@@ -74,7 +74,13 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		const formData = this.state.formData
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
-		const filterInstancesByWeek = (i: InstanceInfo) => self.state.formData.selectedWeek.isNone() || String(i.week) == self.state.formData.selectedWeek.getOrElse(null)
+		const filterInstancesByWeek = (i: InstanceInfo) => {
+			if (self.state.formData.selectedWeek.isNone()) {
+				return asc.state.appProps.currentSeason > 2020 || i.week >= 3
+			} else {
+				return String(i.week) == self.state.formData.selectedWeek.getOrElse(null)
+			}
+		};
 
 		const shownInstances = self.props.apiResult.instances.filter(filterInstancesByWeek)
 
