@@ -76,7 +76,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 
 		const filterInstancesByWeek = (i: InstanceInfo) => {
 			if (self.state.formData.selectedWeek.isNone()) {
-				return asc.state.appProps.currentSeason > 2020 || i.week >= 3
+				return this.props.currentSeason > 2020 || i.week >= 3
 			} else {
 				return String(i.week) == self.state.formData.selectedWeek.getOrElse(null)
 			}
