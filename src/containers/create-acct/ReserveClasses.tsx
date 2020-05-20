@@ -383,6 +383,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					self.state.apiResult
 						.filter(c => c.typeId == jpClassTypeId_BeginnerSailing)
 						.filter(c => c.isMorning == (self.state.formData.beginnerMorningAfternoon.getOrElse("") == "Morning"))
+						.filter(c => c.startDateMoment.isSameOrAfter(moment("06/29/2020")))
 				)}
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Intermediate Sailing">
@@ -400,6 +401,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					self.state.apiResult
 						.filter(c => c.typeId == jpClassTypeId_IntermediateSailing)
 						.filter(c => c.isMorning == (self.state.formData.intermediateMorningAfternoon.getOrElse("") == "Morning"))
+						.filter(c => c.startDateMoment.isSameOrAfter(moment("06/29/2020")))
 				)}
 			</JoomlaArticleRegion>
 			<Button text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push("/"))}/>
