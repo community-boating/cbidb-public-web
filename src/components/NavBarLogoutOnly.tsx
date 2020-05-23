@@ -20,6 +20,12 @@ export default (props: {history: History<any>, sysdate: Option<Moment>, showProg
 		} else return null;
 	}());
 
+	const logoutLink = (
+		program == 'ap'
+		? apBasePath.getPathFromArgs({})
+		: jpBasePath.getPathFromArgs({})
+	);
+
 	const navComponents = [
 		props.sysdate.map(d => <React.Fragment key="sysdate">System Time:  <span id="systime">{d.format("hh:mm:ss A")}</span> (refresh your browser to update!)</React.Fragment>)
 		.getOrElse(null),
@@ -28,7 +34,7 @@ export default (props: {history: History<any>, sysdate: Option<Moment>, showProg
 			logout.send({type: "json", jsonData: {}}).then(() => {
 				asc.updateState.login.logout()
 			})
-			props.history.push(jpBasePath.getPathFromArgs({}));
+			props.history.push(logoutLink);
 		}}>&nbsp;&nbsp;&nbsp;Logout</a>
 	].filter(Boolean);
 	return (<React.Fragment>
