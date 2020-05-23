@@ -24,7 +24,7 @@ const LINKS = {
 			abortRegistration.send(makePostJSON({})).then(() => history.push("/redirect" + apBasePath.getPathFromArgs({})))
 		}
 	}}>{"Cancel Membership Purchase"}</a>,
-	classes: (history: History<any>) => <Link to={apClassesPageRoute.getPathFromArgs({})}>Signup for Classes</Link>,
+	classes: (history: History<any>) => null as any, // <Link to={apClassesPageRoute.getPathFromArgs({})}>Signup for Classes</Link>,
 	edit: (history: History<any>) => <Link to={apEditPageRoute.getPathFromArgs({})}>Edit Information</Link>,
 }
 
