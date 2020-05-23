@@ -62,9 +62,9 @@ export default (bv: number, juniorId: number, history: History<any>) => {
 
     return (function() {
         if (testBit(bv, 0)) {
-            return [<Link to={reg}>{"Purchase Summer Membership and/or Spring Class"}</Link>];
+            return [<span style={{fontStyle: "italic"}}>Registration is temporarily suspended.</span> /*<Link to={reg}>{"Purchase Summer Membership and/or Spring Class"}</Link>*/];
         } else if (testBit(bv, 1)) {
-            return [<Link to={reg}>{"Purchase Summer Membership"}</Link>];
+            return [<span style={{fontStyle: "italic"}}>Registration is temporarily suspended.</span>/*<Link to={reg}>{"Purchase Summer Membership"}</Link>*/];
         } else if (testBit(bv, 2)) {
             return [<Link to={reg}>{"Complete Registration"}</Link>]
         } else if (testBit(bv, 16)) {

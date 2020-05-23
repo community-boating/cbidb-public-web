@@ -40,6 +40,7 @@ import ThankYouPage from '../containers/checkout/ThankYou';
 import ForgotPasswordPage from '../containers/ForgotPasswordPage';
 import NewPasswordPage from '../containers/NewPasswordPage';
 import ForgotPasswordSentPage from '../containers/ForgotPasswordSent';
+import ClosedCovid from '../containers/create-acct/ClosedCovid';
 
 
 function pathAndParamsExtractor<T extends {[K: string]: string}>(path: string) {
@@ -102,19 +103,19 @@ export default function (history: History<any>) {
 	const mustNotBeLoggedIn = [
 		<Route key="/redirect/reserve" path="/redirect/reserve" render={() => <Redirect to="/reserve" />} />,
 		<Route key="/redirect/create-acct" path="/redirect/create-acct" render={() => <Redirect to="/create-acct" />} />,
-		<Route key="/reserve" path="/reserve" render={() => <PageWrapper
-			key="ReserveClasses"
-			history={history}
-			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
-				history={history}
-				startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
-				noSignupJuniors={async.prereg.noSignups}
-				apiResultStart={async.classes}
-			/>}
-			urlProps={{}}
-			shadowComponent={<span></span>}
-			getAsyncProps={getClassesAndPreregistrations}
-		/>} />,
+		// <Route key="/reserve" path="/reserve" render={() => <PageWrapper
+		// 	key="ReserveClasses"
+		// 	history={history}
+		// 	component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <ReserveClasses
+		// 		history={history}
+		// 		startingPreRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
+		// 		noSignupJuniors={async.prereg.noSignups}
+		// 		apiResultStart={async.classes}
+		// 	/>}
+		// 	urlProps={{}}
+		// 	shadowComponent={<span></span>}
+		// 	getAsyncProps={getClassesAndPreregistrations}
+		// />} />,
 		<Route key={paths.reservationNotes.path} path={paths.reservationNotes.path} render={() => <PageWrapper
 			key="reservationNotes"
 			history={history}
@@ -129,18 +130,26 @@ export default function (history: History<any>) {
 			shadowComponent={<span></span>}
 			getAsyncProps={getClassesAndPreregistrations}
 		/>} />,
-		<Route key="/create-acct" path="/create-acct" render={() => <PageWrapper
-			key="CreateAccountPage"
+		<Route key={"/closed"} path={"/closed"} render={() => <PageWrapper
+			key="closed"
 			history={history}
-			component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <CreateAccount
-				history={history}
-				preRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
-				noSignupJuniors={async.prereg.noSignups}
-			/>}
+			component={() => <ClosedCovid history={history}/>}
 			urlProps={{}}
 			shadowComponent={<span></span>}
 			getAsyncProps={getClassesAndPreregistrations}
 		/>} />,
+		// <Route key="/create-acct" path="/create-acct" render={() => <PageWrapper
+		// 	key="CreateAccountPage"
+		// 	history={history}
+		// 	component={(urlProps: {}, async: { classes: ClassInstanceObject[], prereg: t.TypeOf<typeof reservationAPIValidator>}) => <CreateAccount
+		// 		history={history}
+		// 		preRegistrations={bundleReservationsFromAPI(async.classes)(async.prereg)}
+		// 		noSignupJuniors={async.prereg.noSignups}
+		// 	/>}
+		// 	urlProps={{}}
+		// 	shadowComponent={<span></span>}
+		// 	getAsyncProps={getClassesAndPreregistrations}
+		// />} />,
 		<Route key="/forgot-pw" path="/forgot-pw" render={() => <ForgotPasswordPage 
 			history={history}
 		/>} />,

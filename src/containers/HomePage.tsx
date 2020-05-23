@@ -65,6 +65,11 @@ export default class HomePage extends React.Component<Props, State> {
 
 		return <JoomlaMainPage navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime))})}>
 			{errorPopup}
+			<JoomlaArticleRegion title="Registration is temporarily suspended.">
+				JP signups are on hold as of May 23. Although we still hope to offer a 2020 Junior Program adapted to new conditions of operation,
+				we cannot make this commitment until we know the State's regulations for children's summer programming.
+				The State's guidance on coordinating summer camps will inform our final decision on what we can do this year.
+			</JoomlaArticleRegion>
 			{mainTable}
 			{/* <Button onClick={() => Promise.resolve(this.props.history.push("/settings"))} text="Edit Parent Info" /> */}
 			<Button onClick={() => Promise.resolve(this.props.history.push("/reg"))} text="Add new Junior" />

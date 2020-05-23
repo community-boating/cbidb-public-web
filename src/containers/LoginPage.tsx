@@ -108,7 +108,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		const newAcctRegion = (
 			<JoomlaArticleRegion title="New CBI Parents...">
 				<div>
-					<Link to="/reserve">
+					<Link to="/closed">
 						...click here to sign up your child(ren)!
 					</Link>
 					<br />
