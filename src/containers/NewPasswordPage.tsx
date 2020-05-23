@@ -12,13 +12,17 @@ import { PostURLEncoded } from '../core/APIWrapperUtil';
 import Validation from '../util/Validation'
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import asc from '../app/AppStateContainer';
-import { setJPImage } from '../util/set-bg-image';
+import { setJPImage, setAPImage } from '../util/set-bg-image';
 import { jpBasePath } from '../app/paths/jp/_base';
+import { PageFlavor } from '../components/Page';
+import { apBasePath } from '../app/paths/ap/_base';
+import assertNever from '../util/assertNever';
 
 type Props = {
 	history: History<any>,
 	email: string,
-	hash: string
+	hash: string,
+	program: PageFlavor
 }
 
 type Form = {
@@ -65,6 +69,28 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 			? <ErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
+		const setBGImage = (function() {
+			switch (self.props.program) {
+			case PageFlavor.AP:
+				return setAPImage;
+			case PageFlavor.JP:
+				return setJPImage;
+			default:
+				assertNever(self.props.program);
+				return null;
+			}
+		}());
+		const loginLink = (function() {
+			switch (self.props.program) {
+				case PageFlavor.AP:
+					return apBasePath.getPathFromArgs({});
+				case PageFlavor.JP:
+					return jpBasePath.getPathFromArgs({});
+				default:
+					assertNever(self.props.program);
+					return null;
+				}
+		}());
 		const submit = () => {
 			const validationResults = validate(this.state);
 			if (validationResults.length > 0) {
@@ -78,7 +104,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 					// api success
 					ret => {
 						if (ret.type == "Success") {
-							self.props.history.push(jpBasePath.getPathFromArgs({}))
+							self.props.history.push(loginLink)
 							asc.updateState.login.setLoggedIn(self.props.email)
 						} else {
 							window.scrollTo(0, 0);
@@ -91,7 +117,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 				)
 			}
 		}
-		return <JoomlaMainPage setBGImage={setJPImage}>
+		return <JoomlaMainPage setBGImage={setBGImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Enter your new password.">
 				<table><tbody>

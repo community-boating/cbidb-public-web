@@ -5,7 +5,8 @@ import { HttpMethod } from "../core/HttpMethod";
 const path = "/forgot-pw"
 
 const postValidator = t.type({
-	email: t.string
+	email: t.string,
+	program: t.string
 })
 
 const resultValidator = t.type({

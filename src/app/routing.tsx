@@ -23,9 +23,9 @@ import {checkoutPageRoute} from "./routes/common/checkout"
 import {thankyouPageRoute} from "./routes/common/thank-you"
 import { maintenancePageRoute } from './routes/common/maintenance';
 import { createAcctPageRoute } from './routes/jp/create-acct';
-import { forgotPasswordPageRoute } from './routes/jp/forgot-pw';
-import { forgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
-import { resetPasswordPageRoute } from './routes/jp/reset-pw';
+import { jpForgotPasswordPageRoute } from './routes/jp/forgot-pw';
+import { jpForgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
+import { jpResetPasswordPageRoute } from './routes/jp/reset-pw';
 import { jpLoginPageRoute } from './routes/jp/_base';
 import { apLoginPageRoute } from './routes/ap/_base';
 import PathWrapper from '../core/PathWrapper';
@@ -37,6 +37,11 @@ import { apRegPageRoute } from './routes/ap/reg';
 //import { apClassesPageRoute } from './routes/ap/classes';
 import { apEditPageRoute } from './routes/ap/edit';
 import { fundInfoRoute } from './routes/common/funds';
+import { apPreRegRoute } from './routes/ap/prereg';
+import { apCreateAcctRoute } from './routes/ap/create-acct';
+import { apForgotPasswordPageRoute } from './routes/ap/forgot-pw';
+import { apForgotPasswordSentPageRoute } from './routes/ap/forgot-pw-sent';
+import { apResetPasswordPageRoute } from './routes/ap/reset-pw';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -76,11 +81,21 @@ export default function (history: History<any>) {
 
 		createAcctPageRoute.asRoute(history),
 
-		forgotPasswordPageRoute.asRoute(history),
+		jpForgotPasswordPageRoute.asRoute(history),
 
-		forgotPasswordSentPageRoute.asRoute(history),
+		jpForgotPasswordSentPageRoute.asRoute(history),
 
-		resetPasswordPageRoute.asRoute(history),
+		apForgotPasswordPageRoute.asRoute(history),
+
+		apForgotPasswordSentPageRoute.asRoute(history),
+
+		jpResetPasswordPageRoute.asRoute(history),
+
+		apResetPasswordPageRoute.asRoute(history),
+
+		apPreRegRoute.asRoute(history),
+
+		apCreateAcctRoute.asRoute(history),
 
 		jpLoginPageRoute.asRoute(history),
 

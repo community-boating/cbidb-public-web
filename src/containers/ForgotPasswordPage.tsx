@@ -10,12 +10,17 @@ import TextInput from '../components/TextInput';
 import {apiw} from "../async/forgot-pw"
 import { PostURLEncoded } from '../core/APIWrapperUtil';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
-import { forgotPasswordSentPageRoute } from '../app/routes/jp/forgot-pw-sent';
-import { setJPImage } from '../util/set-bg-image';
+import { jpForgotPasswordSentPageRoute } from '../app/routes/jp/forgot-pw-sent';
+import { setAPImage, setJPImage } from '../util/set-bg-image';
+import { PageFlavor } from '../components/Page';
+import assertNever from '../util/assertNever';
+import { apForgotPasswordSentPageRoute } from '../app/routes/ap/forgot-pw-sent';
+import { apBasePath } from '../app/paths/ap/_base';
 import { jpBasePath } from '../app/paths/jp/_base';
 
 type Props = {
-	history: History<any>
+	history: History<any>,
+	program: PageFlavor
 }
 
 type Form = {
@@ -47,16 +52,49 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 			? <ErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
+		const setBGImage = (function() {
+			switch (self.props.program) {
+			case PageFlavor.AP:
+				return setAPImage;
+			case PageFlavor.JP:
+				return setJPImage;
+			default:
+				assertNever(self.props.program);
+				return null;
+			}
+		}());
+		const nextLink = (function() {
+			switch (self.props.program) {
+				case PageFlavor.AP:
+					return apForgotPasswordSentPageRoute.getPathFromArgs({});
+				case PageFlavor.JP:
+					return jpForgotPasswordSentPageRoute.getPathFromArgs({});
+				default:
+					assertNever(self.props.program);
+					return null;
+				}
+		}());
+		const loginLink = (function() {
+			switch (self.props.program) {
+				case PageFlavor.AP:
+					return apBasePath.getPathFromArgs({});
+				case PageFlavor.JP:
+					return jpBasePath.getPathFromArgs({});
+				default:
+					assertNever(self.props.program);
+					return null;
+				}
+		}());
 		const submit = () => {
 			self.setState({
 				...self.state,
 				validationErrors: []
 			});
-			return apiw.send(PostURLEncoded({ email: this.state.formData.email.getOrElse("") })).then(
+			return apiw.send(PostURLEncoded({ email: this.state.formData.email.getOrElse(""), program: this.props.program })).then(
 				// api success
 				ret => {
 					if (ret.type == "Success") {
-						self.props.history.push(forgotPasswordSentPageRoute.getPathFromArgs({}))
+						self.props.history.push(nextLink)
 					} else {
 						window.scrollTo(0, 0);
 						self.setState({
@@ -67,7 +105,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 				}
 			)
 		}
-		return <JoomlaMainPage setBGImage={setJPImage}>
+		return <JoomlaMainPage setBGImage={setBGImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Enter your email address and we'll get your password reset.">
 				<table><tbody>
@@ -80,7 +118,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
-			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
+			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(loginLink))}/>
 			<Button text="Next >" onClick={submit}/>
 		</JoomlaMainPage>
 	}
