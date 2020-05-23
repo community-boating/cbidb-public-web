@@ -34,7 +34,7 @@ import { setJPImage, setAPImage } from '../util/set-bg-image';
 import JoomlaLoadingPage from '../theme/joomla/JoomlaLoadingPage';
 import HomePageAP from '../containers/ap/HomePageAP';
 import { apRegPageRoute } from './routes/ap/reg';
-import { apClassesPageRoute } from './routes/ap/classes';
+//import { apClassesPageRoute } from './routes/ap/classes';
 import { apEditPageRoute } from './routes/ap/edit';
 import { fundInfoRoute } from './routes/common/funds';
 
@@ -117,7 +117,7 @@ export default function (history: History<any>) {
 
 		apRegPageRoute.asRoute(history),
 
-		apClassesPageRoute.asRoute(history),
+	//	apClassesPageRoute.asRoute(history),
 
 		apEditPageRoute.asRoute(history),
 

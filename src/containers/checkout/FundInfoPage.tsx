@@ -3,22 +3,11 @@ import * as t from 'io-ts';
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import { setCheckoutImage } from "../../util/set-bg-image";
-import { Option } from "fp-ts/lib/Option";
-import { RadioGroup } from "../../components/InputGroup";
 import {donationFundValidator} from "../../async/donation-funds"
-import { Select } from "../../components/Select";
 
 export interface Props {
 	donationFunds: t.TypeOf<typeof donationFundValidator>[]
 }
-
-type Form = {
-	selectedDonationAmount: Option<string>,
-	selectedFund: Option<string>
-}
-
-class FormRadio extends RadioGroup<Form> {}
-class FormSelect extends Select<Form> {}
 
 export default class FundInfoPage extends React.PureComponent<Props> {
 	componentDidMount() {
@@ -39,8 +28,6 @@ export default class FundInfoPage extends React.PureComponent<Props> {
 		return !fund.isEndowment;
 	}
 	render() {
-		const self = this;
-
 		return <JoomlaMainPage setBGImage={setCheckoutImage}>
 			<JoomlaArticleRegion title={<span id="funds">CBI Funds</span>}>
 				{this.props.donationFunds.filter(FundInfoPage.isNotEndowment).map(FundInfoPage.renderFund)}

@@ -34,7 +34,6 @@ interface Props {
 
 export default class ApPurchaseOptions extends React.Component<Props, { radio: string }> {
 	static discountRow(title: string, price: Currency, state: DiscountState, buyButton: JSX.Element) {
-		const self = this;
 		switch (state) {
 		case DiscountState.disabled:
 			// return (<React.Fragment>

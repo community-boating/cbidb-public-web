@@ -4,7 +4,6 @@ import path from "../../paths/ap/reg";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { validator as welcomeJPValidator } from "../../../async/member-welcome-ap";
-import { some } from 'fp-ts/lib/Option';
 import { setAPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import ApRegistrationWizard from '../../../containers/ap/ap-registration/ApRegistrationWizard';

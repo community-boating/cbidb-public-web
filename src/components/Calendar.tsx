@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Moment, now } from 'moment';
-import * as moment from 'moment';
+import { Moment } from 'moment';
 import * as _ from 'lodash';
 
 type Props = {

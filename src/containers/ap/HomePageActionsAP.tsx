@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { History } from 'history';
-import PlaceholderLink from '../../components/PlaceholderLink';
 import {apRegPageRoute} from "../../app/routes/ap/reg"
 import { Link } from 'react-router-dom';
 import Currency from '../../util/Currency';
@@ -9,7 +8,7 @@ import { Moment } from 'moment';
 import { makePostJSON } from '../../core/APIWrapperUtil';
 import {postWrapper as abortRegistration} from "../../async/member/abort-mem-reg"
 import { apBasePath } from '../../app/paths/ap/_base';
-import { apClassesPageRoute } from '../../app/routes/ap/classes';
+//import { apClassesPageRoute } from '../../app/routes/ap/classes';
 import { apEditPageRoute } from '../../app/routes/ap/edit';
 
 function testBit(num: number, bit: number) {
