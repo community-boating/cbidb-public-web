@@ -9,10 +9,10 @@ import PaymentConfirmPage from "./PaymentConfirm";
 import { apiw as orderStatus, CardData } from "../../async/order-status"
 import { setCheckoutImage } from "../../util/set-bg-image";
 import { apiw as getCartItems } from "../../async/get-cart-items"
-import { thankyouPageRoute } from "../../app/routes/common/thank-you";
 import JoomlaLoadingPage from "../../theme/joomla/JoomlaLoadingPage";
 import { jpBasePath } from "../../app/paths/jp/_base";
 import {getWrapper as getDonationFunds} from "../../async/donation-funds"
+import ThankYouPage from "./ThankYou";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -22,20 +22,36 @@ const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 type Props = {history: History<any>};
 
 type State = {
-	cardData: Option<CardData>	
+	cardData: Option<CardData>,
+	hasApMemberships: boolean,
+	hasJpMemberships: boolean
 }
 
 export default class CheckoutWizard extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
-			cardData: none
+			cardData: none,
+			hasApMemberships: false,
+			hasJpMemberships: false
 		}
 	}
 	setCardData(cardData: CardData) {
 		this.setState({
 			...this.state,
 			cardData: some(cardData)
+		})
+	}
+	setHasJpMemberships() {
+		this.setState({
+			...this.state,
+			hasJpMemberships: true
+		})
+	}
+	setHasApMemberships() {
+		this.setState({
+			...this.state,
+			hasApMemberships: true
 		})
 	}
 	render() {
@@ -67,6 +83,15 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 							self.props.history.push(jpBasePath.getPathFromArgs({}));
 							return Promise.resolve(null);
 						} else {
+							if (cart.type == "Success") {
+								if (cart.success.filter(c => c.itemType == "Membership").filter(c => c.itemNameHTML == "Junior Summer Membership").length) {
+									this.setHasJpMemberships();
+								}
+								if (cart.success.filter(c => c.itemType == "Membership").filter(c => c.itemNameHTML != "Junior Summer Membership").length) {
+									this.setHasApMemberships();
+								}
+							}
+							console.log(this.state)
 							return Promise.resolve([welcome, order, cart, funds])
 						}
 					}).catch(err => Promise.resolve(null));  // TODO: handle failure
@@ -91,12 +116,24 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					]).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>
+		}, {
+			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+				key="checkout confirm"
+				history={self.props.history}
+				component={(urlProps: {}, async: {}) => <ThankYouPage
+					{...mapWizardProps(fromWizard)}
+					hasAPMemberships={this.state.hasApMemberships}
+					hasJPMemberships={this.state.hasJpMemberships}
+				/>}
+				urlProps={{}}
+				shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
+			/>
 		}]
 	
 		return <WizardPageflow
 			history={self.props.history}
 			start="/"
-			end={thankyouPageRoute.getPathFromArgs({})}
+			end="/"
 			nodes={nodes}
 		/>
 	}

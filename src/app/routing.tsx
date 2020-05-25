@@ -20,7 +20,6 @@ import {signupNotePageRoute} from './routes/jp/signupNote'
 import {reservePageRoute} from './routes/jp/reserve'
 import {reserveNotesPageRoute} from './routes/jp/reserve-notes'
 import {checkoutPageRoute} from "./routes/common/checkout"
-import {thankyouPageRoute} from "./routes/common/thank-you"
 import { maintenancePageRoute } from './routes/common/maintenance';
 import { createAcctPageRoute } from './routes/jp/create-acct';
 import { jpForgotPasswordPageRoute } from './routes/jp/forgot-pw';
@@ -111,8 +110,6 @@ export default function (history: History<any>) {
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
 		
 		checkoutPageRoute.asRoute(history),
-
-		thankyouPageRoute.asRoute(history),
 
 		ratingsPageRoute.asRoute(history),
 

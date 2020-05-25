@@ -18,10 +18,10 @@ import { MAGIC_NUMBERS } from "../../../app/magicNumbers";
 type DiscountsProps = t.TypeOf<typeof discountsValidator>;
 
 enum DiscountState {
-	disabled,
-	superceded,
-	available,
-	eligible
+	disabled = 'd',
+	superceded = 's',
+	available = 'a',
+	eligible = 'e'
 }
 
 interface Props {
@@ -33,7 +33,7 @@ interface Props {
 }
 
 export default class ApPurchaseOptions extends React.Component<Props, { radio: string }> {
-	static discountRow(title: string, price: Currency, state: DiscountState, buyButton: JSX.Element) {
+	static discountRow(id: number, title: string, price: Currency, state: DiscountState, buyButton: JSX.Element) {
 		switch (state) {
 		case DiscountState.disabled:
 			// return (<React.Fragment>
@@ -48,14 +48,14 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 			// </React.Fragment>);
 			return null;
 		case DiscountState.available:
-			return (<tr>
+			return (<tr key={id}>
 				<td style={{ textAlign: "right" }}>{title}:</td>
 				<td>{price.format(true)}</td>
 				<td>{buyButton}</td>
 				<td><span className="not-available"> - <span style={{fontWeight: "bold", color: "red"}}>Your membership will be on hold</span> until you can verify eligibility with the Front Office.</span></td>
 			</tr>);
 		case DiscountState.eligible:
-			return (<tr>
+			return (<tr key={id}>
 				<td style={{ textAlign: "right" }}>{title}:</td>
 				<td>{price.format(true)}</td>
 				<td>{buyButton}</td>
@@ -64,6 +64,84 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 		default:
 			assertNever(state)
 		}
+	}
+	assignDiscountStates() {
+		const self = this;
+		const discounts = [{
+			id: MAGIC_NUMBERS.DISCOUNT_ID.SENIOR_DISCOUNT_ID,
+			display: "Sr. Citizen (65+)",
+			eligible: this.props.discountsProps.eligibleForSeniorOnline,
+			available: this.props.discountsProps.seniorAvailable,
+			discountAmt: this.props.discountsProps.seniorDiscountAmt
+		}, {
+			id: MAGIC_NUMBERS.DISCOUNT_ID.YOUTH_DISCOUNT_ID,
+			display: "Young Adult (18-20)",
+			eligible: this.props.discountsProps.eligibleForYouthOnline,
+			available: this.props.discountsProps.youthAvailable,
+			discountAmt: this.props.discountsProps.youthDiscountAmt
+		}, {
+			id: MAGIC_NUMBERS.DISCOUNT_ID.STUDENT_DISCOUNT_ID,
+			display: "Student",
+			eligible: this.props.discountsProps.eligibleForStudent,
+			available: true,
+			discountAmt: this.props.discountsProps.studentDiscountAmt
+		}, {
+			id: MAGIC_NUMBERS.DISCOUNT_ID.VETERAN_DISCOUNT_ID,
+			display: "Veteran/First Responder",
+			eligible: this.props.discountsProps.eligibleForVeteranOnline,
+			available: true,
+			discountAmt: this.props.discountsProps.veteranDiscountAmt
+		}, {
+			id: MAGIC_NUMBERS.DISCOUNT_ID.MGH_DISCOUNT_ID,
+			display: "MGH/Partners Employee",
+			eligible: this.props.discountsProps.eligibleForMGH,
+			available: true,
+			discountAmt: this.props.discountsProps.mghDiscountAmt
+		}];
+
+		// biggest discoutns first
+		discounts.sort((a,b) => b.discountAmt - a.discountAmt)
+
+		// Biggest discount amount we are eligible for
+		const highestEligibleAmount = discounts.reduce((best, d) => {
+			if (d.eligible && d.discountAmt > best) return d.discountAmt;
+			else return best;
+		}, 0);
+
+		return discounts.map(d => {
+			// Is this discount less than a discount that we would be auto granted by cc_pkg.assess_discounts()
+			// If it is, don't even offer it becuase the back end will just stomp on it with the better discount anyway
+			const discountIsInferior = d.discountAmt < highestEligibleAmount;
+			const state = (function() {
+				if (d.eligible) {
+					if (discountIsInferior) {
+						return DiscountState.superceded;
+					} else {
+						return DiscountState.eligible;
+					}
+				} else if (d.available) {
+					if (discountIsInferior) {
+						return DiscountState.superceded;
+					} else {
+						return DiscountState.available;
+					}
+				} else {
+					return DiscountState.disabled;
+				}
+			}());
+
+			return {
+				...d,
+				state,
+				rowElement: ApPurchaseOptions.discountRow(
+					d.id,
+					d.display,
+					Currency.dollars(this.props.discountsProps.fyBasePrice - d.discountAmt),
+					state,
+					self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(d.id))
+				)
+			}
+		});
 	}
 	makeBuyButton(memTypeId: number, requestedDiscountId: Option<number>) {
 		const self = this;
@@ -87,6 +165,8 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 	render() {
 		const self = this;
 		console.log(this.props.discountsProps)
+		const discountsWithStates = this.assignDiscountStates();
+		console.log(discountsWithStates)
 		const fyHeader = (
 			this.props.discountsProps.canRenew
 			? `Full Year Membership Renewal: ${Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.renewalDiscountAmt).format(true)}`
@@ -125,36 +205,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					<br />
 					<table style={{ fontWeight: "bold", marginTop: "10px" }}>
 						<tbody>
-							{ApPurchaseOptions.discountRow(
-								"Young Adult (18-20)",
-								Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.youthDiscountAmt),
-								DiscountState.superceded,
-								self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(MAGIC_NUMBERS.DISCOUNT_ID.YOUTH_DISCOUNT_ID))
-							)}
-							{ApPurchaseOptions.discountRow(
-								"Sr. Citizen (65+)",
-								Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.seniorDiscountAmt),
-								DiscountState.disabled,
-								self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(MAGIC_NUMBERS.DISCOUNT_ID.SENIOR_DISCOUNT_ID))
-							)}
-							{ApPurchaseOptions.discountRow(
-								"Student",
-								Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.studentDiscountAmt),
-								DiscountState.superceded,
-								self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(MAGIC_NUMBERS.DISCOUNT_ID.STUDENT_DISCOUNT_ID))
-							)}
-							{ApPurchaseOptions.discountRow(
-								"MGH/Partners Employee",
-								Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.mghDiscountAmt),
-								DiscountState.eligible,
-								self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(MAGIC_NUMBERS.DISCOUNT_ID.MGH_DISCOUNT_ID))
-							)}
-							{ApPurchaseOptions.discountRow(
-								"Veteran/First Responder",
-								Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.veteranDiscountAmt),
-								DiscountState.available,
-								self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, some(MAGIC_NUMBERS.DISCOUNT_ID.VETERAN_DISCOUNT_ID))
-							)}
+							{discountsWithStates.map(d => d.rowElement)}
 						</tbody></table>
 					<br /><br />
 					<p>Includes:</p>
