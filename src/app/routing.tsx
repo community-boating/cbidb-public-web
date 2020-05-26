@@ -101,7 +101,7 @@ export default function (history: History<any>) {
 		apLoginPageRoute.asRoute(history),
 
 		// TODO: eventually there should be a combined landing page or something
-		<Route key="loginRedirect" path="/" render={() => <Redirect to="/jp" />} />,
+		<Route key="loginRedirect" path="/" render={() => <Redirect to="/ap" />} />,
 
 		<Route key="defaultPub" render={defaultRouteRender} />,
 	]
