@@ -154,24 +154,30 @@ export default function (history: History<any>) {
 			}}
 		/>} />,
 
-		<Route key="homeAP" path="/ap" exact render={() => <PageWrapper
-			key="HomePage"
-			history={history}
-			component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidatorAP>) => <HomePageAP
-				data={async}
+		(
+			asc.state.justLoggedIn
+			? <Route key="homeAP" path="/ap" exact render={() => <Redirect to={apRegPageRoute.getPathFromArgs({})} />} />
+			: <Route key="homeAP" path="/ap" exact render={() => <PageWrapper
+				key="HomePage"
 				history={history}
-			/>}
-			urlProps={{}}
-			shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
-			getAsyncProps={(urlProps: {}) => {
-				return Promise.all([
-					getProtoPersonCookie.send(null),
-					welcomeAPIAP.send(null)
-				]).then(([whatever, welcome]) => {
-					return Promise.resolve(welcome);
-				}).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
-		/>} />,
+				component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidatorAP>) => <HomePageAP
+					data={async}
+					history={history}
+				/>}
+				urlProps={{}}
+				shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
+				getAsyncProps={(urlProps: {}) => {
+					return Promise.all([
+						getProtoPersonCookie.send(null),
+						welcomeAPIAP.send(null)
+					]).then(([whatever, welcome]) => {
+						return Promise.resolve(welcome);
+					}).catch(err => Promise.resolve(null));  // TODO: handle failure
+				}}
+			/>} />
+		)
+
+		,
 
 		<Route key="defaultAuth" render={defaultRouteRender} />,
 	]

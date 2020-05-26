@@ -285,25 +285,31 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 			: ""
 		);
 
-		const headerRegion = <JoomlaArticleRegion title="Please take a moment to confirm your personal information.">
-			New address or phone number? Need to change your emergency contact? Help us keep our records up-to-date.
-		</JoomlaArticleRegion>;
+		// const headerRegion = <JoomlaArticleRegion title="Please take a moment to confirm your personal information.">
+		// 	New address or phone number? Need to change your emergency contact? Help us keep our records up-to-date.
+		// </JoomlaArticleRegion>;
 
 		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-			{headerRegion}
+			{/* {headerRegion} */}
 			<JoomlaArticleRegion title="All information on this page is required (if applicable).">
 				{reqFields}
 			</JoomlaArticleRegion>
-			<Button text="< Back" onClick={self.props.goPrev}/>
+			{(
+				asc.state.justLoggedIn
+				? null
+				:<Button text="< Back" onClick={self.props.goPrev}/>
+			)}
+			
 			<Button text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper.send(makePostJSON(formToAPI(this.state.formData))).then(
 					// api success
 					ret => {
 						if (ret.type == "Success") {
+							asc.updateState.setJustLoggedIn(false);
 							self.props.goNext()
 						} else {
 							window.scrollTo(0, 0);

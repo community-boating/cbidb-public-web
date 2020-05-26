@@ -79,6 +79,7 @@ export default class ApCreateAcct extends React.PureComponent<Props, State> {
 				})).then(res => {
 					if (res.type == "Success") {
 						self.props.history.push(apBasePath.getPathFromArgs({}))
+						asc.updateState.setJustLoggedIn(true);
 						asc.updateState.login.setLoggedIn(self.state.formData.email.getOrElse(""))
 					} else {
 						self.setState({

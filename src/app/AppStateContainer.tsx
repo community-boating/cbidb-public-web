@@ -35,7 +35,8 @@ type State = {
 	appProps: AppProps
 	login: {
 		authenticatedUserName: Option<string>
-	}
+	},
+	justLoggedIn: boolean
 }
 
 // TODO: should this not expose anything publically except the "reducer" functions to update state?  Seems like <App /> should be the only thing that can read state
@@ -51,6 +52,12 @@ export class AppStateContainer {
 		this.listener = listener
 	}
 	updateState = {
+		setJustLoggedIn: (justLoggedIn: boolean) => {
+			this.setState({
+				...this.state,
+				justLoggedIn
+			})
+		},
 		login: {
 			setLoggedIn: (function(userName: string) {
 				const self: AppStateContainer = this
@@ -91,7 +98,8 @@ export class AppStateContainer {
 			appProps: null,
 			login: {
 				authenticatedUserName: none
-			}
+			},
+			justLoggedIn: false
 		};
 	}
 }

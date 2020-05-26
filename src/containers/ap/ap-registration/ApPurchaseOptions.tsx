@@ -222,7 +222,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					<table><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_60_DAY, none)}
 					</td><td>
-							<h2 id="h0-2-60-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>60 Day Membership: $269</h2>
+							<h2 id="h0-2-60-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>60 Day Membership: $299</h2>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>
@@ -235,7 +235,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					<table><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY, none)}
 					</td><td>
-							<h2 id="h0-2-30-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>30 Day Membership: $169</h2>
+							<h2 id="h0-2-30-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>30 Day Membership: $199</h2>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>
@@ -261,7 +261,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					<table><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR_PADDLING, none)}
 					</td><td>
-							<h2 id="h0-3-FY-paddling" style={{ visibility: "visible", fontSize: "1.7em" }}>Full Year Paddling Pass: $189</h2>
+							<h2 id="h0-3-FY-paddling" style={{ visibility: "visible", fontSize: "1.7em" }}>Full Year Paddling Pass: $199</h2>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>
