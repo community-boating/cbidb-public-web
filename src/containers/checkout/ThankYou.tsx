@@ -35,11 +35,11 @@ export default class ThankYouPage extends React.PureComponent<Props, State> {
 			<br />
 			<Link to={jpBasePath.getPathFromArgs({})}>Click here</Link> to return to the Junior portal where you can register more juniors and sign up for classes.</React.Fragment>
 			: ""}
-			{this.props.hasJPMemberships ? 
+			{this.props.hasAPMemberships ? 
 			<React.Fragment>
 			<br />
 			<br />
-			<Link to={apBasePath.getPathFromArgs({})}>Click here</Link> to return to the Junior portal where you can view your registration status or sign up for classes.</React.Fragment>
+			<Link to={apBasePath.getPathFromArgs({})}>Click here</Link> to return to the member portal where you can view your registration status or sign up for classes.</React.Fragment>
 			: ""}
 			</JoomlaArticleRegion>
 		</JoomlaMainPage>);

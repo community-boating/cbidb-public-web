@@ -42,6 +42,19 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 			? <ErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
+		const orderTotal = this.props.cartItems.reduce((sum, i) => sum + i.price, 0)
+		const billingInfo = (
+			orderTotal <= 0
+			? "Your order is fully paid for; click \"Finish Order\" below to finalize the order."
+			: <StripeConfirm cardData={this.props.orderStatus.cardData.getOrElse(null)} />
+		);
+
+		const buttonText = (
+			orderTotal <= 0
+			? "Finish Order"
+			: "Submit Payment"
+		);
+
 		return (<JoomlaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Order Summary">
@@ -51,10 +64,10 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 				<FullCartReport cartItems={self.props.cartItems} history={this.props.history} setErrors={() => {}}/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Your Billing Info">
-				<StripeConfirm cardData={this.props.orderStatus.cardData.getOrElse(null)} />
+				{billingInfo}
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={this.props.goPrev} />
-			<Button text="Submit Payment" spinnerOnClick onClick={() => {
+			<Button text={buttonText} spinnerOnClick onClick={() => {
 				self.setState({
 					...self.state,
 					validationErrors: []

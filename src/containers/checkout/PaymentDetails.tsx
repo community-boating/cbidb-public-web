@@ -237,14 +237,24 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			}}
 		/>;
 
+		const orderTotalIsZero = this.props.cartItems.reduce((sum, i) => sum + i.price, 0) <= 0;
+
 		const confirm = this.props.orderStatus.cardData.map(cd => <StripeConfirm
 			cardData={cd}
 		/>);
 
-		const reset = (confirm.isSome()
-			? <a href="#" onClick={() => clearCard.send(makePostString("")).then(() => self.props.history.push(`/redirect${checkoutPageRoute.getPathFromArgs({})}`))}>Click here to use a different credit card.</a>
-			: "Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our payment processor."
-		);
+		const paymentTextOrResetLink = (function(){
+			if (orderTotalIsZero) {
+				return "All items are fully paid for; click \"Continue\" to finalize your order.";
+			} else {
+				if (confirm.isSome()) {
+					return <a href="#" onClick={() => clearCard.send(makePostString("")).then(() => self.props.history.push(`/redirect${checkoutPageRoute.getPathFromArgs({})}`))}>Click here to use a different credit card.</a>
+				} else {
+					return "Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our payment processor.";
+				}
+			}
+			
+		}());
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
@@ -350,12 +360,14 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				</td>
 			</tr></tbody></table>
 			<JoomlaArticleRegion title="Credit Card Payment">
-				{reset}
-				<br />
+				{paymentTextOrResetLink}
+				{orderTotalIsZero ? null : <React.Fragment>
+					<br />
 				<br />
 				{confirm.getOrElse(stripeElement)}
+				</React.Fragment>}
 			</JoomlaArticleRegion>
-			{confirm.isSome() ? <Button text="Continue >" onClick={this.props.goNext} /> : ""}
+			{(confirm.isSome() || orderTotalIsZero )? <Button text="Continue >" onClick={this.props.goNext} /> : ""}
 
 		</JoomlaMainPage>
 	}
