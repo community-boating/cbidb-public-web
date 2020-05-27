@@ -59,6 +59,16 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			LINKS.classes
 		]
 	}, {
+		place: 14,
+		getElements: [
+			(history: History<any>) => <a href="https://kayakcbi.eventbrite.com/?discount=CBI-Member" target="_blank">Kayak/SUP Rental</a>
+		] 
+	}, {
+		place: 15,
+		getElements: [
+			(history: History<any>) => <a href="https://kayakcbi.eventbrite.com/?discount=CBI-Guest" target="_blank">Kayak/SUP Rental</a>
+		] 
+	}, {
 		place: 4,
 		getElements: [
 			(history: History<any>) => LINKS.regLink(renewText())(history)
