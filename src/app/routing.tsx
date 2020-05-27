@@ -105,7 +105,7 @@ export default function (history: History<any>) {
 		apLoginPageRoute.asRoute(history),
 
 		// TODO: eventually there should be a combined landing page or something
-		<Route key="loginRedirect" path="/" render={() => <Redirect to="/ap" />} />,
+		<Route key="loginRedirect" path="/" exact render={() => <Redirect to="/ap" />} />,
 
 		<Route key="defaultPub" render={defaultRouteRender} />,
 	]
@@ -181,7 +181,7 @@ export default function (history: History<any>) {
 			/>} />
 		),
 
-		<Route key="homeRedirect" path="/" render={() => <Redirect to="/ap" />} />,,
+		<Route key="homeRedirect" path="/" exact render={() => <Redirect to="/ap" />} />,,
 
 		<Route key="defaultAuth" render={defaultRouteRender} />,
 	]);
