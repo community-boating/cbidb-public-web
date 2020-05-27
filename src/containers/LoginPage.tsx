@@ -12,7 +12,6 @@ import ErrorDiv from "../theme/joomla/ErrorDiv";
 import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
 import Currency from "../util/Currency";
-import {reservePageRoute} from "../app/routes/jp/reserve"
 import { jpForgotPasswordPageRoute } from "../app/routes/jp/forgot-pw";
 import { apForgotPasswordPageRoute } from "../app/routes/ap/forgot-pw";
 import { setJPImage, setAPImage } from "../util/set-bg-image";
@@ -20,6 +19,7 @@ import { PageFlavor } from "../components/Page";
 import assertNever from "../util/assertNever";
 // import PlaceholderLink from "../components/PlaceholderLink";
 import { apPreRegRoute } from "../app/routes/ap/prereg";
+import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
 export const formDefault = {
 	username: none as Option<string>,
 	password: none as Option<string>
@@ -135,7 +135,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		const jpNewAcctRegion = (
 			<JoomlaArticleRegion title="New CBI Parents...">
 				<div>
-					<Link to={reservePageRoute.getPathFromArgs({})}>
+					<Link to={jpClosedCovidPageRoute.getPathFromArgs({})}>
 						...click here to sign up your child(ren)!
 					</Link>
 					<br />

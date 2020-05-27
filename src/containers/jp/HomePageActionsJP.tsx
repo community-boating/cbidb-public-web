@@ -5,7 +5,7 @@ import { postWrapper as abortRegistration } from "../../async/junior/abort-mem-r
 import { makePostJSON } from '../../core/APIWrapperUtil';
 import { History } from 'history';
 import {ratingsPageRoute} from '../../app/routes/jp/ratings'
-import {classPageRoute} from '../../app/routes/jp/class'
+// import {classPageRoute} from '../../app/routes/jp/class'
 import {regPageRoute} from '../../app/routes/jp/reg'
 import {editPageRoute} from "../../app/routes/jp/edit"
 import {postWrapper as offseasonWLDelete} from "../../async/junior/offseason-wl-delete"
@@ -29,7 +29,7 @@ export default (bv: number, juniorId: number, history: History<any>) => {
         element: <Link to={ratingsPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"View Ratings"}</Link>
     }, {
         place: 5,
-        element: <Link to={classPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"Signup for Summer Classes"}</Link>
+        element: <span style={{fontStyle: "italic"}}>Class registration is temporarily suspended.</span> // <Link to={classPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"Signup for Summer Classes"}</Link>
     }, /*{
         place: 6,
         element: <PlaceholderLink>{"Signup for Fall Classes"}</PlaceholderLink>
@@ -74,9 +74,9 @@ export default (bv: number, juniorId: number, history: History<any>) => {
 
     return (function() {
         if (testBit(bv, 0)) {
-            return [<Link to={reg}>{"Purchase Summer Membership and/or Spring Class"}</Link>];
+            return [<span style={{fontStyle: "italic"}}>Membership registration is temporarily suspended.</span> /*<Link to={reg}>{"Purchase Summer Membership and/or Spring Class"}</Link>*/];
         } else if (testBit(bv, 1)) {
-            return [<Link to={reg}>{"Purchase Summer Membership"}</Link>];
+            return [<span style={{fontStyle: "italic"}}>Membership registration is temporarily suspended.</span>/*<Link to={reg}>{"Purchase Summer Membership"}</Link>*/];
         } else if (testBit(bv, 2)) {
             return [<Link to={reg}>{"Complete Registration"}</Link>]
         } else if (testBit(bv, 16)) {

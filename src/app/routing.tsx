@@ -17,11 +17,11 @@ import {editPageRoute} from './routes/jp/edit'
 import {classPageRoute} from './routes/jp/class'
 import {classTimePageRoute} from './routes/jp/classTime'
 import {signupNotePageRoute} from './routes/jp/signupNote'
-import {reservePageRoute} from './routes/jp/reserve'
-import {reserveNotesPageRoute} from './routes/jp/reserve-notes'
+// import {reservePageRoute} from './routes/jp/reserve'
+// import {reserveNotesPageRoute} from './routes/jp/reserve-notes'
 import {checkoutPageRoute} from "./routes/common/checkout"
 import { maintenancePageRoute } from './routes/common/maintenance';
-import { createAcctPageRoute } from './routes/jp/create-acct';
+// import { createAcctPageRoute } from './routes/jp/create-acct';
 import { jpForgotPasswordPageRoute } from './routes/jp/forgot-pw';
 import { jpForgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
 import { jpResetPasswordPageRoute } from './routes/jp/reset-pw';
@@ -42,6 +42,7 @@ import { apForgotPasswordPageRoute } from './routes/ap/forgot-pw';
 import { apForgotPasswordSentPageRoute } from './routes/ap/forgot-pw-sent';
 import { apResetPasswordPageRoute } from './routes/ap/reset-pw';
 import { assertUniqueKeys } from '../util/assertUniqueKeys';
+import { jpClosedCovidPageRoute } from './routes/jp/closed';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -75,11 +76,13 @@ const defaultRouteRender = () => {
 // TODO: real shadow components on everything
 export default function (history: History<any>) {
 	const mustNotBeLoggedIn = [	
-		reservePageRoute.asRoute(history),
+		// reservePageRoute.asRoute(history),
 
-		reserveNotesPageRoute.asRoute(history),
+		// reserveNotesPageRoute.asRoute(history),
 
-		createAcctPageRoute.asRoute(history),
+		// createAcctPageRoute.asRoute(history),
+
+		jpClosedCovidPageRoute.asRoute(history),
 
 		jpForgotPasswordPageRoute.asRoute(history),
 
