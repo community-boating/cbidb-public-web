@@ -41,6 +41,7 @@ import { apCreateAcctRoute } from './routes/ap/create-acct';
 import { apForgotPasswordPageRoute } from './routes/ap/forgot-pw';
 import { apForgotPasswordSentPageRoute } from './routes/ap/forgot-pw-sent';
 import { apResetPasswordPageRoute } from './routes/ap/reset-pw';
+import { assertUniqueKeys } from '../util/assertUniqueKeys';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -106,7 +107,7 @@ export default function (history: History<any>) {
 		<Route key="defaultPub" render={defaultRouteRender} />,
 	]
 
-	const mustBeLoggedIn = [
+	const mustBeLoggedIn = assertUniqueKeys([
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
 		
 		checkoutPageRoute.asRoute(history),
@@ -135,7 +136,7 @@ export default function (history: History<any>) {
 
 		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
 
-		<Route key="homeJP" path="/jp" exact render={() => <PageWrapper
+		<Route key="homeExplicit" path="/jp" exact render={() => <PageWrapper
 			key="HomePage"
 			history={history}
 			component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidatorJP>) => <HomePageJP
@@ -175,12 +176,12 @@ export default function (history: History<any>) {
 					}).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>} />
-		)
+		),
 
-		,
+		<Route key="homeRedirect" path="/" render={() => <Redirect to="/ap" />} />,,
 
 		<Route key="defaultAuth" render={defaultRouteRender} />,
-	]
+	]);
 
 	const isLoggedIn = (asc.state.login.authenticatedUserName as Option<string>).isSome();
 
