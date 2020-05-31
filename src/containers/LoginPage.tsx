@@ -20,6 +20,7 @@ import assertNever from "../util/assertNever";
 // import PlaceholderLink from "../components/PlaceholderLink";
 import { apPreRegRoute } from "../app/routes/ap/prereg";
 import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
+import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
 export const formDefault = {
 	username: none as Option<string>,
 	password: none as Option<string>
@@ -148,7 +149,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		const apNewAcctRegion = (
 			<JoomlaArticleRegion title="I don't have a password yet.">
 				<ul style={{fontSize: "0.92em"}}>
-					{/* <li><PlaceholderLink>Click here if you are already an adult member but don't yet have an online account.</PlaceholderLink></li> */}
+					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Click here if you are already an adult member but don't yet have an online account.</Link></li>
 					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li>
 					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Click here to purchase a gift certificate.</a></li>
 					{/* <li><PlaceholderLink>Click here to register as a guest.</PlaceholderLink></li> */}

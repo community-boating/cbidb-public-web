@@ -43,6 +43,9 @@ import { apForgotPasswordSentPageRoute } from './routes/ap/forgot-pw-sent';
 import { apResetPasswordPageRoute } from './routes/ap/reset-pw';
 import { assertUniqueKeys } from '../util/assertUniqueKeys';
 import { jpClosedCovidPageRoute } from './routes/jp/closed';
+import { apStartClaimAcctPageRoute } from './routes/ap/start-claim-acct';
+import { apClaimAcctSentPageRoute } from './routes/ap/claim-acct-sent';
+import { apDoClaimAcctPageRoute } from './routes/ap/do-claim-acct';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -99,6 +102,14 @@ export default function (history: History<any>) {
 		apPreRegRoute.asRoute(history),
 
 		apCreateAcctRoute.asRoute(history),
+
+		apStartClaimAcctPageRoute.asRoute(history),
+
+		apClaimAcctSentPageRoute.asRoute(history),
+
+		apDoClaimAcctPageRoute.asRoute(history),
+
+		// bottom most
 
 		jpLoginPageRoute.asRoute(history),
 
