@@ -21,6 +21,7 @@ import assertNever from "../util/assertNever";
 import { apPreRegRoute } from "../app/routes/ap/prereg";
 import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
 import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
+import FactaMainPage from "../theme/facta/FactaMainPage";
 export const formDefault = {
 	username: none as Option<string>,
 	password: none as Option<string>
@@ -247,10 +248,14 @@ export default class LoginPage extends React.Component<Props, State> {
 			}
 		}());
 
+		const main = <React.Fragment>
+			{leftColumn}
+			{rightColumn}
+		</React.Fragment>
+
 		return (
-			<JoomlaTwoColumns setBGImage={setBGImage} left={leftColumn} right={rightColumn}>
-				{errorPopup}
-			</JoomlaTwoColumns>
+			<FactaMainPage setBGImage={setBGImage} main={main}>
+			</FactaMainPage>
 		);
 	}
 }

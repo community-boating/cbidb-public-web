@@ -36,9 +36,9 @@ export default class App extends React.Component<Props> {
 		const self = this;
 
 		const ret = (
-			<JoomlaBase>
+			<React.Fragment>
 				{router(self.props.history)}
-			</JoomlaBase>
+			</React.Fragment>
 		);
 
 		return ret;
