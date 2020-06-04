@@ -21,6 +21,8 @@ import assertNever from "../util/assertNever";
 import { apPreRegRoute } from "../app/routes/ap/prereg";
 import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
 import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
+import { jpPathReserve } from "../app/paths/jp/reserve";
+import asc from "../app/AppStateContainer";
 export const formDefault = {
 	username: none as Option<string>,
 	password: none as Option<string>
@@ -135,7 +137,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		const jpNewAcctRegion = (
 			<JoomlaArticleRegion title="New CBI Parents...">
 				<div>
-					<Link to={jpClosedCovidPageRoute.getPathFromArgs({})}>
+					<Link to={asc.state.jpClosedCovid ? jpClosedCovidPageRoute.getPathFromArgs({}) : jpPathReserve.getPathFromArgs({})}>
 						...click here to sign up your child(ren)!
 					</Link>
 					<br />

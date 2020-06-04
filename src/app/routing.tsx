@@ -46,6 +46,10 @@ import { jpClosedCovidPageRoute } from './routes/jp/closed';
 import { apStartClaimAcctPageRoute } from './routes/ap/start-claim-acct';
 import { apClaimAcctSentPageRoute } from './routes/ap/claim-acct-sent';
 import { apDoClaimAcctPageRoute } from './routes/ap/do-claim-acct';
+import { reservePageRoute } from './routes/jp/reserve';
+import { reserveNotesPageRoute } from './routes/jp/reserve-notes';
+import { createAcctPageRoute } from './routes/jp/create-acct';
+import { apClassesPageRoute } from './routes/ap/classes';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -78,14 +82,14 @@ const defaultRouteRender = () => {
 
 // TODO: real shadow components on everything
 export default function (history: History<any>) {
-	const mustNotBeLoggedIn = [	
-		// reservePageRoute.asRoute(history),
+	const mustNotBeLoggedIn = assertUniqueKeys([	
+		asc.state.jpClosedCovid ? null : reservePageRoute.asRoute(history),
 
-		// reserveNotesPageRoute.asRoute(history),
+		asc.state.jpClosedCovid ? null : reserveNotesPageRoute.asRoute(history),
 
-		// createAcctPageRoute.asRoute(history),
+		asc.state.jpClosedCovid ? null : createAcctPageRoute.asRoute(history),
 
-		jpClosedCovidPageRoute.asRoute(history),
+		asc.state.jpClosedCovid ? jpClosedCovidPageRoute.asRoute(history) : null,
 
 		jpForgotPasswordPageRoute.asRoute(history),
 
@@ -119,7 +123,7 @@ export default function (history: History<any>) {
 		<Route key="loginRedirect" path="/" exact render={() => <Redirect to="/ap" />} />,
 
 		<Route key="defaultPub" render={defaultRouteRender} />,
-	]
+	].filter(Boolean));
 
 	const mustBeLoggedIn = assertUniqueKeys([
 		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
@@ -144,7 +148,7 @@ export default function (history: History<any>) {
 
 		apRegPageRoute.asRoute(history),
 
-	//	apClassesPageRoute.asRoute(history),
+		asc.state.jpClosedCovid ? null : apClassesPageRoute.asRoute(history),
 
 		apEditPageRoute.asRoute(history),
 
@@ -195,7 +199,7 @@ export default function (history: History<any>) {
 		<Route key="homeRedirect" path="/" exact render={() => <Redirect to="/ap" />} />,,
 
 		<Route key="defaultAuth" render={defaultRouteRender} />,
-	]);
+	].filter(Boolean));
 
 	const isLoggedIn = (asc.state.login.authenticatedUserName as Option<string>).isSome();
 

@@ -11,7 +11,8 @@ import {editPageRoute} from "../../app/routes/jp/edit"
 import {postWrapper as offseasonWLDelete} from "../../async/junior/offseason-wl-delete"
 import {offseasonPageRoute} from "../../app/routes/jp/offseason"
 import { jpBasePath } from '../../app/paths/jp/_base';
-
+import { classPageRoute } from '../../app/routes/jp/class';
+import asc from '../../app/AppStateContainer';
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)
@@ -29,7 +30,11 @@ export default (bv: number, juniorId: number, history: History<any>) => {
         element: <Link to={ratingsPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"View Ratings"}</Link>
     }, {
         place: 5,
-        element: <span style={{fontStyle: "italic"}}>Class registration is temporarily suspended.</span> // <Link to={classPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"Signup for Summer Classes"}</Link>
+        element: (
+            asc.state.jpClosedCovid
+            ? <span style={{fontStyle: "italic"}}>Class registration is temporarily suspended.</span>
+            : <Link to={classPageRoute.getPathFromArgs({personId: String(juniorId)})}>{"Signup for Summer Classes"}</Link>
+        )
     }, /*{
         place: 6,
         element: <PlaceholderLink>{"Signup for Fall Classes"}</PlaceholderLink>
@@ -74,9 +79,17 @@ export default (bv: number, juniorId: number, history: History<any>) => {
 
     return (function() {
         if (testBit(bv, 0)) {
-            return [<span style={{fontStyle: "italic"}}>Membership registration is temporarily suspended.</span> /*<Link to={reg}>{"Purchase Summer Membership and/or Spring Class"}</Link>*/];
+            return [(
+                asc.state.jpClosedCovid
+                ? <span style={{fontStyle: "italic"}}>Membership registration is temporarily suspended.</span>
+                : <Link to={reg}>{"Purchase Summer Membership and/or Spring Class"}</Link>
+            )];
         } else if (testBit(bv, 1)) {
-            return [<span style={{fontStyle: "italic"}}>Membership registration is temporarily suspended.</span>/*<Link to={reg}>{"Purchase Summer Membership"}</Link>*/];
+            return [(
+                asc.state.jpClosedCovid
+                ? <span style={{fontStyle: "italic"}}>Membership registration is temporarily suspended.</span>
+                : <Link to={reg}>{"Purchase Summer Membership"}</Link>
+            )];
         } else if (testBit(bv, 2)) {
             return [<Link to={reg}>{"Complete Registration"}</Link>]
         } else if (testBit(bv, 16)) {
