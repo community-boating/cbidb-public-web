@@ -1,6 +1,7 @@
 import { none, some } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
+import * as t from 'io-ts';
 
 import Button from "../../../components/Button";
 import { RadioGroup } from "../../../components/InputGroup";
@@ -11,8 +12,11 @@ import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import {postWrapper as submit} from "../../../async/member/select-guest-privs"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
+import {validator as pricesValidator} from "../../../async/prices"
+import Currency from "../../../util/Currency";
 
 interface Props {
+	prices: t.TypeOf<typeof pricesValidator>,
 	selected: boolean,
 	history: History<any>
 	breadcrumb: JSX.Element,
@@ -34,7 +38,7 @@ export default class GuestPrivs extends React.Component<Props, {radio: string}> 
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
 			<JoomlaArticleRegion title="Guest Privileges">
-			Members may elect to add on guest privileges for an additional $25 fee.
+			Members may elect to add on guest privileges for an additional {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)} fee.
             The guest privileges option includes all guests you bring sailing or kayaking for the term of your current membership.
             A member must have the appropriate ratings to use guest privileges: at least a Mercury Yellow rating for sailing and a
             Kayak rating for kayaking. Maximum occupancy rules do apply and vary by vessel.
@@ -49,7 +53,7 @@ export default class GuestPrivs extends React.Component<Props, {radio: string}> 
 					columns={1}
 					values={[{
 						key: "Yes",
-						display: "I would like to purchase guest privileges for $25."
+						display: `I would like to purchase guest privileges for ${Currency.dollars(this.props.prices.guestPrivsPrice).format(true)}.`
 					}, {
 						key: "No",
 						display: "I would not like to purchase guest privileges at this time."

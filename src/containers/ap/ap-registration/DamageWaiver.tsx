@@ -1,6 +1,7 @@
 import { none, some } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
+import * as t from 'io-ts';
 
 import Button from "../../../components/Button";
 import { RadioGroup } from "../../../components/InputGroup";
@@ -11,8 +12,11 @@ import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import {postWrapper as submit} from "../../../async/member/select-damage-waiver"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
+import {validator as pricesValidator} from "../../../async/prices"
+import Currency from "../../../util/Currency";
 
 interface Props {
+	prices: t.TypeOf<typeof pricesValidator>,
 	selected: boolean,
 	history: History<any>
 	breadcrumb: JSX.Element,
@@ -37,7 +41,7 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 			Any member who signs out a boat, including windsurfers and kayaks, shall be held financially responsible for damage to that boat and its equipment,
 			and damage to any other boat, windsurfer, or equipment in the event of a collision.
 			A member shall forfeit all membership privileges until satisfactory arrangements for payment of the cost of repairs is made with the Executive Director.
-			Members may elect to purchase an annual damage liability waiver for a fee of $35.
+			Members may elect to purchase an annual damage liability waiver for a fee of {Currency.dollars(this.props.prices.damageWaiverPrice).format(true)}.
 			This waiver covers any accidental damages to boats, but does not cover gross negligence, recklessness, or intentional acts.
 			Declining the waiver signifies that a member agrees to pay for the cost of repairs, as determined by Community Boating Inc., up to a maximum of $5000.
 			</JoomlaArticleRegion>
@@ -48,7 +52,7 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 					columns={1}
 					values={[{
 						key: "Yes",
-						display: "I elect to purchase the damage waiver for $35."
+						display: `I elect to purchase the damage waiver for ${Currency.dollars(this.props.prices.damageWaiverPrice).format(true)}.`
 					}, {
 						key: "No",
 						display: "I decline to purchase the damage waiver. I acknowledge that I may be held financially responsible for damages incurred to boats or equipment."
