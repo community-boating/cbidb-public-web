@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { TokensResult } from '../models/stripe/tokens';
 import Button from './Button';
+import assertNever from '../util/assertNever';
+import { PaymentMethod } from '../models/stripe/PaymentMethod';
 
 type Props = {
 	formId: string, 		// "payment-form"
 	elementId: string,		// "card-element"
 	cardErrorsId: string,	// "card-errors"
-	then: (result: TokensResult) => any
+	submitMethod: "TOKEN" | "PAYMENT_METHOD"
+	then: (result: TokensResult | PaymentMethod) => any
 }
 
 declare var Stripe: any;
@@ -33,15 +36,35 @@ export default class StripeElement extends React.Component<Props> {
 		});
 
 		this.submit = () => {
-			stripe.createToken(card).then(function(result: any) {
-				if (result.error) {
-					// Inform the customer that there was an error
-					var errorElement = document.getElementById(self.props.cardErrorsId);
-					errorElement.textContent = result.error.message;
-				} else {
-					self.props.then(result)
-				}
-			});
+			switch (this.props.submitMethod) {
+			case "TOKEN":
+				stripe.createToken(card).then(function(result: any) {
+					if (result.error) {
+						// Inform the customer that there was an error
+						var errorElement = document.getElementById(self.props.cardErrorsId);
+						errorElement.textContent = result.error.message;
+					} else {
+						self.props.then(result)
+					}
+				});
+				break;
+			case "PAYMENT_METHOD":
+				stripe.createPaymentMethod({
+					type: "card",
+					card: card
+				}).then(function(result: any) {
+					if (result.error) {
+						// Inform the customer that there was an error
+						var errorElement = document.getElementById(self.props.cardErrorsId);
+						errorElement.textContent = result.error.message;
+					} else {
+						self.props.then(result)
+					}
+				});
+				break;
+			default:
+				assertNever(this.props.submitMethod)
+			}
 		}
 
 		// Add an instance of the card Element into the `card-element` <div>
@@ -65,14 +88,15 @@ export default class StripeElement extends React.Component<Props> {
 		}
 	}
 	render() {
+		const self = this;
 		const paymentForm = (
 			<form action="/charge" method="post" id={this.props.formId}>
 				<div className="form-row" style={{border: "1px solid #777", padding: "10px"}}>
-					<label htmlFor="card-element">
+					<label htmlFor={self.props.elementId}>
 						Credit or debit card
 					</label>
 					<div id={this.props.elementId}></div>
-					<div id={this.props.cardErrorsId} role="alert"></div>
+					<div id={this.props.cardErrorsId} role="alert" style={{color: "red"}}></div>
 				</div>
 				<br />
 				<Button text="Submit Card Details" onClick={() => Promise.resolve(this.submit())}/>

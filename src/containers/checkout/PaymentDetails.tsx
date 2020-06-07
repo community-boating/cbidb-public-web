@@ -221,6 +221,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 		</tr></tbody></table>) : null;
 
 		const stripeElement = <StripeElement
+			submitMethod="TOKEN"
 			formId="payment-form"
 			elementId="card-element"
 			cardErrorsId="card-errors"

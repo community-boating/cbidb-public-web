@@ -10,7 +10,7 @@ import {postWrapper as abortRegistration} from "../../async/member/abort-mem-reg
 import { apBasePath } from '../../app/paths/ap/_base';
 //import { apClassesPageRoute } from '../../app/routes/ap/classes';
 import { apEditPageRoute } from '../../app/routes/ap/edit';
-import {path as stripePortalRedirectPath} from "../../async/stripe/portal-redirect"
+import { apDonateRoute } from '../../app/routes/ap/donate';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -127,12 +127,15 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <form id="stripe-portal-form" method="POST" action={"/api" + stripePortalRedirectPath}>
-				<a href="#" onClick={() => {
-					const form = document.getElementById("stripe-portal-form") as HTMLFormElement;
-					form.submit();
-				}}>Create/Manage Recurring Donations</a>
-			</form>
+			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
+			
+			
+			// <form id="stripe-portal-form" method="POST" action={"/api" + stripePortalRedirectPath}>
+			// 	<a href="#" onClick={() => {
+			// 		const form = document.getElementById("stripe-portal-form") as HTMLFormElement;
+			// 		form.submit();
+			// 	}}>Create/Manage Recurring Donations</a>
+			// </form>
 			
 			
 			// <a href="#" onClick={() => {

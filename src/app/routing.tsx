@@ -50,6 +50,7 @@ import { reservePageRoute } from './routes/jp/reserve';
 import { reserveNotesPageRoute } from './routes/jp/reserve-notes';
 import { createAcctPageRoute } from './routes/jp/create-acct';
 import { apClassesPageRoute } from './routes/ap/classes';
+import { apDonateRoute } from './routes/ap/donate';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -147,6 +148,8 @@ export default function (history: History<any>) {
 		offseasonPageRoute.asRoute(history),
 
 		apRegPageRoute.asRoute(history),
+
+		apDonateRoute.asRoute(history),
 
 		asc.state.jpClosedCovid ? null : apClassesPageRoute.asRoute(history),
 
