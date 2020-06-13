@@ -41,4 +41,5 @@ module.exports = {
 	//	makeRequest: (serverConfig.API.https ? https.request : http.request),
 	},
 	serverToUseForAPI: serverConfig.SELF,
+	devAPIServer: config.devAPI
 }
