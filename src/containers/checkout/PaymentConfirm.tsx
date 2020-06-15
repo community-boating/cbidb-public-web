@@ -61,7 +61,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 				Please confirm your order and payment information are correct, and then click "Submit Payment" below!
 				<br />
 				<br />
-				<FullCartReport cartItems={self.props.cartItems} history={this.props.history} setErrors={() => {}}/>
+				<FullCartReport cartItems={self.props.cartItems} history={this.props.history} setErrors={() => {}} includeCancel={false}/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Your Billing Info">
 				{billingInfo}
