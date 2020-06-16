@@ -25,6 +25,12 @@ const LINKS = {
 	}}>{"Cancel Membership Purchase"}</a>,
 	classes: (history: History<any>) => null as any, // <Link to={apClassesPageRoute.getPathFromArgs({})}>Signup for Classes</Link>,
 	edit: (history: History<any>) => <Link to={apEditPageRoute.getPathFromArgs({})}>Edit Information</Link>,
+	keelMercRental: (history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/items/240416/?full-items=yes&flow=no" target="_blank">Reserve a Keel Mercury</a>,
+	kayakOrSUPRental: (history: History<any>) => (<React.Fragment>
+		<a href="https://fareharbor.com/embeds/book/communityboating/?sheet=275108&full-items=yes&flow=411419" target="_blank">Reserve a Kayak/SUP</a>
+		<br />
+		<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>(Reservations must be made in advance; we cannot accommodate walkups)</span>
+	</React.Fragment>),
 }
 
 export default (bv: number, personId: number, history: History<any>, discountAmt: Currency, expirationDate: Option<Moment>, show4th: boolean) => {
@@ -61,12 +67,14 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 	}, {
 		place: 14,
 		getElements: [
-			(history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?sheet=275108&full-items=yes&flow=411419" target="_blank">Kayak/SUP Rental</a>
+			LINKS.keelMercRental,
+			LINKS.kayakOrSUPRental
 		] 
 	}, {
 		place: 15,
 		getElements: [
-			(history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?sheet=275108&full-items=yes&flow=411419" target="_blank">Kayak/SUP Rental</a>
+			LINKS.keelMercRental,
+			LINKS.kayakOrSUPRental
 		] 
 	}, {
 		place: 4,
