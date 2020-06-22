@@ -50,6 +50,7 @@ import { reservePageRoute } from './routes/jp/reserve';
 import { reserveNotesPageRoute } from './routes/jp/reserve-notes';
 import { createAcctPageRoute } from './routes/jp/create-acct';
 import { apClassesPageRoute } from './routes/ap/classes';
+import { apSettingsPageRoute } from './routes/ap/settings';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -151,6 +152,8 @@ export default function (history: History<any>) {
 		asc.state.jpClosedCovid ? null : apClassesPageRoute.asRoute(history),
 
 		apEditPageRoute.asRoute(history),
+
+		apSettingsPageRoute.asRoute(history),
 
 		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
 
