@@ -1,7 +1,7 @@
 const ini = require('ini');
 const fs = require('fs');
 
-const config = ini.parse(fs.readFileSync(`./ini/private.ini`, 'utf-8'));
+const config = ini.parse(fs.readFileSync(`./ini/config.ini`, 'utf-8'));
 
 const serverConfig = (function() {
 	const prodConfig = {
