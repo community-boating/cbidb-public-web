@@ -67,7 +67,8 @@ module.exports = function (proxy, allowedHost) {
 		proxy: {
 			'/api': {
 				target: devAPIServer,
-				pathRewrite: { '^/api': '' }
+				pathRewrite: { '^/api': '' },
+				changeOrigin: true
 			}
 		},
 		quiet: true,

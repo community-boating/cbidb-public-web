@@ -21,7 +21,7 @@ const serverConfig = (function() {
 			...prodConfig.SELF,
 			host: config.hostNameDev,
 			https: false,
-			port: 8081
+			port: config.port || 8081
 		}
 	}
 	
