@@ -81,6 +81,15 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			LINKS.kayakOrSUPRental
 		] 
 	}, {
+		place: 18,
+		getElements: [
+			(history: History<any>) => <React.Fragment>
+				<a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/items/245032/?full-items=yes">Sign up for your Rigging Test</a>
+				<br />
+				<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>Please review the Rigging class resources in our Virtual Learning Center<br />(<a style={{fontSize: "0.9em"}} target="_blank" href="https://www.community-boating.org/elearning">www.community-boating.org/elearning</a>).</span>
+			</React.Fragment>
+		] 
+	}, {
 		place: 4,
 		getElements: [
 			(history: History<any>) => LINKS.regLink(renewText())(history)
