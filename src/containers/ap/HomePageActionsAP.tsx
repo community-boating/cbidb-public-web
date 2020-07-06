@@ -90,6 +90,11 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			</React.Fragment>
 		] 
 	}, {
+		place: 19,
+		getElements: [
+			LINKS.keelMercRental,
+		] 
+	}, {
 		place: 4,
 		getElements: [
 			(history: History<any>) => LINKS.regLink(renewText())(history)
