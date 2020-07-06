@@ -95,6 +95,16 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			LINKS.keelMercRental,
 		] 
 	}, {
+		place: 20,
+		getElements: [
+			(history: History<any>) => <React.Fragment>
+				<a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/items/244905/?full-items=yes">Reserve a Laser</a>
+				<br />
+				<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>(Reservations must be made in advance; we cannot accommodate walkups)</span>
+			</React.Fragment>
+				
+		] 
+	}, {
 		place: 4,
 		getElements: [
 			(history: History<any>) => LINKS.regLink(renewText())(history)
