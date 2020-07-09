@@ -23,6 +23,10 @@ import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
 import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
 import { jpPathReserve } from "../app/paths/jp/reserve";
 import asc from "../app/AppStateContainer";
+import { jpBasePath } from "../app/paths/jp/_base";
+import { apBasePath } from "../app/paths/ap/_base";
+import { jpPathLogin } from "../app/paths/jp/login";
+import { apPathLogin } from "../app/paths/ap/login";
 export const formDefault = {
 	username: none as Option<string>,
 	password: none as Option<string>
@@ -74,6 +78,15 @@ export default class LoginPage extends React.Component<Props, State> {
 						loginProcessing: false,
 						validationErrors: ["Login unsuccesful."]
 					})
+				} else {
+					const {checkFor, goTo} = (
+						self.props.flavor == PageFlavor.JP
+						? {checkFor: jpPathLogin.getPathFromArgs({}), goTo: jpBasePath.getPathFromArgs({})}
+						: {checkFor: apPathLogin.getPathFromArgs({}), goTo: apBasePath.getPathFromArgs({})}
+					);
+					if (window.location.pathname == checkFor) {
+						self.props.history.push(goTo)
+					}
 				}
 			})
 		}
