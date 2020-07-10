@@ -44,14 +44,14 @@ export default class HomePageAP extends React.Component<Props, State> {
 				rows={[[
 					`${self.props.data.firstName} ${self.props.data.lastName}`,
 					self.props.data.status,
-					<ul style={{fontSize: "0.8em"}}>{homePageActions(
+					homePageActions(
 						self.props.data.actions,
 						self.props.data.personId,
 						self.props.history,
 						Currency.dollars(self.props.data.discountsResult.renewalDiscountAmt),
 						expirationDate,
 						self.props.data.show4thLink
-					)}</ul>
+					)
 				]]}
 				rawHtml={{1: true}}
 			/>
