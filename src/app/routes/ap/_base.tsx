@@ -8,7 +8,8 @@ import HomePageAP from '../../../containers/ap/HomePageAP';
 import { apiw as welcomeAPIAP, validator as welcomeValidatorAP } from "../../../async/member-welcome-ap";
 import { setAPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
-import {getWrapper as getProtoPersonCookie} from "../../../async/check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "../../../async/check-proto-person-cookie"
+import { PostURLEncoded } from '../../../core/APIWrapperUtil';
 
 export const apHomePageRoute = new RouteWrapper(true, apBasePath, (history: History<any>) => <PageWrapper
 	key="HomePage"
@@ -21,7 +22,7 @@ export const apHomePageRoute = new RouteWrapper(true, apBasePath, (history: Hist
 	shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
 	getAsyncProps={(urlProps: {}) => {
 		return Promise.all([
-			getProtoPersonCookie.send(null),
+			getProtoPersonCookie.send(PostURLEncoded({})),
 			welcomeAPIAP.send(null)
 		]).then(([whatever, welcome]) => {
 			return Promise.resolve(welcome);

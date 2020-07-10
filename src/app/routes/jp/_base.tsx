@@ -8,7 +8,8 @@ import HomePageJP from "../../../containers/jp/HomePageJP";
 import { apiw as welcomeAPIJP, validator as welcomeValidatorJP } from "../../../async/member-welcome-jp";
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';
-import {getWrapper as getProtoPersonCookie} from "../../../async/check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "../../../async/check-proto-person-cookie"
+import { PostURLEncoded } from '../../../core/APIWrapperUtil';
 
 
 export const jpHomePageRoute = new RouteWrapper(true, jpBasePath, (history: History<any>) => <PageWrapper
@@ -22,7 +23,7 @@ export const jpHomePageRoute = new RouteWrapper(true, jpBasePath, (history: Hist
 	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {}) => {
 		return Promise.all([
-			getProtoPersonCookie.send(null),
+			getProtoPersonCookie.send(PostURLEncoded({})),
 			welcomeAPIJP.send(null)
 		]).then(([whatever, welcome]) => {
 			return Promise.resolve(welcome);
