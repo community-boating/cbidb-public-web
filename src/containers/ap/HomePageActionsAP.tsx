@@ -25,7 +25,6 @@ const LINKS = {
 	}}>{"Cancel Membership Purchase"}</a>,
 	classes: (history: History<any>) => null as any, // <Link to={apClassesPageRoute.getPathFromArgs({})}>Signup for Classes</Link>,
 	edit: (history: History<any>) => <Link to={apEditPageRoute.getPathFromArgs({})}>Edit Information</Link>,
-	keelMercRental: (history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/items/240416/?full-items=yes&flow=no" target="_blank">Reserve a Keel Mercury *</a>,
 	kayakOrSUPRental: (history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?sheet=275108&full-items=yes&flow=411419" target="_blank">Reserve a Kayak/SUP *</a>,
 }
 
@@ -63,13 +62,11 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 	}, {
 		place: 14,
 		getElements: [
-			LINKS.keelMercRental,
 			LINKS.kayakOrSUPRental
 		] 
 	}, {
 		place: 15,
 		getElements: [
-			LINKS.keelMercRental,
 			LINKS.kayakOrSUPRental
 		] 
 	}, {
@@ -82,14 +79,32 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			</React.Fragment>
 		] 
 	}, {
-		place: 19,
+		place: 24,
 		getElements: [
-			LINKS.keelMercRental,
+			(history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431635" target="_blank">Reserve a Keel Mercury *</a>
 		] 
 	}, {
 		place: 20,
 		getElements: [
-			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/items/244905/?full-items=yes">Reserve a Laser *</a>
+			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431544">Reserve a Laser *</a>
+				
+		] 
+	}, {
+		place: 21,
+		getElements: [
+			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431540">Reserve a Sonar *</a>
+				
+		] 
+	}, {
+		place: 22,
+		getElements: [
+			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431542">Reserve an Ideal 18 *</a>
+				
+		] 
+	}, {
+		place: 23,
+		getElements: [
+			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431633">Reserve a 420 *</a>
 				
 		] 
 	}, {
