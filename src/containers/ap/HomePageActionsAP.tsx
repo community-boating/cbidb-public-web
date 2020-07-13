@@ -10,6 +10,7 @@ import {postWrapper as abortRegistration} from "../../async/member/abort-mem-reg
 import { apBasePath } from '../../app/paths/ap/_base';
 //import { apClassesPageRoute } from '../../app/routes/ap/classes';
 import { apEditPageRoute } from '../../app/routes/ap/edit';
+import { apPathAddons } from '../../app/paths/ap/addons';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -28,6 +29,9 @@ const LINKS = {
 	kayakOrSUPRental: (history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?sheet=275108&full-items=yes&flow=411419" target="_blank">Reserve a Kayak/SUP *</a>,
 }
 
+export const getNoGP = (bv: number) => testBit(bv, 16);
+export const getNoDW = (bv: number) => testBit(bv, 17);
+
 export default (bv: number, personId: number, history: History<any>, discountAmt: Currency, expirationDate: Option<Moment>, show4th: boolean) => {
 	const renewText = () => (<React.Fragment>
 		Renew for a year
@@ -35,8 +39,11 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		({discountAmt.format()} discount until {expirationDate.getOrElse(null).clone().add(7, 'days').format("MM/DD/YYYY")})
 		</React.Fragment>);
 
+	const noGP = getNoGP(bv);
+	const noDW = getNoDW(bv);
+
 	const actions: {
-		place: number, getElements: ((history: History<any>) => JSX.Element)[]
+		place?: number, getElements: ((history: History<any>) => JSX.Element)[], show?: () => boolean
 	}[] = [{
 		place: 0,
 		getElements: [
@@ -118,6 +125,23 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			LINKS.regLink("Extend your membership")
 		]
 	}, {
+		show: () => noGP || noDW,
+		getElements: [
+			() => {
+				const text = (
+					noDW
+					? (
+						noGP
+						? <React.Fragment>Purchase Guest Privileges<br />and/or Damage Waiver</React.Fragment>
+						: "Purchase Damage Waiver"
+					)
+					: "Purchase Guest Privileges"
+				);
+
+				return <Link to={apPathAddons.getPathFromArgs({})}>{text}</Link>;
+			}
+		]
+	}, {
 		// Dock party etc links here
 		place: 6,
 		getElements: [
@@ -180,7 +204,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 	return (<React.Fragment>
 		<ul style={{fontSize: "0.8em"}}>
 			{actions
-				.filter(({ place }) => testBit(bv, place))
+				.filter(({ place, show }) => (place != undefined && testBit(bv, place)) || (show && show()))
 				.flatMap(({ getElements }) => getElements.map(e => e(history)))
 				.filter(Boolean)
 				.map((element, i) => <li key={i}>{element}</li>)
