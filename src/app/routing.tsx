@@ -46,6 +46,7 @@ import { jpPathLogin } from './paths/jp/login';
 import { jpBasePath } from './paths/jp/_base';
 import LoginRoute from "../app/routes/common/login";
 import { PageFlavor } from '../components/Page';
+import { apAddonsPageRoute } from './routes/ap/addons';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -125,6 +126,7 @@ export default function (history: History<any>) {
 		apEditPageRoute.asRoute(history),
 		apSettingsPageRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),
+		apAddonsPageRoute.asRoute(history),
 		(
 			asc.state.justLoggedIn
 			? <Route key="homeAP" path={apBasePath.getPathFromArgs({})} exact render={() => <Redirect to={apRegPageRoute.getPathFromArgs({})} />} />

@@ -21,7 +21,9 @@ const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e 
 })
 
 type Props = {
-	history: History<any>
+	history: History<any>,
+	noGP: boolean,
+	noDW: boolean
 };
 
 type State = {
@@ -37,11 +39,11 @@ export default class AddonsWizard extends React.Component<Props, State> {
 		const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 			goPrev: fromWizard.goPrev,
 			goNext: fromWizard.goNext,
-			breadcrumb: (<ProgressThermometer
+			breadcrumb: (this.props.noDW && this.props.noGP) ? (<ProgressThermometer
 				prevStates={fromWizard.prevNodes.map(mapElementToBreadcrumbState)}
 				currState={mapElementToBreadcrumbState(fromWizard.currNode)}
 				nextStates={fromWizard.nextNodes.map(mapElementToBreadcrumbState)}
-			/>)
+			/>) : null
 		})
 	
 		const pageWrapperProps = {
@@ -53,7 +55,7 @@ export default class AddonsWizard extends React.Component<Props, State> {
 			history={self.props.history}
 			start={apBasePath.getPathFromArgs({})}
 			end={apBasePath.getPathFromArgs({})}
-			nodes={[{
+			nodes={[].concat(this.props.noGP ? [{
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="GuestPrivs"
 					history={self.props.history}
@@ -76,7 +78,7 @@ export default class AddonsWizard extends React.Component<Props, State> {
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Guest<br />Privileges</React.Fragment>
-			}, {
+			}] : []).concat(this.props.noDW ? [{
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="DamageWaiver"
 					history={self.props.history}
@@ -99,7 +101,7 @@ export default class AddonsWizard extends React.Component<Props, State> {
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Damage<br />Waiver</React.Fragment>
-			}]}
+			}] : [])}
 		/>
 	}
 }

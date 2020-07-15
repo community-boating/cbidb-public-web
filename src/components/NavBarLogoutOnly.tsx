@@ -29,7 +29,7 @@ export default (props: {history: History<any>, sysdate: Option<Moment>, showProg
 
 	const settingsPage = (
 		program == 'ap'
-		? <Link to={apSettingsPagePath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Change Email/Password</Link>
+		? <Link key="settings" to={apSettingsPagePath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Change Email/Password</Link>
 		: null
 	);
 
