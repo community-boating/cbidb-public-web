@@ -7,6 +7,7 @@ import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setAPImage } from '../../../util/set-bg-image';
 import { apiw as welcomeAPI } from "../../../async/member-welcome-ap";
 import { getNoGP, getNoDW } from '../../../containers/ap/HomePageActionsAP';
+import { apBasePath } from '../../paths/ap/_base';
 
 type AddonsProps = {
 	noGP: boolean,
@@ -25,13 +26,21 @@ export const apAddonsPageRoute = new RouteWrapper(true, apPathAddons, history =>
 	getAsyncProps={() => {
 		return welcomeAPI.send(null).then(res => {
 			if (res.type == "Success") {
-				return {
-					type: "Success",
-					success: {
-						noGP: getNoGP(res.success.actions),
-						noDW: getNoDW(res.success.actions)
+				const noGP = getNoGP(res.success.actions);
+				const noDW = getNoDW(res.success.actions);
+				if (!noGP && !noDW) {
+					history.push(apBasePath.getPathFromArgs({}))
+					return null;
+				} else {
+					return {
+						type: "Success",
+						success: {
+							noGP,
+							noDW
+						}
 					}
 				}
+				
 			}
 		}).catch(err => Promise.resolve(null));  // TODO: handle failure
 	}}
