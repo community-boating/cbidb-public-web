@@ -10,6 +10,7 @@ import {postWrapper as abortRegistration} from "../../async/member/abort-mem-reg
 import { apBasePath } from '../../app/paths/ap/_base';
 //import { apClassesPageRoute } from '../../app/routes/ap/classes';
 import { apEditPageRoute } from '../../app/routes/ap/edit';
+import { apClassesPageRoute } from '../../app/routes/ap/classes';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -23,7 +24,7 @@ const LINKS = {
 			abortRegistration.send(makePostJSON({})).then(() => history.push("/redirect" + apBasePath.getPathFromArgs({})))
 		}
 	}}>{"Cancel Membership Purchase"}</a>,
-	classes: (history: History<any>) => null as any, // <Link to={apClassesPageRoute.getPathFromArgs({})}>Signup for Classes</Link>,
+	classes: (history: History<any>) => <Link to={apClassesPageRoute.getPathFromArgs({})}>Signup for Classes</Link>,
 	edit: (history: History<any>) => <Link to={apEditPageRoute.getPathFromArgs({})}>Edit Information</Link>,
 	kayakOrSUPRental: (history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?sheet=275108&full-items=yes&flow=411419" target="_blank">Reserve a Kayak/SUP *</a>,
 }

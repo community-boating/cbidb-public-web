@@ -1,10 +1,28 @@
 import * as React from 'react';
 import { Moment } from 'moment';
 import * as _ from 'lodash';
+import Button from './Button';
+import moment = require('moment');
+
+// TODO: calendar should be instantiated with a way to ask for data in a given date range
+// calendar could then ensure it always has data for x months ahead or behind as needed
+
+export type CalendarEvent = {
+	id: number,
+	display: React.ReactNode,
+	onClick: () => void
+}
+
+export type CalendarDayElement = {
+	dayMoment: Moment,
+	elements: CalendarEvent[]
+}
 
 type Props = {
 	today: Moment,
-	monthStartOnDate: number // 0 for Sunday, 1 for Monday etc
+	monthStartOnDate: number, // 0 for Sunday, 1 for Monday etc
+	days: CalendarDayElement[],
+	showElementsInAdjacentMonths: boolean
 };
 
 type State = {
@@ -58,14 +76,58 @@ export default class Calendar extends React.PureComponent<Props, State> {
 		return d == 0 || d == 6;
 	}
 
+	static dayFormat = "YYYY-MM-DD";
+
+	static momentToDayString(m: Moment): string {
+		return m.format(Calendar.dayFormat);
+	}
+
+	static dayStringToMoment(s: string): Moment {
+		return moment(s, Calendar.dayFormat);
+	}
+
+	goBack() {
+		this.setState({
+			...this.state,
+			firstOfFocusedMonth: this.state.firstOfFocusedMonth.clone().subtract(1, 'month')
+		})
+	}
+
+	goForward() {
+		this.setState({
+			...this.state,
+			firstOfFocusedMonth: this.state.firstOfFocusedMonth.clone().add(1, 'month')
+		})
+	}
+
+	goToday() {
+		this.setState({
+			...this.state,
+			firstOfFocusedMonth: Calendar.jumpToStartOfMonth(this.props.today)
+		})
+	}
+
+	private dayElementsHash: {[K: string]: CalendarEvent[]}
+
 	constructor(props: Props) {
 		super(props);
 		this.state = {
 			firstOfFocusedMonth: Calendar.jumpToStartOfMonth(this.props.today)
 		}
+		this.componentWillReceiveProps(props)
+	}
+
+	componentWillReceiveProps(props: Props) {
+		console.log("in cal ctor: ", props.days.length)
+		this.dayElementsHash = props.days.reduce((hash, day) => {
+			const dayString = Calendar.momentToDayString(day.dayMoment);
+			hash[dayString] = day.elements;
+			return hash;
+		}, {} as {[K: string]: CalendarEvent[]});
 	}
 
 	render() {
+		console.log("rendering calendar")
 		const renderedDateArray = Calendar.getDateArrayForMonth(this.state.firstOfFocusedMonth, this.props.monthStartOnDate);
 		const dayHeaders = Calendar.getDayOfWeekNames(renderedDateArray[0]).map((header, i) => <th key={i} className="DayOfWeek">{header}</th>);
 		const currentMonth = this.state.firstOfFocusedMonth.format("MM");
@@ -96,6 +158,18 @@ export default class Calendar extends React.PureComponent<Props, State> {
 							{row.map((m, cellIndex) => 
 								<td key={`cell${cellIndex}`} className={getCellClass(m)} valign="top">
 									<div className={getDayNumberDivClass(m)}>{m.format("D")}</div>
+										{(
+											this.props.showElementsInAdjacentMonths || isCurrentMonth(m))
+											? (this.dayElementsHash[Calendar.momentToDayString(m)] || []).map((element, i) => (
+												<div key={"dayElem_" + i} className="apex_cal_data_grid_src">
+													<a href="#focus" onClick={e => {
+														element.onClick();
+													}}>
+														{element.display}
+													</a>
+												</div>
+											))
+											: null}
 								</td>
 							)}
 						</tr>
@@ -105,16 +179,24 @@ export default class Calendar extends React.PureComponent<Props, State> {
 		);
 
 		return (
-			<table cellPadding="0" cellSpacing="0" className="CalendarHolder" role="presentation">
-				<tbody>
-					<tr>
-						<td className="MonthTitle">{Calendar.getMonthTitle(this.state.firstOfFocusedMonth)}</td>
-					</tr>
-					<tr><td>
-						{mainTable}
-					</td></tr>
-				</tbody>
-			</table>
+			<React.Fragment>
+				<div>
+					<Button text="< Previous" onClick={() => Promise.resolve(this.goBack())} />
+					<Button text="Today" onClick={() => Promise.resolve(this.goToday())} />
+					<Button text="Next >" onClick={() => Promise.resolve(this.goForward())} />
+				</div>
+
+				<table cellPadding="0" cellSpacing="0" className="CalendarHolder" role="presentation">
+					<tbody>
+						<tr>
+							<td className="MonthTitle">{Calendar.getMonthTitle(this.state.firstOfFocusedMonth)}</td>
+						</tr>
+						<tr><td>
+							{mainTable}
+						</td></tr>
+					</tbody>
+				</table>
+			</React.Fragment>
 		);
 	}
 }

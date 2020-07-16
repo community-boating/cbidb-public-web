@@ -125,6 +125,7 @@ export default function (history: History<any>) {
 		apEditPageRoute.asRoute(history),
 		apSettingsPageRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),
+		apClassesPageRoute.asRoute(history),
 		(
 			asc.state.justLoggedIn
 			? <Route key="homeAP" path={apBasePath.getPathFromArgs({})} exact render={() => <Redirect to={apRegPageRoute.getPathFromArgs({})} />} />
