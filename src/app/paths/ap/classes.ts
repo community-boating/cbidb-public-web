@@ -1,3 +1,3 @@
 import {apBasePath} from "./_base";
 
-export default apBasePath.appendPathSegment<{}>("/classes");
+export const apPathClasses = apBasePath.appendPathSegment<{}>("/classes");

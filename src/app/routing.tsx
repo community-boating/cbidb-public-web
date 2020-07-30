@@ -126,6 +126,7 @@ export default function (history: History<any>) {
 		apEditPageRoute.asRoute(history),
 		apSettingsPageRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),
+		apClassesPageRoute.asRoute(history),
 		apAddonsPageRoute.asRoute(history),
 		(
 			asc.state.justLoggedIn
