@@ -80,6 +80,11 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			</React.Fragment>
 		] 
 	}, {
+		place: 25,
+		getElements: [
+			(history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=437192" target="_blank">Reserve a Keel Mercury *</a>
+		] 
+	}, {
 		place: 24,
 		getElements: [
 			(history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431635" target="_blank">Reserve a Keel Mercury *</a>
