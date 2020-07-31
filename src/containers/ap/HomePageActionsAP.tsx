@@ -17,14 +17,17 @@ function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
 }
 
+const abortText = (text: string) => (history: History<any>) => <a href="#" onClick={e => {
+	e.preventDefault();
+	if (window.confirm(`Do you really want to abort ${text} registration?`)) {
+		abortRegistration.send(makePostJSON({})).then(() => history.push("/redirect" + apBasePath.getPathFromArgs({})))
+	}
+}}>{`Cancel ${text} Purchase`}</a>;
+
 const LINKS = {
 	regLink: (text: React.ReactNode) => (history: History<any>) => <Link to={apRegPageRoute.getPathFromArgs({})}>{text}</Link>,
-	abort: (history: History<any>) => <a href="#" onClick={e => {
-		e.preventDefault();
-		if (window.confirm(`Do you really want to abort membership registration?`)) {
-			abortRegistration.send(makePostJSON({})).then(() => history.push("/redirect" + apBasePath.getPathFromArgs({})))
-		}
-	}}>{"Cancel Membership Purchase"}</a>,
+	abortText,
+	abort: abortText("Membership"),
 	classes: (history: History<any>) => <Link to={apClassesPageRoute.getPathFromArgs({})}>Signup for Classes</Link>,
 	edit: (history: History<any>) => <Link to={apEditPageRoute.getPathFromArgs({})}>Edit Information</Link>,
 	kayakOrSUPRental: (history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?sheet=275108&full-items=yes&flow=411419" target="_blank">Reserve a Kayak/SUP *</a>,
@@ -32,6 +35,7 @@ const LINKS = {
 
 export const getNoGP = (bv: number) => testBit(bv, 16);
 export const getNoDW = (bv: number) => testBit(bv, 17);
+export const getAddonsPurchaseInProgress = (bv: number) => testBit(bv, 28);
 
 export default (bv: number, personId: number, history: History<any>, discountAmt: Currency, expirationDate: Option<Moment>, show4th: boolean) => {
 	const renewText = () => (<React.Fragment>
@@ -67,6 +71,11 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		getElements: [
 			LINKS.regLink("Edit Registration"),
 			LINKS.abort
+		]
+	}, {
+		place: 28,
+		getElements: [
+			LINKS.abortText("Addons")
 		]
 	}, {
 		place: 3,
