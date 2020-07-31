@@ -36,8 +36,14 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		({discountAmt.format()} discount until {expirationDate.getOrElse(null).clone().add(7, 'days').format("MM/DD/YYYY")})
 		</React.Fragment>);
 
+	const showSignupLink = (place: number) => {
+	//	const discountFrozen = testBit(bv, 26);
+		const adminHold = testBit(bv, 27);
+		return () => !adminHold && testBit(bv, place);
+	}
+
 	const actions: {
-		place: number, getElements: ((history: History<any>) => JSX.Element)[]
+		place?: number, getElements: ((history: History<any>) => JSX.Element)[], show?: () => boolean
 	}[] = [{
 		place: 0,
 		getElements: [
@@ -61,17 +67,17 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			LINKS.classes
 		]
 	}, {
-		place: 14,
+		show: showSignupLink(14),
 		getElements: [
 			LINKS.kayakOrSUPRental
 		] 
 	}, {
-		place: 15,
+		show: showSignupLink(15),
 		getElements: [
 			LINKS.kayakOrSUPRental
 		] 
 	}, {
-		place: 18,
+		show: showSignupLink(18),
 		getElements: [
 			(history: History<any>) => <React.Fragment>
 				<a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/items/245032/?full-items=yes">Sign up for your Rigging Test</a>
@@ -80,35 +86,35 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			</React.Fragment>
 		] 
 	}, {
-		place: 25,
+		show: showSignupLink(25),
 		getElements: [
 			(history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=437192" target="_blank">Reserve a Keel Mercury *</a>
 		] 
 	}, {
-		place: 24,
+		show: showSignupLink(24),
 		getElements: [
 			(history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431635" target="_blank">Reserve a Keel Mercury *</a>
 		] 
 	}, {
-		place: 20,
+		show: showSignupLink(20),
 		getElements: [
 			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431544">Reserve a Laser *</a>
 				
 		] 
 	}, {
-		place: 21,
+		show: showSignupLink(21),
 		getElements: [
 			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431540">Reserve a Sonar *</a>
 				
 		] 
 	}, {
-		place: 22,
+		show: showSignupLink(22),
 		getElements: [
 			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431542">Reserve an Ideal 18 *</a>
 				
 		] 
 	}, {
-		place: 23,
+		show: showSignupLink(23),
 		getElements: [
 			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431633">Reserve a 420 *</a>
 				
@@ -186,7 +192,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 	return (<React.Fragment>
 		<ul style={{fontSize: "0.8em"}}>
 			{actions
-				.filter(({ place }) => testBit(bv, place))
+				.filter(({ place, show }) => (place != undefined && testBit(bv, place)) || (show && show()))
 				.flatMap(({ getElements }) => getElements.map(e => e(history)))
 				.filter(Boolean)
 				.map((element, i) => <li key={i}>{element}</li>)
