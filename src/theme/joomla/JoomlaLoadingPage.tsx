@@ -1,5 +1,6 @@
 import * as React from "react";
 import Page from "../../components/Page";
+import JoomlaBase from "./JoomlaBase";
 
 interface Props {
     showSpinner?: boolean
@@ -9,6 +10,7 @@ export default class JoomlaLoadingPage extends Page<Props> {
     render() {
         if (this.props.showSpinner) {
             return (
+				<JoomlaBase>
                 <div className="rt-container">
                     <div className="rt-grid-12">
                         <div id="rt-main-column" className="page-content-light">
@@ -24,13 +26,15 @@ export default class JoomlaLoadingPage extends Page<Props> {
                         </div>
                     </div>
                 </div>
+				</JoomlaBase>
             );
         } else {
-            return (
+            return (<JoomlaBase>
                 <div className="rt-container">
                     <div className="rt-grid-12">
                     </div>
                 </div>
+				</JoomlaBase>
             );
         }
     }

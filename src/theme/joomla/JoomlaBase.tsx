@@ -10,18 +10,6 @@ class JoomlaHelmet extends React.Component {
                     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
                     <title>Community Boating, Inc.</title>
 
-
-
-
-
-{/*
-                    <script src="https://portal2.community-boating.org/i/libraries/apex/minified/desktop_all.min.js?v=18.1.0.00.45"></script>
-                    <script src="https://portal2.community-boating.org/ords/wwv_flow.js_messages?p_app_id=620&p_lang=en&p_version=18.1.0.00.45-7038381942104"></script>
-                    <script src="https://portal2.community-boating.org/i/libraries/apex/minified/legacy_pre18.min.js?v=18.1.0.00.45"></script>
-                    <script src="https://portal2.community-boating.org/i/libraries/apex/minified/legacy_18.min.js?v=18.1.0.00.45"></script>
-                    <script src="https://portal2.community-boating.org/i/libraries/jquery-migrate/3.0.0/jquery-migrate-3.0.0.min.js?v=18.1.0.00.45"></script>
-*/}
-
                     <link href={fileRoot + "/favicon.ico"} rel="shortcut icon" type="image/x-icon" />
                     <link rel="stylesheet" href={fileRoot + "/2j_news_slider.css"} type="text/css" />
                     <link rel="stylesheet" href={fileRoot + "/rokbox-style.css"} type="text/css" />
@@ -37,6 +25,8 @@ class JoomlaHelmet extends React.Component {
                     <link rel="stylesheet" href={fileRoot + "/template.css"} type="text/css" />
                     <link rel="stylesheet" href={fileRoot + "/template-webkit.css"} type="text/css" />
                     <link rel="stylesheet" href={fileRoot + "/fusionmenu.css"} type="text/css" />
+   <link rel="stylesheet" href="/joomsource/tooltip.css" type="text/css" />
+   <link rel="stylesheet" href="/i/calendar.css" type="text/css" />
 
                     <link rel="stylesheet" href="/i/app_ui/css/Core.min.css" type="text/css" />
 
@@ -55,6 +45,9 @@ class JoomlaHelmet extends React.Component {
                     <script type="text/javascript" src={fileRoot + "/gantry-smartload.js"}></script>
                     <script type="text/javascript" src={fileRoot + "/load-transition.js"}></script>
                     <script type="text/javascript" src={fileRoot + "/fusion.js"}></script>
+					<script type="text/javascript" src="/joomsource/tooltip.js"></script>
+
+					<script src="https://js.stripe.com/v3/"></script>
 
                     <script type="text/javascript">{`
                         /* BEGIN AG Google Analytics Plugin v.1.0.8 */
@@ -462,6 +455,9 @@ class JoomlaHelmet extends React.Component {
                         background-position: 50% -492px;
                     }
                 `}</style>
+				
+				<body className="main-overlay-dark primary-overlay-dark readonstyle-button font-family-momentum font-size-is-default logo-enabled-1 logo-style-light menu-type-fusionmenu typography-style-light col12 menu-resources  option-com-content view-article">
+  </body>
                 </Helmet>
                 {this.props.children}
             </div>
@@ -507,7 +503,7 @@ class JoomlaBody extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div id="rt-transition" className="rt-hidden">
+                        <div id="rt-transition" >
                             <div id="rt-showcase" className="showcaseblock-overlay-light">
                                 <div className="rt-grid-12 rt-alpha rt-omega">
                                     <div className="rt-block">
@@ -564,6 +560,8 @@ class JoomlaBody extends React.Component {
                     <div className="clear"></div>
                 </div>
             </div>
+			
+	
         </div>
         )
     }
@@ -576,6 +574,7 @@ export default class JoomlaBase extends React.Component {
 					<JoomlaBody>
 						{this.props.children}
 					</JoomlaBody>
+					
 				</JoomlaHelmet>
         )
     }

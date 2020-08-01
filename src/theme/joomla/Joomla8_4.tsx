@@ -1,5 +1,6 @@
 import * as React from "react";
 import Page from "../../components/Page";
+import JoomlaBase from "./JoomlaBase";
 
 interface Joomla8_4Props {
 	main: React.ReactNode,
@@ -10,6 +11,7 @@ interface Joomla8_4Props {
 export default class Joomla8_4 extends Page<Joomla8_4Props> {
 	render() {
 		return (
+			<JoomlaBase>
 			<div className="rt-container">
 				<style dangerouslySetInnerHTML={{__html: `
 					.article-body { font-size: 1.2em !important }
@@ -38,6 +40,7 @@ export default class Joomla8_4 extends Page<Joomla8_4Props> {
 				</div>
 				<div className="clear"></div>
 			</div>
+			</JoomlaBase>
 		)
 	}
 }
