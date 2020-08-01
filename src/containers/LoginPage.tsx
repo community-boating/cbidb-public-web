@@ -9,7 +9,7 @@ import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";
 import formUpdateState from "../util/form-update-state";
 import ErrorDiv from "../theme/joomla/ErrorDiv";
-import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
 import Currency from "../util/Currency";
 import { jpForgotPasswordPageRoute } from "../app/routes/jp/forgot-pw";
@@ -21,6 +21,13 @@ import assertNever from "../util/assertNever";
 import { apPreRegRoute } from "../app/routes/ap/prereg";
 import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
 import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
+import { jpPathReserve } from "../app/paths/jp/reserve";
+import asc from "../app/AppStateContainer";
+import { jpBasePath } from "../app/paths/jp/_base";
+import { apBasePath } from "../app/paths/ap/_base";
+import { jpPathLogin } from "../app/paths/jp/login";
+import { apPathLogin } from "../app/paths/ap/login";
+import { PostURLEncoded } from "../core/APIWrapperUtil";
 import FactaMainPage from "../theme/facta/FactaMainPage";
 export const formDefault = {
 	username: none as Option<string>,
@@ -51,7 +58,7 @@ export default class LoginPage extends React.Component<Props, State> {
 			loginProcessing: false,
 			validationErrors: checkUpgradedAsValidationErrorArray(this.props.history, (process.env as any).eFuse)
 		}
-		getProtoPersonCookie.send(null)
+		getProtoPersonCookie.send(PostURLEncoded({}))
 	}
 	loginFunction = () => {
 		const self = this;
@@ -73,6 +80,15 @@ export default class LoginPage extends React.Component<Props, State> {
 						loginProcessing: false,
 						validationErrors: ["Login unsuccesful."]
 					})
+				} else {
+					const {checkFor, goTo} = (
+						self.props.flavor == PageFlavor.JP
+						? {checkFor: jpPathLogin.getPathFromArgs({}), goTo: jpBasePath.getPathFromArgs({})}
+						: {checkFor: apPathLogin.getPathFromArgs({}), goTo: apBasePath.getPathFromArgs({})}
+					);
+					if (window.location.pathname == checkFor) {
+						self.props.history.push(goTo)
+					}
 				}
 			})
 		}
@@ -109,9 +125,8 @@ export default class LoginPage extends React.Component<Props, State> {
 				If you have already purchased a membership in person, either this year or last year,
 				please <b>click on the first option</b> to the right and you will be prompted to create a password and update your personal information.<br />
 				<br />
-				If you are new to Community Boating and would like to purchase a membership now,
-				<b>click on the second option</b> to the right. Once your account is complete you can return here to signup for classes
-				and view your progression throughout the summer.<br />
+				If you are new to Community Boating and would like to purchase a membership now, <b>click on the second option</b> to the right.
+				Once your account is complete you can return here to signup for classes and view your progression throughout the summer.<br />
 				<br />
 				If you want to register as a guest so you can go sailing with a CBI member, click on the fourth option to the right to skip the line at the Front Desk and get your guest card right away!<br />
 				<br />
@@ -137,7 +152,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		const jpNewAcctRegion = (
 			<JoomlaArticleRegion title="New CBI Parents...">
 				<div>
-					<Link to={jpClosedCovidPageRoute.getPathFromArgs({})}>
+					<Link to={asc.state.jpClosedCovid ? jpClosedCovidPageRoute.getPathFromArgs({}) : jpPathReserve.getPathFromArgs({})}>
 						...click here to sign up your child(ren)!
 					</Link>
 					<br />

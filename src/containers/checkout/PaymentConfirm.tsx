@@ -61,7 +61,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 				Please confirm your order and payment information are correct, and then click "Submit Payment" below!
 				<br />
 				<br />
-				<FullCartReport cartItems={self.props.cartItems} history={this.props.history} setErrors={() => {}}/>
+				<FullCartReport cartItems={self.props.cartItems} history={this.props.history} setErrors={() => {}} includeCancel={false}/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Your Billing Info">
 				{billingInfo}
@@ -73,11 +73,18 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 					validationErrors: []
 				});
 				return submitPayment.send(makePostString("")).then(res => {
-					if (res.type == "Failure" && res.code == "process_err") {
-						self.setState({
-							...self.state,
-							validationErrors: [res.message]
-						});
+					if (res.type == "Failure" ) {
+						if (res.code == "process_err") {
+							self.setState({
+								...self.state,
+								validationErrors: [res.message]
+							});
+						} else {
+							self.setState({
+								...self.state,
+								validationErrors: ["An error occurred.  Tech support has been notified; do not resubmit payment.  If this problem persists contact the Front Office at 617-523-1038"]
+							});
+						}
 					} else {
 						// TODO: catch any bullcrap error after payment process
 						self.props.goNext()

@@ -11,7 +11,11 @@ import appProps from "./appProps"
 import asc from './app/AppStateContainer';
 import App from './containers/App';
 
-Sentry.init({dsn: (process.env.config as any).sentryDSN});
+const sentryKey = (process.env.config as any).sentryDSN;
+if (sentryKey) {
+	Sentry.init({dsn: sentryKey});
+}
+
 
 export const history = createBrowserHistory()
 

@@ -22,6 +22,7 @@ import ApPurchaseOptions from "./ApPurchaseOptions";
 import {apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome-ap"
 import {getWrapper as gpGet } from "../../../async/member/select-guest-privs"
 import {getWrapper as dwGet } from "../../../async/member/select-damage-waiver"
+import {apiw as getPrices, validator as pricesValidator} from "../../../async/prices"
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -64,15 +65,20 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="ApPurchaseOptions"
 				history={self.props.history}
-				component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidator>) => <ApPurchaseOptions
-					discountsProps={async.discountsResult}
+				component={(urlProps: {}, async: {welcome: t.TypeOf<typeof welcomeValidator>, prices: t.TypeOf<typeof pricesValidator>}) => <ApPurchaseOptions
+					discountsProps={async.welcome.discountsResult}
+					prices={async.prices}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
-				getAsyncProps={(urlProps: {}) => welcomeAPI.send(null).catch(err => Promise.resolve(null)).then(r => Promise.resolve({
+				getAsyncProps={(urlProps: {}) => Promise.all([
+					welcomeAPI.send(null),
+					getPrices.send(null)
+				]).catch(err => Promise.resolve(null)).then(([welcome, prices]) => Promise.resolve({
 					type: "Success",
 					success: {
-						...r.success
+						welcome: welcome.success,
+						prices: prices.success
 					}
 				}))}
 				{...pageWrapperProps}
@@ -82,12 +88,22 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="GuestPrivs"
 				history={self.props.history}
-				component={(urlProps: {}, async: {wantIt: boolean}) => <GuestPrivs
+				component={(urlProps: {}, async: {wantIt: boolean, prices: t.TypeOf<typeof pricesValidator>}) => <GuestPrivs
 					selected={async.wantIt}
+					prices={async.prices}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
-				getAsyncProps={(urlProps: {}) => gpGet.send(null).catch(err => Promise.resolve(null))}
+				getAsyncProps={(urlProps: {}) => Promise.all([
+					gpGet.send(null),
+					getPrices.send(null)
+				]).catch(err => Promise.resolve(null)).then(([wantIt, prices]) => Promise.resolve({
+					type: "Success",
+					success: {
+						wantIt: wantIt.success.wantIt,
+						prices: prices.success
+					}
+				}))}
 				{...pageWrapperProps}
 			/>,
 			breadcrumbHTML: <React.Fragment>Guest<br />Privileges</React.Fragment>
@@ -95,12 +111,22 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="DamageWaiver"
 				history={self.props.history}
-				component={(urlProps: {}, async: {wantIt: boolean}) => <DamageWaiver
+				component={(urlProps: {}, async: {wantIt: boolean, prices: t.TypeOf<typeof pricesValidator>}) => <DamageWaiver
 					selected={async.wantIt}
+					prices={async.prices}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
-				getAsyncProps={(urlProps: {}) => dwGet.send(null).catch(err => Promise.resolve(null))}
+				getAsyncProps={(urlProps: {}) => Promise.all([
+					dwGet.send(null),
+					getPrices.send(null)
+				]).catch(err => Promise.resolve(null)).then(([wantIt, prices]) => Promise.resolve({
+					type: "Success",
+					success: {
+						wantIt: wantIt.success.wantIt,
+						prices: prices.success
+					}
+				}))}
 				{...pageWrapperProps}
 			/>,
 			breadcrumbHTML: <React.Fragment>Damage<br />Waiver</React.Fragment>

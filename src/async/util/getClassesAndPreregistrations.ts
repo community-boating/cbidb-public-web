@@ -1,12 +1,13 @@
 import {getWrapper as getClassesWithAvail} from "../class-instances-with-avail"
 import moment = require('moment');
 import { Success } from '../../core/APIWrapperTypes';
-import {getWrapper as getProtoPersonCookie} from "../check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "../check-proto-person-cookie"
 import { getWrapper as getReservations } from '../junior/get-junior-class-reservations'
+import { PostURLEncoded } from "../../core/APIWrapperUtil";
 
 
 const getClassesAndPreregistrations = () => {
-	return getProtoPersonCookie.send(null)
+	return getProtoPersonCookie.send(PostURLEncoded({}))
 	.then(() => getReservations.send(null))
 	.then(res => {
 		if (res.type == "Success") {

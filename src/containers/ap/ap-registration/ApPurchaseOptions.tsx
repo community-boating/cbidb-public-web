@@ -14,6 +14,7 @@ import assertNever from "../../../util/assertNever";
 import {postWrapper as submit} from "../../../async/member/select-for-purchase"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import { MAGIC_NUMBERS } from "../../../app/magicNumbers";
+import {validator as pricesValidator} from "../../../async/prices"
 
 type DiscountsProps = t.TypeOf<typeof discountsValidator>;
 
@@ -25,6 +26,7 @@ enum DiscountState {
 }
 
 interface Props {
+	prices: t.TypeOf<typeof pricesValidator>,
 	discountsProps: DiscountsProps,
 	history: History<any>
 	breadcrumb: JSX.Element,
@@ -162,6 +164,9 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 			})
 		}}/>)
 	}
+	findMembershipPrice(membershipTypeId: number): Currency {
+		return Currency.dollars(this.props.prices.memberships.find(m => m.membershipId == membershipTypeId).membershipBasePrice);
+	}
 	render() {
 		const self = this;
 		console.log(this.props.discountsProps)
@@ -222,34 +227,40 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					<table><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_60_DAY, none)}
 					</td><td>
-							<h2 id="h0-2-60-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>60 Day Membership: $299</h2>
+						<h2 id="h0-2-60-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>
+							60 Day Membership: {this.findMembershipPrice(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_60_DAY).format(true)}
+						</h2>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>
 						<li>Access to all boat usage, classes and instruction</li>
 						<li>Able to earn all ratings</li>
 						<li>Advanced classes for a nominal fee of $35</li>
-						<li>Guest privileges can be purchased for $25</li>
+						<li>Guest privileges can be purchased for {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)}</li>
 					</ul><br />
 
 					<table><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY, none)}
 					</td><td>
-							<h2 id="h0-2-30-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>30 Day Membership: $199</h2>
+						<h2 id="h0-2-30-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>
+							30 Day Membership: {this.findMembershipPrice(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY).format(true)}
+						</h2>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>
 						<li>Access to all boat usage, classes and instruction</li>
 						<li>Able to earn all ratings</li>
 						<li>Advanced classes for a nominal fee of $35</li>
-						<li>Guest privileges can be purchased for $25</li>
+						<li>Guest privileges can be purchased for {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)}</li>
 					</ul><br />
 
 
 					<table><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY_WICKED_BASIC, none)}
 					</td><td>
-							<h2 id="h0-3-30-day-intro-to-sailing-99" style={{ visibility: "visible", fontSize: "1.7em" }}>30 Day Wicked Basic, No Frills, Sailing Pass: $99</h2>
+							<h2 id="h0-3-30-day-intro-to-sailing-99" style={{ visibility: "visible", fontSize: "1.7em" }}>
+								30 Day Wicked Basic, No Frills, Sailing Pass: {this.findMembershipPrice(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY_WICKED_BASIC).format(true)}
+							</h2>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>
@@ -261,12 +272,14 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					<table><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR_PADDLING, none)}
 					</td><td>
-							<h2 id="h0-3-FY-paddling" style={{ visibility: "visible", fontSize: "1.7em" }}>Full Year Paddling Pass: $199</h2>
+							<h2 id="h0-3-FY-paddling" style={{ visibility: "visible", fontSize: "1.7em" }}>
+								Full Year Paddling Pass: {this.findMembershipPrice(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR_PADDLING).format(true)}
+							</h2>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>
 						<li>Access to our Sit on Top Kayaks and Stand Up Paddleboards</li>
-						<li>Guest privileges can be purchased for $25, which covers 1 guest each time on the same double kayak as the member</li>
+						<li>Guest privileges can be purchased for {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)}, which covers 1 guest each time on the same double kayak as the member</li>
 						<li>Our member's guest discount (half off the day rental rate) is available for 1 Kayak or SUP</li>
 					</ul><br />
 				</React.Fragment>

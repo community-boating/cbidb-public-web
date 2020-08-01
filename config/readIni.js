@@ -1,7 +1,7 @@
 const ini = require('ini');
 const fs = require('fs');
 
-const config = ini.parse(fs.readFileSync(`./ini/private.ini`, 'utf-8'));
+const config = ini.parse(fs.readFileSync(`./ini/config.ini`, 'utf-8'));
 
 const serverConfig = (function() {
 	const prodConfig = {
@@ -21,7 +21,7 @@ const serverConfig = (function() {
 			...prodConfig.SELF,
 			host: config.hostNameDev,
 			https: false,
-			port: 8081
+			port: config.port || 8081
 		}
 	}
 	
@@ -41,4 +41,5 @@ module.exports = {
 	//	makeRequest: (serverConfig.API.https ? https.request : http.request),
 	},
 	serverToUseForAPI: serverConfig.SELF,
+	devAPIServer: config.devAPI
 }

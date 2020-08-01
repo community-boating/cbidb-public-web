@@ -8,7 +8,7 @@ import {History} from 'history'
 import {postWrapper as unapplyGC} from "../async/member/unapply-gc"
 
 
-const renderItemRow: (history: History<any>, setErrors: (err: string) => void) => (item: CartItem) => React.ReactNode[] = (history, setErrors) => item => {
+const renderItemRow: (history: History<any>, setErrors: (err: string) => void, includeCancel: boolean) => (item: CartItem) => React.ReactNode[] = (history, setErrors, includeCancel) => item => {
 	const deleteLink = (function() {
 		switch (item.itemType){ 
 		case "Donation":
@@ -39,33 +39,37 @@ const renderItemRow: (history: History<any>, setErrors: (err: string) => void) =
 			return "";
 		}
 	}());
-	return [
-		deleteLink,
+	return (includeCancel ? [deleteLink] : []).concat([
 		item.itemNameHTML,
 		item.nameFirst.getOrElse("") + " " + item.nameLast.getOrElse(""),
 		Currency.dollars(item.price).format()
-	];
+	]);
 }
 
-const totalRow: (items: CartItem[]) => React.ReactNode[] = items => [
-	"",
-	"<b>Total</b>",
-	"",
-	<b>{Currency.dollars(items.map(i => i.price).reduce((sum, e) => sum + e)).format()}</b>
-]
+const totalRow: (items: CartItem[], includeCancel: boolean) => React.ReactNode[] = (items, includeCancel) => {
+	const firstCell: React.ReactNode[] = (includeCancel ? [""] : []);
+	return firstCell.concat([
+		"<b>Total</b>",
+		"",
+		<b>{Currency.dollars(items.map(i => i.price).reduce((sum, e) => sum + e)).format()}</b>
+	]);
+}
 
 type Props = {
 	cartItems: CartItem[],
 	history: History<any>,
-	setErrors: (err: string) => void
+	setErrors: (err: string) => void,
+	includeCancel: boolean
 }
 
 export default class FullCartReport extends React.PureComponent<Props> {
 	render() {
+		const rawHtml = this.props.includeCancel ? {"1": true} : {"0": true};
 		return (<JoomlaReport
-			headers={["Cancel", "Item Name", "Member Name", "Price"]}
-			rows={this.props.cartItems.map(renderItemRow(this.props.history, this.props.setErrors)).concat([totalRow(this.props.cartItems)])}
-			rawHtml={{"1": true}}
+			headers={(this.props.includeCancel ? ["Cancel"] : []).concat(["Item Name", "Member Name", "Price"])}
+			rows={this.props.cartItems.map(renderItemRow(this.props.history, this.props.setErrors, this.props.includeCancel))
+				.concat([totalRow(this.props.cartItems, this.props.includeCancel)])}
+			rawHtml={rawHtml}
 		/>);
 	}
 }

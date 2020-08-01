@@ -9,10 +9,10 @@ import { jpBasePath } from "../../app/paths/jp/_base";
 export default class ClosedCovid extends React.PureComponent<{history: History<any>}> {
 	render() {
 		return <JoomlaMainPage setBGImage={setJPImage}>
-			<JoomlaArticleRegion title="Registration is temporarily suspended.">
-				JP signups are on hold as of May 23. Although we still hope to offer a 2020 Junior Program adapted to new conditions of operation,
-				we cannot make this commitment until we know the State's regulations for children's summer programming.
-				The State's guidance on coordinating summer camps will inform our final decision on what we can do this year.
+			<JoomlaArticleRegion title="Registration is suspended.">
+				Thank you for your patience and support this spring.
+				We regret to inform you that CBI will not be able to offer the 2020 edition of our summer Junior Program.
+				If we find later this summer that we can safely offer some limited youth events or other opportunities, we will notify you right away!
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 		</JoomlaMainPage>

@@ -11,6 +11,7 @@ import { PostURLEncoded } from '../../core/APIWrapperUtil';
 import {postWrapper} from "../../async/member/start-claim-acct"
 import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
 import { apPathClaimAcctSent } from '../../app/paths/ap/claim-acct-sent';
+import { apBasePath } from '../../app/paths/ap/_base';
 
 const defaultForm = {
 	email: none as Option<string>
@@ -58,7 +59,7 @@ export default class StartClaimAcct extends React.PureComponent<Props, State> {
 		}
 
 		const buttons = <div>
-			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(apPathClaimAcctSent.getPathFromArgs({})))}/>
+			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(apBasePath.getPathFromArgs({})))}/>
 			<Button text="Submit" spinnerOnClick onClick={submit}/>
 		</div>
 

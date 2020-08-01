@@ -15,6 +15,7 @@ import { some } from 'fp-ts/lib/Option';
 import {regEmptyPageRoute} from '../../app/routes/jp/regEmpty'
 import { checkoutPageRoute } from '../../app/routes/common/checkout';
 import { setJPImage } from '../../util/set-bg-image';
+import asc from "../../app/AppStateContainer";
 
 type Props = {
 	data: t.TypeOf<typeof validator>,
@@ -65,13 +66,22 @@ export default class HomePageJP extends React.Component<Props, State> {
 
 		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
 			{errorPopup}
-			<JoomlaArticleRegion title="Registration is temporarily suspended.">
-				JP signups are on hold as of May 23. Although we still hope to offer a 2020 Junior Program adapted to new conditions of operation,
-				we cannot make this commitment until we know the State's regulations for children's summer programming.
-				The State's guidance on coordinating summer camps will inform our final decision on what we can do this year.
-			</JoomlaArticleRegion>
+			{
+				asc.state.jpClosedCovid
+				? <JoomlaArticleRegion title="Registration is suspended.">
+					Thank you for your patience and support this spring.
+					We regret to inform you that CBI will not be able to offer the 2020 edition of our summer Junior Program.
+					If we find later this summer that we can safely offer some limited youth events or other opportunities, we will notify you right away!  
+				</JoomlaArticleRegion>
+				: null
+			}
+			
 			{mainTable}
-			<Button onClick={() => Promise.resolve(this.props.history.push(regEmptyPageRoute.pathWrapper.path))} text="Add new Junior" />
+			{
+				asc.state.jpClosedCovid
+				? null
+				: <Button onClick={() => Promise.resolve(this.props.history.push(regEmptyPageRoute.pathWrapper.path))} text="Add new Junior" />
+			}			
 			{self.props.data.canCheckout ? checkoutButton : null}
 		</JoomlaMainPage>
 	}
