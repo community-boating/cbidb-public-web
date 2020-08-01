@@ -269,9 +269,9 @@ export default class LoginPage extends React.Component<Props, State> {
 			</tr></tbody></table>
 
 		return (
-			<FactaMainPage setBGImage={setBGImage}>
-				{main}
-			</FactaMainPage>
+			<JoomlaTwoColumns setBGImage={setBGImage} left={leftColumn} right={rightColumn}>
+				{errorPopup}
+			</JoomlaTwoColumns>
 		);
 	}
 }

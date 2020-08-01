@@ -22,7 +22,16 @@ export default (flavor: PageFlavor) => (history: History<any>) => <PageWrapper
 		flavor={flavor}
 	/>}
 	urlProps={{}}
-	shadowComponent={<span>hi</span>}
+	shadowComponent={<JoomlaLoadingPage setBGImage={(function() {
+		switch(flavor) {
+			case PageFlavor.JP:
+				return setJPImage;
+			case PageFlavor.AP:
+				return setAPImage;
+			default:
+				assertNever(flavor);
+			}
+	}())} />}
 	getAsyncProps={(urlProps: {}) => {
 		return getStaticYearly.send(null).then(res => {
 			if (res.type == "Failure") {
