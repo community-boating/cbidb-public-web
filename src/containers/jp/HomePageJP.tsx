@@ -16,6 +16,7 @@ import {regEmptyPageRoute} from '../../app/routes/jp/regEmpty'
 import { checkoutPageRoute } from '../../app/routes/common/checkout';
 import { setJPImage } from '../../util/set-bg-image';
 import asc from "../../app/AppStateContainer";
+import FactaMainPage from "../../theme/facta/FactaMainPage";
 
 type Props = {
 	data: t.TypeOf<typeof validator>,
@@ -64,7 +65,7 @@ export default class HomePageJP extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
+		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
 			{errorPopup}
 			{
 				asc.state.jpClosedCovid
@@ -83,6 +84,6 @@ export default class HomePageJP extends React.Component<Props, State> {
 				: <Button onClick={() => Promise.resolve(this.props.history.push(regEmptyPageRoute.pathWrapper.path))} text="Add new Junior" />
 			}			
 			{self.props.data.canCheckout ? checkoutButton : null}
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

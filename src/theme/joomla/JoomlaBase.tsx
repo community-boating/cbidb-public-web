@@ -37,6 +37,8 @@ class JoomlaHelmet extends React.Component {
                     <link rel="stylesheet" href={fileRoot + "/template.css"} type="text/css" />
                     <link rel="stylesheet" href={fileRoot + "/template-webkit.css"} type="text/css" />
                     <link rel="stylesheet" href={fileRoot + "/fusionmenu.css"} type="text/css" />
+   <link rel="stylesheet" href="/joomsource/tooltip.css" type="text/css" />
+   <link rel="stylesheet" href="/i/calendar.css" type="text/css" />
 
                     <link rel="stylesheet" href="/i/app_ui/css/Core.min.css" type="text/css" />
 
@@ -55,6 +57,7 @@ class JoomlaHelmet extends React.Component {
                     <script type="text/javascript" src={fileRoot + "/gantry-smartload.js"}></script>
                     <script type="text/javascript" src={fileRoot + "/load-transition.js"}></script>
                     <script type="text/javascript" src={fileRoot + "/fusion.js"}></script>
+					<script type="text/javascript" src="/joomsource/tooltip.js"></script>
 
                     <script type="text/javascript">{`
                         /* BEGIN AG Google Analytics Plugin v.1.0.8 */
@@ -462,6 +465,9 @@ class JoomlaHelmet extends React.Component {
                         background-position: 50% -492px;
                     }
                 `}</style>
+				
+				<body className="main-overlay-dark primary-overlay-dark readonstyle-button font-family-momentum font-size-is-default logo-enabled-1 logo-style-light menu-type-fusionmenu typography-style-light col12 menu-resources  option-com-content view-article">
+  </body>
                 </Helmet>
                 {this.props.children}
             </div>
@@ -507,7 +513,7 @@ class JoomlaBody extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div id="rt-transition" className="rt-hidden">
+                        <div id="rt-transition" >
                             <div id="rt-showcase" className="showcaseblock-overlay-light">
                                 <div className="rt-grid-12 rt-alpha rt-omega">
                                     <div className="rt-block">
@@ -564,6 +570,8 @@ class JoomlaBody extends React.Component {
                     <div className="clear"></div>
                 </div>
             </div>
+			
+	
         </div>
         )
     }
@@ -576,6 +584,7 @@ export default class JoomlaBase extends React.Component {
 					<JoomlaBody>
 						{this.props.children}
 					</JoomlaBody>
+					
 				</JoomlaHelmet>
         )
     }

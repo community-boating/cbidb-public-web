@@ -4,9 +4,11 @@ import FactaBase from "./FactaBase";
 
 interface Props {
 	navBar?: JSX.Element,
+	main: React.ReactNode,
+	left?: React.ReactNode
 }
 
-export default class FactaMainPage extends Page<Props> {
+export default class FactaSidebarPage extends Page<Props> {
 	render() {
 		return <FactaBase>
 			<div className="main-single-wrapper">
@@ -20,13 +22,19 @@ export default class FactaMainPage extends Page<Props> {
 									<div className="container">
 										<div className="row justify-content-center">
 											<div className="col-12 ">
-												{this.props.children}
+												{this.props.main}
 											</div>
 										</div>
 									</div>
 
 								</div>
 
+							</div>
+						</div>
+						<div className="col-12 col-lg-3 order-lg-1 d-lg-block d-none">
+
+							<div className="sidebar-item sidebar-item-toc">
+								{this.props.left}
 							</div>
 						</div>
 					</div>

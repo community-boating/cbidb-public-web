@@ -263,13 +263,14 @@ export default class LoginPage extends React.Component<Props, State> {
 			}
 		}());
 
-		const main = <React.Fragment>
-			{leftColumn}
-			{rightColumn}
-		</React.Fragment>
+		const main = <table cellPadding="30"><tbody><tr>
+			<td style={{width: "50%", verticalAlign: "top"}}>{leftColumn}</td>
+			<td style={{width: "50%", verticalAlign: "top"}}>{rightColumn}</td>
+			</tr></tbody></table>
 
 		return (
-			<FactaMainPage setBGImage={setBGImage} main={main}>
+			<FactaMainPage setBGImage={setBGImage}>
+				{main}
 			</FactaMainPage>
 		);
 	}
