@@ -2,9 +2,20 @@
 <html class="no-js" lang="en-US">
 
 <head>
+<!--[if IE]>
+<script type="text/javascript">
+window.location = "https://" + window.location.host + "/ie";
+</script>
+<![endif]-->
+<script>
+	var isIE=navigator.userAgent.indexOf('MSIE')!==-1|| navigator.appVersion.indexOf('Trident/') > -1;
+	if (isIE) {
+	  window.location = "https://" + window.location.host + "/ie";
+	}
+	</script>
 </head>
 
-<body class="page-template-default page page-id-1165 page-child parent-pageid-76">
+<body>
 
 	<div id="root"></div>
 	<div id="dhtmltooltip" style="position: absolute"></div>
