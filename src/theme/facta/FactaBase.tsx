@@ -11,24 +11,24 @@ class FactaHelmet extends React.Component {
 			<React.Fragment>
 				<Helmet>
 					<meta charSet="UTF-8" />
-					<link rel="icon" type="image/png" sizes="32x32" href="http://cbi.flywheelsites.com/wp-content/themes/custom/assets/images/favicon/favicon-32x32.png" />
-					<link rel="icon" type="image/png" sizes="16x16" href="http://cbi.flywheelsites.com/wp-content/themes/custom/assets/images/favicon/favicon-16x16.png" />
+					<link rel="icon" type="image/png" sizes="32x32" href="https://www.community-boating.org/wp-content/themes/custom/assets/images/favicon/favicon-32x32.png" />
+					<link rel="icon" type="image/png" sizes="16x16" href="https://www.community-boating.org/wp-content/themes/custom/assets/images/favicon/favicon-16x16.png" />
 					<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 					<title>Membership Prices - Community Boating Incorporated</title>
 
-					<link rel="canonical" href="http://cbi.flywheelsites.com/adult/membership-prices/" />
+					<link rel="canonical" href="https://www.community-boating.org/adult/membership-prices/" />
 					<meta property="og:locale" content="en_US" />
 					<meta property="og:type" content="article" />
 					<meta property="og:title" content="Membership Prices - Community Boating Incorporated" />
 					<meta property="og:description" content="Membership Options A Community Boating membership or pass is the easiest, most affordable way to sail or paddle in Greater Boston. Adult members have unlimited daily access to our fleet, and our classes and racing groups will help you hone your skills and meet other sailors. Plus, we host a robust calendar of dock parties &hellip;" />
-					<meta property="og:url" content="http://cbi.flywheelsites.com/adult/membership-prices/" />
+					<meta property="og:url" content="https://www.community-boating.org/adult/membership-prices/" />
 					<meta property="og:site_name" content="Community Boating Incorporated" />
 					<meta name="twitter:card" content="summary_large_image" />
 					<meta name="twitter:description" content="Membership Options A Community Boating membership or pass is the easiest, most affordable way to sail or paddle in Greater Boston. Adult members have unlimited daily access to our fleet, and our classes and racing groups will help you hone your skills and meet other sailors. Plus, we host a robust calendar of dock parties [&hellip;]" />
 					<meta name="twitter:title" content="Membership Prices - Community Boating Incorporated" />
 					<script type='application/ld+json' className='yoast-schema-graph yoast-schema-graph--main'>
 						{`
-							{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"http://cbi.flywheelsites.com/#website","url":"http://cbi.flywheelsites.com/","name":"Community Boating Incorporated","potentialAction":{"@type":"SearchAction","target":"http://cbi.flywheelsites.com/?s={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"WebPage","@id":"http://cbi.flywheelsites.com/adult/membership-prices/#webpage","url":"http://cbi.flywheelsites.com/adult/membership-prices/","inLanguage":"en-US","name":"Membership Prices - Community Boating Incorporated","isPartOf":{"@id":"http://cbi.flywheelsites.com/#website"},"datePublished":"2020-05-20T22:02:08+00:00","dateModified":"2020-05-23T14:23:07+00:00"}]}
+							{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.community-boating.org/#website","url":"https://www.community-boating.org/","name":"Community Boating Incorporated","potentialAction":{"@type":"SearchAction","target":"https://www.community-boating.org/?s={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"WebPage","@id":"https://www.community-boating.org/adult/membership-prices/#webpage","url":"https://www.community-boating.org/adult/membership-prices/","inLanguage":"en-US","name":"Membership Prices - Community Boating Incorporated","isPartOf":{"@id":"https://www.community-boating.org/#website"},"datePublished":"2020-05-20T22:02:08+00:00","dateModified":"2020-05-23T14:23:07+00:00"}]}
 						`}
 					</script>
 
@@ -40,8 +40,8 @@ class FactaHelmet extends React.Component {
 					<link rel='stylesheet' id='fonts-css' href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed%3A300%2C700%7COpen+Sans%3A300%2C300i%2C400%2C400i%2C600%2C600i%2C700%2C700i&#038;display=swap&#038;ver=5.4.1' type='text/css' media='all' />
 					<link rel='stylesheet' id='styles-css' href='/facta/assets/css/app.css' type='text/css' media='all' />
 					<link rel='stylesheet' id='edits-css' href='/facta/assets/css/edits.css' type='text/css' media='all' />
-					<link rel='stylesheet' id='photoswipe-main-css' href='http://cbi.flywheelsites.com/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.css?ver=5.4.1' type='text/css' media='all' />
-					<link rel='stylesheet' id='photoswipe-skin-css' href='http://cbi.flywheelsites.com/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/default-skin/default-skin.css?ver=5.4.1' type='text/css' media='all' />
+					<link rel='stylesheet' id='photoswipe-main-css' href='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.css?ver=5.4.1' type='text/css' media='all' />
+					<link rel='stylesheet' id='photoswipe-skin-css' href='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/default-skin/default-skin.css?ver=5.4.1' type='text/css' media='all' />
 					<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js?ver=5.4.1'></script>
 					<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js?ver=5.4.1'></script>
 					{/* <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js?ver=5.4.1'></script> */}
@@ -51,12 +51,12 @@ class FactaHelmet extends React.Component {
 					{/* <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery.hoverintent/1.10.0/jquery.hoverIntent.min.js?ver=5.4.1'></script> */}
 					<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js?ver=5.4.1'></script>
 					{/* <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js?ver=5.4.1'></script> */}
-					<script type='text/javascript' src='http://cbi.flywheelsites.com/wp-content/themes/custom/assets/js/library/fontawesome.min.js?ver=5.4.1'></script>
-					<script type='text/javascript' src='http://cbi.flywheelsites.com/wp-content/themes/custom/assets/js/library/magnific-popup.js?ver=5.4.1'></script>
-					<script type='text/javascript' src='http://cbi.flywheelsites.com/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.min.js?ver=5.4.1'></script>
-					<script type='text/javascript' src='http://cbi.flywheelsites.com/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe-ui-default.min.js?ver=5.4.1'></script>
-					<script type='text/javascript' src='http://cbi.flywheelsites.com/wp-content/themes/custom/assets/js/vendor.min.js?ver=1590961919'></script>
-					<link rel='shortlink' href='http://cbi.flywheelsites.com/?p=1165' />
+					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/library/fontawesome.min.js?ver=5.4.1'></script>
+					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/library/magnific-popup.js?ver=5.4.1'></script>
+					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.min.js?ver=5.4.1'></script>
+					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe-ui-default.min.js?ver=5.4.1'></script>
+					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/vendor.min.js?ver=1590961919'></script>
+					<link rel='shortlink' href='https://www.community-boating.org/?p=1165' />
 					<meta name="generator" content="Site Kit by Google 1.6.0" /><meta name="google-site-verification" content="Gl6xsj1u0eq_WY3gOACWkcytcq80VTf3WVrved7xvKA" />
 
 					<body className="page-template-default page page-id-1165 page-child parent-pageid-76">
@@ -140,7 +140,7 @@ export class FactaBody extends React.Component {
 							<div className='col-5'>
 								<div className='header-utility-dropdown-map'>
 									<div className='cover'
-										style={{ backgroundImage: "url(http://cbi.flywheelsites.com/wp-content/themes/custom/assets/images/map.png)" }}>
+										style={{ backgroundImage: "url(https://www.community-boating.org/wp-content/themes/custom/assets/images/map.png)" }}>
 									</div>
 								</div>
 							</div>
@@ -569,17 +569,17 @@ export class FactaBody extends React.Component {
 				</div>
 			</div>
 			<script type='text/javascript'
-				src='http://cbi.flywheelsites.com/wp-content/themes/custom/assets/js/custom.js?ver=1590961919'></script>
+				src='https://www.community-boating.org/wp-content/themes/custom/assets/js/custom.js?ver=1590961919'></script>
 			<script type='text/javascript'
-				src='http://cbi.flywheelsites.com/wp-includes/js/wp-embed.min.js?ver=5.4.1'></script>
+				src='https://www.community-boating.org/wp-includes/js/wp-embed.min.js?ver=5.4.1'></script>
 			<script type='text/javascript'
-				src='http://cbi.flywheelsites.com/wp-content/plugins/gravityforms/js/jquery.json.min.js?ver=2.4.11'></script>
+				src='https://www.community-boating.org/wp-content/plugins/gravityforms/js/jquery.json.min.js?ver=2.4.11'></script>
 			<script type='text/javascript'>
 			</script>
 			<script type='text/javascript'
-				src='http://cbi.flywheelsites.com/wp-content/plugins/gravityforms/js/gravityforms.min.js?ver=2.4.11'></script>
+				src='https://www.community-boating.org/wp-content/plugins/gravityforms/js/gravityforms.min.js?ver=2.4.11'></script>
 			<script type='text/javascript'
-				src='http://cbi.flywheelsites.com/wp-content/plugins/gravityforms/js/placeholders.jquery.min.js?ver=2.4.11'></script>
+				src='https://www.community-boating.org/wp-content/plugins/gravityforms/js/placeholders.jquery.min.js?ver=2.4.11'></script>
 			<script type='text/javascript'>
 				{`
 					document.addEventListener("DOMContentLoaded", function () {
