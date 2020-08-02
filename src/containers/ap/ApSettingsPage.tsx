@@ -3,7 +3,6 @@ import Button from '../../components/Button';
 import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
 import { Option, none } from "fp-ts/lib/Option";
 import asc from "../../app/AppStateContainer";
 import TextInput from "../../components/TextInput";
@@ -12,6 +11,7 @@ import { apBasePath } from "../../app/paths/ap/_base";
 import ErrorDiv from "../../theme/joomla/ErrorDiv";
 import {apiw as submit} from "../../async/update-acct"
 import { PostURLEncoded } from "../../core/APIWrapperUtil";
+import FactaMainPage from "../../theme/facta/FactaMainPage";
 
 type Form = {
 	email: Option<string>,
@@ -109,7 +109,7 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage setBGImage={setAPImage}>
+		return <FactaMainPage setBGImage={setAPImage}>
 		{errorPopup}
 			<JoomlaArticleRegion title="Edit Account Info" buttons={buttons}>
 				<table><tbody>
@@ -144,6 +144,6 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

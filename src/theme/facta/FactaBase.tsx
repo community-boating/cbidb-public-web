@@ -2,6 +2,7 @@ import * as React from "react";
 import { Helmet } from "react-helmet";
 import asc from "../../app/AppStateContainer";
 import { logout } from "../../async/logout";
+import { Link } from "react-router-dom";
 
 class FactaHelmet extends React.Component {
 	render() {
@@ -174,7 +175,7 @@ export class FactaBody extends React.Component {
 					<div className='container-fluid'>
 						<div className="row no-gutters align-items-center">
 							<div className="col">
-								<a href='/' className='nav-logo' style={{marginLeft: "30px"}}>
+								<a href='#' className='nav-logo' style={{marginLeft: "30px"}}>
 									<svg viewBox="0 0 440 167" fill="none" xmlns="http://www.w3.org/2000/svg" style={{height: "70px"}}>
 										<g>
 											<path
@@ -243,15 +244,15 @@ export class FactaBody extends React.Component {
 
 									<div className='col-auto'>
 										<div className='nav-item  '>
-											<a className='nav-item-parent' href='/ap'>Adult
-									Program</a>
+											<Link className='nav-item-parent' to='/ap'>Adult
+									Program</Link>
 										</div>
 									</div>
 
 									<div className='col-auto'>
 										<div className='nav-item  '>
-											<a className='nav-item-parent' href='/jp'>Youth
-									Program</a>
+											<Link className='nav-item-parent' to='/jp'>Youth
+									Program</Link>
 										</div>
 									</div>
 								</div>
@@ -269,21 +270,13 @@ export class FactaBody extends React.Component {
 
 				<div className='nav-mobile'>
 					<div className='nav-mobile-items'>
-
 						<div className='nav-item  nav-drops'>
-							<a className='nav-item-parent' href='/ap'>Adult Program</a>
-
-
-
+							<Link className='nav-item-parent' to='/ap'>Adult Program</Link>
 						</div>
 
 						<div className='nav-item  nav-drops' data-item='dropdown-3'>
-							<a className='nav-item-parent' href='/jp'>Youth</a>
-
-
-
+							<Link className='nav-item-parent' to='/jp'>Youth</Link>
 						</div>
-
 					</div>
 				</div>
 

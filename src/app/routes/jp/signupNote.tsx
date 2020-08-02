@@ -5,8 +5,8 @@ import RouteWrapper from "../../../core/RouteWrapper";
 import { Option } from 'fp-ts/lib/Option';
 import SignupNotePage from '../../../containers/jp/class-signup/SignupNotePage';
 import {getWrapper as getSignupNote} from "../../../async/junior/signup-note"
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 export const signupNotePageRoute = new RouteWrapper(true, jpPathSignupNote, history => <PageWrapper
     key="signupNote"
@@ -21,7 +21,7 @@ export const signupNotePageRoute = new RouteWrapper(true, jpPathSignupNote, hist
         personId: Number(jpPathSignupNote.extractURLParams(history.location.pathname).personId),
         instanceId: Number(jpPathSignupNote.extractURLParams(history.location.pathname).instanceId),
     }}
-    shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+    shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={(urlProps: {personId: number, instanceId: number}) => {
         return getSignupNote(urlProps.personId, urlProps.instanceId).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
     }}

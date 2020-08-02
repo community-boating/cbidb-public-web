@@ -4,7 +4,6 @@ import PageWrapper from '../../../core/PageWrapper';
 import LoginPage from '../../../containers/LoginPage';
 import asc from '../../AppStateContainer';
 import { PageFlavor } from '../../../components/Page';
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import {apiw as getStaticYearly} from "../../../async/static-yearly-data"
 import { none, some } from 'fp-ts/lib/Option';
 import Currency from '../../../util/Currency';

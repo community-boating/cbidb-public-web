@@ -3,12 +3,12 @@ import * as React from "react";
 
 import Button from "../../components/Button";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import TextInput from '../../components/TextInput';
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../../util/form-update-state';
 import { setJPImage } from '../../util/set-bg-image';
 import { jpBasePath } from '../../app/paths/jp/_base';
+import FactaMainPage from '../../theme/facta/FactaMainPage';
 
 export interface Props {
 	history: History<any>
@@ -42,7 +42,7 @@ export default class AccountSettingsPage extends React.PureComponent<Props, Stat
 		const formData = this.state.formData
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
-		return <JoomlaMainPage setBGImage={setJPImage}>
+		return <FactaMainPage setBGImage={setJPImage}>
 			<JoomlaArticleRegion title="Edit Account Info">
 				<table><tbody>
 					<FormInput
@@ -90,6 +90,6 @@ export default class AccountSettingsPage extends React.PureComponent<Props, Stat
 				<PlaceholderLink style={{fontSize: "1.3em"}}>Click here to (re-)apply for a Junior Program Scholarship (changes on this page will not be saved)</PlaceholderLink>
 			</p> */}
 			<Button text="Cancel" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

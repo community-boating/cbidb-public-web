@@ -13,7 +13,6 @@ import TextInput from "../../../components/TextInput";
 import countries from "../../../lov/countries";
 import states from "../../../lov/states";
 import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import range from "../../../util/range";
@@ -23,6 +22,7 @@ import asc from '../../../app/AppStateContainer';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import { setAPImage } from '../../../util/set-bg-image';
 import { makePostJSON } from '../../../core/APIWrapperUtil';
+import FactaMainPage from '../../../theme/facta/FactaMainPage';
 
 type ApiType = t.TypeOf<typeof validator>
 
@@ -289,7 +289,7 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 		// 	New address or phone number? Need to change your emergency contact? Help us keep our records up-to-date.
 		// </JoomlaArticleRegion>;
 
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
+		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
@@ -322,6 +322,6 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 				)
 				
 			}}/>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

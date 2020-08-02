@@ -7,7 +7,7 @@ import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from "
 import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
 import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
 import { setJPImage } from '../../../util/set-bg-image';
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 export const reservePageRoute = new RouteWrapper(true, jpPathReserve, history => <PageWrapper
     key="ReserveClasses"
@@ -19,6 +19,6 @@ export const reservePageRoute = new RouteWrapper(true, jpPathReserve, history =>
         apiResultStart={async.classes}
     />}
     urlProps={{}}
-    shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+    shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={getClassesAndPreregistrations}
 />);

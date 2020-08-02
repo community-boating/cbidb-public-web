@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import Button from "../../components/Button";
 import StripeConfirm from "../../components/StripeConfirm";
@@ -12,6 +11,7 @@ import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";
 import FullCartReport from "../../components/FullCartReport";
 import { CartItem } from "../../async/get-cart-items";
+import FactaMainPage from "../../theme/facta/FactaMainPage";
 
 export interface Props {
 	history: History<any>,
@@ -55,7 +55,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 			: "Submit Payment"
 		);
 
-		return (<JoomlaMainPage setBGImage={setCheckoutImage}>
+		return (<FactaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Order Summary">
 				Please confirm your order and payment information are correct, and then click "Submit Payment" below!
@@ -91,6 +91,6 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 					}
 				})
 			}} />
-		</JoomlaMainPage>);
+		</FactaMainPage>);
 	}
 }

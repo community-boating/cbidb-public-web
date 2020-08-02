@@ -9,9 +9,9 @@ import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
 import { PostURLEncoded } from '../../core/APIWrapperUtil';
 import {postWrapper} from "../../async/member/start-claim-acct"
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
 import { apPathClaimAcctSent } from '../../app/paths/ap/claim-acct-sent';
 import { apBasePath } from '../../app/paths/ap/_base';
+import FactaMainPage from '../../theme/facta/FactaMainPage';
 
 const defaultForm = {
 	email: none as Option<string>
@@ -69,7 +69,7 @@ export default class StartClaimAcct extends React.PureComponent<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage setBGImage={setAPImage}>
+		return <FactaMainPage setBGImage={setAPImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Enter your email address and we'll send you a link to access your record." buttons={buttons}>
 			To gain access to your record, enter your email address and then we will send you an email with a link to continue.
@@ -89,6 +89,6 @@ export default class StartClaimAcct extends React.PureComponent<Props, State> {
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

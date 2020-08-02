@@ -3,7 +3,6 @@ import * as React from "react";
 
 import Button from "../components/Button";
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
 import TextInput from '../components/TextInput';
@@ -17,6 +16,7 @@ import assertNever from '../util/assertNever';
 import { apForgotPasswordSentPageRoute } from '../app/routes/ap/forgot-pw-sent';
 import { apBasePath } from '../app/paths/ap/_base';
 import { jpBasePath } from '../app/paths/jp/_base';
+import FactaMainPage from '../theme/facta/FactaMainPage';
 
 type Props = {
 	history: History<any>,
@@ -105,7 +105,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 				}
 			)
 		}
-		return <JoomlaMainPage setBGImage={setBGImage}>
+		return <FactaMainPage setBGImage={setBGImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Enter your email address and we'll get your password reset.">
 				<table><tbody>
@@ -120,6 +120,6 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(loginLink))}/>
 			<Button text="Next >" onClick={submit}/>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

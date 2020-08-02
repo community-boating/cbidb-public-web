@@ -4,7 +4,6 @@ import * as React from "react";
 import * as t from 'io-ts';
 
 import Button from "../../../components/Button";
-import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
@@ -15,6 +14,7 @@ import {postWrapper as submit} from "../../../async/member/select-for-purchase"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import { MAGIC_NUMBERS } from "../../../app/magicNumbers";
 import {validator as pricesValidator} from "../../../async/prices"
+import FactaMainPage from "../../../theme/facta/FactaMainPage";
 
 type DiscountsProps = t.TypeOf<typeof discountsValidator>;
 
@@ -177,7 +177,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 			? `Full Year Membership Renewal: ${Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.renewalDiscountAmt).format(true)}`
 			: `Full Year Membership: ${Currency.dollars(this.props.discountsProps.fyBasePrice).format(true)}`
 		)
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({ history: this.props.history, sysdate: none, showProgramLink: false })}>
+		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({ history: this.props.history, sysdate: none, showProgramLink: false })}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
@@ -288,6 +288,6 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 			{(self.state || {} as any).radio != undefined ? <Button text="Next >" spinnerOnClick onClick={() =>
 				self.props.goNext()
 			} /> : ""}
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

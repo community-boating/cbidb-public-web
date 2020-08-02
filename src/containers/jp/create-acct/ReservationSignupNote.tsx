@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Option, none } from 'fp-ts/lib/Option';
 import JoomlaArticleRegion from '../../../theme/joomla/JoomlaArticleRegion';
-import JoomlaMainPage from '../../../theme/joomla/JoomlaMainPage';
 import TextArea from "../../../components/TextArea";
 import formUpdateState from '../../../util/form-update-state';
 import Button from '../../../components/Button';
@@ -11,6 +10,7 @@ import { makePostJSON } from '../../../core/APIWrapperUtil';
 import { PreRegistration } from '../../../app/global-state/jp-pre-registrations';
 import {reservePageRoute} from "../../../app/routes/jp/reserve"
 import { setJPImage } from '../../../util/set-bg-image';
+import FactaMainPage from '../../../theme/facta/FactaMainPage';
 
 type Props = {
 	history: History<any>,
@@ -101,7 +101,7 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 			</React.Fragment>
 		);
 
-		return <JoomlaMainPage setBGImage={setJPImage}>
+		return <FactaMainPage setBGImage={setJPImage}>
 			<JoomlaArticleRegion title="These classes may have multiple sections.">
 			These classes may be split into multiple sections, each section with its own classroom and instructor.
 				If you would like your child to be in class with another junior, please leave their name below.
@@ -131,6 +131,6 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 					})
 				}}/>
 			</JoomlaArticleRegion>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

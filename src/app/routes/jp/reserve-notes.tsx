@@ -8,7 +8,7 @@ import { validator as reservationAPIValidator } from '../../../async/junior/get-
 import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
 import ReservationSignupNote from '../../../containers/jp/create-acct/ReservationSignupNote';
 import { setJPImage } from '../../../util/set-bg-image';
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 export const reserveNotesPageRoute = new RouteWrapper(true, jpPathReserveNotes, history => <PageWrapper
 	key="reservationNotes"
@@ -21,6 +21,6 @@ export const reserveNotesPageRoute = new RouteWrapper(true, jpPathReserveNotes, 
 	urlProps={{
 		personId: Number(jpPathReserveNotes.extractURLParams(history.location.pathname).personId),
 	}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={getClassesAndPreregistrations}
 />);

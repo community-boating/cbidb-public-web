@@ -5,12 +5,12 @@ import * as React from "react";
 import Button from "../../../components/Button";
 import { RadioGroup } from "../../../components/InputGroup";
 import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import {apiw as accept} from "../../../async/junior/accept-tos"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setJPImage } from "../../../util/set-bg-image";
+import FactaMainPage from "../../../theme/facta/FactaMainPage";
 
 interface Props {
 	personId: number,
@@ -23,7 +23,7 @@ interface Props {
 export default class TermsConditions extends React.Component<Props, {radio: string}> {
 	render() {
 		const self = this;
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
+		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
@@ -61,6 +61,6 @@ export default class TermsConditions extends React.Component<Props, {radio: stri
 			{(self.state || {} as any).radio == "Yes" ? <Button text="Next >" spinnerOnClick onClick={() => 
 				accept.send(makePostJSON({personId: self.props.personId})).then(self.props.goNext)
 			}/> : ""}
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

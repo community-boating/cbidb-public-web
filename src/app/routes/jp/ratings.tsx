@@ -6,7 +6,7 @@ import RouteWrapper from "../../../core/RouteWrapper";
 import RatingsPage from '../../../containers/jp/RatingsPage';
 import { apiw as welcomeAPI, validator as welcomeJPValidator } from "../../../async/member-welcome-jp";
 import { setJPImage } from '../../../util/set-bg-image';
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 export const ratingsPageRoute = new RouteWrapper(true, jpPathRatings, history => <PageWrapper
 	key="RatingsPage"
@@ -17,7 +17,7 @@ export const ratingsPageRoute = new RouteWrapper(true, jpPathRatings, history =>
 		personId={urlProps.personId}
 	/>}
 	urlProps={{personId: Number(jpPathRatings.extractURLParams(history.location.pathname).personId)}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={() => {
 		return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 	}}

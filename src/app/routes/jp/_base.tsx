@@ -6,10 +6,10 @@ import {jpBasePath} from "../../paths/jp/_base"
 import PageWrapper from "../../../core/PageWrapper";
 import HomePageJP from "../../../containers/jp/HomePageJP";
 import { apiw as welcomeAPIJP, validator as welcomeValidatorJP } from "../../../async/member-welcome-jp";
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';
 import {postWrapper as getProtoPersonCookie} from "../../../async/check-proto-person-cookie"
 import { PostURLEncoded } from '../../../core/APIWrapperUtil';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 
 export const jpHomePageRoute = new RouteWrapper(true, jpBasePath, (history: History<any>) => <PageWrapper
@@ -20,7 +20,7 @@ export const jpHomePageRoute = new RouteWrapper(true, jpBasePath, (history: Hist
 		history={history}
 	/>}
 	urlProps={{}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {}) => {
 		return Promise.all([
 			getProtoPersonCookie.send(PostURLEncoded({})),

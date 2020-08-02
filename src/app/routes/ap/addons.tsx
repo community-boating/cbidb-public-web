@@ -3,11 +3,11 @@ import RouteWrapper from "../../../core/RouteWrapper";
 import { apPathAddons } from '../../paths/ap/addons';
 import AddonsWizard from '../../../containers/ap/AddonsWizard';
 import PageWrapper from '../../../core/PageWrapper';
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setAPImage } from '../../../util/set-bg-image';
 import { apiw as welcomeAPI } from "../../../async/member-welcome-ap";
 import { getNoGP, getNoDW } from '../../../containers/ap/HomePageActionsAP';
 import { apBasePath } from '../../paths/ap/_base';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 type AddonsProps = {
 	noGP: boolean,
@@ -44,5 +44,5 @@ export const apAddonsPageRoute = new RouteWrapper(true, apPathAddons, history =>
 			}
 		}).catch(err => Promise.resolve(null));  // TODO: handle failure
 	}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 />);

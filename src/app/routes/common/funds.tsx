@@ -4,9 +4,9 @@ import RouteWrapper from "../../../core/RouteWrapper";
 import path from "../../paths/common/funds"
 import PageWrapper from '../../../core/PageWrapper';
 import { setCheckoutImage } from '../../../util/set-bg-image';
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import {getWrapper, validator} from "../../../async/donation-funds"
 import FundInfoPage from '../../../containers/checkout/FundInfoPage';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 export const fundInfoRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="RatingsPage"
@@ -15,7 +15,7 @@ export const fundInfoRoute = new RouteWrapper(true, path, history => <PageWrappe
 		donationFunds={async}
 	/>}
 	urlProps={{}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 	getAsyncProps={() => {
 		return getWrapper.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 	}}

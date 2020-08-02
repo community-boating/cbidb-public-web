@@ -6,7 +6,6 @@ import * as t from 'io-ts';
 import Button from "../../../components/Button";
 import { RadioGroup } from "../../../components/InputGroup";
 import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
@@ -14,6 +13,7 @@ import {postWrapper as submit} from "../../../async/member/select-damage-waiver"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import {validator as pricesValidator} from "../../../async/prices"
 import Currency from "../../../util/Currency";
+import FactaMainPage from "../../../theme/facta/FactaMainPage";
 
 interface Props {
 	prices: t.TypeOf<typeof pricesValidator>,
@@ -33,7 +33,7 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 	}
 	render() {
 		const self = this;
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
+		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
@@ -82,6 +82,6 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 					}
 				})
 			}}/> : ""}
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

@@ -7,7 +7,7 @@ import { apiw as welcomeAPI, validator as welcomeJPValidator } from "../../../as
 import RegistrationWizard from '../../../containers/jp/jp-registration/pageflow/RegistrationWizard';
 import { some } from 'fp-ts/lib/Option';
 import { setJPImage } from '../../../util/set-bg-image';
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 export const regPageRoute = new RouteWrapper(true, jpPathReg, history => <PageWrapper
     key="reg"
@@ -24,7 +24,7 @@ export const regPageRoute = new RouteWrapper(true, jpPathReg, history => <PageWr
     urlProps={{
         personId: Number(jpPathReg.extractURLParams(history.location.pathname).personId),
     }}
-    shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+    shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={(urlProps: {}) => {
         return welcomeAPI.send(null).then(ret => {
             if (ret.type == "Success") {

@@ -5,12 +5,12 @@ import * as React from "react";
 import Button from "../../../components/Button";
 import { RadioGroup } from "../../../components/InputGroup";
 import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import {apiw as accept} from "../../../async/member/accept-tos"
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
+import FactaMainPage from "../../../theme/facta/FactaMainPage";
 
 interface Props {
 	history: History<any>
@@ -22,7 +22,7 @@ interface Props {
 export default class ApTermsConditions extends React.Component<Props, {radio: string}> {
 	render() {
 		const self = this;
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
+		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
@@ -60,6 +60,6 @@ export default class ApTermsConditions extends React.Component<Props, {radio: st
 			{(self.state || {} as any).radio == "Yes" ? <Button text="Next >" spinnerOnClick onClick={() => 
 				accept.send(makePostJSON({})).then(self.props.goNext)
 			}/> : ""}
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

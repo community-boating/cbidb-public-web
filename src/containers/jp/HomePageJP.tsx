@@ -3,7 +3,6 @@ import * as t from 'io-ts';
 import { validator } from "../../async/member-welcome-jp";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import homePageActions from "./HomePageActionsJP";
 import Button from '../../components/Button';
@@ -65,7 +64,7 @@ export default class HomePageJP extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
+		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
 			{errorPopup}
 			{
 				asc.state.jpClosedCovid
@@ -84,6 +83,6 @@ export default class HomePageJP extends React.Component<Props, State> {
 				: <Button onClick={() => Promise.resolve(this.props.history.push(regEmptyPageRoute.pathWrapper.path))} text="Add new Junior" />
 			}			
 			{self.props.data.canCheckout ? checkoutButton : null}
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

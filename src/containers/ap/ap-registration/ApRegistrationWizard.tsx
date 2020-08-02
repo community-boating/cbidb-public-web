@@ -7,7 +7,6 @@ import ProgressThermometer from "../../../components/ProgressThermometer";
 import { State as BreadcrumbState} from "../../../core/Breadcrumb";
 import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "../../../core/WizardPageflow";
 import ApRequiredInfo from "./ApRequiredInfo";
-import JoomlaLoadingPage from "../../../theme/joomla/JoomlaLoadingPage";
 import { setAPImage } from "../../../util/set-bg-image";
 import { apBasePath } from "../../../app/paths/ap/_base";
 import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator} from "../../../async/member/required";
@@ -23,6 +22,7 @@ import {apiw as welcomeAPI, validator as welcomeValidator } from "../../../async
 import {getWrapper as gpGet } from "../../../async/member/select-guest-privs"
 import {getWrapper as dwGet } from "../../../async/member/select-damage-waiver"
 import {apiw as getPrices, validator as pricesValidator} from "../../../async/prices"
+import FactaLoadingPage from "../../../theme/facta/FactaLoadingPage";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -58,7 +58,7 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 	
 		const pageWrapperProps = {
 			urlProps: {},
-			shadowComponent: <JoomlaLoadingPage setBGImage={setAPImage} />
+			shadowComponent: <FactaLoadingPage setBGImage={setAPImage} />
 		}
 
 		const purchaseNodes = [{

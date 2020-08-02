@@ -7,8 +7,8 @@ import { apiw as welcomeAPI, validator as welcomeValidator } from "../../../asyn
 import OffseasonClassesStandalone from '../../../containers/jp/OffseasonClassesStandalone';
 import Currency from '../../../util/Currency';
 import {getWrapper as getOffseasonClasses, validator as offseasonClassesValidator} from "../../../async/junior/offseason-classes"
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 type CombinedApiResult = {
 	welcome: t.TypeOf<typeof welcomeValidator>,
@@ -26,7 +26,7 @@ export const offseasonPageRoute = new RouteWrapper(true, jpPathOffseason, histor
 		offseasonClasses={async.offseasonClasses}
 	/>}
 	urlProps={{personId: Number(jpPathOffseason.extractURLParams(history.location.pathname).personId)}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {personId: number}) => {
 		return Promise.all([
 			getOffseasonClasses(urlProps.personId).send(null),

@@ -4,7 +4,6 @@ import * as React from "react";
 import { validator } from "../../async/member-welcome-ap";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import Button from '../../components/Button';
 import { History } from 'history';

@@ -10,12 +10,12 @@ import { Select } from "../../components/Select";
 import TextInput from "../../components/TextInput";
 import { makePostJSON } from "../../core/APIWrapperUtil";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import Currency from "../../util/Currency";
 import formUpdateState from '../../util/form-update-state';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import { setJPImage } from '../../util/set-bg-image';
+import FactaMainPage from '../../theme/facta/FactaMainPage';
 
 export interface Form {
 	isApplying: Option<string>,
@@ -168,7 +168,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage setBGImage={setJPImage}>
+		return <FactaMainPage setBGImage={setJPImage}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
@@ -200,6 +200,6 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 				if (isApplying == "No" || (isApplying == "Yes" && doAgree)) return next
 				else return null
 			}())}
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

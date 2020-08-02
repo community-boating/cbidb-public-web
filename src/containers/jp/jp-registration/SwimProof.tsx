@@ -8,11 +8,11 @@ import { RadioGroup } from "../../../components/InputGroup";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import swimProofValues from "../../../lov/swimProof";
 import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from "../../../util/form-update-state";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setJPImage } from "../../../util/set-bg-image";
+import FactaMainPage from "../../../theme/facta/FactaMainPage";
 
 export interface Form {
 	swimProofId: Option<string>
@@ -61,7 +61,7 @@ export default class SwimProof extends React.Component<Props, State> {
             </div>
         </JoomlaNotitleRegion>)
 	
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
+		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
@@ -92,6 +92,6 @@ export default class SwimProof extends React.Component<Props, State> {
 					.then(this.props.goNext)
 			}}/> : null}
 			
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import { setAPImage } from "../../util/set-bg-image";
 import { apBasePath } from "../../app/paths/ap/_base";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
@@ -22,6 +21,7 @@ import {postWrapper as signup} from "../../async/member/ap-class-signup"
 import {postWrapper as unenroll} from "../../async/member/ap-class-unenroll"
 import { makePostJSON } from "../../core/APIWrapperUtil";
 import { apPathClasses } from "../../app/paths/ap/classes";
+import FactaMainPage from "../../theme/facta/FactaMainPage";
 
 declare var ddrivetip: any;
 declare var hideddrivetip: any;
@@ -343,7 +343,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 		</tr></tbody></table>)
 		const elements = this.calendarDayElements();
 		console.log("about to call calendar with # days: ", elements.length)
-		return <JoomlaMainPage setBGImage={setAPImage}>
+		return <FactaMainPage setBGImage={setAPImage}>
 			<JoomlaArticleRegion title="AP Class Calendar">
 				<Calendar
 					monthStartOnDate={0}
@@ -361,6 +361,6 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 				{filterTable}
 			</JoomlaHideShowRegion>
 			{getFocusRegion().getOrElse(null)}
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

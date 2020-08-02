@@ -22,8 +22,8 @@ import { Option, some } from "fp-ts/lib/Option";
 import { apiw as welcomeAPI, validator as welcomeJPValidator } from "../../../../async/member-welcome-jp";
 import SwimProof from "../SwimProof";
 import { setJPImage } from "../../../../util/set-bg-image";
-import JoomlaLoadingPage from "../../../../theme/joomla/JoomlaLoadingPage";
 import { jpBasePath } from "../../../../app/paths/jp/_base";
+import FactaLoadingPage from "../../../../theme/facta/FactaLoadingPage";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -75,7 +75,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 	
 		const pageWrapperProps = {
 			urlProps: {},
-			shadowComponent: <JoomlaLoadingPage setBGImage={setJPImage} />
+			shadowComponent: <FactaLoadingPage setBGImage={setJPImage} />
 		}
 	
 		const maybeScholarship = this.props.jpPrice.isSome() ? [] : [{
@@ -121,7 +121,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 						return Promise.resolve();
 					}}
 				/>}
-				shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+				shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 				getAsyncProps={() => {
 					return welcomeAPI.send(null).catch(err => Promise.resolve(null)).then(res => {
 						if (res.type != "Success" || !res.success || res.success.jpPrice.isNone() || res.success.jpOffseasonPrice.isNone()) {

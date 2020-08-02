@@ -6,13 +6,13 @@ import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
 import Button from '../../components/Button';
 import {postWrapper} from "../../async/member/do-claim-acct"
 import { PostURLEncoded } from '../../core/APIWrapperUtil';
 import { apBasePath } from '../../app/paths/ap/_base';
 import asc from '../../app/AppStateContainer';
 import Validation from '../../util/Validation';
+import FactaMainPage from '../../theme/facta/FactaMainPage';
 
 const defaultForm = {
 	pw1: none as Option<string>,
@@ -97,7 +97,7 @@ export default class DoClaimAcct extends React.PureComponent<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage setBGImage={setAPImage}>
+		return <FactaMainPage setBGImage={setAPImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Please supply a password for your new account." buttons={buttons}>
 				<table><tbody>
@@ -120,6 +120,6 @@ export default class DoClaimAcct extends React.PureComponent<Props, State> {
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

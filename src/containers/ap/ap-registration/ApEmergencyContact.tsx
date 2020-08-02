@@ -9,12 +9,12 @@ import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../.
 import TextInput from "../../../components/TextInput";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import ErrorDiv from "../../../theme/joomla/ErrorDiv";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
+import FactaMainPage from "../../../theme/facta/FactaMainPage";
 
 type ApiType = t.TypeOf<typeof validator>
 
@@ -197,7 +197,7 @@ export default class ApEmergencyContact extends React.PureComponent<Props, State
 			: ""
 		);
 		
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
+		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
@@ -219,6 +219,6 @@ export default class ApEmergencyContact extends React.PureComponent<Props, State
 					}
 				})
 			}}/>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

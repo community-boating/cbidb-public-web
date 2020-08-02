@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import { setCheckoutImage } from "../../util/set-bg-image";
 import {donationFundValidator} from "../../async/donation-funds"
+import FactaMainPage from "../../theme/facta/FactaMainPage";
 
 export interface Props {
 	donationFunds: t.TypeOf<typeof donationFundValidator>[]
@@ -28,7 +28,7 @@ export default class FundInfoPage extends React.PureComponent<Props> {
 		return !fund.isEndowment;
 	}
 	render() {
-		return <JoomlaMainPage setBGImage={setCheckoutImage}>
+		return <FactaMainPage setBGImage={setCheckoutImage}>
 			<JoomlaArticleRegion title={<span id="funds">CBI Funds</span>}>
 				{this.props.donationFunds.filter(FundInfoPage.isNotEndowment).map(FundInfoPage.renderFund)}
 				<div style={{ borderLeft: "4px solid", paddingLeft: "4px"}}>
@@ -39,6 +39,6 @@ export default class FundInfoPage extends React.PureComponent<Props> {
 				<br />
 				{this.props.donationFunds.filter(FundInfoPage.isEndowment).map(FundInfoPage.renderFund)}
 			</JoomlaArticleRegion>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

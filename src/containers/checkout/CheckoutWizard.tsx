@@ -9,10 +9,10 @@ import PaymentConfirmPage from "./PaymentConfirm";
 import { apiw as orderStatus, CardData } from "../../async/order-status"
 import { setCheckoutImage } from "../../util/set-bg-image";
 import { apiw as getCartItems } from "../../async/get-cart-items"
-import JoomlaLoadingPage from "../../theme/joomla/JoomlaLoadingPage";
 import { jpBasePath } from "../../app/paths/jp/_base";
 import {getWrapper as getDonationFunds} from "../../async/donation-funds"
 import ThankYouPage from "./ThankYou";
+import FactaLoadingPage from "../../theme/facta/FactaLoadingPage";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -71,7 +71,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					donationFunds={funds}
 				/>}
 				urlProps={{}}
-				shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
+				shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
 						welcomeAPI.send(null),
@@ -108,7 +108,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					cartItems={cartItems}
 				/>}
 				urlProps={{}}
-				shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
+				shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
 						orderStatus.send(null),
@@ -126,7 +126,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					hasJPMemberships={this.state.hasJpMemberships}
 				/>}
 				urlProps={{}}
-				shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
+				shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 			/>
 		}]
 	

@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import StripeElement from "../../components/StripeElement";
 import { TokensResult } from "../../models/stripe/tokens";
@@ -28,6 +27,7 @@ import { left, right, Either } from "fp-ts/lib/Either";
 import {postWrapper as addDonation} from "../../async/member/add-donation"
 import {postWrapper as addPromo} from "../../async/member/add-promo-code"
 import {postWrapper as applyGC} from "../../async/member/apply-gc"
+import FactaMainPage from "../../theme/facta/FactaMainPage";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -270,7 +270,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			});
 		}
 
-		return <JoomlaMainPage setBGImage={setCheckoutImage}>
+		return <FactaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Please consider making a donation to Community Boating.">
 				{`Community Boating, Inc. (CBI) is a 501(c)3 non-profit organization operating affordable and accessible programs
@@ -370,6 +370,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			</JoomlaArticleRegion>
 			{(confirm.isSome() || orderTotalIsZero )? <Button text="Continue >" onClick={this.props.goNext} /> : ""}
 
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

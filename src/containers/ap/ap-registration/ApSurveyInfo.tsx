@@ -12,11 +12,11 @@ import ethnicities from "../../../lov/ethnicities";
 import genders from "../../../lov/genders";
 import referralSources from "../../../lov/referralSources";
 import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
+import FactaMainPage from "../../../theme/facta/FactaMainPage";
  
 export type Form = t.TypeOf<typeof validator>
 
@@ -51,7 +51,7 @@ export default class ApSurveyInfo extends React.Component<Props, State> {
 
 		// TODO: blank out the "other" fields in state when the toggling checkbox is unchecked
 
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
+		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
@@ -195,6 +195,6 @@ export default class ApSurveyInfo extends React.Component<Props, State> {
 			<Button text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper.send(makePostJSON(this.state.formData)).then(self.props.goNext)
 			}}/>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

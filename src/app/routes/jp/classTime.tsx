@@ -8,8 +8,8 @@ import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTim
 import SelectClassTime from "../../../containers/jp/class-signup/SelectClassTime";
 import {apiw as getWeeks, weeksValidator} from "../../../async/weeks";
 import {apiw as welcomeAPI, validator as welcomeValidator} from "../../../async/member-welcome-jp"
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setJPImage } from '../../../util/set-bg-image';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 export const classTimePageRoute = new RouteWrapper(true, jpPathClassTime, history => <PageWrapper
     key="SelectClassTime"
@@ -30,7 +30,7 @@ export const classTimePageRoute = new RouteWrapper(true, jpPathClassTime, histor
         personId: Number(jpPathClassTime.extractURLParams(history.location.pathname).personId),
         typeId: Number(jpPathClassTime.extractURLParams(history.location.pathname).typeId)
     }}
-    shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+    shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={(urlProps: {personId: number, typeId: number}) => {
         return Promise.all([
             classTimesWrapper(urlProps.typeId, urlProps.personId).send(null),

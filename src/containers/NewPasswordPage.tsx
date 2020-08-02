@@ -3,7 +3,6 @@ import * as React from "react";
 
 import Button from "../components/Button";
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
 import TextInput from '../components/TextInput';
@@ -17,6 +16,7 @@ import { jpBasePath } from '../app/paths/jp/_base';
 import { PageFlavor } from '../components/Page';
 import { apBasePath } from '../app/paths/ap/_base';
 import assertNever from '../util/assertNever';
+import FactaMainPage from '../theme/facta/FactaMainPage';
 
 type Props = {
 	history: History<any>,
@@ -117,7 +117,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 				)
 			}
 		}
-		return <JoomlaMainPage setBGImage={setBGImage}>
+		return <FactaMainPage setBGImage={setBGImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Enter your new password.">
 				<table><tbody>
@@ -139,6 +139,6 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 				</tbody></table>
 			</JoomlaArticleRegion>
 			<Button text="Submit" onClick={submit}/>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

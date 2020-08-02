@@ -4,12 +4,12 @@ import * as t from 'io-ts';
 
 import Button from "../../components/Button";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
 import { setJPImage } from '../../util/set-bg-image';
 import { validator as welcomeJPValidator } from "../../async/member-welcome-jp";
 import { jpBasePath } from '../../app/paths/jp/_base';
+import FactaMainPage from '../../theme/facta/FactaMainPage';
 
 export interface Props {
 	personId: number,
@@ -26,7 +26,7 @@ export default class RatingsPage extends React.PureComponent<Props> {
 		const ratings = kid ? kid.ratings.getOrElse("") : "<span></span>"
 
 		// TODO: grab specific child based on url
-		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: true})}>
+		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: true})}>
 			<JoomlaArticleRegion title="Ratings">
 				<span dangerouslySetInnerHTML={{__html: ratings}}/>
 				<p>
@@ -41,6 +41,6 @@ export default class RatingsPage extends React.PureComponent<Props> {
 				</p>
 				<Button text="< Back" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 			</JoomlaArticleRegion>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }
