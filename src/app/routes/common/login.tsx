@@ -10,6 +10,7 @@ import { none, some } from 'fp-ts/lib/Option';
 import Currency from '../../../util/Currency';
 import { setJPImage, setAPImage } from '../../../util/set-bg-image';
 import assertNever from '../../../util/assertNever';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 export default (flavor: PageFlavor) => (history: History<any>) => <PageWrapper
 	key="Loginpage"
@@ -22,7 +23,7 @@ export default (flavor: PageFlavor) => (history: History<any>) => <PageWrapper
 		flavor={flavor}
 	/>}
 	urlProps={{}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={(function() {
+	shadowComponent={<FactaLoadingPage setBGImage={(function() {
 		switch(flavor) {
 			case PageFlavor.JP:
 				return setJPImage;

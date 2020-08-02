@@ -10,6 +10,7 @@ import { setAPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import {postWrapper as getProtoPersonCookie} from "../../../async/check-proto-person-cookie"
 import { PostURLEncoded } from '../../../core/APIWrapperUtil';
+import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 export const apHomePageRoute = new RouteWrapper(true, apBasePath, (history: History<any>) => <PageWrapper
 	key="HomePage"
@@ -19,7 +20,7 @@ export const apHomePageRoute = new RouteWrapper(true, apBasePath, (history: Hist
 		history={history}
 	/>}
 	urlProps={{}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 	getAsyncProps={(urlProps: {}) => {
 		return Promise.all([
 			getProtoPersonCookie.send(PostURLEncoded({})),

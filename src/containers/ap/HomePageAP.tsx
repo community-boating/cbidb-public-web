@@ -16,6 +16,7 @@ import { checkoutPageRoute } from '../../app/routes/common/checkout';
 import { setAPImage } from '../../util/set-bg-image';
 import homePageActions from "./HomePageActionsAP";
 import Currency from '../../util/Currency';
+import FactaMainPage from '../../theme/facta/FactaMainPage';
 
 type Props = {
 	data:  t.TypeOf<typeof validator>,
@@ -74,11 +75,11 @@ export default class HomePageAP extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
+		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
 			{errorPopup}
 			{mainTable}
 			{self.props.data.canCheckout ? checkoutButton : null}
 			{ratings}
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

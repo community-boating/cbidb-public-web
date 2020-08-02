@@ -29,6 +29,7 @@ import { jpPathLogin } from "../app/paths/jp/login";
 import { apPathLogin } from "../app/paths/ap/login";
 import { PostURLEncoded } from "../core/APIWrapperUtil";
 import FactaMainPage from "../theme/facta/FactaMainPage";
+import FactaTwoColumns from "../theme/facta/FactaTwoColumns";
 export const formDefault = {
 	username: none as Option<string>,
 	password: none as Option<string>
@@ -269,9 +270,9 @@ export default class LoginPage extends React.Component<Props, State> {
 			</tr></tbody></table>
 
 		return (
-			<JoomlaTwoColumns setBGImage={setBGImage} left={leftColumn} right={rightColumn}>
+			<FactaTwoColumns setBGImage={setBGImage} left={leftColumn} right={rightColumn}>
 				{errorPopup}
-			</JoomlaTwoColumns>
+			</FactaTwoColumns>
 		);
 	}
 }
