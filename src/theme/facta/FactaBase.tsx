@@ -240,19 +240,35 @@ export class FactaBody extends React.Component {
 							</div>
 							<div className="col-auto">
 								<div className='row no-gutters d-none d-lg-flex'>
-
+									<style>
+										{`
+										.nav-item-parent {
+											padding: 13px !important;
+										}
+										`}
+									</style>
 
 									<div className='col-auto'>
 										<div className='nav-item  '>
-											<Link className='nav-item-parent' to='/ap'>Adult
-									Program</Link>
+											<Link className='nav-item-parent' to='/ap'>Adult Program</Link>
 										</div>
 									</div>
 
 									<div className='col-auto'>
 										<div className='nav-item  '>
-											<Link className='nav-item-parent' to='/jp'>Youth
-									Program</Link>
+											<Link className='nav-item-parent' to='/jp'>Youth Program</Link>
+										</div>
+									</div>
+
+									<div className='col-auto'>
+										<div className='nav-item  '>
+											<a className='nav-item-parent' target="_blank" href="https://portal2.community-boating.org/ords/f?p=630">Donate</a>
+										</div>
+									</div>
+
+									<div className='col-auto'>
+										<div className='nav-item  '>
+											<a className='nav-item-parent' target="_blank" href="https://portal2.community-boating.org/ords/f?p=640">Gift Certificates</a>
 										</div>
 									</div>
 								</div>
@@ -292,7 +308,7 @@ export class FactaBody extends React.Component {
 						<div className='container'>
 							<div className='row'>
 								<div className='col-12'>
-									<div className='page-title-body'>CBI Membership Portal</div>
+									<div className='page-title-body' id="hero-text">CBI Membership Portal</div>
 								</div>
 							</div>
 						</div>
