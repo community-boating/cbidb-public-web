@@ -6,7 +6,7 @@ dist/
 /node_modules
 /.pnp
 .pnp.js
-/ini
+/ini/config.ini
 
 # testing
 /coverage

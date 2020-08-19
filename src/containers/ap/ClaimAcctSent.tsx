@@ -4,7 +4,7 @@ import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
 import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
-import { apLoginPageRoute } from '../../app/routes/ap/_base';
+import { apLoginPageRoute } from "../../app/routes/ap/login";
 
 type Props = {
 	history: History<any>

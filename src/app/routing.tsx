@@ -1,15 +1,9 @@
 import * as Sentry from '@sentry/browser';
-import * as t from 'io-ts';
 import { History } from 'history';
 import * as React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router';
-import { apiw as welcomeAPIJP, validator as welcomeValidatorJP } from "../async/member-welcome-jp";
-import { apiw as welcomeAPIAP, validator as welcomeValidatorAP } from "../async/member-welcome-ap";
-import PageWrapper from '../core/PageWrapper';
-import HomePageJP from '../containers/jp/HomePageJP';
 import asc from './AppStateContainer';
 import { Option } from 'fp-ts/lib/Option';
-import {getWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import {ratingsPageRoute} from './routes/jp/ratings'
 import {regPageRoute} from './routes/jp/reg'
 import {regEmptyPageRoute} from './routes/jp/regEmpty'
@@ -17,23 +11,16 @@ import {editPageRoute} from './routes/jp/edit'
 import {classPageRoute} from './routes/jp/class'
 import {classTimePageRoute} from './routes/jp/classTime'
 import {signupNotePageRoute} from './routes/jp/signupNote'
-// import {reservePageRoute} from './routes/jp/reserve'
-// import {reserveNotesPageRoute} from './routes/jp/reserve-notes'
 import {checkoutPageRoute} from "./routes/common/checkout"
 import { maintenancePageRoute } from './routes/common/maintenance';
-// import { createAcctPageRoute } from './routes/jp/create-acct';
 import { jpForgotPasswordPageRoute } from './routes/jp/forgot-pw';
 import { jpForgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
 import { jpResetPasswordPageRoute } from './routes/jp/reset-pw';
-import { jpLoginPageRoute } from './routes/jp/_base';
-import { apLoginPageRoute } from './routes/ap/_base';
+import { jpHomePageRoute } from './routes/jp/_base';
+import { apHomePageRoute } from './routes/ap/_base';
 import PathWrapper from '../core/PathWrapper';
 import { offseasonPageRoute } from './routes/jp/offseason'
-import { setJPImage, setAPImage } from '../util/set-bg-image';
-import JoomlaLoadingPage from '../theme/joomla/JoomlaLoadingPage';
-import HomePageAP from '../containers/ap/HomePageAP';
 import { apRegPageRoute } from './routes/ap/reg';
-//import { apClassesPageRoute } from './routes/ap/classes';
 import { apEditPageRoute } from './routes/ap/edit';
 import { fundInfoRoute } from './routes/common/funds';
 import { apPreRegRoute } from './routes/ap/prereg';
@@ -50,6 +37,16 @@ import { reservePageRoute } from './routes/jp/reserve';
 import { reserveNotesPageRoute } from './routes/jp/reserve-notes';
 import { createAcctPageRoute } from './routes/jp/create-acct';
 import { apClassesPageRoute } from './routes/ap/classes';
+import { apSettingsPageRoute } from './routes/ap/settings';
+import { apLoginPageRoute } from './routes/ap/login';
+import { jpLoginPageRoute } from './routes/jp/login';
+import { apBasePath } from './paths/ap/_base';
+import { apPathLogin } from './paths/ap/login';
+import { jpPathLogin } from './paths/jp/login';
+import { jpBasePath } from './paths/jp/_base';
+import LoginRoute from "../app/routes/common/login";
+import { PageFlavor } from '../components/Page';
+import { apAddonsPageRoute } from './routes/ap/addons';
 import { apDonateRoute } from './routes/ap/donate';
 
 const defaultRouteRender = () => {
@@ -69,9 +66,9 @@ const defaultRouteRender = () => {
 			const apRegex = /^\/jp\/ap\/(.*)$/;
 			const apRegexMatchResult = apRegex.exec(window.location.pathname);
 			if (apRegexMatchResult) {
-				return <Redirect to="/ap" />;
+				return <Redirect to={apPathLogin.getPathFromArgs({})} />;
 			} else {
-				return <Redirect to="/jp" />;
+				return <Redirect to={jpPathLogin.getPathFromArgs({})} />;
 			}
 		} else {
 			console.log("... its doesnt have a jp in front, lets try adding one")
@@ -83,138 +80,77 @@ const defaultRouteRender = () => {
 
 // TODO: real shadow components on everything
 export default function (history: History<any>) {
-	const mustNotBeLoggedIn = assertUniqueKeys([	
+	const universalRoutes = assertUniqueKeys([
+		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
+		<Route key="noProgramRedirect" path="/" exact render={() => <Redirect to={apBasePath.getPathFromArgs({})} />} />,
+		maintenancePageRoute.asRoute(history),
+		fundInfoRoute.asRoute(history),
 		asc.state.jpClosedCovid ? null : reservePageRoute.asRoute(history),
-
 		asc.state.jpClosedCovid ? null : reserveNotesPageRoute.asRoute(history),
-
 		asc.state.jpClosedCovid ? null : createAcctPageRoute.asRoute(history),
-
 		asc.state.jpClosedCovid ? jpClosedCovidPageRoute.asRoute(history) : null,
-
 		jpForgotPasswordPageRoute.asRoute(history),
-
 		jpForgotPasswordSentPageRoute.asRoute(history),
-
 		apForgotPasswordPageRoute.asRoute(history),
-
 		apForgotPasswordSentPageRoute.asRoute(history),
-
 		jpResetPasswordPageRoute.asRoute(history),
-
 		apResetPasswordPageRoute.asRoute(history),
-
 		apPreRegRoute.asRoute(history),
-
 		apCreateAcctRoute.asRoute(history),
-
 		apStartClaimAcctPageRoute.asRoute(history),
-
 		apClaimAcctSentPageRoute.asRoute(history),
-
 		apDoClaimAcctPageRoute.asRoute(history),
-
-		// bottom most
-
-		jpLoginPageRoute.asRoute(history),
-
 		apLoginPageRoute.asRoute(history),
-
-		// TODO: eventually there should be a combined landing page or something
-		<Route key="loginRedirect" path="/" exact render={() => <Redirect to="/ap" />} />,
-
-		<Route key="defaultPub" render={defaultRouteRender} />,
+		jpLoginPageRoute.asRoute(history),
 	].filter(Boolean));
 
-	const mustBeLoggedIn = assertUniqueKeys([
-		<Route key="login" path="/login" render={() => <Redirect to="/" />} />,
-		
+	const mustNotBeLoggedIn = [
+		// If the url is /ap/something, stay on that path but render the login page.
+		// After login, the login page will not navigate anywhere and render the requested deeplink
+		// not using the 'exact' keyword here means the path /ap will match any /ap/foo/bar etc
+		<Route key="apLoginRenderDeeplink" path={apBasePath.getPathFromArgs({})} render={() => LoginRoute(PageFlavor.AP)(history)} />,
+		<Route key="jpLoginRenderDeeplink" path={jpBasePath.getPathFromArgs({})} render={() => LoginRoute(PageFlavor.JP)(history)} />
+	]
+
+	const mustBeLoggedIn = assertUniqueKeys([		
 		checkoutPageRoute.asRoute(history),
-
 		ratingsPageRoute.asRoute(history),
-
 		classPageRoute.asRoute(history),
-
 		signupNotePageRoute.asRoute(history),
-
 		classTimePageRoute.asRoute(history),
-
 		regPageRoute.asRoute(history),
-
 		editPageRoute.asRoute(history),
-
 		regEmptyPageRoute.asRoute(history),
-
 		offseasonPageRoute.asRoute(history),
-
 		apRegPageRoute.asRoute(history),
-
-		apDonateRoute.asRoute(history),
-
 		asc.state.jpClosedCovid ? null : apClassesPageRoute.asRoute(history),
-
 		apEditPageRoute.asRoute(history),
-
-		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
-
-		<Route key="jpHome" path="/jp" exact render={() => <PageWrapper
-			key="HomePage"
-			history={history}
-			component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidatorJP>) => <HomePageJP
-				data={async}
-				history={history}
-			/>}
-			urlProps={{}}
-			shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
-			getAsyncProps={(urlProps: {}) => {
-				return Promise.all([
-					getProtoPersonCookie.send(null),
-					welcomeAPIJP.send(null)
-				]).then(([whatever, welcome]) => {
-					return Promise.resolve(welcome);
-				}).catch(err => Promise.resolve(null));  // TODO: handle failure
-			}}
-		/>} />,
-
+		apSettingsPageRoute.asRoute(history),
+		jpHomePageRoute.asRoute(history),
+		apClassesPageRoute.asRoute(history),
+		apAddonsPageRoute.asRoute(history),
+		apDonateRoute.asRoute(history),
 		(
 			asc.state.justLoggedIn
-			? <Route key="homeAP" path="/ap" exact render={() => <Redirect to={apRegPageRoute.getPathFromArgs({})} />} />
-			: <Route key="homeAP" path="/ap" exact render={() => <PageWrapper
-				key="HomePage"
-				history={history}
-				component={(urlProps: {}, async: t.TypeOf<typeof welcomeValidatorAP>) => <HomePageAP
-					data={async}
-					history={history}
-				/>}
-				urlProps={{}}
-				shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
-				getAsyncProps={(urlProps: {}) => {
-					return Promise.all([
-						getProtoPersonCookie.send(null),
-						welcomeAPIAP.send(null)
-					]).then(([whatever, welcome]) => {
-						return Promise.resolve(welcome);
-					}).catch(err => Promise.resolve(null));  // TODO: handle failure
-				}}
-			/>} />
+			? <Route key="homeAP" path={apBasePath.getPathFromArgs({})} exact render={() => <Redirect to={apRegPageRoute.getPathFromArgs({})} />} />
+			: apHomePageRoute.asRoute(history)
 		),
-
-		<Route key="homeRedirect" path="/" exact render={() => <Redirect to="/ap" />} />,,
-
-		<Route key="defaultAuth" render={defaultRouteRender} />,
 	].filter(Boolean));
+
+	const finalRoute = <Route key="defaultPub" render={defaultRouteRender} />;
 
 	const isLoggedIn = (asc.state.login.authenticatedUserName as Option<string>).isSome();
 
-	const authedDependedRoutes = isLoggedIn ? mustBeLoggedIn : mustNotBeLoggedIn
+	console.log("is logged in? ", isLoggedIn)
 
-	const universalRoutes = [
-		maintenancePageRoute.asRoute(history),
-		fundInfoRoute.asRoute(history)
-	];
+	const routes = (
+		isLoggedIn
+		? universalRoutes.concat(mustBeLoggedIn).concat([finalRoute])
+		: universalRoutes.concat(mustNotBeLoggedIn).concat([finalRoute])
+	);
 
 	// check on boot for duplicate route keys
-	universalRoutes.concat(mustBeLoggedIn).concat(mustNotBeLoggedIn).reduce((hash: any, r) => {
+	[routes].forEach(routeSet => routeSet.reduce((hash: any, r) => {
 		const {key} = r;
 		if (undefined !== hash[key]) {
 			console.log("Duplicate route key " + key)
@@ -222,13 +158,12 @@ export default function (history: History<any>) {
 		}
 		hash[key] = true;
 		return hash;
-	}, {})
+	}, {}));	
 
 	return (
 		<Router history={history}>
 			<Switch>
-				{...universalRoutes}
-				{...authedDependedRoutes}
+				{...routes.filter(Boolean)}
 			</Switch>
 		</Router>
 	);

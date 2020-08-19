@@ -6,10 +6,10 @@ import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import { none } from 'fp-ts/lib/Option';
 import { setAPImage, setJPImage } from '../util/set-bg-image';
-import { jpBasePath } from '../app/paths/jp/_base';
 import assertNever from '../util/assertNever';
-import { apBasePath } from '../app/paths/ap/_base';
 import { PageFlavor } from '../components/Page';
+import { apPathLogin } from '../app/paths/ap/login';
+import { jpPathLogin } from '../app/paths/jp/login';
 
 type Props = {
 	history: History<any>,
@@ -42,9 +42,9 @@ export default class ForgotPasswordSentPage extends React.PureComponent<Props> {
 		const loginLink = (function() {
 			switch (self.props.program) {
 				case PageFlavor.AP:
-					return apBasePath.getPathFromArgs({});
+					return apPathLogin.getPathFromArgs({});
 				case PageFlavor.JP:
-					return jpBasePath.getPathFromArgs({});
+					return jpPathLogin.getPathFromArgs({});
 				default:
 					assertNever(self.props.program);
 					return null;

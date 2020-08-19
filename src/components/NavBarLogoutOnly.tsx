@@ -8,6 +8,7 @@ import { Option } from "fp-ts/lib/Option";
 import { Link } from "react-router-dom";
 import {apBasePath} from "../app/paths/ap/_base"
 import {jpBasePath} from "../app/paths/jp/_base"
+import { apSettingsPagePath } from "../app/paths/ap/settings";
 
 export default (props: {history: History<any>, sysdate: Option<Moment>, showProgramLink: boolean}) => {
 	const pathComponents = props.history.location.pathname.split("/");
@@ -26,10 +27,17 @@ export default (props: {history: History<any>, sysdate: Option<Moment>, showProg
 		: jpBasePath.getPathFromArgs({})
 	);
 
+	const settingsPage = (
+		program == 'ap'
+		? <Link key="settings" to={apSettingsPagePath.getPathFromArgs({})}>&nbsp;&nbsp;&nbsp;Change Email/Password</Link>
+		: null
+	);
+
 	const navComponents = [
 		props.sysdate.map(d => <React.Fragment key="sysdate">System Time:  <span id="systime">{d.format("hh:mm:ss A")}</span> (refresh your browser to update!)</React.Fragment>)
 		.getOrElse(null),
 		switchLink,
+		settingsPage,
 		<a key="logout" href="#" onClick={() => {
 			logout.send({type: "json", jsonData: {}}).then(() => {
 				asc.updateState.login.logout()

@@ -15,6 +15,7 @@ import {History} from "history"
 import { PostURLEncoded } from '../../core/APIWrapperUtil';
 import { apBasePath } from '../../app/paths/ap/_base';
 import asc from '../../app/AppStateContainer';
+import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -57,6 +58,7 @@ export default class ApCreateAcct extends React.PureComponent<Props, State> {
 			formData: defaultForm,
 			validationErrors: []
 		}
+		getProtoPersonCookie.send(PostURLEncoded({}));
 	}
 	render() {
 		const self= this;

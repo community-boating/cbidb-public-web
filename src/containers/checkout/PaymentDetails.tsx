@@ -290,6 +290,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							cartItems={self.props.cartItems}
 							history={this.props.history}
 							setErrors={setErrors}
+							includeCancel={true}
 						/>
 					</JoomlaArticleRegion>
 				</td>
