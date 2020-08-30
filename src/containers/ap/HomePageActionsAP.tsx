@@ -209,7 +209,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			LINKS.edit
 		]
 	}, {
-		place: 18,
+		place: 29,
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
 			
