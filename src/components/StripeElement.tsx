@@ -6,13 +6,13 @@ type Props = {
 	formId: string, 		// "payment-form"
 	elementId: string,		// "card-element"
 	cardErrorsId: string,	// "card-errors"
-	then: (result: TokensResult) => any
+	then: (result: TokensResult) => Promise<any>
 }
 
 declare var Stripe: any;
 
 export default class StripeElement extends React.Component<Props> {
-	submit: () => void
+	submit: () => Promise<any>
 	componentDidMount() {
 		const self = this;
 		// TODO: put this somewhere
@@ -33,13 +33,14 @@ export default class StripeElement extends React.Component<Props> {
 		});
 
 		this.submit = () => {
-			stripe.createToken(card).then(function(result: any) {
+			return (stripe.createToken(card) as Promise<any>).then(function(result: any) {
 				if (result.error) {
 					// Inform the customer that there was an error
 					var errorElement = document.getElementById(self.props.cardErrorsId);
 					errorElement.textContent = result.error.message;
+					return Promise.resolve();
 				} else {
-					self.props.then(result)
+					return self.props.then(result);
 				}
 			});
 		}
@@ -75,7 +76,7 @@ export default class StripeElement extends React.Component<Props> {
 					<div id={this.props.cardErrorsId} role="alert"></div>
 				</div>
 				<br />
-				<Button text="Submit Card Details" onClick={() => Promise.resolve(this.submit())}/>
+				<Button text="Submit Card Details" spinnerOnClick onClick={() => this.submit()}/>
 			</form>
 		);
 		return paymentForm;
