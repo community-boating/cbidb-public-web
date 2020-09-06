@@ -3,7 +3,7 @@ import { History } from "history";
 import * as React from "react";
 import * as t from 'io-ts';
 
-import JoomlaButton from "../../../theme/joomla/JoomlaButton";
+import FactaButton from "../../../theme/facta/FactaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
@@ -67,8 +67,8 @@ export default class GuestPrivs extends React.Component<Props, {radio: string}> 
 					justElement={true}
 				/>
 			</JoomlaNotitleRegion>
-			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
-			{(self.state || {} as any).radio != undefined ? <JoomlaButton text="Next >" spinnerOnClick onClick={() => {
+			<FactaButton text="< Back" onClick={self.props.goPrev}/>
+			{(self.state || {} as any).radio != undefined ? <FactaButton text="Next >" spinnerOnClick onClick={() => {
 				return submit.send(makePostJSON({
 					wantIt: self.state.radio == "Yes"
 				})).then(res => {

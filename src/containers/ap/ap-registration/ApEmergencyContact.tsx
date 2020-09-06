@@ -15,6 +15,7 @@ import ErrorDiv from "../../../theme/joomla/ErrorDiv";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import FactaMainPage from "../../../theme/facta/FactaMainPage";
+import FactaButton from "../../../theme/facta/FactaButton";
 
 type ApiType = t.TypeOf<typeof validator>
 
@@ -205,8 +206,8 @@ export default class ApEmergencyContact extends React.PureComponent<Props, State
 			<JoomlaArticleRegion title="Who should we contact in the event of an emergency?">
 				{emergFields}
 			</JoomlaArticleRegion>
-			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
-			<JoomlaButton text="Next >" spinnerOnClick onClick={() => {
+			<FactaButton text="< Back" onClick={self.props.goPrev}/>
+			<FactaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper.send(makePostJSON(formToAPI(this.state.formData))).then(res => {
 					if (res.type == "Success") {
 						self.props.goNext()

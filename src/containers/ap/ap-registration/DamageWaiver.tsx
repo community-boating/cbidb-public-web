@@ -14,6 +14,7 @@ import { makePostJSON } from "../../../core/APIWrapperUtil";
 import {validator as pricesValidator} from "../../../async/prices"
 import Currency from "../../../util/Currency";
 import FactaMainPage from "../../../theme/facta/FactaMainPage";
+import FactaButton from "../../../theme/facta/FactaButton";
 
 interface Props {
 	prices: t.TypeOf<typeof pricesValidator>,
@@ -66,8 +67,8 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 					justElement={true}
 				/>
 			</JoomlaNotitleRegion>
-			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
-			{(self.state || {} as any).radio != undefined ? <JoomlaButton text="Next >" spinnerOnClick onClick={() => {
+			<FactaButton text="< Back" onClick={self.props.goPrev}/>
+			{(self.state || {} as any).radio != undefined ? <FactaButton text="Next >" spinnerOnClick onClick={() => {
 				return submit.send(makePostJSON({
 					wantIt: self.state.radio == "Yes"
 				})).then(res => {

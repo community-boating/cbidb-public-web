@@ -16,6 +16,7 @@ import { setAPImage } from '../../util/set-bg-image';
 import homePageActions from "./HomePageActionsAP";
 import Currency from '../../util/Currency';
 import FactaMainPage from '../../theme/facta/FactaMainPage';
+import FactaButton from '../../theme/facta/FactaButton';
 
 type Props = {
 	data:  t.TypeOf<typeof validator>,
@@ -66,7 +67,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 			</p>
 		</JoomlaArticleRegion>;
 
-		const checkoutButton = (<JoomlaButton onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
+		const checkoutButton = (<FactaButton onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)

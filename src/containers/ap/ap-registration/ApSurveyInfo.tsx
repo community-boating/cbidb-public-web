@@ -17,6 +17,7 @@ import formUpdateState from '../../../util/form-update-state';
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import FactaMainPage from "../../../theme/facta/FactaMainPage";
+import FactaButton from "../../../theme/facta/FactaButton";
  
 export type Form = t.TypeOf<typeof validator>
 
@@ -191,8 +192,8 @@ export default class ApSurveyInfo extends React.Component<Props, State> {
 					}
                 </tbody></table>
             </JoomlaArticleRegion>
-			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
-			<JoomlaButton text="Next >" spinnerOnClick onClick={() => {
+			<FactaButton text="< Back" onClick={self.props.goPrev}/>
+			<FactaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper.send(makePostJSON(this.state.formData)).then(self.props.goNext)
 			}}/>
 		</FactaMainPage>

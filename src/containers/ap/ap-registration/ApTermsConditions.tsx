@@ -11,6 +11,7 @@ import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import FactaMainPage from "../../../theme/facta/FactaMainPage";
+import FactaButton from "../../../theme/facta/FactaButton";
 
 interface Props {
 	history: History<any>
@@ -56,8 +57,8 @@ export default class ApTermsConditions extends React.Component<Props, {radio: st
 					justElement={true}
 				/>
 			</JoomlaNotitleRegion>
-			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
-			{(self.state || {} as any).radio == "Yes" ? <JoomlaButton text="Next >" spinnerOnClick onClick={() => 
+			<FactaButton text="< Back" onClick={self.props.goPrev}/>
+			{(self.state || {} as any).radio == "Yes" ? <FactaButton text="Next >" spinnerOnClick onClick={() => 
 				accept.send(makePostJSON({})).then(self.props.goNext)
 			}/> : ""}
 		</FactaMainPage>

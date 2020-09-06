@@ -4,7 +4,6 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { validator, postWrapper } from "../../../async/member/required";
-import JoomlaButton from "../../../theme/joomla/JoomlaButton";
 import DateTriPicker, {  dateStringToComponents, DateTriPickerProps, componentsToDate } from "../../../components/DateTriPicker";
 import PhoneTriBox, { PhoneTriBoxProps, splitPhone, combinePhone } from "../../../components/PhoneTriBox";
 import { Select } from "../../../components/Select";
@@ -23,6 +22,9 @@ import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import { setAPImage } from '../../../util/set-bg-image';
 import { makePostJSON } from '../../../core/APIWrapperUtil';
 import FactaMainPage from '../../../theme/facta/FactaMainPage';
+import JoomlaButton from '../../../theme/joomla/JoomlaButton';
+import JoomlaMainPage from '../../../theme/joomla/JoomlaMainPage';
+import FactaButton from '../../../theme/facta/FactaButton';
 
 type ApiType = t.TypeOf<typeof validator>
 
@@ -301,10 +303,10 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 			{(
 				asc.state.justLoggedIn
 				? null
-				:<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
+				:<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			)}
 			
-			<JoomlaButton text="Next >" spinnerOnClick onClick={() => {
+			<FactaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper.send(makePostJSON(formToAPI(this.state.formData))).then(
 					// api success
 					ret => {
@@ -320,7 +322,6 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 						}
 					}
 				)
-				
 			}}/>
 		</FactaMainPage>
 	}

@@ -40,6 +40,7 @@ class FactaHelmet extends React.Component {
 					<link rel='stylesheet' id='fonts-css' href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed%3A300%2C700%7COpen+Sans%3A300%2C300i%2C400%2C400i%2C600%2C600i%2C700%2C700i&#038;display=swap&#038;ver=5.4.1' type='text/css' media='all' />
 					<link rel='stylesheet' id='styles-css' href='/facta/assets/css/app.css' type='text/css' media='all' />
 					<link rel='stylesheet' id='edits-css' href='/facta/assets/css/edits.css' type='text/css' media='all' />
+					<link rel='stylesheet' id='edits-css' href='/facta/assets/css/portal.css' type='text/css' media='all' />
 					<link rel='stylesheet' id='photoswipe-main-css' href='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.css?ver=5.4.1' type='text/css' media='all' />
 					<link rel='stylesheet' id='photoswipe-skin-css' href='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/default-skin/default-skin.css?ver=5.4.1' type='text/css' media='all' />
 					<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js?ver=5.4.1'></script>
@@ -56,6 +57,9 @@ class FactaHelmet extends React.Component {
 					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.min.js?ver=5.4.1'></script>
 					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe-ui-default.min.js?ver=5.4.1'></script>
 					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/vendor.min.js?ver=1590961919'></script>
+
+					<script src="https://js.stripe.com/v3/"></script>
+					
 					<link rel='shortlink' href='https://www.community-boating.org/?p=1165' />
 					<meta name="generator" content="Site Kit by Google 1.6.0" /><meta name="google-site-verification" content="Gl6xsj1u0eq_WY3gOACWkcytcq80VTf3WVrved7xvKA" />
 

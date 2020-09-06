@@ -3,7 +3,7 @@ import { History } from "history";
 import * as React from "react";
 import * as t from 'io-ts';
 
-import JoomlaButton from "../../../theme/joomla/JoomlaButton";
+import FactaButton from "../../../theme/facta/FactaButton";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
@@ -147,7 +147,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 	}
 	makeBuyButton(memTypeId: number, requestedDiscountId: Option<number>) {
 		const self = this;
-		return (<JoomlaButton text="Buy" onClick={() => {
+		return (<FactaButton text="Buy" onClick={() => {
 			return submit.send(makePostJSON({
 				memTypeId: memTypeId,
 				requestedDiscountId
@@ -284,8 +284,8 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					</ul><br />
 				</React.Fragment>
 			</JoomlaNotitleRegion>
-			<JoomlaButton text="< Back" onClick={self.props.goPrev} />
-			{(self.state || {} as any).radio != undefined ? <JoomlaButton text="Next >" spinnerOnClick onClick={() =>
+			<FactaButton text="< Back" onClick={self.props.goPrev} />
+			{(self.state || {} as any).radio != undefined ? <FactaButton text="Next >" spinnerOnClick onClick={() =>
 				self.props.goNext()
 			} /> : ""}
 		</FactaMainPage>
