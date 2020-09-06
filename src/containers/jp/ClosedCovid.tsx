@@ -1,5 +1,5 @@
 import * as React from "react";
-import Button from '../../components/Button';
+import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import { History } from 'history';
 import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import { setJPImage } from "../../util/set-bg-image";
@@ -14,7 +14,7 @@ export default class ClosedCovid extends React.PureComponent<{history: History<a
 				We regret to inform you that CBI will not be able to offer the 2020 edition of our summer Junior Program.
 				If we find later this summer that we can safely offer some limited youth events or other opportunities, we will notify you right away!
 			</JoomlaArticleRegion>
-			<Button text="< Back" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
+			<JoomlaButton text="< Back" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 		</FactaMainPage>
 	}
 }

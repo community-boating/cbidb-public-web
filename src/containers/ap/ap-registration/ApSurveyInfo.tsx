@@ -4,7 +4,7 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { postWrapper, validator } from "../../../async/member/survey";
-import Button from "../../../components/Button";
+import JoomlaButton from "../../../theme/joomla/JoomlaButton";
 import { CheckboxGroup, RadioGroup } from "../../../components/InputGroup";
 import TextInput from "../../../components/TextInput";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
@@ -191,8 +191,8 @@ export default class ApSurveyInfo extends React.Component<Props, State> {
 					}
                 </tbody></table>
             </JoomlaArticleRegion>
-			<Button text="< Back" onClick={self.props.goPrev}/>
-			<Button text="Next >" spinnerOnClick onClick={() => {
+			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
+			<JoomlaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper.send(makePostJSON(this.state.formData)).then(self.props.goNext)
 			}}/>
 		</FactaMainPage>

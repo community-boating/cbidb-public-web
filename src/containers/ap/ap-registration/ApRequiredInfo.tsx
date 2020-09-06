@@ -4,7 +4,7 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { validator, postWrapper } from "../../../async/member/required";
-import Button from "../../../components/Button";
+import JoomlaButton from "../../../theme/joomla/JoomlaButton";
 import DateTriPicker, {  dateStringToComponents, DateTriPickerProps, componentsToDate } from "../../../components/DateTriPicker";
 import PhoneTriBox, { PhoneTriBoxProps, splitPhone, combinePhone } from "../../../components/PhoneTriBox";
 import { Select } from "../../../components/Select";
@@ -301,10 +301,10 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 			{(
 				asc.state.justLoggedIn
 				? null
-				:<Button text="< Back" onClick={self.props.goPrev}/>
+				:<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
 			)}
 			
-			<Button text="Next >" spinnerOnClick onClick={() => {
+			<JoomlaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper.send(makePostJSON(formToAPI(this.state.formData))).then(
 					// api success
 					ret => {

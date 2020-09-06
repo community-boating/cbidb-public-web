@@ -14,7 +14,7 @@ import ErrorDiv from '../../../theme/joomla/ErrorDiv';
 import { History } from 'history';
 import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
-import Button from '../../../components/Button';
+import JoomlaButton from '../../../theme/joomla/JoomlaButton';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import {classPageRoute} from "../../../app/routes/jp/class"
 import { setJPImage } from '../../../util/set-bg-image';
@@ -122,7 +122,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 			<React.Fragment>
 				{errorPopup}
 				<br />
-				<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(classPageRoute.pathWrapper.getPathFromArgs({ personId: String(self.props.personId) })))}/>
+				<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(classPageRoute.pathWrapper.getPathFromArgs({ personId: String(self.props.personId) })))}/>
 				<JoomlaArticleRegion title={`Choose a Week - ${self.props.apiResult.typeName}`}>
 					<table><tbody><FormSelect
 						id="selectedWeek"

@@ -12,7 +12,7 @@ interface State {
 	clicked: boolean
 }
 
-export default class Button extends React.PureComponent<Props, State> {
+export default class JoomlaButton extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {

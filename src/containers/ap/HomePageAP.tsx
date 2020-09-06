@@ -5,7 +5,7 @@ import { validator } from "../../async/member-welcome-ap";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
-import Button from '../../components/Button';
+import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import { History } from 'history';
 import moment = require('moment');
 import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';
@@ -66,7 +66,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 			</p>
 		</JoomlaArticleRegion>;
 
-		const checkoutButton = (<Button onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
+		const checkoutButton = (<JoomlaButton onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)

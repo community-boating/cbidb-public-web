@@ -3,7 +3,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { History } from 'history';
 
-import Button from "../components/Button";
+import JoomlaButton from "../theme/joomla/JoomlaButton";
 import TextInput from "../components/TextInput";
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";
@@ -98,7 +98,7 @@ export default class LoginPage extends React.Component<Props, State> {
 	render() {
 		const self = this;
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
-		const loginButton = (<Button key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={this.loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
+		const loginButton = (<JoomlaButton key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={this.loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
 		
 		// left column 
 

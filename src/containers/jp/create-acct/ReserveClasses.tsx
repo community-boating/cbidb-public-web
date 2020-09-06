@@ -11,7 +11,7 @@ import { validatorSingleRow } from "../../../async/class-instances-with-avail"
 import JoomlaReport from '../../../theme/joomla/JoomlaReport';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../../../lov/magicStrings';
 import { Moment } from 'moment';
-import Button from '../../../components/Button';
+import JoomlaButton from '../../../theme/joomla/JoomlaButton';
 import { PreRegistration, PreRegistrationClass } from '../../../app/global-state/jp-pre-registrations';
 import optionify from '../../../util/optionify';
 import {postWrapper as addJuniorPostWrapper} from "../../../async/junior/add-junior-class-reservation"
@@ -407,8 +407,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						.filter(c => c.startDateMoment.isSameOrAfter(moment("06/29/2020")))
 				)}
 			</JoomlaArticleRegion>
-			<Button text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
-			<Button text={<span>Create Junior</span>} spinnerOnClick={true} onClick={() => submitAction().then(
+			<JoomlaButton text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
+			<JoomlaButton text={<span>Create Junior</span>} spinnerOnClick={true} onClick={() => submitAction().then(
 				personId =>self.props.history.push(reserveNotesPageRoute.getPathFromArgs({personId: String(personId)})),
 				() => window.scrollTo(0, 0)
 			)}/>
@@ -420,7 +420,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				: self.state.preRegistrations.map(preRegRender(() => self.props.history.push(`/redirect${reservePageRoute.getPathFromArgs({})}`)))
 			}
 			<tr><td>&nbsp;</td></tr>
-			<tr><td><Button
+			<tr><td><JoomlaButton
 				text={<span style={{fontSize: "0.9em"}}>Continue with {self.state.preRegistrations.length} Junior(s) ></span>}
 				spinnerOnClick={true}
 				onClick={() => {

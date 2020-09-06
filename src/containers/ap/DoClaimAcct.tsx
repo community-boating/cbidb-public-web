@@ -6,7 +6,7 @@ import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
-import Button from '../../components/Button';
+import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import {postWrapper} from "../../async/member/do-claim-acct"
 import { PostURLEncoded } from '../../core/APIWrapperUtil';
 import { apBasePath } from '../../app/paths/ap/_base';
@@ -88,7 +88,7 @@ export default class DoClaimAcct extends React.PureComponent<Props, State> {
 		}
 
 		const buttons = <div>
-			<Button text="Submit" spinnerOnClick onClick={submit}/>
+			<JoomlaButton text="Submit" spinnerOnClick onClick={submit}/>
 		</div>
 
 		const errorPopup = (

@@ -3,7 +3,7 @@ import * as React from "react";
 import TextInput from '../../components/TextInput';
 import Validation from '../../util/Validation';
 import formUpdateState from '../../util/form-update-state';
-import Button from '../../components/Button';
+import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import { apPreRegRoute } from '../../app/routes/ap/prereg';
@@ -95,8 +95,8 @@ export default class ApCreateAcct extends React.PureComponent<Props, State> {
 		}
 
 		const buttons = <div>
-			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(apPreRegRoute.getPathFromArgs({})))}/>
-			<Button text="Register" spinnerOnClick onClick={doRegister}/>
+			<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(apPreRegRoute.getPathFromArgs({})))}/>
+			<JoomlaButton text="Register" spinnerOnClick onClick={doRegister}/>
 		</div>
 
 		const errorPopup = (

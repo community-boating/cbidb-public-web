@@ -1,7 +1,7 @@
 import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
 import TextInput from "../../../components/TextInput";
-import Button from '../../../components/Button';
+import JoomlaButton from '../../../theme/joomla/JoomlaButton';
 import { History } from 'history';
 import JoomlaArticleRegion from '../../../theme/joomla/JoomlaArticleRegion';
 import formUpdateState from '../../../util/form-update-state';
@@ -97,8 +97,8 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 		}
 
 		const buttons = <div>
-			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(reservePageRoute.getPathFromArgs({})))}/>
-			<Button text="Register" spinnerOnClick onClick={doRegister}/>
+			<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(reservePageRoute.getPathFromArgs({})))}/>
+			<JoomlaButton text="Register" spinnerOnClick onClick={doRegister}/>
 		</div>
 
 		const errorPopup = (

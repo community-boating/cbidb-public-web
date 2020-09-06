@@ -1,5 +1,5 @@
 import * as React from "react";
-import Button from '../../components/Button';
+import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
@@ -99,8 +99,8 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 		}
 
 		const buttons = <div>
-			<Button text="< Cancel" onClick={() => Promise.resolve(this.props.history.push(apBasePath.getPathFromArgs({})))}/>
-			<Button text="Apply Changes" onClick={doSubmit} spinnerOnClick/>
+			<JoomlaButton text="< Cancel" onClick={() => Promise.resolve(this.props.history.push(apBasePath.getPathFromArgs({})))}/>
+			<JoomlaButton text="Apply Changes" onClick={doSubmit} spinnerOnClick/>
 		</div>
 
 		const errorPopup = (

@@ -1,7 +1,7 @@
 import { History } from 'history';
 import * as React from "react";
 
-import Button from "../components/Button";
+import JoomlaButton from "../theme/joomla/JoomlaButton";
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
@@ -118,8 +118,8 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
-			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(loginLink))}/>
-			<Button text="Next >" onClick={submit}/>
+			<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(loginLink))}/>
+			<JoomlaButton text="Next >" onClick={submit}/>
 		</FactaMainPage>
 	}
 }

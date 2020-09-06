@@ -3,7 +3,7 @@ import { History } from "history";
 import * as React from "react";
 import * as t from 'io-ts';
 
-import Button from "../../../components/Button";
+import JoomlaButton from "../../../theme/joomla/JoomlaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
@@ -66,8 +66,8 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 					justElement={true}
 				/>
 			</JoomlaNotitleRegion>
-			<Button text="< Back" onClick={self.props.goPrev}/>
-			{(self.state || {} as any).radio != undefined ? <Button text="Next >" spinnerOnClick onClick={() => {
+			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
+			{(self.state || {} as any).radio != undefined ? <JoomlaButton text="Next >" spinnerOnClick onClick={() => {
 				return submit.send(makePostJSON({
 					wantIt: self.state.radio == "Yes"
 				})).then(res => {

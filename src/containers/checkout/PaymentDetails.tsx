@@ -7,7 +7,7 @@ import { postWrapper as storeToken } from "../../async/stripe/store-token"
 import { makePostJSON, makePostString } from "../../core/APIWrapperUtil";
 import { orderStatusValidator, CardData } from "../../async/order-status"
 import StripeConfirm from "../../components/StripeConfirm";
-import Button from "../../components/Button";
+import JoomlaButton from "../../theme/joomla/JoomlaButton";
 import { postWrapper as clearCard } from '../../async/stripe/clear-card'
 import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";
@@ -195,7 +195,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				/>
 				: null
 			}
-			<Button text="Add Donation" onClick={() => this.doAddDonation()}/>
+			<JoomlaButton text="Add Donation" onClick={() => this.doAddDonation()}/>
 		</div>)
 
 		const fundCell = (<div>
@@ -304,7 +304,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							size={30}
 							maxLength={30}
 						/>
-						<Button text="Apply" onClick={() => {
+						<JoomlaButton text="Apply" onClick={() => {
 							return addPromo.send(makePostJSON({ promoCode: this.state.formData.promoCode.getOrElse(null)}))
 							.then(ret => {
 								if (ret.type == "Success") {
@@ -340,7 +340,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							size={30}
 							maxLength={30}
 						/>
-						<Button text="Apply" onClick={() => {
+						<JoomlaButton text="Apply" onClick={() => {
 							return applyGC.send(makePostJSON({ 
 								gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
 								gcCode: this.state.formData.gcCode.getOrElse(null)
@@ -368,7 +368,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				{confirm.getOrElse(stripeElement)}
 				</React.Fragment>}
 			</JoomlaArticleRegion>
-			{(confirm.isSome() || orderTotalIsZero )? <Button text="Continue >" onClick={this.props.goNext} /> : ""}
+			{(confirm.isSome() || orderTotalIsZero )? <JoomlaButton text="Continue >" onClick={this.props.goNext} /> : ""}
 
 		</FactaMainPage>
 	}

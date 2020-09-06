@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Moment } from 'moment';
 import * as _ from 'lodash';
-import Button from './Button';
+import JoomlaButton from '../theme/joomla/JoomlaButton';
 import moment = require('moment');
 
 // TODO: calendar should be instantiated with a way to ask for data in a given date range
@@ -181,9 +181,9 @@ export default class Calendar extends React.PureComponent<Props, State> {
 		return (
 			<React.Fragment>
 				<div>
-					<Button text="< Previous" onClick={() => Promise.resolve(this.goBack())} />
-					<Button text="Today" onClick={() => Promise.resolve(this.goToday())} />
-					<Button text="Next >" onClick={() => Promise.resolve(this.goForward())} />
+					<JoomlaButton text="< Previous" onClick={() => Promise.resolve(this.goBack())} />
+					<JoomlaButton text="Today" onClick={() => Promise.resolve(this.goToday())} />
+					<JoomlaButton text="Next >" onClick={() => Promise.resolve(this.goForward())} />
 				</div>
 
 				<table cellPadding="0" cellSpacing="0" className="CalendarHolder" role="presentation">
