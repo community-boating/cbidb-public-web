@@ -17,8 +17,7 @@ import { apForgotPasswordPageRoute } from "../app/routes/ap/forgot-pw";
 import { setJPImage, setAPImage } from "../util/set-bg-image";
 import { PageFlavor } from "../components/Page";
 import assertNever from "../util/assertNever";
-// import PlaceholderLink from "../components/PlaceholderLink";
-import { apPreRegRoute } from "../app/routes/ap/prereg";
+// import { apPreRegRoute } from "../app/routes/ap/prereg";
 import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
 import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
 import { jpPathReserve } from "../app/paths/jp/reserve";
@@ -28,6 +27,7 @@ import { apBasePath } from "../app/paths/ap/_base";
 import { jpPathLogin } from "../app/paths/jp/login";
 import { apPathLogin } from "../app/paths/ap/login";
 import { PostURLEncoded } from "../core/APIWrapperUtil";
+import { apClosedPath } from "../app/paths/ap/closed";
 export const formDefault = {
 	username: none as Option<string>,
 	password: none as Option<string>
@@ -165,7 +165,8 @@ export default class LoginPage extends React.Component<Props, State> {
 			<JoomlaArticleRegion title="I don't have a password yet.">
 				<ul style={{fontSize: "0.92em"}}>
 					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Click here if you are already an adult member but don't yet have an online account.</Link></li>
-					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li>
+					{/* <li><Link to={apPreRegRoute.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
+					<li><Link to={apClosedPath.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li>
 					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Click here to purchase a gift certificate.</a></li>
 					{/* <li><PlaceholderLink>Click here to register as a guest.</PlaceholderLink></li> */}
 				</ul>
