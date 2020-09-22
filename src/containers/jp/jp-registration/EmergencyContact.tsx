@@ -8,7 +8,7 @@ import JoomlaButton from "../../../theme/joomla/JoomlaButton";
 import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
 import TextInput from "../../../components/TextInput";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
-import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import ErrorDiv from "../../../theme/joomla/ErrorDiv";
@@ -203,9 +203,9 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-			<JoomlaArticleRegion title="Who should we contact in the event of an emergency?">
+			<FactaArticleRegion title="Who should we contact in the event of an emergency?">
 				{emergFields}
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
 			<JoomlaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(res => {

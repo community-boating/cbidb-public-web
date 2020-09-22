@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import StripeElement from "../../components/StripeElement";
 import { TokensResult } from "../../models/stripe/tokens";
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
@@ -272,7 +272,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 
 		return <FactaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
-			<JoomlaArticleRegion title="Please consider making a donation to Community Boating.">
+			<FactaArticleRegion title="Please consider making a donation to Community Boating.">
 				{`Community Boating, Inc. (CBI) is a 501(c)3 non-profit organization operating affordable and accessible programs
 				for kids, adults and individuals with special needs under the mission of 'sailing for all.'
 				Our commitment to keeping membership fees affordable means that membership fees by themselves do not cover all of CBI's operating costs.
@@ -280,21 +280,21 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				<br />
 				<br />
 				You can donate to multiple areas if you wish; simply choose a fund, click "Add Donation," and repeat for as many funds as you like.
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			{donationRow}
 			<table><tbody><tr style={{verticalAlign: "top"}}>
 				<td style={{ width: "100%" }}>
-					<JoomlaArticleRegion title="Order Summary">
+					<FactaArticleRegion title="Order Summary">
 						<FullCartReport
 							cartItems={self.props.cartItems}
 							history={this.props.history}
 							setErrors={setErrors}
 							includeCancel={true}
 						/>
-					</JoomlaArticleRegion>
+					</FactaArticleRegion>
 				</td>
 				<td>
-					<JoomlaArticleRegion title="Promotional Code">
+					<FactaArticleRegion title="Promotional Code">
 						Enter promotional code:
 						<FormInput
 							id="promoCode"
@@ -318,8 +318,8 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 								}
 							})
 						}}/>
-					</JoomlaArticleRegion>
-					<JoomlaArticleRegion title="Gift Certificate">
+					</FactaArticleRegion>
+					<FactaArticleRegion title="Gift Certificate">
 						Enter Certificate Number<br />
 						(e.g. "1380300")
 						<FormInput
@@ -357,17 +357,17 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 								}
 							})
 						}}/>
-					</JoomlaArticleRegion>
+					</FactaArticleRegion>
 				</td>
 			</tr></tbody></table>
-			<JoomlaArticleRegion title="Credit Card Payment">
+			<FactaArticleRegion title="Credit Card Payment">
 				{paymentTextOrResetLink}
 				{orderTotalIsZero ? null : <React.Fragment>
 					<br />
 				<br />
 				{confirm.getOrElse(stripeElement)}
 				</React.Fragment>}
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			{(confirm.isSome() || orderTotalIsZero )? <JoomlaButton text="Continue >" onClick={this.props.goNext} /> : ""}
 
 		</FactaMainPage>

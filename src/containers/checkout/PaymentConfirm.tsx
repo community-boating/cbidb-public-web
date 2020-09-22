@@ -1,6 +1,6 @@
 import * as React from "react";
-import * as t from 'io-ts';
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import * as t from 'io-ts'; 
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import JoomlaButton from "../../theme/joomla/JoomlaButton";
 import StripeConfirm from "../../components/StripeConfirm";
 import {orderStatusValidator} from "../../async/order-status"
@@ -57,15 +57,15 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 
 		return (<FactaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
-			<JoomlaArticleRegion title="Order Summary">
+			<FactaArticleRegion title="Order Summary">
 				Please confirm your order and payment information are correct, and then click "Submit Payment" below!
 				<br />
 				<br />
 				<FullCartReport cartItems={self.props.cartItems} history={this.props.history} setErrors={() => {}} includeCancel={false}/>
-			</JoomlaArticleRegion>
-			<JoomlaArticleRegion title="Your Billing Info">
+			</FactaArticleRegion>
+			<FactaArticleRegion title="Your Billing Info">
 				{billingInfo}
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<JoomlaButton text="< Back" onClick={this.props.goPrev} />
 			<JoomlaButton text={buttonText} spinnerOnClick onClick={() => {
 				self.setState({

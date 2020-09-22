@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { validator } from "../../async/member-welcome-ap";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import { History } from 'history';
@@ -39,7 +39,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 
 		const expirationDate = self.props.data.expirationDate.map(d => moment(d))
 
-		const mainTable = <JoomlaArticleRegion title="My Membership">
+		const mainTable = <FactaArticleRegion title="My Membership">
 			<JoomlaReport
 				headers={["Name", "Status", "Actions"]}
 				rows={[[
@@ -56,16 +56,16 @@ export default class HomePageAP extends React.Component<Props, State> {
 				]]}
 				rawHtml={{1: true}}
 			/>
-		</JoomlaArticleRegion>
+		</FactaArticleRegion>
 
-		const ratings = <JoomlaArticleRegion title="My Ratings">
+		const ratings = <FactaArticleRegion title="My Ratings">
 			<span dangerouslySetInnerHTML={{__html: self.props.data.ratings}}/>
 			<p>
 				<span style={{fontWeight: "bold", color:"red"}}>Acquired Rating</span>
 				<br />
 				Unacquired Rating
 			</p>
-		</JoomlaArticleRegion>;
+		</FactaArticleRegion>;
 
 		const checkoutButton = (<FactaButton onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
 

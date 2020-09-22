@@ -5,7 +5,7 @@ import * as t from 'io-ts';
 
 import FactaButton from "../../../theme/facta/FactaButton";
 import { RadioGroup } from "../../../components/InputGroup";
-import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
@@ -37,7 +37,7 @@ export default class GuestPrivs extends React.Component<Props, {radio: string}> 
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-			<JoomlaArticleRegion title="Guest Privileges">
+			<FactaArticleRegion title="Guest Privileges">
 			Members may elect to add on guest privileges for an additional {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)} fee.
             The guest privileges option includes all guests you bring sailing or kayaking for the term of your current membership.
             A member must have the appropriate ratings to use guest privileges: at least a Mercury Yellow rating for sailing and a
@@ -45,7 +45,7 @@ export default class GuestPrivs extends React.Component<Props, {radio: string}> 
             For example, up to 3 guests at a time may be taken out sailing on a Cape Cod Mercury sailboat and 1 guest each time out kayaking.<br />
             <br />
             Guest privileges may be purchased at any time during one's membership. Guest privileges are automatically included for full year membership renewals.
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<JoomlaNotitleRegion>
 				<RadioGroup
 					id="accept"

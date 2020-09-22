@@ -2,7 +2,7 @@ import { History } from 'history';
 import * as React from "react";
 
 import JoomlaButton from "../theme/joomla/JoomlaButton";
-import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
 import TextInput from '../components/TextInput';
@@ -107,7 +107,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 		}
 		return <FactaMainPage setBGImage={setBGImage}>
 			{errorPopup}
-			<JoomlaArticleRegion title="Enter your email address and we'll get your password reset.">
+			<FactaArticleRegion title="Enter your email address and we'll get your password reset.">
 				<table><tbody>
 					<FormInput
 						id="email"
@@ -117,7 +117,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 						onEnter={submit}
 					/>
 				</tbody></table>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(loginLink))}/>
 			<JoomlaButton text="Next >" onClick={submit}/>
 		</FactaMainPage>

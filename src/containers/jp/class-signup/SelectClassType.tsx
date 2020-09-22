@@ -3,7 +3,7 @@ import * as React from "react";
 
 import { validator } from "../../../async/junior/see-types";
 import Joomla8_4 from "../../../theme/joomla/Joomla8_4";
-import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import { asDiv, asFragment, ClassType } from "./class-description";
 import advanced from "./types/advanced";
 import beginner from "./types/beginner";
@@ -68,18 +68,18 @@ export default class SelectClassType extends React.Component<Props, State> {
 
 		const beginnerRegion = (canSeeClass(beginner)
 			? (
-				<JoomlaArticleRegion title={<React.Fragment>First Step: <i>Beginner Sailing</i></React.Fragment>}>
+				<FactaArticleRegion title={<React.Fragment>First Step: <i>Beginner Sailing</i></React.Fragment>}>
 					{asFragmentCurried(beginner)}
-				</JoomlaArticleRegion>
+				</FactaArticleRegion>
 			)
 			: ""
 		);
 
 		const intermediateRegion = (canSeeClass(intermediate)
 			? (
-				<JoomlaArticleRegion title={<React.Fragment>Next Step: <i>Intermediate Sailing</i></React.Fragment>}>
+				<FactaArticleRegion title={<React.Fragment>Next Step: <i>Intermediate Sailing</i></React.Fragment>}>
 					{asFragmentCurried(intermediate)}
-				</JoomlaArticleRegion>
+				</FactaArticleRegion>
 			)
 			: ""
 		);
@@ -87,9 +87,9 @@ export default class SelectClassType extends React.Component<Props, State> {
 		const advancedCanSee = advanced.filter(canSeeClass)
 		const advancedRegion = (advancedCanSee.length > 0
 			? (
-				<JoomlaArticleRegion title={<React.Fragment>Next Step: Advanced Classes</React.Fragment>}>
+				<FactaArticleRegion title={<React.Fragment>Next Step: Advanced Classes</React.Fragment>}>
 					{advancedCanSee.map(asDivCurried)}
-				</JoomlaArticleRegion>
+				</FactaArticleRegion>
 			)
 			: ""
 		);
@@ -97,9 +97,9 @@ export default class SelectClassType extends React.Component<Props, State> {
 		const otherCanSee = other.filter(canSeeClass);
 		const otherRegion = (otherCanSee.length > 0
 			? (
-				<JoomlaArticleRegion title="Other Available Classes">
+				<FactaArticleRegion title="Other Available Classes">
 					{otherCanSee.map(asDivCurried)}
-				</JoomlaArticleRegion>
+				</FactaArticleRegion>
 			)
 			: ""
 		);

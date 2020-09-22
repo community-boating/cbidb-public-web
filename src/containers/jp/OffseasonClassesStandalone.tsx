@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as t from 'io-ts';
 import { History } from 'history';
 import Joomla8_4 from '../../theme/joomla/Joomla8_4';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
+import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import Currency from '../../util/Currency';
 import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
 
@@ -34,20 +34,20 @@ export default class OffseasonClassesStandalone extends React.Component<Props, S
 		const self = this;
 		console.log(self.props.offseasonClasses)
 
-		const header = <JoomlaArticleRegion title="Spring Classes">
+		const header = <FactaArticleRegion title="Spring Classes">
 			Spring classes are available to all {self.props.currentSeason} Juniors. Classes are {self.props.offseasonPriceBase.format(true)} but discounts based on income will automatically apply.<br />
 			<br />
 			Please Note: As soon as you click "Signup," a spot in the class will be held you you for up to 20 minutes while you complete your purchase.
-		</JoomlaArticleRegion>;
+		</FactaArticleRegion>;
 
 		const raceTeam22Seats: ClassType = {
 			...raceTeam,
 			classSize: 22
 		}
 
-		const classes = <JoomlaArticleRegion title="Available Classes">
+		const classes = <FactaArticleRegion title="Available Classes">
 			{asDivOptionalSignupLink(false)(self.props.personId)(raceTeam22Seats)}
-		</JoomlaArticleRegion>;
+		</FactaArticleRegion>;
 
 		const main = <React.Fragment>
 			{header}

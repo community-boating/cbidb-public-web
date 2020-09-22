@@ -4,7 +4,7 @@ import TextInput from '../../components/TextInput';
 import formUpdateState from '../../util/form-update-state';
 import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
+import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
 import { PostURLEncoded } from '../../core/APIWrapperUtil';
@@ -71,7 +71,7 @@ export default class StartClaimAcct extends React.PureComponent<Props, State> {
 
 		return <FactaMainPage setBGImage={setAPImage}>
 			{errorPopup}
-			<JoomlaArticleRegion title="Enter your email address and we'll send you a link to access your record." buttons={buttons}>
+			<FactaArticleRegion title="Enter your email address and we'll send you a link to access your record." buttons={buttons}>
 			To gain access to your record, enter your email address and then we will send you an email with a link to continue.
 			You must use the same address you wrote on your application, so if you don't receive an email from us, try a different address
 			<br />
@@ -88,7 +88,7 @@ export default class StartClaimAcct extends React.PureComponent<Props, State> {
 						onEnter={submit}
 					/>
 				</tbody></table>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		</FactaMainPage>
 	}
 }

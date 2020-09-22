@@ -5,7 +5,7 @@ import * as t from 'io-ts';
 
 import JoomlaButton from "../../../theme/joomla/JoomlaButton";
 import { RadioGroup } from "../../../components/InputGroup";
-import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
@@ -38,14 +38,14 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-			<JoomlaArticleRegion title="Consider purchasing an Accidental Damage Waiver.">
+			<FactaArticleRegion title="Consider purchasing an Accidental Damage Waiver.">
 			Any member who signs out a boat, including windsurfers and kayaks, shall be held financially responsible for damage to that boat and its equipment,
 			and damage to any other boat, windsurfer, or equipment in the event of a collision.
 			A member shall forfeit all membership privileges until satisfactory arrangements for payment of the cost of repairs is made with the Executive Director.
 			Members may elect to purchase an annual damage liability waiver for a fee of {Currency.dollars(this.props.prices.damageWaiverPrice).format(true)}.
 			This waiver covers any accidental damages to boats, but does not cover gross negligence, recklessness, or intentional acts.
 			Declining the waiver signifies that a member agrees to pay for the cost of repairs, as determined by Community Boating Inc., up to a maximum of $5000.
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<JoomlaNotitleRegion>
 				<RadioGroup
 					id="accept"

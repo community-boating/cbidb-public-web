@@ -2,7 +2,7 @@ import * as React from "react";
 import * as t from 'io-ts';
 import { validator } from "../../async/member-welcome-jp";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import homePageActions from "./HomePageActionsJP";
 import JoomlaButton from '../../theme/joomla/JoomlaButton';
@@ -52,9 +52,9 @@ export default class HomePageJP extends React.Component<Props, State> {
 			actions: <ul>{homePageActions(Number(c.actions.getOrElse("")), c.personId, self.props.history)}</ul>,
 		}))
 
-		const mainTable = <JoomlaArticleRegion title="My Junior Program Memberships">
+		const mainTable = <FactaArticleRegion title="My Junior Program Memberships">
 			<JoomlaReport headers={["Name", "Status", "Actions"]} rows={rowData.map(r => [r.name, r.status, r.actions])}/>
-		</JoomlaArticleRegion>
+		</FactaArticleRegion>
 
 		const checkoutButton = (<JoomlaButton onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
 
@@ -68,11 +68,11 @@ export default class HomePageJP extends React.Component<Props, State> {
 			{errorPopup}
 			{
 				asc.state.jpClosedCovid
-				? <JoomlaArticleRegion title="Registration is suspended.">
+				? <FactaArticleRegion title="Registration is suspended.">
 					Thank you for your patience and support this spring.
 					We regret to inform you that CBI will not be able to offer the 2020 edition of our summer Junior Program.
 					If we find later this summer that we can safely offer some limited youth events or other opportunities, we will notify you right away!  
-				</JoomlaArticleRegion>
+				</FactaArticleRegion>
 				: null
 			}
 			

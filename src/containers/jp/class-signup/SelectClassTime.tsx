@@ -4,7 +4,7 @@ import * as React from "react";
 import { getClassInstancesValidator, InstanceInfo } from '../../../async/junior/get-class-instances';
 import JpClassesAvailTable from "../../../components/JpClassesAvailTable";
 import Joomla8_4 from "../../../theme/joomla/Joomla8_4";
-import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import { weeksValidator, Week } from '../../../async/weeks';
 import { Select } from '../../../components/Select';
 import { Option, none } from 'fp-ts/lib/Option';
@@ -106,24 +106,24 @@ export default class SelectClassTime extends React.Component<Props, State> {
 			this.state.formData.selectedWeek.filter(w => Number(w) < 3).isSome()
 		);
 
-		const chooseTimeRegion = (<JoomlaArticleRegion title="Choose a Time">
+		const chooseTimeRegion = (<FactaArticleRegion title="Choose a Time">
 			{times}
-		</JoomlaArticleRegion>);
+		</FactaArticleRegion>);
 
-		const covidMessage = (<JoomlaArticleRegion title="CBI Temporarily Closed For COVID-19">
+		const covidMessage = (<FactaArticleRegion title="CBI Temporarily Closed For COVID-19">
 			In keeping with the governor's order closing school and daycare facilities through June 26,
 			we must also delay our summer Junior Program opening until after that date. <a target="_blank" href="https://myemail.constantcontact.com/Junior-Program-Updates.html?soid=1100561406121&aid=BfyWiOJtf98">
 				Click here for letter from the Junior Program Director
 			</a>. For CBI COVID-19 updates, see <a target="_blank" href="https://www.community-boating.org/covid19">www.community-boating.org/covid19</a>
 
-		</JoomlaArticleRegion>)
+		</FactaArticleRegion>)
 
         const allRegions = (
 			<React.Fragment>
 				{errorPopup}
 				<br />
 				<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(classPageRoute.pathWrapper.getPathFromArgs({ personId: String(self.props.personId) })))}/>
-				<JoomlaArticleRegion title={`Choose a Week - ${self.props.apiResult.typeName}`}>
+				<FactaArticleRegion title={`Choose a Week - ${self.props.apiResult.typeName}`}>
 					<table><tbody><FormSelect
 						id="selectedWeek"
 						label=""
@@ -132,7 +132,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 						options={self.props.weeks.map(weekToKeyAndDisplay)}
 						nullDisplay="- All Weeks -"
 					/></tbody></table>
-				</JoomlaArticleRegion>
+				</FactaArticleRegion>
 				{
 					showCovidMessage
 					? covidMessage

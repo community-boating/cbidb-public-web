@@ -7,7 +7,7 @@ import JoomlaButton from "../../../theme/joomla/JoomlaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import swimProofValues from "../../../lov/swimProof";
-import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from "../../../util/form-update-state";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
@@ -65,7 +65,7 @@ export default class SwimProof extends React.Component<Props, State> {
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-			<JoomlaArticleRegion title="Please select your form of swim proof.">
+			<FactaArticleRegion title="Please select your form of swim proof.">
                 {bodyText}
                 <br /><br />
                 {"Which of these do you possess?"}
@@ -77,7 +77,7 @@ export default class SwimProof extends React.Component<Props, State> {
 					updateAction={updateState}
 					value={this.state.formData.swimProofId}
 				/>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
             {this.state.formData.swimProofId.getOrElse(null) == "-1" ? noProofRegion : ""}
             <JoomlaNotitleRegion>
                 <span>

@@ -2,7 +2,7 @@ import { History } from 'history';
 import * as React from "react";
 
 import JoomlaButton from "../theme/joomla/JoomlaButton";
-import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
 import TextInput from '../components/TextInput';
@@ -119,7 +119,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 		}
 		return <FactaMainPage setBGImage={setBGImage}>
 			{errorPopup}
-			<JoomlaArticleRegion title="Enter your new password.">
+			<FactaArticleRegion title="Enter your new password.">
 				<table><tbody>
 					<FormInput
 						id="pw1"
@@ -137,7 +137,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 						onEnter={submit}
 					/>
 				</tbody></table>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<JoomlaButton text="Submit" onClick={submit}/>
 		</FactaMainPage>
 	}

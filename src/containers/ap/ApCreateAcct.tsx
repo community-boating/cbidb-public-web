@@ -5,7 +5,7 @@ import Validation from '../../util/Validation';
 import formUpdateState from '../../util/form-update-state';
 import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
+import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { apPreRegRoute } from '../../app/routes/ap/prereg';
 import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
 import Joomla8_4 from '../../theme/joomla/Joomla8_4';
@@ -107,7 +107,7 @@ export default class ApCreateAcct extends React.PureComponent<Props, State> {
 
 		const main = (<React.Fragment>
 			{errorPopup}
-			<JoomlaArticleRegion title="First let's make you an account." buttons={buttons}>
+			<FactaArticleRegion title="First let's make you an account." buttons={buttons}>
 				<table><tbody>
 					<FormInput
 						id="firstName"
@@ -153,7 +153,7 @@ export default class ApCreateAcct extends React.PureComponent<Props, State> {
 						onEnter={doRegister}
 					/>
 				</tbody></table>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		</React.Fragment>);
 
 		const sidebarInfo = (<JoomlaSidebarRegion title="INFO">

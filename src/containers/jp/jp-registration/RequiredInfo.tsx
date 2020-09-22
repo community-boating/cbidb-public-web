@@ -13,7 +13,7 @@ import TextInput from "../../../components/TextInput";
 import { makePostJSON } from '../../../core/APIWrapperUtil';
 import countries from "../../../lov/countries";
 import states from "../../../lov/states";
-import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import range from "../../../util/range";
@@ -292,15 +292,15 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-			<JoomlaArticleRegion title="All information on this page is required (if applicable).">
+			<FactaArticleRegion title="All information on this page is required (if applicable).">
 				{reqFields}
-			</JoomlaArticleRegion>
-			<JoomlaArticleRegion title="Does your child have any allergies, medications, or special needs we should be aware of?">
+			</FactaArticleRegion>
+			<FactaArticleRegion title="Does your child have any allergies, medications, or special needs we should be aware of?">
 				{"If not, please leave the following fields blank." }
 				<br />
 				<br />
 				{specNeedsFields}
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
 			<JoomlaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(

@@ -3,7 +3,7 @@ import * as React from "react";
 import TextInput from "../../../components/TextInput";
 import JoomlaButton from '../../../theme/joomla/JoomlaButton';
 import { History } from 'history';
-import JoomlaArticleRegion from '../../../theme/joomla/JoomlaArticleRegion';
+import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
 import formUpdateState from '../../../util/form-update-state';
 import JoomlaSidebarRegion from '../../../theme/joomla/JoomlaSidebarRegion';
 import Joomla8_4 from '../../../theme/joomla/Joomla8_4';
@@ -109,7 +109,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 
 		const main = (<React.Fragment>
 			{errorPopup}
-			<JoomlaArticleRegion title="Let's make you a parent account." buttons={buttons}>
+			<FactaArticleRegion title="Let's make you a parent account." buttons={buttons}>
 				<table><tbody>
 					<FormInput
 						id="firstName"
@@ -155,7 +155,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 						onEnter={doRegister}
 					/>
 				</tbody></table>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		</React.Fragment>);
 
 		const sidebarPrereg = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>

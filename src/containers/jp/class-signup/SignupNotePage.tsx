@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Option } from 'fp-ts/lib/Option';
-import JoomlaArticleRegion from '../../../theme/joomla/JoomlaArticleRegion';
+import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
 import TextArea from "../../../components/TextArea";
 import formUpdateState from '../../../util/form-update-state';
 import JoomlaButton from '../../../theme/joomla/JoomlaButton';
@@ -42,7 +42,7 @@ export default class SignupNotePage extends React.Component<Props, State> {
 		const self = this;
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 		return <FactaMainPage setBGImage={setJPImage}>
-			<JoomlaArticleRegion title="This class may have multiple sections.">
+			<FactaArticleRegion title="This class may have multiple sections.">
 				This class may be split into multiple sections, each section with its own classroom and instructor.
 				If you would like your child to be in class with another junior, please leave their name below.
 				We will try our best to honor all such requests.
@@ -71,7 +71,7 @@ export default class SignupNotePage extends React.Component<Props, State> {
 						ret => Promise.resolve(self.props.history.push(classPageRoute.getPathFromArgs({ personId: String(self.props.personId) })))
 					)
 				}}/>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		</FactaMainPage>
 	}
 }

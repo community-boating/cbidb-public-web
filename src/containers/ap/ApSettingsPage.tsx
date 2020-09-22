@@ -1,6 +1,6 @@
 import * as React from "react";
 import JoomlaButton from '../../theme/joomla/JoomlaButton';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
+import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
 import { Option, none } from "fp-ts/lib/Option";
@@ -111,7 +111,7 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 
 		return <FactaMainPage setBGImage={setAPImage}>
 		{errorPopup}
-			<JoomlaArticleRegion title="Edit Account Info" buttons={buttons}>
+			<FactaArticleRegion title="Edit Account Info" buttons={buttons}>
 				<table><tbody>
 					<FormInput
 						id="email"
@@ -143,7 +143,7 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 						onEnter={doSubmit}
 					/>
 				</tbody></table>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		</FactaMainPage>
 	}
 }

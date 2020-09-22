@@ -3,7 +3,7 @@ import * as React from "react";
 import * as t from 'io-ts';
 
 import JoomlaButton from "../../theme/joomla/JoomlaButton";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
 import { setJPImage } from '../../util/set-bg-image';
@@ -27,7 +27,7 @@ export default class RatingsPage extends React.PureComponent<Props> {
 
 		// TODO: grab specific child based on url
 		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: true})}>
-			<JoomlaArticleRegion title="Ratings">
+			<FactaArticleRegion title="Ratings">
 				<span dangerouslySetInnerHTML={{__html: ratings}}/>
 				<p>
 					<span style={{fontWeight: "bold", color:"red"}}>Acquired Rating</span>
@@ -40,7 +40,7 @@ export default class RatingsPage extends React.PureComponent<Props> {
 					*Expired ratings can be renewed in the first days of your class
 				</p>
 				<JoomlaButton text="< Back" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		</FactaMainPage>
 	}
 }

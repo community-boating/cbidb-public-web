@@ -1,5 +1,5 @@
 import * as React from "react";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import { setCheckoutImage } from "../../util/set-bg-image";
 import { Link } from "react-router-dom";
 import { jpBasePath } from "../../app/paths/jp/_base";
@@ -27,7 +27,7 @@ export default class ThankYouPage extends React.PureComponent<Props, State> {
 	}
 	render() {
 		return (<FactaMainPage setBGImage={setCheckoutImage}>
-			<JoomlaArticleRegion title="Thank you for your order!">
+			<FactaArticleRegion title="Thank you for your order!">
 			Your order is complete!  Please feel free to call us at 617-523-1038 with any questions, or <a href="https://www.community-boating.org">click here</a> to return to our home page.
 			{this.props.hasJPMemberships ? 
 			<React.Fragment>
@@ -41,7 +41,7 @@ export default class ThankYouPage extends React.PureComponent<Props, State> {
 			<br />
 			<Link to={apBasePath.getPathFromArgs({})}>Click here</Link> to return to the member portal where you can view your registration status or sign up for classes.</React.Fragment>
 			: ""}
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		</FactaMainPage>);
 	}
 }

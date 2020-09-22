@@ -11,7 +11,7 @@ import TextArea from "../../../components/TextArea";
 import TextInput from "../../../components/TextInput";
 import countries from "../../../lov/countries";
 import states from "../../../lov/states";
-import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import range from "../../../util/range";
@@ -297,9 +297,9 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
 			{/* {headerRegion} */}
-			<JoomlaArticleRegion title="All information on this page is required (if applicable).">
+			<FactaArticleRegion title="All information on this page is required (if applicable).">
 				{reqFields}
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			{(
 				asc.state.justLoggedIn
 				? null

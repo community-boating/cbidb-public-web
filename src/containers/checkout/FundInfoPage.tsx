@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import { setCheckoutImage } from "../../util/set-bg-image";
 import {donationFundValidator} from "../../async/donation-funds"
 import FactaMainPage from "../../theme/facta/FactaMainPage";
@@ -29,7 +29,7 @@ export default class FundInfoPage extends React.PureComponent<Props> {
 	}
 	render() {
 		return <FactaMainPage setBGImage={setCheckoutImage}>
-			<JoomlaArticleRegion title={<span id="funds">CBI Funds</span>}>
+			<FactaArticleRegion title={<span id="funds">CBI Funds</span>}>
 				{this.props.donationFunds.filter(FundInfoPage.isNotEndowment).map(FundInfoPage.renderFund)}
 				<div style={{ borderLeft: "4px solid", paddingLeft: "4px"}}>
 				Donations may be made to one of Community Boating’s permanently restricted endowment funds.
@@ -38,7 +38,7 @@ export default class FundInfoPage extends React.PureComponent<Props> {
 				</div>
 				<br />
 				{this.props.donationFunds.filter(FundInfoPage.isEndowment).map(FundInfoPage.renderFund)}
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		</FactaMainPage>
 	}
 }

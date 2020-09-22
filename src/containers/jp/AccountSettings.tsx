@@ -2,7 +2,7 @@ import { History } from 'history';
 import * as React from "react";
 
 import JoomlaButton from "../../theme/joomla/JoomlaButton";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import TextInput from '../../components/TextInput';
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../../util/form-update-state';
@@ -43,7 +43,7 @@ export default class AccountSettingsPage extends React.PureComponent<Props, Stat
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
 		return <FactaMainPage setBGImage={setJPImage}>
-			<JoomlaArticleRegion title="Edit Account Info">
+			<FactaArticleRegion title="Edit Account Info">
 				<table><tbody>
 					<FormInput
 						id="firstName"
@@ -85,7 +85,7 @@ export default class AccountSettingsPage extends React.PureComponent<Props, Stat
 						updateAction={updateState}
 					/>
 				</tbody></table>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			{/* <p>
 				<PlaceholderLink style={{fontSize: "1.3em"}}>Click here to (re-)apply for a Junior Program Scholarship (changes on this page will not be saved)</PlaceholderLink>
 			</p> */}

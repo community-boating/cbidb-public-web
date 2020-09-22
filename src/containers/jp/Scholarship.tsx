@@ -9,7 +9,7 @@ import { RadioGroup, SingleCheckbox } from "../../components/InputGroup";
 import { Select } from "../../components/Select";
 import TextInput from "../../components/TextInput";
 import { makePostJSON } from "../../core/APIWrapperUtil";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import Currency from "../../util/Currency";
 import formUpdateState from '../../util/form-update-state';
@@ -85,7 +85,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 
 		const familyInfo =
 			<React.Fragment>
-				<JoomlaArticleRegion title="Please provide the following information.">
+				<FactaArticleRegion title="Please provide the following information.">
 					<div style={{marginLeft: "20px"}}><table><tbody>
 						<tr>
 							<td>How many adults are in your immediate family?</td>
@@ -132,15 +132,15 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 							<li>Line 37 if you filed a Form 1040</li>
 						</ul>
 					</div>
-				</JoomlaArticleRegion>
-				<JoomlaArticleRegion title="You must agree to the following terms to apply for a scholarship.">
+				</FactaArticleRegion>
+				<FactaArticleRegion title="You must agree to the following terms to apply for a scholarship.">
 					{`I understand CBI offers need-based scholarships to junior member families to uphold its mission of Sailing for All.
 					By applying for a CBI scholarship, I am affirming that all information provided about my family make-up and household income is true and accurate.
 					I also understand that CBI reserves the right to require documentation at any point in the application process.`}
 					<br />
 					<br />
 					<FormBoolean id="doAgree" justElement={true} value={(self.state.formData.doAgree || none)} label="I agree to the above terms for scholarship application." updateAction={updateState}/>
-				</JoomlaArticleRegion>
+				</FactaArticleRegion>
 			</React.Fragment>
 
 		const next = <JoomlaButton text="Next >" spinnerOnClick onClick={() => {
@@ -173,7 +173,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-			<JoomlaArticleRegion title="We offer reduced fees to enable sailing for all!">
+			<FactaArticleRegion title="We offer reduced fees to enable sailing for all!">
 				{
 					`We strive to make Junior Membership affordable to all. Our fee is on a generous need-based sliding scale
 					from $1 to ${self.props.jpPrice.format(true)} and includes membership, classes, and boat usage;
@@ -189,7 +189,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 				<div style={{marginLeft: "20px"}}>
 					<FormRadio id="isApplying" justElement={true} values={radioValues} updateAction={updateState} value={self.state.formData.isApplying}/>
 				</div>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			{self.state.formData.isApplying.getOrElse(null) == "Yes" ? familyInfo : ""}
 			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
 

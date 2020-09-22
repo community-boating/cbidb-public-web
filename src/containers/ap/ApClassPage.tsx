@@ -2,7 +2,7 @@ import * as React from "react";
 import * as t from 'io-ts';
 import { setAPImage } from "../../util/set-bg-image";
 import { apBasePath } from "../../app/paths/ap/_base";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import JoomlaButton from "../../theme/joomla/JoomlaButton";
 import {History} from 'history'
 import Calendar, { CalendarDayElement } from "../../components/Calendar";
@@ -327,13 +327,13 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 						}}>click here to signup!</a></b>
 					} else return null;
 				}());
-				return <JoomlaArticleRegion title={`${i.typeName} - ${datetimeMoment.format("dddd MMMM Do, h:mmA")}`} id="focus">
+				return <FactaArticleRegion title={`${i.typeName} - ${datetimeMoment.format("dddd MMMM Do, h:mmA")}`} id="focus">
 					{description}
 					{multiSessionText}
 					<br />
 					<br />
 					{actionText}
-				</JoomlaArticleRegion>
+				</FactaArticleRegion>
 			})
 		}
 		const filterTable = (<table cellSpacing={40} style={{marginTop: "-40px"}}><tbody><tr>
@@ -344,7 +344,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 		const elements = this.calendarDayElements();
 		console.log("about to call calendar with # days: ", elements.length)
 		return <FactaMainPage setBGImage={setAPImage}>
-			<JoomlaArticleRegion title="AP Class Calendar">
+			<FactaArticleRegion title="AP Class Calendar">
 				<Calendar
 					monthStartOnDate={0}
 					today={getNow()}
@@ -355,7 +355,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 					onMouseOver={() => {ddrivetip(tooltipText,'lightYellow',300); resizeRatings();}}
 					onMouseOut={() => hideddrivetip()}
 				>Hover for Legend</span>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(apBasePath.getPathFromArgs({})))}/>
 			<JoomlaHideShowRegion title="Filter Calendar">
 				{filterTable}

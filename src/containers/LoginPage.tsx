@@ -5,7 +5,7 @@ import { History } from 'history';
 
 import JoomlaButton from "../theme/joomla/JoomlaButton";
 import TextInput from "../components/TextInput";
-import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";
 import formUpdateState from "../util/form-update-state";
 import ErrorDiv from "../theme/joomla/ErrorDiv";
@@ -103,7 +103,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		// left column 
 
 		const jpWelcomeRegion = (
-			<JoomlaArticleRegion title={<span>Welcome to CBI Online!<br />-  Junior Program  -</span>}>
+			<FactaArticleRegion title={<span>Welcome to CBI Online!<br />-  Junior Program  -</span>}>
 				<div>
 					If you're new to Community Boating and would like to sign up for youth novice classes,
 					choose the first option on the right. Once your child's registration is complete
@@ -114,11 +114,11 @@ export default class LoginPage extends React.Component<Props, State> {
 					<br />
 					If you were looking for <b>{"Adult Program"}</b> registration, please <Link to="/ap">click here!</Link>
 				</div>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		);
 
 		const apWelcomeRegion = (
-			<JoomlaArticleRegion title={<span>Welcome to CBI Online!<br />-  Adult Program  -</span>}>
+			<FactaArticleRegion title={<span>Welcome to CBI Online!<br />-  Adult Program  -</span>}>
 				<div>
 				<a href="https://www.community-boating.org" target="_blank">Click here for our Main Website:<br />
 				www.community-boating.org</a><br />
@@ -133,25 +133,25 @@ export default class LoginPage extends React.Component<Props, State> {
 				<br />
 				If you were looking for <b>Junior Program</b> registration, please <Link to="/jp">click here!</Link>
 				</div>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		);
 
 		const jpPrice = self.props.jpPrice.getOrElse(Currency.dollars(375))
 
 		const scholarshipRegion = (
-			<JoomlaArticleRegion title="Reduced fee available to provide sailing for all.">
+			<FactaArticleRegion title="Reduced fee available to provide sailing for all.">
 				We strive to make Junior Membership affordable to all.
 				Our fee is on a generous need-based sliding scale from $1 to {jpPrice.format(true)} and includes membership, classes, and boat usage;
 				everything we offer for ten summer weeks!
 				During registration, our fee calculator considers household income and family makeup.
 				Memberships are non-refundable and non-transferable. Register before Jan 1 to lock in last year's pricing!
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		);
 
 		// right columns 
 
 		const jpNewAcctRegion = (
-			<JoomlaArticleRegion title="New CBI Parents...">
+			<FactaArticleRegion title="New CBI Parents...">
 				<div>
 					<Link to={asc.state.jpClosedCovid ? jpClosedCovidPageRoute.getPathFromArgs({}) : jpPathReserve.getPathFromArgs({})}>
 						...click here to sign up your child(ren)!
@@ -160,11 +160,11 @@ export default class LoginPage extends React.Component<Props, State> {
 					<br />
 					{`Existing parent account holders: sign in below to purchase memberships and sign up for classes.`}
 				</div>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		);
 
 		const apNewAcctRegion = (
-			<JoomlaArticleRegion title="I don't have a password yet.">
+			<FactaArticleRegion title="I don't have a password yet.">
 				<ul style={{fontSize: "0.92em"}}>
 					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Click here if you are already an adult member but don't yet have an online account.</Link></li>
 					{/* <li><Link to={apPreRegRoute.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
@@ -172,7 +172,7 @@ export default class LoginPage extends React.Component<Props, State> {
 					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Click here to purchase a gift certificate.</a></li>
 					{/* <li><PlaceholderLink>Click here to register as a guest.</PlaceholderLink></li> */}
 				</ul>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		);
 
 		const forgotPassword = (function() {
@@ -189,7 +189,7 @@ export default class LoginPage extends React.Component<Props, State> {
 
 		// TODO: some sort of spinner while a login attempt is actively running
 		const loginRegion = (
-			<JoomlaArticleRegion title="I already have an account.">
+			<FactaArticleRegion title="I already have an account.">
 				<div>
 					Enter your email address and password to continue.
 					<br />
@@ -215,17 +215,17 @@ export default class LoginPage extends React.Component<Props, State> {
 						</span></td></tr>
 					</tbody></table>
 				</div>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		);
 
 		const inPersonRegion = (
-			<JoomlaArticleRegion title="I purchased a membership in person.">
+			<FactaArticleRegion title="I purchased a membership in person.">
 				<div>
 					If you purchased a membership in person, you should have received an email with a link to set an account password.
 					If you did not receive an email, click "I Forgot My Password" above and we'll send you an email <b>(IMPORTANT: use the same email address used for initial registration)</b>.
 					If you still have difficulty accessing your account, please call the boathouse at 617-523-1038.
 				</div>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		)
 
 		const errorPopup = (

@@ -3,7 +3,7 @@ import * as t from 'io-ts';
 import * as React from "react";
 import TextInput from "../../../components/TextInput";
 import Joomla8_4 from '../../../theme/joomla/Joomla8_4';
-import JoomlaArticleRegion from '../../../theme/joomla/JoomlaArticleRegion';
+import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
 import JoomlaSidebarRegion from '../../../theme/joomla/JoomlaSidebarRegion';
 import formUpdateState from '../../../util/form-update-state';
 import { Select } from '../../../components/Select';
@@ -332,7 +332,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 
 		const main = (<React.Fragment>
 			{errorPopup}
-			<JoomlaArticleRegion title="Reserve Classes">
+			<FactaArticleRegion title="Reserve Classes">
 				Novice sailors start with our two-week Beginner Sailing.
 				They may also sign up now for our two-week Intermediate Sailing starting after their beginner session concludes.
 				Our sliding scale junior membership fee covers all classes and boat signouts.
@@ -356,8 +356,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						Experienced sailors should click "Continue" on the right without making any reservations, and contact the JP directors for proper placement.
 					</li>
 				</ul>
-			</JoomlaArticleRegion>
-			<JoomlaArticleRegion title="Add a Junior">
+			</FactaArticleRegion>
+			<FactaArticleRegion title="Add a Junior">
 				Please enter the name of a junior member you'd like to register, select any classes you'd like to reserve a spot in, and then hit submit.
 				Once you've signed up and submitted all your children, click "Continue" on the right when you are finished.
 				<br />
@@ -370,8 +370,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					isRequired
 					extraCells={<span style={{color: "#777", fontSize: "0.8em"}}>  (This is just to help you keep track of which class reservations are for which kids; we'll collect full information later)</span>}
 				/></tbody></table>
-			</JoomlaArticleRegion>
-			<JoomlaArticleRegion title="Beginner Sailing">
+			</FactaArticleRegion>
+			<FactaArticleRegion title="Beginner Sailing">
 				<table><tbody><FormSelect
 					id="beginnerMorningAfternoon"
 					label="Choose a time:  "
@@ -388,8 +388,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						.filter(c => c.isMorning == (self.state.formData.beginnerMorningAfternoon.getOrElse("") == "Morning"))
 						.filter(c => c.startDateMoment.isSameOrAfter(moment("06/29/2020")))
 				)}
-			</JoomlaArticleRegion>
-			<JoomlaArticleRegion title="Intermediate Sailing">
+			</FactaArticleRegion>
+			<FactaArticleRegion title="Intermediate Sailing">
 				<table><tbody><FormSelect
 					id="intermediateMorningAfternoon"
 					label="Choose a time:  "
@@ -406,7 +406,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						.filter(c => c.isMorning == (self.state.formData.intermediateMorningAfternoon.getOrElse("") == "Morning"))
 						.filter(c => c.startDateMoment.isSameOrAfter(moment("06/29/2020")))
 				)}
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<JoomlaButton text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 			<JoomlaButton text={<span>Create Junior</span>} spinnerOnClick={true} onClick={() => submitAction().then(
 				personId =>self.props.history.push(reserveNotesPageRoute.getPathFromArgs({personId: String(personId)})),

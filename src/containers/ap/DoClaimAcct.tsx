@@ -3,7 +3,7 @@ import * as React from "react";
 import TextInput from '../../components/TextInput';
 import formUpdateState from '../../util/form-update-state';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
+import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
 import JoomlaButton from '../../theme/joomla/JoomlaButton';
@@ -99,7 +99,7 @@ export default class DoClaimAcct extends React.PureComponent<Props, State> {
 
 		return <FactaMainPage setBGImage={setAPImage}>
 			{errorPopup}
-			<JoomlaArticleRegion title="Please supply a password for your new account." buttons={buttons}>
+			<FactaArticleRegion title="Please supply a password for your new account." buttons={buttons}>
 				<table><tbody>
 					<FormInput
 						id="pw1"
@@ -119,7 +119,7 @@ export default class DoClaimAcct extends React.PureComponent<Props, State> {
 						updateAction={updateState}
 					/>
 				</tbody></table>
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 		</FactaMainPage>
 	}
 }

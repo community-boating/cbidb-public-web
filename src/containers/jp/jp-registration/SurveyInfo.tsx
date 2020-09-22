@@ -11,7 +11,7 @@ import { makePostJSON } from "../../../core/APIWrapperUtil";
 import ethnicities from "../../../lov/ethnicities";
 import genders from "../../../lov/genders";
 import referralSources from "../../../lov/referralSources";
-import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
@@ -57,7 +57,7 @@ export default class SurveyInfo extends React.Component<Props, State> {
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-            <JoomlaArticleRegion title="This information is helpful but not required.">
+            <FactaArticleRegion title="This information is helpful but not required.">
                 <table><tbody>
                     <FormRadio
                         id="genderID"
@@ -149,7 +149,7 @@ export default class SurveyInfo extends React.Component<Props, State> {
 						updateAction={updateState}
 					/>
                 </tbody></table>
-            </JoomlaArticleRegion>
+            </FactaArticleRegion>
 			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
 			<JoomlaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper(this.props.personId).send(makePostJSON(this.state.formData)).then(self.props.goNext)

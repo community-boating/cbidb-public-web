@@ -1,5 +1,5 @@
 import * as React from "react";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
+import FactaArticleRegion from "../../theme/facta/FactaArticleRegion"; 
 import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
 import Currency from "../../util/Currency";
 import JoomlaButton from "../../theme/joomla/JoomlaButton";
@@ -20,7 +20,7 @@ export default class ScholarshipResultsPage extends React.Component<Props> {
 			<JoomlaNotitleRegion>
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
-			<JoomlaArticleRegion title="Reduced Fee Application">
+			<FactaArticleRegion title="Reduced Fee Application">
 				Your Junior Program fee for this year has been computed to be <b>{this.props.jpPrice.format()}</b>
 				.  This price will automatically apply to all junior memberships you purchase this season.
 				<br />
@@ -31,7 +31,7 @@ export default class ScholarshipResultsPage extends React.Component<Props> {
 				<br />
 				<br />
 				If you have a unique circumstance regarding membership fees, please contact Niko Kotsatos, Junior Program Director, at <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<JoomlaButton text="Next >" onClick={this.props.goNext}/>
 		</FactaMainPage>
 	}
