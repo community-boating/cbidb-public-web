@@ -23,8 +23,8 @@ import { offseasonPageRoute } from './routes/jp/offseason'
 import { apRegPageRoute } from './routes/ap/reg';
 import { apEditPageRoute } from './routes/ap/edit';
 import { fundInfoRoute } from './routes/common/funds';
-import { apPreRegRoute } from './routes/ap/prereg';
-import { apCreateAcctRoute } from './routes/ap/create-acct';
+// import { apPreRegRoute } from './routes/ap/prereg';
+// import { apCreateAcctRoute } from './routes/ap/create-acct';
 import { apForgotPasswordPageRoute } from './routes/ap/forgot-pw';
 import { apForgotPasswordSentPageRoute } from './routes/ap/forgot-pw-sent';
 import { apResetPasswordPageRoute } from './routes/ap/reset-pw';
@@ -47,6 +47,7 @@ import { jpBasePath } from './paths/jp/_base';
 import LoginRoute from "../app/routes/common/login";
 import { PageFlavor } from '../components/Page';
 import { apAddonsPageRoute } from './routes/ap/addons';
+import { apClosedPageRoute } from './routes/ap/closed';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -94,8 +95,9 @@ export default function (history: History<any>) {
 		apForgotPasswordSentPageRoute.asRoute(history),
 		jpResetPasswordPageRoute.asRoute(history),
 		apResetPasswordPageRoute.asRoute(history),
-		apPreRegRoute.asRoute(history),
-		apCreateAcctRoute.asRoute(history),
+		// apPreRegRoute.asRoute(history),
+		// apCreateAcctRoute.asRoute(history),
+		apClosedPageRoute.asRoute(history),
 		apStartClaimAcctPageRoute.asRoute(history),
 		apClaimAcctSentPageRoute.asRoute(history),
 		apDoClaimAcctPageRoute.asRoute(history),
