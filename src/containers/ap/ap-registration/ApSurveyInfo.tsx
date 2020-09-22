@@ -12,7 +12,7 @@ import ethnicities from "../../../lov/ethnicities";
 import genders from "../../../lov/genders";
 import referralSources from "../../../lov/referralSources";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
@@ -53,9 +53,9 @@ export default class ApSurveyInfo extends React.Component<Props, State> {
 		// TODO: blank out the "other" fields in state when the toggling checkbox is unchecked
 
 		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
             <FactaArticleRegion title="This information is helpful but not required.">
                 <table><tbody>
                     <FormRadio

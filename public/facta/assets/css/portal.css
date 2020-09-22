@@ -15,3 +15,68 @@
 .facta-button img {
 	margin-top: -3px;
 }
+
+div.wizardProgress {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin: 10px 0 -15px 0;
+}
+
+div.wizardProgress ul {
+    margin: 0;
+    padding: 0;
+    clear: left;
+    float: left;
+    position: relative;
+    left: 50%;
+}
+
+div.wizardProgress ul li {
+    float: left;
+    display: block;
+    position: relative;
+    right: 50%;
+    background: url(/i/apex_ui/apex_ui.png) 50% -300px no-repeat;
+}
+
+div.wizardProgress ul li.first-non-current, div.wizardProgress ul li.first-current {
+    background: url(/i/apex_ui/apex_ui.png) 50% -236px no-repeat;
+}
+
+div.wizardProgress ul li.last-non-current, div.wizardProgress ul li.last-current {
+    background: url(/i/apex_ui/apex_ui.png) 50% -364px no-repeat;
+}
+
+div.wizardProgress ul li.non-current span.pastCurrent, div.wizardProgress ul li.first-non-current span.pastCurrent, div.wizardProgress ul li.last-non-current span.pastCurrent {
+    background-position: 50% -492px;
+}
+
+div.wizardProgress ul li.current span, div.wizardProgress ul li.first-current span, div.wizardProgress ul li.last-current span {
+    color: #333;
+    font-weight: bold;
+    background-position: 50% -556px;
+}
+
+div.wizardProgress ul li.non-current span, div.wizardProgress ul li.first-non-current span, div.wizardProgress ul li.last-non-current span {
+    background-position: 50% -428px;
+}
+
+div.wizardProgress ul li span {
+    display: block;
+    float: left;
+    padding: 36px 4px 0 4px;
+    font-size: 12px;
+    line-height: 14px;
+    color: #404040;
+    background-image: url(/i/apex_ui/apex_ui.png);
+    background-repeat: no-repeat;
+    text-align: center;
+    overflow: hidden;
+    min-width: 100px;
+    max-width: 160px;
+}
+
+div.wizardProgress ul li.last-non-current, div.wizardProgress ul li.last-current {
+    background: url(/i/apex_ui/apex_ui.png) 50% -364px no-repeat;
+}

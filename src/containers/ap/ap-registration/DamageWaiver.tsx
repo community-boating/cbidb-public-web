@@ -6,7 +6,7 @@ import * as t from 'io-ts';
 import JoomlaButton from "../../../theme/joomla/JoomlaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import {postWrapper as submit} from "../../../async/member/select-damage-waiver"
@@ -35,9 +35,9 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 	render() {
 		const self = this;
 		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<FactaArticleRegion title="Consider purchasing an Accidental Damage Waiver.">
 			Any member who signs out a boat, including windsurfers and kayaks, shall be held financially responsible for damage to that boat and its equipment,
 			and damage to any other boat, windsurfer, or equipment in the event of a collision.
@@ -46,7 +46,7 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 			This waiver covers any accidental damages to boats, but does not cover gross negligence, recklessness, or intentional acts.
 			Declining the waiver signifies that a member agrees to pay for the cost of repairs, as determined by Community Boating Inc., up to a maximum of $5000.
 			</FactaArticleRegion>
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				<RadioGroup
 					id="accept"
 					label=""
@@ -66,7 +66,7 @@ export default class DamageWaiver extends React.Component<Props, {radio: string}
 					value={self.state ? some(self.state.radio) : none}
 					justElement={true}
 				/>
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			{(self.state || {} as any).radio != undefined ? <FactaButton text="Next >" spinnerOnClick onClick={() => {
 				return submit.send(makePostJSON({

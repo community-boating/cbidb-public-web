@@ -12,7 +12,7 @@ import TextInput from "../../../components/TextInput";
 import countries from "../../../lov/countries";
 import states from "../../../lov/states";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import range from "../../../util/range";
 import moment = require('moment');
@@ -293,9 +293,9 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 
 		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			{/* {headerRegion} */}
 			<FactaArticleRegion title="All information on this page is required (if applicable).">
 				{reqFields}

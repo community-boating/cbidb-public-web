@@ -8,7 +8,7 @@ import { RadioGroup } from "../../../components/InputGroup";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import swimProofValues from "../../../lov/swimProof";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import formUpdateState from "../../../util/form-update-state";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setJPImage } from "../../../util/set-bg-image";
@@ -51,7 +51,7 @@ export default class SwimProof extends React.Component<Props, State> {
 
 
 
-        const noProofRegion = (<JoomlaNotitleRegion>
+        const noProofRegion = (<FactaNotitleRegion>
             <div style={({padding: "8px 50px", border: "1px solid #999", margin: "0px 30px"})}>
                 Getting written proof of swimming ability is easy and can be done at any YMCA or local pool.   <a href="http://www.ymcaboston.org/find-your-y" target="_blank">Click here</a> to
                 find your local YMCA.
@@ -59,12 +59,12 @@ export default class SwimProof extends React.Component<Props, State> {
                 and that you require a signed letter at the completion of your test. Taking the test at the Y will give you the "written proof of swimming
                 ability on Pool Letterhead" swim proof option for your child.
             </div>
-        </JoomlaNotitleRegion>)
+        </FactaNotitleRegion>)
 	
 		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<FactaArticleRegion title="Please select your form of swim proof.">
                 {bodyText}
                 <br /><br />
@@ -79,13 +79,13 @@ export default class SwimProof extends React.Component<Props, State> {
 				/>
 			</FactaArticleRegion>
             {this.state.formData.swimProofId.getOrElse(null) == "-1" ? noProofRegion : ""}
-            <JoomlaNotitleRegion>
+            <FactaNotitleRegion>
                 <span>
                 If you believe you have a proof of swimming ability not on the above list,
                 <br />
                 please email Niko Kotsatos, Junior Program Director, at <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
                 </span>
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<JoomlaButton text="< Back" onClick={this.props.goPrev}/>
 			{self.state.formData.swimProofId.getOrElse("-1") != "-1" ? <JoomlaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper(this.props.personId).send(makePostJSON({swimProofId: this.state.formData.swimProofId} ))

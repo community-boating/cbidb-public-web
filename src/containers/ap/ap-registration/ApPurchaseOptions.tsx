@@ -4,7 +4,7 @@ import * as React from "react";
 import * as t from 'io-ts';
 
 import FactaButton from "../../../theme/facta/FactaButton";
-import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import {discountsValidator} from "../../../async/member-welcome-ap"
@@ -178,10 +178,10 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 			: `Full Year Membership: ${Currency.dollars(this.props.discountsProps.fyBasePrice).format(true)}`
 		)
 		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({ history: this.props.history, sysdate: none, showProgramLink: false })}>
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
-			<JoomlaNotitleRegion>
+			</FactaNotitleRegion>
+			<FactaNotitleRegion>
 				<React.Fragment>
 					<style>
 						{`
@@ -283,7 +283,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 						<li>Our member's guest discount (half off the day rental rate) is available for 1 Kayak or SUP</li>
 					</ul><br />
 				</React.Fragment>
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<FactaButton text="< Back" onClick={self.props.goPrev} />
 			{(self.state || {} as any).radio != undefined ? <FactaButton text="Next >" spinnerOnClick onClick={() =>
 				self.props.goNext()

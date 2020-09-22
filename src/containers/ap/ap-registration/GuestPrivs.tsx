@@ -6,7 +6,7 @@ import * as t from 'io-ts';
 import FactaButton from "../../../theme/facta/FactaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import {postWrapper as submit} from "../../../async/member/select-guest-privs"
@@ -34,9 +34,9 @@ export default class GuestPrivs extends React.Component<Props, {radio: string}> 
 	render() {
 		const self = this;
 		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<FactaArticleRegion title="Guest Privileges">
 			Members may elect to add on guest privileges for an additional {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)} fee.
             The guest privileges option includes all guests you bring sailing or kayaking for the term of your current membership.
@@ -46,7 +46,7 @@ export default class GuestPrivs extends React.Component<Props, {radio: string}> 
             <br />
             Guest privileges may be purchased at any time during one's membership. Guest privileges are automatically included for full year membership renewals.
 			</FactaArticleRegion>
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				<RadioGroup
 					id="accept"
 					label=""
@@ -66,7 +66,7 @@ export default class GuestPrivs extends React.Component<Props, {radio: string}> 
 					value={self.state ? some(self.state.radio) : none}
 					justElement={true}
 				/>
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			{(self.state || {} as any).radio != undefined ? <FactaButton text="Next >" spinnerOnClick onClick={() => {
 				return submit.send(makePostJSON({

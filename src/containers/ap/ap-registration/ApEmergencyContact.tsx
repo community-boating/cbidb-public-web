@@ -9,7 +9,7 @@ import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../.
 import TextInput from "../../../components/TextInput";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import ErrorDiv from "../../../theme/joomla/ErrorDiv";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
@@ -200,9 +200,9 @@ export default class ApEmergencyContact extends React.PureComponent<Props, State
 		
 		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<FactaArticleRegion title="Who should we contact in the event of an emergency?">
 				{emergFields}
 			</FactaArticleRegion>

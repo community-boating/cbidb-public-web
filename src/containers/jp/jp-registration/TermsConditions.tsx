@@ -5,7 +5,7 @@ import * as React from "react";
 import JoomlaButton from "../../../theme/joomla/JoomlaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import {apiw as accept} from "../../../async/junior/accept-tos"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
@@ -24,9 +24,9 @@ export default class TermsConditions extends React.Component<Props, {radio: stri
 	render() {
 		const self = this;
 		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<FactaArticleRegion title="Terms and Conditions">
 			I understand that participation in sailing and other boating activities, both on the water and on-shore, may pose risks to my child's health and safety. I have read and understand the rules and regulations established by Community Boating, Inc. and agree to be bound by them. My approval of my child's participation in the Community Boating, Inc. program is made in full recognition and assumption of those risks and is entirely voluntary. In consideration of your admission of my child into Junior Program membership, I hereby agree, for myself, executors, administrators and assigns, to release and hold harmless Community Boating, Inc., its directors, officers, members, employees, representatives, successors and assigns, from any and all claims, liability or loss arising from any injury or damage to my child's health, well-being or property during participation in this program.
 			<br /><br />
@@ -36,7 +36,7 @@ export default class TermsConditions extends React.Component<Props, {radio: stri
 			<br /><br />
 			<span style={{fontWeight: "bold"}}>I understand that any CBI membership is non-transferable and non-refundable.</span>
 			</FactaArticleRegion>
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				<RadioGroup
 					id="accept"
 					label=""
@@ -56,7 +56,7 @@ export default class TermsConditions extends React.Component<Props, {radio: stri
 					value={self.state ? some(self.state.radio) : none}
 					justElement={true}
 				/>
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
 			{(self.state || {} as any).radio == "Yes" ? <JoomlaButton text="Next >" spinnerOnClick onClick={() => 
 				accept.send(makePostJSON({personId: self.props.personId})).then(self.props.goNext)

@@ -1,6 +1,6 @@
 import * as React from "react";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion"; 
-import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
+import FactaNotitleRegion from "../../theme/facta/FactaNotitleRegion";
 import Currency from "../../util/Currency";
 import JoomlaButton from "../../theme/joomla/JoomlaButton";
 import { setJPImage } from "../../util/set-bg-image";
@@ -17,9 +17,9 @@ interface Props {
 export default class ScholarshipResultsPage extends React.Component<Props> {
 	render() {
 		return <FactaMainPage setBGImage={setJPImage}>
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<FactaArticleRegion title="Reduced Fee Application">
 				Your Junior Program fee for this year has been computed to be <b>{this.props.jpPrice.format()}</b>
 				.  This price will automatically apply to all junior memberships you purchase this season.

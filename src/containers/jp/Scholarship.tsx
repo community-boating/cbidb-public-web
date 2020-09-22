@@ -10,7 +10,7 @@ import { Select } from "../../components/Select";
 import TextInput from "../../components/TextInput";
 import { makePostJSON } from "../../core/APIWrapperUtil";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
-import JoomlaNotitleRegion from "../../theme/joomla/JoomlaNotitleRegion";
+import FactaNotitleRegion from "../../theme/facta/FactaNotitleRegion";
 import Currency from "../../util/Currency";
 import formUpdateState from '../../util/form-update-state';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
@@ -170,9 +170,9 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 
 		return <FactaMainPage setBGImage={setJPImage}>
 			{errorPopup}
-			<JoomlaNotitleRegion>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
+			</FactaNotitleRegion>
 			<FactaArticleRegion title="We offer reduced fees to enable sailing for all!">
 				{
 					`We strive to make Junior Membership affordable to all. Our fee is on a generous need-based sliding scale
