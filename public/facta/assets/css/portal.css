@@ -10,6 +10,7 @@
 	border-radius: 30px;
 	text-decoration: none !important;
 	cursor: pointer;
+	margin-right: 8px;
 }
 
 .facta-button img {
@@ -79,4 +80,39 @@ div.wizardProgress ul li span {
 
 div.wizardProgress ul li.last-non-current, div.wizardProgress ul li.last-current {
     background: url(/i/apex_ui/apex_ui.png) 50% -364px no-repeat;
+}
+
+label {
+	margin-bottom: 0;
+	margin-right: 3px;
+}
+
+.apex-item-select {
+	height: 29px;
+	margin: 4px 0;
+}
+
+.apex-item-text {
+	margin: 4px 0;
+}
+
+h3 {
+	font-size: 1.7rem;
+}
+
+.apex-item-grid {
+    display: table;
+}
+
+.apex-item-grid-row {
+    display: table-row;
+}
+
+.apex-item-grid-row .apex-item-option {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.apex-item-group {
+	margin: 4px 0;
 }

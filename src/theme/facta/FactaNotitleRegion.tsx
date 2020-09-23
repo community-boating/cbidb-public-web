@@ -7,7 +7,7 @@ interface FactaNotitleRegionProps {
 export default class FactaNotitleRegion extends React.Component<FactaNotitleRegionProps> {
 	render() {
 		return (
-			<div style={{paddingBottom: "15px"}}>
+			<div style={{paddingBottom: "20px"}}>
 				<div className="article-body">{this.props.children}</div>
 				<div className="article-buttons" style={{ marginTop: "15px" }}>
 					{this.props.buttons}
