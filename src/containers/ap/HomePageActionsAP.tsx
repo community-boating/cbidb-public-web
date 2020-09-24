@@ -185,7 +185,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			LINKS.regLink("Purchase Membership"),
 		]
 	}, {
-		place: 8,
+		show: () => testBit(bv, 7) || testBit(bv, 8),
 		getElements: [
 			LINKS.edit
 		]
