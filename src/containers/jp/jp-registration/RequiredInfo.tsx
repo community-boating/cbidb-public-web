@@ -83,7 +83,8 @@ interface Props {
 	goPrev: () => Promise<void>,
 	breadcrumb: JSX.Element,
 	history: History<any>,
-	bindPersonId: (personId: number) => void
+	bindPersonId: (personId: number) => void,
+	editOnly: boolean
 }
 
 interface State {
@@ -303,7 +304,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(
+				return postWrapper(this.props.personId, this.props.editOnly).send(makePostJSON(formToAPI(this.state.formData))).then(
 					// api success
 					ret => {
 						if (ret.type == "Success") {
