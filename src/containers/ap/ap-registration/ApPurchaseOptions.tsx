@@ -147,7 +147,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 	}
 	makeBuyButton(memTypeId: number, requestedDiscountId: Option<number>) {
 		const self = this;
-		return (<FactaButton text="Buy" onClick={() => {
+		return (<FactaButton small text="Buy" onClick={() => {
 			return submit.send(makePostJSON({
 				memTypeId: memTypeId,
 				requestedDiscountId
@@ -201,18 +201,18 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					<br /><br />
 
 
-					<table><tbody><tr><td>
+					<table style={{marginBottom: "10px"}}><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR, none)}
 					</td><td>
-							<h2 style={{ visibility: "visible", fontSize: "1.7em" }}>{fyHeader}</h2>
+							<h3 style={{ margin: "auto" }}>{fyHeader}</h3>
 						</td></tr></tbody></table>
 					<span style={{fontWeight: "bold"}}>Available Discounts:</span>
 					<br />
-					<table style={{ fontWeight: "bold", marginTop: "10px" }}>
+					<table style={{ fontWeight: "bold", margin: "10px 0" }}>
 						<tbody>
 							{discountsWithStates.map(d => d.rowElement)}
-						</tbody></table>
-					<br /><br />
+						</tbody>
+					</table>
 					<p>Includes:</p>
 					<ul>
 						<li>Access to all boats</li>
@@ -224,12 +224,12 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 
 
 
-					<table><tbody><tr><td>
+					<table style={{marginBottom: "10px"}}><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_60_DAY, none)}
 					</td><td>
-						<h2 id="h0-2-60-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>
+						<h3 id="h0-2-60-day-boating-pass-209" style={{ margin: "auto" }}>
 							60 Day Membership: {this.findMembershipPrice(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_60_DAY).format(true)}
-						</h2>
+						</h3>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>
@@ -239,12 +239,12 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 						<li>Guest privileges can be purchased for {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)}</li>
 					</ul><br />
 
-					<table><tbody><tr><td>
+					<table style={{marginBottom: "10px"}}><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY, none)}
 					</td><td>
-						<h2 id="h0-2-30-day-boating-pass-209" style={{ visibility: "visible", fontSize: "1.7em" }}>
+						<h3 id="h0-2-30-day-boating-pass-209" style={{ margin: "auto" }}>
 							30 Day Membership: {this.findMembershipPrice(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY).format(true)}
-						</h2>
+						</h3>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>
@@ -255,12 +255,12 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					</ul><br />
 
 
-					<table><tbody><tr><td>
+					<table style={{marginBottom: "10px"}}><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY_WICKED_BASIC, none)}
 					</td><td>
-							<h2 id="h0-3-30-day-intro-to-sailing-99" style={{ visibility: "visible", fontSize: "1.7em" }}>
+							<h3 id="h0-3-30-day-intro-to-sailing-99" style={{ margin: "auto" }}>
 								30 Day Wicked Basic, No Frills, Sailing Pass: {this.findMembershipPrice(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_30_DAY_WICKED_BASIC).format(true)}
-							</h2>
+							</h3>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>
@@ -269,12 +269,12 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 						<li>Not eligible for Advanced classes, Windsurfing, Kayaking, Paddleboarding, or Guest Privileges</li>
 					</ul><br />
 
-					<table><tbody><tr><td>
+					<table style={{marginBottom: "10px"}}><tbody><tr><td>
 						{self.makeBuyButton(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR_PADDLING, none)}
 					</td><td>
-							<h2 id="h0-3-FY-paddling" style={{ visibility: "visible", fontSize: "1.7em" }}>
+							<h3 id="h0-3-FY-paddling" style={{ margin: "auto" }}>
 								Full Year Paddling Pass: {this.findMembershipPrice(MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR_PADDLING).format(true)}
-							</h2>
+							</h3>
 						</td></tr></tbody></table>
 					<p>Includes:</p>
 					<ul>

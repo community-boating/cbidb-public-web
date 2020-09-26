@@ -232,7 +232,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 	</React.Fragment>;
 
 	return (<React.Fragment>
-		<ul style={{fontSize: "0.8em"}}>
+		<ul>
 			{actions
 				.filter(({ place, show }) => {
 					// if it has both `place` and `show`, both must pass
