@@ -2,7 +2,7 @@ import * as React from "react";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion"; 
 import FactaNotitleRegion from "../../theme/facta/FactaNotitleRegion";
 import Currency from "../../util/Currency";
-import JoomlaButton from "../../theme/joomla/JoomlaButton";
+import JoomlaButton from "../../theme/facta/FactaButton";
 import { setJPImage } from "../../util/set-bg-image";
 import FactaMainPage from "../../theme/facta/FactaMainPage";
 

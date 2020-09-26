@@ -6,7 +6,7 @@ import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
 import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
-import JoomlaButton from '../../theme/joomla/JoomlaButton';
+import JoomlaButton from '../../theme/facta/FactaButton';
 import {postWrapper} from "../../async/member/do-claim-acct"
 import { PostURLEncoded } from '../../core/APIWrapperUtil';
 import { apBasePath } from '../../app/paths/ap/_base';

@@ -4,7 +4,7 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { postWrapper, validator } from "../../../async/member/survey";
-import JoomlaButton from "../../../theme/joomla/JoomlaButton";
+import JoomlaButton from "../../../theme/facta/FactaButton";
 import { CheckboxGroup, RadioGroup } from "../../../components/InputGroup";
 import TextInput from "../../../components/TextInput";
 import { makePostJSON } from "../../../core/APIWrapperUtil";

@@ -14,7 +14,7 @@ import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
 import { History } from 'history';
 import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
-import JoomlaButton from '../../../theme/joomla/JoomlaButton';
+import JoomlaButton from '../../../theme/facta/FactaButton';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import {classPageRoute} from "../../../app/routes/jp/class"
 import { setJPImage } from '../../../util/set-bg-image';

@@ -1,7 +1,7 @@
 import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
 import TextInput from "../../../components/TextInput";
-import JoomlaButton from '../../../theme/joomla/JoomlaButton';
+import JoomlaButton from '../../../theme/facta/FactaButton';
 import { History } from 'history';
 import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
 import formUpdateState from '../../../util/form-update-state';

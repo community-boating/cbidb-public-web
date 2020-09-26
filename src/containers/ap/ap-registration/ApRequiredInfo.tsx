@@ -22,7 +22,7 @@ import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import { setAPImage } from '../../../util/set-bg-image';
 import { makePostJSON } from '../../../core/APIWrapperUtil';
 import FactaMainPage from '../../../theme/facta/FactaMainPage';
-import JoomlaButton from '../../../theme/joomla/JoomlaButton';
+import JoomlaButton from '../../../theme/facta/FactaButton';
 import JoomlaMainPage from '../../../theme/joomla/JoomlaMainPage';
 import FactaButton from '../../../theme/facta/FactaButton';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Moment } from 'moment';
 import * as _ from 'lodash';
-import JoomlaButton from '../theme/joomla/JoomlaButton';
+import JoomlaButton from '../theme/facta/FactaButton';
 import moment = require('moment');
 
 // TODO: calendar should be instantiated with a way to ask for data in a given date range

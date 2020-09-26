@@ -5,7 +5,7 @@ import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import homePageActions from "./HomePageActionsJP";
-import JoomlaButton from '../../theme/joomla/JoomlaButton';
+import JoomlaButton from '../../theme/facta/FactaButton';
 import { History } from 'history';
 import moment = require('moment');
 import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';

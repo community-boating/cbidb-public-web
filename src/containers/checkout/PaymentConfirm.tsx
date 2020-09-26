@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as t from 'io-ts'; 
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
-import JoomlaButton from "../../theme/joomla/JoomlaButton";
+import JoomlaButton from "../../theme/facta/FactaButton";
 import StripeConfirm from "../../components/StripeConfirm";
 import {orderStatusValidator} from "../../async/order-status"
 import { postWrapper as submitPayment } from "../../async/stripe/submit-payment"

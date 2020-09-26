@@ -3,7 +3,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { History } from 'history';
 
-import JoomlaButton from "../theme/joomla/JoomlaButton";
+import JoomlaButton from "../theme/facta/FactaButton";
 import TextInput from "../components/TextInput";
 import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";

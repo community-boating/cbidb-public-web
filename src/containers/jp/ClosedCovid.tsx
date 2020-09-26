@@ -1,5 +1,5 @@
 import * as React from "react";
-import JoomlaButton from '../../theme/joomla/JoomlaButton';
+import JoomlaButton from '../../theme/facta/FactaButton';
 import { History } from 'history';
 import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setJPImage } from "../../util/set-bg-image";

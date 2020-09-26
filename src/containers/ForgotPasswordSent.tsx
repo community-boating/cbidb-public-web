@@ -1,7 +1,7 @@
 import { History } from 'history';
 import * as React from "react";
 
-import JoomlaButton from "../theme/joomla/JoomlaButton";
+import JoomlaButton from "../theme/facta/FactaButton";
 import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import { none } from 'fp-ts/lib/Option';
 import { setAPImage, setJPImage } from '../util/set-bg-image';

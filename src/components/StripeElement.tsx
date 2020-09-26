@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TokensResult } from '../models/stripe/tokens';
-import JoomlaButton from '../theme/joomla/JoomlaButton';
+import JoomlaButton from '../theme/facta/FactaButton';
 
 type Props = {
 	formId: string, 		// "payment-form"

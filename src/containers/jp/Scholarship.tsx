@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { postWrapper as postNo } from "../../async/junior/scholarship-no";
 import { postWrapper as postYes } from "../../async/junior/scholarship-yes";
-import JoomlaButton from "../../theme/joomla/JoomlaButton";
+import JoomlaButton from "../../theme/facta/FactaButton";
 import { RadioGroup, SingleCheckbox } from "../../components/InputGroup";
 import { Select } from "../../components/Select";
 import TextInput from "../../components/TextInput";

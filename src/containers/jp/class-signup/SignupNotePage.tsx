@@ -3,7 +3,7 @@ import { Option } from 'fp-ts/lib/Option';
 import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
 import TextArea from "../../../components/TextArea";
 import formUpdateState from '../../../util/form-update-state';
-import JoomlaButton from '../../../theme/joomla/JoomlaButton';
+import JoomlaButton from '../../../theme/facta/FactaButton';
 import { History } from 'history';
 import { postWrapper as saveNote } from "../../../async/junior/signup-note"
 import { makePostJSON } from '../../../core/APIWrapperUtil';

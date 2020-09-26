@@ -7,7 +7,7 @@ import { postWrapper as storeToken } from "../../async/stripe/store-token"
 import { makePostJSON, makePostString } from "../../core/APIWrapperUtil";
 import { orderStatusValidator, CardData } from "../../async/order-status"
 import StripeConfirm from "../../components/StripeConfirm";
-import JoomlaButton from "../../theme/joomla/JoomlaButton";
+import JoomlaButton from "../../theme/facta/FactaButton";
 import { postWrapper as clearCard } from '../../async/stripe/clear-card'
 import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";

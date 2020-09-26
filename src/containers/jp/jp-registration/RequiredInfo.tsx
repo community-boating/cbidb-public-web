@@ -4,7 +4,7 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { postWrapper, validator } from "../../../async/junior/required";
-import JoomlaButton from "../../../theme/joomla/JoomlaButton";
+import JoomlaButton from "../../../theme/facta/FactaButton";
 import DateTriPicker, { componentsToDate, dateStringToComponents, DateTriPickerProps } from "../../../components/DateTriPicker";
 import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
 import { Select } from "../../../components/Select";

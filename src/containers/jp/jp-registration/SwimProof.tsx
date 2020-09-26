@@ -3,7 +3,7 @@ import * as React from "react";
 import { History } from 'history';
 
 import { postWrapper } from "../../../async/junior/swim-proof";
-import JoomlaButton from "../../../theme/joomla/JoomlaButton";
+import JoomlaButton from "../../../theme/facta/FactaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import swimProofValues from "../../../lov/swimProof";

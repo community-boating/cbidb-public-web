@@ -2,7 +2,7 @@ import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
 import TextInput from '../../components/TextInput';
 import formUpdateState from '../../util/form-update-state';
-import JoomlaButton from '../../theme/joomla/JoomlaButton';
+import JoomlaButton from '../../theme/facta/FactaButton';
 import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
 import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';

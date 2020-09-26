@@ -3,7 +3,7 @@ import * as React from "react";
 import TextInput from '../../components/TextInput';
 import Validation from '../../util/Validation';
 import formUpdateState from '../../util/form-update-state';
-import JoomlaButton from '../../theme/joomla/JoomlaButton';
+import JoomlaButton from '../../theme/facta/FactaButton';
 import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
 import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { apPreRegRoute } from '../../app/routes/ap/prereg';

@@ -11,7 +11,7 @@ import { validatorSingleRow } from "../../../async/class-instances-with-avail"
 import JoomlaReport from '../../../theme/joomla/JoomlaReport';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../../../lov/magicStrings';
 import { Moment } from 'moment';
-import JoomlaButton from '../../../theme/joomla/JoomlaButton';
+import JoomlaButton from '../../../theme/facta/FactaButton';
 import { PreRegistration, PreRegistrationClass } from '../../../app/global-state/jp-pre-registrations';
 import optionify from '../../../util/optionify';
 import {postWrapper as addJuniorPostWrapper} from "../../../async/junior/add-junior-class-reservation"
