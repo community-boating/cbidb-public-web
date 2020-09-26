@@ -8,7 +8,7 @@ import formUpdateState from '../util/form-update-state';
 import TextInput from '../components/TextInput';
 import {apiw} from "../async/forgot-pw"
 import { PostURLEncoded } from '../core/APIWrapperUtil';
-import ErrorDiv from '../theme/joomla/ErrorDiv';
+import {JoomlaErrorDiv} from '../theme/joomla/JoomlaErrorDiv';
 import { jpForgotPasswordSentPageRoute } from '../app/routes/jp/forgot-pw-sent';
 import { setAPImage, setJPImage } from '../util/set-bg-image';
 import { PageFlavor } from '../components/Page';
@@ -49,7 +49,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 		const setBGImage = (function() {

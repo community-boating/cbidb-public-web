@@ -13,7 +13,7 @@ import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
 import { History } from 'history'
 import JoomlaButton from '../../../theme/joomla/JoomlaButton';
-import ErrorDiv from '../../../theme/joomla/ErrorDiv';
+import {JoomlaErrorDiv} from '../../../theme/joomla/JoomlaErrorDiv';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
 import { setJPImage } from '../../../util/set-bg-image';
@@ -106,7 +106,7 @@ export default class SelectClassType extends React.Component<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

@@ -8,7 +8,7 @@ import TextInput from "../components/TextInput";
 import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";
 import formUpdateState from "../util/form-update-state";
-import ErrorDiv from "../theme/joomla/ErrorDiv";
+import {JoomlaErrorDiv} from "../theme/joomla/JoomlaErrorDiv";
 import {postWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
 import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
 import Currency from "../util/Currency";
@@ -230,7 +230,7 @@ export default class LoginPage extends React.Component<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

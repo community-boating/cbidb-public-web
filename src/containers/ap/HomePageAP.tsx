@@ -9,7 +9,7 @@ import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import { History } from 'history';
 import moment = require('moment');
 import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
 import { some } from 'fp-ts/lib/Option';
 import { checkoutPageRoute } from '../../app/routes/common/checkout';
 import { setAPImage } from '../../util/set-bg-image';
@@ -71,7 +71,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

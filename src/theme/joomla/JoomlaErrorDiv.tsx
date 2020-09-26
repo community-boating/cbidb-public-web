@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default (props: {errors: string[]}) => (
+export const JoomlaErrorDiv = (props: {errors: string[]}) => (
 	<div className="attention" style={{clear: "both"}}>
 		<div className="a-Notification a-Notification--error">
 			<h2 className="a-Notification-title aErrMsgTitle">

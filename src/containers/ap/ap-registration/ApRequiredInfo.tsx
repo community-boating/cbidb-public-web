@@ -16,7 +16,7 @@ import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import range from "../../../util/range";
 import moment = require('moment');
-import ErrorDiv from '../../../theme/joomla/ErrorDiv';
+import {JoomlaErrorDiv} from '../../../theme/joomla/JoomlaErrorDiv';
 import asc from '../../../app/AppStateContainer';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import { setAPImage } from '../../../util/set-bg-image';
@@ -283,7 +283,7 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

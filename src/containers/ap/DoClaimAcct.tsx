@@ -2,7 +2,7 @@ import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
 import TextInput from '../../components/TextInput';
 import formUpdateState from '../../util/form-update-state';
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
 import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
@@ -93,7 +93,7 @@ export default class DoClaimAcct extends React.PureComponent<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
