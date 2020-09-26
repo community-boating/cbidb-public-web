@@ -10,7 +10,7 @@ import { Select } from '../../../components/Select';
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../../../util/form-update-state';
 import * as moment from 'moment'
-import {JoomlaErrorDiv} from '../../../theme/joomla/JoomlaErrorDiv';
+import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
 import { History } from 'history';
 import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
@@ -97,7 +97,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		)
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors.flatMap(ve => ve.split("<br><br>"))}/>
+			? <FactaErrorDiv errors={this.state.validationErrors.flatMap(ve => ve.split("<br><br>"))}/>
 			: ""
 		);
 

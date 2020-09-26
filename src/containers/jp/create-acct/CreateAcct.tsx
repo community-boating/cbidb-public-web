@@ -11,7 +11,7 @@ import { preRegRender } from './ReserveClasses';
 import { PreRegistration } from '../../../app/global-state/jp-pre-registrations';
 import { postWrapper as create } from '../../../async/create-member'
 import { PostURLEncoded } from '../../../core/APIWrapperUtil';
-import {JoomlaErrorDiv} from '../../../theme/joomla/JoomlaErrorDiv';
+import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
 import Validation from '../../../util/Validation';
 import asc from '../../../app/AppStateContainer';
 import {reservePageRoute} from "../../../app/routes/jp/reserve"
@@ -103,7 +103,7 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

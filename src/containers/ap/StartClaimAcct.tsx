@@ -3,7 +3,7 @@ import * as React from "react";
 import TextInput from '../../components/TextInput';
 import formUpdateState from '../../util/form-update-state';
 import JoomlaButton from '../../theme/joomla/JoomlaButton';
-import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
+import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
 import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
@@ -65,7 +65,7 @@ export default class StartClaimAcct extends React.PureComponent<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

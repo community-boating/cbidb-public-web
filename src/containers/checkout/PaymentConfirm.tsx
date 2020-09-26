@@ -6,7 +6,7 @@ import StripeConfirm from "../../components/StripeConfirm";
 import {orderStatusValidator} from "../../async/order-status"
 import { postWrapper as submitPayment } from "../../async/stripe/submit-payment"
 import { makePostString } from "../../core/APIWrapperUtil";
-import {JoomlaErrorDiv} from "../../theme/joomla/JoomlaErrorDiv";
+import {FactaErrorDiv} from "../../theme/facta/FactaErrorDiv";
 import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";
 import FullCartReport from "../../components/FullCartReport";
@@ -39,7 +39,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 		const self = this
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 		const orderTotal = this.props.cartItems.reduce((sum, i) => sum + i.price, 0)

@@ -18,7 +18,7 @@ import {postWrapper as addJuniorPostWrapper} from "../../../async/junior/add-jun
 import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
 import { makePostJSON, makePostString } from '../../../core/APIWrapperUtil';
 import { History } from 'history';
-import {JoomlaErrorDiv} from '../../../theme/joomla/JoomlaErrorDiv';
+import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
 import {postWrapper as deleteJunior} from '../../../async/junior/delete-junior-class-reservation'
 import moment = require('moment');
 import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
@@ -236,7 +236,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

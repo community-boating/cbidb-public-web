@@ -8,7 +8,7 @@ import asc from "../../app/AppStateContainer";
 import TextInput from "../../components/TextInput";
 import formUpdateState from "../../util/form-update-state";
 import { apBasePath } from "../../app/paths/ap/_base";
-import {JoomlaErrorDiv} from "../../theme/joomla/JoomlaErrorDiv";
+import {FactaErrorDiv} from "../../theme/facta/FactaErrorDiv";
 import {apiw as submit} from "../../async/update-acct"
 import { PostURLEncoded } from "../../core/APIWrapperUtil";
 import FactaMainPage from "../../theme/facta/FactaMainPage";
@@ -105,7 +105,7 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

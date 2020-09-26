@@ -9,7 +9,7 @@ import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import { History } from 'history';
 import moment = require('moment');
 import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';
-import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
+import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
 import { some } from 'fp-ts/lib/Option';
 import {regEmptyPageRoute} from '../../app/routes/jp/regEmpty'
 import { checkoutPageRoute } from '../../app/routes/common/checkout';
@@ -60,7 +60,7 @@ export default class HomePageJP extends React.Component<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

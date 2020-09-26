@@ -13,7 +13,7 @@ import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import FactaNotitleRegion from "../../theme/facta/FactaNotitleRegion";
 import Currency from "../../util/Currency";
 import formUpdateState from '../../util/form-update-state';
-import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
+import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
 import { setJPImage } from '../../util/set-bg-image';
 import FactaMainPage from '../../theme/facta/FactaMainPage';
 
@@ -164,7 +164,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

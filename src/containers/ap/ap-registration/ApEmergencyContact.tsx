@@ -11,7 +11,7 @@ import { makePostJSON } from "../../../core/APIWrapperUtil";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
-import {JoomlaErrorDiv} from "../../../theme/joomla/JoomlaErrorDiv";
+import {FactaErrorDiv} from "../../../theme/facta/FactaErrorDiv";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import FactaMainPage from "../../../theme/facta/FactaMainPage";
@@ -194,7 +194,7 @@ export default class ApEmergencyContact extends React.PureComponent<Props, State
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 		

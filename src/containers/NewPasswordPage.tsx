@@ -9,7 +9,7 @@ import TextInput from '../components/TextInput';
 import {apiw} from "../async/reset-pw"
 import { PostURLEncoded } from '../core/APIWrapperUtil';
 import Validation from '../util/Validation'
-import {JoomlaErrorDiv} from '../theme/joomla/JoomlaErrorDiv';
+import {FactaErrorDiv} from '../theme/facta/FactaErrorDiv';
 import asc from '../app/AppStateContainer';
 import { setJPImage, setAPImage } from '../util/set-bg-image';
 import { jpBasePath } from '../app/paths/jp/_base';
@@ -66,7 +66,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 		const setBGImage = (function() {

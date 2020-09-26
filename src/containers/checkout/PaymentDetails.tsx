@@ -22,7 +22,7 @@ import {donationFundValidator} from "../../async/donation-funds"
 import { Select } from "../../components/Select";
 import newPopWin from "../../util/newPopWin";
 import TextInput from "../../components/TextInput";
-import {JoomlaErrorDiv} from "../../theme/joomla/JoomlaErrorDiv";
+import {FactaErrorDiv} from "../../theme/facta/FactaErrorDiv";
 import { left, right, Either } from "fp-ts/lib/Either";
 import {postWrapper as addDonation} from "../../async/member/add-donation"
 import {postWrapper as addPromo} from "../../async/member/add-promo-code"
@@ -258,7 +258,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
