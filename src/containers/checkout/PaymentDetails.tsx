@@ -195,7 +195,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				/>
 				: null
 			}
-			<JoomlaButton text="Add Donation" onClick={() => this.doAddDonation()}/>
+			<div style={{margin: "20px 0"}}><JoomlaButton text="Add Donation" onClick={() => this.doAddDonation()}/></div>
 		</div>)
 
 		const fundCell = (<div>

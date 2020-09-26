@@ -67,7 +67,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 			</p>
 		</FactaArticleRegion>;
 
-		const checkoutButton = (<FactaButton onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
+		const checkoutButton = (<div style={{marginBottom: "30px"}}><FactaButton onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" /></div>);
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
