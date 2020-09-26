@@ -61,9 +61,9 @@ export const getWrapper = (personId: number) => new APIWrapper<typeof validator,
 	resultValidator: validator
 })
 
-export const postWrapper = (personId: Option<number>) => new APIWrapper<typeof postValidator, t.TypeOf<typeof validator>, {personId: number}>({
+export const postWrapper = (personId: Option<number>, editOnly: boolean) => new APIWrapper<typeof postValidator, t.TypeOf<typeof validator>, {personId: number, editOnly: boolean}>({
 	path,
 	type: HttpMethod.POST,
 	resultValidator: postValidator,
-	fixedParams: { personId: personId.getOrElse(null) }
+	fixedParams: { personId: personId.getOrElse(null), editOnly }
 })

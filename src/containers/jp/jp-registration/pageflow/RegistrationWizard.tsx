@@ -35,7 +35,7 @@ type Props = {
 	personIdStart: Option<number>,
 	jpPrice: Option<number>,
 	jpOffseasonPrice: Option<number>,
-	includeTOS: boolean,
+	editOnly: boolean,
 	parentPersonId: number,
 	currentSeason: number
 };
@@ -135,7 +135,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 			breadcrumbHTML: <React.Fragment>Scholarship<br />Results</React.Fragment>
 		}]
 
-		const maybeTOS = this.props.includeTOS ? [{
+		const maybeTOS = this.props.editOnly ? [] : [{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="TermsConditions"
 				history={self.props.history}
@@ -147,7 +147,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 				{...pageWrapperProps}
 			/>,
 			breadcrumbHTML: <React.Fragment>Terms and <br />Conditions</React.Fragment>
-		}] : [];
+		}];
 	
 		const otherNodes = [{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
@@ -159,6 +159,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 					personId={self.state.personId}
+					editOnly={this.props.editOnly}
 				/>}
 				getAsyncProps={(urlProps: {}) => {
 					if (self.state.personId.isNone()) {

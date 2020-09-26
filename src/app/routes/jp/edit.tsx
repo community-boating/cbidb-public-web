@@ -17,7 +17,7 @@ export const editPageRoute = new RouteWrapper(true, jpPathEdit, history => <Page
         personIdStart={some(urlProps.personId)}
         jpPrice={async.jpPrice}
         jpOffseasonPrice={async.jpOffseasonPrice}
-        includeTOS={false}
+        editOnly={true}
         parentPersonId={async.parentPersonId}
         currentSeason={async.season}
     />}

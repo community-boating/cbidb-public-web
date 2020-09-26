@@ -17,7 +17,7 @@ export const regEmptyPageRoute = new RouteWrapper(true, jpPathRegEmpty, history 
         personIdStart={none}
         jpPrice={async.jpPrice}
         jpOffseasonPrice={async.jpOffseasonPrice}
-        includeTOS={true}
+        editOnly={false}
         parentPersonId={async.parentPersonId}
         currentSeason={async.season}
     />}
