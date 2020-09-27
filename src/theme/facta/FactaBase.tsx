@@ -548,7 +548,7 @@ export class FactaBody extends React.Component {
 
 			</main>
 			<footer className="footer">
-				<div className="footer-bg cover" style={{ backgroundImage: "url(http://www.community-boating.org/wp-content/themes/custom/assets/images/footer-bg.png)" }}></div>
+				<div className="footer-bg cover" style={{ backgroundImage: "url(images/footer-bg.png)" }}></div>
 				<div className="container-lg">
 					<div className="row">
 
