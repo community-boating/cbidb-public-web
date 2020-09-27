@@ -22,6 +22,7 @@ import {postWrapper as unenroll} from "../../async/member/ap-class-unenroll"
 import { makePostJSON } from "../../core/APIWrapperUtil";
 import { apPathClasses } from "../../app/paths/ap/classes";
 import FactaMainPage from "../../theme/facta/FactaMainPage";
+import { FactaHideShowRegion } from "../../theme/facta/FactaHideShowRegion";
 
 declare var ddrivetip: any;
 declare var hideddrivetip: any;
@@ -336,7 +337,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 				</FactaArticleRegion>
 			})
 		}
-		const filterTable = (<table cellSpacing={40} style={{marginTop: "-40px"}}><tbody><tr>
+		const filterTable = (<table cellSpacing={40}><tbody><tr>
 			{getFilterCell(AvailabilityFlag.RECOMMENDED)}
 			{getFilterCell(AvailabilityFlag.REVIEW)}
 			{getFilterCell(AvailabilityFlag.INELIGIBLE)}
@@ -356,10 +357,10 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 					onMouseOut={() => hideddrivetip()}
 				>Hover for Legend</span>
 			</FactaArticleRegion>
-			<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(apBasePath.getPathFromArgs({})))}/>
-			<JoomlaHideShowRegion title="Filter Calendar">
+			<div style={{marginBottom: "20px"}}><FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(apBasePath.getPathFromArgs({})))}/></div>
+			<FactaHideShowRegion title="Filter Calendar">
 				{filterTable}
-			</JoomlaHideShowRegion>
+			</FactaHideShowRegion>
 			{getFocusRegion().getOrElse(null)}
 		</FactaMainPage>
 	}
