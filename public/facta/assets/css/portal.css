@@ -124,3 +124,15 @@ h3 {
 .rating_table {
 	border-collapse: initial;
 }
+
+.DayOfWeek {
+	text-align: center;
+}
+
+.CalendarHolder {
+	border-collapse: inherit;
+}
+
+.apex_cal_data_grid_src a {
+	text-decoration: none !important;
+}

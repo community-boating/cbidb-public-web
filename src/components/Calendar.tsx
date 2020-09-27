@@ -180,13 +180,13 @@ export default class Calendar extends React.PureComponent<Props, State> {
 
 		return (
 			<React.Fragment>
-				<div>
+				<div style={{marginBottom: "15px"}}>
 					<FactaButton text="< Previous" onClick={() => Promise.resolve(this.goBack())} />
 					<FactaButton text="Today" onClick={() => Promise.resolve(this.goToday())} />
 					<FactaButton text="Next >" onClick={() => Promise.resolve(this.goForward())} />
 				</div>
 
-				<table cellPadding="0" cellSpacing="0" className="CalendarHolder" role="presentation">
+				<table cellPadding="0" cellSpacing="0" className="CalendarHolder" role="presentation" style={{maxWidth: "900px"}}>
 					<tbody>
 						<tr>
 							<td className="MonthTitle">{Calendar.getMonthTitle(this.state.firstOfFocusedMonth)}</td>

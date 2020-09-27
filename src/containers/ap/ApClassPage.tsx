@@ -28,21 +28,21 @@ declare var hideddrivetip: any;
 
 function resizeRatings(){
 	var heightPx = window.getComputedStyle(document.getElementById('dhtmltooltip').getElementsByTagName('table')[0]).getPropertyValue('height');
-	var height = Number(heightPx.substring(0,heightPx.length-2));
+	var height = Number(heightPx.substring(0,heightPx.length-2))+10;
   
 	var widthPx = window.getComputedStyle(document.getElementById('dhtmltooltip').getElementsByTagName('table')[0]).getPropertyValue('width');
-	var width = Number(widthPx.substring(0,widthPx.length-2));
+	var width = Number(widthPx.substring(0,widthPx.length-2))+10;
   
 	document.getElementById('dhtmltooltip').style.width = width+"px";
 	document.getElementById('dhtmltooltip').style.height = height+"px";
 }
 
-const tooltipText = `<table style="font-size:1.1em;"><tr><td>
+const tooltipText = `<table style="font-size:0.8em;"><tr><td>
 <span style="font-weight:bold; color:#3377DD;">Recommended Class</span><br><span style="font-weight:bold; color:#884411;">Review Class</span><br>
 <span style="font-weight:bold; color:#DD0000">Ineligible Class</span><br><br><span style="font-weight:bold; color:#666666;">Class has already taken place</span><br>
 <span style="font-weight:bold; color:#008A00;">You are enrolled in this class</span><br>
 <span style="font-weight:bold; color:#CC8800;">You are waitlisted in this class</span><br>
-<span style="font-weight:bold; color:#B300B3;">A spot is being held for you for up to 20min<br>while you complete the purchase process</span><br>
+<span style="font-weight:bold; color:#B300B3; white-space:nowrap;">A spot is being held for you for up to 20 min<br>while you complete the purchase process</span><br>
 </td></tr></table>`
 
 type Form = {
@@ -352,7 +352,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 					showElementsInAdjacentMonths={false}
 				/>
 				<span
-					onMouseOver={() => {ddrivetip(tooltipText,'lightYellow',300); resizeRatings();}}
+					onMouseOver={() => {ddrivetip(tooltipText,'lightYellow',320); resizeRatings();}}
 					onMouseOut={() => hideddrivetip()}
 				>Hover for Legend</span>
 			</FactaArticleRegion>

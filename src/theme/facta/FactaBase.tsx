@@ -37,12 +37,15 @@ class FactaHelmet extends React.Component {
 					<link rel='dns-prefetch' href='//stackpath.bootstrapcdn.com' />
 					<link rel='dns-prefetch' href='//cdn.jsdelivr.net' />
 					<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+					<link rel="stylesheet" href="/i/calendar.css" type="text/css" />
 					<link rel='stylesheet' id='fonts-css' href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed%3A300%2C700%7COpen+Sans%3A300%2C300i%2C400%2C400i%2C600%2C600i%2C700%2C700i&#038;display=swap&#038;ver=5.4.1' type='text/css' media='all' />
 					<link rel='stylesheet' id='styles-css' href='/facta/assets/css/app.css' type='text/css' media='all' />
 					<link rel='stylesheet' id='edits-css' href='/facta/assets/css/edits.css' type='text/css' media='all' />
 					<link rel='stylesheet' id='edits-css' href='/facta/assets/css/portal.css' type='text/css' media='all' />
 					<link rel='stylesheet' id='photoswipe-main-css' href='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.css?ver=5.4.1' type='text/css' media='all' />
 					<link rel='stylesheet' id='photoswipe-skin-css' href='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/default-skin/default-skin.css?ver=5.4.1' type='text/css' media='all' />
+					<link rel="stylesheet" href="/joomsource/tooltip.css" type="text/css" />
+
 					<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js?ver=5.4.1'></script>
 					<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js?ver=5.4.1'></script>
 					{/* <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js?ver=5.4.1'></script> */}
@@ -57,6 +60,8 @@ class FactaHelmet extends React.Component {
 					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.min.js?ver=5.4.1'></script>
 					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe-ui-default.min.js?ver=5.4.1'></script>
 					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/vendor.min.js?ver=1590961919'></script>
+
+					<script type="text/javascript" src="/joomsource/tooltip.js"></script>
 
 					<script src="https://js.stripe.com/v3/"></script>
 					
@@ -78,8 +83,6 @@ export class FactaBody extends React.Component {
 		return <div>
 			<noscript>You need to enable JavaScript to run this app.</noscript>
 
-			<div id="dhtmltooltip"></div>
-			<script type="text/javascript" src="/joomsource/tooltip.js"></script>
 			<header className="header" role="banner">
 				<div className='header-utility'>
 					<div className='header-utility-icon'><a href='/about-us/weather-information/'><svg viewBox="0 0 50 35"
