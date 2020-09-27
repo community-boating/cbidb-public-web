@@ -3,7 +3,7 @@ import { Option, none } from 'fp-ts/lib/Option';
 import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
 import TextArea from "../../../components/TextArea";
 import formUpdateState from '../../../util/form-update-state';
-import JoomlaButton from '../../../theme/facta/FactaButton';
+import FactaButton from '../../../theme/facta/FactaButton';
 import { History } from 'history';
 import { postWrapper as saveNote } from "../../../async/junior/signup-note-proto"
 import { makePostJSON } from '../../../core/APIWrapperUtil';
@@ -109,8 +109,8 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 				{this.state.formData.beginnerInstanceId.isSome() ? beginnerTextArea : null}
 				{this.state.formData.intermediateInstanceId.isSome() ? intermediateTextArea : null}
 				<br />
-				<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(reservePageRoute.getPathFromArgs({})))}/>
-				<JoomlaButton text="Save >" spinnerOnClick={true} onClick={() => {
+				<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(reservePageRoute.getPathFromArgs({})))}/>
+				<FactaButton text="Save >" spinnerOnClick={true} onClick={() => {
 					const saveBeginner = self.state.formData.beginnerInstanceId.map(b => () => saveNote.send(makePostJSON({
 						juniorId: self.props.personId,
 						instanceId: b,

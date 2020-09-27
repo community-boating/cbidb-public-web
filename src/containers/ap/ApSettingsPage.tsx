@@ -1,5 +1,5 @@
 import * as React from "react";
-import JoomlaButton from '../../theme/facta/FactaButton';
+import FactaButton from '../../theme/facta/FactaButton';
 import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
@@ -99,8 +99,8 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 		}
 
 		const buttons = <div>
-			<JoomlaButton text="< Cancel" onClick={() => Promise.resolve(this.props.history.push(apBasePath.getPathFromArgs({})))}/>
-			<JoomlaButton text="Apply Changes" onClick={doSubmit} spinnerOnClick/>
+			<FactaButton text="< Cancel" onClick={() => Promise.resolve(this.props.history.push(apBasePath.getPathFromArgs({})))}/>
+			<FactaButton text="Apply Changes" onClick={doSubmit} spinnerOnClick/>
 		</div>
 
 		const errorPopup = (

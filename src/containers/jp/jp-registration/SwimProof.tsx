@@ -3,7 +3,7 @@ import * as React from "react";
 import { History } from 'history';
 
 import { postWrapper } from "../../../async/junior/swim-proof";
-import JoomlaButton from "../../../theme/facta/FactaButton";
+import FactaButton from "../../../theme/facta/FactaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import swimProofValues from "../../../lov/swimProof";
@@ -86,8 +86,8 @@ export default class SwimProof extends React.Component<Props, State> {
                 please email Niko Kotsatos, Junior Program Director, at <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
                 </span>
 			</FactaNotitleRegion>
-			<JoomlaButton text="< Back" onClick={this.props.goPrev}/>
-			{self.state.formData.swimProofId.getOrElse("-1") != "-1" ? <JoomlaButton text="Next >" spinnerOnClick onClick={() => {
+			<FactaButton text="< Back" onClick={this.props.goPrev}/>
+			{self.state.formData.swimProofId.getOrElse("-1") != "-1" ? <FactaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper(this.props.personId).send(makePostJSON({swimProofId: this.state.formData.swimProofId} ))
 					.then(this.props.goNext)
 			}}/> : null}

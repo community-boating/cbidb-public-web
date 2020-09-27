@@ -2,7 +2,7 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import JoomlaButton from "../../theme/facta/FactaButton";
+import FactaButton from "../../theme/facta/FactaButton";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
@@ -39,7 +39,7 @@ export default class RatingsPage extends React.PureComponent<Props> {
 				<p style={{fontSize: "0.9em", color: "#777", fontStyle: "italic"}}>
 					*Expired ratings can be renewed in the first days of your class
 				</p>
-				<JoomlaButton text="< Back" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
+				<FactaButton text="< Back" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 			</FactaArticleRegion>
 		</FactaMainPage>
 	}

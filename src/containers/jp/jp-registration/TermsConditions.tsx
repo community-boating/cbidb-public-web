@@ -2,7 +2,7 @@ import { none, some } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
 
-import JoomlaButton from "../../../theme/facta/FactaButton";
+import FactaButton from "../../../theme/facta/FactaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
@@ -57,8 +57,8 @@ export default class TermsConditions extends React.Component<Props, {radio: stri
 					justElement={true}
 				/>
 			</FactaNotitleRegion>
-			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
-			{(self.state || {} as any).radio == "Yes" ? <JoomlaButton text="Next >" spinnerOnClick onClick={() => 
+			<FactaButton text="< Back" onClick={self.props.goPrev}/>
+			{(self.state || {} as any).radio == "Yes" ? <FactaButton text="Next >" spinnerOnClick onClick={() => 
 				accept.send(makePostJSON({personId: self.props.personId})).then(self.props.goNext)
 			}/> : ""}
 		</FactaMainPage>

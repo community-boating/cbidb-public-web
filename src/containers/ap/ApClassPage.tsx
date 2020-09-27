@@ -3,7 +3,7 @@ import * as t from 'io-ts';
 import { setAPImage } from "../../util/set-bg-image";
 import { apBasePath } from "../../app/paths/ap/_base";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
-import JoomlaButton from "../../theme/facta/FactaButton";
+import FactaButton from "../../theme/facta/FactaButton";
 import {History} from 'history'
 import Calendar, { CalendarDayElement } from "../../components/Calendar";
 import moment = require('moment');
@@ -356,7 +356,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 					onMouseOut={() => hideddrivetip()}
 				>Hover for Legend</span>
 			</FactaArticleRegion>
-			<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(apBasePath.getPathFromArgs({})))}/>
+			<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(apBasePath.getPathFromArgs({})))}/>
 			<JoomlaHideShowRegion title="Filter Calendar">
 				{filterTable}
 			</JoomlaHideShowRegion>

@@ -12,7 +12,7 @@ import other from './types/other';
 import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
 import { History } from 'history'
-import JoomlaButton from '../../../theme/facta/FactaButton';
+import FactaButton from '../../../theme/facta/FactaButton';
 import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
@@ -114,7 +114,7 @@ export default class SelectClassType extends React.Component<Props, State> {
 			<React.Fragment>
 				{errorPopup}
 				<br />
-				<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
+				<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 				{beginnerRegion}
 				{intermediateRegion}
 				{advancedRegion}

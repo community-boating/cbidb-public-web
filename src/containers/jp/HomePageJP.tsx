@@ -5,7 +5,7 @@ import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import homePageActions from "./HomePageActionsJP";
-import JoomlaButton from '../../theme/facta/FactaButton';
+import FactaButton from '../../theme/facta/FactaButton';
 import { History } from 'history';
 import moment = require('moment');
 import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';
@@ -56,7 +56,7 @@ export default class HomePageJP extends React.Component<Props, State> {
 			<JoomlaReport headers={["Name", "Status", "Actions"]} rows={rowData.map(r => [r.name, r.status, r.actions])}/>
 		</FactaArticleRegion>
 
-		const checkoutButton = (<JoomlaButton onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
+		const checkoutButton = (<FactaButton onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
@@ -80,7 +80,7 @@ export default class HomePageJP extends React.Component<Props, State> {
 			{
 				asc.state.jpClosedCovid
 				? null
-				: <JoomlaButton onClick={() => Promise.resolve(this.props.history.push(regEmptyPageRoute.pathWrapper.path))} text="Add new Junior" />
+				: <FactaButton onClick={() => Promise.resolve(this.props.history.push(regEmptyPageRoute.pathWrapper.path))} text="Add new Junior" />
 			}			
 			{self.props.data.canCheckout ? checkoutButton : null}
 		</FactaMainPage>

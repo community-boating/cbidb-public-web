@@ -1,7 +1,7 @@
 import { History } from 'history';
 import * as React from "react";
 
-import JoomlaButton from "../theme/facta/FactaButton";
+import FactaButton from "../theme/facta/FactaButton";
 import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import { none } from 'fp-ts/lib/Option';
 import { setAPImage, setJPImage } from '../util/set-bg-image';
@@ -56,7 +56,7 @@ export default class ForgotPasswordSentPage extends React.PureComponent<Props> {
 				<br />
 				If you did not receive an email, double-check the spelling and try again. If you continue to have issues please call the Front Office at 617-523-1038.
 			</FactaArticleRegion>
-			<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(loginLink))}/>
+			<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(loginLink))}/>
 		</FactaMainPage>
 	}
 }

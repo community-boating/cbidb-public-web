@@ -2,7 +2,7 @@ import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
 import TextInput from '../../components/TextInput';
 import formUpdateState from '../../util/form-update-state';
-import JoomlaButton from '../../theme/facta/FactaButton';
+import FactaButton from '../../theme/facta/FactaButton';
 import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
 import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
@@ -59,8 +59,8 @@ export default class StartClaimAcct extends React.PureComponent<Props, State> {
 		}
 
 		const buttons = <div>
-			<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(apBasePath.getPathFromArgs({})))}/>
-			<JoomlaButton text="Submit" spinnerOnClick onClick={submit}/>
+			<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(apBasePath.getPathFromArgs({})))}/>
+			<FactaButton text="Submit" spinnerOnClick onClick={submit}/>
 		</div>
 
 		const errorPopup = (

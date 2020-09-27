@@ -3,7 +3,6 @@ import { History } from "history";
 import * as React from "react";
 import * as t from 'io-ts';
 
-import JoomlaButton from "../../../theme/facta/FactaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";

@@ -4,7 +4,7 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { postWrapper, validator } from "../../../async/junior/required";
-import JoomlaButton from "../../../theme/facta/FactaButton";
+import FactaButton from "../../../theme/facta/FactaButton";
 import DateTriPicker, { componentsToDate, dateStringToComponents, DateTriPickerProps } from "../../../components/DateTriPicker";
 import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
 import { Select } from "../../../components/Select";
@@ -302,8 +302,8 @@ export default class RequiredInfo extends React.Component<Props, State> {
 				<br />
 				{specNeedsFields}
 			</FactaArticleRegion>
-			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
-			<JoomlaButton text="Next >" spinnerOnClick onClick={() => {
+			<FactaButton text="< Back" onClick={self.props.goPrev}/>
+			<FactaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper(this.props.personId, this.props.editOnly).send(makePostJSON(formToAPI(this.state.formData))).then(
 					// api success
 					ret => {

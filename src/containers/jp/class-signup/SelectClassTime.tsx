@@ -14,7 +14,7 @@ import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
 import { History } from 'history';
 import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
-import JoomlaButton from '../../../theme/facta/FactaButton';
+import FactaButton from '../../../theme/facta/FactaButton';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import {classPageRoute} from "../../../app/routes/jp/class"
 import { setJPImage } from '../../../util/set-bg-image';
@@ -122,7 +122,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 			<React.Fragment>
 				{errorPopup}
 				<br />
-				<JoomlaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(classPageRoute.pathWrapper.getPathFromArgs({ personId: String(self.props.personId) })))}/>
+				<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(classPageRoute.pathWrapper.getPathFromArgs({ personId: String(self.props.personId) })))}/>
 				<FactaArticleRegion title={`Choose a Week - ${self.props.apiResult.typeName}`}>
 					<table><tbody><FormSelect
 						id="selectedWeek"

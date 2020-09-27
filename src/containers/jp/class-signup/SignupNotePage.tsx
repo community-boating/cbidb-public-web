@@ -3,7 +3,7 @@ import { Option } from 'fp-ts/lib/Option';
 import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
 import TextArea from "../../../components/TextArea";
 import formUpdateState from '../../../util/form-update-state';
-import JoomlaButton from '../../../theme/facta/FactaButton';
+import FactaButton from '../../../theme/facta/FactaButton';
 import { History } from 'history';
 import { postWrapper as saveNote } from "../../../async/junior/signup-note"
 import { makePostJSON } from '../../../core/APIWrapperUtil';
@@ -59,10 +59,10 @@ export default class SignupNotePage extends React.Component<Props, State> {
 				></FormTextArea>
 				</tbody></table>
 				<br />
-				<JoomlaButton text="< Back" onClick={
+				<FactaButton text="< Back" onClick={
 					() => Promise.resolve(self.props.history.push(classPageRoute.getPathFromArgs({ personId: String(self.props.personId) })))
 				}/>
-				<JoomlaButton text="Save >" spinnerOnClick={true} onClick={() => {
+				<FactaButton text="Save >" spinnerOnClick={true} onClick={() => {
 					return saveNote.send(makePostJSON({
 						juniorId: self.props.personId,
 						instanceId: self.props.instanceId,

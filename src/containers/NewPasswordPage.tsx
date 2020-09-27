@@ -1,7 +1,7 @@
 import { History } from 'history';
 import * as React from "react";
 
-import JoomlaButton from "../theme/facta/FactaButton";
+import FactaButton from "../theme/facta/FactaButton";
 import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
@@ -138,7 +138,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 					/>
 				</tbody></table>
 			</FactaArticleRegion>
-			<JoomlaButton text="Submit" onClick={submit}/>
+			<FactaButton text="Submit" onClick={submit}/>
 		</FactaMainPage>
 	}
 }

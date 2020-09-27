@@ -2,7 +2,7 @@ import * as React from "react";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion"; 
 import FactaNotitleRegion from "../../theme/facta/FactaNotitleRegion";
 import Currency from "../../util/Currency";
-import JoomlaButton from "../../theme/facta/FactaButton";
+import FactaButton from "../../theme/facta/FactaButton";
 import { setJPImage } from "../../util/set-bg-image";
 import FactaMainPage from "../../theme/facta/FactaMainPage";
 
@@ -32,7 +32,7 @@ export default class ScholarshipResultsPage extends React.Component<Props> {
 				<br />
 				If you have a unique circumstance regarding membership fees, please contact Niko Kotsatos, Junior Program Director, at <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
 			</FactaArticleRegion>
-			<JoomlaButton text="Next >" onClick={this.props.goNext}/>
+			<FactaButton text="Next >" onClick={this.props.goNext}/>
 		</FactaMainPage>
 	}
 }

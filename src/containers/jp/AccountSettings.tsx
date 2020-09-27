@@ -1,7 +1,7 @@
 import { History } from 'history';
 import * as React from "react";
 
-import JoomlaButton from "../../theme/facta/FactaButton";
+import FactaButton from "../../theme/facta/FactaButton";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import TextInput from '../../components/TextInput';
 import { Option, none } from 'fp-ts/lib/Option';
@@ -89,7 +89,7 @@ export default class AccountSettingsPage extends React.PureComponent<Props, Stat
 			{/* <p>
 				<PlaceholderLink style={{fontSize: "1.3em"}}>Click here to (re-)apply for a Junior Program Scholarship (changes on this page will not be saved)</PlaceholderLink>
 			</p> */}
-			<JoomlaButton text="Cancel" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
+			<FactaButton text="Cancel" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 		</FactaMainPage>
 	}
 }

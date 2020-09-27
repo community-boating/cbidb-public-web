@@ -4,7 +4,7 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { postWrapper, validator } from "../../../async/junior/emerg-contact";
-import JoomlaButton from "../../../theme/facta/FactaButton";
+import FactaButton from "../../../theme/facta/FactaButton";
 import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
 import TextInput from "../../../components/TextInput";
 import { makePostJSON } from "../../../core/APIWrapperUtil";
@@ -206,8 +206,8 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 			<FactaArticleRegion title="Who should we contact in the event of an emergency?">
 				{emergFields}
 			</FactaArticleRegion>
-			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
-			<JoomlaButton text="Next >" spinnerOnClick onClick={() => {
+			<FactaButton text="< Back" onClick={self.props.goPrev}/>
+			<FactaButton text="Next >" spinnerOnClick onClick={() => {
 				return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(res => {
 					if (res.type == "Success") {
 						self.props.goNext()

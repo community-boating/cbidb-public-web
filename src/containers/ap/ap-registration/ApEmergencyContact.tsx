@@ -4,7 +4,6 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { postWrapper, validator } from "../../../async/member/emerg-contact";
-import JoomlaButton from "../../../theme/facta/FactaButton";
 import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
 import TextInput from "../../../components/TextInput";
 import { makePostJSON } from "../../../core/APIWrapperUtil";

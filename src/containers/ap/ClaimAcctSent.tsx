@@ -1,5 +1,5 @@
 import * as React from "react";
-import JoomlaButton from '../../theme/facta/FactaButton';
+import FactaButton from '../../theme/facta/FactaButton';
 import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
@@ -17,7 +17,7 @@ type State = {
 export default class ClaimAcctSent extends React.PureComponent<Props, State> {
 	render() {
 		const buttons = <div>
-			<JoomlaButton text="< Back" onClick={() => Promise.resolve(this.props.history.push(apLoginPageRoute.getPathFromArgs({})))}/>
+			<FactaButton text="< Back" onClick={() => Promise.resolve(this.props.history.push(apLoginPageRoute.getPathFromArgs({})))}/>
 		</div>
 
 

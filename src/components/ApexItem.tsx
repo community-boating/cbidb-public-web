@@ -40,7 +40,7 @@ export abstract class ApexItem<T_Form, T_OwnProps, T_ValueType> extends React.Pu
 				{this.getElement()}
 				{this.props.appendToElementCell}
 			</td>
-			{this.props.extraCells ? <td>{this.props.extraCells}</td> : null}
+			{this.props.extraCells ? <td style={{paddingLeft: "5px"}}>{this.props.extraCells}</td> : null}
 		</tr>);
 	}
 	render() {

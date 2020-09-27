@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as t from 'io-ts'; 
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
-import JoomlaButton from "../../theme/facta/FactaButton";
+import FactaButton from "../../theme/facta/FactaButton";
 import StripeConfirm from "../../components/StripeConfirm";
 import {orderStatusValidator} from "../../async/order-status"
 import { postWrapper as submitPayment } from "../../async/stripe/submit-payment"
@@ -66,8 +66,8 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 			<FactaArticleRegion title="Your Billing Info">
 				{billingInfo}
 			</FactaArticleRegion>
-			<JoomlaButton text="< Back" onClick={this.props.goPrev} />
-			<JoomlaButton text={buttonText} spinnerOnClick onClick={() => {
+			<FactaButton text="< Back" onClick={this.props.goPrev} />
+			<FactaButton text={buttonText} spinnerOnClick onClick={() => {
 				self.setState({
 					...self.state,
 					validationErrors: []

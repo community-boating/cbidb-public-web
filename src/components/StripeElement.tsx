@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TokensResult } from '../models/stripe/tokens';
-import JoomlaButton from '../theme/facta/FactaButton';
+import FactaButton from '../theme/facta/FactaButton';
 
 type Props = {
 	formId: string, 		// "payment-form"
@@ -76,7 +76,7 @@ export default class StripeElement extends React.Component<Props> {
 					<div id={this.props.cardErrorsId} role="alert"></div>
 				</div>
 				<br />
-				<JoomlaButton text="Submit Card Details" spinnerOnClick onClick={() => this.submit()}/>
+				<FactaButton text="Submit Card Details" spinnerOnClick onClick={() => this.submit()}/>
 			</form>
 		);
 		return paymentForm;

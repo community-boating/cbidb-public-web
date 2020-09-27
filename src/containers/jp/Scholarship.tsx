@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { postWrapper as postNo } from "../../async/junior/scholarship-no";
 import { postWrapper as postYes } from "../../async/junior/scholarship-yes";
-import JoomlaButton from "../../theme/facta/FactaButton";
+import FactaButton from "../../theme/facta/FactaButton";
 import { RadioGroup, SingleCheckbox } from "../../components/InputGroup";
 import { Select } from "../../components/Select";
 import TextInput from "../../components/TextInput";
@@ -143,7 +143,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 				</FactaArticleRegion>
 			</React.Fragment>
 
-		const next = <JoomlaButton text="Next >" spinnerOnClick onClick={() => {
+		const next = <FactaButton text="Next >" spinnerOnClick onClick={() => {
 			const form = self.state.formData
 			const isApplying = form.isApplying.getOrElse("No") == "Yes"
 			if (isApplying) {
@@ -191,7 +191,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 				</div>
 			</FactaArticleRegion>
 			{self.state.formData.isApplying.getOrElse(null) == "Yes" ? familyInfo : ""}
-			<JoomlaButton text="< Back" onClick={self.props.goPrev}/>
+			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 
 			{(function() {
 				const form = self.state.formData
