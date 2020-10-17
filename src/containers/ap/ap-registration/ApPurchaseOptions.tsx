@@ -147,7 +147,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 	}
 	makeBuyButton(memTypeId: number, requestedDiscountId: Option<number>) {
 		const self = this;
-		return (<Button text="Buy" onClick={() => {
+		return (<Button text="Buy" spinnerOnClick onClick={() => {
 			return submit.send(makePostJSON({
 				memTypeId: memTypeId,
 				requestedDiscountId

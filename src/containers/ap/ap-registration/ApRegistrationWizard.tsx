@@ -23,6 +23,7 @@ import {apiw as welcomeAPI, validator as welcomeValidator } from "../../../async
 import {getWrapper as gpGet } from "../../../async/member/select-guest-privs"
 import {getWrapper as dwGet } from "../../../async/member/select-damage-waiver"
 import {apiw as getPrices, validator as pricesValidator} from "../../../async/prices"
+import ApStaggeredPaymentsPage from "./ApStaggeredPaymentsPage";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -84,6 +85,27 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 				{...pageWrapperProps}
 			/>,
 			breadcrumbHTML: <React.Fragment>Purchasing<br />Options</React.Fragment>
+		}, {
+			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
+				key="ApPurchaseOptions"
+				history={self.props.history}
+				component={(urlProps: {}, async: {welcome: t.TypeOf<typeof welcomeValidator>, prices: t.TypeOf<typeof pricesValidator>}) => <ApStaggeredPaymentsPage
+					{...staticComponentProps}
+					{...mapWizardProps(fromWizard)}
+				/>}
+				getAsyncProps={(urlProps: {}) => Promise.all([
+					welcomeAPI.send(null),
+					getPrices.send(null)
+				]).catch(err => Promise.resolve(null)).then(([welcome, prices]) => Promise.resolve({
+					type: "Success",
+					success: {
+						welcome: welcome.success,
+						prices: prices.success
+					}
+				}))}
+				{...pageWrapperProps}
+			/>,
+			breadcrumbHTML: <React.Fragment>Payment<br />Options</React.Fragment>
 		}, {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="GuestPrivs"

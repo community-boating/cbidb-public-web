@@ -221,19 +221,6 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		place: 29,
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
-			
-			
-			// <form id="stripe-portal-form" method="POST" action={"/api" + stripePortalRedirectPath}>
-			// 	<a href="#" onClick={() => {
-			// 		const form = document.getElementById("stripe-portal-form") as HTMLFormElement;
-			// 		form.submit();
-			// 	}}>Create/Manage Recurring Donations</a>
-			// </form>
-			
-			
-			// <a href="#" onClick={() => {
-			// 	stripePortal.send(makePostJSON({}))
-			// }}>Create/Manage Recurring Donations</a>
 		]
 	}];
 
