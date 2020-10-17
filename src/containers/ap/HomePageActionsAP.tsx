@@ -228,7 +228,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 	const footer = <React.Fragment>
 		<br />
 		<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>* Reservations must be made in advance;<br />we cannot accommodate walkups.</span><br />
-		<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>  Please only book 2 sailing appointments<br />per week (Wednesday-Sunday)</span>
+		<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>  Please book only one sailing appointment<br />per weekend (Satuday - Sunday)</span>
 	</React.Fragment>;
 
 	return (<React.Fragment>
