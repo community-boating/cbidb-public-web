@@ -17,7 +17,7 @@ export const regPageRoute = new RouteWrapper(true, jpPathReg, history => <PageWr
         personIdStart={some(urlProps.personId)}
         jpPrice={async.jpPrice}
         jpOffseasonPrice={async.jpOffseasonPrice}
-        includeTOS={true}
+        editOnly={false}
         parentPersonId={async.parentPersonId}
         currentSeason={async.season}
     />}

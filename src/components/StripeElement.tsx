@@ -9,13 +9,13 @@ type Props = {
 	elementId: string,		// "card-element"
 	cardErrorsId: string,	// "card-errors"
 	submitMethod: "TOKEN" | "PAYMENT_METHOD"
-	then: (result: TokensResult | PaymentMethod) => any
+	then: (result: TokensResult | PaymentMethod) => Promise<any>
 }
 
 declare var Stripe: any;
 
 export default class StripeElement extends React.Component<Props> {
-	submit: () => void
+	submit: () => Promise<any>
 	componentDidMount() {
 		const self = this;
 		// TODO: put this somewhere
@@ -37,34 +37,34 @@ export default class StripeElement extends React.Component<Props> {
 
 		this.submit = () => {
 			switch (this.props.submitMethod) {
-			case "TOKEN":
-				stripe.createToken(card).then(function(result: any) {
-					if (result.error) {
-						// Inform the customer that there was an error
-						var errorElement = document.getElementById(self.props.cardErrorsId);
-						errorElement.textContent = result.error.message;
-					} else {
-						self.props.then(result)
-					}
-				});
-				break;
-			case "PAYMENT_METHOD":
-				stripe.createPaymentMethod({
-					type: "card",
-					card: card
-				}).then(function(result: any) {
-					if (result.error) {
-						// Inform the customer that there was an error
-						var errorElement = document.getElementById(self.props.cardErrorsId);
-						errorElement.textContent = result.error.message;
-					} else {
-						self.props.then(result)
-					}
-				});
-				break;
-			default:
-				assertNever(this.props.submitMethod)
-			}
+				case "TOKEN":
+					return (stripe.createToken(card) as Promise<any>).then(function(result: any) {
+						if (result.error) {
+							// Inform the customer that there was an error
+							var errorElement = document.getElementById(self.props.cardErrorsId);
+							errorElement.textContent = result.error.message;
+							return Promise.resolve();
+						} else {
+							return self.props.then(result);
+						}
+					});
+				case "PAYMENT_METHOD":
+					return stripe.createPaymentMethod({
+						type: "card",
+						card: card
+					}).then(function(result: any) {
+						if (result.error) {
+							// Inform the customer that there was an error
+							var errorElement = document.getElementById(self.props.cardErrorsId);
+							errorElement.textContent = result.error.message;
+							return Promise.resolve();
+						} else {
+							self.props.then(result)
+						}
+					});
+				default:
+					assertNever(this.props.submitMethod)
+				}
 		}
 
 		// Add an instance of the card Element into the `card-element` <div>

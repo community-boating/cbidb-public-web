@@ -226,7 +226,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			elementId="card-element"
 			cardErrorsId="card-errors"
 			then={(result: TokensResult) => {
-				storeToken.send(makePostJSON({
+				return storeToken.send(makePostJSON({
 					token: result.token.id,
 					orderId: self.props.welcomePackage.orderId
 				})).then(result => {
