@@ -59,11 +59,12 @@ export default class StripeElement extends React.Component<Props> {
 							errorElement.textContent = result.error.message;
 							return Promise.resolve();
 						} else {
-							self.props.then(result)
+							return self.props.then(result)
 						}
 					});
 				default:
-					assertNever(this.props.submitMethod)
+					assertNever(this.props.submitMethod);
+					return Promise.resolve();
 				}
 		}
 
