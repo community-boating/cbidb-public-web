@@ -42,6 +42,7 @@ type State = {
 export default class ApRegistrationWizard extends React.Component<Props, State> {
 
 	render() {
+		console.log(this.props)
 		const self = this;
 		const staticComponentProps = {
 			history: this.props.history

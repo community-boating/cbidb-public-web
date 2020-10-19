@@ -21,6 +21,16 @@ export const discountsValidator = t.type({
 	fyBasePrice: t.number
 })
 
+export const paymentValidator = t.type({
+	paymentDate: t.string,
+	paymentAmount: t.number
+})
+
+export const paymentsScheduleValidator = t.type({
+	membershipTypeId: t.number,
+	payments: t.array(paymentValidator)
+})
+
 export const validator = t.type({
 	personId: t.number,
 	orderId: t.number,
@@ -35,7 +45,8 @@ export const validator = t.type({
 	canCheckout: t.boolean,
 	expirationDate: OptionalString,
 	show4thLink: t.boolean,
-	discountsResult: discountsValidator
+	discountsResult: discountsValidator,
+	paymentSchedules: t.array(paymentsScheduleValidator)
 })
 
 const path = "/member-welcome-ap"
