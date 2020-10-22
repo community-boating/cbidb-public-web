@@ -23,7 +23,7 @@ export const discountsValidator = t.type({
 
 export const paymentValidator = t.type({
 	paymentDate: t.string,
-	paymentAmount: t.number
+	paymentAmountCents: t.number
 })
 
 export const paymentsScheduleValidator = t.type({

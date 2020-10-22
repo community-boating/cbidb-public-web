@@ -26,6 +26,7 @@ enum DiscountState {
 }
 
 interface Props {
+	setMembershipId: (id: number) => void,
 	prices: t.TypeOf<typeof pricesValidator>,
 	discountsProps: DiscountsProps,
 	history: History<any>
@@ -148,6 +149,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 	makeBuyButton(memTypeId: number, requestedDiscountId: Option<number>) {
 		const self = this;
 		return (<Button text="Buy" spinnerOnClick onClick={() => {
+			this.props.setMembershipId(memTypeId);
 			return submit.send(makePostJSON({
 				memTypeId: memTypeId,
 				requestedDiscountId

@@ -37,16 +37,23 @@ type Props = {
 };
 
 type State = {
+	membershipTypeId: number
 }
 
 export default class ApRegistrationWizard extends React.Component<Props, State> {
-
 	render() {
 		console.log(this.props)
 		const self = this;
 		const staticComponentProps = {
 			history: this.props.history
 		}
+
+		
+		const setMembershipId = function(id: number) {
+			this.setState({
+				membershipTypeId: id
+			});
+		}.bind(this);
 	
 		const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 			goPrev: fromWizard.goPrev,
@@ -70,6 +77,7 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 				component={(urlProps: {}, async: {welcome: t.TypeOf<typeof welcomeValidator>, prices: t.TypeOf<typeof pricesValidator>}) => <ApPurchaseOptions
 					discountsProps={async.welcome.discountsResult}
 					prices={async.prices}
+					setMembershipId={setMembershipId}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
@@ -91,6 +99,8 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 				key="ApPurchaseOptions"
 				history={self.props.history}
 				component={(urlProps: {}, async: {welcome: t.TypeOf<typeof welcomeValidator>, prices: t.TypeOf<typeof pricesValidator>}) => <ApStaggeredPaymentsPage
+					membershipTypeId={this.state.membershipTypeId}
+					paymentSchedules={async.welcome.paymentSchedules}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
