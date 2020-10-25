@@ -28,7 +28,7 @@ export const paymentValidator = t.type({
 
 export const paymentsScheduleValidator = t.type({
 	membershipTypeId: t.number,
-	payments: t.array(paymentValidator)
+	schedules: t.array(t.array(paymentValidator))
 })
 
 export const validator = t.type({
