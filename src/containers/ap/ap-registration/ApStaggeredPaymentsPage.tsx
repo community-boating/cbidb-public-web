@@ -12,15 +12,15 @@ import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
-import {paymentsScheduleValidator} from "../../../async/member-welcome-ap"
 import Currency from "../../../util/Currency";
 import JoomlaReport from "../../../theme/joomla/JoomlaReport";
+import { singlePaymentValidator } from "../../../async/member/payment-plan-options";
 
-type PaymentSchedule = t.TypeOf<typeof paymentsScheduleValidator>;
+type SinglePayment = t.TypeOf<typeof singlePaymentValidator>;
 
 interface Props {
 	membershipTypeId: number,
-	paymentSchedules: PaymentSchedule[],
+	paymentSchedules: SinglePayment[][],
 	history: History<any>
 	breadcrumb: JSX.Element,
 	goNext: () => Promise<void>,
@@ -38,16 +38,6 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 			selectedNumberPayments: none
 		}
 	}
-	getSchedulesObject() {
-		const schedulesObject = this.props.paymentSchedules.find(e => e.membershipTypeId == this.props.membershipTypeId);
-		if (null == schedulesObject || null == schedulesObject.schedules || schedulesObject.schedules.length == 0) {
-			Sentry.captureMessage("Loaded payment stagger page, but no schedules found for typeId " + this.props.membershipTypeId);
-			this.props.goNext();
-			return;
-		}
-
-		return schedulesObject.schedules;
-	}
 	schedulePicker() {
 		const getRadio = (paymentCt: number) => (<input
 			type="radio"
@@ -58,11 +48,10 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 			onChange={(e) => this.setState({ ...this.state, selectedNumberPayments: some(Number(e.target.value))})}
 			checked={this.state.selectedNumberPayments.getOrElse(null) == paymentCt}
 		/>);
-		const schedules = this.getSchedulesObject();
 		return <JoomlaReport
 			headers={["Payments", "Monthly Amount", "Final Payment"]}
-			cellStyles={[{textAlign: "right"}, {textAlign: "right"}]}
-			rows={schedules.map(s => 
+			cellStyles={[{textAlign: "left"}, {textAlign: "right"}, {textAlign: "right"}]}
+			rows={this.props.paymentSchedules.map(s => 
 				[
 					<span>{getRadio(s.length)}<label htmlFor={`sel_${s.length}`}>{s.length}</label></span>,
 					Currency.cents(s[0].paymentAmountCents).format(),
@@ -73,11 +62,7 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 	}
 	scheduleDetail() {
 		return this.state.selectedNumberPayments.map(ct => {
-			const schedules = this.getSchedulesObject();
-
-			console.log(schedules)
-
-			const schedule = schedules[ct - 1]
+			const schedule = this.props.paymentSchedules[ct - 1]
 			return <JoomlaReport
 				headers={["Date", "Amount"]}
 				cellStyles={[{textAlign: "right"}, {textAlign: "right"}]}
