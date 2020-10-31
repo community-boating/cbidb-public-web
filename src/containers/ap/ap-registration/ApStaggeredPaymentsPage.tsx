@@ -49,13 +49,14 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 			checked={this.state.selectedNumberPayments.getOrElse(null) == paymentCt}
 		/>);
 		return <JoomlaReport
-			headers={["Payments", "Monthly Amount", "Final Payment"]}
-			cellStyles={[{textAlign: "left"}, {textAlign: "right"}, {textAlign: "right"}]}
+			headers={["Payments", "Monthly Amt", "Final Payment", "Total"]}
+			cellStyles={[{textAlign: "left"}, {textAlign: "right"}, {textAlign: "right"}, {textAlign: "right"}]}
 			rows={this.props.paymentSchedules.map(s => 
 				[
 					<span>{getRadio(s.length)}<label htmlFor={`sel_${s.length}`}>{s.length}</label></span>,
 					Currency.cents(s[0].paymentAmountCents).format(),
-					moment(s[s.length-1].paymentDate, "YYYY-MM-DD").format("MM/DD/YYYY")
+					moment(s[s.length-1].paymentDate, "YYYY-MM-DD").format("MM/DD/YYYY"),
+					Currency.cents(s.reduce((agg, p) => agg + p.paymentAmountCents, 0)).format()
 				]
 			)}
 		/>
@@ -85,7 +86,11 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
 			<JoomlaArticleRegion title="Payment in monthly installments is available.">
-				Text describing montly payments here.<br />
+				Text describing montly payments here. Emphasize the following points:<br />
+				<ul>
+					<li>You only keep the renewal rate if you pick a plan that terminates before your membership expires</li>
+					<li>If you pick a plan today, but do not complete checkout today, your plan will be automatically updated when you do checkout.  You could lose the renewal rate at that time</li>
+				</ul>
 				<br />
 				<table style={{width: "100%"}}><tbody><tr>
 					<td style={{verticalAlign: "top", width: "50%"}}>
