@@ -8,7 +8,12 @@ export const validator = t.type({
 	requestedDiscountId: OptionalNumber
 })
 
-const resultValidator = t.type({success: t.boolean})
+const resultValidator = t.type({
+	paymentPlanAllowed: t.boolean,
+	guestPrivsAuto: t.boolean,
+	guestPrivsNA: t.boolean,
+	damageWavierAuto: t.boolean,
+})
 
 const path = "/member/select-for-purchase"
 

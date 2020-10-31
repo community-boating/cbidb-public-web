@@ -26,7 +26,8 @@ enum DiscountState {
 }
 
 interface Props {
-	setMembershipId: (id: number) => void,
+	updateStateFromMemType:
+		(membershipTypeId: number, fromServer: {paymentPlanAllowed: boolean, guestPrivsAuto: boolean, guestPrivsNA: boolean, damageWavierAuto: boolean}) => void,
 	prices: t.TypeOf<typeof pricesValidator>,
 	discountsProps: DiscountsProps,
 	history: History<any>
@@ -149,12 +150,12 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 	makeBuyButton(memTypeId: number, requestedDiscountId: Option<number>) {
 		const self = this;
 		return (<Button text="Buy" spinnerOnClick onClick={() => {
-			this.props.setMembershipId(memTypeId);
 			return submit.send(makePostJSON({
 				memTypeId: memTypeId,
 				requestedDiscountId
 			})).then(res => {
 				if (res.type == "Success") {
+					this.props.updateStateFromMemType(memTypeId, res.success);
 					self.props.goNext()
 				} else {
 					window.scrollTo(0, 0);
@@ -171,9 +172,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 	}
 	render() {
 		const self = this;
-		console.log(this.props.discountsProps)
 		const discountsWithStates = this.assignDiscountStates();
-		console.log(discountsWithStates)
 		const fyHeader = (
 			this.props.discountsProps.canRenew
 			? `Full Year Membership Renewal: ${Currency.dollars(this.props.discountsProps.fyBasePrice - this.props.discountsProps.renewalDiscountAmt).format(true)}`
@@ -287,9 +286,6 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 				</React.Fragment>
 			</JoomlaNotitleRegion>
 			<Button text="< Back" onClick={self.props.goPrev} />
-			{(self.state || {} as any).radio != undefined ? <Button text="Next >" spinnerOnClick onClick={() =>
-				self.props.goNext()
-			} /> : ""}
 		</JoomlaMainPage>
 	}
 }
