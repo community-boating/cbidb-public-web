@@ -60,7 +60,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		place?: number, getElements: ((history: History<any>) => JSX.Element)[], show?: () => boolean
 	}[] = [{
 		place: 0,
-		show: () => canRenew,
+	//	show: () => canRenew,
 		getElements: [
 			LINKS.regLink("Purchase an Adult Program membership!")
 		]
@@ -181,7 +181,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		]
 	}, {
 		place: 8,
-		show: () => canRenew,
+		// show: () => canRenew,
 		getElements: [
 			LINKS.regLink("Purchase Membership"),
 		]
