@@ -7,13 +7,16 @@ import { validator as welcomeJPValidator } from "../../../async/member-welcome-a
 import { setAPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import ApRegistrationWizard from '../../../containers/ap/ap-registration/ApRegistrationWizard';
+import { apBasePath } from '../../paths/ap/_base';
 
 export const apEditPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="edit"
 	history={history}
 	component={(urlProps: { personId: number }, async: t.TypeOf<typeof welcomeJPValidator>) => <ApRegistrationWizard
-		editOnly={true}
 		history={history}
+		start={apBasePath.getPathFromArgs({})}
+		end={apBasePath.getPathFromArgs({})}
+		editOnly={true}
 		currentSeason={async.season}
 	/>}
 	urlProps={{

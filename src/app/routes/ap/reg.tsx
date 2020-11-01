@@ -7,13 +7,16 @@ import { validator as welcomeAPValidator, apiw as welcomeAPIAP } from "../../../
 import { setAPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import ApRegistrationWizard from '../../../containers/ap/ap-registration/ApRegistrationWizard';
+import { apBasePath } from '../../paths/ap/_base';
 
 export const apRegPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="reg"
 	history={history}
 	component={(urlProps: { personId: number }, async: t.TypeOf<typeof welcomeAPValidator>) => <ApRegistrationWizard
-		editOnly={false}
 		history={history}
+		start={apBasePath.getPathFromArgs({})}
+		end={apBasePath.getPathFromArgs({})}
+		editOnly={false}
 		currentSeason={async.season}
 	/>}
 	urlProps={{

@@ -25,19 +25,20 @@ import {getWrapper as gpGet } from "../../../async/member/select-guest-privs"
 import {getWrapper as dwGet } from "../../../async/member/select-damage-waiver"
 import {apiw as getPrices, validator as pricesValidator} from "../../../async/prices"
 import ApStaggeredPaymentsPage from "./ApStaggeredPaymentsPage";
+import { WizardPageflowAbstract, WizardBaseProps, WizardBaseState } from "../../../core/WizardPageflowAbstract";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
 	display: e.breadcrumbHTML
 })
 
-type Props = {
+type Props = WizardBaseProps & {
 	history: History<any>,
 	currentSeason: number,
 	editOnly: boolean
 };
 
-type State = {
+type State = WizardBaseState & {
 	membershipTypeId: number,
 	paymentPlanAllowed: boolean,
 	guestPrivsAuto: boolean,
@@ -45,16 +46,18 @@ type State = {
 	damageWavierAuto: boolean,
 }
 
-export default class ApRegistrationWizard extends React.Component<Props, State> {
+export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
+			...this.state,
 			membershipTypeId: null,
 			paymentPlanAllowed: true,
 			guestPrivsAuto: false,
 			guestPrivsNA: false,
 			damageWavierAuto: false
 		}
+		this.updateNodeList();
 	}
 	updateStateFromMemType(membershipTypeId: number, fromServer: {paymentPlanAllowed: boolean, guestPrivsAuto: boolean, guestPrivsNA: boolean, damageWavierAuto: boolean}) {
 		this.setState({
@@ -63,9 +66,9 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 			...fromServer
 		})
 	}
-	render() {
-		console.log(this.props)
+	calculateNodes(): WizardNode[] {
 		const self = this;
+
 		const staticComponentProps = {
 			history: this.props.history
 		}
@@ -193,11 +196,7 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 			breadcrumbHTML: <React.Fragment>Terms and <br />Conditions</React.Fragment>
 		};
 
-		return <WizardPageflow 
-			history={self.props.history}
-			start={apBasePath.getPathFromArgs({})}
-			end={apBasePath.getPathFromArgs({})}
-			nodes={[{
+		return [{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="APRequiredInfo"
 				history={self.props.history}
@@ -247,7 +246,6 @@ export default class ApRegistrationWizard extends React.Component<Props, State> 
 			/>,
 			breadcrumbHTML: <React.Fragment>Survey<br />Information</React.Fragment>
 		}])
-		.concat(this.props.editOnly ? [] : [termsAndConditions])}
-		/>
+		.concat(this.props.editOnly ? [] : [termsAndConditions])
 	}
 }
