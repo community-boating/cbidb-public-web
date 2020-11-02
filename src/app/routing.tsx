@@ -72,7 +72,7 @@ const defaultRouteRender = () => {
 			}
 		} else {
 			console.log("... its doesnt have a jp in front, lets try adding one")
-			Sentry.captureMessage("Uncaught route " + window.location.pathname)
+			// Sentry.captureMessage("Uncaught route " + window.location.pathname)
 			return <Redirect to={'/jp/' + PathWrapper.removeLeadingTrailingSlashes(window.location.pathname)} />;
 		}
 	}
