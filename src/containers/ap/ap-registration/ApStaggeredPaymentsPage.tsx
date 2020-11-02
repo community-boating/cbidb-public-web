@@ -15,6 +15,8 @@ import { setAPImage } from "../../../util/set-bg-image";
 import Currency from "../../../util/Currency";
 import JoomlaReport from "../../../theme/joomla/JoomlaReport";
 import { singlePaymentValidator } from "../../../async/member/payment-plan-options";
+import {postWrapper as submit} from "../../../async/member/set-payment-plan"
+import { makePostJSON } from "../../../core/APIWrapperUtil";
 
 type SinglePayment = t.TypeOf<typeof singlePaymentValidator>;
 
@@ -102,18 +104,19 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 				</tr></tbody></table>
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
-			{(self.state || {} as any).radio != undefined ? <Button text="Next >" spinnerOnClick onClick={() => {
-				return self.props.goNext();
-				// return submit.send(makePostJSON({
-				// 	wantIt: self.state.radio == "Yes"
-				// })).then(res => {
-				// 	if (res.type == "Success") {
-				// 		self.props.goNext()
-				// 	} else {
-				// 		window.scrollTo(0, 0);
-				// 	}
-				// })
-			}}/> : ""}
+			{self.state && self.state.selectedNumberPayments && self.state.selectedNumberPayments.isSome()
+				? <Button text="Next >" spinnerOnClick onClick={() => {
+					return submit.send(makePostJSON({
+						additionalPayments: self.state.selectedNumberPayments.getOrElse(1)-1
+					})).then(res => {
+						if (res.type == "Success") {
+							self.props.goNext()
+						} else {
+							window.scrollTo(0, 0);
+						}
+					})
+				}}/>
+				: ""}
 		</JoomlaMainPage>
 	}
 }
