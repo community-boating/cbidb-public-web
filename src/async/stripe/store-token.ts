@@ -12,8 +12,8 @@ const resultValidator = t.type({
 	token: t.string,
 	orderId: t.number,
 	last4: t.string,
-	expMonth: t.string,
-	expYear: t.string,
+	expMonth: t.number,
+	expYear: t.number,
 	zip: OptionalString
 })
 
