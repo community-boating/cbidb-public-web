@@ -100,7 +100,7 @@ export default class StripeElement extends React.Component<Props> {
 					<div id={this.props.cardErrorsId} role="alert" style={{color: "red"}}></div>
 				</div>
 				<br />
-				<Button text="Submit Card Details" onClick={() => Promise.resolve(this.submit())}/>
+				<Button text="Submit Card Details" spinnerOnClick onClick={() => Promise.resolve(this.submit())}/>
 			</form>
 		);
 		return paymentForm;
