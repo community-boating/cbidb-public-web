@@ -39,7 +39,7 @@ export const getNoDW = (bv: number) => testBit(bv, 17);
 export const getAddonsPurchaseInProgress = (bv: number) => testBit(bv, 28);
 
 export default (bv: number, personId: number, history: History<any>, discountAmt: Currency, expirationDate: Option<Moment>, show4th: boolean) => {
-	const canRenew = testBit(bv, 4) || testBit(bv, 7);
+	// const canRenew = testBit(bv, 4) || testBit(bv, 7);
 
 	const renewText = () => (<React.Fragment>
 		Renew for a year
@@ -60,7 +60,6 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		place?: number, getElements: ((history: History<any>) => JSX.Element)[], show?: () => boolean
 	}[] = [{
 		place: 0,
-	//	show: () => canRenew,
 		getElements: [
 			LINKS.regLink("Purchase an Adult Program membership!")
 		]
@@ -146,7 +145,6 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		] 
 	}, {
 		place: 5,
-		show: () => canRenew,
 		getElements: [
 			LINKS.regLink("Extend your membership")
 		]
@@ -181,7 +179,6 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		]
 	}, {
 		place: 8,
-		// show: () => canRenew,
 		getElements: [
 			LINKS.regLink("Purchase Membership"),
 		]
