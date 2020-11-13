@@ -276,7 +276,10 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						? "Click here to update your stored credit card information."
 						: "Click here to use a different credit card."
 					);
-					return <a href="#" onClick={() => clearCard.send(makePostString("")).then(() => self.props.history.push(`/redirect${checkoutPageRoute.getPathFromArgs({})}`))}>{linkText}</a>
+					return <Button plainLink text={linkText} onClick={e => {
+						e.preventDefault();
+						return clearCard.send(makePostString("")).then(() => self.props.history.push(`/redirect${checkoutPageRoute.getPathFromArgs({})}`));
+					}} />
 				} else {
 					if (self.props.orderStatus.paymentMethodRequired) {
 						return "Please enter payment information below. " + 

@@ -5,7 +5,8 @@ interface Props {
 	onClick: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => Promise<any>,
 	spinnerOnClick?: boolean,
 	notIdempotent?: boolean, // set to true for non-idempotence, otherwise assume idempotent
-	forceSpinner?: boolean
+	forceSpinner?: boolean,
+	plainLink?: boolean
 }
 
 interface State {
@@ -55,7 +56,13 @@ export default class Button extends React.PureComponent<Props, State> {
 	render() {
 		const self = this;
 		const maybeSpinner = this.props.forceSpinner || (this.state.clicked && this.props.spinnerOnClick) ? <span>&nbsp;&nbsp;<img height="14px" src="/images/spinner-white.gif" /></span> : "";
-		return (<a className="readon" style={{ margin: "0 5px" }} onClick={e => {
+		const renderProps = (
+			this.props.plainLink
+			? {style: {cursor: "pointer"}}
+			: {className: "readon", style: { margin: "0 5px" }}
+			
+		)
+		return (<a {...renderProps} onClick={e => {
 			const didWork = self.setClicked();
 			if (didWork || self.props.notIdempotent) {
 				// Whatever happens on this click, after its done, attempt to reset the button which may or may not still exist
