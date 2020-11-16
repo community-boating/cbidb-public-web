@@ -30,6 +30,7 @@ import {postWrapper as addDonation} from "../../async/member/add-donation"
 import {postWrapper as addPromo} from "../../async/member/add-promo-code"
 import {postWrapper as applyGC} from "../../async/member/apply-gc"
 import {postWrapper as storePaymentMethod} from "../../async/stripe/store-payment-method"
+import { StaggeredPaymentSchedule } from "../../components/StaggeredPaymentSchedule";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -330,6 +331,13 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							includeCancel={true}
 						/>
 					</JoomlaArticleRegion>
+					{(
+						this.props.orderStatus.staggeredPayments.length
+						? (<JoomlaArticleRegion title="Payment Schedule">
+							<StaggeredPaymentSchedule schedule={this.props.orderStatus.staggeredPayments}/>
+						</JoomlaArticleRegion>)
+						: null
+					)}
 				</td>
 				<td>
 					<JoomlaArticleRegion title="Promotional Code">

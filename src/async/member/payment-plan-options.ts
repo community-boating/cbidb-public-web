@@ -5,7 +5,7 @@ import { OptionalString } from '../../util/OptionalTypeValidators';
 
 export const singlePaymentValidator = t.type({
 	paymentDate: t.string,
-	paymentAmountCents: t.number
+	paymentAmtCents: t.number
 })
 
 export const validator = t.array(t.array(singlePaymentValidator))

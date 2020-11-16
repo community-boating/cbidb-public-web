@@ -17,6 +17,7 @@ import JoomlaReport from "../../../theme/joomla/JoomlaReport";
 import { singlePaymentValidator } from "../../../async/member/payment-plan-options";
 import {postWrapper as submit} from "../../../async/member/set-payment-plan"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
+import { StaggeredPaymentSchedule } from "../../../components/StaggeredPaymentSchedule";
 
 type SinglePayment = t.TypeOf<typeof singlePaymentValidator>;
 
@@ -56,9 +57,9 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 			rows={this.props.paymentSchedules.map(s => 
 				[
 					<span>{getRadio(s.length)}<label htmlFor={`sel_${s.length}`}>{s.length}</label></span>,
-					Currency.cents(s[0].paymentAmountCents).format(),
+					Currency.cents(s[0].paymentAmtCents).format(),
 					moment(s[s.length-1].paymentDate, "YYYY-MM-DD").format("MM/DD/YYYY"),
-					Currency.cents(s.reduce((agg, p) => agg + p.paymentAmountCents, 0)).format()
+					Currency.cents(s.reduce((agg, p) => agg + p.paymentAmtCents, 0)).format()
 				]
 			)}
 		/>
@@ -66,19 +67,7 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 	scheduleDetail() {
 		return this.state.selectedNumberPayments.map(ct => {
 			const schedule = this.props.paymentSchedules[ct - 1]
-			return <JoomlaReport
-				headers={["Date", "Amount"]}
-				cellStyles={[{textAlign: "right"}, {textAlign: "right"}]}
-				rows={schedule.map((p) => 
-					[
-						<span>{moment(p.paymentDate, "YYYY-MM-DD").format("MM/DD/YYYY")}</span>,
-						Currency.cents(p.paymentAmountCents).format()
-					]
-				).concat([[
-					<b>Total</b>,
-					<b>{Currency.cents(schedule.reduce((sum, p) => sum + p.paymentAmountCents, 0)).format()}</b>
-				]])}
-			/>;
+			return <StaggeredPaymentSchedule schedule={schedule}/>;
 		}).getOrElse(null);
 	}
 	render() {
