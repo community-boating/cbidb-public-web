@@ -210,7 +210,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			LINKS.abort
 		]
 	}, {
-		place: 13,
+		show: () => testBit(bv, 13) || (testBit(bv, 30) && !testBit(bv, 3)),
 		getElements: [
 			LINKS.edit
 		]
@@ -218,6 +218,11 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		place: 29,
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
+		]
+	}, {
+		place: 30,
+		getElements: [
+			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>View Payment Plan</Link>
 		]
 	}];
 

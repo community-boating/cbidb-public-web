@@ -229,9 +229,9 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 			breadcrumbHTML: <React.Fragment>Emergency<br />Contact</React.Fragment>
 		}]
 		.concat(this.props.editOnly ? [] : [purchaseOptions])
-		.concat(this.state.guestPrivsAuto || this.state.guestPrivsNA ? [] : [gp])
-		.concat(this.state.damageWavierAuto ? [] : [dw])
-		.concat(this.state.paymentPlanAllowed ? [paymentPlan] : [])
+		.concat(this.state.guestPrivsAuto || this.state.guestPrivsNA || this.props.editOnly ? [] : [gp])
+		.concat(this.state.damageWavierAuto || this.props.editOnly ? [] : [dw])
+		.concat(this.state.paymentPlanAllowed && !this.props.editOnly ? [paymentPlan] : [])
 		.concat([{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="ApSurveyInfo"
