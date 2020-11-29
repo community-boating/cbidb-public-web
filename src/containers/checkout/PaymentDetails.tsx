@@ -198,7 +198,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				/>
 				: null
 			}
-			<Button text="Add Donation" onClick={() => this.doAddDonation()}/>
+			<Button text="Add Donation" spinnerOnClick onClick={() => this.doAddDonation()}/>
 		</div>)
 
 		const fundCell = (<div>
@@ -231,6 +231,12 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				if (result.type == "Success") {
 					self.props.setCardData(result.success);
 					self.props.goNext();
+				} else {
+					self.setState({
+						...self.state,
+						validationErrors: [result.message]
+					});
+					window.scrollTo(0, 0);
 				}
 			})
 		}
@@ -241,6 +247,12 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			})).then(result => {
 				if (result.type == "Success") {
 					self.props.goNext();
+				} else {
+					self.setState({
+						...self.state,
+						validationErrors: [result.message]
+					});
+					window.scrollTo(0, 0);
 				}
 			})
 		}
