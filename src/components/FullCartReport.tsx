@@ -8,7 +8,11 @@ import {History} from 'history'
 import {postWrapper as unapplyGC} from "../async/member/unapply-gc"
 
 
-const renderItemRow: (history: History<any>, setErrors: (err: string) => void, includeCancel: boolean) => (item: CartItem) => React.ReactNode[] = (history, setErrors, includeCancel) => item => {
+const renderItemRow: (
+	history: History<any>,
+	setErrors: (err: string) => void,
+	includeCancel: boolean
+) => (item: CartItem) => React.ReactNode[] = (history, setErrors, includeCancel) => item => {
 	const deleteLink = (function() {
 		switch (item.itemType){ 
 		case "Donation":
@@ -59,7 +63,8 @@ type Props = {
 	cartItems: CartItem[],
 	history: History<any>,
 	setErrors: (err: string) => void,
-	includeCancel: boolean
+	includeCancel: boolean,
+	extraFooterRow?: React.ReactNode[]
 }
 
 export default class FullCartReport extends React.PureComponent<Props> {
@@ -68,7 +73,11 @@ export default class FullCartReport extends React.PureComponent<Props> {
 		return (<JoomlaReport
 			headers={(this.props.includeCancel ? ["Cancel"] : []).concat(["Item Name", "Member Name", "Price"])}
 			rows={this.props.cartItems.map(renderItemRow(this.props.history, this.props.setErrors, this.props.includeCancel))
-				.concat([totalRow(this.props.cartItems, this.props.includeCancel)])}
+				.concat([totalRow(this.props.cartItems, this.props.includeCancel)])
+				.concat(this.props.extraFooterRow ? [
+					(this.props.includeCancel ? ["" as React.ReactNode] : []).concat(this.props.extraFooterRow)
+				] : [])
+			}
 			rawHtml={rawHtml}
 		/>);
 	}

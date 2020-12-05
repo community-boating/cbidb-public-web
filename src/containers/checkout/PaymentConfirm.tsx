@@ -44,17 +44,12 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 			: ""
 		);
 		const orderTotal = this.props.cartItems.reduce((sum, i) => sum + i.price, 0)
-		const extraRow = <tr>
-			<td align="right"><span className="optional" style={{fontWeight: "bold"}}>Initial Charge Amt</span></td>
-			<td style={{paddingLeft: "10px"}} align="left" valign="middle"><span className="display_only apex-item-display-only">
-				{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}
-			</span></td>
-		</tr>
+
 		const billingInfo = (
 			orderTotal <= 0
 			? "Your order is fully paid for; click \"Finish Order\" below to finalize the order."
 			: (<React.Fragment>
-				<StripeConfirm cardData={this.props.orderStatus.cardData.getOrElse(null)} extraRow={extraRow} />
+				<StripeConfirm cardData={this.props.orderStatus.cardData.getOrElse(null)} />
 			</React.Fragment>)
 		);
 
@@ -70,7 +65,17 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 				Please confirm your order and payment information are correct, and then click "Submit Payment" below!
 				<br />
 				<br />
-				<FullCartReport cartItems={self.props.cartItems} history={this.props.history} setErrors={() => {}} includeCancel={false}/>
+				<FullCartReport
+					cartItems={self.props.cartItems}
+					history={this.props.history}
+					setErrors={() => {}}
+					includeCancel={false}
+					extraFooterRow={[
+						"<b>Charged Today</b>",
+						"",
+						<b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>
+					]}
+				/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Your Billing Info">
 				{billingInfo}
