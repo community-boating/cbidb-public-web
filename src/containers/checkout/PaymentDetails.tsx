@@ -32,6 +32,8 @@ import {postWrapper as applyGC} from "../../async/member/apply-gc"
 import {postWrapper as storePaymentMethod} from "../../async/stripe/store-payment-method"
 import { StaggeredPaymentSchedule } from "../../components/StaggeredPaymentSchedule";
 import Currency from "../../util/Currency";
+import { apRegPageRoute } from "../../app/routes/ap/reg";
+import { Link } from "react-router-dom";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -322,6 +324,51 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			});
 		}
 
+		const gcRegion = (<JoomlaArticleRegion title="Gift Certificate">
+			Enter Certificate Number<br />
+			(e.g. "1380300")
+			<FormInput
+				id="gcNumber"
+				value={this.state.formData.gcNumber}
+				justElement={true}
+				updateAction={updateState}
+				size={30}
+				maxLength={30}
+			/>
+			Enter Redemption Code<br />
+			(e.g. "F5BY8")
+			<FormInput
+				id="gcCode"
+				value={this.state.formData.gcCode}
+				justElement={true}
+				updateAction={updateState}
+				size={30}
+				maxLength={30}
+			/>
+			<Button text="Apply" spinnerOnClick onClick={() => {
+				return applyGC.send(makePostJSON({ 
+					gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
+					gcCode: this.state.formData.gcCode.getOrElse(null)
+				}))
+				.then(ret => {
+					if (ret.type == "Success") {
+						self.props.history.push("/redirect" + window.location.pathname)
+					} else {
+						window.scrollTo(0, 0);
+						self.setState({
+							...self.state,
+							validationErrors: ret.message.split("\\n") // TODO
+						});
+					}
+				})
+			}}/>
+		</JoomlaArticleRegion>);
+
+		const noGCRegion = (<JoomlaArticleRegion title="Gift Certificate">
+			Gift certificates currently cannot be used with staggered payment memberships.
+			To redeem a Gift Certificate, <Link to={apRegPageRoute.getPathFromArgs({})}>return to registration</Link> and select a one-time payment.
+		</JoomlaArticleRegion>);
+
 		return <JoomlaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Please consider making a donation to Community Boating.">
@@ -366,7 +413,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							size={30}
 							maxLength={30}
 						/>
-						<Button text="Apply" onClick={() => {
+						<Button text="Apply" spinnerOnClick onClick={() => {
 							return addPromo.send(makePostJSON({ promoCode: this.state.formData.promoCode.getOrElse(null)}))
 							.then(ret => {
 								if (ret.type == "Success") {
@@ -381,45 +428,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							})
 						}}/>
 					</JoomlaArticleRegion>
-					<JoomlaArticleRegion title="Gift Certificate">
-						Enter Certificate Number<br />
-						(e.g. "1380300")
-						<FormInput
-							id="gcNumber"
-							value={this.state.formData.gcNumber}
-							justElement={true}
-							updateAction={updateState}
-							size={30}
-							maxLength={30}
-						/>
-						Enter Redemption Code<br />
-						(e.g. "F5BY8")
-						<FormInput
-							id="gcCode"
-							value={this.state.formData.gcCode}
-							justElement={true}
-							updateAction={updateState}
-							size={30}
-							maxLength={30}
-						/>
-						<Button text="Apply" onClick={() => {
-							return applyGC.send(makePostJSON({ 
-								gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
-								gcCode: this.state.formData.gcCode.getOrElse(null)
-							}))
-							.then(ret => {
-								if (ret.type == "Success") {
-									self.props.history.push("/redirect" + window.location.pathname)
-								} else {
-									window.scrollTo(0, 0);
-									self.setState({
-										...self.state,
-										validationErrors: ret.message.split("\\n") // TODO
-									});
-								}
-							})
-						}}/>
-					</JoomlaArticleRegion>
+					{this.props.orderStatus.staggeredPayments.length > 1 ? noGCRegion : gcRegion}
 				</td>
 			</tr></tbody></table>
 			<JoomlaArticleRegion title="Credit Card Information">

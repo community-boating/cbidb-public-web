@@ -1,7 +1,6 @@
 import * as t from 'io-ts';
 import APIWrapper from '../../core/APIWrapper';
 import { HttpMethod } from "../../core/HttpMethod";
-import { OptionalString } from '../../util/OptionalTypeValidators';
 
 export const singlePaymentValidator = t.type({
 	paymentDate: t.string,

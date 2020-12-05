@@ -5,7 +5,7 @@ import * as React from "react";
 import PageWrapper from "../../../core/PageWrapper";
 import ProgressThermometer from "../../../components/ProgressThermometer";
 import { State as BreadcrumbState} from "../../../core/Breadcrumb";
-import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "../../../core/WizardPageflow";
+import { ComponentPropsFromWizard, WizardNode } from "../../../core/WizardPageflow";
 import ApRequiredInfo from "./ApRequiredInfo";
 import JoomlaLoadingPage from "../../../theme/joomla/JoomlaLoadingPage";
 import { setAPImage } from "../../../util/set-bg-image";

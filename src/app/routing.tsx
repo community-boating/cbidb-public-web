@@ -47,7 +47,7 @@ import { jpBasePath } from './paths/jp/_base';
 import LoginRoute from "../app/routes/common/login";
 import { PageFlavor } from '../components/Page';
 import { apAddonsPageRoute } from './routes/ap/addons';
-import { apDonateRoute } from './routes/ap/donate';
+// import { apDonateRoute } from './routes/ap/donate';
 import { apClosedPageRoute } from './routes/ap/closed';
 
 const defaultRouteRender = () => {
@@ -131,7 +131,7 @@ export default function (history: History<any>) {
 		jpHomePageRoute.asRoute(history),
 		apClassesPageRoute.asRoute(history),
 		apAddonsPageRoute.asRoute(history),
-		apDonateRoute.asRoute(history),
+	//	apDonateRoute.asRoute(history),
 		(
 			asc.state.justLoggedIn
 			? <Route key="homeAP" path={apBasePath.getPathFromArgs({})} exact render={() => <Redirect to={apRegPageRoute.getPathFromArgs({})} />} />

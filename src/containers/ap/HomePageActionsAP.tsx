@@ -12,7 +12,7 @@ import { apBasePath } from '../../app/paths/ap/_base';
 import { apEditPageRoute } from '../../app/routes/ap/edit';
 import { apClassesPageRoute } from '../../app/routes/ap/classes';
 import { apPathAddons } from '../../app/paths/ap/addons';
-import { apDonateRoute } from '../../app/routes/ap/donate';
+// import { apDonateRoute } from '../../app/routes/ap/donate';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -214,7 +214,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		getElements: [
 			LINKS.edit
 		]
-	}, {
+	}/*, {
 		place: 29,
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
@@ -224,7 +224,7 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>View Payment Plan</Link>
 		]
-	}];
+	}*/];
 
 	const showReserveFooter = (
 		testBit(bv, 14) || 

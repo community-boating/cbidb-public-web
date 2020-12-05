@@ -2,7 +2,6 @@ import { none, some, Option } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
 import * as t from 'io-ts';
-import * as Sentry from '@sentry/browser';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
