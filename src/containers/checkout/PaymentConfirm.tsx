@@ -12,6 +12,7 @@ import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";
 import FullCartReport from "../../components/FullCartReport";
 import { CartItem } from "../../async/get-cart-items";
+import Currency from "../../util/Currency";
 
 export interface Props {
 	history: History<any>,
@@ -43,10 +44,18 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 			: ""
 		);
 		const orderTotal = this.props.cartItems.reduce((sum, i) => sum + i.price, 0)
+		const extraRow = <tr>
+			<td align="right"><span className="optional" style={{fontWeight: "bold"}}>Initial Charge Amt</span></td>
+			<td style={{paddingLeft: "10px"}} align="left" valign="middle"><span className="display_only apex-item-display-only">
+				{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}
+			</span></td>
+		</tr>
 		const billingInfo = (
 			orderTotal <= 0
 			? "Your order is fully paid for; click \"Finish Order\" below to finalize the order."
-			: <StripeConfirm cardData={this.props.orderStatus.cardData.getOrElse(null)} />
+			: (<React.Fragment>
+				<StripeConfirm cardData={this.props.orderStatus.cardData.getOrElse(null)} extraRow={extraRow} />
+			</React.Fragment>)
 		);
 
 		const buttonText = (

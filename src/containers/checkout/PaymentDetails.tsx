@@ -31,6 +31,7 @@ import {postWrapper as addPromo} from "../../async/member/add-promo-code"
 import {postWrapper as applyGC} from "../../async/member/apply-gc"
 import {postWrapper as storePaymentMethod} from "../../async/stripe/store-payment-method"
 import { StaggeredPaymentSchedule } from "../../components/StaggeredPaymentSchedule";
+import Currency from "../../util/Currency";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -346,6 +347,9 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 					{(
 						this.props.orderStatus.staggeredPayments.length
 						? (<JoomlaArticleRegion title="Payment Schedule">
+							Today your card will be charged <b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>. Your
+							card will be charged again on the following dates to complete your order:
+							<br /><br />
 							<StaggeredPaymentSchedule schedule={this.props.orderStatus.staggeredPayments}/>
 						</JoomlaArticleRegion>)
 						: null
