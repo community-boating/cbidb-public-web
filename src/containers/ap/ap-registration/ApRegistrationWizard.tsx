@@ -26,6 +26,7 @@ import {getWrapper as dwGet } from "../../../async/member/select-damage-waiver"
 import {apiw as getPrices, validator as pricesValidator} from "../../../async/prices"
 import ApStaggeredPaymentsPage from "./ApStaggeredPaymentsPage";
 import { WizardPageflowAbstract, WizardBaseProps, WizardBaseState } from "../../../core/WizardPageflowAbstract";
+import { hasStripeCustomerId } from "../HomePageActionsAP";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -45,6 +46,7 @@ type State = WizardBaseState & {
 	guestPrivsAuto: boolean,
 	guestPrivsNA: boolean,
 	damageWavierAuto: boolean,
+	hasStripeCustomerId: boolean
 }
 
 export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, State> {
@@ -53,6 +55,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 		this.state = {
 			...this.state,
 			membershipTypeId: null,
+			hasStripeCustomerId: props.hasStripeCustomerId,
 			paymentPlanAllowed: props.hasStripeCustomerId,
 			guestPrivsAuto: false,
 			guestPrivsNA: false,
@@ -65,7 +68,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 			...this.state,
 			membershipTypeId,
 			...fromServer,
-			paymentPlanAllowed: this.props.hasStripeCustomerId && fromServer.paymentPlanAllowed
+			paymentPlanAllowed: this.state.hasStripeCustomerId && fromServer.paymentPlanAllowed
 		})
 	}
 	calculateNodes(): WizardNode[] {
@@ -104,7 +107,16 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 					{...mapWizardProps(fromWizard)}
 				/>}
 				getAsyncProps={(urlProps: {}) => Promise.all([
-					welcomeAPI.send(null),
+					welcomeAPI.send(null).then(result => {
+						if (result.type == "Success") {
+							const hasStripeCustomerIdProp = hasStripeCustomerId(result.success.actions);
+							self.setState({
+								...self.state,
+								hasStripeCustomerId: hasStripeCustomerIdProp,
+							})
+						}
+						return Promise.resolve(result);
+					}),
 					getPrices.send(null)
 				]).catch(err => Promise.resolve(null)).then(([welcome, prices]) => Promise.resolve({
 					type: "Success",
