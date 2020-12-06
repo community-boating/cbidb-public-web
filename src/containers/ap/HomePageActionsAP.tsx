@@ -37,6 +37,7 @@ const LINKS = {
 export const getNoGP = (bv: number) => testBit(bv, 16);
 export const getNoDW = (bv: number) => testBit(bv, 17);
 export const getAddonsPurchaseInProgress = (bv: number) => testBit(bv, 28);
+export const hasStripeCustomerId = (bv: number) => testBit(bv, 29);
 
 export default (bv: number, personId: number, history: History<any>, discountAmt: Currency, expirationDate: Option<Moment>, show4th: boolean) => {
 	// const canRenew = testBit(bv, 4) || testBit(bv, 7);

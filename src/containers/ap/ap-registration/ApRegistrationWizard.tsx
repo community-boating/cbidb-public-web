@@ -35,7 +35,8 @@ const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e 
 type Props = WizardBaseProps & {
 	history: History<any>,
 	currentSeason: number,
-	editOnly: boolean
+	editOnly: boolean,
+	hasStripeCustomerId: boolean
 };
 
 type State = WizardBaseState & {
@@ -52,7 +53,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 		this.state = {
 			...this.state,
 			membershipTypeId: null,
-			paymentPlanAllowed: true,
+			paymentPlanAllowed: props.hasStripeCustomerId,
 			guestPrivsAuto: false,
 			guestPrivsNA: false,
 			damageWavierAuto: false
@@ -63,7 +64,8 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 		this.setState({
 			...this.state,
 			membershipTypeId,
-			...fromServer
+			...fromServer,
+			paymentPlanAllowed: this.props.hasStripeCustomerId && fromServer.paymentPlanAllowed
 		})
 	}
 	calculateNodes(): WizardNode[] {

@@ -8,6 +8,7 @@ import { setAPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import ApRegistrationWizard from '../../../containers/ap/ap-registration/ApRegistrationWizard';
 import { apBasePath } from '../../paths/ap/_base';
+import { hasStripeCustomerId } from '../../../containers/ap/HomePageActionsAP';
 
 export const apEditPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="edit"
@@ -18,6 +19,7 @@ export const apEditPageRoute = new RouteWrapper(true, path, history => <PageWrap
 		end={apBasePath.getPathFromArgs({})}
 		editOnly={true}
 		currentSeason={async.season}
+		hasStripeCustomerId={hasStripeCustomerId(async.actions)}
 	/>}
 	urlProps={{
 		personId: Number(path.extractURLParams(history.location.pathname).personId),

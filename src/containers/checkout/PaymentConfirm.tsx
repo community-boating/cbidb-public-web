@@ -70,11 +70,15 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 					history={this.props.history}
 					setErrors={() => {}}
 					includeCancel={false}
-					extraFooterRow={[
-						"<b>Charged Today</b>",
-						"",
-						<b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>
-					]}
+					extraFooterRow={(
+						this.props.orderStatus.staggeredPayments.length
+						? [
+							"<b>Charged Today</b>",
+							"",
+							<b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>
+						]
+						: []
+					)}
 				/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Your Billing Info">

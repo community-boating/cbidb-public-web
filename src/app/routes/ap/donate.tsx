@@ -10,7 +10,7 @@ import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setAPImage } from '../../../util/set-bg-image';
 
 export const apDonateRoute = new RouteWrapper(true, apDonatePath, history => <PageWrapper
-	key="RatingsPage"
+	key="DonatePage"
 	history={history}
 	component={(urlProps: {}, async: t.TypeOf<typeof getRecurringInfoValidator>) => <RecurringDonations
 		history={history}
