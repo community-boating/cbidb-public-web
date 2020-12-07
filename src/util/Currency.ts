@@ -1,5 +1,5 @@
 export default class Currency {
-    private cents: number
+    public cents: number
 
     constructor(cents: number) {
         this.cents = Math.round(cents);

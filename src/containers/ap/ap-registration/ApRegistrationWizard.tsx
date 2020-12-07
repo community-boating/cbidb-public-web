@@ -27,6 +27,7 @@ import {apiw as getPrices, validator as pricesValidator} from "../../../async/pr
 import ApStaggeredPaymentsPage from "./ApStaggeredPaymentsPage";
 import { WizardPageflowAbstract, WizardBaseProps, WizardBaseState } from "../../../core/WizardPageflowAbstract";
 import { hasStripeCustomerId } from "../HomePageActionsAP";
+import Currency from "../../../util/Currency";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -185,8 +186,11 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 				key="ApStaggeredPaymentsPage"
 				history={self.props.history}
 				component={(urlProps: {}, async: t.TypeOf<typeof paymentPlansValidator>) => <ApStaggeredPaymentsPage
+					appliedDiscountId={async.scm.discountId}
+					basePrice={Currency.dollars(async.scm.basePriceDollars)}
+					discountAmt={async.scm.discountAmtDollars.map(Currency.dollars)}
 					membershipTypeId={this.state.membershipTypeId}
-					paymentSchedules={async}
+					paymentSchedules={async.plans}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
