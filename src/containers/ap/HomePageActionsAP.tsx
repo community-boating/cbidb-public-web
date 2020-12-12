@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import Currency from '../../util/Currency';
 import { Option } from 'fp-ts/lib/Option';
 import { Moment } from 'moment';
+import * as _ from 'lodash';
+
 import { makePostJSON } from '../../core/APIWrapperUtil';
 import {postWrapper as abortRegistration} from "../../async/member/abort-mem-reg"
 import { apBasePath } from '../../app/paths/ap/_base';
@@ -56,6 +58,8 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 
 	const noGP = getNoGP(bv);
 	const noDW = getNoDW(bv);
+
+	console.log("flags: ", _.range(0,30).filter(n => testBit(bv, n)));
 
 	const actions: {
 		place?: number, getElements: ((history: History<any>) => JSX.Element)[], show?: () => boolean
@@ -140,12 +144,14 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 				
 		] 
 	}, {
-		place: 4,
+		show: () => testBit(bv, 4) && !testBit(bv, 30),
+	//	place: 4,
 		getElements: [
 			(history: History<any>) => LINKS.regLink(renewText())(history)
 		] 
 	}, {
-		place: 5,
+		show: () => testBit(bv, 5) && !testBit(bv, 30),
+		//place: 5,
 		getElements: [
 			LINKS.regLink("Extend your membership")
 		]

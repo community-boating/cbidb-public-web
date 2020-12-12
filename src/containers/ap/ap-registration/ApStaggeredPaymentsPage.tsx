@@ -56,6 +56,7 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 		Such plans are indicated in the table above with an asterisk (<b>*</b>)
 	</React.Fragment>;
 	schedulePicker() {
+		const self = this;
 		const getRadio = (paymentCt: number) => (<input
 			type="radio"
 			key={`sel_${paymentCt}`}
@@ -78,12 +79,12 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 						(function() {
 							const total = s.reduce((agg, p) => agg + p.paymentAmtCents, 0);
 							const totalFormatted = Currency.cents(total).format();
-							if (total != totals[totals.length-1]) {
+							if (self.doRenewal && total == totals[0]) {
 								return <b>*{totalFormatted}</b>
 							} else {
 								return totalFormatted;
 							}
-						}())							
+						}())
 					]
 				)}
 			/>
