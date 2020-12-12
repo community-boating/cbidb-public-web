@@ -54,6 +54,7 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 		Please note that the renewal pricing of {this.discountedPrice.format()} is
 		only availble to plans that have fully paid <b>before</b> the current membership has expired.
 		Such plans are indicated in the table above with an asterisk (<b>*</b>)
+		<br />
 	</React.Fragment>;
 	schedulePicker() {
 		const self = this;
@@ -88,7 +89,6 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 					]
 				)}
 			/>
-			{this.doRenewal ? this.renewalText : null}
 		</React.Fragment>
 	}
 	scheduleDetail() {
@@ -104,7 +104,7 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 				{this.props.breadcrumb}
 			</JoomlaNotitleRegion>
 			<JoomlaArticleRegion title="Payment in monthly installments is available.">
-				Our payment plan options makes securing your season of sailing even easier.
+				Our payment plan options make securing your season of sailing even easier.
 				With no interest, this plan breaks down the cost of your membership into a number of payments of your choosing.
 				Your card will be automatically charged each month, once your payment plan is complete your membership will be activated.
 				<br /><br />
@@ -131,7 +131,8 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 				<br />
 				{
 					this.state.radio == "Yes"
-					? <table style={{width: "100%"}}><tbody><tr>
+					? <React.Fragment>
+						<table style={{width: "100%"}}><tbody><tr>
 						<td style={{verticalAlign: "top", width: "50%"}}>
 							{this.schedulePicker()}
 						</td>
@@ -139,9 +140,16 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 							{this.scheduleDetail()}
 						</td>
 					</tr></tbody></table>
+					{this.doRenewal ? this.renewalText : null}
+					<br />
+					Memberships are non-refundable. If you enroll in a monthly installment plan you agree and authorize Community Boating, Inc. 
+					to charge your credit card for the agreed upon months. You understand your membership is not active until the final payment is received. 
+					It is your responsibility to update your account with any changes to your credit card information. 
+					If you cancel this agreement or do not complete all required payments the amount paid will be transferred to a Community Boating gift certificate.
+					</React.Fragment>
+
 					: null
 				}
-				
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			{self.state.radio == "No" || (self.state.selectedNumberPayments && self.state.selectedNumberPayments.isSome())
