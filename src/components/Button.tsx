@@ -55,7 +55,7 @@ export default class Button extends React.PureComponent<Props, State> {
 	}
 	render() {
 		const self = this;
-		const maybeSpinner = this.props.forceSpinner || (this.state.clicked && this.props.spinnerOnClick) ? <span>&nbsp;&nbsp;<img height="14px" src="/images/spinner-white.gif" /></span> : "";
+		const maybeSpinner = this.props.forceSpinner || (this.state.clicked && this.props.spinnerOnClick) ? <span style={{whiteSpace: "nowrap"}}>&nbsp;&nbsp;<img height="14px" src="/images/spinner-white.gif" /></span> : "";
 		const renderProps = (
 			this.props.plainLink
 			? {style: {cursor: "pointer"}}
@@ -73,7 +73,7 @@ export default class Button extends React.PureComponent<Props, State> {
 				.then(self.reset.bind(self));
 			}
 		}}>
-			<span>{this.props.text}{maybeSpinner}</span>
+			<span style={{whiteSpace: "nowrap"}}>{this.props.text}{maybeSpinner}</span>
 		</a>);
 	}
 }
