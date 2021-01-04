@@ -49,6 +49,7 @@ import { PageFlavor } from '../components/Page';
 import { apAddonsPageRoute } from './routes/ap/addons';
 // import { apDonateRoute } from './routes/ap/donate';
 import { apClosedPageRoute } from './routes/ap/closed';
+import { donatePageRoute } from "../app/routes/donate"
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -104,6 +105,7 @@ export default function (history: History<any>) {
 		apDoClaimAcctPageRoute.asRoute(history),
 		apLoginPageRoute.asRoute(history),
 		jpLoginPageRoute.asRoute(history),
+		donatePageRoute.asRoute(history),
 	].filter(Boolean));
 
 	const mustNotBeLoggedIn = [
