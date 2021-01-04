@@ -4,20 +4,27 @@ import { HttpMethod } from "../core/HttpMethod";
 import { OptionalString, makeOptional } from '../util/OptionalTypeValidators';
 
 export const cardDataValidator = t.type({
-	token: t.string,
-	orderId: t.number,
 	last4: t.string,
-	expMonth: t.string,
-	expYear: t.string,
+	expMonth: t.number,
+	expYear: t.number,
 	zip: OptionalString
 })
 
 export type CardData = t.TypeOf<typeof cardDataValidator>;
 
+export const staggeredPaymentValidator = t.type({
+	paymentDate: t.string,
+	paymentAmtCents: t.number
+});
+
+export type StaggeredPayment = t.TypeOf<typeof staggeredPaymentValidator>;
+
 export const orderStatusValidator = t.type({
 	orderId: t.number,
 	total: t.number,
-	cardData: makeOptional(cardDataValidator, "CardData")
+	paymentMethodRequired: t.boolean,
+	cardData: makeOptional(cardDataValidator, "CardData"),
+	staggeredPayments: t.array(staggeredPaymentValidator),
 })
 
 export type OrderStatus = t.TypeOf<typeof orderStatusValidator>;

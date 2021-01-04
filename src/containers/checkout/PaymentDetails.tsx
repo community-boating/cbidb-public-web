@@ -4,6 +4,7 @@ import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import StripeElement from "../../components/StripeElement";
 import { TokensResult } from "../../models/stripe/tokens";
+import {PaymentMethod} from "../../models/stripe/PaymentMethod"
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
 import { makePostJSON, makePostString } from "../../core/APIWrapperUtil";
 import { orderStatusValidator, CardData } from "../../async/order-status"
@@ -28,6 +29,11 @@ import { left, right, Either } from "fp-ts/lib/Either";
 import {postWrapper as addDonation} from "../../async/member/add-donation"
 import {postWrapper as addPromo} from "../../async/member/add-promo-code"
 import {postWrapper as applyGC} from "../../async/member/apply-gc"
+import {postWrapper as storePaymentMethod} from "../../async/stripe/store-payment-method"
+import { StaggeredPaymentSchedule } from "../../components/StaggeredPaymentSchedule";
+import Currency from "../../util/Currency";
+import { apRegPageRoute } from "../../app/routes/ap/reg";
+import { Link } from "react-router-dom";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -195,7 +201,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				/>
 				: null
 			}
-			<Button text="Add Donation" onClick={() => this.doAddDonation()}/>
+			<Button text="Add Donation" spinnerOnClick onClick={() => this.doAddDonation()}/>
 		</div>)
 
 		const fundCell = (<div>
@@ -220,21 +226,54 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			<td style={{verticalAlign: "top"}}>{fundCell}</td>
 		</tr></tbody></table>) : null;
 
+		const processToken = (result: TokensResult) => {
+			return storeToken.send(makePostJSON({
+				token: result.token.id,
+				orderId: self.props.welcomePackage.orderId
+			})).then(result => {
+				if (result.type == "Success") {
+					self.props.setCardData(result.success);
+					self.props.goNext();
+				} else {
+					self.setState({
+						...self.state,
+						validationErrors: [result.message]
+					});
+					window.scrollTo(0, 0);
+				}
+			})
+		}
+
+		const processPaymentMethod = (result: PaymentMethod) => {
+			return storePaymentMethod.send(makePostJSON({
+				paymentMethodId: result.paymentMethod.id
+			})).then(result => {
+				if (result.type == "Success") {
+					self.props.goNext();
+				} else {
+					self.setState({
+						...self.state,
+						validationErrors: [result.message]
+					});
+					window.scrollTo(0, 0);
+				}
+			})
+		}
+
 		const stripeElement = <StripeElement
+			submitMethod={
+				self.props.orderStatus.paymentMethodRequired
+				? "PAYMENT_METHOD"
+				: "TOKEN"
+			}
 			formId="payment-form"
 			elementId="card-element"
 			cardErrorsId="card-errors"
-			then={(result: TokensResult) => {
-				return storeToken.send(makePostJSON({
-					token: result.token.id,
-					orderId: self.props.welcomePackage.orderId
-				})).then(result => {
-					if (result.type == "Success") {
-						self.props.setCardData(result.success);
-						self.props.goNext();
-					}
-				})
-			}}
+			then={
+				self.props.orderStatus.paymentMethodRequired
+				? processPaymentMethod
+				: processToken
+			}
 		/>;
 
 		const orderTotalIsZero = this.props.cartItems.reduce((sum, i) => sum + i.price, 0) <= 0;
@@ -248,9 +287,24 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				return "All items are fully paid for; click \"Continue\" to finalize your order.";
 			} else {
 				if (confirm.isSome()) {
-					return <a href="#" onClick={() => clearCard.send(makePostString("")).then(() => self.props.history.push(`/redirect${checkoutPageRoute.getPathFromArgs({})}`))}>Click here to use a different credit card.</a>
+					const linkText = (
+						self.props.orderStatus.paymentMethodRequired
+						? "Click here to update your stored credit card information."
+						: "Click here to use a different credit card."
+					);
+					return <Button plainLink text={linkText} onClick={e => {
+						e.preventDefault();
+						return clearCard.send(makePostString("")).then(() => self.props.history.push(`/redirect${checkoutPageRoute.getPathFromArgs({})}`));
+					}} />
 				} else {
-					return "Please enter payment information below. Credit card information is not stored by CBI and is communicated securely to our payment processor.";
+					if (self.props.orderStatus.paymentMethodRequired) {
+						return "Please enter payment information below. " + 
+						"Because part of this order will be paid in multiple installments, " + 
+						"your credit card information will be retained by our payment processor (Stripe) and charged automatically on the date of each payment.";
+					} else {
+						return "Please enter payment information below. Credit card information is communicated securely to our payment processor and will not be stored by CBI for this order.";
+					}
+					
 				}
 			}
 			
@@ -269,6 +323,51 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				validationErrors: errors.split("\\n") // TODO
 			});
 		}
+
+		const gcRegion = (<JoomlaArticleRegion title="Gift Certificate">
+			Enter Certificate Number<br />
+			(e.g. "1380300")
+			<FormInput
+				id="gcNumber"
+				value={this.state.formData.gcNumber}
+				justElement={true}
+				updateAction={updateState}
+				size={30}
+				maxLength={30}
+			/>
+			Enter Redemption Code<br />
+			(e.g. "F5BY8")
+			<FormInput
+				id="gcCode"
+				value={this.state.formData.gcCode}
+				justElement={true}
+				updateAction={updateState}
+				size={30}
+				maxLength={30}
+			/>
+			<Button text="Apply" spinnerOnClick onClick={() => {
+				return applyGC.send(makePostJSON({ 
+					gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
+					gcCode: this.state.formData.gcCode.getOrElse(null)
+				}))
+				.then(ret => {
+					if (ret.type == "Success") {
+						self.props.history.push("/redirect" + window.location.pathname)
+					} else {
+						window.scrollTo(0, 0);
+						self.setState({
+							...self.state,
+							validationErrors: ret.message.split("\\n") // TODO
+						});
+					}
+				})
+			}}/>
+		</JoomlaArticleRegion>);
+
+		const noGCRegion = (<JoomlaArticleRegion title="Gift Certificate">
+			Gift certificates currently cannot be used with staggered payment memberships.
+			To redeem a Gift Certificate, <Link to={apRegPageRoute.getPathFromArgs({})}>return to registration</Link> and select a one-time payment.
+		</JoomlaArticleRegion>);
 
 		return <JoomlaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
@@ -292,6 +391,16 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							includeCancel={true}
 						/>
 					</JoomlaArticleRegion>
+					{(
+						this.props.orderStatus.staggeredPayments.length
+						? (<JoomlaArticleRegion title="Payment Schedule">
+							Today your card will be charged <b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>. Your
+							card will be charged again on the following dates to complete your order:
+							<br /><br />
+							<StaggeredPaymentSchedule schedule={this.props.orderStatus.staggeredPayments}/>
+						</JoomlaArticleRegion>)
+						: null
+					)}
 				</td>
 				<td>
 					<JoomlaArticleRegion title="Promotional Code">
@@ -304,7 +413,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							size={30}
 							maxLength={30}
 						/>
-						<Button text="Apply" onClick={() => {
+						<Button text="Apply" spinnerOnClick onClick={() => {
 							return addPromo.send(makePostJSON({ promoCode: this.state.formData.promoCode.getOrElse(null)}))
 							.then(ret => {
 								if (ret.type == "Success") {
@@ -319,48 +428,10 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							})
 						}}/>
 					</JoomlaArticleRegion>
-					<JoomlaArticleRegion title="Gift Certificate">
-						Enter Certificate Number<br />
-						(e.g. "1380300")
-						<FormInput
-							id="gcNumber"
-							value={this.state.formData.gcNumber}
-							justElement={true}
-							updateAction={updateState}
-							size={30}
-							maxLength={30}
-						/>
-						Enter Redemption Code<br />
-						(e.g. "F5BY8")
-						<FormInput
-							id="gcCode"
-							value={this.state.formData.gcCode}
-							justElement={true}
-							updateAction={updateState}
-							size={30}
-							maxLength={30}
-						/>
-						<Button text="Apply" onClick={() => {
-							return applyGC.send(makePostJSON({ 
-								gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
-								gcCode: this.state.formData.gcCode.getOrElse(null)
-							}))
-							.then(ret => {
-								if (ret.type == "Success") {
-									self.props.history.push("/redirect" + window.location.pathname)
-								} else {
-									window.scrollTo(0, 0);
-									self.setState({
-										...self.state,
-										validationErrors: ret.message.split("\\n") // TODO
-									});
-								}
-							})
-						}}/>
-					</JoomlaArticleRegion>
+					{this.props.orderStatus.staggeredPayments.length > 1 ? noGCRegion : gcRegion}
 				</td>
 			</tr></tbody></table>
-			<JoomlaArticleRegion title="Credit Card Payment">
+			<JoomlaArticleRegion title="Credit Card Information">
 				{paymentTextOrResetLink}
 				{orderTotalIsZero ? null : <React.Fragment>
 					<br />

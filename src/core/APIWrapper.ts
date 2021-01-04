@@ -131,7 +131,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 		
 		if (parsed["error"]) {
 			// Did the session time out? 
-			if (parsed.error.code == "unauthorized") {
+			if (parsed.error.code == "unauthorized" || parsed.error.code == "access_denied") {
 				// TODO: call the is-logged-in endpoint and verify we are indeed not logged in
 				// TODO: differentiate between unauthorized from cbi api vs some other random host (is that a supported use case?)
 				asc.updateState.login.logout();

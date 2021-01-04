@@ -1,23 +1,16 @@
 import * as t from 'io-ts';
 import APIWrapper from '../../core/APIWrapper';
 import { HttpMethod } from "../../core/HttpMethod";
-import { OptionalString } from '../../util/OptionalTypeValidators';
 
 export type PostType = {
-	token: string,
-	orderId: number
+	paymentMethodId: string
 }
 
 const resultValidator = t.type({
-	token: t.string,
-	orderId: t.number,
-	last4: t.string,
-	expMonth: t.number,
-	expYear: t.number,
-	zip: OptionalString
+	success: t.boolean
 })
 
-const path = "/stripe/store-token"
+const path = "/stripe/store-payment-method"
 
 export const postWrapper = new APIWrapper<typeof resultValidator, PostType, {}>({
 	path,
