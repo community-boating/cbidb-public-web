@@ -125,7 +125,6 @@ export default function (history: History<any>) {
 		regEmptyPageRoute.asRoute(history),
 		offseasonPageRoute.asRoute(history),
 		apRegPageRoute.asRoute(history),
-		asc.state.jpClosedCovid ? null : apClassesPageRoute.asRoute(history),
 		apEditPageRoute.asRoute(history),
 		apSettingsPageRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),
