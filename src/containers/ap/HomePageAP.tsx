@@ -12,7 +12,7 @@ import moment = require('moment');
 import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import { some } from 'fp-ts/lib/Option';
-import { checkoutPageRoute } from '../../app/routes/common/checkout';
+import { checkoutPageRoute } from '../../app/routes/checkout-ap';
 import { setAPImage } from '../../util/set-bg-image';
 import homePageActions from "./HomePageActionsAP";
 import Currency from '../../util/Currency';

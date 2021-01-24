@@ -10,12 +10,14 @@ import { makePostJSON, makePostString } from "../../core/APIWrapperUtil";
 import { orderStatusValidator, CardData } from "../../async/order-status"
 import StripeConfirm from "../../components/StripeConfirm";
 import Button from "../../components/Button";
-import { postWrapper as clearCard } from '../../async/stripe/clear-card'
+import { postWrapper as clearCardAP } from '../../async/stripe/clear-card-ap'
+import { postWrapper as clearCardJP } from '../../async/stripe/clear-card-jp'
 import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";
 import { CartItem } from "../../async/get-cart-items"
 import FullCartReport from "../../components/FullCartReport";
-import { checkoutPageRoute } from "../../app/routes/common/checkout";
+import { checkoutPageRoute as apCheckoutRoute} from "../../app/routes/checkout-ap";
+import { checkoutPageRoute as jpCheckoutRoute} from "../../app/routes/checkout-jp";
 import { validator as welcomeJPValidator } from "../../async/member-welcome-jp";
 import { Option, none, some } from "fp-ts/lib/Option";
 import { RadioGroup } from "../../components/InputGroup";
@@ -29,11 +31,13 @@ import { left, right, Either } from "fp-ts/lib/Either";
 import {postWrapper as addDonation} from "../../async/member/add-donation"
 import {postWrapper as addPromo} from "../../async/member/add-promo-code"
 import {postWrapper as applyGC} from "../../async/member/apply-gc"
-import {postWrapper as storePaymentMethod} from "../../async/stripe/store-payment-method"
+import {postWrapper as storePaymentMethodAP} from "../../async/stripe/store-payment-method-ap"
+import {postWrapper as storePaymentMethodJP} from "../../async/stripe/store-payment-method-jp"
 import { StaggeredPaymentSchedule } from "../../components/StaggeredPaymentSchedule";
 import Currency from "../../util/Currency";
 import { apRegPageRoute } from "../../app/routes/ap/reg";
 import { Link } from "react-router-dom";
+import { PageFlavor } from "../../components/Page";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -45,7 +49,8 @@ export interface Props {
 	setCardData: (cardData: CardData) => void,
 	cartItems: CartItem[],
 	history: History<any>,
-	donationFunds: DonationFund[]
+	donationFunds: DonationFund[],
+	flavor: PageFlavor
 }
 
 type Form = {
@@ -88,6 +93,30 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			},
 			validationErrors: []
 		}
+	}
+	getCheckoutPageRoute = function() {
+		switch (this.props.flavor) {
+		case PageFlavor.AP:
+			return apCheckoutRoute;
+		case PageFlavor.JP:
+			return jpCheckoutRoute;
+		}
+	}
+	getClearCard = function() {
+		switch (this.props.flavor) {
+		case PageFlavor.AP:
+			return clearCardAP;
+		case PageFlavor.JP:
+			return clearCardJP;
+		}
+	}
+	getStorePaymentMethod = function() {
+		switch (this.props.flavor) {
+			case PageFlavor.AP:
+				return storePaymentMethodAP;
+			case PageFlavor.JP:
+				return storePaymentMethodJP;
+			}
 	}
 	componentDidMount() {
 		setCheckoutImage()
@@ -136,7 +165,11 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			return Promise.resolve()
 		} else {
 			console.log("looks ok ", errorOrOtherAmt.getOrElse(null))
-			return addDonation.send(makePostJSON({fundId: this.state.formData.selectedFund.map(Number).getOrElse(null), amount: errorOrOtherAmt.getOrElse(null)}))
+			return addDonation.send(makePostJSON({
+				fundId: this.state.formData.selectedFund.map(Number).getOrElse(null),
+				amount: errorOrOtherAmt.getOrElse(null),
+				program: this.props.flavor
+			}))
 			.then(ret => {
 				if (ret.type == "Success") {
 					self.props.history.push("/redirect" + window.location.pathname)
@@ -245,7 +278,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 		}
 
 		const processPaymentMethod = (result: PaymentMethod) => {
-			return storePaymentMethod.send(makePostJSON({
+			return this.getStorePaymentMethod().send(makePostJSON({
 				paymentMethodId: result.paymentMethod.id
 			})).then(result => {
 				if (result.type == "Success") {
@@ -294,7 +327,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 					);
 					return <Button plainLink text={linkText} onClick={e => {
 						e.preventDefault();
-						return clearCard.send(makePostString("")).then(() => self.props.history.push(`/redirect${checkoutPageRoute.getPathFromArgs({})}`));
+						return this.getClearCard().send(makePostString("")).then(() => self.props.history.push(`/redirect${self.getCheckoutPageRoute().getPathFromArgs({})}`));
 					}} />
 				} else {
 					if (self.props.orderStatus.paymentMethodRequired) {
@@ -348,7 +381,8 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			<Button text="Apply" spinnerOnClick onClick={() => {
 				return applyGC.send(makePostJSON({ 
 					gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
-					gcCode: this.state.formData.gcCode.getOrElse(null)
+					gcCode: this.state.formData.gcCode.getOrElse(null),
+					program: this.props.flavor
 				}))
 				.then(ret => {
 					if (ret.type == "Success") {
@@ -389,6 +423,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							history={this.props.history}
 							setErrors={setErrors}
 							includeCancel={true}
+							pageFlavor={this.props.flavor}
 						/>
 					</JoomlaArticleRegion>
 					{(
@@ -414,7 +449,10 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							maxLength={30}
 						/>
 						<Button text="Apply" spinnerOnClick onClick={() => {
-							return addPromo.send(makePostJSON({ promoCode: this.state.formData.promoCode.getOrElse(null)}))
+							return addPromo.send(makePostJSON({
+								promoCode: this.state.formData.promoCode.getOrElse(null),
+								program: this.props.flavor
+							}))
 							.then(ret => {
 								if (ret.type == "Success") {
 									self.props.history.push("/redirect" + window.location.pathname)

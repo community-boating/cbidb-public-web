@@ -13,7 +13,7 @@ import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import { some } from 'fp-ts/lib/Option';
 import {regEmptyPageRoute} from '../../app/routes/jp/regEmpty'
-import { checkoutPageRoute } from '../../app/routes/common/checkout';
+import { checkoutPageRoute } from '../../app/routes/checkout-jp';
 import { setJPImage } from '../../util/set-bg-image';
 import asc from "../../app/AppStateContainer";
 

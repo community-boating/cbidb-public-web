@@ -5,7 +5,8 @@ import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
 import Button from "../../components/Button";
 import StripeConfirm from "../../components/StripeConfirm";
 import {orderStatusValidator} from "../../async/order-status"
-import { postWrapper as submitPayment } from "../../async/stripe/submit-payment"
+import { postWrapper as submitPaymentAP } from "../../async/stripe/submit-payment-ap"
+import { postWrapper as submitPaymentJP } from "../../async/stripe/submit-payment-jp"
 import { makePostString } from "../../core/APIWrapperUtil";
 import ErrorDiv from "../../theme/joomla/ErrorDiv";
 import { History } from "history";
@@ -13,13 +14,15 @@ import { setCheckoutImage } from "../../util/set-bg-image";
 import FullCartReport from "../../components/FullCartReport";
 import { CartItem } from "../../async/get-cart-items";
 import Currency from "../../util/Currency";
+import { PageFlavor } from "../../components/Page";
 
 export interface Props {
 	history: History<any>,
 	cartItems: CartItem[],
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
-	orderStatus: t.TypeOf<typeof orderStatusValidator>
+	orderStatus: t.TypeOf<typeof orderStatusValidator>,
+	flavor: PageFlavor
 }
 
 type State = {
@@ -32,6 +35,14 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 		this.state = {
 			validationErrors: []
 		};
+	}
+	getSubmitPayment = function() {
+		switch(this.props.flavor){
+			case PageFlavor.AP:
+				return submitPaymentAP;
+			case PageFlavor.JP:
+				return submitPaymentJP;
+		}
 	}
 	componentDidMount() {
 		setCheckoutImage()
@@ -79,6 +90,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 						]
 						: []
 					)}
+					pageFlavor={this.props.flavor}
 				/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Your Billing Info">
@@ -90,7 +102,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 					...self.state,
 					validationErrors: []
 				});
-				return submitPayment.send(makePostString("")).then(res => {
+				return this.getSubmitPayment().send(makePostString("")).then(res => {
 					if (res.type == "Failure" ) {
 						if (res.code == "process_err") {
 							self.setState({

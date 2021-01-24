@@ -13,13 +13,17 @@ import JoomlaLoadingPage from "../../theme/joomla/JoomlaLoadingPage";
 import { jpBasePath } from "../../app/paths/jp/_base";
 import {getWrapper as getDonationFunds} from "../../async/donation-funds"
 import ThankYouPage from "./ThankYou";
+import { PageFlavor } from "../../components/Page";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
 	goNext: fromWizard.goNext
 })
 
-type Props = {history: History<any>};
+type Props = {
+	history: History<any>,
+	flavor: PageFlavor
+};
 
 type State = {
 	cardData: Option<CardData>,
@@ -69,14 +73,15 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					history={self.props.history}
 					cartItems={cartItems}
 					donationFunds={funds}
+					flavor={this.props.flavor}
 				/>}
 				urlProps={{}}
 				shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
 						welcomeAPI.send(null),
-						orderStatus.send(null),
-						getCartItems.send(null),
+						orderStatus(this.props.flavor).send(null),
+						getCartItems(this.props.flavor).send(null),
 						getDonationFunds.send(null)
 					]).then(([welcome, order, cart, funds]) => {
 						if (welcome.type == "Success" && !welcome.success.canCheckout) {
@@ -106,13 +111,14 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					orderStatus = {orderStatus}
 					history={self.props.history}
 					cartItems={cartItems}
+					flavor={this.props.flavor}
 				/>}
 				urlProps={{}}
 				shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
-						orderStatus.send(null),
-						getCartItems.send(null)
+						orderStatus(this.props.flavor).send(null),
+						getCartItems(this.props.flavor).send(null)
 					]).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>
