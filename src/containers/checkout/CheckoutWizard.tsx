@@ -3,7 +3,8 @@ import * as React from "react";
 import WizardPageflow, { ComponentPropsFromWizard } from "../../core/WizardPageflow";
 import { Option, none, some } from "fp-ts/lib/Option";
 import PageWrapper from "../../core/PageWrapper";
-import { apiw as welcomeAPI } from "../../async/member-welcome-jp";
+import { apiw as welcomeAPIAP } from "../../async/member-welcome-ap";
+import { apiw as welcomeAPIJP } from "../../async/member-welcome-jp";
 import PaymentDetailsPage from "./PaymentDetails";
 import PaymentConfirmPage from "./PaymentConfirm";
 import { apiw as orderStatus, CardData } from "../../async/order-status"
@@ -38,6 +39,14 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 			cardData: none,
 			hasApMemberships: false,
 			hasJpMemberships: false
+		}
+	}
+	getWelcomeAPI = function() {
+		switch(this.props.flavor) {
+		case PageFlavor.AP:
+			return welcomeAPIAP;
+		case PageFlavor.JP:
+			return welcomeAPIJP
 		}
 	}
 	setCardData(cardData: CardData) {
@@ -79,7 +88,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 				shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
-						welcomeAPI.send(null),
+						(self.getWelcomeAPI() as any).send(null),
 						orderStatus(this.props.flavor).send(null),
 						getCartItems(this.props.flavor).send(null),
 						getDonationFunds.send(null)

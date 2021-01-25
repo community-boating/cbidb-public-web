@@ -278,7 +278,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 		}
 
 		const processPaymentMethod = (result: PaymentMethod) => {
-			return this.getStorePaymentMethod().send(makePostJSON({
+			return self.getStorePaymentMethod().send(makePostJSON({
 				paymentMethodId: result.paymentMethod.id
 			})).then(result => {
 				if (result.type == "Success") {
@@ -327,7 +327,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 					);
 					return <Button plainLink text={linkText} onClick={e => {
 						e.preventDefault();
-						return this.getClearCard().send(makePostString("")).then(() => self.props.history.push(`/redirect${self.getCheckoutPageRoute().getPathFromArgs({})}`));
+						return self.getClearCard().send(makePostString("")).then(() => self.props.history.push(`/redirect${self.getCheckoutPageRoute().getPathFromArgs({})}`));
 					}} />
 				} else {
 					if (self.props.orderStatus.paymentMethodRequired) {
