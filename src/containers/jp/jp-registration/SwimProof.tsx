@@ -78,13 +78,14 @@ export default class SwimProof extends React.Component<Props, State> {
 					value={this.state.formData.swimProofId}
 				/>
 			</JoomlaArticleRegion>
-            {this.state.formData.swimProofId.getOrElse(null) == "-1" ? noProofRegion : ""}
-            <JoomlaNotitleRegion>
-                <span>
-                If you believe you have a proof of swimming ability not on the above list,
-                <br />
-                please email Niko Kotsatos, Junior Program Director, at <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
-                </span>
+			{this.state.formData.swimProofId.getOrElse(null) == "-1" ? noProofRegion : ""}
+			<JoomlaNotitleRegion>
+				<span>
+				If you believe you have a proof of swimming ability not on the above list,
+				<br />
+				please contact Fiona and Niko, Junior Program Co-Directors, 
+				at <a href="mailto:fiona@community-boating.org">fiona@community-boating.org</a> and <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
+				</span>
 			</JoomlaNotitleRegion>
 			<Button text="< Back" onClick={this.props.goPrev}/>
 			{self.state.formData.swimProofId.getOrElse("-1") != "-1" ? <Button text="Next >" spinnerOnClick onClick={() => {
