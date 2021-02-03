@@ -66,7 +66,7 @@ export default class HomePageJP extends React.Component<Props, State> {
 
 		return <JoomlaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
 			{errorPopup}
-			{
+			{/* {
 				asc.state.jpClosedCovid
 				? <JoomlaArticleRegion title="Registration is suspended.">
 					Thank you for your patience and support this spring.
@@ -74,7 +74,7 @@ export default class HomePageJP extends React.Component<Props, State> {
 					If we find later this summer that we can safely offer some limited youth events or other opportunities, we will notify you right away!  
 				</JoomlaArticleRegion>
 				: null
-			}
+			} */}
 			
 			{mainTable}
 			{
