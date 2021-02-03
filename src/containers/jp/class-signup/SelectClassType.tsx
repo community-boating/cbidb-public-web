@@ -77,7 +77,7 @@ export default class SelectClassType extends React.Component<Props, State> {
 
 		const intermediateRegion = (canSeeClass(intermediate)
 			? (
-				<JoomlaArticleRegion title={<React.Fragment>Next Step: <i>Intermediate Sailing</i></React.Fragment>}>
+				<JoomlaArticleRegion title={<React.Fragment>Next Step: <i>One Week Intermediate</i></React.Fragment>}>
 					{asFragmentCurried(intermediate)}
 				</JoomlaArticleRegion>
 			)

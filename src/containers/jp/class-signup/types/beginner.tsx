@@ -6,8 +6,8 @@ const data: ClassType = {
 	typeName: "Beginner Sailing",
 	prereq: "no experience necessary",
 	sessionCt: 10,
-	sessionLength: 3,
-	classSize: 16,
+	sessionLength: 2.5,
+	classSize: 12,
 	description: (<React.Fragment>
 		Beginner Sailing includes an orientation to CBI, first sail, kayak safety, shore school, and much more. The first week covers all the basics including rigging, safety rules, and sailing maneuvers; everyone will sail our beginner boats, without an instructor. Students will also learn the basics of kayaking in the first couple days so they can paddle with friends during Junior Program hours. The second week continues with more advanced lessons and games designed to challenge and encourage our students. They’ll be on the water every day; we try very hard to keep them active, in the sun, and having fun. Upon completion of the class, sailors will earn a green rating so they can check out a boat during green flag weather.
 		<br />
