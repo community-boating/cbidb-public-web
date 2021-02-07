@@ -83,7 +83,8 @@ interface Props {
 	goPrev: () => Promise<void>,
 	breadcrumb: JSX.Element,
 	history: History<any>,
-	bindPersonId: (personId: number) => void
+	bindPersonId: (personId: number) => void,
+	editOnly: boolean
 }
 
 interface State {
@@ -296,14 +297,17 @@ export default class RequiredInfo extends React.Component<Props, State> {
 				{reqFields}
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Does your child have any allergies, medications, or special needs we should be aware of?">
-				{"If not, please leave the following fields blank." }
+				If not, please leave the following fields blank.
+				<br /><br />
+				<span style={{color: "red"}}>If your child is high risk for Covid-19 complications as defined by the CDC, please state that here,
+				and consult with a healthcare professional about his or her participation in this program.</span>
 				<br />
 				<br />
 				{specNeedsFields}
 			</JoomlaArticleRegion>
 			<Button text="< Back" onClick={self.props.goPrev}/>
 			<Button text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(
+				return postWrapper(this.props.personId, this.props.editOnly).send(makePostJSON(formToAPI(this.state.formData))).then(
 					// api success
 					ret => {
 						if (ret.type == "Success") {

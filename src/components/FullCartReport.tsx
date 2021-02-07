@@ -6,15 +6,25 @@ import {postWrapper as deleteDonation} from "../async/member/delete-donation"
 import { makePostJSON } from '../core/APIWrapperUtil';
 import {History} from 'history'
 import {postWrapper as unapplyGC} from "../async/member/unapply-gc"
+import { PageFlavor } from './Page';
 
 
-const renderItemRow: (history: History<any>, setErrors: (err: string) => void, includeCancel: boolean) => (item: CartItem) => React.ReactNode[] = (history, setErrors, includeCancel) => item => {
+const renderItemRow: (
+	history: History<any>,
+	setErrors: (err: string) => void,
+	includeCancel: boolean,
+	pageFlavor: PageFlavor
+) => (item: CartItem) => React.ReactNode[] = (history, setErrors, includeCancel, pageFlavor) => item => {
 	const deleteLink = (function() {
 		switch (item.itemType){ 
 		case "Donation":
 			return <a href="#" onClick={e => {
 				e.preventDefault();
-				return deleteDonation.send(makePostJSON({fundId: item.fundId.getOrElse(null), amount: item.price}))
+				return deleteDonation.send(makePostJSON({
+					fundId: item.fundId.getOrElse(null),
+					amount: item.price,
+					program: pageFlavor
+				}))
 				.then(ret => {
 					if (ret.type == "Success") {
 						history.push("/redirect" + window.location.pathname)
@@ -26,7 +36,10 @@ const renderItemRow: (history: History<any>, setErrors: (err: string) => void, i
 		case "Gift Certificate Redeemed":
 			return <a href="#" onClick={e => {
 				e.preventDefault();
-				return unapplyGC.send(makePostJSON({certId: item.itemId}))
+				return unapplyGC.send(makePostJSON({
+					certId: item.itemId,
+					program: pageFlavor
+				}))
 				.then(ret => {
 					if (ret.type == "Success") {
 						history.push("/redirect" + window.location.pathname)
@@ -59,7 +72,9 @@ type Props = {
 	cartItems: CartItem[],
 	history: History<any>,
 	setErrors: (err: string) => void,
-	includeCancel: boolean
+	includeCancel: boolean,
+	extraFooterRow?: React.ReactNode[],
+	pageFlavor: PageFlavor
 }
 
 export default class FullCartReport extends React.PureComponent<Props> {
@@ -67,8 +82,12 @@ export default class FullCartReport extends React.PureComponent<Props> {
 		const rawHtml = this.props.includeCancel ? {"1": true} : {"0": true};
 		return (<JoomlaReport
 			headers={(this.props.includeCancel ? ["Cancel"] : []).concat(["Item Name", "Member Name", "Price"])}
-			rows={this.props.cartItems.map(renderItemRow(this.props.history, this.props.setErrors, this.props.includeCancel))
-				.concat([totalRow(this.props.cartItems, this.props.includeCancel)])}
+			rows={this.props.cartItems.map(renderItemRow(this.props.history, this.props.setErrors, this.props.includeCancel, this.props.pageFlavor))
+				.concat([totalRow(this.props.cartItems, this.props.includeCancel)])
+				.concat(this.props.extraFooterRow ? [
+					(this.props.includeCancel ? ["" as React.ReactNode] : []).concat(this.props.extraFooterRow)
+				] : [])
+			}
 			rawHtml={rawHtml}
 		/>);
 	}

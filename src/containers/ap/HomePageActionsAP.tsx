@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import Currency from '../../util/Currency';
 import { Option } from 'fp-ts/lib/Option';
 import { Moment } from 'moment';
+import * as _ from 'lodash';
+
 import { makePostJSON } from '../../core/APIWrapperUtil';
 import {postWrapper as abortRegistration} from "../../async/member/abort-mem-reg"
 import { apBasePath } from '../../app/paths/ap/_base';
@@ -12,6 +14,7 @@ import { apBasePath } from '../../app/paths/ap/_base';
 import { apEditPageRoute } from '../../app/routes/ap/edit';
 import { apClassesPageRoute } from '../../app/routes/ap/classes';
 import { apPathAddons } from '../../app/paths/ap/addons';
+// import { apDonateRoute } from '../../app/routes/ap/donate';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -36,8 +39,11 @@ const LINKS = {
 export const getNoGP = (bv: number) => testBit(bv, 16);
 export const getNoDW = (bv: number) => testBit(bv, 17);
 export const getAddonsPurchaseInProgress = (bv: number) => testBit(bv, 28);
+export const hasStripeCustomerId = (bv: number) => testBit(bv, 29);
 
 export default (bv: number, personId: number, history: History<any>, discountAmt: Currency, expirationDate: Option<Moment>, show4th: boolean) => {
+	// const canRenew = testBit(bv, 4) || testBit(bv, 7);
+
 	const renewText = () => (<React.Fragment>
 		Renew for a year
 		<br />
@@ -52,6 +58,8 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 
 	const noGP = getNoGP(bv);
 	const noDW = getNoDW(bv);
+
+	console.log("flags: ", _.range(0,30).filter(n => testBit(bv, n)));
 
 	const actions: {
 		place?: number, getElements: ((history: History<any>) => JSX.Element)[], show?: () => boolean
@@ -136,12 +144,14 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 				
 		] 
 	}, {
-		place: 4,
+		show: () => testBit(bv, 4) && !testBit(bv, 30),
+	//	place: 4,
 		getElements: [
 			(history: History<any>) => LINKS.regLink(renewText())(history)
 		] 
 	}, {
-		place: 5,
+		show: () => testBit(bv, 5) && !testBit(bv, 30),
+		//place: 5,
 		getElements: [
 			LINKS.regLink("Extend your membership")
 		]
@@ -178,6 +188,10 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		place: 8,
 		getElements: [
 			LINKS.regLink("Purchase Membership"),
+		]
+	}, {
+		show: () => testBit(bv, 7) || testBit(bv, 8),
+		getElements: [
 			LINKS.edit
 		]
 	}, {
@@ -203,11 +217,21 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 			LINKS.abort
 		]
 	}, {
-		place: 13,
+		show: () => testBit(bv, 13) || (testBit(bv, 30) && !testBit(bv, 3)),
 		getElements: [
 			LINKS.edit
 		]
-	}];
+	}/*, {
+		place: 29,
+		getElements: [
+			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
+		]
+	}, {
+		place: 30,
+		getElements: [
+			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>View Payment Plan</Link>
+		]
+	}*/];
 
 	const showReserveFooter = (
 		testBit(bv, 14) || 
@@ -219,13 +243,20 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 	const footer = <React.Fragment>
 		<br />
 		<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>* Reservations must be made in advance;<br />we cannot accommodate walkups.</span><br />
-		<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>  Please only book 2 sailing appointments<br />per week (Wednesday-Sunday)</span>
+		<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>  Please book only one sailing appointment<br />per weekend (Satuday - Sunday)</span>
 	</React.Fragment>;
 
 	return (<React.Fragment>
 		<ul style={{fontSize: "0.8em"}}>
 			{actions
-				.filter(({ place, show }) => (place != undefined && testBit(bv, place)) || (show && show()))
+				.filter(({ place, show }) => {
+					// if it has both `place` and `show`, both must pass
+					if (place != undefined && show != undefined) {
+						return testBit(bv, place) && show();
+					} else {
+						return (place != undefined && testBit(bv, place)) || (show && show());
+					}
+				})
 				.flatMap(({ getElements }) => getElements.map(e => e(history)))
 				.filter(Boolean)
 				.map((element, i) => <li key={i}>{element}</li>)
