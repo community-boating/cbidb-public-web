@@ -77,7 +77,7 @@ export default class SelectClassType extends React.Component<Props, State> {
 
 		const intermediateRegion = (canSeeClass(intermediate)
 			? (
-				<JoomlaArticleRegion title={<React.Fragment>Next Step: <i>Intermediate Sailing</i></React.Fragment>}>
+				<JoomlaArticleRegion title={<React.Fragment>Next Step: <i>One-Week Intermediate</i></React.Fragment>}>
 					{asFragmentCurried(intermediate)}
 				</JoomlaArticleRegion>
 			)
@@ -87,7 +87,7 @@ export default class SelectClassType extends React.Component<Props, State> {
 		const advancedCanSee = advanced.filter(canSeeClass)
 		const advancedRegion = (advancedCanSee.length > 0
 			? (
-				<JoomlaArticleRegion title={<React.Fragment>Next Step: Advanced Classes</React.Fragment>}>
+				<JoomlaArticleRegion title={<React.Fragment>Advanced Classes</React.Fragment>}>
 					{advancedCanSee.map(asDivCurried)}
 				</JoomlaArticleRegion>
 			)

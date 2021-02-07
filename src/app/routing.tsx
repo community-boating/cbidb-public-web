@@ -11,7 +11,8 @@ import {editPageRoute} from './routes/jp/edit'
 import {classPageRoute} from './routes/jp/class'
 import {classTimePageRoute} from './routes/jp/classTime'
 import {signupNotePageRoute} from './routes/jp/signupNote'
-import {checkoutPageRoute} from "./routes/common/checkout"
+import {checkoutPageRoute as checkoutPageRouteJP} from "./routes/checkout-jp"
+import {checkoutPageRoute as checkoutPageRouteAP} from "./routes/checkout-ap"
 import { maintenancePageRoute } from './routes/common/maintenance';
 import { jpForgotPasswordPageRoute } from './routes/jp/forgot-pw';
 import { jpForgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
@@ -116,8 +117,9 @@ export default function (history: History<any>) {
 		<Route key="jpLoginRenderDeeplink" path={jpBasePath.getPathFromArgs({})} render={() => LoginRoute(PageFlavor.JP)(history)} />
 	]
 
-	const mustBeLoggedIn = assertUniqueKeys([		
-		checkoutPageRoute.asRoute(history),
+	const mustBeLoggedIn = assertUniqueKeys([
+		checkoutPageRouteJP.asRoute(history),
+		checkoutPageRouteAP.asRoute(history),
 		ratingsPageRoute.asRoute(history),
 		classPageRoute.asRoute(history),
 		signupNotePageRoute.asRoute(history),
@@ -127,7 +129,6 @@ export default function (history: History<any>) {
 		regEmptyPageRoute.asRoute(history),
 		offseasonPageRoute.asRoute(history),
 		apRegPageRoute.asRoute(history),
-		asc.state.jpClosedCovid ? null : apClassesPageRoute.asRoute(history),
 		apEditPageRoute.asRoute(history),
 		apSettingsPageRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),

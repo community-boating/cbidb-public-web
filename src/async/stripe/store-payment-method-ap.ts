@@ -10,7 +10,7 @@ const resultValidator = t.type({
 	success: t.boolean
 })
 
-const path = "/stripe/store-payment-method"
+const path = "/stripe/store-payment-method-ap"
 
 export const postWrapper = new APIWrapper<typeof resultValidator, PostType, {}>({
 	path,
