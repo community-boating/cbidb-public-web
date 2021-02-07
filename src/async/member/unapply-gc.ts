@@ -3,7 +3,8 @@ import APIWrapper from '../../core/APIWrapper';
 import { HttpMethod } from "../../core/HttpMethod";
 
 export const validator = t.type({
-	certId: t.number
+	certId: t.number,
+	program: t.string
 })
 
 const path = "/member/unapply-gc"

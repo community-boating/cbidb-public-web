@@ -3,7 +3,8 @@ import APIWrapper from '../../core/APIWrapper';
 import { HttpMethod } from "../../core/HttpMethod";
 
 export const validator = t.type({
-	promoCode: t.string
+	promoCode: t.string,
+	program: t.string
 })
 
 const path = "/member/add-promo-code"

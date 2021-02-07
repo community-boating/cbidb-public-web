@@ -30,7 +30,8 @@ export default class ScholarshipResultsPage extends React.Component<Props> {
 				</a>
 				<br />
 				<br />
-				If you have a unique circumstance regarding membership fees, please contact Niko Kotsatos, Junior Program Director, at <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
+				If you have a unique circumstance regarding membership fees, please contact Fiona and Niko, Junior Program Co-Directors,
+				at <a href="mailto:fiona@community-boating.org">fiona@community-boating.org</a> and <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
 			</JoomlaArticleRegion>
 			<Button text="Next >" onClick={this.props.goNext}/>
 		</JoomlaMainPage>
