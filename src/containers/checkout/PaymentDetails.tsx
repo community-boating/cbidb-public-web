@@ -38,6 +38,7 @@ import Currency from "../../util/Currency";
 import { apRegPageRoute } from "../../app/routes/ap/reg";
 import { Link } from "react-router-dom";
 import { PageFlavor } from "../../components/Page";
+import PlainButton from "../../components/PlainButton";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -325,7 +326,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						? "Click here to update your stored credit card information."
 						: "Click here to use a different credit card."
 					);
-					return <Button plainLink text={linkText} onClick={e => {
+					return <PlainButton text={linkText} onClick={e => {
 						e.preventDefault();
 						return self.getClearCard().send(makePostString("")).then(() => self.props.history.push(`/redirect${self.getCheckoutPageRoute().getPathFromArgs({})}`));
 					}} />
@@ -378,7 +379,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				size={30}
 				maxLength={30}
 			/>
-			<Button text="Apply" spinnerOnClick onClick={() => {
+			<FactaButton text="Apply" spinnerOnClick onClick={() => {
 				return applyGC.send(makePostJSON({ 
 					gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
 					gcCode: this.state.formData.gcCode.getOrElse(null),

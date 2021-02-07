@@ -6,19 +6,20 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 
 import Button from "../../../components/Button";
-import JoomlaArticleRegion from "../../../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
-import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
+import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
+import FactaMainPage from "../../../theme/facta/FactaMainPage";
+import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import Currency from "../../../util/Currency";
-import JoomlaReport from "../../../theme/joomla/JoomlaReport";
 import { singlePaymentValidator } from "../../../async/member/payment-plan-options";
 import {postWrapper as submit} from "../../../async/member/set-payment-plan"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import { StaggeredPaymentSchedule } from "../../../components/StaggeredPaymentSchedule";
 import { MAGIC_NUMBERS } from "../../../app/magicNumbers";
 import { RadioGroup } from "../../../components/InputGroup";
+import FactaButton from "../../../theme/facta/FactaButton";
+import JoomlaReport from "../../../theme/joomla/JoomlaReport";
 
 type SinglePayment = t.TypeOf<typeof singlePaymentValidator>;
 
@@ -99,11 +100,11 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 	}
 	render() {
 		const self = this;		
-		return <JoomlaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
-			<JoomlaNotitleRegion>
+		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
+			<FactaNotitleRegion>
 				{this.props.breadcrumb}
-			</JoomlaNotitleRegion>
-			<JoomlaArticleRegion title="Payment in monthly installments is available.">
+			</FactaNotitleRegion>
+			<FactaArticleRegion title="Payment in monthly installments is available.">
 				Our payment plan options make securing your season of sailing even easier.
 				With no interest, this plan breaks down the cost of your membership into a number of payments of your choosing.
 				Your card will be automatically charged each month, once your payment plan is complete your membership will be activated.
@@ -150,10 +151,10 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 
 					: null
 				}
-			</JoomlaArticleRegion>
-			<Button text="< Back" onClick={self.props.goPrev}/>
+			</FactaArticleRegion>
+			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			{self.state.radio == "No" || (self.state.selectedNumberPayments && self.state.selectedNumberPayments.isSome())
-				? <Button text="Next >" spinnerOnClick onClick={() => {
+				? <FactaButton text="Next >" spinnerOnClick onClick={() => {
 					return submit.send(makePostJSON({
 						additionalPayments: self.state.radio == "No" ? 0 : self.state.selectedNumberPayments.getOrElse(1)-1
 					})).then(res => {
@@ -165,6 +166,6 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 					})
 				}}/>
 				: ""}
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

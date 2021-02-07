@@ -16,6 +16,7 @@ import { PaymentMethod } from '../models/stripe/PaymentMethod';
 import {postWrapper as storePaymentMethod} from "../async/stripe/store-payment-method-ap"
 import { makePostJSON } from '../core/APIWrapperUtil';
 import {resultValidator as getRecurringInfoValidator} from "../async/stripe/get-recurring-info"
+import FactaButton from '../theme/facta/FactaButton';
 
 type RecurringDonationInfo = t.TypeOf<typeof getRecurringInfoValidator>;
 
@@ -87,7 +88,7 @@ export default class RecurringDonations extends React.PureComponent<Props> {
 				}
 				{stripeElement}
 			</JoomlaArticleRegion>
-			<Button text="< Back" onClick={() => Promise.resolve(self.props.history.push(basePath))}/>
+			<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(basePath))}/>
 		</JoomlaMainPage>
 	}
 }
