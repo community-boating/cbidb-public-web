@@ -82,13 +82,15 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="ScholarshipPage"
 				history={self.props.history}
-				component={() => <ScholarshipPage
+				component={(urlProps: {}, async: t.TypeOf<typeof welcomeJPValidator>) => <ScholarshipPage
 					parentPersonId={self.props.parentPersonId} //TODO: replace with app state
 					currentSeason={self.props.currentSeason}
-					jpPrice={Currency.dollars(self.props.jpPrice.getOrElse(375))} // TODO: hardcoded jp price
+					jpPrice={Currency.dollars(async.jpPriceBase)}
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
+					
 				/>}
+				getAsyncProps={(urlProps: {}) => welcomeAPI.send(null).catch(err => Promise.resolve(null)) }
 				{...pageWrapperProps}
 			/>,
 			breadcrumbHTML: <React.Fragment>Family<br />Information</React.Fragment>

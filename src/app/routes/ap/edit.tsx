@@ -7,14 +7,19 @@ import { validator as welcomeJPValidator } from "../../../async/member-welcome-a
 import { setAPImage } from '../../../util/set-bg-image';
 import ApRegistrationWizard from '../../../containers/ap/ap-registration/ApRegistrationWizard';
 import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
+import { apBasePath } from '../../paths/ap/_base';
+import { hasStripeCustomerId } from '../../../containers/ap/HomePageActionsAP';
 
 export const apEditPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="edit"
 	history={history}
 	component={(urlProps: { personId: number }, async: t.TypeOf<typeof welcomeJPValidator>) => <ApRegistrationWizard
-		editOnly={true}
 		history={history}
+		start={apBasePath.getPathFromArgs({})}
+		end={apBasePath.getPathFromArgs({})}
+		editOnly={true}
 		currentSeason={async.season}
+		hasStripeCustomerId={hasStripeCustomerId(async.actions)}
 	/>}
 	urlProps={{
 		personId: Number(path.extractURLParams(history.location.pathname).personId),

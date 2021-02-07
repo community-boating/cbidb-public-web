@@ -4,7 +4,8 @@ import { HttpMethod } from "../../core/HttpMethod";
 
 export const validator = t.type({
 	gcNumber: t.number,
-	gcCode: t.string
+	gcCode: t.string,
+	program: t.string
 })
 
 const path = "/member/apply-gc"

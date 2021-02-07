@@ -11,7 +11,8 @@ import {editPageRoute} from './routes/jp/edit'
 import {classPageRoute} from './routes/jp/class'
 import {classTimePageRoute} from './routes/jp/classTime'
 import {signupNotePageRoute} from './routes/jp/signupNote'
-import {checkoutPageRoute} from "./routes/common/checkout"
+import {checkoutPageRoute as checkoutPageRouteJP} from "./routes/checkout-jp"
+import {checkoutPageRoute as checkoutPageRouteAP} from "./routes/checkout-ap"
 import { maintenancePageRoute } from './routes/common/maintenance';
 import { jpForgotPasswordPageRoute } from './routes/jp/forgot-pw';
 import { jpForgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
@@ -23,8 +24,8 @@ import { offseasonPageRoute } from './routes/jp/offseason'
 import { apRegPageRoute } from './routes/ap/reg';
 import { apEditPageRoute } from './routes/ap/edit';
 import { fundInfoRoute } from './routes/common/funds';
-// import { apPreRegRoute } from './routes/ap/prereg';
-// import { apCreateAcctRoute } from './routes/ap/create-acct';
+import { apPreRegRoute } from './routes/ap/prereg';
+import { apCreateAcctRoute } from './routes/ap/create-acct';
 import { apForgotPasswordPageRoute } from './routes/ap/forgot-pw';
 import { apForgotPasswordSentPageRoute } from './routes/ap/forgot-pw-sent';
 import { apResetPasswordPageRoute } from './routes/ap/reset-pw';
@@ -47,6 +48,7 @@ import { jpBasePath } from './paths/jp/_base';
 import LoginRoute from "../app/routes/common/login";
 import { PageFlavor } from '../components/Page';
 import { apAddonsPageRoute } from './routes/ap/addons';
+// import { apDonateRoute } from './routes/ap/donate';
 import { apClosedPageRoute } from './routes/ap/closed';
 
 const defaultRouteRender = () => {
@@ -72,7 +74,7 @@ const defaultRouteRender = () => {
 			}
 		} else {
 			console.log("... its doesnt have a jp in front, lets try adding one")
-			Sentry.captureMessage("Uncaught route " + window.location.pathname)
+			// Sentry.captureMessage("Uncaught route " + window.location.pathname)
 			return <Redirect to={'/jp/' + PathWrapper.removeLeadingTrailingSlashes(window.location.pathname)} />;
 		}
 	}
@@ -95,8 +97,8 @@ export default function (history: History<any>) {
 		apForgotPasswordSentPageRoute.asRoute(history),
 		jpResetPasswordPageRoute.asRoute(history),
 		apResetPasswordPageRoute.asRoute(history),
-		// apPreRegRoute.asRoute(history),
-		// apCreateAcctRoute.asRoute(history),
+		apPreRegRoute.asRoute(history),
+		apCreateAcctRoute.asRoute(history),
 		apClosedPageRoute.asRoute(history),
 		apStartClaimAcctPageRoute.asRoute(history),
 		apClaimAcctSentPageRoute.asRoute(history),
@@ -113,8 +115,9 @@ export default function (history: History<any>) {
 		<Route key="jpLoginRenderDeeplink" path={jpBasePath.getPathFromArgs({})} render={() => LoginRoute(PageFlavor.JP)(history)} />
 	]
 
-	const mustBeLoggedIn = assertUniqueKeys([		
-		checkoutPageRoute.asRoute(history),
+	const mustBeLoggedIn = assertUniqueKeys([
+		checkoutPageRouteJP.asRoute(history),
+		checkoutPageRouteAP.asRoute(history),
 		ratingsPageRoute.asRoute(history),
 		classPageRoute.asRoute(history),
 		signupNotePageRoute.asRoute(history),
@@ -124,12 +127,12 @@ export default function (history: History<any>) {
 		regEmptyPageRoute.asRoute(history),
 		offseasonPageRoute.asRoute(history),
 		apRegPageRoute.asRoute(history),
-		asc.state.jpClosedCovid ? null : apClassesPageRoute.asRoute(history),
 		apEditPageRoute.asRoute(history),
 		apSettingsPageRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),
 		apClassesPageRoute.asRoute(history),
 		apAddonsPageRoute.asRoute(history),
+	//	apDonateRoute.asRoute(history),
 		(
 			asc.state.justLoggedIn
 			? <Route key="homeAP" path={apBasePath.getPathFromArgs({})} exact render={() => <Redirect to={apRegPageRoute.getPathFromArgs({})} />} />

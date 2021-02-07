@@ -4,7 +4,8 @@ import { HttpMethod } from "../../core/HttpMethod";
 
 export const validator = t.type({
 	fundId: t.number,
-	amount: t.number
+	amount: t.number,
+	program: t.string
 })
 
 const path = "/member/delete-donation"

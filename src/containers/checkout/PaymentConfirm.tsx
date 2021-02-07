@@ -1,16 +1,19 @@
 import * as React from "react";
-import * as t from 'io-ts'; 
+import * as t from 'io-ts';
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import FactaButton from "../../theme/facta/FactaButton";
 import StripeConfirm from "../../components/StripeConfirm";
 import {orderStatusValidator} from "../../async/order-status"
-import { postWrapper as submitPayment } from "../../async/stripe/submit-payment"
+import { postWrapper as submitPaymentAP } from "../../async/stripe/submit-payment-ap"
+import { postWrapper as submitPaymentJP } from "../../async/stripe/submit-payment-jp"
 import { makePostString } from "../../core/APIWrapperUtil";
 import {FactaErrorDiv} from "../../theme/facta/FactaErrorDiv";
 import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";
 import FullCartReport from "../../components/FullCartReport";
 import { CartItem } from "../../async/get-cart-items";
+import Currency from "../../util/Currency";
+import { PageFlavor } from "../../components/Page";
 import FactaMainPage from "../../theme/facta/FactaMainPage";
 
 export interface Props {
@@ -18,7 +21,8 @@ export interface Props {
 	cartItems: CartItem[],
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
-	orderStatus: t.TypeOf<typeof orderStatusValidator>
+	orderStatus: t.TypeOf<typeof orderStatusValidator>,
+	flavor: PageFlavor
 }
 
 type State = {
@@ -32,6 +36,14 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 			validationErrors: []
 		};
 	}
+	getSubmitPayment = function() {
+		switch(this.props.flavor){
+			case PageFlavor.AP:
+				return submitPaymentAP;
+			case PageFlavor.JP:
+				return submitPaymentJP;
+		}
+	}
 	componentDidMount() {
 		setCheckoutImage()
 	}
@@ -43,10 +55,13 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 			: ""
 		);
 		const orderTotal = this.props.cartItems.reduce((sum, i) => sum + i.price, 0)
+
 		const billingInfo = (
 			orderTotal <= 0
 			? "Your order is fully paid for; click \"Finish Order\" below to finalize the order."
-			: <StripeConfirm cardData={this.props.orderStatus.cardData.getOrElse(null)} />
+			: (<React.Fragment>
+				<StripeConfirm cardData={this.props.orderStatus.cardData.getOrElse(null)} />
+			</React.Fragment>)
 		);
 
 		const buttonText = (
@@ -61,7 +76,22 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 				Please confirm your order and payment information are correct, and then click "Submit Payment" below!
 				<br />
 				<br />
-				<FullCartReport cartItems={self.props.cartItems} history={this.props.history} setErrors={() => {}} includeCancel={false}/>
+				<FullCartReport
+					cartItems={self.props.cartItems}
+					history={this.props.history}
+					setErrors={() => {}}
+					includeCancel={false}
+					extraFooterRow={(
+						this.props.orderStatus.staggeredPayments.length
+						? [
+							"<b>Charged Today</b>",
+							"",
+							<b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>
+						]
+						: []
+					)}
+					pageFlavor={this.props.flavor}
+				/>
 			</FactaArticleRegion>
 			<FactaArticleRegion title="Your Billing Info">
 				{billingInfo}
@@ -72,7 +102,7 @@ export default class PaymentConfirmPage extends React.PureComponent<Props, State
 					...self.state,
 					validationErrors: []
 				});
-				return submitPayment.send(makePostString("")).then(res => {
+				return self.getSubmitPayment().send(makePostString("")).then(res => {
 					if (res.type == "Failure" ) {
 						if (res.code == "process_err") {
 							self.setState({

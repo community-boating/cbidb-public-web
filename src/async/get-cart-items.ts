@@ -1,4 +1,5 @@
 import * as t from 'io-ts';
+import { PageFlavor } from '../components/Page';
 import APIWrapper from '../core/APIWrapper';
 import { HttpMethod } from "../core/HttpMethod";
 import { OptionalString, OptionalNumber } from '../util/OptionalTypeValidators';
@@ -21,8 +22,8 @@ export type CartItem = t.TypeOf<typeof cartItemValidator>
 
 const path = "/get-cart-items"
 
-export const apiw = new APIWrapper({
-	path,
+export const apiw = (program: PageFlavor) =>new APIWrapper({
+	path: path + "?program=" + program,
 	type: HttpMethod.GET,
 	resultValidator: cartItemValidatorList,
 })

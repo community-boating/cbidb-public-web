@@ -421,7 +421,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			}
 			<tr><td>&nbsp;</td></tr>
 			<tr><td><FactaButton
-				text={<span style={{fontSize: "0.9em"}}>Continue with {self.state.preRegistrations.length} Junior(s) ></span>}
+				text={<span style={{fontSize: "0.9em"}}>Continue with {self.state.preRegistrations.length} Junior(s) &gt;</span>}
 				spinnerOnClick={true}
 				onClick={() => {
 					const formData = self.state.formData;

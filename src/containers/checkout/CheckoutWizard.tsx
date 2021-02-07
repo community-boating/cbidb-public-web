@@ -3,7 +3,8 @@ import * as React from "react";
 import WizardPageflow, { ComponentPropsFromWizard } from "../../core/WizardPageflow";
 import { Option, none, some } from "fp-ts/lib/Option";
 import PageWrapper from "../../core/PageWrapper";
-import { apiw as welcomeAPI } from "../../async/member-welcome-jp";
+import { apiw as welcomeAPIAP } from "../../async/member-welcome-ap";
+import { apiw as welcomeAPIJP } from "../../async/member-welcome-jp";
 import PaymentDetailsPage from "./PaymentDetails";
 import PaymentConfirmPage from "./PaymentConfirm";
 import { apiw as orderStatus, CardData } from "../../async/order-status"
@@ -12,6 +13,7 @@ import { apiw as getCartItems } from "../../async/get-cart-items"
 import { jpBasePath } from "../../app/paths/jp/_base";
 import {getWrapper as getDonationFunds} from "../../async/donation-funds"
 import ThankYouPage from "./ThankYou";
+import { PageFlavor } from "../../components/Page";
 import FactaLoadingPage from "../../theme/facta/FactaLoadingPage";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
@@ -19,7 +21,10 @@ const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goNext: fromWizard.goNext
 })
 
-type Props = {history: History<any>};
+type Props = {
+	history: History<any>,
+	flavor: PageFlavor
+};
 
 type State = {
 	cardData: Option<CardData>,
@@ -34,6 +39,14 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 			cardData: none,
 			hasApMemberships: false,
 			hasJpMemberships: false
+		}
+	}
+	getWelcomeAPI = function() {
+		switch(this.props.flavor) {
+		case PageFlavor.AP:
+			return welcomeAPIAP;
+		case PageFlavor.JP:
+			return welcomeAPIJP
 		}
 	}
 	setCardData(cardData: CardData) {
@@ -69,14 +82,15 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					history={self.props.history}
 					cartItems={cartItems}
 					donationFunds={funds}
+					flavor={this.props.flavor}
 				/>}
 				urlProps={{}}
 				shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
-						welcomeAPI.send(null),
-						orderStatus.send(null),
-						getCartItems.send(null),
+						(self.getWelcomeAPI() as any).send(null),
+						orderStatus(this.props.flavor).send(null),
+						getCartItems(this.props.flavor).send(null),
 						getDonationFunds.send(null)
 					]).then(([welcome, order, cart, funds]) => {
 						if (welcome.type == "Success" && !welcome.success.canCheckout) {
@@ -106,13 +120,14 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					orderStatus = {orderStatus}
 					history={self.props.history}
 					cartItems={cartItems}
+					flavor={this.props.flavor}
 				/>}
 				urlProps={{}}
 				shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
-						orderStatus.send(null),
-						getCartItems.send(null)
+						orderStatus(this.props.flavor).send(null),
+						getCartItems(this.props.flavor).send(null)
 					]).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>
