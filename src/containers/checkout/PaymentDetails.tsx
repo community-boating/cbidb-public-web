@@ -38,6 +38,7 @@ import Currency from "../../util/Currency";
 import { apRegPageRoute } from "../../app/routes/ap/reg";
 import { Link } from "react-router-dom";
 import { PageFlavor } from "../../components/Page";
+import JoomlaReport from "../../theme/joomla/JoomlaReport";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -403,6 +404,25 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			To redeem a Gift Certificate, <Link to={apRegPageRoute.getPathFromArgs({})}>return to registration</Link> and select a one-time payment.
 		</JoomlaArticleRegion>);
 
+		const scheduleRadio = (id: string, group: string, text: JSX.Element) => (<React.Fragment>
+			<table><tbody><tr>
+				<td><input type="radio" id={id} name={group}></input></td>	
+				<td><label htmlFor={id}>{text}</label></td>
+			</tr></tbody></table>
+		</React.Fragment>);
+
+		const singlePaymentTable = (total: Currency) => <JoomlaReport
+			headers={["Date", "Amount"]}
+			cellStyles={[{textAlign: "right"}, {textAlign: "right"}]}
+			rows={[[
+				<span>Single Charge</span>,
+				total.format()
+			], [
+				<b>Total</b>,
+				<b>{total.format()}</b>
+			]]}
+		/>
+
 		return <JoomlaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
 			<JoomlaArticleRegion title="Please consider making a donation to Community Boating.">
@@ -433,6 +453,26 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							card will be charged again on the following dates to complete your order:
 							<br /><br />
 							<StaggeredPaymentSchedule schedule={this.props.orderStatus.staggeredPayments}/>
+						</JoomlaArticleRegion>)
+						: null
+					)}
+					{(
+						this.props.orderStatus.jpAvailablePaymentSchedule.length
+						? (<JoomlaArticleRegion title="Payment Schedule">
+							Staggered payment is available.  You may pay fully today, or spread the cost of your order between now and the start of Junior Program.
+							<br /><br />
+							<table><tbody><tr>
+								<td style={{verticalAlign: "top"}}>
+									{scheduleRadio("radio-single-payment", "schedule-select", <React.Fragment>Select to pay fully today,<br />in one payment</React.Fragment>)}
+									<br /><br />
+									{singlePaymentTable(Currency.dollars(this.props.orderStatus.total))}
+								</td>
+								<td style={{verticalAlign: "top"}}>
+									{scheduleRadio("radio-staggered-payment", "schedule-select", <React.Fragment>Select to pay<br />in the following installments</React.Fragment>)}
+									<br /><br />
+									<StaggeredPaymentSchedule schedule={this.props.orderStatus.jpAvailablePaymentSchedule}/>
+								</td>
+							</tr></tbody></table>
 						</JoomlaArticleRegion>)
 						: null
 					)}
