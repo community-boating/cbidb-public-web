@@ -10,8 +10,9 @@ export interface ClassType {
 	sessionCt: number,
 	sessionLength?: number,
 	sessionLengthMinutes?: number,
-	classSize: number,
-	description: JSX.Element
+	classSize: string | number,
+	description: JSX.Element,
+	durationOverride?: string,
 }
 
 export const asFragmentOptionalSignupLink = (includeLink: boolean) => (juniorId: number) => (ct: ClassType) => {
@@ -20,9 +21,14 @@ export const asFragmentOptionalSignupLink = (includeLink: boolean) => (juniorId:
 		? `${ct.sessionLengthMinutes} minutes/day`
 		: `${ct.sessionLength} hours/day`
 	);
+	const durationString = (
+		ct.durationOverride
+		? ct.durationOverride
+		: `${ct.sessionCt} days; ${lengthString}`
+	);
 	return (
 		<React.Fragment key={ct.typeId}>
-			<i>Prerequisite: {ct.prereq}.  Duration: {ct.sessionCt} days; {lengthString}.  Class Size: {ct.classSize == 0 ? "No Limit" : String(ct.classSize)}.</i>
+			<i>Prerequisite: {ct.prereq}.  Duration: {durationString}.  Class Size: {ct.classSize == 0 ? "No Limit" : String(ct.classSize)}.</i>
 			<br />
 			{ct.description}
 			<br /><br />
