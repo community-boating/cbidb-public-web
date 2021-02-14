@@ -98,6 +98,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			validationErrors: [],
 		}
 	}
+	tableRef: HTMLTableElement
 	getCheckoutPageRoute = function() {
 		switch (this.props.flavor) {
 		case PageFlavor.AP:
@@ -124,6 +125,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 	}
 	componentDidMount() {
 		setCheckoutImage()
+		if (window.location.hash) this.tableRef.focus();
 	}
 	validateDonationOtherAmt(): Either<string, number> {
 		if (this.state.formData.selectedDonationAmount.getOrElse(null) != "Other") {
@@ -404,7 +406,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 
 		const noGCRegion = (<JoomlaArticleRegion title="Gift Certificate">
 			Gift certificates currently cannot be used with staggered payment memberships.
-			To redeem a Gift Certificate, <Link to={apRegPageRoute.getPathFromArgs({})}>return to registration</Link> and select a one-time payment.
+			To redeem a Gift Certificate, {this.props.flavor == "AP" ? <React.Fragment><Link to={apRegPageRoute.getPathFromArgs({})}>return to registration</Link> and</React.Fragment>: ""} select a one-time payment.
 		</JoomlaArticleRegion>);
 
 		const scheduleRadio = (id: string, group: string, doStaggered: boolean, text: JSX.Element) => {
@@ -413,7 +415,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 					...self.state,
 					jpDoStaggeredPayment: doStaggered ? some("Y") : some("N")
 				})
-				setJPStaggered.send(makePostJSON({doStaggeredPayments: doStaggered})).then(() => self.props.history.push("/redirect" + window.location.pathname))
+				setJPStaggered.send(makePostJSON({doStaggeredPayments: doStaggered})).then(() => self.props.history.push("/redirect" + window.location.pathname + "#jp-payment-mode"))
 			}
 			const currentlyDoingStaggered = this.state.jpDoStaggeredPayment.getOrElse(null) == "Y"
 
@@ -423,9 +425,15 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				: !currentlyDoingStaggered
 			);
 
+			const refObj = (
+				doStaggered
+				? {}
+				: { ref: (e: any) => this.tableRef = e}
+			)
+
 			return (<React.Fragment>
 				<table><tbody><tr>
-					<td><input type="radio" id={id} checked={checked} onChange={() => onClick(doStaggered)} value={doStaggered ? "Y" : "N"}></input></td>	
+					<td><input type="radio" id={id} {...refObj} checked={checked} onChange={() => onClick(doStaggered)} value={doStaggered ? "Y" : "N"}></input></td>	
 					<td><label htmlFor={id}>{text}</label></td>
 				</tr></tbody></table>
 			</React.Fragment>);
@@ -442,6 +450,12 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				<b>{total.format()}</b>
 			]]}
 		/>
+
+		const staggeredCellStyle = (selected: boolean) => ({
+			verticalAlign: "top",
+			padding: "8px",
+			border: selected ? "2px solid #2358A6" : undefined
+		})
 
 		return <JoomlaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
@@ -482,7 +496,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							Staggered payment is available.  You may pay fully today, or spread the cost of your order between now and the start of Junior Program.
 							<br /><br />
 							<table><tbody><tr>
-								<td style={{verticalAlign: "top"}}>
+								<td style={staggeredCellStyle(this.state.jpDoStaggeredPayment.getOrElse(null) != "Y")}>
 									{scheduleRadio(
 										"radio-single-payment", 
 										"schedule-select",
@@ -492,7 +506,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 									<br /><br />
 									{singlePaymentTable(Currency.dollars(this.props.orderStatus.total))}
 								</td>
-								<td style={{verticalAlign: "top"}}>
+								<td style={staggeredCellStyle(this.state.jpDoStaggeredPayment.getOrElse(null) == "Y")}>
 									{scheduleRadio(
 										"radio-staggered-payment",
 										"schedule-select",
