@@ -101,7 +101,7 @@ export class AppStateContainer {
 				authenticatedUserName: none
 			},
 			justLoggedIn: false,
-			jpClosedCovid: false
+			jpClosedCovid: true
 		};
 	}
 }

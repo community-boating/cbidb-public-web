@@ -12,6 +12,7 @@ import {postWrapper as offseasonWLDelete} from "../../async/junior/offseason-wl-
 import {offseasonPageRoute} from "../../app/routes/jp/offseason"
 import { jpBasePath } from '../../app/paths/jp/_base';
 import { classPageRoute } from '../../app/routes/jp/class';
+import asc from '../../app/AppStateContainer';
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)
@@ -73,9 +74,9 @@ export default (bv: number, juniorId: number, history: History<any>) => {
     }]
 
     return (function() {
-        if (testBit(bv, 0)) {
+        if (testBit(bv, 0) && !asc.state.jpClosedCovid) {
             return [<Link to={reg}>{"Purchase Summer Membership and/or Spring Class"}</Link>];
-        } else if (testBit(bv, 1)) {
+        } else if (testBit(bv, 1) && !asc.state.jpClosedCovid) {
             return [<Link to={reg}>{"Purchase Summer Membership"}</Link>];
         } else if (testBit(bv, 2)) {
             return [<Link to={reg}>{"Complete Registration"}</Link>]
