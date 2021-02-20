@@ -50,6 +50,7 @@ import { PageFlavor } from '../components/Page';
 import { apAddonsPageRoute } from './routes/ap/addons';
 // import { apDonateRoute } from './routes/ap/donate';
 import { apClosedPageRoute } from './routes/ap/closed';
+import { apManageStaggeredPaymentsRoute } from './routes/ap/payments';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -138,6 +139,7 @@ export default function (history: History<any>) {
 		jpHomePageRoute.asRoute(history),
 		apClassesPageRoute.asRoute(history),
 		apAddonsPageRoute.asRoute(history),
+		apManageStaggeredPaymentsRoute.asRoute(history),
 	//	apDonateRoute.asRoute(history),
 		(
 			asc.state.justLoggedIn
