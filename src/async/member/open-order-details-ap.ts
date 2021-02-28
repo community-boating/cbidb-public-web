@@ -2,9 +2,16 @@ import * as t from 'io-ts';
 import APIWrapper from '../../core/APIWrapper';
 import { HttpMethod } from "../../core/HttpMethod";
 
-export const validator = t.type({
-	orderId: t.number
-})
+
+export const paymentValidator = t.type({
+	amountCents: t.number,
+	expectedDate: t.string,
+	orderId: t.number,
+	paid: t.boolean,
+	staggerId: t.number,
+});
+
+export const validator = t.array(paymentValidator);
 
 const path = "/member/open-order-details-ap"
 

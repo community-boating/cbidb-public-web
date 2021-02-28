@@ -8,6 +8,7 @@ import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import ManageStaggeredPayments from '../../../containers/ManageStaggeredPayments';
 import { PageFlavor } from '../../../components/Page';
 import {getWrapper, validator} from "../../../async/member/open-order-details-ap"
+import { apBasePath } from '../../paths/ap/_base';
 
 
 export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayments, history => <PageWrapper
@@ -16,11 +17,20 @@ export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayme
 	component={(urlProps: {}, async: t.TypeOf<typeof validator>) => <ManageStaggeredPayments
 		history={history}
 		program={PageFlavor.AP}
-		orderId={async.orderId}
+		payments={async}
 	/>}
 	urlProps={{}}
 	getAsyncProps={(urlProps: {}) => {
-		return getWrapper.send(null).catch(err => Promise.resolve(null));
+		return getWrapper.send(null)
+		.then(r => {
+			if (r.type != "Success" || r.success.length == 0) {
+				console.log("fail ", r)
+				history.push(apBasePath.getPathFromArgs({}));
+			} else {
+				return r;
+			}
+		})
+		.catch(err => Promise.resolve(null));
 	}}
 	shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
 />);
