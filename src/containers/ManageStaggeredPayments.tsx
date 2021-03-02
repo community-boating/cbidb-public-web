@@ -18,6 +18,8 @@ import { makePostJSON } from '../core/APIWrapperUtil';
 import JoomlaMainPage from '../theme/joomla/JoomlaMainPage';
 import Button from '../components/Button';
 import {postWrapper as finishOrder} from "../async/member/finish-open-order-ap"
+import { apBasePath } from '../app/paths/ap/_base';
+import { jpBasePath } from '../app/paths/jp/_base';
 
 type Payment = t.TypeOf<typeof paymentValidator>
 type PaymentList = t.TypeOf<typeof validator>
@@ -52,7 +54,8 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props> 
 			cardErrorsId="card-errors"
 			then={(result: PaymentMethod) => {
 				return storePaymentMethod.send(makePostJSON({
-					paymentMethodId: result.paymentMethod.id
+					paymentMethodId: result.paymentMethod.id,
+					retryLatePayments: true
 				})).then(result => {
 					console.log(result)
 					if (result.type == "Success") {
@@ -76,7 +79,17 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props> 
 			} else return Promise.resolve();
 		}
 
+		const backRoute = (
+			this.props.program == PageFlavor.JP
+			? jpBasePath.getPathFromArgs({})
+			: apBasePath.getPathFromArgs({})
+		)
+
 		return <JoomlaMainPage setBGImage={setBGImage}>
+			<Button text="< Back" onClick={() => {
+				this.props.history.push(backRoute);
+				return Promise.resolve();
+			}}/>
 			<JoomlaArticleRegion title="Upcoming Payments">
 				<JoomlaReport
 					headers={["Date", "Amount", "Status"]}
