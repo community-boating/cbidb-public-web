@@ -7,9 +7,14 @@ const data: ClassType = {
 	prereq: "Mercury Green Rating or previous experience",
 	sessionCt: 1,
 	sessionLength: 2.5,
-	classSize: 16,
+	durationOverride: '1 half-day',
+	classSize: 'self-directed',
 	description: (<React.Fragment>
-		Our Fast Track class is designed to get a variety of experience level sailors up to speed on our Mercury sailboat and at our facility. Returning Learn-To-Sail students, sailors with experience in other boats and programs, and even sailors who want a refresher after their first week of Beginner Sailing may choose to take this as a first or second introduction to CBI's Junior Program. The class is on land, and includes abbreviated orientation, rigging, and shore school demonstrations.
+		Intended for sailors with prior experience elsewhere to become familiar with our boats and facility so they can jump into Intermediate "running".<br />
+		<br />
+		For 2021, our half-day Mercury Fast-track class is moving online! Students can review the seven slideshows
+		on our <a target="_blank" href="https://www.community-boating.org/member-resources/e-learning/">e-learning page</a> and then book a time to do our
+		verbal and rigging checks at the boathouse.
 	</React.Fragment>)
 }
 

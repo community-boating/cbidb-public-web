@@ -9,7 +9,7 @@ import formUpdateState from '../../../util/form-update-state';
 import { Select } from '../../../components/Select';
 import { validatorSingleRow } from "../../../async/class-instances-with-avail"
 import JoomlaReport from '../../../theme/joomla/JoomlaReport';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateSailing } from '../../../lov/magicStrings';
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek } from '../../../lov/magicStrings';
 import { Moment } from 'moment';
 import Button from '../../../components/Button';
 import { PreRegistration, PreRegistrationClass } from '../../../app/global-state/jp-pre-registrations';
@@ -65,8 +65,8 @@ export const preRegRender = (then: () => void) => (prereg: PreRegistration, i: n
 			deleteJunior.send(makePostString("name=" + prereg.firstName)).then(then)
 		}
 	}}><img src="/images/delete.png" /></a>{"   " + prereg.firstName}</b><br />
-	Beginner:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.beginner)}}></span><br />
-	Intermediate:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.intermediate)}}></span><br />
+	Beginner Sailing:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.beginner)}}></span><br />
+	{/* Intermediate:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.intermediate)}}></span><br /> */}
 	{function() {
 		const classToUse = prereg.beginner.getOrElse(null) || prereg.intermediate.getOrElse(null);
 		if (classToUse && classToUse.expirationDateTime && classToUse.minutesRemaining) {
@@ -152,7 +152,7 @@ classData => reservationRows => {
 			cio
 		}
 	}).filter(Boolean) // chuck nulls
-	.filter(r => r.cio.typeId == jpClassTypeId_BeginnerSailing || r.cio.typeId == jpClassTypeId_IntermediateSailing) // chuck anything thats not beginner or int
+	.filter(r => r.cio.typeId == jpClassTypeId_BeginnerSailing || r.cio.typeId == jpClassTypeId_IntermediateOneWeek) // chuck anything thats not beginner or int
 
 	// next, bundle up per junior
 	const mapToPreregistration = (cio: ClassInstanceObject) => ({
@@ -177,7 +177,7 @@ classData => reservationRows => {
 				signupNote: row.signupNote
 			});
 		}
-		else if (row.cio.typeId == jpClassTypeId_IntermediateSailing) {
+		else if (row.cio.typeId == jpClassTypeId_IntermediateOneWeek) {
 			hash[row.juniorFirstName].intermediate = some({
 				...mapToPreregistration(row.cio),
 				expirationDateTime: moment(row.expirationDateTime, "YYYY-MM-DDTHH:mm:ss"),
@@ -389,7 +389,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 						.filter(c => c.startDateMoment.isSameOrAfter(moment("06/29/2020")))
 				)}
 			</JoomlaArticleRegion>
-			<JoomlaArticleRegion title="Intermediate Sailing">
+			{/* <JoomlaArticleRegion title="Intermediate Sailing">
 				<table><tbody><FormSelect
 					id="intermediateMorningAfternoon"
 					label="Choose a time:  "
@@ -402,11 +402,11 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					updateStateWrappedForID,
 					self.state.formData.selectedIntermediateInstance,
 					self.state.apiResult
-						.filter(c => c.typeId == jpClassTypeId_IntermediateSailing)
+						.filter(c => c.typeId == jpClassTypeId_IntermediateOneWeek)
 						.filter(c => c.isMorning == (self.state.formData.intermediateMorningAfternoon.getOrElse("") == "Morning"))
 						.filter(c => c.startDateMoment.isSameOrAfter(moment("06/29/2020")))
 				)}
-			</JoomlaArticleRegion>
+			</JoomlaArticleRegion> */}
 			<Button text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 			<Button text={<span>Create Junior</span>} spinnerOnClick={true} onClick={() => submitAction().then(
 				personId =>self.props.history.push(reserveNotesPageRoute.getPathFromArgs({personId: String(personId)})),
