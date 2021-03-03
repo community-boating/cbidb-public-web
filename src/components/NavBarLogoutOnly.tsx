@@ -46,6 +46,6 @@ export default (props: {history: History<any>, sysdate: Option<Moment>, showProg
 		}}>&nbsp;&nbsp;&nbsp;Logout</a>
 	].filter(Boolean);
 	return (<React.Fragment>
-		{...navComponents}
+		{navComponents}
 	</React.Fragment>);
 }

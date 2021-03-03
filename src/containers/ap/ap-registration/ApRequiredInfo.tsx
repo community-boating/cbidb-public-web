@@ -17,7 +17,7 @@ import JoomlaMainPage from "../../../theme/joomla/JoomlaMainPage";
 import JoomlaNotitleRegion from "../../../theme/joomla/JoomlaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import range from "../../../util/range";
-import moment = require('moment');
+import * as moment from 'moment';
 import ErrorDiv from '../../../theme/joomla/ErrorDiv';
 import asc from '../../../app/AppStateContainer';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';

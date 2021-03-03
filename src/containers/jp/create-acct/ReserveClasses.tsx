@@ -20,7 +20,7 @@ import { makePostJSON, makePostString } from '../../../core/APIWrapperUtil';
 import { History } from 'history';
 import ErrorDiv from '../../../theme/joomla/ErrorDiv';
 import {postWrapper as deleteJunior} from '../../../async/junior/delete-junior-class-reservation'
-import moment = require('moment');
+import * as moment from 'moment';
 import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
 import { reserveNotesPageRoute } from '../../../app/routes/jp/reserve-notes';
 import { createAcctPageRoute } from '../../../app/routes/jp/create-acct';

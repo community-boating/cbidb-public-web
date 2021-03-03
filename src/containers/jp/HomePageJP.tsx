@@ -8,7 +8,7 @@ import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import homePageActions from "./HomePageActionsJP";
 import Button from '../../components/Button';
 import { History } from 'history';
-import moment = require('moment');
+import * as moment from 'moment';
 import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import { some } from 'fp-ts/lib/Option';
