@@ -167,12 +167,12 @@ export default function (history: History<any>) {
 		}
 		hash[key] = true;
 		return hash;
-	}, {}));	
+	}, {}));
 
 	return (
 		<Router history={history}>
 			<Switch>
-				{...routes.filter(Boolean)}
+				{routes.filter(Boolean)}
 			</Switch>
 		</Router>
 	);
