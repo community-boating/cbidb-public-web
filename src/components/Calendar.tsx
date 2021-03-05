@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Moment } from 'moment';
 import * as _ from 'lodash';
 import FactaButton from '../theme/facta/FactaButton';
-import moment = require('moment');
+import * as moment from 'moment';
 
 // TODO: calendar should be instantiated with a way to ask for data in a given date range
 // calendar could then ensure it always has data for x months ahead or behind as needed
@@ -180,13 +180,13 @@ export default class Calendar extends React.PureComponent<Props, State> {
 
 		return (
 			<React.Fragment>
-				<div style={{marginBottom: "15px"}}>
+				<div>
 					<FactaButton text="< Previous" onClick={() => Promise.resolve(this.goBack())} />
 					<FactaButton text="Today" onClick={() => Promise.resolve(this.goToday())} />
 					<FactaButton text="Next >" onClick={() => Promise.resolve(this.goForward())} />
 				</div>
 
-				<table cellPadding="0" cellSpacing="0" className="CalendarHolder" role="presentation" style={{maxWidth: "900px"}}>
+				<table cellPadding="0" cellSpacing="0" className="CalendarHolder" role="presentation">
 					<tbody>
 						<tr>
 							<td className="MonthTitle">{Calendar.getMonthTitle(this.state.firstOfFocusedMonth)}</td>

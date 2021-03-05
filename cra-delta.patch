@@ -1,0 +1,426 @@
+diff --git a/config/env.js b/config/env.js
+index 3d1411b..625be63 100644
+--- a/config/env.js
++++ b/config/env.js
+@@ -4,6 +4,8 @@ const fs = require('fs');
+ const path = require('path');
+ const paths = require('./paths');
+ 
++const serverConfig = require("./readIni");
++
+ // Make sure that including paths.js after env.js will read .env variables.
+ delete require.cache[require.resolve('./paths')];
+ 
+@@ -90,6 +92,8 @@ function getClientEnvironment(publicUrl) {
+         // which is why it's disabled by default.
+         // It is defined here so it is available in the webpackHotDevClient.
+         FAST_REFRESH: process.env.FAST_REFRESH !== 'false',
++				...serverConfig,
++				eFuse: 2
+       }
+     );
+   // Stringify all values so we can feed into webpack DefinePlugin
+diff --git a/config/getHttpsConfig.js b/config/getHttpsConfig.js
+deleted file mode 100644
+index 013d493..0000000
+--- a/config/getHttpsConfig.js
++++ /dev/null
+@@ -1,66 +0,0 @@
+-'use strict';
+-
+-const fs = require('fs');
+-const path = require('path');
+-const crypto = require('crypto');
+-const chalk = require('react-dev-utils/chalk');
+-const paths = require('./paths');
+-
+-// Ensure the certificate and key provided are valid and if not
+-// throw an easy to debug error
+-function validateKeyAndCerts({ cert, key, keyFile, crtFile }) {
+-  let encrypted;
+-  try {
+-    // publicEncrypt will throw an error with an invalid cert
+-    encrypted = crypto.publicEncrypt(cert, Buffer.from('test'));
+-  } catch (err) {
+-    throw new Error(
+-      `The certificate "${chalk.yellow(crtFile)}" is invalid.\n${err.message}`
+-    );
+-  }
+-
+-  try {
+-    // privateDecrypt will throw an error with an invalid key
+-    crypto.privateDecrypt(key, encrypted);
+-  } catch (err) {
+-    throw new Error(
+-      `The certificate key "${chalk.yellow(keyFile)}" is invalid.\n${
+-        err.message
+-      }`
+-    );
+-  }
+-}
+-
+-// Read file and throw an error if it doesn't exist
+-function readEnvFile(file, type) {
+-  if (!fs.existsSync(file)) {
+-    throw new Error(
+-      `You specified ${chalk.cyan(
+-        type
+-      )} in your env, but the file "${chalk.yellow(file)}" can't be found.`
+-    );
+-  }
+-  return fs.readFileSync(file);
+-}
+-
+-// Get the https config
+-// Return cert files if provided in env, otherwise just true or false
+-function getHttpsConfig() {
+-  const { SSL_CRT_FILE, SSL_KEY_FILE, HTTPS } = process.env;
+-  const isHttps = HTTPS === 'true';
+-
+-  if (isHttps && SSL_CRT_FILE && SSL_KEY_FILE) {
+-    const crtFile = path.resolve(paths.appPath, SSL_CRT_FILE);
+-    const keyFile = path.resolve(paths.appPath, SSL_KEY_FILE);
+-    const config = {
+-      cert: readEnvFile(crtFile, 'SSL_CRT_FILE'),
+-      key: readEnvFile(keyFile, 'SSL_KEY_FILE'),
+-    };
+-
+-    validateKeyAndCerts({ ...config, keyFile, crtFile });
+-    return config;
+-  }
+-  return isHttps;
+-}
+-
+-module.exports = getHttpsConfig;
+diff --git a/config/jest/babelTransform.js b/config/jest/babelTransform.js
+deleted file mode 100644
+index dabf5a8..0000000
+--- a/config/jest/babelTransform.js
++++ /dev/null
+@@ -1,29 +0,0 @@
+-'use strict';
+-
+-const babelJest = require('babel-jest');
+-
+-const hasJsxRuntime = (() => {
+-  if (process.env.DISABLE_NEW_JSX_TRANSFORM === 'true') {
+-    return false;
+-  }
+-
+-  try {
+-    require.resolve('react/jsx-runtime');
+-    return true;
+-  } catch (e) {
+-    return false;
+-  }
+-})();
+-
+-module.exports = babelJest.createTransformer({
+-  presets: [
+-    [
+-      require.resolve('babel-preset-react-app'),
+-      {
+-        runtime: hasJsxRuntime ? 'automatic' : 'classic',
+-      },
+-    ],
+-  ],
+-  babelrc: false,
+-  configFile: false,
+-});
+diff --git a/config/jest/cssTransform.js b/config/jest/cssTransform.js
+deleted file mode 100644
+index 8f65114..0000000
+--- a/config/jest/cssTransform.js
++++ /dev/null
+@@ -1,14 +0,0 @@
+-'use strict';
+-
+-// This is a custom Jest transformer turning style imports into empty objects.
+-// http://facebook.github.io/jest/docs/en/webpack.html
+-
+-module.exports = {
+-  process() {
+-    return 'module.exports = {};';
+-  },
+-  getCacheKey() {
+-    // The output is always the same.
+-    return 'cssTransform';
+-  },
+-};
+diff --git a/config/jest/fileTransform.js b/config/jest/fileTransform.js
+deleted file mode 100644
+index aab6761..0000000
+--- a/config/jest/fileTransform.js
++++ /dev/null
+@@ -1,40 +0,0 @@
+-'use strict';
+-
+-const path = require('path');
+-const camelcase = require('camelcase');
+-
+-// This is a custom Jest transformer turning file imports into filenames.
+-// http://facebook.github.io/jest/docs/en/webpack.html
+-
+-module.exports = {
+-  process(src, filename) {
+-    const assetFilename = JSON.stringify(path.basename(filename));
+-
+-    if (filename.match(/\.svg$/)) {
+-      // Based on how SVGR generates a component name:
+-      // https://github.com/smooth-code/svgr/blob/01b194cf967347d43d4cbe6b434404731b87cf27/packages/core/src/state.js#L6
+-      const pascalCaseFilename = camelcase(path.parse(filename).name, {
+-        pascalCase: true,
+-      });
+-      const componentName = `Svg${pascalCaseFilename}`;
+-      return `const React = require('react');
+-      module.exports = {
+-        __esModule: true,
+-        default: ${assetFilename},
+-        ReactComponent: React.forwardRef(function ${componentName}(props, ref) {
+-          return {
+-            $$typeof: Symbol.for('react.element'),
+-            type: 'svg',
+-            ref: ref,
+-            key: null,
+-            props: Object.assign({}, props, {
+-              children: ${assetFilename}
+-            })
+-          };
+-        }),
+-      };`;
+-    }
+-
+-    return `module.exports = ${assetFilename};`;
+-  },
+-};
+diff --git a/config/webpack.config.js b/config/webpack.config.js
+index d7f95dd..f06e35e 100644
+--- a/config/webpack.config.js
++++ b/config/webpack.config.js
+@@ -18,7 +18,6 @@ const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+ const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
+ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+-const ESLintPlugin = require('eslint-webpack-plugin');
+ const paths = require('./paths');
+ const modules = require('./modules');
+ const getClientEnvironment = require('./env');
+@@ -26,6 +25,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
+ const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
+ const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
++const CircularDependencyPlugin = require('circular-dependency-plugin')
+ 
+ const postcssNormalize = require('postcss-normalize');
+ 
+@@ -712,31 +712,44 @@ module.exports = function (webpackEnv) {
+           // The formatter is invoked directly in WebpackDevServerUtils during development
+           formatter: isEnvProduction ? typescriptFormatter : undefined,
+         }),
+-      !disableESLintPlugin &&
+-        new ESLintPlugin({
+-          // Plugin options
+-          extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+-          formatter: require.resolve('react-dev-utils/eslintFormatter'),
+-          eslintPath: require.resolve('eslint'),
+-          failOnError: !(isEnvDevelopment && emitErrorsAsWarnings),
+-          context: paths.appSrc,
+-          cache: true,
+-          cacheLocation: path.resolve(
+-            paths.appNodeModules,
+-            '.cache/.eslintcache'
+-          ),
+-          // ESLint class options
+-          cwd: paths.appPath,
+-          resolvePluginsRelativeTo: __dirname,
+-          baseConfig: {
+-            extends: [require.resolve('eslint-config-react-app/base')],
+-            rules: {
+-              ...(!hasJsxRuntime && {
+-                'react/react-in-jsx-scope': 'error',
+-              }),
+-            },
+-          },
+-        }),
++      // !disableESLintPlugin &&
++      //   new ESLintPlugin({
++      //     // Plugin options
++      //     extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
++      //     formatter: require.resolve('react-dev-utils/eslintFormatter'),
++      //     eslintPath: require.resolve('eslint'),
++      //     failOnError: !(isEnvDevelopment && emitErrorsAsWarnings),
++      //     context: paths.appSrc,
++      //     cache: true,
++      //     cacheLocation: path.resolve(
++      //       paths.appNodeModules,
++      //       '.cache/.eslintcache'
++      //     ),
++      //     // ESLint class options
++      //     cwd: paths.appPath,
++      //     resolvePluginsRelativeTo: __dirname,
++      //     baseConfig: {
++      //       extends: [require.resolve('eslint-config-react-app/base')],
++      //       rules: {
++      //         ...(!hasJsxRuntime && {
++      //           'react/react-in-jsx-scope': 'error',
++      //         }),
++      //       },
++      //     },
++      //   }),
++		new CircularDependencyPlugin({
++			// exclude detection of files based on a RegExp
++			exclude: /a\.js|node_modules/,
++			// include specific files based on a RegExp
++			include: /src/,
++			// add errors to webpack instead of warnings
++			failOnError: false,
++			// allow import cycles that include an asyncronous import,
++			// e.g. via import(/* webpackMode: "weak" */ './file.js')
++			allowAsyncCycles: false,
++			// set the current working directory for displaying module paths
++			cwd: process.cwd(),
++		  }),
+     ].filter(Boolean),
+     // Some libraries import Node modules but don't use them in the browser.
+     // Tell webpack to provide empty mocks for them so importing them works.
+diff --git a/config/webpackDevServer.config.js b/config/webpackDevServer.config.js
+index 6c43a8a..4542120 100644
+--- a/config/webpackDevServer.config.js
++++ b/config/webpackDevServer.config.js
+@@ -7,13 +7,15 @@ const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMi
+ const ignoredFiles = require('react-dev-utils/ignoredFiles');
+ const redirectServedPath = require('react-dev-utils/redirectServedPathMiddleware');
+ const paths = require('./paths');
+-const getHttpsConfig = require('./getHttpsConfig');
++const devAPIServer = require("./readIni").devAPIServer
+ 
+ const host = process.env.HOST || '0.0.0.0';
+ const sockHost = process.env.WDS_SOCKET_HOST;
+ const sockPath = process.env.WDS_SOCKET_PATH; // default: '/sockjs-node'
+ const sockPort = process.env.WDS_SOCKET_PORT;
+ 
++const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
++
+ module.exports = function (proxy, allowedHost) {
+   return {
+     // WebpackDevServer 2.4.3 introduced a security fix that prevents remote
+@@ -90,7 +92,7 @@ module.exports = function (proxy, allowedHost) {
+     watchOptions: {
+       ignored: ignoredFiles(paths.appSrc),
+     },
+-    https: getHttpsConfig(),
++    https: protocol === 'https',
+     host,
+     overlay: false,
+     historyApiFallback: {
+@@ -101,7 +103,14 @@ module.exports = function (proxy, allowedHost) {
+     },
+     public: allowedHost,
+     // `proxy` is run between `before` and `after` `webpack-dev-server` hooks
+-    proxy,
++		proxy: {
++                        ...proxy,
++			'/api': {
++				target: devAPIServer,
++				pathRewrite: { '^/api': '' },
++				changeOrigin: true
++			}
++		},
+     before(app, server) {
+       // Keep `evalSourceMapMiddleware` and `errorOverlayMiddleware`
+       // middlewares before `redirectServedPath` otherwise will not have any effect
+diff --git a/scripts/start.js b/scripts/start.js
+index 92c2671..61782e2 100644
+--- a/scripts/start.js
++++ b/scripts/start.js
+@@ -14,8 +14,10 @@ process.on('unhandledRejection', err => {
+ // Ensure environment variables are read.
+ require('../config/env');
+ 
++const serverConfig = require("../config/readIni");
+ 
+ const fs = require('fs');
++const ini = require('ini');
+ const chalk = require('react-dev-utils/chalk');
+ const webpack = require('webpack');
+ const WebpackDevServer = require('webpack-dev-server');
+@@ -45,7 +47,10 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+ }
+ 
+ // Tools like Cloud9 rely on this.
+-const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
++const {host, port} = serverConfig.serverConfig.SELF
++process.env.HOST = host;
++process.env.PORT = port;
++const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 8081;
+ const HOST = process.env.HOST || '0.0.0.0';
+ 
+ if (process.env.HOST) {
+@@ -128,7 +133,7 @@ checkBrowsers(paths.appPath, isInteractive)
+         return console.log(err);
+       }
+       if (isInteractive) {
+-        clearConsole();
++      //  clearConsole();
+       }
+ 
+       if (env.raw.FAST_REFRESH && semver.lt(react.version, '16.10.0')) {
+diff --git a/scripts/test.js b/scripts/test.js
+deleted file mode 100644
+index b57cb38..0000000
+--- a/scripts/test.js
++++ /dev/null
+@@ -1,53 +0,0 @@
+-'use strict';
+-
+-// Do this as the first thing so that any code reading it knows the right env.
+-process.env.BABEL_ENV = 'test';
+-process.env.NODE_ENV = 'test';
+-process.env.PUBLIC_URL = '';
+-
+-// Makes the script crash on unhandled rejections instead of silently
+-// ignoring them. In the future, promise rejections that are not handled will
+-// terminate the Node.js process with a non-zero exit code.
+-process.on('unhandledRejection', err => {
+-  throw err;
+-});
+-
+-// Ensure environment variables are read.
+-require('../config/env');
+-
+-
+-const jest = require('jest');
+-const execSync = require('child_process').execSync;
+-let argv = process.argv.slice(2);
+-
+-function isInGitRepository() {
+-  try {
+-    execSync('git rev-parse --is-inside-work-tree', { stdio: 'ignore' });
+-    return true;
+-  } catch (e) {
+-    return false;
+-  }
+-}
+-
+-function isInMercurialRepository() {
+-  try {
+-    execSync('hg --cwd . root', { stdio: 'ignore' });
+-    return true;
+-  } catch (e) {
+-    return false;
+-  }
+-}
+-
+-// Watch unless on CI or explicitly running all tests
+-if (
+-  !process.env.CI &&
+-  argv.indexOf('--watchAll') === -1 &&
+-  argv.indexOf('--watchAll=false') === -1
+-) {
+-  // https://github.com/facebook/create-react-app/issues/5210
+-  const hasSourceControl = isInGitRepository() || isInMercurialRepository();
+-  argv.push(hasSourceControl ? '--watch' : '--watchAll');
+-}
+-
+-
+-jest.run(argv);

@@ -17,7 +17,7 @@ import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import formUpdateState from '../../../util/form-update-state';
 import range from "../../../util/range";
-import moment = require('moment');
+import * as moment from 'moment';
 import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
 import asc from '../../../app/AppStateContainer';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';

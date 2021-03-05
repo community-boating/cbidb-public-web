@@ -7,7 +7,7 @@ import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import homePageActions from "./HomePageActionsJP";
 import FactaButton from '../../theme/facta/FactaButton';
 import { History } from 'history';
-import moment = require('moment');
+import * as moment from 'moment';
 import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';
 import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
 import { some } from 'fp-ts/lib/Option';

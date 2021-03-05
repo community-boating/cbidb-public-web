@@ -6,7 +6,7 @@ import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import FactaButton from "../../theme/facta/FactaButton";
 import {History} from 'history'
 import Calendar, { CalendarDayElement } from "../../components/Calendar";
-import moment = require('moment');
+import * as moment from 'moment';
 import { Moment } from 'moment';
 import {validator as typesValidator, AvailabilityFlag} from "../../async/member/ap-class-type-avail"
 import {resultValidator as classesValidator} from "../../async/member/ap-classes-for-calendar"
