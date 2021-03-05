@@ -57,8 +57,14 @@ const defaultRouteRender = () => {
 	const redirectRegexMatchResult = redirectRegex.exec(window.location.pathname);
 	if (redirectRegexMatchResult) {
 		// First see if its a redirect
-		console.log("... its a redirect, going to " + redirectRegexMatchResult[1]);
-		return <Redirect to={'/' + redirectRegexMatchResult[1]} />;
+		// console.log("... its a redirect, going to " + redirectRegexMatchResult[1]);
+		const elementIDRegex = /(#[^\/]+)$/
+		const tail = (function() {
+			const result = elementIDRegex.exec(window.location.href);
+			if (result && result[1]) return result[1];
+			else return "";
+		}());
+		return <Redirect to={'/' + redirectRegexMatchResult[1] + tail} />;
 	} else {
 		console.log("its not a redirect....")
 		const jpRegex = /^\/jp\/(.*)$/;
@@ -161,12 +167,12 @@ export default function (history: History<any>) {
 		}
 		hash[key] = true;
 		return hash;
-	}, {}));	
+	}, {}));
 
 	return (
 		<Router history={history}>
 			<Switch>
-				{...routes.filter(Boolean)}
+				{routes.filter(Boolean)}
 			</Switch>
 		</Router>
 	);

@@ -1,6 +1,6 @@
 import * as React from "react";
 import JoomlaReport from "../theme/joomla/JoomlaReport";
-import moment = require("moment");
+import * as moment from 'moment';
 import Currency from "../util/Currency";
 
 type Props = {

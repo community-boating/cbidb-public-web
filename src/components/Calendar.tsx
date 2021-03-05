@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Moment } from 'moment';
 import * as _ from 'lodash';
 import Button from './Button';
-import moment = require('moment');
+import * as moment from 'moment';
 
 // TODO: calendar should be instantiated with a way to ask for data in a given date range
 // calendar could then ensure it always has data for x months ahead or behind as needed
