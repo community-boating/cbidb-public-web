@@ -9,6 +9,7 @@ export const paymentValidator = t.type({
 	orderId: t.number,
 	paid: t.boolean,
 	staggerId: t.number,
+	failedCron: t.boolean,
 });
 
 export const validator = t.array(paymentValidator);

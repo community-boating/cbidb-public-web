@@ -20,6 +20,7 @@ import Button from '../components/Button';
 import {postWrapper as finishOrder} from "../async/member/finish-open-order-ap"
 import { apBasePath } from '../app/paths/ap/_base';
 import { jpBasePath } from '../app/paths/jp/_base';
+import ErrorDiv from '../theme/joomla/ErrorDiv';
 
 type Payment = t.TypeOf<typeof paymentValidator>
 type PaymentList = t.TypeOf<typeof validator>
@@ -31,8 +32,18 @@ type Props = {
 	payments: PaymentList
 }
 
+type State = {
+	validationErrors: string[]
+}
 
-export default class ManageStaggeredPayments extends React.PureComponent<Props> {
+
+export default class ManageStaggeredPayments extends React.PureComponent<Props, State> {
+	constructor(props: Props){
+		super(props)
+		this.state = {
+			validationErrors: []
+		}
+	}
 	render() {
 		const self = this;
 		const setBGImage = (function() {
@@ -47,6 +58,12 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props> 
 			}
 		}());
 
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
+
 		const stripeElement = <StripeElement
 			submitMethod="PAYMENT_METHOD"
 			formId="recurring-form"
@@ -60,6 +77,11 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props> 
 					console.log(result)
 					if (result.type == "Success") {
 						self.props.history.push("/redirect" + window.location.pathname)
+					} else {
+						self.setState({
+							...self.state,
+							validationErrors: result.message.split("\\n") // TODO
+						});
 					}
 				})
 			}}
@@ -86,6 +108,8 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props> 
 		)
 
 		return <JoomlaMainPage setBGImage={setBGImage}>
+			{errorPopup}
+			<br />
 			<Button text="< Back" onClick={() => {
 				this.props.history.push(backRoute);
 				return Promise.resolve();
@@ -97,7 +121,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props> 
 						return [
 							moment(p.expectedDate, "YYYY-MM-DD").format("MM/DD/YYYY"),
 							Currency.cents(p.amountCents).format(),
-							p.paid ? "Paid" : "Unpaid"
+							p.paid ? "Paid" : (p.failedCron ? "Failed" : "Unpaid")
 						]
 					})}
 				/>
