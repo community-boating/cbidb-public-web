@@ -115,12 +115,12 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			return clearCardJP;
 		}
 	}
-	getStorePaymentMethod = function() {
+	getStorePaymentMethod() {
 		switch (this.props.flavor) {
 			case PageFlavor.AP:
 				return storePaymentMethodAP;
 			case PageFlavor.JP:
-				return storePaymentMethodJP;
+				return storePaymentMethodJP(none);
 			}
 	}
 	componentDidMount() {
@@ -285,7 +285,8 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 
 		const processPaymentMethod = (result: PaymentMethod) => {
 			return self.getStorePaymentMethod().send(makePostJSON({
-				paymentMethodId: result.paymentMethod.id
+				paymentMethodId: result.paymentMethod.id,
+				retryLatePayments: false
 			})).then(result => {
 				if (result.type == "Success") {
 					self.props.goNext();

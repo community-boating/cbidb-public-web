@@ -19,7 +19,8 @@ export const validator = t.type({
 		nameLast: OptionalString,
 		status: OptionalString,
 		actions: OptionalString,
-		ratings: OptionalString
+		ratings: OptionalString,
+		openStaggeredOrderId: OptionalNumber,
 	})),
 	serverTime: t.string,
 	season: t.number,

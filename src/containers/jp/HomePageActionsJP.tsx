@@ -12,13 +12,14 @@ import {postWrapper as offseasonWLDelete} from "../../async/junior/offseason-wl-
 import {offseasonPageRoute} from "../../app/routes/jp/offseason"
 import { jpBasePath } from '../../app/paths/jp/_base';
 import { classPageRoute } from '../../app/routes/jp/class';
+import { jpManageStaggeredPaymentsRoute } from '../../app/routes/jp/payments';
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)
 }
 
 //TODO: paths are duplicated here, import from classes and replace :personId
-export default (bv: number, juniorId: number, history: History<any>) => {
+export default (bv: number, juniorId: number, history: History<any>, hasOpenOrder: boolean) => {
 	const reg = regPageRoute.getPathFromArgs({personId: String(juniorId)});
 
     const actions = [{
@@ -83,5 +84,6 @@ export default (bv: number, juniorId: number, history: History<any>) => {
             return [<Link to={reg}>{"Edit Registration"}</Link>]
         } else return [];
     }()).concat(actions.filter(({place}) => testBit(bv, place)).map(({element}) => element))
+    .concat(hasOpenOrder ? [<Link to={jpManageStaggeredPaymentsRoute.getPathFromArgs({juniorId: String(juniorId)})}>Manage Upcoming Payments</Link>]: [])
     .map((element, i) => <li key={i}>{element}</li>)
 }

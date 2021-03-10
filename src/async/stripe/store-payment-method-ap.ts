@@ -3,7 +3,8 @@ import APIWrapper from '../../core/APIWrapper';
 import { HttpMethod } from "../../core/HttpMethod";
 
 export type PostType = {
-	paymentMethodId: string
+	paymentMethodId: string,
+	retryLatePayments: boolean
 }
 
 const resultValidator = t.type({
