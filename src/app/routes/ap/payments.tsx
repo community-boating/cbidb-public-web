@@ -9,6 +9,7 @@ import ManageStaggeredPayments from '../../../containers/ManageStaggeredPayments
 import { PageFlavor } from '../../../components/Page';
 import {getWrapper, validator} from "../../../async/member/open-order-details-ap"
 import { apBasePath } from '../../paths/ap/_base';
+import { none } from 'fp-ts/lib/Option';
 
 
 export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayments, history => <PageWrapper
@@ -18,6 +19,7 @@ export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayme
 		history={history}
 		program={PageFlavor.AP}
 		payments={async}
+		juniorId={none}
 	/>}
 	urlProps={{}}
 	getAsyncProps={(urlProps: {}) => {

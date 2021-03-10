@@ -49,7 +49,7 @@ export default class HomePageJP extends React.Component<Props, State> {
 			personId: c.personId,
 			name: c.nameFirst.getOrElse("") + " " + c.nameLast.getOrElse(""),
 			status: <span dangerouslySetInnerHTML={{__html: c.status.getOrElse("")}}/>,
-			actions: <ul>{homePageActions(Number(c.actions.getOrElse("")), c.personId, self.props.history)}</ul>,
+			actions: <ul>{homePageActions(Number(c.actions.getOrElse("")), c.personId, self.props.history, c.openStaggeredOrderId.isSome())}</ul>,
 		}))
 
 		const mainTable = <JoomlaArticleRegion title="My Junior Program Memberships">

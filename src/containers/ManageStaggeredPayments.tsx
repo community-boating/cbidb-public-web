@@ -17,10 +17,12 @@ import {postWrapper as storePaymentMethod} from "../async/stripe/store-payment-m
 import { makePostJSON } from '../core/APIWrapperUtil';
 import JoomlaMainPage from '../theme/joomla/JoomlaMainPage';
 import Button from '../components/Button';
-import {postWrapper as finishOrder} from "../async/member/finish-open-order-ap"
+import {postWrapper as finishOrderAP} from "../async/member/finish-open-order-ap"
+import {postWrapper as finishOrderJP} from "../async/member/finish-open-order-jp"
 import { apBasePath } from '../app/paths/ap/_base';
 import { jpBasePath } from '../app/paths/jp/_base';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
+import { Option } from 'fp-ts/lib/Option';
 
 type Payment = t.TypeOf<typeof paymentValidator>
 type PaymentList = t.TypeOf<typeof validator>
@@ -29,7 +31,8 @@ type PaymentList = t.TypeOf<typeof validator>
 type Props = {
 	history: History<any>,
 	program: PageFlavor,
-	payments: PaymentList
+	payments: PaymentList,
+	juniorId: Option<number>
 }
 
 type State = {
@@ -94,6 +97,12 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 				"This will immediately charge your credit card on file in the amount of " + 
 				outstandingTotal.format() + " and complete your membership purchase; do you wish to continue?";
 
+			const finishOrder = (
+				self.props.program == PageFlavor.JP && self.props.juniorId.isSome()
+				? finishOrderJP(self.props.juniorId.getOrElse(null))
+				: finishOrderAP
+			)
+
 			if (confirm(confirmText)) {
 				return finishOrder.send(makePostJSON({})).then(r => {
 					self.props.history.push("/redirect" + window.location.pathname)
@@ -106,6 +115,9 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 			? jpBasePath.getPathFromArgs({})
 			: apBasePath.getPathFromArgs({})
 		)
+
+		const paid = <span style={{color:"#22772d"}}>Paid</span>
+		const failed = <span style={{color:"#ff0000"}}>Failed</span>
 
 		return <JoomlaMainPage setBGImage={setBGImage}>
 			{errorPopup}
@@ -121,7 +133,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 						return [
 							moment(p.expectedDate, "YYYY-MM-DD").format("MM/DD/YYYY"),
 							Currency.cents(p.amountCents).format(),
-							p.paid ? "Paid" : (p.failedCron ? "Failed" : "Unpaid")
+							p.paid ? paid : (p.failedCron ? failed : "Unpaid")
 						]
 					})}
 				/>
