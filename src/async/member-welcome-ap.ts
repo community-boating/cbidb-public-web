@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
 import APIWrapper from '../core/APIWrapper';
 import { HttpMethod } from "../core/HttpMethod";
-import { OptionalString } from '../util/OptionalTypeValidators';
+import { OptionalNumber, OptionalString } from '../util/OptionalTypeValidators';
 
 export const discountsValidator = t.type({
 	eligibleForSeniorOnline: t.boolean,
@@ -18,7 +18,7 @@ export const discountsValidator = t.type({
 	studentDiscountAmt: t.number,
 	veteranDiscountAmt: t.number,
 	mghDiscountAmt: t.number,
-	fyBasePrice: t.number
+	fyBasePrice: t.number,
 })
 
 export const validator = t.type({
@@ -35,7 +35,8 @@ export const validator = t.type({
 	canCheckout: t.boolean,
 	expirationDate: OptionalString,
 	show4thLink: t.boolean,
-	discountsResult: discountsValidator
+	discountsResult: discountsValidator,
+	openStaggeredOrderId: OptionalNumber,
 })
 
 const path = "/member-welcome-ap"
