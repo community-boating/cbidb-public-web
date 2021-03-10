@@ -58,7 +58,8 @@ export default class RecurringDonations extends React.PureComponent<Props> {
 			cardErrorsId="card-errors"
 			then={(result: PaymentMethod) => {
 				return storePaymentMethod.send(makePostJSON({
-					paymentMethodId: result.paymentMethod.id
+					paymentMethodId: result.paymentMethod.id,
+					retryLatePayments: true
 				})).then(result => {
 					console.log(result)
 					if (result.type == "Success") {
