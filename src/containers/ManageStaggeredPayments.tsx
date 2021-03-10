@@ -13,7 +13,8 @@ import * as moment from 'moment';
 import Currency from '../util/Currency';
 import StripeElement from '../components/StripeElement';
 import { PaymentMethod } from '../models/stripe/PaymentMethod';
-import {postWrapper as storePaymentMethod} from "../async/stripe/store-payment-method-ap"
+import {postWrapper as storePaymentMethodAP} from "../async/stripe/store-payment-method-ap"
+import {postWrapper as storePaymentMethodJP} from "../async/stripe/store-payment-method-jp"
 import { makePostJSON } from '../core/APIWrapperUtil';
 import JoomlaMainPage from '../theme/joomla/JoomlaMainPage';
 import Button from '../components/Button';
@@ -65,6 +66,12 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 			(this.state.validationErrors.length > 0)
 			? <ErrorDiv errors={this.state.validationErrors}/>
 			: ""
+		);
+
+		const storePaymentMethod = (
+			this.props.program == PageFlavor.JP
+			? storePaymentMethodJP(this.props.juniorId)
+			: storePaymentMethodAP
 		);
 
 		const stripeElement = <StripeElement

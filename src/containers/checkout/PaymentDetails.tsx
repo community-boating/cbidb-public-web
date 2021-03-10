@@ -115,12 +115,12 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			return clearCardJP;
 		}
 	}
-	getStorePaymentMethod = function() {
+	getStorePaymentMethod() {
 		switch (this.props.flavor) {
 			case PageFlavor.AP:
 				return storePaymentMethodAP;
 			case PageFlavor.JP:
-				return storePaymentMethodJP;
+				return storePaymentMethodJP(none);
 			}
 	}
 	componentDidMount() {

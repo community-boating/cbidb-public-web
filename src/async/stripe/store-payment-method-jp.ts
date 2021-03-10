@@ -1,3 +1,4 @@
+import { Option } from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
 import APIWrapper from '../../core/APIWrapper';
 import { HttpMethod } from "../../core/HttpMethod";
@@ -12,8 +13,8 @@ const resultValidator = t.type({
 
 const path = "/stripe/store-payment-method-jp"
 
-export const postWrapper = new APIWrapper<typeof resultValidator, PostType, {}>({
-	path,
+export const postWrapper = (juniorId: Option<number>) => new APIWrapper<typeof resultValidator, PostType, {}>({
+	path: path + juniorId.map(juniorId => "?juniorId=" + juniorId).getOrElse(""),
 	type: HttpMethod.POST,
 	resultValidator: resultValidator
 })
