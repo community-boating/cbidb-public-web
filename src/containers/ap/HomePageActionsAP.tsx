@@ -15,6 +15,7 @@ import { apEditPageRoute } from '../../app/routes/ap/edit';
 import { apClassesPageRoute } from '../../app/routes/ap/classes';
 import { apPathAddons } from '../../app/paths/ap/addons';
 // import { apDonateRoute } from '../../app/routes/ap/donate';
+import {apManageStaggeredPaymentsRoute} from "../../app/routes/ap/payments"
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -41,7 +42,15 @@ export const getNoDW = (bv: number) => testBit(bv, 17);
 export const getAddonsPurchaseInProgress = (bv: number) => testBit(bv, 28);
 export const hasStripeCustomerId = (bv: number) => testBit(bv, 29);
 
-export default (bv: number, personId: number, history: History<any>, discountAmt: Currency, expirationDate: Option<Moment>, show4th: boolean) => {
+export default (
+	bv: number,
+	personId: number,
+	history: History<any>,
+	discountAmt: Currency,
+	expirationDate: Option<Moment>,
+	show4th: boolean,
+	hasOpenStaggeredOrder: boolean
+) => {
 	// const canRenew = testBit(bv, 4) || testBit(bv, 7);
 
 	const renewText = () => (<React.Fragment>
@@ -221,7 +230,12 @@ export default (bv: number, personId: number, history: History<any>, discountAmt
 		getElements: [
 			LINKS.edit
 		]
-	}/*, {
+	}, {
+		show: () => hasOpenStaggeredOrder,
+		getElements: [
+			() => <Link to={apManageStaggeredPaymentsRoute.getPathFromArgs({})}>Manage Upcoming Payments</Link>
+		]	
+	} /*, {
 		place: 29,
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>

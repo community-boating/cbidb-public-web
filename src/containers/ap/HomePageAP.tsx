@@ -50,7 +50,8 @@ export default class HomePageAP extends React.Component<Props, State> {
 						self.props.history,
 						Currency.dollars(self.props.data.discountsResult.renewalDiscountAmt),
 						expirationDate,
-						self.props.data.show4thLink
+						self.props.data.show4thLink,
+						self.props.data.openStaggeredOrderId.isSome()
 					)
 				]]}
 				rawHtml={{1: true}}
