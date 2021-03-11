@@ -260,7 +260,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			} else if (beginner.isNone() && intermediate.isNone()) {
 				this.setState({
 					...this.state,
-					validationErrors: ["Please specify class to reserve.  If you do not want to reserve classes at this time, click \"Continue\" to the right.  You will have the opportunity to add more juniors later."]
+					validationErrors: ["Please specify class to reserve. Experienced sailors and anyone who does not want to reserve a Beginner Class at this time, should just click \"Continue\" to the right. You will have the opportunity to add more juniors later."]
 				})
 				return Promise.reject();
 			} else if (beginner.isNone() && intermediate.isSome()) {
@@ -333,9 +333,9 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		const main = (<React.Fragment>
 			{errorPopup}
 			<FactaArticleRegion title="Reserve Classes">
-				Novice sailors start with our two-week Beginner Sailing.
-				They may also sign up now for our two-week Intermediate Sailing starting after their beginner session concludes.
-				Our sliding scale junior membership fee covers all classes and boat signouts.
+				Our sliding scale junior membership fee covers two weeks of classes.
+				Novice sailors start with our two-week Beginner Sailing, and can reserve a spot below.
+				Experienced sailors should just click "Continue" on the right without reserving, and contact the JP directors via email for proper placement.
 				<br />
 				<br />
 				
@@ -343,17 +343,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				<ul>
 					<li>
 						<span style={{color: "#F00", fontWeight: "bold"}}>
-							Class signup is NOT finalized until registration is complete and payment processed. 
+						Class signups and/or waitlists are NOT finalized until registration is complete and payment processed. 
 						</span>  Spots are only reserved for two hours.
-					</li>
-					<li>
-						Signup for additional offerings is available after completing registration.
-					</li>
-					<li>
-						Completed payment and registration is required in order to waitlist.
-					</li>
-					<li>
-						Experienced sailors should click "Continue" on the right without making any reservations, and contact the JP directors for proper placement.
 					</li>
 				</ul>
 			</FactaArticleRegion>
