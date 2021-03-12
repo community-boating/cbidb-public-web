@@ -1,5 +1,6 @@
 import { History } from "history";
 import * as React from "react";
+// import * as t from 'io-ts';
 
 import PageWrapper from "../../core/PageWrapper";
 import ProgressThermometer from "../../components/ProgressThermometer";
@@ -11,6 +12,10 @@ import { apBasePath } from "../../app/paths/ap/_base";
 import DonateDetailsPage from "./DonateDetailsPage";
 import DonateConfirmationPage from "./DonateConfirmationPage";
 import DonateThankYouPage from "./DonateThankYouPage";
+import {getWrapper as getDonationFunds} from "../../async/donation-funds"
+import {apiw as getCart} from "../../async/get-cart-items-donate"
+
+//type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -24,9 +29,8 @@ type Props = {
 type State = {
 }
 
-export default class GiftCertificatesWizard extends React.Component<Props, State> {
+export default class DonateWizard extends React.Component<Props, State> {
 	render() {
-		console.log("GC Wizard")
 		const self = this;
 		const staticComponentProps = {
 			history: this.props.history
@@ -55,10 +59,16 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="DonateDetailsPage"
 					history={self.props.history}
-					component={(urlProps: {}) => <DonateDetailsPage
+					component={(urlProps: {}, [funds, cart]) => <DonateDetailsPage
+						donationFunds={funds}
+						cartItems={cart}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
+					getAsyncProps={() => Promise.all([
+						getDonationFunds.send(null),
+						getCart.send(null),
+					]) as any}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Required<br />Information</React.Fragment>

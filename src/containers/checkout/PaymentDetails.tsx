@@ -194,8 +194,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
-
-
 		const donationAmountCell = (<div>
 			How much can you give this season?<br />
 			<FormRadio
