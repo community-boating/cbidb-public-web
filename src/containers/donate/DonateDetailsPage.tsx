@@ -54,7 +54,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 	constructor(props: Props) {
 		super(props)
 		const fundIsUnused = (fund: t.TypeOf<typeof donationFundValidator>) => {
-			return true // !this.props.cartItems.find(item => item.fundId.getOrElse(null) == fund.fundId)
+			return !this.props.cartItems.find(item => item.fundId.getOrElse(null) == fund.fundId)
 		}
 
 		const availableFunds = this.props.donationFunds.filter(fundIsUnused)
