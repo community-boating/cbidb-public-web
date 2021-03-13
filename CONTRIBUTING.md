@@ -8,8 +8,8 @@
 
 ## Application structure
 - Any API calls should utilize `APIWrapper`
-- If the path of an API endpoint is api.community-boating.org/v1/foo/bar/baz,
-  the ApiWrapper should be located at src/async/foo/bar/baz.ts
+- If the path of an API endpoint is api.community-boating.org/v1/foo/bar/baz, the ApiWrapper should be located at src/async/foo/bar/baz.ts
+- API request payloads and responses should be typed with an `io-ts` type validation object
 - Any application routes should utilize `RouteWrapper`; RWs should live in src/app/routes
 - Never hardcode an API URL or application route anywhere except the creation of the APIWrapper or RouteWrapper (e.g. always go through the wrapper object to reference a path)
 
