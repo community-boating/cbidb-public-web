@@ -19,6 +19,8 @@ import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-perso
 import FullCartReport from '../../components/FullCartReport';
 import { CartItem } from '../../async/get-cart-items-donate';
 import { PageFlavor } from '../../components/Page';
+import { Either, left, right } from 'fp-ts/lib/Either';
+import ErrorDiv from '../../theme/joomla/ErrorDiv';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -38,6 +40,9 @@ type Form = {
 	gcNumber: Option<string>,
 	gcCode: Option<string>,
 	inMemory: Option<string>,
+	firstName: Option<string>,
+	lastName: Option<string>,
+	email: Option<string>,
 }
 
 type State = {
@@ -69,27 +74,71 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				gcNumber: none,
 				gcCode: none,
 				inMemory: none,
+				firstName: none,
+				lastName: none,
+				email: none
 			},
 			validationErrors: [],
 		}
 	}
+	validateDonationOtherAmt(): Either<string, number> {
+		if (this.state.formData.selectedDonationAmount.getOrElse(null) != "Other") {
+			return right(null);
+		} else {
+			const rawAmt = this.state.formData.otherAmount.getOrElse("");
+			const removeDollarSignAndCommas = Number(rawAmt.replace(/\$/g, "").replace(/,/g, ""));
+			if (isNaN(removeDollarSignAndCommas)) {
+				return left("Donation amount is invalid"); 
+			} else {
+				return right(removeDollarSignAndCommas);
+			}
+		}
+	}
+	clearErrors() {
+		this.setState({
+			...this.state,
+			validationErrors: []
+		})
+	}
 	doAddDonation() {
 		const self = this;
-		return getProtoPersonCookie.send(PostURLEncoded({})).then(() => addDonation.send(makePostJSON({
-			fundId: this.state.formData.selectedFund.map(Number).getOrElse(null),
-			amount: this.state.formData.selectedDonationAmount.map(Number).getOrElse(null)
-		})))
-		.then(ret => {
-			if (ret.type == "Success") {
-				self.props.history.push("/redirect" + window.location.pathname)
+		this.clearErrors();
+
+		const errorOrOtherAmt: Either<string, number> = (function() {
+			const selectedAmount = self.state.formData.selectedDonationAmount.getOrElse("None");
+			if (selectedAmount == "None") {
+				return left("No donation amount selected.") as Either<string, number>
+			} else if (selectedAmount == "Other") {
+				return self.validateDonationOtherAmt();
 			} else {
-				window.scrollTo(0, 0);
-				self.setState({
-					...self.state,
-					validationErrors: ret.message.split("\\n") // TODO
-				});
+				return right(Number(selectedAmount)) as Either<string, number>
 			}
-		})
+		}());
+
+		if (errorOrOtherAmt.isLeft()) {
+			window.scrollTo(0, 0);
+			this.setState({
+				...this.state,
+				validationErrors: [errorOrOtherAmt.swap().getOrElse(null)]
+			});
+			return Promise.resolve()
+		} else {
+			return getProtoPersonCookie.send(PostURLEncoded({})).then(() => addDonation.send(makePostJSON({
+				fundId: this.state.formData.selectedFund.map(Number).getOrElse(null),
+				amount: errorOrOtherAmt.getOrElse(null),
+			})))
+			.then(ret => {
+				if (ret.type == "Success") {
+					self.props.history.push("/redirect" + window.location.pathname)
+				} else {
+					window.scrollTo(0, 0);
+					self.setState({
+						...self.state,
+						validationErrors: ret.message.split("\\n") // TODO
+					});
+				}
+			})
+		}
 	}
 	render() {
 		const self = this
@@ -102,9 +151,6 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				justElement={true}
 				columns={3}
 				values={[{
-					key: "None",
-					display: "None"
-				}, {
 					key: "10",
 					display: "$10"
 				}, {
@@ -129,14 +175,16 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 			{
 				(this.state.formData.selectedDonationAmount.getOrElse(null) == "Other")
 				? 
-				<FormInput
-					id="otherAmount"
-					label="$"
-					value={this.state.formData.otherAmount}
-					updateAction={updateState}
-					size={10}
-					maxLength={10}
-				/>
+				<table style={{marginBottom: "3px"}}><tbody>
+					<FormInput
+						id="otherAmount"
+						label="$"
+						value={this.state.formData.otherAmount}
+						updateAction={updateState}
+						size={10}
+						maxLength={10}
+					/>
+				</tbody></table>
 				: null
 			}
 			<Button text="Add Donation" spinnerOnClick onClick={() => this.doAddDonation()}/>
@@ -181,8 +229,57 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 			</td>
 		</tr></tbody></table>) : null;
 
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
+		const ifStarted = <React.Fragment>
+			<JoomlaArticleRegion title="Donation Summary">
+				<FullCartReport
+					cartItems={self.props.cartItems}
+					history={this.props.history}
+					setErrors={() => {}}
+					includeCancel={true}
+					excludeMemberName={true}
+					pageFlavor={PageFlavor.Common}
+				/>
+			</JoomlaArticleRegion>
+			<JoomlaArticleRegion title="Personal Info">
+				<table><tbody>
+					<FormInput
+						id="firstName"
+						label="First Name"
+						value={this.state.formData.firstName}
+						updateAction={updateState}
+						size={30}
+						maxLength={255}
+						isRequired
+					/>
+					<FormInput
+						id="lastName"
+						label="Last Name"
+						value={this.state.formData.lastName}
+						updateAction={updateState}
+						size={30}
+						maxLength={255}
+						isRequired
+					/>
+					<FormInput
+						id="email"
+						label="Email"
+						value={this.state.formData.email}
+						updateAction={updateState}
+						size={30}
+						maxLength={255}
+					/>
+				</tbody></table>
+			</JoomlaArticleRegion>
+		</React.Fragment>;
+
 		return (
 			<JoomlaMainPage setBGImage={setCheckoutImage}>
+				{errorPopup}
 				<JoomlaArticleRegion title={"Support Community Boating!"}>
 					{/* <DonationThirdPartyWidget /> */}
 					<br />
@@ -195,15 +292,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					<Button text="Next >" spinnerOnClick onClick={this.props.goNext}/> */}
 				</JoomlaArticleRegion>
 				{donationRow}
-				<JoomlaArticleRegion title="Donation Summary">
-					<FullCartReport
-						cartItems={self.props.cartItems}
-						history={this.props.history}
-						setErrors={() => {}}
-						includeCancel={true}
-						pageFlavor={PageFlavor.AP}
-					/>
-				</JoomlaArticleRegion>
+				{self.props.cartItems.length > 0 ? ifStarted : null}
 			</JoomlaMainPage>
 		)
 	}

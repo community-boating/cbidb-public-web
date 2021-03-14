@@ -12,11 +12,10 @@ import { PostURLEncoded } from '../core/APIWrapperUtil';
 import Validation from '../util/Validation'
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import asc from '../app/AppStateContainer';
-import { setJPImage, setAPImage } from '../util/set-bg-image';
+import { setJPImage, setAPImage, setCheckoutImage } from '../util/set-bg-image';
 import { jpBasePath } from '../app/paths/jp/_base';
 import { PageFlavor } from '../components/Page';
 import { apBasePath } from '../app/paths/ap/_base';
-import assertNever from '../util/assertNever';
 
 type Props = {
 	history: History<any>,
@@ -76,8 +75,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 			case PageFlavor.JP:
 				return setJPImage;
 			default:
-				assertNever(self.props.program);
-				return null;
+				return setCheckoutImage;
 			}
 		}());
 		const loginLink = (function() {
@@ -87,7 +85,6 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 				case PageFlavor.JP:
 					return jpBasePath.getPathFromArgs({});
 				default:
-					assertNever(self.props.program);
 					return null;
 				}
 		}());

@@ -6,7 +6,6 @@ import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import { none } from 'fp-ts/lib/Option';
 import { setAPImage, setJPImage } from '../util/set-bg-image';
-import assertNever from '../util/assertNever';
 import { PageFlavor } from '../components/Page';
 import { apPathLogin } from '../app/paths/ap/login';
 import { jpPathLogin } from '../app/paths/jp/login';
@@ -35,7 +34,6 @@ export default class ForgotPasswordSentPage extends React.PureComponent<Props> {
 			case PageFlavor.JP:
 				return setJPImage;
 			default:
-				assertNever(self.props.program);
 				return null;
 			}
 		}());
@@ -46,7 +44,6 @@ export default class ForgotPasswordSentPage extends React.PureComponent<Props> {
 				case PageFlavor.JP:
 					return jpPathLogin.getPathFromArgs({});
 				default:
-					assertNever(self.props.program);
 					return null;
 				}
 		}());

@@ -11,9 +11,8 @@ import {apiw} from "../async/forgot-pw"
 import { PostURLEncoded } from '../core/APIWrapperUtil';
 import ErrorDiv from '../theme/joomla/ErrorDiv';
 import { jpForgotPasswordSentPageRoute } from '../app/routes/jp/forgot-pw-sent';
-import { setAPImage, setJPImage } from '../util/set-bg-image';
+import { setAPImage, setCheckoutImage, setJPImage } from '../util/set-bg-image';
 import { PageFlavor } from '../components/Page';
-import assertNever from '../util/assertNever';
 import { apForgotPasswordSentPageRoute } from '../app/routes/ap/forgot-pw-sent';
 import { apBasePath } from '../app/paths/ap/_base';
 import { jpBasePath } from '../app/paths/jp/_base';
@@ -59,8 +58,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 			case PageFlavor.JP:
 				return setJPImage;
 			default:
-				assertNever(self.props.program);
-				return null;
+				return setCheckoutImage;
 			}
 		}());
 		const nextLink = (function() {
@@ -70,7 +68,6 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 				case PageFlavor.JP:
 					return jpForgotPasswordSentPageRoute.getPathFromArgs({});
 				default:
-					assertNever(self.props.program);
 					return null;
 				}
 		}());
@@ -81,7 +78,6 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 				case PageFlavor.JP:
 					return jpBasePath.getPathFromArgs({});
 				default:
-					assertNever(self.props.program);
 					return null;
 				}
 		}());
