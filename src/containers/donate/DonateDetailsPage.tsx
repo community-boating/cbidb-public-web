@@ -243,7 +243,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					setErrors={() => {}}
 					includeCancel={true}
 					excludeMemberName={true}
-					pageFlavor={PageFlavor.Common}
+					pageFlavor={PageFlavor.DONATE}
 				/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Personal Info">

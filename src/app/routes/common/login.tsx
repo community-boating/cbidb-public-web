@@ -28,7 +28,9 @@ export default (flavor: PageFlavor) => (history: History<any>) => <PageWrapper
 				return setJPImage;
 			case PageFlavor.AP:
 				return setAPImage;
-			case PageFlavor.Common:
+			case PageFlavor.SHARED:
+			case PageFlavor.DONATE:
+			case PageFlavor.GC:
 				return setCheckoutImage;
 			default:
 				assertNever(flavor);

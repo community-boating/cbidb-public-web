@@ -45,7 +45,7 @@ type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
 export interface Props {
 	welcomePackage: t.TypeOf<typeof welcomeJPValidator>,
-	orderStatus: t.TypeOf<typeof orderStatusValidator>
+	orderStatus: t.TypeOf<typeof orderStatusValidator>,
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
 	setCardData: (cardData: CardData) => void,

@@ -14,6 +14,8 @@ import DonateConfirmationPage from "./DonateConfirmationPage";
 import DonateThankYouPage from "./DonateThankYouPage";
 import {getWrapper as getDonationFunds} from "../../async/donation-funds"
 import {apiw as getCart} from "../../async/get-cart-items-donate"
+import { apiw as orderStatus } from "../../async/order-status"
+import { PageFlavor } from "../../components/Page";
 
 //type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -68,6 +70,7 @@ export default class DonateWizard extends React.Component<Props, State> {
 					getAsyncProps={() => Promise.all([
 						getDonationFunds.send(null),
 						getCart.send(null),
+						orderStatus(PageFlavor.DONATE).send(null),
 					]) as any}
 					{...pageWrapperProps}
 				/>,
