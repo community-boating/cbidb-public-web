@@ -13,7 +13,8 @@ export const cartItemValidator = t.type({
 	price: t.number,
 	displayOrder: t.number,
 	orderId: t.number,
-	fundId: OptionalNumber
+	fundId: OptionalNumber,
+	inMemoryOf: OptionalString,
 });
 
 export const cartItemValidatorList = t.array(cartItemValidator);

@@ -126,6 +126,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 			return getProtoPersonCookie.send(PostURLEncoded({})).then(() => addDonation.send(makePostJSON({
 				fundId: this.state.formData.selectedFund.map(Number).getOrElse(null),
 				amount: errorOrOtherAmt.getOrElse(null),
+				inMemoryOf: this.state.formData.inMemory,
 			})))
 			.then(ret => {
 				if (ret.type == "Success") {
