@@ -61,9 +61,10 @@ export default class DonateWizard extends React.Component<Props, State> {
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="DonateDetailsPage"
 					history={self.props.history}
-					component={(urlProps: {}, [funds, cart]) => <DonateDetailsPage
+					component={(urlProps: {}, [funds, cart, orderStatus]) => <DonateDetailsPage
 						donationFunds={funds}
 						cartItems={cart}
+						orderStatus={orderStatus}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}

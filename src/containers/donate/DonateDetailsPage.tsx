@@ -21,6 +21,13 @@ import { CartItem } from '../../async/get-cart-items-donate';
 import { PageFlavor } from '../../components/Page';
 import { Either, left, right } from 'fp-ts/lib/Either';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import { orderStatusValidator } from "../../async/order-status"
+import StripeConfirm from '../../components/StripeConfirm';
+import { postWrapper as clearCard } from '../../async/stripe/clear-card'
+import { donatePageRoute } from '../../app/routes/donate';
+import StripeElement from '../../components/StripeElement';
+import { postWrapper as storeToken } from "../../async/stripe/store-token"
+import { TokensResult } from '../../models/stripe/tokens';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -30,6 +37,7 @@ type Props = {
 	goPrev: () => Promise<void>,
 	donationFunds: DonationFund[],
 	cartItems: CartItem[],
+	orderStatus: t.TypeOf<typeof orderStatusValidator>,
 }
 
 type Form = {
@@ -235,6 +243,52 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 			? <ErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
+
+		const confirm = this.props.orderStatus.cardData.map(cd => <StripeConfirm
+			cardData={cd}
+		/>);
+
+		const paymentTextOrResetLink = (function(){
+			if (confirm.isSome()) {
+				return <Button plainLink text="Click here to use a different credit card." onClick={e => {
+					e.preventDefault();
+					return clearCard.send(makePostJSON({program: PageFlavor.DONATE})).then(() => self.props.history.push(`/redirect${donatePageRoute.getPathFromArgs({})}`));
+				}} />
+			} else {
+				return "Please enter payment information below. Credit card information is communicated securely to our payment processor and will not be stored by CBI for this order.";
+			}
+		}());
+
+		const processToken = (result: TokensResult) => {
+			return storeToken.send(makePostJSON({
+				token: result.token.id,
+				orderId: self.props.orderStatus.orderId
+			})).then(result => {
+				if (result.type == "Success") {
+				//	self.props.setCardData(result.success);
+					self.props.goNext();
+				} else {
+					self.setState({
+						...self.state,
+						validationErrors: [result.message]
+					});
+					window.scrollTo(0, 0);
+				}
+			})
+		}
+
+		const stripeElement = <StripeElement
+			submitMethod={
+				self.props.orderStatus.paymentMethodRequired
+				? "PAYMENT_METHOD"
+				: "TOKEN"
+			}
+			formId="payment-form"
+			elementId="card-element"
+			cardErrorsId="card-errors"
+			then={processToken}
+		/>;
+
 		const ifStarted = <React.Fragment>
 			<JoomlaArticleRegion title="Donation Summary">
 				<FullCartReport
@@ -275,6 +329,12 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 						maxLength={255}
 					/>
 				</tbody></table>
+			</JoomlaArticleRegion>
+			<JoomlaArticleRegion title="Credit Card Information">
+				{paymentTextOrResetLink}
+				<br />
+				<br />
+				{confirm.getOrElse(stripeElement)}
 			</JoomlaArticleRegion>
 		</React.Fragment>;
 
