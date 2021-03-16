@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as t from 'io-ts';
+import {History} from 'history';
 import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
 import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import { setCheckoutImage } from '../../util/set-bg-image';
@@ -14,6 +15,9 @@ import formUpdateState from '../../util/form-update-state';
 import { RadioGroup } from '../../components/InputGroup';
 import { Select } from '../../components/Select';
 import states from '../../lov/states';
+import {postWrapper as setGC} from "../../async/member/set-gc-purchase"
+import { makePostJSON } from '../../core/APIWrapperUtil';
+import ErrorDiv from '../../theme/joomla/ErrorDiv';
 
 type Prices = t.TypeOf<typeof pricesValidator>;
 
@@ -21,6 +25,7 @@ type Props = {
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
 	prices: Prices,
+	history: History<any>,
 }
 
 enum DeliveryMethod {
@@ -31,13 +36,13 @@ enum DeliveryMethod {
 
 type Form = {
 	certAmount: Option<string>,
-	purchaserFirstName: Option<string>,
-	purchaserLastName: Option<string>,
+	purchaserNameFirst: Option<string>,
+	purchaserNameLast: Option<string>,
 	purchaserEmail: Option<string>,
-	recipientFirstName: Option<string>,
-	recipientLastName: Option<string>,
+	recipientNameFirst: Option<string>,
+	recipientNameLast: Option<string>,
 	deliveryMethod: Option<string>,
-	emailTo: Option<string>,
+	whoseEmail: Option<string>,
 	recipientEmail: Option<string>,
 	whoseAddress: Option<string>,
 	addr1: Option<string>,
@@ -48,7 +53,8 @@ type Form = {
 }
 
 type State = {
-	formData: Form
+	formData: Form,
+	validationErrors: string[],
 }
 
 class FormInput extends TextInput<Form> {}
@@ -59,15 +65,16 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 	constructor(props: Props){
 		super(props);
 		this.state = {
+			validationErrors: [],
 			formData: {
 				certAmount: none,
-				purchaserFirstName: none,
-				purchaserLastName: none,
+				purchaserNameFirst: none,
+				purchaserNameLast: none,
 				purchaserEmail: none,
-				recipientFirstName: none,
-				recipientLastName: none,
+				recipientNameFirst: none,
+				recipientNameLast: none,
 				deliveryMethod: none,
-				emailTo: none,
+				whoseEmail: none,
 				recipientEmail: none,
 				whoseAddress: none,
 				addr1: none,
@@ -86,6 +93,55 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 			<td style={{textAlign: "left", paddingRight:"10px"}}>{item}</td>
 			<td style={{textAlign: "right", fontWeight: "bold"}}>{price}</td>
 		</tr></tbody></table>
+	}
+	clearErrors() {
+		this.setState({
+			...this.state,
+			validationErrors: []
+		})
+	}
+	doValidations() {
+		const validations: [() => boolean, string][] = [
+			[() => this.state.formData.certAmount.isSome(), "Certificate amount must be specified."],
+			[() => {
+				const candidate = Number(this.state.formData.certAmount.getOrElse(null));
+				return !isNaN(candidate) && candidate > 0;
+			}, "Certificate amount must be a valid dollar amount."],
+			[() => this.state.formData.deliveryMethod.isSome(), "Delivery method must be specified."]
+		];
+		return validations
+			.filter(([fn, msg]) => !fn())
+			.map(([fn, msg]) => msg);
+	}
+	doSubmit(): Promise<any> {
+		const self = this;
+		this.clearErrors();
+		const errors = this.doValidations();
+		if (errors.length > 0) {
+			window.scrollTo(0, 0);
+			this.setState({
+				...this.state,
+				validationErrors: errors
+			});
+			return Promise.resolve()
+		} else {
+			return setGC.send(makePostJSON({
+				...this.state.formData,
+				deliveryMethod: this.state.formData.deliveryMethod.getOrElse(null),
+				valueInCents: Currency.dollars(Number(this.state.formData.certAmount.getOrElse("0"))).cents,
+				purchasePriceCents: Currency.dollars(Number(this.state.formData.certAmount.getOrElse("0"))).cents,
+			})).then(ret => {
+				if (ret.type == "Success") {
+					self.props.history.push("/redirect" + window.location.pathname)
+				} else {
+					window.scrollTo(0, 0);
+					self.setState({
+						...self.state,
+						validationErrors: ret.message.split("\\n") // TODO
+					});
+				}
+			});
+		}
 	}
 	render() {
 		const self = this
@@ -106,7 +162,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 		const emailFrament = <React.Fragment>
 			<table><tbody>
 			<FormRadio
-				id="emailTo"
+				id="whoseEmail"
 				label="Email to... "
 				columns={1}
 				values={[{
@@ -118,7 +174,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 				}]}
 				isRequired
 				updateAction={updateState}
-				value={this.state.formData.emailTo}
+				value={this.state.formData.whoseEmail}
 			/>
 			<tr><td>&nbsp;</td></tr>
 			<FormInput
@@ -191,8 +247,15 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 			If you require immediate mailing, purchasing a gift certificate to be e-mailed is highly recommended.
 		</React.Fragment>;
 
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
+
 		return (
 			<JoomlaMainPage setBGImage={setCheckoutImage}>
+				{errorPopup}
 				<JoomlaArticleRegion title={"Purchase a gift certificate to Community Boating!"}>
 					Give your family member or friend the gift of sailing at Community Boating so they can enjoy the great outdoors by sailing,
 					kayaking, paddleboarding, or windsurfing on the Charles River. Gift Certificates can be sold for a given dollar value,
@@ -249,18 +312,18 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 						<JoomlaArticleRegion title="Purchaser Information">
 							<table><tbody>
 								<FormInput
-									id="purchaserFirstName"
+									id="purchaserNameFirst"
 									label="Your First Name"
-									value={this.state.formData.purchaserFirstName}
+									value={this.state.formData.purchaserNameFirst}
 									updateAction={updateState}
 									size={30}
 									maxLength={255}
 									isRequired
 								/>
 								<FormInput
-									id="purchaserLastName"
+									id="purchaserNameLast"
 									label="Your Last Name"
-									value={this.state.formData.purchaserLastName}
+									value={this.state.formData.purchaserNameLast}
 									updateAction={updateState}
 									size={30}
 									maxLength={255}
@@ -282,18 +345,18 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 						<JoomlaArticleRegion title="Recipient Information">
 							<table><tbody>
 								<FormInput
-									id="recipientFirstName"
+									id="recipientNameFirst"
 									label="Recipient First Name"
-									value={this.state.formData.recipientFirstName}
+									value={this.state.formData.recipientNameFirst}
 									updateAction={updateState}
 									size={30}
 									maxLength={255}
 									isRequired
 								/>
 								<FormInput
-									id="recipientLastName"
+									id="recipientNameLast"
 									label="Recipient Last Name"
-									value={this.state.formData.recipientLastName}
+									value={this.state.formData.recipientNameLast}
 									updateAction={updateState}
 									size={30}
 									maxLength={255}
@@ -334,6 +397,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 						</td>
 					</tr></tbody></table>
 				</JoomlaArticleRegion>
+				<Button text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)}/>
 			</JoomlaMainPage>
 		)
 	}
