@@ -1,5 +1,4 @@
 import * as t from 'io-ts';
-import { PageFlavor } from '../components/Page';
 import APIWrapper from '../core/APIWrapper';
 import { HttpMethod } from "../core/HttpMethod";
 import { OptionalString, OptionalNumber } from '../util/OptionalTypeValidators';
@@ -14,17 +13,17 @@ export const cartItemValidator = t.type({
 	displayOrder: t.number,
 	orderId: t.number,
 	fundId: OptionalNumber,
-	inMemoryOf: OptionalString,
+	inMemoryOf: OptionalString
 });
 
 export const cartItemValidatorList = t.array(cartItemValidator);
 
 export type CartItem = t.TypeOf<typeof cartItemValidator>
 
-const path = "/get-cart-items"
+const path = "/get-cart-items-donate"
 
-export const apiw = (program: PageFlavor) =>new APIWrapper({
-	path: path + "?program=" + program,
+export const apiw = new APIWrapper({
+	path,
 	type: HttpMethod.GET,
 	resultValidator: cartItemValidatorList,
 })

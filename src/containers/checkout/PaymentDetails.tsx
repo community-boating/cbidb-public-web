@@ -10,8 +10,7 @@ import { makePostJSON, makePostString } from "../../core/APIWrapperUtil";
 import { orderStatusValidator, CardData } from "../../async/order-status"
 import StripeConfirm from "../../components/StripeConfirm";
 import Button from "../../components/Button";
-import { postWrapper as clearCardAP } from '../../async/stripe/clear-card-ap'
-import { postWrapper as clearCardJP } from '../../async/stripe/clear-card-jp'
+import { postWrapper as clearCard } from '../../async/stripe/clear-card'
 import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";
 import { CartItem } from "../../async/get-cart-items"
@@ -45,7 +44,7 @@ type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
 export interface Props {
 	welcomePackage: t.TypeOf<typeof welcomeJPValidator>,
-	orderStatus: t.TypeOf<typeof orderStatusValidator>
+	orderStatus: t.TypeOf<typeof orderStatusValidator>,
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
 	setCardData: (cardData: CardData) => void,
@@ -105,14 +104,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			return apCheckoutRoute;
 		case PageFlavor.JP:
 			return jpCheckoutRoute;
-		}
-	}
-	getClearCard = function() {
-		switch (this.props.flavor) {
-		case PageFlavor.AP:
-			return clearCardAP;
-		case PageFlavor.JP:
-			return clearCardJP;
 		}
 	}
 	getStorePaymentMethod() {
@@ -193,8 +184,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 		const self = this;
 
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
-
-
 
 		const donationAmountCell = (<div>
 			How much can you give this season?<br />
@@ -334,7 +323,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 					);
 					return <Button plainLink text={linkText} onClick={e => {
 						e.preventDefault();
-						return self.getClearCard().send(makePostString("")).then(() => self.props.history.push(`/redirect${self.getCheckoutPageRoute().getPathFromArgs({})}`));
+						return clearCard.send(makePostJSON({program: self.props.flavor})).then(() => self.props.history.push(`/redirect${self.getCheckoutPageRoute().getPathFromArgs({})}`));
 					}} />
 				} else {
 					if (self.props.orderStatus.paymentMethodRequired) {

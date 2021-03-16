@@ -8,7 +8,7 @@ import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import {apiw as getStaticYearly} from "../../../async/static-yearly-data"
 import { none, some } from 'fp-ts/lib/Option';
 import Currency from '../../../util/Currency';
-import { setJPImage, setAPImage } from '../../../util/set-bg-image';
+import { setJPImage, setAPImage, setCheckoutImage } from '../../../util/set-bg-image';
 import assertNever from '../../../util/assertNever';
 
 export default (flavor: PageFlavor) => (history: History<any>) => <PageWrapper
@@ -28,6 +28,10 @@ export default (flavor: PageFlavor) => (history: History<any>) => <PageWrapper
 				return setJPImage;
 			case PageFlavor.AP:
 				return setAPImage;
+			case PageFlavor.SHARED:
+			case PageFlavor.DONATE:
+			case PageFlavor.GC:
+				return setCheckoutImage;
 			default:
 				assertNever(flavor);
 			}

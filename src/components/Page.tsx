@@ -9,5 +9,8 @@ export default class Page<T> extends React.Component<T & {setBGImage: () => void
 
 export enum PageFlavor {
 	AP = "AP",
-	JP = "JP"
+	JP = "JP",
+	SHARED = "Shared",
+	DONATE = "Donate",
+	GC = "GC",
 }
