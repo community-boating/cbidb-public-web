@@ -12,6 +12,8 @@ import { none, Option } from 'fp-ts/lib/Option';
 import TextInput from '../../components/TextInput';
 import formUpdateState from '../../util/form-update-state';
 import { RadioGroup } from '../../components/InputGroup';
+import { Select } from '../../components/Select';
+import states from '../../lov/states';
 
 type Prices = t.TypeOf<typeof pricesValidator>;
 
@@ -34,7 +36,15 @@ type Form = {
 	purchaserEmail: Option<string>,
 	recipientFirstName: Option<string>,
 	recipientLastName: Option<string>,
-	deliveryMethod: Option<string>
+	deliveryMethod: Option<string>,
+	emailTo: Option<string>,
+	recipientEmail: Option<string>,
+	whoseAddress: Option<string>,
+	addr1: Option<string>,
+	addr2: Option<string>,
+	city: Option<string>,
+	state: Option<string>,
+	zip: Option<string>,
 }
 
 type State = {
@@ -43,6 +53,7 @@ type State = {
 
 class FormInput extends TextInput<Form> {}
 class FormRadio extends RadioGroup<Form> {}
+class FormSelect extends Select<Form> {}
 
 export default class GiftCertificatesDetailsPage extends React.PureComponent<Props, State> {
 	constructor(props: Props){
@@ -56,6 +67,14 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 				recipientFirstName: none,
 				recipientLastName: none,
 				deliveryMethod: none,
+				emailTo: none,
+				recipientEmail: none,
+				whoseAddress: none,
+				addr1: none,
+				addr2: none,
+				city: none,
+				state: none,
+				zip: none,
 			}
 		};
 	}
@@ -82,7 +101,96 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 			pick-up will be available from December 15th to 19th during general business hours (please call or e-mail to confirm availability).
 			After December 19th until the New Year, pick-up availability may be limited and must be confirmed prior to pick-up.
 			If you require immediate pick-up, purchasing a gift certificate to be e-mailed is highly recommended.
-		</span>
+		</span>;
+
+		const emailFrament = <React.Fragment>
+			<table><tbody>
+			<FormRadio
+				id="emailTo"
+				label="Email to... "
+				columns={1}
+				values={[{
+					key: "Purchaser",
+					display: <React.Fragment>My Email. I choose to send<br />the gift certificate to the recipient myself.</React.Fragment>
+				}, {
+					key: "Recipient",
+					display: <React.Fragment>Recipient's Email. I choose to send<br />the gift certificate to the recipient directly.</React.Fragment>
+				}]}
+				isRequired
+				updateAction={updateState}
+				value={this.state.formData.emailTo}
+			/>
+			<tr><td>&nbsp;</td></tr>
+			<FormInput
+				id="recipientEmail"
+				label="Recipient Email"
+				isRequired
+				value={self.state.formData.recipientEmail}
+				updateAction={updateState}
+			/>
+			</tbody></table>
+		</React.Fragment>;
+
+		const mailFragment = <React.Fragment>
+			<table><tbody>
+				<FormRadio
+					id="whoseAddress"
+					label="This is..."
+					columns={1}
+					values={[{
+						key: "Purchaser",
+						display: "My Address"
+					}, {
+						key: "Recipient",
+						display: "Recipient's Address"
+					}]}
+					isRequired
+					updateAction={updateState}
+					value={this.state.formData.whoseAddress}
+				/>
+				<FormInput
+					id="addr1"
+					label="Delivery Address"
+					isRequired
+					value={self.state.formData.addr1}
+					updateAction={updateState}
+				/>
+				<FormInput
+					id="addr2"
+					label="Address Line 2"
+					value={self.state.formData.addr2}
+					updateAction={updateState}
+				/>
+				<FormInput
+					id="city"
+					label="City"
+					isRequired
+					value={self.state.formData.city}
+					updateAction={updateState}
+				/>
+				<FormSelect
+					id="state"
+					label="State"
+					options={states}
+					nullDisplay="- Select -"
+					isRequired
+					updateAction={updateState}
+					value={this.state.formData.state}
+				/>
+				<FormInput
+					id="zip"
+					label="Zip"
+					isRequired
+					size={10}
+					value={self.state.formData.zip}
+					updateAction={updateState}
+				/>
+			</tbody></table>
+			<br />
+			If you are giving this as a present for the holiday season, please be aware that USPS may take up to 10 days for delivery.
+			If you require immediate mailing, purchasing a gift certificate to be e-mailed is highly recommended.
+		</React.Fragment>;
+
 		return (
 			<JoomlaMainPage setBGImage={setCheckoutImage}>
 				<JoomlaArticleRegion title={"Purchase a gift certificate to Community Boating!"}>
@@ -221,6 +329,8 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 						</td>
 						<td width="50%" style={{verticalAlign: "top"}}>
 							{this.state.formData.deliveryMethod.getOrElse(null) == DeliveryMethod.Pickup ? inPersonText : null}
+							{this.state.formData.deliveryMethod.getOrElse(null) == DeliveryMethod.Email ? emailFrament : null}
+							{this.state.formData.deliveryMethod.getOrElse(null) == DeliveryMethod.Mail ? mailFragment : null}
 						</td>
 					</tr></tbody></table>
 				</JoomlaArticleRegion>
