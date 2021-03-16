@@ -22,8 +22,9 @@ import {postWrapper as finishOrderAP} from "../async/member/finish-open-order-ap
 import {postWrapper as finishOrderJP} from "../async/member/finish-open-order-jp"
 import { apBasePath } from '../app/paths/ap/_base';
 import { jpBasePath } from '../app/paths/jp/_base';
-import ErrorDiv from '../theme/joomla/ErrorDiv';
+import {JoomlaErrorDiv} from '../theme/joomla/JoomlaErrorDiv';
 import { Option } from 'fp-ts/lib/Option';
+import FactaButton from '../theme/facta/FactaButton';
 
 type Payment = t.TypeOf<typeof paymentValidator>
 type PaymentList = t.TypeOf<typeof validator>
@@ -64,7 +65,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
@@ -129,7 +130,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 		return <JoomlaMainPage setBGImage={setBGImage}>
 			{errorPopup}
 			<br />
-			<Button text="< Back" onClick={() => {
+			<FactaButton text="< Back" onClick={() => {
 				this.props.history.push(backRoute);
 				return Promise.resolve();
 			}}/>
@@ -147,7 +148,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 				<br /><br />
 				<table><tbody><tr>
 					<td><b>Total Outstanding: {outstandingTotal.format()}</b></td>	
-					<td style={{paddingLeft: "10px"}}><Button text="Pay All" onClick={clickPayAll} spinnerOnClick/></td>
+					<td style={{paddingLeft: "10px"}}><FactaButton text="Pay All" onClick={clickPayAll} spinnerOnClick/></td>
 				</tr></tbody></table>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Update Payment Method">
