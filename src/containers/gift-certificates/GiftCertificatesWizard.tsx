@@ -11,6 +11,7 @@ import { apBasePath } from "../../app/paths/ap/_base";
 import GiftCertificatesDetailsPage from "./GiftCertificatesDetailsPage";
 import GiftCertificatesConfirmationPage from "./GiftCertificatesConfirmationPage";
 import GiftCertificatesThankYouPage from "./GiftCertificatesThankYouPage";
+import {apiw as getPrices} from "../../async/prices"
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -55,10 +56,14 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="GiftCertificatesDetailsPage"
 					history={self.props.history}
-					component={(urlProps: {}) => <GiftCertificatesDetailsPage
+					component={(urlProps: {}, async: any) => <GiftCertificatesDetailsPage
+						prices={async}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
+					getAsyncProps={() => {
+						return getPrices.send(null)
+					}}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Required<br />Information</React.Fragment>
