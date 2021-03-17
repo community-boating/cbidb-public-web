@@ -9,29 +9,33 @@ import {validator as pricesValidator} from "../../async/prices"
 import JoomlaReport from '../../theme/joomla/JoomlaReport';
 import { MAGIC_NUMBERS } from '../../app/magicNumbers';
 import Currency from '../../util/Currency';
-import { none, Option } from 'fp-ts/lib/Option';
+import { none, Option, some } from 'fp-ts/lib/Option';
 import TextInput from '../../components/TextInput';
 import formUpdateState from '../../util/form-update-state';
 import { RadioGroup } from '../../components/InputGroup';
 import { Select } from '../../components/Select';
 import states from '../../lov/states';
-import {postWrapper as setGC} from "../../async/member/set-gc-purchase"
-import { makePostJSON } from '../../core/APIWrapperUtil';
+import {postWrapper as setGC} from "../../async/member/gc-purchase"
+import { makePostJSON, PostURLEncoded } from '../../core/APIWrapperUtil';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
+import {validator as gcValidator} from "../../async/member/gc-purchase"
 
 type Prices = t.TypeOf<typeof pricesValidator>;
+type GC = t.TypeOf<typeof gcValidator>;
 
 type Props = {
 	goNext: () => Promise<void>,
 	goPrev: () => Promise<void>,
 	prices: Prices,
 	history: History<any>,
+	gc: GC
 }
 
 enum DeliveryMethod {
-	Email="Email",
-	Mail="Mail",
-	Pickup="Pickup"
+	Email="E",
+	Mail="M",
+	Pickup="P"
 }
 
 type Form = {
@@ -67,21 +71,21 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 		this.state = {
 			validationErrors: [],
 			formData: {
-				certAmount: none,
-				purchaserNameFirst: none,
-				purchaserNameLast: none,
-				purchaserEmail: none,
-				recipientNameFirst: none,
-				recipientNameLast: none,
-				deliveryMethod: none,
-				whoseEmail: none,
-				recipientEmail: none,
-				whoseAddress: none,
-				addr1: none,
-				addr2: none,
-				city: none,
-				state: none,
-				zip: none,
+				certAmount: this.props.gc.deliveryMethod == "X" ? none : some(String(this.props.gc.valueInCents / 100)),
+				purchaserNameFirst: this.props.gc.purchaserNameFirst,
+				purchaserNameLast: this.props.gc.purchaserNameLast,
+				purchaserEmail: this.props.gc.purchaserEmail,
+				recipientNameFirst: this.props.gc.recipientNameFirst,
+				recipientNameLast: this.props.gc.recipientNameLast,
+				deliveryMethod: this.props.gc.deliveryMethod == "X" ? none : some(this.props.gc.deliveryMethod),
+				whoseEmail: this.props.gc.whoseEmail,
+				recipientEmail: this.props.gc.recipientEmail,
+				whoseAddress: this.props.gc.whoseAddress,
+				addr1: this.props.gc.addr1,
+				addr2: this.props.gc.addr2,
+				city: this.props.gc.city,
+				state: this.props.gc.state,
+				zip: this.props.gc.zip,
 			}
 		};
 	}
@@ -125,14 +129,14 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 			});
 			return Promise.resolve()
 		} else {
-			return setGC.send(makePostJSON({
+			return getProtoPersonCookie.send(PostURLEncoded({})).then(() => setGC.send(makePostJSON({
 				...this.state.formData,
 				deliveryMethod: this.state.formData.deliveryMethod.getOrElse(null),
 				valueInCents: Currency.dollars(Number(this.state.formData.certAmount.getOrElse("0"))).cents,
 				purchasePriceCents: Currency.dollars(Number(this.state.formData.certAmount.getOrElse("0"))).cents,
-			})).then(ret => {
+			}))).then(ret => {
 				if (ret.type == "Success") {
-					self.props.history.push("/redirect" + window.location.pathname)
+					self.props.goNext();
 				} else {
 					window.scrollTo(0, 0);
 					self.setState({
@@ -159,23 +163,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 			If you require immediate pick-up, purchasing a gift certificate to be e-mailed is highly recommended.
 		</span>;
 
-		const emailFrament = <React.Fragment>
-			<table><tbody>
-			<FormRadio
-				id="whoseEmail"
-				label="Email to... "
-				columns={1}
-				values={[{
-					key: "Purchaser",
-					display: <React.Fragment>My Email. I choose to send<br />the gift certificate to the recipient myself.</React.Fragment>
-				}, {
-					key: "Recipient",
-					display: <React.Fragment>Recipient's Email. I choose to send<br />the gift certificate to the recipient directly.</React.Fragment>
-				}]}
-				isRequired
-				updateAction={updateState}
-				value={this.state.formData.whoseEmail}
-			/>
+		const recipientEmail = <React.Fragment>
 			<tr><td>&nbsp;</td></tr>
 			<FormInput
 				id="recipientEmail"
@@ -184,6 +172,27 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 				value={self.state.formData.recipientEmail}
 				updateAction={updateState}
 			/>
+		</React.Fragment>
+
+		const emailFrament = <React.Fragment>
+			<table width="100%"><tbody>
+			<tr><td width="30%"></td><td></td></tr>
+			<FormRadio
+				id="whoseEmail"
+				label="Email to... "
+				columns={1}
+				values={[{
+					key: "M",
+					display: <React.Fragment>My Email. I choose to send<br />the gift certificate to the recipient myself.</React.Fragment>
+				}, {
+					key: "R",
+					display: <React.Fragment>Recipient's Email. I choose to send<br />the gift certificate to the recipient directly.</React.Fragment>
+				}]}
+				isRequired
+				updateAction={updateState}
+				value={this.state.formData.whoseEmail}
+			/>
+			{this.state.formData.whoseEmail.getOrElse(null) == "R" ? recipientEmail : null}
 			</tbody></table>
 		</React.Fragment>;
 
@@ -194,10 +203,10 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 					label="This is..."
 					columns={1}
 					values={[{
-						key: "Purchaser",
+						key: "M",
 						display: "My Address"
 					}, {
-						key: "Recipient",
+						key: "R",
 						display: "Recipient's Address"
 					}]}
 					isRequired
@@ -367,7 +376,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 					</td>
 				</tr></tbody></table>
 				<JoomlaArticleRegion title="Delivery Information">
-					<table><tbody><tr>
+					<table width="100%"><tbody><tr>
 						<td style={{verticalAlign: "top"}}>
 							How would you like your gift certificate to be delivered?
 							<br />
@@ -390,14 +399,14 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 								value={this.state.formData.deliveryMethod}
 							/>
 						</td>
-						<td width="50%" style={{verticalAlign: "top"}}>
+						<td width="55%" style={{verticalAlign: "top"}}>
 							{this.state.formData.deliveryMethod.getOrElse(null) == DeliveryMethod.Pickup ? inPersonText : null}
 							{this.state.formData.deliveryMethod.getOrElse(null) == DeliveryMethod.Email ? emailFrament : null}
 							{this.state.formData.deliveryMethod.getOrElse(null) == DeliveryMethod.Mail ? mailFragment : null}
 						</td>
 					</tr></tbody></table>
 				</JoomlaArticleRegion>
-				<Button text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)}/>
+				{this.state.formData.deliveryMethod.isSome() ? <Button text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)}/> : null }
 			</JoomlaMainPage>
 		)
 	}

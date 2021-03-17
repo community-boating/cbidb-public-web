@@ -24,7 +24,7 @@ export const validator = t.type({
 
 const resultValidator = t.type({success: t.boolean})
 
-const path = "/member/set-gc-purchase"
+const path = "/member/gc-purchase"
 
 export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
 	path: path,
