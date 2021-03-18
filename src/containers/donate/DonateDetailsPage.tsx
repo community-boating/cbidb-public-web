@@ -28,6 +28,7 @@ import { donatePageRoute } from '../../app/routes/donate';
 import StripeElement from '../../components/StripeElement';
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
 import { TokensResult } from '../../models/stripe/tokens';
+import standaloneLoginPath from "../../app/paths/common/standalone-signin"
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -301,6 +302,10 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Personal Info">
+				<span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
+					If you have an online account already, <a href="#" onClick={() => newPopWin(standaloneLoginPath.getPathFromArgs({}), 1100, 800)}>
+						click here to sign in</a>!
+				</span>
 				<table><tbody>
 					<FormInput
 						id="firstName"

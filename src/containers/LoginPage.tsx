@@ -27,6 +27,7 @@ import { jpPathLogin } from "../app/paths/jp/login";
 import { apPathLogin } from "../app/paths/ap/login";
 import { PostURLEncoded } from "../core/APIWrapperUtil";
 // import { apClosedPath } from "../app/paths/ap/closed";
+
 export const formDefault = {
 	username: none as Option<string>,
 	password: none as Option<string>

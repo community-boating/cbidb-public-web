@@ -39,6 +39,7 @@ import { Link } from "react-router-dom";
 import { PageFlavor } from "../../components/Page";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
 import {postWrapper as setJPStaggered} from "../../async/member/set-payment-plan-jp"
+import fundsPath from "../../app/paths/common/funds"
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -246,7 +247,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				}))}
 				justElement={true}
 			/>&nbsp;&nbsp;
-			<a href="#" onClick={() => newPopWin('/funds#funds', 1100, 800)} >Click here for more information about our funds.</a>
+			<a href="#" onClick={() => newPopWin(fundsPath.getPathFromArgs({}), 1100, 800)} >Click here for more information about our funds.</a>
 		</div>)
 
 		const donationRow = this.state.availableFunds.length > 0 ? (<table style={{width: "100%"}}><tbody><tr>
