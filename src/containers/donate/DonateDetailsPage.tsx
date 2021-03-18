@@ -29,6 +29,7 @@ import StripeElement from '../../components/StripeElement';
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
 import { TokensResult } from '../../models/stripe/tokens';
 import standaloneLoginPath from "../../app/paths/common/standalone-signin"
+import {apiw as detach} from "../../async/proto-detach-member"
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -83,9 +84,9 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				gcNumber: none,
 				gcCode: none,
 				inMemory: none,
-				firstName: none,
-				lastName: none,
-				email: none
+				firstName: props.orderStatus.nameFirst,
+				lastName: props.orderStatus.nameLast,
+				email: props.orderStatus.email,
 			},
 			validationErrors: [],
 		}
@@ -302,10 +303,16 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				/>
 			</JoomlaArticleRegion>
 			<JoomlaArticleRegion title="Personal Info">
-				<span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
-					If you have an online account already, <a href="#" onClick={() => newPopWin(standaloneLoginPath.getPathFromArgs({}), 1100, 800)}>
-						click here to sign in</a>!
-				</span>
+				{!self.props.orderStatus.authedAsRealPerson
+					? <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
+						If you have an online account already, <a href="#" onClick={() => newPopWin(standaloneLoginPath.getPathFromArgs({}), 1100, 800)}>
+							click here to sign in</a>!
+					</span>
+					: <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
+						Thank you for signing in! <a href="#" onClick={() => detach.send(PostURLEncoded("")).then(() => {
+							self.props.history.push("/redirect" + window.location.pathname)
+						})}>Click here if you would like to sign back out</a>.
+					</span>}
 				<table><tbody>
 					<FormInput
 						id="firstName"
@@ -315,6 +322,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 						size={30}
 						maxLength={255}
 						isRequired
+						disabled={this.props.orderStatus.authedAsRealPerson}
 					/>
 					<FormInput
 						id="lastName"
@@ -324,6 +332,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 						size={30}
 						maxLength={255}
 						isRequired
+						disabled={this.props.orderStatus.authedAsRealPerson}
 					/>
 					<FormInput
 						id="email"
@@ -332,6 +341,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 						updateAction={updateState}
 						size={30}
 						maxLength={255}
+						disabled={this.props.orderStatus.authedAsRealPerson}
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
