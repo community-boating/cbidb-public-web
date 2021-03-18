@@ -13,6 +13,9 @@ import GiftCertificatesConfirmationPage from "./GiftCertificatesConfirmationPage
 import GiftCertificatesThankYouPage from "./GiftCertificatesThankYouPage";
 import {apiw as getPrices} from "../../async/prices"
 import {getWrapper as getGC} from "../../async/member/gc-purchase"
+import { apiw as orderStatus } from "../../async/order-status"
+import { PageFlavor } from "../../components/Page";
+import { stat } from "node:fs";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -57,15 +60,17 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="GiftCertificatesDetailsPage"
 					history={self.props.history}
-					component={(urlProps: {}, [prices, gc]: any) => <GiftCertificatesDetailsPage
+					component={(urlProps: {}, [prices, gc, status]: any) => <GiftCertificatesDetailsPage
 						prices={prices}
 						gc={gc}
+						orderStatus={status}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
 					getAsyncProps={() => Promise.all([
 						getPrices.send(null),
-						getGC.send(null)
+						getGC.send(null),
+						orderStatus(PageFlavor.GC).send(null),
 					]).then(x => Promise.resolve(x)) as any}
 					{...pageWrapperProps}
 				/>,

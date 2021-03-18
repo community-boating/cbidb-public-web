@@ -312,7 +312,8 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 						Thank you for signing in! <a href="#" onClick={() => detach.send(PostURLEncoded("")).then(() => {
 							self.props.history.push("/redirect" + window.location.pathname)
 						})}>Click here if you would like to sign back out</a>.
-					</span>}
+					</span>
+				}
 				<table><tbody>
 					<FormInput
 						id="firstName"

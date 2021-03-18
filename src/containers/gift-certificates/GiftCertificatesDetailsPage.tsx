@@ -20,6 +20,10 @@ import { makePostJSON, PostURLEncoded } from '../../core/APIWrapperUtil';
 import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
 import {validator as gcValidator} from "../../async/member/gc-purchase"
+import { orderStatusValidator } from "../../async/order-status"
+import newPopWin from "../../util/newPopWin";
+import standaloneLoginPath from "../../app/paths/common/standalone-signin"
+import {apiw as detach} from "../../async/proto-detach-member"
 
 type Prices = t.TypeOf<typeof pricesValidator>;
 type GC = t.TypeOf<typeof gcValidator>;
@@ -29,7 +33,8 @@ type Props = {
 	goPrev: () => Promise<void>,
 	prices: Prices,
 	history: History<any>,
-	gc: GC
+	gc: GC,
+	orderStatus: t.TypeOf<typeof orderStatusValidator>,
 }
 
 enum DeliveryMethod {
@@ -71,21 +76,21 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 		this.state = {
 			validationErrors: [],
 			formData: {
-				certAmount: this.props.gc.deliveryMethod == "X" ? none : some(String(this.props.gc.valueInCents / 100)),
-				purchaserNameFirst: this.props.gc.purchaserNameFirst,
-				purchaserNameLast: this.props.gc.purchaserNameLast,
-				purchaserEmail: this.props.gc.purchaserEmail,
-				recipientNameFirst: this.props.gc.recipientNameFirst,
-				recipientNameLast: this.props.gc.recipientNameLast,
-				deliveryMethod: this.props.gc.deliveryMethod == "X" ? none : some(this.props.gc.deliveryMethod),
-				whoseEmail: this.props.gc.whoseEmail,
-				recipientEmail: this.props.gc.recipientEmail,
-				whoseAddress: this.props.gc.whoseAddress,
-				addr1: this.props.gc.addr1,
-				addr2: this.props.gc.addr2,
-				city: this.props.gc.city,
-				state: this.props.gc.state,
-				zip: this.props.gc.zip,
+				certAmount: props.gc.deliveryMethod == "X" ? none : some(String(props.gc.valueInCents / 100)),
+				purchaserNameFirst: props.orderStatus.nameFirst,
+				purchaserNameLast: props.orderStatus.nameLast,
+				purchaserEmail: props.orderStatus.email,
+				recipientNameFirst: props.gc.recipientNameFirst,
+				recipientNameLast: props.gc.recipientNameLast,
+				deliveryMethod: props.gc.deliveryMethod == "X" ? none : some(props.gc.deliveryMethod),
+				whoseEmail: props.gc.whoseEmail,
+				recipientEmail: props.gc.recipientEmail,
+				whoseAddress: props.gc.whoseAddress,
+				addr1: props.gc.addr1,
+				addr2: props.gc.addr2,
+				city: props.gc.city,
+				state: props.gc.state,
+				zip: props.gc.zip,
 			}
 		};
 	}
@@ -319,6 +324,17 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 				<table><tbody><tr>
 					<td style={{verticalAlign: "top"}}>
 						<JoomlaArticleRegion title="Purchaser Information">
+							{!self.props.orderStatus.authedAsRealPerson
+								? <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
+									If you have an online account already, <a href="#" onClick={() => newPopWin(standaloneLoginPath.getPathFromArgs({}), 1100, 800)}>
+										click here to sign in</a>!
+								</span>
+								: <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
+									Thank you for signing in! <a href="#" onClick={() => detach.send(PostURLEncoded("")).then(() => {
+										self.props.history.push("/redirect" + window.location.pathname)
+									})}>Click here if you would like to sign back out</a>.
+								</span>
+							}
 							<table><tbody>
 								<FormInput
 									id="purchaserNameFirst"
@@ -328,6 +344,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 									size={30}
 									maxLength={255}
 									isRequired
+									disabled={this.props.orderStatus.authedAsRealPerson}
 								/>
 								<FormInput
 									id="purchaserNameLast"
@@ -337,6 +354,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 									size={30}
 									maxLength={255}
 									isRequired
+									disabled={this.props.orderStatus.authedAsRealPerson}
 								/>
 								<FormInput
 									id="purchaserEmail"
@@ -346,6 +364,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 									size={30}
 									maxLength={255}
 									isRequired
+									disabled={this.props.orderStatus.authedAsRealPerson}
 								/>
 							</tbody></table>
 						</JoomlaArticleRegion>
