@@ -10,6 +10,9 @@ import FullCartReport from '../../components/FullCartReport';
 import { PageFlavor } from '../../components/Page';
 import StripeConfirm from '../../components/StripeConfirm';
 import { orderStatusValidator } from "../../async/order-status"
+import { postWrapper as submitPayment } from "../../async/stripe/submit-payment-standalone"
+import { makePostString } from '../../core/APIWrapperUtil';
+import ErrorDiv from '../../theme/joomla/ErrorDiv';
 
 type Props = {
 	goNext: () => Promise<void>,
@@ -19,10 +22,29 @@ type Props = {
 	orderStatus: t.TypeOf<typeof orderStatusValidator>,
 }
 
-export default class DonateConfirmationPage extends React.PureComponent<Props> {
+type State = {
+	validationErrors: string[]
+}
+
+export default class DonateConfirmationPage extends React.PureComponent<Props, State> {
+	constructor(props: Props){
+		super(props);
+		this.state = {
+			validationErrors: []
+		};
+	}
 	render() {
+		const self = this;
+
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <ErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
+
 		return (
 			<JoomlaMainPage setBGImage={setCheckoutImage}>
+				{errorPopup}
 				<JoomlaArticleRegion title={"Donation Summary"}>
 					<FullCartReport
 						cartItems={this.props.cartItems}
@@ -40,7 +62,30 @@ export default class DonateConfirmationPage extends React.PureComponent<Props> {
 					/>
 					<br />
 					<Button text="< Back" onClick={this.props.goPrev}/>
-					<Button text="Submit Donation" spinnerOnClick onClick={this.props.goNext}/>
+					<Button text="Submit Donation" spinnerOnClick onClick={() => {
+						self.setState({
+							...self.state,
+							validationErrors: []
+						});
+						return submitPayment.send(makePostString("program=" + PageFlavor.DONATE)).then(res => {
+							if (res.type == "Failure" ) {
+								if (res.code == "process_err") {
+									self.setState({
+										...self.state,
+										validationErrors: [res.message]
+									});
+								} else {
+									self.setState({
+										...self.state,
+										validationErrors: ["An error occurred.  Tech support has been notified; do not resubmit payment.  If this problem persists contact the Front Office at 617-523-1038"]
+									});
+								}
+							} else {
+								// TODO: catch any bullcrap error after payment process
+								self.props.goNext()
+							}
+						})
+					}}/>
 				</JoomlaArticleRegion>
 			</JoomlaMainPage>
 		)

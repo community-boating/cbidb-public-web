@@ -16,7 +16,6 @@ import {getWrapper as getDonationFunds} from "../../async/donation-funds"
 import {apiw as getCart} from "../../async/get-cart-items-donate"
 import { apiw as orderStatus } from "../../async/order-status"
 import { PageFlavor } from "../../components/Page";
-import { CartItem } from "../../async/get-cart-items";
 
 //type DonationFund = t.TypeOf<typeof donationFundValidator>;
 

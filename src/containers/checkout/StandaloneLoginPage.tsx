@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as t from 'io-ts';
 import {History} from 'history';
 import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
 import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";

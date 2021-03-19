@@ -6,7 +6,7 @@ import StripeElement from "../../components/StripeElement";
 import { TokensResult } from "../../models/stripe/tokens";
 import {PaymentMethod} from "../../models/stripe/PaymentMethod"
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
-import { makePostJSON, makePostString } from "../../core/APIWrapperUtil";
+import { makePostJSON } from "../../core/APIWrapperUtil";
 import { orderStatusValidator, CardData } from "../../async/order-status"
 import StripeConfirm from "../../components/StripeConfirm";
 import Button from "../../components/Button";
