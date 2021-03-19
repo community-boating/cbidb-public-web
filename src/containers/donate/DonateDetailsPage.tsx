@@ -370,6 +370,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				</JoomlaArticleRegion>
 				{donationRow}
 				{self.props.cartItems.length > 0 ? ifStarted : null}
+				{confirm.isSome() ? <Button text="Next >" onClick={this.props.goNext} /> : null}
 			</JoomlaMainPage>
 		)
 	}

@@ -79,10 +79,17 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="GiftCertificatesConfirmationPage"
 					history={self.props.history}
-					component={(urlProps: {}) => <GiftCertificatesConfirmationPage
+					component={(urlProps: {}, [prices, gc, status]: any) => <GiftCertificatesConfirmationPage
+						gc={gc}
+						orderStatus={status}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
+					getAsyncProps={() => Promise.all([
+						getPrices.send(null),
+						getGC.send(null),
+						orderStatus(PageFlavor.GC).send(null),
+					]).then(x => Promise.resolve(x)) as any}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Required<br />Information</React.Fragment>
