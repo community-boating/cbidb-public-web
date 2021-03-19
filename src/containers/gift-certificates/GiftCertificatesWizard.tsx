@@ -6,7 +6,7 @@ import ProgressThermometer from "../../components/ProgressThermometer";
 import { State as BreadcrumbState} from "../../core/Breadcrumb";
 import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "../../core/WizardPageflow";
 import JoomlaLoadingPage from "../../theme/joomla/JoomlaLoadingPage";
-import { setAPImage } from "../../util/set-bg-image";
+import { setCheckoutImage } from "../../util/set-bg-image";
 import { apBasePath } from "../../app/paths/ap/_base";
 import GiftCertificatesDetailsPage from "./GiftCertificatesDetailsPage";
 import GiftCertificatesConfirmationPage from "./GiftCertificatesConfirmationPage";
@@ -49,7 +49,7 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 	
 		const pageWrapperProps = {
 			urlProps: {},
-			shadowComponent: <JoomlaLoadingPage setBGImage={setAPImage} />
+			shadowComponent: <JoomlaLoadingPage setBGImage={setCheckoutImage} />
 		}
 	
 		return <WizardPageflow 

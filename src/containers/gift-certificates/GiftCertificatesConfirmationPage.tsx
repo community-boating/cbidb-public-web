@@ -6,6 +6,7 @@ import { setCheckoutImage } from '../../util/set-bg-image';
 import Button from '../../components/Button';
 import {validator as gcValidator} from "../../async/member/gc-purchase"
 import { orderStatusValidator } from "../../async/order-status"
+import StripeConfirm from '../../components/StripeConfirm';
 
 type GC = t.TypeOf<typeof gcValidator>;
 
@@ -20,10 +21,13 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 	render() {
 		return (
 			<JoomlaMainPage setBGImage={setCheckoutImage}>
-				<JoomlaArticleRegion title={"Purchase a gift certificate to Community Boating!"}>
-					Middle GC page
+				<JoomlaArticleRegion title={"Your Billing Info"}>
+					<StripeConfirm
+						cardData={this.props.orderStatus.cardData.getOrElse(null)}
+					/>
+					<br />
 					<Button text="< Back" onClick={this.props.goPrev}/>
-					<Button text="Next >" spinnerOnClick onClick={this.props.goNext}/>
+					<Button text="Complete Purchase" spinnerOnClick onClick={this.props.goNext}/>
 				</JoomlaArticleRegion>
 			</JoomlaMainPage>
 		)
