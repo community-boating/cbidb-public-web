@@ -78,7 +78,9 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="GiftCertificatesConfirmationPage"
 					history={self.props.history}
-					component={(urlProps: {}, [prices, gc, status]: any) => <GiftCertificatesConfirmationPage
+					component={(urlProps: {}, [prices, gc, status]: any, reload: () => void) => <GiftCertificatesConfirmationPage
+						reload={reload}
+						history={history}
 						gc={gc}
 						orderStatus={status}
 						{...staticComponentProps}

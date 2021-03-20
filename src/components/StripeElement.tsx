@@ -8,8 +8,9 @@ type Props = {
 	formId: string, 		// "payment-form"
 	elementId: string,		// "card-element"
 	cardErrorsId: string,	// "card-errors"
-	submitMethod: "TOKEN" | "PAYMENT_METHOD"
-	then: (result: TokensResult | PaymentMethod) => Promise<any>
+	submitMethod: "TOKEN" | "PAYMENT_METHOD",
+	then: (result: TokensResult | PaymentMethod) => Promise<any>,
+	additionalButtons?: JSX.Element,
 }
 
 declare var Stripe: any;
@@ -100,6 +101,7 @@ export default class StripeElement extends React.Component<Props> {
 					<div id={this.props.cardErrorsId} role="alert" style={{color: "red"}}></div>
 				</div>
 				<br />
+				{this.props.additionalButtons}
 				<Button text="Submit Card Details" spinnerOnClick onClick={() => Promise.resolve(this.submit())}/>
 			</form>
 		);

@@ -24,13 +24,6 @@ import { orderStatusValidator } from "../../async/order-status"
 import newPopWin from "../../util/newPopWin";
 import standaloneLoginPath from "../../app/paths/common/standalone-signin"
 import {apiw as detach} from "../../async/proto-detach-member"
-import StripeConfirm from '../../components/StripeConfirm';
-import { postWrapper as clearCard } from '../../async/stripe/clear-card'
-import { PageFlavor } from '../../components/Page';
-import { giftCertificatesPageRoute } from '../../app/routes/gift-certificates';
-import StripeElement from '../../components/StripeElement';
-import { postWrapper as storeToken } from "../../async/stripe/store-token"
-import { TokensResult } from '../../models/stripe/tokens';
 
 type Prices = t.TypeOf<typeof pricesValidator>;
 type GC = t.TypeOf<typeof gcValidator>;
@@ -44,13 +37,13 @@ type Props = {
 	orderStatus: t.TypeOf<typeof orderStatusValidator>,
 }
 
-enum DeliveryMethod {
+export enum GiftCertDeliveryMethod {
 	Email="E",
 	Mail="M",
 	Pickup="P"
 }
 
-type Form = {
+export type Form = {
 	certAmount: Option<string>,
 	purchaserNameFirst: Option<string>,
 	purchaserNameLast: Option<string>,
@@ -274,51 +267,6 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 			: ""
 		);
 
-		const confirm = this.props.orderStatus.cardData.map(cd => <StripeConfirm
-			cardData={cd}
-		/>);
-
-		const paymentTextOrResetLink = (function(){
-			if (confirm.isSome()) {
-				return <Button plainLink text="Click here to use a different credit card." onClick={e => {
-					e.preventDefault();
-					return clearCard.send(makePostJSON({program: PageFlavor.GC})).then(() => self.props.history.push(`/redirect${giftCertificatesPageRoute.getPathFromArgs({})}`));
-				}} />
-			} else {
-				return "Please enter payment information below. Credit card information is communicated securely to our payment processor and will not be stored by CBI for this order.";
-			}
-		}());
-
-		const processToken = (result: TokensResult) => {
-			return storeToken.send(makePostJSON({
-				token: result.token.id,
-				orderId: self.props.orderStatus.orderId
-			})).then(result => {
-				if (result.type == "Success") {
-				//	self.props.setCardData(result.success);
-					self.props.goNext();
-				} else {
-					self.setState({
-						...self.state,
-						validationErrors: [result.message]
-					});
-					window.scrollTo(0, 0);
-				}
-			})
-		}
-
-		const stripeElement = <StripeElement
-			submitMethod={
-				self.props.orderStatus.paymentMethodRequired
-				? "PAYMENT_METHOD"
-				: "TOKEN"
-			}
-			formId="payment-form"
-			elementId="card-element"
-			cardErrorsId="card-errors"
-			then={processToken}
-		/>;
-
 		return (
 			<JoomlaMainPage setBGImage={setCheckoutImage}>
 				{errorPopup}
@@ -457,13 +405,13 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 								justElement={true}
 								columns={1}
 								values={[{
-									key: DeliveryMethod.Email,
+									key: GiftCertDeliveryMethod.Email,
 									display: "Email only (option to print certificate)"
 								}, {
-									key: DeliveryMethod.Mail,
+									key: GiftCertDeliveryMethod.Mail,
 									display: "Mail a physical certificate"
 								}, {
-									key: DeliveryMethod.Pickup,
+									key: GiftCertDeliveryMethod.Pickup,
 									display: "I'll pick up a certificate in person"
 								}]}
 								updateAction={updateState}
@@ -471,19 +419,13 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 							/>
 						</td>
 						<td width="55%" style={{verticalAlign: "top"}}>
-							{this.state.formData.deliveryMethod.getOrElse(null) == DeliveryMethod.Pickup ? inPersonText : null}
-							{this.state.formData.deliveryMethod.getOrElse(null) == DeliveryMethod.Email ? emailFrament : null}
-							{this.state.formData.deliveryMethod.getOrElse(null) == DeliveryMethod.Mail ? mailFragment : null}
+							{this.state.formData.deliveryMethod.getOrElse(null) == GiftCertDeliveryMethod.Pickup ? inPersonText : null}
+							{this.state.formData.deliveryMethod.getOrElse(null) == GiftCertDeliveryMethod.Email ? emailFrament : null}
+							{this.state.formData.deliveryMethod.getOrElse(null) == GiftCertDeliveryMethod.Mail ? mailFragment : null}
 						</td>
 					</tr></tbody></table>
 				</JoomlaArticleRegion>
-				<JoomlaArticleRegion title="Credit Card Information">
-					{paymentTextOrResetLink}
-					<br />
-					<br />
-					{confirm.getOrElse(stripeElement)}
-				</JoomlaArticleRegion>
-				{confirm.isSome() ? <Button text="Next >" onClick={this.props.goNext} /> : null}
+				<Button text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)} />
 			</JoomlaMainPage>
 		)
 	}
