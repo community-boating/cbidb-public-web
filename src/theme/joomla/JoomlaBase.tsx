@@ -540,7 +540,7 @@ class JoomlaBody extends React.Component {
                                 <div className="rt-block">
                                     <div className="module-surround">
                                         <div className="module-content">
-                                            <p style={{ textAlign: "center" }}><span style={{ fontSize: "10pt" }}><a href="/donate">Community</a> <a href="/gift-certificates">Boating</a>, Inc.&nbsp;&nbsp;&nbsp;&nbsp; 21 David Mugar Way, Boston, MA 02114 &nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.community-boating.org/about-us/hours-and-directions/" target="_blank">Directions</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 617.523.1038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="mailto:info@community-boating.org">info@community-boating.org</a></span></p>
+                                            <p style={{ textAlign: "center" }}><span style={{ fontSize: "10pt" }}>Community Boating, Inc.&nbsp;&nbsp;&nbsp;&nbsp; 21 David Mugar Way, Boston, MA 02114 &nbsp;&nbsp;&nbsp;&nbsp; <a href="http://www.community-boating.org/about-us/hours-and-directions/" target="_blank">Directions</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 617.523.1038&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="mailto:info@community-boating.org">info@community-boating.org</a></span></p>
                                             <p style={{ textAlign: "center" }}><span style={{ fontSize: "8pt" }}>Community Boating, Inc. operates in association with the <a href="http://www.mass.gov/dcr/">DCR</a> and is a non-profit 501(c)3 organization.</span></p>
                                             <div className="clear"></div>
                                         </div>
