@@ -15,6 +15,8 @@ import {apiw as getPrices} from "../../async/prices"
 import {getWrapper as getGC} from "../../async/member/gc-purchase"
 import { apiw as orderStatus } from "../../async/order-status"
 import { PageFlavor } from "../../components/Page";
+import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
+import { PostURLEncoded } from "../../core/APIWrapperUtil";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -66,11 +68,12 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
-					getAsyncProps={() => Promise.all([
+					getAsyncProps={() => getProtoPersonCookie.send(PostURLEncoded({}))
+					.then(() => Promise.all([
 						getPrices.send(null),
 						getGC.send(null),
 						orderStatus(PageFlavor.GC).send(null),
-					]).then(x => Promise.resolve(x)) as any}
+					]) as any)}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Required<br />Information</React.Fragment>

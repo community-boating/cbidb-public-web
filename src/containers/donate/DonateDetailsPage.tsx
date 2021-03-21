@@ -132,6 +132,9 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				fundId: this.state.formData.selectedFund.map(Number).getOrElse(null),
 				amount: errorOrOtherAmt.getOrElse(null),
 				inMemoryOf: this.state.formData.inMemory,
+				nameFirst: this.state.formData.firstName,
+				nameLast: this.state.formData.lastName,
+				email: this.state.formData.email,
 			})))
 			.then(ret => {
 				if (ret.type == "Success") {
