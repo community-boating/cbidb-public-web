@@ -13,7 +13,8 @@ export interface ApexItemProps<T_Form, T_ValueType> {
 	onEnter?: () => void,
 	updateAction?: (name: string, value: string) => void,
 	justElement?: boolean,
-	isRequired?: boolean
+	isRequired?: boolean,
+	disabled?: boolean,
 }
 
 export abstract class ApexItem<T_Form, T_OwnProps, T_ValueType> extends React.PureComponent<T_OwnProps & ApexItemProps<T_Form, T_ValueType>> {

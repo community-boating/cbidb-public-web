@@ -6,7 +6,7 @@ import { doEFuseCheck } from "../util/checkUpgraded";
 interface Props<T_URL, T_Async> {
 	key: string,
 	urlProps: T_URL
-	component: (urlProps: T_URL, asyncProps: T_Async) => JSX.Element
+	component: (urlProps: T_URL, asyncProps: T_Async, reload: () => void) => JSX.Element
 	getAsyncProps?: (urlProps: T_URL) => Promise<ApiResult<T_Async>>,
 	shadowComponent?: JSX.Element,
 	history: History<any>
@@ -20,15 +20,26 @@ interface State<T> {
 export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T_URL, T_Async>, State<T_Async>> {
 	constructor(props: Props<T_URL, T_Async>) {
 		super(props);
-		const self = this
-
 		doEFuseCheck(props.history);
-
 		if (this.props.getAsyncProps != undefined) {
 			this.state = {
 				readyToRender: false,
 				componentAsyncProps: null
 			}
+		} else {
+			this.state = {
+				readyToRender: true,
+				componentAsyncProps: {} as T_Async
+			}
+		}
+	}
+	triggerAsync() {
+		const self = this;
+		if (this.props.getAsyncProps != undefined) {
+			self.setState({
+				readyToRender: false,
+				componentAsyncProps: null
+			})
 			// When API comes back, manually trigger `serverSideResolveOnAsyncComplete`
 			// (if this is clientside, that fn will not do anything and that's fine)
 			this.props.getAsyncProps(this.props.urlProps).then(asyncProps => {
@@ -50,19 +61,15 @@ export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T
 					console.log("async error: ", asyncProps)
 				}
 			})
-		} else {
-			this.state = {
-				readyToRender: true,
-				componentAsyncProps: {} as T_Async
-			}
 		}
 	}
 	componentDidMount() {
-		window.scrollTo(0, 0)
+		window.scrollTo(0, 0);
+		this.triggerAsync();
 	}
 	render() {
 		if (this.state.readyToRender) {
-			return this.props.component(this.props.urlProps, this.state.componentAsyncProps)
+			return this.props.component(this.props.urlProps, this.state.componentAsyncProps, this.triggerAsync.bind(this))
 		} else {
 			return this.props.shadowComponent
 		}

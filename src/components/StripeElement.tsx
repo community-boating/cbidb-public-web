@@ -8,8 +8,9 @@ type Props = {
 	formId: string, 		// "payment-form"
 	elementId: string,		// "card-element"
 	cardErrorsId: string,	// "card-errors"
-	submitMethod: "TOKEN" | "PAYMENT_METHOD"
-	then: (result: TokensResult | PaymentMethod) => Promise<any>
+	submitMethod: "TOKEN" | "PAYMENT_METHOD",
+	then: (result: TokensResult | PaymentMethod) => Promise<any>,
+	additionalButtons?: JSX.Element,
 }
 
 declare var Stripe: any;
@@ -38,16 +39,16 @@ export default class StripeElement extends React.Component<Props> {
 		this.submit = () => {
 			switch (this.props.submitMethod) {
 				case "TOKEN":
-			return (stripe.createToken(card) as Promise<any>).then(function(result: any) {
-				if (result.error) {
-					// Inform the customer that there was an error
-					var errorElement = document.getElementById(self.props.cardErrorsId);
-					errorElement.textContent = result.error.message;
-					return Promise.resolve();
-				} else {
-					return self.props.then(result);
-				}
-			});
+					return (stripe.createToken(card) as Promise<any>).then(function(result: any) {
+						if (result.error) {
+							// Inform the customer that there was an error
+							var errorElement = document.getElementById(self.props.cardErrorsId);
+							errorElement.textContent = result.error.message;
+							return Promise.resolve();
+						} else {
+							return self.props.then(result);
+						}
+					});
 				case "PAYMENT_METHOD":
 					return stripe.createPaymentMethod({
 						type: "card",
@@ -100,6 +101,7 @@ export default class StripeElement extends React.Component<Props> {
 					<div id={this.props.cardErrorsId} role="alert" style={{color: "red"}}></div>
 				</div>
 				<br />
+				{this.props.additionalButtons}
 				<FactaButton text="Submit Card Details" spinnerOnClick onClick={() => Promise.resolve(this.submit())}/>
 			</form>
 		);

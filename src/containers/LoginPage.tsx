@@ -16,7 +16,6 @@ import { jpForgotPasswordPageRoute } from "../app/routes/jp/forgot-pw";
 import { apForgotPasswordPageRoute } from "../app/routes/ap/forgot-pw";
 import { setJPImage, setAPImage } from "../util/set-bg-image";
 import { PageFlavor } from "../components/Page";
-import assertNever from "../util/assertNever";
 import { apPreRegRoute } from "../app/routes/ap/prereg";
 import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
 import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
@@ -30,6 +29,7 @@ import { PostURLEncoded } from "../core/APIWrapperUtil";
 // import { apClosedPath } from "../app/paths/ap/closed";
 import FactaMainPage from "../theme/facta/FactaMainPage";
 import FactaTwoColumns from "../theme/facta/FactaTwoColumns";
+
 export const formDefault = {
 	username: none as Option<string>,
 	password: none as Option<string>
@@ -185,7 +185,6 @@ export default class LoginPage extends React.Component<Props, State> {
 			case PageFlavor.JP:
 				return jpForgotPasswordPageRoute.getPathFromArgs({});
 			default:
-				assertNever(self.props.flavor);
 				return null;
 			}
 		}());
@@ -264,7 +263,7 @@ export default class LoginPage extends React.Component<Props, State> {
 					</div>
 				};
 			default:
-				assertNever(self.props.flavor);
+				return null;
 			}
 		}());
 

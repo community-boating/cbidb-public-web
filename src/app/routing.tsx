@@ -50,8 +50,11 @@ import { PageFlavor } from '../components/Page';
 import { apAddonsPageRoute } from './routes/ap/addons';
 // import { apDonateRoute } from './routes/ap/donate';
 import { apClosedPageRoute } from './routes/ap/closed';
+import { donatePageRoute } from "../app/routes/donate"
 import { apManageStaggeredPaymentsRoute } from './routes/ap/payments';
 import { jpManageStaggeredPaymentsRoute } from './routes/jp/payments';
+import { giftCertificatesPageRoute } from "../app/routes/gift-certificates"
+import {standaloneLoginRoute} from "../app/routes/common/standalone-signin"
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -113,6 +116,9 @@ export default function (history: History<any>) {
 		apDoClaimAcctPageRoute.asRoute(history),
 		apLoginPageRoute.asRoute(history),
 		jpLoginPageRoute.asRoute(history),
+		giftCertificatesPageRoute.asRoute(history),
+		donatePageRoute.asRoute(history),
+		standaloneLoginRoute.asRoute(history),
 	].filter(Boolean));
 
 	const mustNotBeLoggedIn = [

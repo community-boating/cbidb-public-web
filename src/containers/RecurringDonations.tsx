@@ -8,7 +8,6 @@ import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
 import { none } from 'fp-ts/lib/Option';
 import { setCheckoutImage } from '../util/set-bg-image';
 import { jpBasePath } from '../app/paths/jp/_base';
-import assertNever from '../util/assertNever';
 import { apBasePath } from '../app/paths/ap/_base';
 import { PageFlavor } from '../components/Page';
 import StripeElement from '../components/StripeElement';
@@ -48,7 +47,7 @@ export default class RecurringDonations extends React.PureComponent<Props> {
 			case PageFlavor.JP:
 				return jpBasePath.getPathFromArgs({});			
 			default:
-				assertNever(self.props.program)
+				return null;
 			}
 		}());
 

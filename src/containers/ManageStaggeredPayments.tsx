@@ -4,9 +4,8 @@ import * as t from 'io-ts';
 
 import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 
-import { setAPImage, setJPImage } from '../util/set-bg-image';
+import { setAPImage, setCheckoutImage, setJPImage } from '../util/set-bg-image';
 import { PageFlavor } from '../components/Page';
-import assertNever from '../util/assertNever';
 import { paymentValidator, validator } from '../async/member/open-order-details-ap';
 import JoomlaReport from '../theme/joomla/JoomlaReport';
 import * as moment from 'moment';
@@ -58,8 +57,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 			case PageFlavor.JP:
 				return setJPImage;
 			default:
-				assertNever(self.props.program);
-				return null;
+				return setCheckoutImage;
 			}
 		}());
 

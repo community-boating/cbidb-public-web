@@ -35,6 +35,7 @@ export default class TextInput<T> extends ApexItem<T, Props & ApexItemProps<T, s
 			onChange={onChange}
 			onKeyPress={onKeyPress}
 			value={(this.props.value || none).getOrElse("")}
+			disabled={!!this.props.disabled}
 		/>)
 	}
 }
