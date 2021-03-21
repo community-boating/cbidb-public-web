@@ -24,6 +24,7 @@ import ErrorDiv from '../../theme/joomla/ErrorDiv';
 import { orderStatusValidator } from "../../async/order-status"
 import standaloneLoginPath from "../../app/paths/common/standalone-signin"
 import {apiw as detach} from "../../async/proto-detach-member"
+import {postWrapper as savePersonData } from "../../async/member/donate-set-person"
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -144,6 +145,27 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				}
 			})
 		}
+	}
+	doSubmit(): Promise<any> {
+		const self = this;
+		this.clearErrors();
+
+		return getProtoPersonCookie.send(PostURLEncoded({})).then(() => savePersonData.send(makePostJSON({
+			nameFirst: self.state.formData.firstName,
+			nameLast: self.state.formData.lastName,
+			email: self.state.formData.email,
+		}))).then(ret => {
+			if (ret.type == "Success") {
+				self.props.goNext();
+			} else {
+				window.scrollTo(0, 0);
+				self.setState({
+					...self.state,
+					validationErrors: ret.message.split("\\n") // TODO
+				});
+			}
+		});
+		
 	}
 	render() {
 		const self = this
@@ -291,11 +313,12 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 						updateAction={updateState}
 						size={30}
 						maxLength={255}
+						isRequired
 						disabled={this.props.orderStatus.authedAsRealPerson}
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
-			<Button text="Next >" onClick={this.props.goNext} />
+			<Button text="Next >" onClick={this.doSubmit.bind(this)} />
 		</React.Fragment>;
 
 		return (
@@ -309,8 +332,6 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					<br />
 					<br />
 					You can donate to multiple areas if you wish; simply choose a fund, click "Add Donation," and repeat for as many funds as you like.
-					{/* <Button text="< Back" onClick={this.props.goPrev}/>
-					<Button text="Next >" spinnerOnClick onClick={this.props.goNext}/> */}
 				</JoomlaArticleRegion>
 				{donationRow}
 				{self.props.cartItems.length > 0 ? ifStarted : null}
