@@ -20,11 +20,12 @@ import FullCartReport from '../../components/FullCartReport';
 import { CartItem } from '../../async/get-cart-items-donate';
 import { PageFlavor } from '../../components/Page';
 import { Either, left, right } from 'fp-ts/lib/Either';
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
 import { orderStatusValidator } from "../../async/order-status"
 import standaloneLoginPath from "../../app/paths/common/standalone-signin"
 import {apiw as detach} from "../../async/proto-detach-member"
 import {postWrapper as savePersonData } from "../../async/member/donate-set-person"
+import JoomlaButton from '../../theme/joomla/JoomlaButton';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -217,7 +218,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				</tbody></table>
 				: null
 			}
-			<Button text="Add Donation" spinnerOnClick onClick={() => this.doAddDonation()}/>
+			<JoomlaButton text="Add Donation" spinnerOnClick onClick={() => this.doAddDonation()}/>
 		</div>)
 
 		const fundCell = (<div>
@@ -261,7 +262,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
@@ -321,7 +322,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					/>
 				</tbody></table>
 			</JoomlaArticleRegion>
-			<Button text="Next >" onClick={this.doSubmit.bind(this)} />
+			<JoomlaButton text="Next >" onClick={this.doSubmit.bind(this)} />
 		</React.Fragment>;
 
 		return (

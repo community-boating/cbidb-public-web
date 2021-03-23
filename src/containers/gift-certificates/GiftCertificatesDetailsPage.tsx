@@ -17,13 +17,14 @@ import { Select } from '../../components/Select';
 import states from '../../lov/states';
 import {postWrapper as setGC} from "../../async/member/gc-purchase"
 import { makePostJSON, PostURLEncoded } from '../../core/APIWrapperUtil';
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
 import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
 import {validator as gcValidator} from "../../async/member/gc-purchase"
 import { orderStatusValidator } from "../../async/order-status"
 import newPopWin from "../../util/newPopWin";
 import standaloneLoginPath from "../../app/paths/common/standalone-signin"
 import {apiw as detach} from "../../async/proto-detach-member"
+import JoomlaButton from '../../theme/joomla/JoomlaButton';
 
 type Prices = t.TypeOf<typeof pricesValidator>;
 type GC = t.TypeOf<typeof gcValidator>;
@@ -263,7 +264,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
@@ -425,7 +426,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 						</td>
 					</tr></tbody></table>
 				</JoomlaArticleRegion>
-				<Button text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)} />
+				<JoomlaButton text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)} />
 			</JoomlaMainPage>
 		)
 	}

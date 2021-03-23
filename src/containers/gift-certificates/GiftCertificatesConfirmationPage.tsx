@@ -8,7 +8,7 @@ import Button from '../../components/Button';
 import {validator as gcValidator} from "../../async/member/gc-purchase"
 import { orderStatusValidator } from "../../async/order-status"
 import StripeConfirm from '../../components/StripeConfirm';
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
 import { postWrapper as submitPayment } from "../../async/stripe/submit-payment-standalone"
 import { makePostJSON, makePostString } from '../../core/APIWrapperUtil';
 import { PageFlavor } from '../../components/Page';
@@ -17,6 +17,8 @@ import { postWrapper as clearCard } from '../../async/stripe/clear-card'
 import StripeElement from '../../components/StripeElement';
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
 import { TokensResult } from '../../models/stripe/tokens';
+import JoomlaButton from '../../theme/joomla/JoomlaButton';
+import PlainButton from '../../components/PlainButton';
 
 type GC = t.TypeOf<typeof gcValidator>;
 
@@ -45,7 +47,7 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
@@ -64,8 +66,8 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 			to deactivate the old gift certificate and reissue a new gift certificate by e-mail.
 			All gift certificates are valid for up to seven years from the date of purchase.
 			<br /><br />
-			<Button text="< Back" onClick={this.props.goPrev}/>
-			<Button text="Submit Payment" spinnerOnClick onClick={() => {
+			<JoomlaButton text="< Back" onClick={this.props.goPrev}/>
+			<JoomlaButton text="Submit Payment" spinnerOnClick onClick={() => {
 				self.setState({
 					...self.state,
 					validationErrors: []
@@ -93,7 +95,7 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 
 		const paymentTextOrResetLink = (function(){
 			if (confirm.isSome()) {
-				return <Button plainLink text="Click here to use a different credit card." onClick={e => {
+				return <PlainButton text="Click here to use a different credit card." onClick={e => {
 					e.preventDefault();
 					return clearCard.send(makePostJSON({program: PageFlavor.GC}))
 						.then(() => self.props.reload());
@@ -130,7 +132,7 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 			elementId="card-element"
 			cardErrorsId="card-errors"
 			then={processToken}
-			additionalButtons={<Button text="< Back" onClick={this.props.goPrev}/>}
+			additionalButtons={<JoomlaButton text="< Back" onClick={this.props.goPrev}/>}
 		/>;
 
 		<JoomlaArticleRegion title="Credit Card Information">

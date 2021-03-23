@@ -9,7 +9,8 @@ import formUpdateState from "../../util/form-update-state";
 import Button from "../../components/Button";
 import {apiw as proveMember} from "../../async/prove-member"
 import { makePostString } from "../../core/APIWrapperUtil";
-import ErrorDiv from "../../theme/joomla/ErrorDiv";
+import {JoomlaErrorDiv} from "../../theme/joomla/JoomlaErrorDiv";
+import JoomlaButton from "../../theme/joomla/JoomlaButton";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -73,11 +74,11 @@ export default class StandaloneLoginPage extends React.PureComponent<Props, Stat
 			}
 			else return Promise.resolve();
 		}
-		const loginButton = (<Button key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
+		const loginButton = (<JoomlaButton key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 

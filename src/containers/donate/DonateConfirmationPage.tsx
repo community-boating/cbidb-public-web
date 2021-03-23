@@ -11,12 +11,14 @@ import { PageFlavor } from '../../components/Page';
 import { orderStatusValidator } from "../../async/order-status"
 import { postWrapper as submitPayment } from "../../async/stripe/submit-payment-standalone"
 import { makePostJSON, makePostString } from '../../core/APIWrapperUtil';
-import ErrorDiv from '../../theme/joomla/ErrorDiv';
+import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
 import StripeConfirm from '../../components/StripeConfirm';
 import { postWrapper as clearCard } from '../../async/stripe/clear-card'
 import StripeElement from '../../components/StripeElement';
 import { postWrapper as storeToken } from "../../async/stripe/store-token"
 import { TokensResult } from '../../models/stripe/tokens';
+import JoomlaButton from '../../theme/joomla/JoomlaButton';
+import PlainButton from '../../components/PlainButton';
 
 type Props = {
 	goNext: () => Promise<void>,
@@ -43,7 +45,7 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <ErrorDiv errors={this.state.validationErrors}/>
+			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
@@ -51,8 +53,8 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 			<StripeConfirm
 				cardData={cd}
 			/>
-			<Button text="< Back" onClick={this.props.goPrev}/>
-			<Button text="Submit Donation" spinnerOnClick onClick={() => {
+			<JoomlaButton text="< Back" onClick={this.props.goPrev}/>
+			<JoomlaButton text="Submit Donation" spinnerOnClick onClick={() => {
 				self.setState({
 					...self.state,
 					validationErrors: []
@@ -80,7 +82,7 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 
 		const paymentTextOrResetLink = (function(){
 			if (confirm.isSome()) {
-				return <Button plainLink text="Click here to use a different credit card." onClick={e => {
+				return <PlainButton text="Click here to use a different credit card." onClick={e => {
 					e.preventDefault();
 					return clearCard.send(makePostJSON({program: PageFlavor.DONATE}))
 						.then(() => self.props.reload());
@@ -117,7 +119,7 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 			elementId="card-element"
 			cardErrorsId="card-errors"
 			then={processToken}
-			additionalButtons={<Button text="< Back" onClick={this.props.goPrev}/>}
+			additionalButtons={<JoomlaButton text="< Back" onClick={this.props.goPrev}/>}
 		/>;
 
 		return (
