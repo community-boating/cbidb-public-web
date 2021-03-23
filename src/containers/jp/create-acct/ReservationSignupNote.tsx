@@ -5,7 +5,7 @@ import TextArea from "../../../components/TextArea";
 import formUpdateState from '../../../util/form-update-state';
 import FactaButton from '../../../theme/facta/FactaButton';
 import { History } from 'history';
-import { postWrapper as saveNote } from "../../../async/junior/signup-note-proto"
+import { postWrapper as saveNote } from "@async/junior/signup-note-proto"
 import { makePostJSON } from '../../../core/APIWrapperUtil';
 import { PreRegistration } from '../../../app/global-state/jp-pre-registrations';
 import {reservePageRoute} from "../../../app/routes/jp/reserve"

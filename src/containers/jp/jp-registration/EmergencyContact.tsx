@@ -3,7 +3,7 @@ import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { postWrapper, validator } from "../../../async/junior/emerg-contact";
+import { postWrapper, validator } from "@async/junior/emerg-contact";
 import FactaButton from "../../../theme/facta/FactaButton";
 import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
 import TextInput from "../../../components/TextInput";

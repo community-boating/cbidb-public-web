@@ -12,8 +12,8 @@ import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import Currency from "../../../util/Currency";
-import { singlePaymentValidator } from "../../../async/member/payment-plan-options";
-import {postWrapper as submit} from "../../../async/member/set-payment-plan"
+import { singlePaymentValidator } from "@async/member/payment-plan-options";
+import {postWrapper as submit} from "@async/member/set-payment-plan"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import { StaggeredPaymentSchedule } from "../../../components/StaggeredPaymentSchedule";
 import { MAGIC_NUMBERS } from "../../../app/magicNumbers";

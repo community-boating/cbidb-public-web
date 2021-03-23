@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import asc from "../app/AppStateContainer";
-import { logout } from "../async/logout";
+import { logout } from "@async/logout";
 import { History } from "history";
 import { Moment } from "moment";
 import { Option } from "fp-ts/lib/Option";

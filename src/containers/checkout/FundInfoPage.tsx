@@ -2,7 +2,7 @@ import * as React from "react";
 import * as t from 'io-ts';
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import { setCheckoutImage } from "../../util/set-bg-image";
-import {donationFundValidator} from "../../async/donation-funds"
+import {donationFundValidator} from "@async/donation-funds"
 import FactaMainPage from "../../theme/facta/FactaMainPage";
 
 export interface Props {

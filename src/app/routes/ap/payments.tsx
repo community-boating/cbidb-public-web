@@ -7,7 +7,7 @@ import { setAPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import ManageStaggeredPayments from '../../../containers/ManageStaggeredPayments';
 import { PageFlavor } from '../../../components/Page';
-import {getWrapper, validator} from "../../../async/member/open-order-details-ap"
+import {getWrapper, validator} from "@async/member/open-order-details-ap"
 import { apBasePath } from '../../paths/ap/_base';
 import { none } from 'fp-ts/lib/Option';
 

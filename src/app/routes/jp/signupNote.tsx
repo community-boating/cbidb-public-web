@@ -4,7 +4,7 @@ import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { Option } from 'fp-ts/lib/Option';
 import SignupNotePage from '../../../containers/jp/class-signup/SignupNotePage';
-import {getWrapper as getSignupNote} from "../../../async/junior/signup-note"
+import {getWrapper as getSignupNote} from "@async/junior/signup-note"
 import { setJPImage } from '../../../util/set-bg-image';
 import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 

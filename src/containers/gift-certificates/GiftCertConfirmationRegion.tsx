@@ -3,7 +3,7 @@ import * as t from 'io-ts';
 import Currency from '../../util/Currency';
 import * as moment from 'moment';
 
-import { validator as gcValidator } from "../../async/member/gc-purchase"
+import { validator as gcValidator } from "@async/member/gc-purchase"
 import { GiftCertDeliveryMethod } from "./GiftCertificatesDetailsPage"
 
 

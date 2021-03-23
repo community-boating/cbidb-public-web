@@ -6,19 +6,19 @@ import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
 
 import { setAPImage, setCheckoutImage, setJPImage } from '../util/set-bg-image';
 import { PageFlavor } from '../components/Page';
-import { paymentValidator, validator } from '../async/member/open-order-details-ap';
+import { paymentValidator, validator } from '@async/member/open-order-details-ap';
 import JoomlaReport from '../theme/joomla/JoomlaReport';
 import * as moment from 'moment';
 import Currency from '../util/Currency';
 import StripeElement from '../components/StripeElement';
 import { PaymentMethod } from '../models/stripe/PaymentMethod';
-import {postWrapper as storePaymentMethodAP} from "../async/stripe/store-payment-method-ap"
-import {postWrapper as storePaymentMethodJP} from "../async/stripe/store-payment-method-jp"
+import {postWrapper as storePaymentMethodAP} from "@async/stripe/store-payment-method-ap"
+import {postWrapper as storePaymentMethodJP} from "@async/stripe/store-payment-method-jp"
 import { makePostJSON } from '../core/APIWrapperUtil';
 import JoomlaMainPage from '../theme/joomla/JoomlaMainPage';
 import Button from '../components/Button';
-import {postWrapper as finishOrderAP} from "../async/member/finish-open-order-ap"
-import {postWrapper as finishOrderJP} from "../async/member/finish-open-order-jp"
+import {postWrapper as finishOrderAP} from "@async/member/finish-open-order-ap"
+import {postWrapper as finishOrderJP} from "@async/member/finish-open-order-jp"
 import { apBasePath } from '../app/paths/ap/_base';
 import { jpBasePath } from '../app/paths/jp/_base';
 import {JoomlaErrorDiv} from '../theme/joomla/JoomlaErrorDiv';

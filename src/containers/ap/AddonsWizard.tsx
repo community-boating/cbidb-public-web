@@ -8,9 +8,9 @@ import { State as BreadcrumbState} from "../../core/Breadcrumb";
 import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "../../core/WizardPageflow";
 import { setAPImage } from "../../util/set-bg-image";
 import { apBasePath } from "../../app/paths/ap/_base";
-import {getWrapper as gpGet } from "../../async/member/select-guest-privs"
-import {getWrapper as dwGet } from "../../async/member/select-damage-waiver"
-import {apiw as getPrices, validator as pricesValidator} from "../../async/prices"
+import {getWrapper as gpGet } from "@async/member/select-guest-privs"
+import {getWrapper as dwGet } from "@async/member/select-damage-waiver"
+import {apiw as getPrices, validator as pricesValidator} from "@async/prices"
 import DamageWaiver from "./ap-registration/DamageWaiver";
 import GuestPrivs from "./ap-registration/GuestPrivs";
 import FactaLoadingPage from "../../theme/facta/FactaLoadingPage";

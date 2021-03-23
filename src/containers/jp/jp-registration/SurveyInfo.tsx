@@ -3,7 +3,7 @@ import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { postWrapper, validator } from "../../../async/junior/survey";
+import { postWrapper, validator } from "@async/junior/survey";
 import FactaButton from "../../../theme/facta/FactaButton";
 import { CheckboxGroup, RadioGroup, SingleCheckbox } from "../../../components/InputGroup";
 import TextInput from "../../../components/TextInput";

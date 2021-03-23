@@ -5,17 +5,17 @@ import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
 import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
 import { setCheckoutImage } from '../../util/set-bg-image';
 import Button from '../../components/Button';
-import {validator as gcValidator} from "../../async/member/gc-purchase"
-import { orderStatusValidator } from "../../async/order-status"
+import {validator as gcValidator} from "@async/member/gc-purchase"
+import { orderStatusValidator } from "@async/order-status"
 import StripeConfirm from '../../components/StripeConfirm';
 import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
-import { postWrapper as submitPayment } from "../../async/stripe/submit-payment-standalone"
+import { postWrapper as submitPayment } from "@async/stripe/submit-payment-standalone"
 import { makePostJSON, makePostString } from '../../core/APIWrapperUtil';
 import { PageFlavor } from '../../components/Page';
 import GiftCertConfirmationRegion from './GiftCertConfirmationRegion';
-import { postWrapper as clearCard } from '../../async/stripe/clear-card'
+import { postWrapper as clearCard } from '@async/stripe/clear-card'
 import StripeElement from '../../components/StripeElement';
-import { postWrapper as storeToken } from "../../async/stripe/store-token"
+import { postWrapper as storeToken } from "@async/stripe/store-token"
 import { TokensResult } from '../../models/stripe/tokens';
 import JoomlaButton from '../../theme/joomla/JoomlaButton';
 import PlainButton from '../../components/PlainButton';

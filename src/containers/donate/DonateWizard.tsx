@@ -12,11 +12,11 @@ import { apBasePath } from "../../app/paths/ap/_base";
 import DonateDetailsPage from "./DonateDetailsPage";
 import DonateConfirmationPage from "./DonateConfirmationPage";
 import DonateThankYouPage from "./DonateThankYouPage";
-import {getWrapper as getDonationFunds} from "../../async/donation-funds"
-import {apiw as getCart} from "../../async/get-cart-items-donate"
-import { apiw as orderStatus } from "../../async/order-status"
+import {getWrapper as getDonationFunds} from "@async/donation-funds"
+import {apiw as getCart} from "@async/get-cart-items-donate"
+import { apiw as orderStatus } from "@async/order-status"
 import { PageFlavor } from "../../components/Page";
-import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
 import { PostURLEncoded } from "../../core/APIWrapperUtil";
 
 //type DonationFund = t.TypeOf<typeof donationFundValidator>;

@@ -11,11 +11,11 @@ import { apBasePath } from "../../app/paths/ap/_base";
 import GiftCertificatesDetailsPage from "./GiftCertificatesDetailsPage";
 import GiftCertificatesConfirmationPage from "./GiftCertificatesConfirmationPage";
 import GiftCertificatesThankYouPage from "./GiftCertificatesThankYouPage";
-import {apiw as getPrices} from "../../async/prices"
-import {getWrapper as getGC} from "../../async/member/gc-purchase"
-import { apiw as orderStatus } from "../../async/order-status"
+import {apiw as getPrices} from "@async/prices"
+import {getWrapper as getGC} from "@async/member/gc-purchase"
+import { apiw as orderStatus } from "@async/order-status"
 import { PageFlavor } from "../../components/Page";
-import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
 import { PostURLEncoded } from "../../core/APIWrapperUtil";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({

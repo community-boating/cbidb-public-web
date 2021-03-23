@@ -9,7 +9,7 @@ import TextInput from "../../components/TextInput";
 import formUpdateState from "../../util/form-update-state";
 import { apBasePath } from "../../app/paths/ap/_base";
 import {FactaErrorDiv} from "../../theme/facta/FactaErrorDiv";
-import {apiw as submit} from "../../async/update-acct"
+import {apiw as submit} from "@async/update-acct"
 import { PostURLEncoded } from "../../core/APIWrapperUtil";
 import FactaMainPage from "../../theme/facta/FactaMainPage";
 

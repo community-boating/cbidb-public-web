@@ -5,9 +5,9 @@ import RouteWrapper from "../../../core/RouteWrapper";
 import {apBasePath} from "../../paths/ap/_base"
 import PageWrapper from '../../../core/PageWrapper';
 import HomePageAP from '../../../containers/ap/HomePageAP';
-import { apiw as welcomeAPIAP, validator as welcomeValidatorAP } from "../../../async/member-welcome-ap";
+import { apiw as welcomeAPIAP, validator as welcomeValidatorAP } from "@async/member-welcome-ap";
 import { setAPImage } from '../../../util/set-bg-image';
-import {postWrapper as getProtoPersonCookie} from "../../../async/check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
 import { PostURLEncoded } from '../../../core/APIWrapperUtil';
 import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 

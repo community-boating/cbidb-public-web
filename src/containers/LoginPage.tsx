@@ -9,7 +9,7 @@ import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";
 import formUpdateState from "../util/form-update-state";
 import {FactaErrorDiv} from "../theme/facta/FactaErrorDiv";
-import {postWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
 import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
 import Currency from "../util/Currency";
 import { jpForgotPasswordPageRoute } from "../app/routes/jp/forgot-pw";

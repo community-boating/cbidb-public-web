@@ -2,7 +2,7 @@ import { Option, none } from "fp-ts/lib/Option";
 import * as React from "react";
 import { History } from 'history';
 
-import { postWrapper } from "../../../async/junior/swim-proof";
+import { postWrapper } from "@async/junior/swim-proof";
 import FactaButton from "../../../theme/facta/FactaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import { makePostJSON } from "../../../core/APIWrapperUtil";

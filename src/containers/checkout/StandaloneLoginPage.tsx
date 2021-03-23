@@ -7,7 +7,7 @@ import TextInput from "../../components/TextInput";
 import { none, Option } from "fp-ts/lib/Option";
 import formUpdateState from "../../util/form-update-state";
 import Button from "../../components/Button";
-import {apiw as proveMember} from "../../async/prove-member"
+import {apiw as proveMember} from "@async/prove-member"
 import { makePostString } from "../../core/APIWrapperUtil";
 import {JoomlaErrorDiv} from "../../theme/joomla/JoomlaErrorDiv";
 import JoomlaButton from "../../theme/joomla/JoomlaButton";

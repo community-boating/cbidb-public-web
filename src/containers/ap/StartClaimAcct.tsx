@@ -8,7 +8,7 @@ import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
 import { PostURLEncoded } from '../../core/APIWrapperUtil';
-import {postWrapper} from "../../async/member/start-claim-acct"
+import {postWrapper} from "@async/member/start-claim-acct"
 import { apPathClaimAcctSent } from '../../app/paths/ap/claim-acct-sent';
 import { apBasePath } from '../../app/paths/ap/_base';
 import FactaMainPage from '../../theme/facta/FactaMainPage';

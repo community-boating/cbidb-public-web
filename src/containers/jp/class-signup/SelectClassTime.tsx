@@ -1,11 +1,11 @@
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { getClassInstancesValidator, InstanceInfo } from '../../../async/junior/get-class-instances';
+import { getClassInstancesValidator, InstanceInfo } from '@async/junior/get-class-instances';
 import JpClassesAvailTable from "../../../components/JpClassesAvailTable";
 import Joomla8_4 from "../../../theme/joomla/Joomla8_4";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import { weeksValidator, Week } from '../../../async/weeks';
+import { weeksValidator, Week } from '@async/weeks';
 import { Select } from '../../../components/Select';
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../../../util/form-update-state';
@@ -13,7 +13,7 @@ import * as moment from 'moment'
 import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
 import { History } from 'history';
 import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
-import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
+import { GetSignupsAPIResult } from '@async/junior/get-signups';
 import FactaButton from '../../../theme/facta/FactaButton';
 import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
 import {classPageRoute} from "../../../app/routes/jp/class"

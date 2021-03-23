@@ -5,7 +5,7 @@ import TextArea from "../../../components/TextArea";
 import formUpdateState from '../../../util/form-update-state';
 import FactaButton from '../../../theme/facta/FactaButton';
 import { History } from 'history';
-import { postWrapper as saveNote } from "../../../async/junior/signup-note"
+import { postWrapper as saveNote } from "@async/junior/signup-note"
 import { makePostJSON } from '../../../core/APIWrapperUtil';
 import {classPageRoute} from "../../../app/routes/jp/class"
 import { setJPImage } from '../../../util/set-bg-image';

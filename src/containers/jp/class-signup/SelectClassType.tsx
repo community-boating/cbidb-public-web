@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { validator } from "../../../async/junior/see-types";
+import { validator } from "@async/junior/see-types";
 import Joomla8_4 from "../../../theme/joomla/Joomla8_4";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import { asDiv, asFragment, ClassType } from "./class-description";
@@ -10,7 +10,7 @@ import beginner from "./types/beginner";
 import intermediate from "./types/intermediate";
 import other from './types/other';
 import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
-import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
+import { GetSignupsAPIResult } from '@async/junior/get-signups';
 import { History } from 'history'
 import FactaButton from '../../../theme/facta/FactaButton';
 import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';

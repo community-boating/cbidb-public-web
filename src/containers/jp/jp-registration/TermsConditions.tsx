@@ -6,7 +6,7 @@ import FactaButton from "../../../theme/facta/FactaButton";
 import { RadioGroup } from "../../../components/InputGroup";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
-import {apiw as accept} from "../../../async/junior/accept-tos"
+import {apiw as accept} from "@async/junior/accept-tos"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setJPImage } from "../../../util/set-bg-image";

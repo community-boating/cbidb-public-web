@@ -7,7 +7,7 @@ import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import NavBarLogoutOnly from '../../components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
 import { setJPImage } from '../../util/set-bg-image';
-import { validator as welcomeJPValidator } from "../../async/member-welcome-jp";
+import { validator as welcomeJPValidator } from "@async/member-welcome-jp";
 import { jpBasePath } from '../../app/paths/jp/_base';
 import FactaMainPage from '../../theme/facta/FactaMainPage';
 

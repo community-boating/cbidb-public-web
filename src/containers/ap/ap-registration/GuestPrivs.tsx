@@ -9,9 +9,9 @@ import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
-import {postWrapper as submit} from "../../../async/member/select-guest-privs"
+import {postWrapper as submit} from "@async/member/select-guest-privs"
 import { makePostJSON } from "../../../core/APIWrapperUtil";
-import {validator as pricesValidator} from "../../../async/prices"
+import {validator as pricesValidator} from "@async/prices"
 import Currency from "../../../util/Currency";
 import FactaMainPage from "../../../theme/facta/FactaMainPage";
 

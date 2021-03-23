@@ -7,21 +7,21 @@ import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
 import JoomlaSidebarRegion from '../../../theme/joomla/JoomlaSidebarRegion';
 import formUpdateState from '../../../util/form-update-state';
 import { Select } from '../../../components/Select';
-import { validatorSingleRow } from "../../../async/class-instances-with-avail"
+import { validatorSingleRow } from "@async/class-instances-with-avail"
 import JoomlaReport from '../../../theme/joomla/JoomlaReport';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek } from '../../../lov/magicStrings';
 import { Moment } from 'moment';
 import FactaButton from '../../../theme/facta/FactaButton';
 import { PreRegistration, PreRegistrationClass } from '../../../app/global-state/jp-pre-registrations';
 import optionify from '../../../util/optionify';
-import {postWrapper as addJuniorPostWrapper} from "../../../async/junior/add-junior-class-reservation"
-import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
+import {postWrapper as addJuniorPostWrapper} from "@async/junior/add-junior-class-reservation"
+import { validator as reservationAPIValidator } from '@async/junior/get-junior-class-reservations'
 import { makePostJSON, makePostString } from '../../../core/APIWrapperUtil';
 import { History } from 'history';
 import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
-import {postWrapper as deleteJunior} from '../../../async/junior/delete-junior-class-reservation'
+import {postWrapper as deleteJunior} from '@async/junior/delete-junior-class-reservation'
 import * as moment from 'moment';
-import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
+import getClassesAndPreregistrations from '@async/util/getClassesAndPreregistrations';
 import { reserveNotesPageRoute } from '../../../app/routes/jp/reserve-notes';
 import { createAcctPageRoute } from '../../../app/routes/jp/create-acct';
 import { reservePageRoute } from '../../../app/routes/jp/reserve';

@@ -8,7 +8,7 @@ import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
 
 import { asDivOptionalSignupLink, ClassType } from "./class-signup/class-description";
 import raceTeam from './class-signup/types/other/race-team'
-import {validator as offseasonClassesValidator} from "../../async/junior/offseason-classes"
+import {validator as offseasonClassesValidator} from "@async/junior/offseason-classes"
 import { setJPImage } from '../../util/set-bg-image';
 
 type Props = {

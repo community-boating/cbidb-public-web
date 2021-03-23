@@ -5,8 +5,8 @@ import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import { setAPImage } from '../../../util/set-bg-image';
 import ApClassPage from '../../../containers/ap/ApClassPage';
-import {getWrapper as getTypesWithAvailability, validator as typesValidator} from "../../../async/member/ap-class-type-avail"
-import {getWrapper as getClasses, resultValidator as classesValidator} from "../../../async/member/ap-classes-for-calendar"
+import {getWrapper as getTypesWithAvailability, validator as typesValidator} from "@async/member/ap-class-type-avail"
+import {getWrapper as getClasses, resultValidator as classesValidator} from "@async/member/ap-classes-for-calendar"
 import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 
 

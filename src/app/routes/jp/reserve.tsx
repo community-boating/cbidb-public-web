@@ -4,8 +4,8 @@ import {jpPathReserve} from "../../paths/jp/reserve";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
 import ReserveClasses, { bundleReservationsFromAPI, ClassInstanceObject } from "../../../containers/jp/create-acct/ReserveClasses"
-import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
-import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
+import { validator as reservationAPIValidator } from '@async/junior/get-junior-class-reservations'
+import getClassesAndPreregistrations from '@async/util/getClassesAndPreregistrations';
 import { setJPImage } from '../../../util/set-bg-image';
 import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 

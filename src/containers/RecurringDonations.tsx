@@ -12,9 +12,9 @@ import { apBasePath } from '../app/paths/ap/_base';
 import { PageFlavor } from '../components/Page';
 import StripeElement from '../components/StripeElement';
 import { PaymentMethod } from '../models/stripe/PaymentMethod';
-import {postWrapper as storePaymentMethod} from "../async/stripe/store-payment-method-ap"
+import {postWrapper as storePaymentMethod} from "@async/stripe/store-payment-method-ap"
 import { makePostJSON } from '../core/APIWrapperUtil';
-import {resultValidator as getRecurringInfoValidator} from "../async/stripe/get-recurring-info"
+import {resultValidator as getRecurringInfoValidator} from "@async/stripe/get-recurring-info"
 import FactaButton from '../theme/facta/FactaButton';
 
 type RecurringDonationInfo = t.TypeOf<typeof getRecurringInfoValidator>;

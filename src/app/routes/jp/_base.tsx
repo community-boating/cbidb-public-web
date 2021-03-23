@@ -5,9 +5,9 @@ import RouteWrapper from "../../../core/RouteWrapper";
 import {jpBasePath} from "../../paths/jp/_base"
 import PageWrapper from "../../../core/PageWrapper";
 import HomePageJP from "../../../containers/jp/HomePageJP";
-import { apiw as welcomeAPIJP, validator as welcomeValidatorJP } from "../../../async/member-welcome-jp";
+import { apiw as welcomeAPIJP, validator as welcomeValidatorJP } from "@async/member-welcome-jp";
 import { setJPImage } from '../../../util/set-bg-image';
-import {postWrapper as getProtoPersonCookie} from "../../../async/check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
 import { PostURLEncoded } from '../../../core/APIWrapperUtil';
 import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 

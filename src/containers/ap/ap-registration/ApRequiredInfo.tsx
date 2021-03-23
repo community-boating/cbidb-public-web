@@ -3,7 +3,7 @@ import { History } from 'history';
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { validator, postWrapper } from "../../../async/member/required";
+import { validator, postWrapper } from "@async/member/required";
 import DateTriPicker, {  dateStringToComponents, DateTriPickerProps, componentsToDate } from "../../../components/DateTriPicker";
 import PhoneTriBox, { PhoneTriBoxProps, splitPhone, combinePhone } from "../../../components/PhoneTriBox";
 import { Select } from "../../../components/Select";

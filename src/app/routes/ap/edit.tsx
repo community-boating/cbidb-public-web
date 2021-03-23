@@ -3,7 +3,7 @@ import * as t from 'io-ts';
 import path from "../../paths/ap/edit";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
-import { validator as welcomeJPValidator } from "../../../async/member-welcome-ap";
+import { validator as welcomeJPValidator } from "@async/member-welcome-ap";
 import { setAPImage } from '../../../util/set-bg-image';
 import ApRegistrationWizard from '../../../containers/ap/ap-registration/ApRegistrationWizard';
 import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';

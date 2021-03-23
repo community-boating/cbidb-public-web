@@ -7,7 +7,7 @@ import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
 import { setAPImage } from '../../util/set-bg-image';
 import {History} from "history"
 import FactaButton from '../../theme/facta/FactaButton';
-import {postWrapper} from "../../async/member/do-claim-acct"
+import {postWrapper} from "@async/member/do-claim-acct"
 import { PostURLEncoded } from '../../core/APIWrapperUtil';
 import { apBasePath } from '../../app/paths/ap/_base';
 import asc from '../../app/AppStateContainer';

@@ -3,7 +3,7 @@ import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { postWrapper, validator } from "../../../async/member/survey";
+import { postWrapper, validator } from "@async/member/survey";
 import { CheckboxGroup, RadioGroup } from "../../../components/InputGroup";
 import TextInput from "../../../components/TextInput";
 import { makePostJSON } from "../../../core/APIWrapperUtil";

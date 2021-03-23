@@ -3,11 +3,11 @@ import * as t from 'io-ts';
 import {jpPathClassTime} from "../../paths/jp/classTime";
 import PageWrapper from "../../../core/PageWrapper";
 import RouteWrapper from "../../../core/RouteWrapper";
-import { getWrapper as getSignups, GetSignupsAPIResult } from '../../../async/junior/get-signups';
-import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTimesValidator } from "../../../async/junior/get-class-instances";
+import { getWrapper as getSignups, GetSignupsAPIResult } from '@async/junior/get-signups';
+import { getWrapper as classTimesWrapper, getClassInstancesValidator as classTimesValidator } from "@async/junior/get-class-instances";
 import SelectClassTime from "../../../containers/jp/class-signup/SelectClassTime";
-import {apiw as getWeeks, weeksValidator} from "../../../async/weeks";
-import {apiw as welcomeAPI, validator as welcomeValidator} from "../../../async/member-welcome-jp"
+import {apiw as getWeeks, weeksValidator} from "@async/weeks";
+import {apiw as welcomeAPI, validator as welcomeValidator} from "@async/member-welcome-jp"
 import { setJPImage } from '../../../util/set-bg-image';
 import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 

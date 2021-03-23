@@ -5,7 +5,7 @@ import * as React from "react";
 import { RadioGroup } from "../../../components/InputGroup";
 import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
 import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
-import {apiw as accept} from "../../../async/member/accept-tos"
+import {apiw as accept} from "@async/member/accept-tos"
 import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
 import { setAPImage } from "../../../util/set-bg-image";
 import { makePostJSON } from "../../../core/APIWrapperUtil";

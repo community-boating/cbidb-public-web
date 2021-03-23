@@ -5,33 +5,33 @@ import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import StripeElement from "../../components/StripeElement";
 import { TokensResult } from "../../models/stripe/tokens";
 import {PaymentMethod} from "../../models/stripe/PaymentMethod"
-import { postWrapper as storeToken } from "../../async/stripe/store-token"
+import { postWrapper as storeToken } from "@async/stripe/store-token"
 import { makePostJSON } from "../../core/APIWrapperUtil";
-import { orderStatusValidator, CardData } from "../../async/order-status"
+import { orderStatusValidator, CardData } from "@async/order-status"
 import StripeConfirm from "../../components/StripeConfirm";
 import FactaButton from "../../theme/facta/FactaButton";
-import { postWrapper as clearCard } from '../../async/stripe/clear-card'
+import { postWrapper as clearCard } from '@async/stripe/clear-card'
 import { History } from "history";
 import { setCheckoutImage } from "../../util/set-bg-image";
-import { CartItem } from "../../async/get-cart-items"
+import { CartItem } from "@async/get-cart-items"
 import FullCartReport from "../../components/FullCartReport";
 import { checkoutPageRoute as apCheckoutRoute} from "../../app/routes/checkout-ap";
 import { checkoutPageRoute as jpCheckoutRoute} from "../../app/routes/checkout-jp";
-import { validator as welcomeJPValidator } from "../../async/member-welcome-jp";
+import { validator as welcomeJPValidator } from "@async/member-welcome-jp";
 import { Option, none, some } from "fp-ts/lib/Option";
 import { RadioGroup } from "../../components/InputGroup";
 import formUpdateState from "../../util/form-update-state";
-import {donationFundValidator} from "../../async/donation-funds"
+import {donationFundValidator} from "@async/donation-funds"
 import { Select } from "../../components/Select";
 import newPopWin from "../../util/newPopWin";
 import TextInput from "../../components/TextInput";
 import {FactaErrorDiv} from "../../theme/facta/FactaErrorDiv";
 import { left, right, Either } from "fp-ts/lib/Either";
-import {postWrapper as addDonation} from "../../async/member/add-donation"
-import {postWrapper as addPromo} from "../../async/member/add-promo-code"
-import {postWrapper as applyGC} from "../../async/member/apply-gc"
-import {postWrapper as storePaymentMethodAP} from "../../async/stripe/store-payment-method-ap"
-import {postWrapper as storePaymentMethodJP} from "../../async/stripe/store-payment-method-jp"
+import {postWrapper as addDonation} from "@async/member/add-donation"
+import {postWrapper as addPromo} from "@async/member/add-promo-code"
+import {postWrapper as applyGC} from "@async/member/apply-gc"
+import {postWrapper as storePaymentMethodAP} from "@async/stripe/store-payment-method-ap"
+import {postWrapper as storePaymentMethodJP} from "@async/stripe/store-payment-method-jp"
 import { StaggeredPaymentSchedule } from "../../components/StaggeredPaymentSchedule";
 import Currency from "../../util/Currency";
 import { apRegPageRoute } from "../../app/routes/ap/reg";
@@ -39,7 +39,7 @@ import { Link } from "react-router-dom";
 import { PageFlavor } from "../../components/Page";
 import PlainButton from "../../components/PlainButton";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";
-import {postWrapper as setJPStaggered} from "../../async/member/set-payment-plan-jp"
+import {postWrapper as setJPStaggered} from "@async/member/set-payment-plan-jp"
 import fundsPath from "../../app/paths/common/funds"
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;

@@ -5,7 +5,7 @@ import RouteWrapper from "../../../core/RouteWrapper";
 import { PageFlavor } from '../../../components/Page';
 import RecurringDonations from '../../../containers/RecurringDonations';
 import PageWrapper from '../../../core/PageWrapper';
-import {getWrapper as getRecurringInfo, resultValidator as getRecurringInfoValidator} from "../../../async/stripe/get-recurring-info"
+import {getWrapper as getRecurringInfo, resultValidator as getRecurringInfoValidator} from "@async/stripe/get-recurring-info"
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import { setAPImage } from '../../../util/set-bg-image';
 

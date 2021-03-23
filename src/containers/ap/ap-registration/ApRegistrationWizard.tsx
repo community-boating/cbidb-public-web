@@ -9,20 +9,20 @@ import { ComponentPropsFromWizard, WizardNode } from "../../../core/WizardPagefl
 import ApRequiredInfo from "./ApRequiredInfo";
 import { setAPImage } from "../../../util/set-bg-image";
 import { apBasePath } from "../../../app/paths/ap/_base";
-import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator} from "../../../async/member/required";
-import { getWrapper as emergAPI, validator as emergValidator} from "../../../async/member/emerg-contact";
+import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator} from "@async/member/required";
+import { getWrapper as emergAPI, validator as emergValidator} from "@async/member/emerg-contact";
 import ApEmergencyContact from "./ApEmergencyContact";
-import {getWrapper as getPaymentPlans, validator as paymentPlansValidator} from "../../../async/member/payment-plan-options"
+import {getWrapper as getPaymentPlans, validator as paymentPlansValidator} from "@async/member/payment-plan-options"
 import GuestPrivs from "./GuestPrivs";
 import DamageWaiver from "./DamageWaiver";
 import ApSurveyInfo from "./ApSurveyInfo";
-import { getWrapper as surveyAPI, validator as surveyValidator} from "../../../async/member/survey";
+import { getWrapper as surveyAPI, validator as surveyValidator} from "@async/member/survey";
 import ApTermsConditions from "./ApTermsConditions";
 import ApPurchaseOptions from "./ApPurchaseOptions";
-import {apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome-ap"
-import {getWrapper as gpGet } from "../../../async/member/select-guest-privs"
-import {getWrapper as dwGet } from "../../../async/member/select-damage-waiver"
-import {apiw as getPrices, validator as pricesValidator} from "../../../async/prices"
+import {apiw as welcomeAPI, validator as welcomeValidator } from "@async/member-welcome-ap"
+import {getWrapper as gpGet } from "@async/member/select-guest-privs"
+import {getWrapper as dwGet } from "@async/member/select-damage-waiver"
+import {apiw as getPrices, validator as pricesValidator} from "@async/prices"
 import FactaLoadingPage from "../../../theme/facta/FactaLoadingPage";
 import ApStaggeredPaymentsPage from "./ApStaggeredPaymentsPage";
 import { WizardPageflowAbstract, WizardBaseProps, WizardBaseState } from "../../../core/WizardPageflowAbstract";

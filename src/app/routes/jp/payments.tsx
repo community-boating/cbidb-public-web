@@ -7,7 +7,7 @@ import { setJPImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
 import ManageStaggeredPayments from '../../../containers/ManageStaggeredPayments';
 import { PageFlavor } from '../../../components/Page';
-import {getWrapper, validator} from "../../../async/member/open-order-details-jp"
+import {getWrapper, validator} from "@async/member/open-order-details-jp"
 import { some } from 'fp-ts/lib/Option';
 import { jpBasePath } from '../../paths/jp/_base';
 export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayments, history => <PageWrapper

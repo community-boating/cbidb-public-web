@@ -8,7 +8,7 @@ import { Moment } from 'moment';
 import * as _ from 'lodash';
 
 import { makePostJSON } from '../../core/APIWrapperUtil';
-import {postWrapper as abortRegistration} from "../../async/member/abort-mem-reg"
+import {postWrapper as abortRegistration} from "@async/member/abort-mem-reg"
 import { apBasePath } from '../../app/paths/ap/_base';
 //import { apClassesPageRoute } from '../../app/routes/ap/classes';
 import { apEditPageRoute } from '../../app/routes/ap/edit';

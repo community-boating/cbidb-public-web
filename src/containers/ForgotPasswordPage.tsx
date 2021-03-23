@@ -6,7 +6,7 @@ import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
 import TextInput from '../components/TextInput';
-import {apiw} from "../async/forgot-pw"
+import {apiw} from "@async/forgot-pw"
 import { PostURLEncoded } from '../core/APIWrapperUtil';
 import {FactaErrorDiv} from '../theme/facta/FactaErrorDiv';
 import { jpForgotPasswordSentPageRoute } from '../app/routes/jp/forgot-pw-sent';

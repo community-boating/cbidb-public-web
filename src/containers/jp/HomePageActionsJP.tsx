@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom';
 
-import { postWrapper as abortRegistration } from "../../async/junior/abort-mem-reg"
+import { postWrapper as abortRegistration } from "@async/junior/abort-mem-reg"
 import { makePostJSON } from '../../core/APIWrapperUtil';
 import { History } from 'history';
 import {ratingsPageRoute} from '../../app/routes/jp/ratings'
 // import {classPageRoute} from '../../app/routes/jp/class'
 import {regPageRoute} from '../../app/routes/jp/reg'
 import {editPageRoute} from "../../app/routes/jp/edit"
-import {postWrapper as offseasonWLDelete} from "../../async/junior/offseason-wl-delete"
+import {postWrapper as offseasonWLDelete} from "@async/junior/offseason-wl-delete"
 import {offseasonPageRoute} from "../../app/routes/jp/offseason"
 import { jpBasePath } from '../../app/paths/jp/_base';
 import { classPageRoute } from '../../app/routes/jp/class';

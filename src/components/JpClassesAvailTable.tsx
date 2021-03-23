@@ -1,10 +1,10 @@
 import * as React from "react";
 
-import { InstanceInfo } from "../async/junior/get-class-instances";
+import { InstanceInfo } from "@async/junior/get-class-instances";
 import JoomlaReport from "../theme/joomla/JoomlaReport";
 import { ClassAction } from '../containers/jp/class-signup/SelectClassTime';
-import { postWrapper as doSignup } from "../async/junior/class-signup"
-import { postWrapper as deleteSignup } from "../async/junior/class-signup-delete"
+import { postWrapper as doSignup } from "@async/junior/class-signup"
+import { postWrapper as deleteSignup } from "@async/junior/class-signup-delete"
 import APIWrapper from '../core/APIWrapper';
 import { makePostJSON } from '../core/APIWrapperUtil';
 import { History } from 'history';

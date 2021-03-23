@@ -6,7 +6,7 @@ import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
 import { Option, none } from 'fp-ts/lib/Option';
 import formUpdateState from '../util/form-update-state';
 import TextInput from '../components/TextInput';
-import {apiw} from "../async/reset-pw"
+import {apiw} from "@async/reset-pw"
 import { PostURLEncoded } from '../core/APIWrapperUtil';
 import Validation from '../util/Validation'
 import {FactaErrorDiv} from '../theme/facta/FactaErrorDiv';

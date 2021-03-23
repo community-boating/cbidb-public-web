@@ -5,7 +5,7 @@ import path from "../../paths/common/standalone-signin"
 import PageWrapper from '../../../core/PageWrapper';
 import { setCheckoutImage } from '../../../util/set-bg-image';
 import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
-import {getWrapper, validator} from "../../../async/donation-funds"
+import {getWrapper, validator} from "@async/donation-funds"
 import StandaloneLoginPage from '../../../containers/checkout/StandaloneLoginPage';
 
 export const standaloneLoginRoute = new RouteWrapper(true, path, history => <PageWrapper

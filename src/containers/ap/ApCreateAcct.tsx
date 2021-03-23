@@ -10,12 +10,12 @@ import { apPreRegRoute } from '../../app/routes/ap/prereg';
 import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
 import Joomla8_4 from '../../theme/joomla/Joomla8_4';
 import { setAPImage } from '../../util/set-bg-image';
-import { postWrapper as create } from '../../async/create-member'
+import { postWrapper as create } from '@async/create-member'
 import {History} from "history"
 import { PostURLEncoded } from '../../core/APIWrapperUtil';
 import { apBasePath } from '../../app/paths/ap/_base';
 import asc from '../../app/AppStateContainer';
-import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
 
 const defaultForm = {
 	firstName: none as Option<string>,

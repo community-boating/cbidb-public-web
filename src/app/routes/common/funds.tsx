@@ -4,7 +4,7 @@ import RouteWrapper from "../../../core/RouteWrapper";
 import path from "../../paths/common/funds"
 import PageWrapper from '../../../core/PageWrapper';
 import { setCheckoutImage } from '../../../util/set-bg-image';
-import {getWrapper, validator} from "../../../async/donation-funds"
+import {getWrapper, validator} from "@async/donation-funds"
 import FundInfoPage from '../../../containers/checkout/FundInfoPage';
 import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
 

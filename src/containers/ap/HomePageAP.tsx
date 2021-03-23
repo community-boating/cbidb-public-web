@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { validator } from "../../async/member-welcome-ap";
+import { validator } from "@async/member-welcome-ap";
 import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import JoomlaReport from "../../theme/joomla/JoomlaReport";

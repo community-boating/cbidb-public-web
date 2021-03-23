@@ -7,24 +7,24 @@ import { setCheckoutImage } from '../../util/set-bg-image';
 import Button from '../../components/Button';
 // import { DonationThirdPartyWidget } from '../../components/DonationThirdPartyWidget';
 import { none, Option, some } from 'fp-ts/lib/Option';
-import {donationFundValidator} from "../../async/donation-funds"
+import {donationFundValidator} from "@async/donation-funds"
 import TextInput from '../../components/TextInput';
 import { RadioGroup } from '../../components/InputGroup';
 import { Select } from '../../components/Select';
 import formUpdateState from '../../util/form-update-state';
 import newPopWin from "../../util/newPopWin";
-import {postWrapper as addDonation} from "../../async/add-donation-standalone"
+import {postWrapper as addDonation} from "@async/add-donation-standalone"
 import { makePostJSON, PostURLEncoded } from '../../core/APIWrapperUtil';
-import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
+import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
 import FullCartReport from '../../components/FullCartReport';
-import { CartItem } from '../../async/get-cart-items-donate';
+import { CartItem } from '@async/get-cart-items-donate';
 import { PageFlavor } from '../../components/Page';
 import { Either, left, right } from 'fp-ts/lib/Either';
 import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
-import { orderStatusValidator } from "../../async/order-status"
+import { orderStatusValidator } from "@async/order-status"
 import standaloneLoginPath from "../../app/paths/common/standalone-signin"
-import {apiw as detach} from "../../async/proto-detach-member"
-import {postWrapper as savePersonData } from "../../async/member/donate-set-person"
+import {apiw as detach} from "@async/proto-detach-member"
+import {postWrapper as savePersonData } from "@async/member/donate-set-person"
 import JoomlaButton from '../../theme/joomla/JoomlaButton';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
