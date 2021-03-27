@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import { History } from 'history';
-import Joomla8_4 from '../../theme/joomla/Joomla8_4';
-import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
-import Currency from '../../util/Currency';
-import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
+import Joomla8_4 from '@joomla/Joomla8_4';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import Currency from '@util/Currency';
+import JoomlaSidebarRegion from '@joomla/JoomlaSidebarRegion';
 
 import { asDivOptionalSignupLink, ClassType } from "./class-signup/class-description";
 import raceTeam from './class-signup/types/other/race-team'
 import {validator as offseasonClassesValidator} from "@async/junior/offseason-classes"
-import { setJPImage } from '../../util/set-bg-image';
+import { setJPImage } from '@util/set-bg-image';
 
 type Props = {
 	history: History<any>,

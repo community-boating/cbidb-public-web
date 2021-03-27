@@ -1,8 +1,8 @@
 import * as React from 'react';
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import { setCheckoutImage } from '../../util/set-bg-image';
-import { donatePageRoute } from '../../app/routes/donate';
+import JoomlaMainPage from '@joomla/JoomlaMainPage';
+import JoomlaArticleRegion from '@joomla/JoomlaArticleRegion';
+import { setCheckoutImage } from '@util/set-bg-image';
+import { donatePageRoute } from '@routes/donate';
 import { Link } from 'react-router-dom';
 
 type Props = {

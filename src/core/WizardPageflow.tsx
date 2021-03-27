@@ -1,7 +1,7 @@
 import { History } from "history";
 import * as React from "react";
 
-import { DoublyLinkedList } from "../util/DoublyLinkedList";
+import { DoublyLinkedList } from "@util/DoublyLinkedList";
 
 export interface ComponentPropsFromWizard {
 	goNext: () => Promise<void>,

@@ -1,7 +1,7 @@
 import * as React from "react";
-import JoomlaReport from "../theme/joomla/JoomlaReport";
+import JoomlaReport from "@joomla/JoomlaReport";
 import * as moment from 'moment';
-import Currency from "../util/Currency";
+import Currency from "@util/Currency";
 
 type Props = {
 	schedule: {paymentDate: string, paymentAmtCents: number}[]

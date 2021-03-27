@@ -1,31 +1,31 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import { setCheckoutImage } from '../../util/set-bg-image';
-import Button from '../../components/Button';
-// import { DonationThirdPartyWidget } from '../../components/DonationThirdPartyWidget';
+import JoomlaMainPage from '@joomla/JoomlaMainPage';
+import JoomlaArticleRegion from '@joomla/JoomlaArticleRegion';
+import { setCheckoutImage } from '@util/set-bg-image';
+import Button from '@components/Button';
+// import { DonationThirdPartyWidget } from '@components/DonationThirdPartyWidget';
 import { none, Option, some } from 'fp-ts/lib/Option';
 import {donationFundValidator} from "@async/donation-funds"
-import TextInput from '../../components/TextInput';
-import { RadioGroup } from '../../components/InputGroup';
-import { Select } from '../../components/Select';
-import formUpdateState from '../../util/form-update-state';
-import newPopWin from "../../util/newPopWin";
+import TextInput from '@components/TextInput';
+import { RadioGroup } from '@components/InputGroup';
+import { Select } from '@components/Select';
+import formUpdateState from '@util/form-update-state';
+import newPopWin from "@util/newPopWin";
 import {postWrapper as addDonation} from "@async/add-donation-standalone"
-import { makePostJSON, PostURLEncoded } from '../../core/APIWrapperUtil';
+import { makePostJSON, PostURLEncoded } from '@core/APIWrapperUtil';
 import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
-import FullCartReport from '../../components/FullCartReport';
+import FullCartReport from '@components/FullCartReport';
 import { CartItem } from '@async/get-cart-items-donate';
-import { PageFlavor } from '../../components/Page';
+import { PageFlavor } from '@components/Page';
 import { Either, left, right } from 'fp-ts/lib/Either';
-import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
+import {JoomlaErrorDiv} from '@joomla/JoomlaErrorDiv';
 import { orderStatusValidator } from "@async/order-status"
-import standaloneLoginPath from "../../app/paths/common/standalone-signin"
+import standaloneLoginPath from "@paths/common/standalone-signin"
 import {apiw as detach} from "@async/proto-detach-member"
 import {postWrapper as savePersonData } from "@async/member/donate-set-person"
-import JoomlaButton from '../../theme/joomla/JoomlaButton';
+import JoomlaButton from '@joomla/JoomlaButton';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 

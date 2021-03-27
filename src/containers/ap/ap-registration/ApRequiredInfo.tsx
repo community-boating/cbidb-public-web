@@ -4,26 +4,26 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { validator, postWrapper } from "@async/member/required";
-import DateTriPicker, {  dateStringToComponents, DateTriPickerProps, componentsToDate } from "../../../components/DateTriPicker";
-import PhoneTriBox, { PhoneTriBoxProps, splitPhone, combinePhone } from "../../../components/PhoneTriBox";
-import { Select } from "../../../components/Select";
-import TextArea from "../../../components/TextArea";
-import TextInput from "../../../components/TextInput";
-import countries from "../../../lov/countries";
-import states from "../../../lov/states";
-import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
-import formUpdateState from '../../../util/form-update-state';
-import range from "../../../util/range";
+import DateTriPicker, {  dateStringToComponents, DateTriPickerProps, componentsToDate } from "@components/DateTriPicker";
+import PhoneTriBox, { PhoneTriBoxProps, splitPhone, combinePhone } from "@components/PhoneTriBox";
+import { Select } from "@components/Select";
+import TextArea from "@components/TextArea";
+import TextInput from "@components/TextInput";
+import countries from "@lov/countries";
+import states from "@lov/states";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import FactaNotitleRegion from "@facta/FactaNotitleRegion";
+import formUpdateState from '@util/form-update-state';
+import range from "@util/range";
 import * as moment from 'moment';
-import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
-import asc from '../../../app/AppStateContainer';
-import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
-import { setAPImage } from '../../../util/set-bg-image';
-import { makePostJSON } from '../../../core/APIWrapperUtil';
-import FactaMainPage from '../../../theme/facta/FactaMainPage';
-import FactaButton from '../../../theme/facta/FactaButton';
-import JoomlaMainPage from '../../../theme/joomla/JoomlaMainPage';
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import asc from '@app/AppStateContainer';
+import NavBarLogoutOnly from '@components/NavBarLogoutOnly';
+import { setAPImage } from '@util/set-bg-image';
+import { makePostJSON } from '@core/APIWrapperUtil';
+import FactaMainPage from '@facta/FactaMainPage';
+import FactaButton from '@facta/FactaButton';
+import JoomlaMainPage from '@joomla/JoomlaMainPage';
 
 type ApiType = t.TypeOf<typeof validator>
 

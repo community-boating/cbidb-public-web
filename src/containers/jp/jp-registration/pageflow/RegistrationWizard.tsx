@@ -6,24 +6,24 @@ import { getWrapper as emergContactAPI, validator as emergContactValidator } fro
 import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator, defaultValue as requiredFormDefault} from "@async/junior/required";
 import { getWrapper as surveyAPI, validator as surveyValidator } from "@async/junior/survey";
 import { getWrapper as swimAPI, validator as swimValidator } from "@async/junior/swim-proof";
-import PageWrapper from "../../../../core/PageWrapper";
-import ProgressThermometer from "../../../../components/ProgressThermometer";
-import { State as BreadcrumbState} from "../../../../core/Breadcrumb";
-import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "../../../../core/WizardPageflow";
-import Currency from "../../../../util/Currency";
+import PageWrapper from "@core/PageWrapper";
+import ProgressThermometer from "@components/ProgressThermometer";
+import { State as BreadcrumbState} from "@core/Breadcrumb";
+import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "@core/WizardPageflow";
+import Currency from "@util/Currency";
 import ScholarshipPage from "../../Scholarship";
 import EmergencyContact from "../EmergencyContact";
 import RequiredInfo from "../RequiredInfo";
 import SurveyInfo from "../SurveyInfo";
 import TermsConditions from "../TermsConditions";
-import { DoublyLinkedList } from "../../../../util/DoublyLinkedList";
+import { DoublyLinkedList } from "@util/DoublyLinkedList";
 import ScholarshipResultsPage from "../../ScholarshipResults";
 import { Option, some } from "fp-ts/lib/Option";
 import { apiw as welcomeAPI, validator as welcomeJPValidator } from "@async/member-welcome-jp";
 import SwimProof from "../SwimProof";
-import { setJPImage } from "../../../../util/set-bg-image";
-import { jpBasePath } from "../../../../app/paths/jp/_base";
-import FactaLoadingPage from "../../../../theme/facta/FactaLoadingPage";
+import { setJPImage } from "@util/set-bg-image";
+import { jpBasePath } from "@paths/jp/_base";
+import FactaLoadingPage from "@facta/FactaLoadingPage";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,

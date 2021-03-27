@@ -1,16 +1,16 @@
 import * as React from "react";
 
 import { InstanceInfo } from "@async/junior/get-class-instances";
-import JoomlaReport from "../theme/joomla/JoomlaReport";
-import { ClassAction } from '../containers/jp/class-signup/SelectClassTime';
+import JoomlaReport from "@joomla/JoomlaReport";
+import { ClassAction } from '@containers/jp/class-signup/SelectClassTime';
 import { postWrapper as doSignup } from "@async/junior/class-signup"
 import { postWrapper as deleteSignup } from "@async/junior/class-signup-delete"
-import APIWrapper from '../core/APIWrapper';
-import { makePostJSON } from '../core/APIWrapperUtil';
+import APIWrapper from '@core/APIWrapper';
+import { makePostJSON } from '@core/APIWrapperUtil';
 import { History } from 'history';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '../lov/magicStrings';
-import assertNever from "../util/assertNever";
-import {signupNotePageRoute} from "../app/routes/jp/signupNote"
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '@lov/magicStrings';
+import assertNever from "@util/assertNever";
+import {signupNotePageRoute} from "@routes/jp/signupNote"
 
 interface Props {
 	typeId: number,

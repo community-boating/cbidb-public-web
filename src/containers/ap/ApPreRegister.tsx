@@ -1,11 +1,11 @@
 import * as React from "react";
-import { setAPImage } from "../../util/set-bg-image";
-import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
+import { setAPImage } from "@util/set-bg-image";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
 import {History} from 'history'
-import { jpBasePath } from "../../app/paths/jp/_base";
+import { jpBasePath } from "@paths/jp/_base";
 import { Link } from "react-router-dom";
-import { apCreateAcctRoute } from "../../app/routes/ap/create-acct";
-import FactaMainPage from "../../theme/facta/FactaMainPage";
+import { apCreateAcctRoute } from "@routes/ap/create-acct";
+import FactaMainPage from "@facta/FactaMainPage";
 
 type Props = {
 	history: History<any>

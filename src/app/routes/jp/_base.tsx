@@ -1,15 +1,15 @@
 import {History} from 'history';
 import * as React from 'react';
 import * as t from 'io-ts';
-import RouteWrapper from "../../../core/RouteWrapper";
-import {jpBasePath} from "../../paths/jp/_base"
-import PageWrapper from "../../../core/PageWrapper";
-import HomePageJP from "../../../containers/jp/HomePageJP";
+import RouteWrapper from "@core/RouteWrapper";
+import {jpBasePath} from "@paths/jp/_base"
+import PageWrapper from "@core/PageWrapper";
+import HomePageJP from "@containers/jp/HomePageJP";
 import { apiw as welcomeAPIJP, validator as welcomeValidatorJP } from "@async/member-welcome-jp";
-import { setJPImage } from '../../../util/set-bg-image';
+import { setJPImage } from '@util/set-bg-image';
 import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
-import { PostURLEncoded } from '../../../core/APIWrapperUtil';
-import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
+import { PostURLEncoded } from '@core/APIWrapperUtil';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 
 
 export const jpHomePageRoute = new RouteWrapper(true, jpBasePath, (history: History<any>) => <PageWrapper

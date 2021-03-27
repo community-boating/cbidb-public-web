@@ -2,22 +2,22 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { validator } from "@async/junior/see-types";
-import Joomla8_4 from "../../../theme/joomla/Joomla8_4";
-import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
+import Joomla8_4 from "@joomla/Joomla8_4";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
 import { asDiv, asFragment, ClassType } from "./class-description";
 import advanced from "./types/advanced";
 import beginner from "./types/beginner";
 import intermediate from "./types/intermediate";
 import other from './types/other';
-import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
+import JpClassSignupSidebar from '@components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '@async/junior/get-signups';
 import { History } from 'history'
-import FactaButton from '../../../theme/facta/FactaButton';
-import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
-import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
+import FactaButton from '@facta/FactaButton';
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import NavBarLogoutOnly from '@components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
-import { setJPImage } from '../../../util/set-bg-image';
-import { jpBasePath } from '../../../app/paths/jp/_base';
+import { setJPImage } from '@util/set-bg-image';
+import { jpBasePath } from '@paths/jp/_base';
 
 export const path = "/class/:personId"
 

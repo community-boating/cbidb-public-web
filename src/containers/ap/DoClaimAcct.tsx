@@ -1,18 +1,18 @@
 import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
-import TextInput from '../../components/TextInput';
-import formUpdateState from '../../util/form-update-state';
-import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
-import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
-import { setAPImage } from '../../util/set-bg-image';
+import TextInput from '@components/TextInput';
+import formUpdateState from '@util/form-update-state';
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import { setAPImage } from '@util/set-bg-image';
 import {History} from "history"
-import FactaButton from '../../theme/facta/FactaButton';
+import FactaButton from '@facta/FactaButton';
 import {postWrapper} from "@async/member/do-claim-acct"
-import { PostURLEncoded } from '../../core/APIWrapperUtil';
-import { apBasePath } from '../../app/paths/ap/_base';
-import asc from '../../app/AppStateContainer';
-import Validation from '../../util/Validation';
-import FactaMainPage from '../../theme/facta/FactaMainPage';
+import { PostURLEncoded } from '@core/APIWrapperUtil';
+import { apBasePath } from '@paths/ap/_base';
+import asc from '@app/AppStateContainer';
+import Validation from '@util/Validation';
+import FactaMainPage from '@facta/FactaMainPage';
 
 const defaultForm = {
 	pw1: none as Option<string>,

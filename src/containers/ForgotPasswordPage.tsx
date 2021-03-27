@@ -1,21 +1,21 @@
 import { History } from 'history';
 import * as React from "react";
 
-import FactaButton from "../theme/facta/FactaButton";
-import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
+import FactaButton from "@facta/FactaButton";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
 import { Option, none } from 'fp-ts/lib/Option';
-import formUpdateState from '../util/form-update-state';
-import TextInput from '../components/TextInput';
+import formUpdateState from '@util/form-update-state';
+import TextInput from '@components/TextInput';
 import {apiw} from "@async/forgot-pw"
-import { PostURLEncoded } from '../core/APIWrapperUtil';
-import {FactaErrorDiv} from '../theme/facta/FactaErrorDiv';
-import { jpForgotPasswordSentPageRoute } from '../app/routes/jp/forgot-pw-sent';
-import { setAPImage, setCheckoutImage, setJPImage } from '../util/set-bg-image';
-import { PageFlavor } from '../components/Page';
-import { apForgotPasswordSentPageRoute } from '../app/routes/ap/forgot-pw-sent';
-import { apBasePath } from '../app/paths/ap/_base';
-import { jpBasePath } from '../app/paths/jp/_base';
-import FactaMainPage from '../theme/facta/FactaMainPage';
+import { PostURLEncoded } from '@core/APIWrapperUtil';
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import { jpForgotPasswordSentPageRoute } from '@routes/jp/forgot-pw-sent';
+import { setAPImage, setCheckoutImage, setJPImage } from '@util/set-bg-image';
+import { PageFlavor } from '@components/Page';
+import { apForgotPasswordSentPageRoute } from '@routes/ap/forgot-pw-sent';
+import { apBasePath } from '@paths/ap/_base';
+import { jpBasePath } from '@paths/jp/_base';
+import FactaMainPage from '@facta/FactaMainPage';
 
 type Props = {
 	history: History<any>,

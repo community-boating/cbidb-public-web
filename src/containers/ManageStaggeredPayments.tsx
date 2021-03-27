@@ -2,28 +2,28 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
+import JoomlaArticleRegion from "@joomla/JoomlaArticleRegion";
 
-import { setAPImage, setCheckoutImage, setJPImage } from '../util/set-bg-image';
-import { PageFlavor } from '../components/Page';
+import { setAPImage, setCheckoutImage, setJPImage } from '@util/set-bg-image';
+import { PageFlavor } from '@components/Page';
 import { paymentValidator, validator } from '@async/member/open-order-details-ap';
-import JoomlaReport from '../theme/joomla/JoomlaReport';
+import JoomlaReport from '@joomla/JoomlaReport';
 import * as moment from 'moment';
-import Currency from '../util/Currency';
-import StripeElement from '../components/StripeElement';
-import { PaymentMethod } from '../models/stripe/PaymentMethod';
+import Currency from '@util/Currency';
+import StripeElement from '@components/StripeElement';
+import { PaymentMethod } from '@models/stripe/PaymentMethod';
 import {postWrapper as storePaymentMethodAP} from "@async/stripe/store-payment-method-ap"
 import {postWrapper as storePaymentMethodJP} from "@async/stripe/store-payment-method-jp"
-import { makePostJSON } from '../core/APIWrapperUtil';
-import JoomlaMainPage from '../theme/joomla/JoomlaMainPage';
-import Button from '../components/Button';
+import { makePostJSON } from '@core/APIWrapperUtil';
+import JoomlaMainPage from '@joomla/JoomlaMainPage';
+import Button from '@components/Button';
 import {postWrapper as finishOrderAP} from "@async/member/finish-open-order-ap"
 import {postWrapper as finishOrderJP} from "@async/member/finish-open-order-jp"
-import { apBasePath } from '../app/paths/ap/_base';
-import { jpBasePath } from '../app/paths/jp/_base';
-import {JoomlaErrorDiv} from '../theme/joomla/JoomlaErrorDiv';
+import { apBasePath } from '@paths/ap/_base';
+import { jpBasePath } from '@paths/jp/_base';
+import {JoomlaErrorDiv} from '@joomla/JoomlaErrorDiv';
 import { Option } from 'fp-ts/lib/Option';
-import FactaButton from '../theme/facta/FactaButton';
+import FactaButton from '@facta/FactaButton';
 
 type Payment = t.TypeOf<typeof paymentValidator>
 type PaymentList = t.TypeOf<typeof validator>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import{ History } from 'history';
 import { ApiResult } from "./APIWrapperTypes";
-import { doEFuseCheck } from "../util/checkUpgraded";
+import { doEFuseCheck } from "@util/checkUpgraded";
 
 interface Props<T_URL, T_Async> {
 	key: string,

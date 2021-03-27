@@ -1,10 +1,10 @@
 import * as React from "react";
-import FactaButton from '../../theme/facta/FactaButton';
-import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
-import { setAPImage } from '../../util/set-bg-image';
+import FactaButton from '@facta/FactaButton';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import { setAPImage } from '@util/set-bg-image';
 import {History} from "history"
-import { apLoginPageRoute } from "../../app/routes/ap/login";
-import FactaMainPage from "../../theme/facta/FactaMainPage";
+import { apLoginPageRoute } from "@routes/ap/login";
+import FactaMainPage from "@facta/FactaMainPage";
 
 type Props = {
 	history: History<any>

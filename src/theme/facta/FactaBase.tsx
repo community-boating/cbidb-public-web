@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Helmet } from "react-helmet";
-import asc from "../../app/AppStateContainer";
+import asc from "@app/AppStateContainer";
 import { logout } from "@async/logout";
 import { Link } from "react-router-dom";
 

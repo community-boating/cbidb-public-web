@@ -2,13 +2,13 @@ import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
 
-import PageWrapper from "../../../core/PageWrapper";
-import ProgressThermometer from "../../../components/ProgressThermometer";
-import { State as BreadcrumbState} from "../../../core/Breadcrumb";
-import { ComponentPropsFromWizard, WizardNode } from "../../../core/WizardPageflow";
+import PageWrapper from "@core/PageWrapper";
+import ProgressThermometer from "@components/ProgressThermometer";
+import { State as BreadcrumbState} from "@core/Breadcrumb";
+import { ComponentPropsFromWizard, WizardNode } from "@core/WizardPageflow";
 import ApRequiredInfo from "./ApRequiredInfo";
-import { setAPImage } from "../../../util/set-bg-image";
-import { apBasePath } from "../../../app/paths/ap/_base";
+import { setAPImage } from "@util/set-bg-image";
+import { apBasePath } from "@paths/ap/_base";
 import { getWrapper as requiredInfoAPI, validator as requiredInfoValidator} from "@async/member/required";
 import { getWrapper as emergAPI, validator as emergValidator} from "@async/member/emerg-contact";
 import ApEmergencyContact from "./ApEmergencyContact";
@@ -23,11 +23,11 @@ import {apiw as welcomeAPI, validator as welcomeValidator } from "@async/member-
 import {getWrapper as gpGet } from "@async/member/select-guest-privs"
 import {getWrapper as dwGet } from "@async/member/select-damage-waiver"
 import {apiw as getPrices, validator as pricesValidator} from "@async/prices"
-import FactaLoadingPage from "../../../theme/facta/FactaLoadingPage";
+import FactaLoadingPage from "@facta/FactaLoadingPage";
 import ApStaggeredPaymentsPage from "./ApStaggeredPaymentsPage";
-import { WizardPageflowAbstract, WizardBaseProps, WizardBaseState } from "../../../core/WizardPageflowAbstract";
+import { WizardPageflowAbstract, WizardBaseProps, WizardBaseState } from "@core/WizardPageflowAbstract";
 import { hasStripeCustomerId } from "../HomePageActionsAP";
-import Currency from "../../../util/Currency";
+import Currency from "@util/Currency";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,

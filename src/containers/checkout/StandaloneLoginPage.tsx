@@ -1,16 +1,16 @@
 import * as React from "react";
 import {History} from 'history';
-import JoomlaMainPage from "../../theme/joomla/JoomlaMainPage";
-import JoomlaArticleRegion from "../../theme/joomla/JoomlaArticleRegion";
-import { setCheckoutImage } from "../../util/set-bg-image";
-import TextInput from "../../components/TextInput";
+import JoomlaMainPage from "@joomla/JoomlaMainPage";
+import JoomlaArticleRegion from "@joomla/JoomlaArticleRegion";
+import { setCheckoutImage } from "@util/set-bg-image";
+import TextInput from "@components/TextInput";
 import { none, Option } from "fp-ts/lib/Option";
-import formUpdateState from "../../util/form-update-state";
-import Button from "../../components/Button";
+import formUpdateState from "@util/form-update-state";
+import Button from "@components/Button";
 import {apiw as proveMember} from "@async/prove-member"
-import { makePostString } from "../../core/APIWrapperUtil";
-import {JoomlaErrorDiv} from "../../theme/joomla/JoomlaErrorDiv";
-import JoomlaButton from "../../theme/joomla/JoomlaButton";
+import { makePostString } from "@core/APIWrapperUtil";
+import {JoomlaErrorDiv} from "@joomla/JoomlaErrorDiv";
+import JoomlaButton from "@joomla/JoomlaButton";
 
 export const formDefault = {
 	username: none as Option<string>,

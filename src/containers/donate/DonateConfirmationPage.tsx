@@ -1,24 +1,24 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import { setCheckoutImage } from '../../util/set-bg-image';
-import Button from '../../components/Button';
+import JoomlaMainPage from '@joomla/JoomlaMainPage';
+import JoomlaArticleRegion from '@joomla/JoomlaArticleRegion';
+import { setCheckoutImage } from '@util/set-bg-image';
+import Button from '@components/Button';
 import { CartItem } from '@async/get-cart-items';
-import FullCartReport from '../../components/FullCartReport';
-import { PageFlavor } from '../../components/Page';
+import FullCartReport from '@components/FullCartReport';
+import { PageFlavor } from '@components/Page';
 import { orderStatusValidator } from "@async/order-status"
 import { postWrapper as submitPayment } from "@async/stripe/submit-payment-standalone"
-import { makePostJSON, makePostString } from '../../core/APIWrapperUtil';
-import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
-import StripeConfirm from '../../components/StripeConfirm';
+import { makePostJSON, makePostString } from '@core/APIWrapperUtil';
+import {JoomlaErrorDiv} from '@joomla/JoomlaErrorDiv';
+import StripeConfirm from '@components/StripeConfirm';
 import { postWrapper as clearCard } from '@async/stripe/clear-card'
-import StripeElement from '../../components/StripeElement';
+import StripeElement from '@components/StripeElement';
 import { postWrapper as storeToken } from "@async/stripe/store-token"
-import { TokensResult } from '../../models/stripe/tokens';
-import JoomlaButton from '../../theme/joomla/JoomlaButton';
-import PlainButton from '../../components/PlainButton';
+import { TokensResult } from '@models/stripe/tokens';
+import JoomlaButton from '@joomla/JoomlaButton';
+import PlainButton from '@components/PlainButton';
 
 type Props = {
 	goNext: () => Promise<void>,

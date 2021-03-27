@@ -1,20 +1,20 @@
 import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
-import TextInput from '../../components/TextInput';
-import Validation from '../../util/Validation';
-import formUpdateState from '../../util/form-update-state';
-import FactaButton from '../../theme/facta/FactaButton';
-import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
-import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
-import { apPreRegRoute } from '../../app/routes/ap/prereg';
-import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
-import Joomla8_4 from '../../theme/joomla/Joomla8_4';
-import { setAPImage } from '../../util/set-bg-image';
+import TextInput from '@components/TextInput';
+import Validation from '@util/Validation';
+import formUpdateState from '@util/form-update-state';
+import FactaButton from '@facta/FactaButton';
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import { apPreRegRoute } from '@routes/ap/prereg';
+import JoomlaSidebarRegion from '@joomla/JoomlaSidebarRegion';
+import Joomla8_4 from '@joomla/Joomla8_4';
+import { setAPImage } from '@util/set-bg-image';
 import { postWrapper as create } from '@async/create-member'
 import {History} from "history"
-import { PostURLEncoded } from '../../core/APIWrapperUtil';
-import { apBasePath } from '../../app/paths/ap/_base';
-import asc from '../../app/AppStateContainer';
+import { PostURLEncoded } from '@core/APIWrapperUtil';
+import { apBasePath } from '@paths/ap/_base';
+import asc from '@app/AppStateContainer';
 import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
 
 const defaultForm = {

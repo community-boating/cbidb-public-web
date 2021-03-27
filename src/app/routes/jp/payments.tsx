@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import { jpPathPayments } from "../../paths/jp/payments";
-import PageWrapper from "../../../core/PageWrapper";
-import RouteWrapper from "../../../core/RouteWrapper";
-import { setJPImage } from '../../../util/set-bg-image';
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
-import ManageStaggeredPayments from '../../../containers/ManageStaggeredPayments';
-import { PageFlavor } from '../../../components/Page';
+import { jpPathPayments } from "@paths/jp/payments";
+import PageWrapper from "@core/PageWrapper";
+import RouteWrapper from "@core/RouteWrapper";
+import { setJPImage } from '@util/set-bg-image';
+import JoomlaLoadingPage from '@joomla/JoomlaLoadingPage';
+import ManageStaggeredPayments from '@containers/ManageStaggeredPayments';
+import { PageFlavor } from '@components/Page';
 import {getWrapper, validator} from "@async/member/open-order-details-jp"
 import { some } from 'fp-ts/lib/Option';
-import { jpBasePath } from '../../paths/jp/_base';
+import { jpBasePath } from '@paths/jp/_base';
 export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayments, history => <PageWrapper
 	key="jp-payments"
 	history={history}

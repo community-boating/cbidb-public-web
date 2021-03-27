@@ -1,30 +1,30 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import { setCheckoutImage } from '../../util/set-bg-image';
-import Button from '../../components/Button';
+import JoomlaMainPage from '@joomla/JoomlaMainPage';
+import JoomlaArticleRegion from '@joomla/JoomlaArticleRegion';
+import { setCheckoutImage } from '@util/set-bg-image';
+import Button from '@components/Button';
 import {validator as pricesValidator} from "@async/prices"
-import JoomlaReport from '../../theme/joomla/JoomlaReport';
-import { MAGIC_NUMBERS } from '../../app/magicNumbers';
-import Currency from '../../util/Currency';
+import JoomlaReport from '@joomla/JoomlaReport';
+import { MAGIC_NUMBERS } from '@app/magicNumbers';
+import Currency from '@util/Currency';
 import { none, Option, some } from 'fp-ts/lib/Option';
-import TextInput from '../../components/TextInput';
-import formUpdateState from '../../util/form-update-state';
-import { RadioGroup } from '../../components/InputGroup';
-import { Select } from '../../components/Select';
-import states from '../../lov/states';
+import TextInput from '@components/TextInput';
+import formUpdateState from '@util/form-update-state';
+import { RadioGroup } from '@components/InputGroup';
+import { Select } from '@components/Select';
+import states from '@lov/states';
 import {postWrapper as setGC} from "@async/member/gc-purchase"
-import { makePostJSON, PostURLEncoded } from '../../core/APIWrapperUtil';
-import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
+import { makePostJSON, PostURLEncoded } from '@core/APIWrapperUtil';
+import {JoomlaErrorDiv} from '@joomla/JoomlaErrorDiv';
 import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
 import {validator as gcValidator} from "@async/member/gc-purchase"
 import { orderStatusValidator } from "@async/order-status"
-import newPopWin from "../../util/newPopWin";
-import standaloneLoginPath from "../../app/paths/common/standalone-signin"
+import newPopWin from "@util/newPopWin";
+import standaloneLoginPath from "@paths/common/standalone-signin"
 import {apiw as detach} from "@async/proto-detach-member"
-import JoomlaButton from '../../theme/joomla/JoomlaButton';
+import JoomlaButton from '@joomla/JoomlaButton';
 
 type Prices = t.TypeOf<typeof pricesValidator>;
 type GC = t.TypeOf<typeof gcValidator>;

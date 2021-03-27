@@ -2,20 +2,20 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import Button from "../components/Button";
-import JoomlaArticleRegion from "../theme/joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "../theme/joomla/JoomlaMainPage";
+import Button from "@components/Button";
+import JoomlaArticleRegion from "@joomla/JoomlaArticleRegion";
+import JoomlaMainPage from "@joomla/JoomlaMainPage";
 import { none } from 'fp-ts/lib/Option';
-import { setCheckoutImage } from '../util/set-bg-image';
-import { jpBasePath } from '../app/paths/jp/_base';
-import { apBasePath } from '../app/paths/ap/_base';
-import { PageFlavor } from '../components/Page';
-import StripeElement from '../components/StripeElement';
-import { PaymentMethod } from '../models/stripe/PaymentMethod';
+import { setCheckoutImage } from '@util/set-bg-image';
+import { jpBasePath } from '@paths/jp/_base';
+import { apBasePath } from '@paths/ap/_base';
+import { PageFlavor } from '@components/Page';
+import StripeElement from '@components/StripeElement';
+import { PaymentMethod } from '@models/stripe/PaymentMethod';
 import {postWrapper as storePaymentMethod} from "@async/stripe/store-payment-method-ap"
-import { makePostJSON } from '../core/APIWrapperUtil';
+import { makePostJSON } from '@core/APIWrapperUtil';
 import {resultValidator as getRecurringInfoValidator} from "@async/stripe/get-recurring-info"
-import FactaButton from '../theme/facta/FactaButton';
+import FactaButton from '@facta/FactaButton';
 
 type RecurringDonationInfo = t.TypeOf<typeof getRecurringInfoValidator>;
 

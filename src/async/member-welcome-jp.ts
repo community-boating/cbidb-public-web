@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
-import APIWrapper from '../core/APIWrapper';
-import { HttpMethod } from "../core/HttpMethod";
-import { OptionalString, OptionalNumber } from '../util/OptionalTypeValidators';
+import APIWrapper from '@core/APIWrapper';
+import { HttpMethod } from "@core/HttpMethod";
+import { OptionalString, OptionalNumber } from '@util/OptionalTypeValidators';
 
 export const validator = t.type({
 	parentPersonId: t.number,

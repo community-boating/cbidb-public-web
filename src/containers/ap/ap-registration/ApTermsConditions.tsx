@@ -2,15 +2,15 @@ import { none, some } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
 
-import { RadioGroup } from "../../../components/InputGroup";
-import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
+import { RadioGroup } from "@components/InputGroup";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import FactaNotitleRegion from "@facta/FactaNotitleRegion";
 import {apiw as accept} from "@async/member/accept-tos"
-import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
-import { setAPImage } from "../../../util/set-bg-image";
-import { makePostJSON } from "../../../core/APIWrapperUtil";
-import FactaMainPage from "../../../theme/facta/FactaMainPage";
-import FactaButton from "../../../theme/facta/FactaButton";
+import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
+import { setAPImage } from "@util/set-bg-image";
+import { makePostJSON } from "@core/APIWrapperUtil";
+import FactaMainPage from "@facta/FactaMainPage";
+import FactaButton from "@facta/FactaButton";
 
 interface Props {
 	history: History<any>

@@ -2,22 +2,22 @@ import { History } from "history";
 import * as React from "react";
 // import * as t from 'io-ts';
 
-import PageWrapper from "../../core/PageWrapper";
-import ProgressThermometer from "../../components/ProgressThermometer";
-import { State as BreadcrumbState} from "../../core/Breadcrumb";
-import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "../../core/WizardPageflow";
-import JoomlaLoadingPage from "../../theme/joomla/JoomlaLoadingPage";
-import { setCheckoutImage } from "../../util/set-bg-image";
-import { apBasePath } from "../../app/paths/ap/_base";
+import PageWrapper from "@core/PageWrapper";
+import ProgressThermometer from "@components/ProgressThermometer";
+import { State as BreadcrumbState} from "@core/Breadcrumb";
+import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "@core/WizardPageflow";
+import JoomlaLoadingPage from "@joomla/JoomlaLoadingPage";
+import { setCheckoutImage } from "@util/set-bg-image";
+import { apBasePath } from "@paths/ap/_base";
 import DonateDetailsPage from "./DonateDetailsPage";
 import DonateConfirmationPage from "./DonateConfirmationPage";
 import DonateThankYouPage from "./DonateThankYouPage";
 import {getWrapper as getDonationFunds} from "@async/donation-funds"
 import {apiw as getCart} from "@async/get-cart-items-donate"
 import { apiw as orderStatus } from "@async/order-status"
-import { PageFlavor } from "../../components/Page";
+import { PageFlavor } from "@components/Page";
 import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
-import { PostURLEncoded } from "../../core/APIWrapperUtil";
+import { PostURLEncoded } from "@core/APIWrapperUtil";
 
 //type DonationFund = t.TypeOf<typeof donationFundValidator>;
 

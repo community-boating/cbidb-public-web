@@ -1,11 +1,11 @@
 import * as React from "react";
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
+import JoomlaMainPage from '@joomla/JoomlaMainPage';
 import { History } from 'history';
-import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
-import { setAPImage } from "../../util/set-bg-image";
-import { apBasePath } from "../../app/paths/ap/_base";
-import FactaButton from "../../theme/facta/FactaButton";
-import FactaMainPage from "../../theme/facta/FactaMainPage";
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import { setAPImage } from "@util/set-bg-image";
+import { apBasePath } from "@paths/ap/_base";
+import FactaButton from "@facta/FactaButton";
+import FactaMainPage from "@facta/FactaMainPage";
 
 export default class ApClosedSeason extends React.PureComponent<{history: History<any>}> {
 	render() {

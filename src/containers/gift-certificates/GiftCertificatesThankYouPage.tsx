@@ -1,9 +1,9 @@
 import * as React from 'react';
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import { setCheckoutImage } from '../../util/set-bg-image';
+import JoomlaMainPage from '@joomla/JoomlaMainPage';
+import JoomlaArticleRegion from '@joomla/JoomlaArticleRegion';
+import { setCheckoutImage } from '@util/set-bg-image';
 import { Link } from 'react-router-dom';
-import { giftCertificatesPageRoute } from '../../app/routes/gift-certificates';
+import { giftCertificatesPageRoute } from '@routes/gift-certificates';
 
 type Props = {
 	goNext: () => Promise<void>,
