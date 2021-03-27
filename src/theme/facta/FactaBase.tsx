@@ -141,41 +141,6 @@ export class FactaBody extends React.Component {
 					</div>
 				</div>
 
-				<div className='header-utility-dropdown'>
-					<div className='container-fluid p-0'>
-						<div className='row no-gutters'>
-							<div className='col-5'>
-								<div className='header-utility-dropdown-map'>
-									<div className='cover'
-										style={{ backgroundImage: "url(https://www.community-boating.org/wp-content/themes/custom/assets/images/map.png)" }}>
-									</div>
-								</div>
-							</div>
-							<div className='col'>
-								<div className='header-utility-dropdown-content'>
-									<div className='header-utility-dropdown-title'>Come Visit Us!</div>
-									<div className='header-utility-dropdown-body'>
-										<p><strong>Community Boating Inc.</strong><br />
-											21 David G Mugar Way, Boston MA 02114</p><br />
-										<p><strong>Phone:</strong> (617) 523-1038</p>
-										<p><strong>Email:</strong> info@community-boating.org</p>
-									</div>
-									<div className='header-utility-dropdown-cta'>
-										<div className='row'>
-											<div className='col-auto'>
-												<a href='/about-us/hours-and-directions/'>See All Hours</a>
-											</div>
-											<div className='col-auto'>
-												<a href='/about-us/hours-and-directions/'>Get Directions</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
 
 
 				<nav className="nav" role="navigation">

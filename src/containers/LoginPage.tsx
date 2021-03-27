@@ -106,7 +106,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		// left column 
 
 		const jpWelcomeRegion = (
-			<FactaArticleRegion title={<span>Welcome to CBI Online!<br />-  Junior Program  -</span>}>
+			<FactaArticleRegion title={<span><b>Welcome to CBI Membership Online!</b><br />Junior Program Self Service Portal</span>}>
 				<div>
 					If you're new to Community Boating and would like to sign up for youth novice classes,
 					choose the first option on the right. Once your child's registration is complete
@@ -121,10 +121,10 @@ export default class LoginPage extends React.Component<Props, State> {
 		);
 
 		const apWelcomeRegion = (
-			<FactaArticleRegion title={<span>Welcome to CBI Online!<br />-  Adult Program  -</span>}>
+			<FactaArticleRegion title={<span><b>Welcome to CBI Membership Online! </b><br /> Adult Program Self Service Portal</span>}>
 				<div>
-				<a href="https://www.community-boating.org" target="_blank">Click here for our Main Website:<br />
-				www.community-boating.org</a><br />
+				<a href="https://www.community-boating.org" target="_blank">Click here for our Main Website:www.community-boating.org</a>
+				<br />
 				<br />
 				If you have already purchased a membership in person, either this year or last year,
 				please <b>click on the first option</b> to the right and you will be prompted to create a password and update your personal information.<br />
@@ -167,13 +167,13 @@ export default class LoginPage extends React.Component<Props, State> {
 		);
 
 		const apNewAcctRegion = (
-			<FactaArticleRegion title="I don't have a password yet.">
+			<FactaArticleRegion title="I would like to...">
 				<ul style={{fontSize: "0.92em"}}>
-					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Click here if you are already an adult member but don't yet have an online account.</Link></li>
-					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li>
+					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Become an adult program member.</Link></li>
+					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Activate my online account.</Link></li>
 					{/* <li><Link to={apClosedPath.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
-					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Click here to purchase a gift certificate.</a></li>
-					{/* <li><PlaceholderLink>Click here to register as a guest.</PlaceholderLink></li> */}
+					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Purchase a gift certificate.</a></li>
+					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Register as a guest.</a></li>
 				</ul>
 			</FactaArticleRegion>
 		);
