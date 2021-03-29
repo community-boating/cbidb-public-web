@@ -17,6 +17,7 @@ import { apForgotPasswordPageRoute } from "../app/routes/ap/forgot-pw";
 import { setJPImage, setAPImage } from "../util/set-bg-image";
 import { PageFlavor } from "../components/Page";
 import { apPreRegRoute } from "../app/routes/ap/prereg";
+import { apGuestRegRoute } from "../app/routes/ap/guest-reg";
 import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
 import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
 import { jpPathReserve } from "../app/paths/jp/reserve";
@@ -173,7 +174,7 @@ export default class LoginPage extends React.Component<Props, State> {
 					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Activate my online account.</Link></li>
 					{/* <li><Link to={apClosedPath.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
 					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Purchase a gift certificate.</a></li>
-					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Register as a guest.</a></li>
+					<li><Link to={apGuestRegRoute.getPathFromArgs({})}>Register as a guest.</Link></li>
 				</ul>
 			</FactaArticleRegion>
 		);

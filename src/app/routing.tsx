@@ -25,7 +25,7 @@ import { apRegPageRoute } from './routes/ap/reg';
 import { apEditPageRoute } from './routes/ap/edit';
 import { fundInfoRoute } from './routes/common/funds';
 import { apPreRegRoute } from './routes/ap/prereg';
-import { apGuestRegRoute } from './routes/ap/guest-reg'
+import { apGuestRegRoute } from './routes/ap/guest-reg';
 import { apCreateAcctRoute } from './routes/ap/create-acct';
 import { apForgotPasswordPageRoute } from './routes/ap/forgot-pw';
 import { apForgotPasswordSentPageRoute } from './routes/ap/forgot-pw-sent';
