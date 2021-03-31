@@ -21,7 +21,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			<FactaArticleRegion title="Register as a Guest">
 				Guests must self register. Members please direct your guests to this page to register themselves. Children must be registered by a parent or guardian.
 				<br />
-				<iframe title="Waiver of Liability" src="../../waivers/live/ApGuestWaiver.html" width="span"></iframe>
+				<iframe title="Waiver of Liability" src="../../waivers/live/ApGuestWaiver.html" width="100%"></iframe>
 			</FactaArticleRegion>
 		</FactaMainPage>
 	}
