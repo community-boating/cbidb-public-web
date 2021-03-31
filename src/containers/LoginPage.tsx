@@ -17,6 +17,7 @@ import { apForgotPasswordPageRoute } from "../app/routes/ap/forgot-pw";
 import { setJPImage, setAPImage } from "../util/set-bg-image";
 import { PageFlavor } from "../components/Page";
 import { apPreRegRoute } from "../app/routes/ap/prereg";
+import { apGuestRegRoute } from "../app/routes/ap/guest-reg";
 import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
 import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
 import { jpPathReserve } from "../app/paths/jp/reserve";
@@ -121,9 +122,9 @@ export default class LoginPage extends React.Component<Props, State> {
 		);
 
 		const apWelcomeRegion = (
-			<FactaArticleRegion title={<span><b>Welcome to CBI Membership Online!</b><br />Adult Program Self Service Portal</span>}>
+			<FactaArticleRegion title={<span><b>Welcome to CBI Membership Online! </b><br /> Adult Program Self Service Portal</span>}>
 				<div>
-				<a href="https://www.community-boating.org" target="_blank">Click here for our full website: <b>www.community-boating.org</b></a>
+				<a href="https://www.community-boating.org" target="_blank">Click here for our Main Website:www.community-boating.org</a>
 				<br />
 				<br />
 				If you have already purchased a membership in person, either this year or last year,
@@ -169,11 +170,11 @@ export default class LoginPage extends React.Component<Props, State> {
 		const apNewAcctRegion = (
 			<FactaArticleRegion title="I would like to...">
 				<ul style={{fontSize: "0.92em"}}>
-					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Purchase an adult program membership.</Link></li>
-					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Register my membership online account.</Link></li>
+					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Become an adult program member.</Link></li>
+					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Activate my online account.</Link></li>
 					{/* <li><Link to={apClosedPath.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
-					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Send a gift certificate.</a></li>
-					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Register as a guest.</a></li>
+					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Purchase a gift certificate.</a></li>
+					<li><Link to={apGuestRegRoute.getPathFromArgs({})}>Register as a guest.</Link></li>
 				</ul>
 			</FactaArticleRegion>
 		);
