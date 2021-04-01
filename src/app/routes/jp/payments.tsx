@@ -26,7 +26,6 @@ export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayme
 		return getWrapper(urlProps.juniorId).send(null)
 		.then(r => {
 			if (r.type != "Success" || r.success.length == 0) {
-				console.log("fail ", r)
 				history.push(jpBasePath.getPathFromArgs({}));
 			} else {
 				return r;

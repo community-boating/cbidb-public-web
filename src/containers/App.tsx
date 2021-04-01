@@ -17,7 +17,6 @@ export default class App extends React.Component<Props> {
 	registrationWizard: React.ComponentType
 	constructor(props: Props) {
 		super(props)
-		console.log("in app constructor")
 		const self = this;
 		asc.setListener(() => {
 			self.forceUpdate()
@@ -40,7 +39,6 @@ export default class App extends React.Component<Props> {
 	}
 	render() {
 		const self = this;
-		console.log("in app render")
 		const ret = (
 			<FactaBase>
 				{router(self.props.history)}

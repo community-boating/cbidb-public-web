@@ -57,7 +57,7 @@ import { giftCertificatesPageRoute } from "@routes/gift-certificates"
 import {standaloneLoginRoute} from "@routes/common/standalone-signin"
 
 const defaultRouteRender = () => {
-	console.log("uncaught path...", window.location.pathname)
+	// console.log("uncaught path...", window.location.pathname)
 	const redirectRegex = /^\/redirect\/(.*)$/;
 	const redirectRegexMatchResult = redirectRegex.exec(window.location.pathname);
 	if (redirectRegexMatchResult) {
@@ -71,11 +71,11 @@ const defaultRouteRender = () => {
 		}());
 		return <Redirect to={'/' + redirectRegexMatchResult[1] + tail} />;
 	} else {
-		console.log("its not a redirect....")
+		// console.log("its not a redirect....")
 		const jpRegex = /^\/jp\/(.*)$/;
 		const jpRegexMatchResult = jpRegex.exec(window.location.pathname);
 		if (jpRegexMatchResult) {
-			console.log("it does have a jp in front and its still nothing.  GIve up")
+			// console.log("it does have a jp in front and its still nothing.  GIve up")
 			const apRegex = /^\/jp\/ap\/(.*)$/;
 			const apRegexMatchResult = apRegex.exec(window.location.pathname);
 			if (apRegexMatchResult) {
@@ -84,7 +84,7 @@ const defaultRouteRender = () => {
 				return <Redirect to={jpPathLogin.getPathFromArgs({})} />;
 			}
 		} else {
-			console.log("... its doesnt have a jp in front, lets try adding one")
+			// console.log("... its doesnt have a jp in front, lets try adding one")
 			// Sentry.captureMessage("Uncaught route " + window.location.pathname)
 			return <Redirect to={'/jp/' + PathWrapper.removeLeadingTrailingSlashes(window.location.pathname)} />;
 		}
@@ -159,8 +159,6 @@ export default function (history: History<any>) {
 	const finalRoute = <Route key="defaultPub" render={defaultRouteRender} />;
 
 	const isLoggedIn = (asc.state.login.authenticatedUserName as Option<string>).isSome();
-
-	console.log("is logged in? ", isLoggedIn)
 
 	const routes = (
 		isLoggedIn

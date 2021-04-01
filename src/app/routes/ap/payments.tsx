@@ -26,7 +26,6 @@ export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayme
 		return getWrapper.send(null)
 		.then(r => {
 			if (r.type != "Success" || r.success.length == 0) {
-				console.log("fail ", r)
 				history.push(apBasePath.getPathFromArgs({}));
 			} else {
 				return r;

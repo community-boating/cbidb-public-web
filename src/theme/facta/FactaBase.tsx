@@ -87,7 +87,7 @@ export class FactaBody extends React.Component {
 					document.body.style.display = "";
 					window.clearInterval(interval);
 				} else {
-					console.log("not ready to show.....")
+				//	console.log("not ready to show.....")
 				}
 			})
 		}, 20)

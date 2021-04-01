@@ -141,7 +141,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 	}
 	doAddDonation() {
 		const self = this;
-		console.log(this.state.formData)
 		this.clearErrors();
 		
 		const errorOrOtherAmt: Either<string, number> = (function() {
@@ -163,7 +162,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			});
 			return Promise.resolve()
 		} else {
-			console.log("looks ok ", errorOrOtherAmt.getOrElse(null))
 			return addDonation.send(makePostJSON({
 				fundId: this.state.formData.selectedFund.map(Number).getOrElse(null),
 				amount: errorOrOtherAmt.getOrElse(null),

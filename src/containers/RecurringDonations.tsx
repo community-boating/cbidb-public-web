@@ -36,7 +36,6 @@ export default class RecurringDonations extends React.PureComponent<Props> {
 	}
 	render() {
 		const self = this;
-		console.log(this.props.recurringDonationInfo)
 		const havePayment = this.props.recurringDonationInfo.defaultPaymentId.isSome();
 
 		const basePath = (function() {
@@ -60,7 +59,6 @@ export default class RecurringDonations extends React.PureComponent<Props> {
 					paymentMethodId: result.paymentMethod.id,
 					retryLatePayments: true
 				})).then(result => {
-					console.log(result)
 					if (result.type == "Success") {
 						self.props.history.push("/redirect" + window.location.pathname)
 					}

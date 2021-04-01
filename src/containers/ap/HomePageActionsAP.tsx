@@ -68,8 +68,6 @@ export default (
 	const noGP = getNoGP(bv);
 	const noDW = getNoDW(bv);
 
-	console.log("flags: ", _.range(0,30).filter(n => testBit(bv, n)));
-
 	const actions: {
 		place?: number, getElements: ((history: History<any>) => JSX.Element)[], show?: () => boolean
 	}[] = [{

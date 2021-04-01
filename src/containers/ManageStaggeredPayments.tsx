@@ -81,7 +81,6 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 					paymentMethodId: result.paymentMethod.id,
 					retryLatePayments: true
 				})).then(result => {
-					console.log(result)
 					if (result.type == "Success") {
 						self.props.history.push("/redirect" + window.location.pathname)
 					} else {

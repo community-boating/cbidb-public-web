@@ -325,7 +325,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					}
 					
 				}, err => {
-					console.log("Error: ", err)
+
 				});
 			}
 		}

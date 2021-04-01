@@ -92,8 +92,6 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 			return hash;
 		}, {} as {[K: string]: true});
 
-		console.log(typesToShow)
-
 		const sessionsList = this.props.instances
 		.filter(i => typesToShow[String(i.typeId)] && i.price <= 0)
 		.flatMap(instance => {
@@ -119,7 +117,6 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 		});
 
 		const groupedByDay = _.groupBy(sessionsList, s => s.sessionStartDayString);
-		console.log(sessionsList.length)
 		const focusInstance = (instanceId: number) => () => {
 			this.setState({
 				...this.state,
@@ -233,7 +230,6 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 						columns={1}
 						values={self.props.types.filter(t => t.availabilityFlag == status).map(t => ({key: String(t.typeId), display: t.typeName}))}
 						updateAction={(id: string, value: string) => {
-							console.log("hi")
 							updateState(id, value)
 						}}
 						value={self.state.formData[id]}
@@ -342,7 +338,6 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 			{getFilterCell(AvailabilityFlag.INELIGIBLE)}
 		</tr></tbody></table>)
 		const elements = this.calendarDayElements();
-		console.log("about to call calendar with # days: ", elements.length)
 		return <FactaMainPage setBGImage={setAPImage}>
 			<FactaArticleRegion title="AP Class Calendar">
 				<Calendar

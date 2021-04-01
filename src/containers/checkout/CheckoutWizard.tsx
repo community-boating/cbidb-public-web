@@ -105,7 +105,6 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 									this.setHasApMemberships();
 								}
 							}
-							console.log(this.state)
 							return Promise.resolve([welcome, order, cart, funds])
 						}
 					}).catch(err => Promise.resolve(null));  // TODO: handle failure

@@ -32,8 +32,7 @@ export default class OffseasonClassesStandalone extends React.Component<Props, S
 	}
 	render() {
 		const self = this;
-		console.log(self.props.offseasonClasses)
-
+		
 		const header = <FactaArticleRegion title="Spring Classes">
 			Spring classes are available to all {self.props.currentSeason} Juniors. Classes are {self.props.offseasonPriceBase.format(true)} but discounts based on income will automatically apply.<br />
 			<br />

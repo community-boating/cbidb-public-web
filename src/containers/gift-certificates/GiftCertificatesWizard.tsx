@@ -32,7 +32,6 @@ type State = {
 
 export default class GiftCertificatesWizard extends React.Component<Props, State> {
 	render() {
-		console.log("GC Wizard")
 		const self = this;
 		const staticComponentProps = {
 			history: this.props.history
