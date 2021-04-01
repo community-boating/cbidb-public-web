@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
-    "@sentry/browser": "^5.29.2",
+    "@sentry/browser": "^6.2.4",
     "@types/lodash": "^4.14.167",
     "babel-loader": "8.1.0",
     "babel-plugin-named-asset-import": "^0.3.7",
