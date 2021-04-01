@@ -13,7 +13,8 @@ class FactaHelmet extends React.Component {
 					<meta charSet="UTF-8" />
 					<link rel="icon" type="image/png" sizes="32x32" href="https://www.community-boating.org/wp-content/themes/custom/assets/images/favicon/favicon-32x32.png" />
 					<link rel="icon" type="image/png" sizes="16x16" href="https://www.community-boating.org/wp-content/themes/custom/assets/images/favicon/favicon-16x16.png" />
-					<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+					{/* Uncomment this to re-enable responsiveness */}
+					{/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
 					<title>Membership Prices - Community Boating Incorporated</title>
 
 					<link rel="canonical" href="https://www.community-boating.org/adult/membership-prices/" />
@@ -38,28 +39,28 @@ class FactaHelmet extends React.Component {
 					<link rel='dns-prefetch' href='//cdn.jsdelivr.net' />
 					<link rel='dns-prefetch' href='//fonts.googleapis.com' />
 					<link rel="stylesheet" href="/i/calendar.css" type="text/css" />
-					<link rel='stylesheet' id='fonts-css' href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed%3A300%2C700%7COpen+Sans%3A300%2C300i%2C400%2C400i%2C600%2C600i%2C700%2C700i&#038;display=swap&#038;ver=5.4.1' type='text/css' media='all' />
+					<link rel='stylesheet' id='fonts-css' href='/i/OpenSansCondensed.css' type='text/css' media='all' />
 					<link rel='stylesheet' id='styles-css' href='/facta/assets/css/app.css' type='text/css' media='all' />
 					<link rel='stylesheet' id='edits-css' href='/facta/assets/css/edits.css' type='text/css' media='all' />
 					<link rel='stylesheet' id='edits-css' href='/facta/assets/css/portal.css' type='text/css' media='all' />
-					<link rel='stylesheet' id='photoswipe-main-css' href='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.css?ver=5.4.1' type='text/css' media='all' />
-					<link rel='stylesheet' id='photoswipe-skin-css' href='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/default-skin/default-skin.css?ver=5.4.1' type='text/css' media='all' />
+					{/* <link rel='stylesheet' id='photoswipe-main-css' href='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.css?ver=5.4.1' type='text/css' media='all' /> */}
+					{/* <link rel='stylesheet' id='photoswipe-skin-css' href='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/default-skin/default-skin.css?ver=5.4.1' type='text/css' media='all' /> */}
 					<link rel="stylesheet" href="/joomsource/tooltip.css" type="text/css" />
 
-					<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js?ver=5.4.1'></script>
-					<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js?ver=5.4.1'></script>
+					{/* <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js?ver=5.4.1'></script> */}
+					{/* <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js?ver=5.4.1'></script> */}
 					{/* <script type='text/javascript' src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js?ver=5.4.1'></script> */}
-					<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js?ver=5.4.1'></script>
-					<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/plugins/ScrollToPlugin.min.js?ver=5.4.1'></script>
+					{/* <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js?ver=5.4.1'></script> */}
+					{/* <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/plugins/ScrollToPlugin.min.js?ver=5.4.1'></script> */}
 					{/* <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js?ver=5.4.1'></script> */}
 					{/* <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery.hoverintent/1.10.0/jquery.hoverIntent.min.js?ver=5.4.1'></script> */}
-					<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js?ver=5.4.1'></script>
+					{/* <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js?ver=5.4.1'></script> */}
 					{/* <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js?ver=5.4.1'></script> */}
-					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/library/fontawesome.min.js?ver=5.4.1'></script>
-					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/library/magnific-popup.js?ver=5.4.1'></script>
-					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.min.js?ver=5.4.1'></script>
-					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe-ui-default.min.js?ver=5.4.1'></script>
-					<script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/vendor.min.js?ver=1590961919'></script>
+					{/* <script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/library/fontawesome.min.js?ver=5.4.1'></script> */}
+					{/* <script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/library/magnific-popup.js?ver=5.4.1'></script> */}
+					{/* <script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe.min.js?ver=5.4.1'></script> */}
+					{/* <script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/library/vendor/PhotoSwipe/photoswipe-ui-default.min.js?ver=5.4.1'></script> */}
+					{/* <script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/vendor.min.js?ver=1590961919'></script> */}
 
 					<script type="text/javascript" src="/joomsource/tooltip.js"></script>
 
@@ -80,12 +81,12 @@ class FactaHelmet extends React.Component {
 
 export class FactaBody extends React.Component {
 	render() {
-		return <div>
+		return <div id="wholebody">
 			<noscript>You need to enable JavaScript to run this app.</noscript>
 
 			<header className="header" role="banner">
 				<div className='header-utility'>
-					<div className='header-utility-icon'><a href='/about-us/weather-information/'><svg viewBox="0 0 50 35"
+					<div className='header-utility-icon'><a target="_blank" href='https://www.community-boating.org/about-us/weather-information/'><svg viewBox="0 0 50 35"
 						fill="none" xmlns="http://www.w3.org/2000/svg">
 						<g clipPath="url(#clip0)">
 							<path d="M0.600098 0.719971L47.4701 16.94L0.730098 33.78L0.600098 0.719971Z" fill="white" />
@@ -137,47 +138,8 @@ export class FactaBody extends React.Component {
 								</div>
 								: null
 						}
-
 					</div>
 				</div>
-
-				<div className='header-utility-dropdown'>
-					<div className='container-fluid p-0'>
-						<div className='row no-gutters'>
-							<div className='col-5'>
-								<div className='header-utility-dropdown-map'>
-									<div className='cover'
-										style={{ backgroundImage: "url(https://www.community-boating.org/wp-content/themes/custom/assets/images/map.png)" }}>
-									</div>
-								</div>
-							</div>
-							<div className='col'>
-								<div className='header-utility-dropdown-content'>
-									<div className='header-utility-dropdown-title'>Come Visit Us!</div>
-									<div className='header-utility-dropdown-body'>
-										<p><strong>Community Boating Inc.</strong><br />
-											21 David G Mugar Way, Boston MA 02114</p><br />
-										<p><strong>Phone:</strong> (617) 523-1038</p>
-										<p><strong>Email:</strong> info@community-boating.org</p>
-									</div>
-									<div className='header-utility-dropdown-cta'>
-										<div className='row'>
-											<div className='col-auto'>
-												<a href='/about-us/hours-and-directions/'>See All Hours</a>
-											</div>
-											<div className='col-auto'>
-												<a href='/about-us/hours-and-directions/'>Get Directions</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-
 				<nav className="nav" role="navigation">
 					<div className='container-fluid'>
 						<div className="row no-gutters align-items-center">
@@ -269,29 +231,29 @@ export class FactaBody extends React.Component {
 
 									<div className='col-auto'>
 										<div className='nav-item  '>
-											<a className='nav-item-parent' target="_blank" href="https://portal2.community-boating.org/ords/f?p=630">Donate</a>
+											<a className='nav-item-parent' href="/donate">Donate</a>
 										</div>
 									</div>
 
 									<div className='col-auto'>
 										<div className='nav-item  '>
-											<a className='nav-item-parent' target="_blank" href="https://portal2.community-boating.org/ords/f?p=640">Gift Certificates</a>
+											<a className='nav-item-parent' href="/gift-certificates">Gift Certificates</a>
 										</div>
 									</div>
 								</div>
-								<div className='hamburger-wrapper d-lg-none'>
+								{/* <div className='hamburger-wrapper d-lg-none'>
 									<div className='hamburger-text'>Menu</div>
 									<div className='hamburger hamburger--main'>
 										<div className='rect rect--1'></div>
 										<div className='rect rect--2'></div>
 									</div>
-								</div>
+								</div> */}
 							</div>
 						</div>
 					</div>
 				</nav>
 
-				<div className='nav-mobile'>
+				{/* <div className='nav-mobile'>
 					<div className='nav-mobile-items'>
 						<div className='nav-item  nav-drops'>
 							<Link className='nav-item-parent' to='/ap'>Adult Program</Link>
@@ -301,15 +263,14 @@ export class FactaBody extends React.Component {
 							<Link className='nav-item-parent' to='/jp'>Youth</Link>
 						</div>
 					</div>
-				</div>
+				</div> */}
 
 			</header>
 			<main role='main' className='main main-single'>
-
 				<div className='page-title'>
 					<div className='ratio'></div>
 					<div className='cover'
-						style={{ backgroundImage: "url(https://www.community-boating.org/wp-content/uploads/IMG_1495-scaled.jpeg)" }}>
+						style={{ backgroundImage: "url(facta/assets/images/IMG_1495-scaled.jpeg)" }}>
 					</div>
 					<div className='page-title-content'>
 						<div className='container'>
@@ -321,244 +282,19 @@ export class FactaBody extends React.Component {
 						</div>
 					</div>
 				</div>
-
 				{this.props.children}
-
-				<script>
-					{`
-						jQuery(document).ready(function ($) {
-
-							var initPhotoSwipeFromDOM = function (gallerySelector) {
-				
-								// parse slide data (url, title, size ...) from DOM elements
-								// (children of gallerySelector)
-								var parseThumbnailElements = function (el) {
-									var thumbElements = el.childNodes,
-										numNodes = thumbElements.length,
-										items = [],
-										figureEl,
-										linkEl,
-										size,
-										item;
-				
-									for (var i = 0; i < numNodes; {
-				
-										figureEl = thumbElements[i] < figure > element
-				
-												// include only element nodes
-										if (figureEl.nodeType !== 1) {
-											continue;
-										}
-				
-										linkEl = figureEl.children[0]; // <a> element
-				
-									size = linkEl.getAttribute('data-size').split('x');
-				
-									// create slide object
-										item = {
-											src: linkEl.getAttribute('href'),
-											w: parseInt(size[0], 10),
-											h: parseInt(size[1], 10)
-										};
-				
-				
-				
-										if (figureEl.children.length > 1) {
-											// <figcaption> content
-											item.title = figureEl.children[1].innerHTML;
-										}
-				
-										if (linkEl.children.length > 0) {
-											// <img> thumbnail element, retrieving thumbnail url
-											item.msrc = linkEl.children[0].getAttribute('data-src');
-										}
-				
-										item.el = figureEl; // save link to element for getThumbBoundsFn
-										items.push(item);
-									}
-				
-									return items;
-								};
-				
-								// find nearest parent element
-								var closest = function closest(el, fn) {
-									return el && (fn(el) ? el : closest(el.parentNode, fn));
-								};
-				
-								// triggers when user clicks on thumbnail
-								var onThumbnailsClick = function (e) {
-											e = e || window.event;
-									e.preventDefault ? e.preventDefault() : e.returnValue = false;
-				
-									var eTarget = e.target || e.srcElement;
-				
-									// find root element of slide
-									var clickedListItem = closest(eTarget, function (el) {
-										return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
-									});
-				
-									if (!clickedListItem) {
-										return;
-									}
-				
-									// find index of clicked item by looping through all child nodes
-									// alternatively, you may define index via data- attribute
-									var clickedGallery = clickedListItem.parentNode,
-										childNodes = clickedListItem.parentNode.childNodes,
-										numChildNodes = childNodes.length,
-										nodeIndex = 0,
-										index;
-				
-									for (var i = 0; i < numChildNodes; {
-										if (childNodes[i].nodeType !== 1) {
-											continue;
-										}
-				
-										if (childNodes[i] === clickedListItem) {
-											index = nodeIndex;
-											break;
-										}
-										nodeIndex++;
-									}
-				
-				
-				
-									if (index >= 0) {
-											// open PhotoSwipe if valid index found
-											openPhotoSwipe(index, clickedGallery);
-									}
-									return false;
-								};
-				
-								// parse picture index and gallery index from URL (#&pid=1&gid=2)
-								var photoswipeParseHash = function () {
-									var hash = window.location.hash.substring(1),
-										params = {};
-				
-									if (hash.length < 5) {
-										return params;
-									}
-				
-									var vars = hash.split('&');
-									for (var i = 0; i < vars.length; {
-										if (!vars[i]) {
-											continue;
-										}
-										var pair = vars[i].split('=');
-										if (pair.length < 2) {
-											continue;
-										}
-										params[pair[0]] = pair[1];
-									}
-				
-									if (params.gid) {
-											params.gid = parseInt(params.gid, 10);
-									}
-				
-									return params;
-								};
-				
-								var openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
-									var pswpElement = document.querySelectorAll('.pswp')[0],
-										gallery,
-										options,
-										items;
-				
-									items = parseThumbnailElements(galleryElement);
-				
-									// define options (if needed)
-									options = {
-				
-											bgOpacity: 0.8,
-				
-										// define gallery index (for URL)
-										galleryUID: galleryElement.getAttribute('data-pswp-uid'),
-				
-										showHideOpacity: true,
-				
-										getThumbBoundsFn: function (index) {
-											// See Options -> getThumbBoundsFn section of documentation for more info
-											//console.log(items[index].el);
-											var thumbnail = items[index].el, // find thumbnail
-												pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
-												rect = thumbnail.getBoundingClientRect();
-				
-											//console.log(items[index].el);
-				
-											return {x: rect.left, y: rect.top + pageYScroll, w: rect.width };
-										}
-				
-									};
-				
-									// PhotoSwipe opened from URL
-									if (fromURL) {
-										if (options.galleryPIDs) {
-											// parse real index when custom PIDs are used
-											// http://photoswipe.com/documentation/faq.html#custom-pid-in-url
-											for (var j = 0; j < items.length; {
-												if (items[j].pid == index) {
-											options.index = j;
-													break;
-												}
-											}
-										} else {
-											// in URL indexes start from 1
-											options.index = parseInt(index, 10) - 1;
-										}
-									} else {
-											options.index = parseInt(index, 10);
-									}
-				
-									// exit if index not found
-									if (isNaN(options.index)) {
-										return;
-									}
-				
-									if (disableAnimation) {
-											options.showAnimationDuration = 0;
-									}
-				
-									// Pass data to PhotoSwipe and initialize it
-									gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-									gallery.init();
-								};
-				
-								// loop through all gallery elements and bind events
-								var galleryElements = document.querySelectorAll(gallerySelector);
-				
-								for (var i = 0, l = galleryElements.length; i < l; {
-											galleryElements[i].setAttribute('data-pswp-uid', i + 1);
-									galleryElements[i].onclick = onThumbnailsClick;
-								}
-				
-								// Parse URL and open gallery if it contains #&pid=3&gid=1
-								var hashData = photoswipeParseHash();
-								if (hashData.pid && hashData.gid) {
-											openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true);
-								}
-							};
-				
-							// execute above function
-							initPhotoSwipeFromDOM('.block-gallery');
-				
-						});
-					`}
-
-				</script>
-
 			</main>
 			<footer className="footer">
 				<div className="footer-bg cover" style={{ backgroundImage: "url(images/footer-bg.png)" }}></div>
 				<div className="container-lg">
 					<div className="row">
-
 						<div className="col-12 order-lg-1">
 							<div className="footer-main">
 								<div className="row">
 									<div className="col-12 col-md-auto">
 										<div className="footer-cbi">
 											<div className="footer-logo">
-												<svg viewBox="0 0 283 130" fill="none" xmlns="http://www.w3.org/2000/svg"> <g> <path fill-rule="evenodd" clip-rule="evenodd" d="M26.7596 90.05L40.0296 53.41L64.2496 120.16L68.4396 119.24L40.6096 46.54V5.92L38.4196 1V49.02L25.5996 83.02C25.5996 83.02 26.7296 90.09 26.7596 90.05Z" fill="white"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M38.0199 112.08C38.0199 112.08 2.80988 113.38 0.589882 113.76C0.589882 113.76 -0.510118 113.76 1.29988 109.95C3.10988 106.14 33.9299 33.06 33.9299 33.06C33.9299 33.06 9.02988 85.81 38.0199 112.08Z" fill="white"></path> <path d="M39.9799 39.04L70.9899 119.19L70.3799 119.41L39.3599 39.26L39.9799 39.04Z" fill="white"></path> <path d="M40.3999 32.04L75.9699 111.66H78.0499L40.3999 31.17V32.04Z" fill="white"></path> <path d="M40.4099 35.17L73.0499 111.66H75.2099L40.3999 33.7L40.4099 35.17Z" fill="white"></path> <path d="M40.4202 42.69L66.1002 111.65L69.6602 111.66L40.4102 39.46L40.4202 42.69Z" fill="white"></path> <path d="M40.4102 37.68L70.4002 111.66H72.3202L40.4102 36.91V37.68Z" fill="white"></path> <path d="M40.5199 111.64L65.3999 111.65L40.4199 44.65L40.5199 111.64Z" fill="white"></path> <path d="M40.3901 27.49L82.2501 111.66L85.3501 111.67L40.3901 25.77V27.49Z" fill="white"></path> <path d="M40.3999 29.6L78.7899 111.66H81.5099L40.3999 29V29.6Z" fill="white"></path> <path d="M40.3599 5.68001L40.3799 21.84L86.5999 103.9C76.2199 81.22 46.2499 16.01 40.3599 5.68001Z" fill="white"></path> <path d="M40.3899 24.38L86.0999 111.67H90.1499C90.1499 111.67 90.0899 111.54 89.9799 111.3L40.3799 23.22L40.3899 24.38Z" fill="white"></path> <path d="M94.4701 117.87L86.6001 103.9C88.3701 107.76 89.5701 110.39 89.9801 111.3L93.8601 118.18L94.4701 117.87Z" fill="white"></path> <path d="M40.1097 21.35L39.4897 21.63L40.3897 23.22L40.3797 21.84L40.1097 21.35Z" fill="white"></path> <path d="M39.9801 23.59L39.3901 23.87L40.3901 25.77V24.38L39.9801 23.59Z" fill="white"></path> <path d="M88.8101 118.27L89.4201 117.99L86.1001 111.67H85.3501L88.8101 118.27Z" fill="white"></path> <path d="M39.85 26.39L39.23 26.66L40.4 29L40.39 27.49L39.85 26.39Z" fill="white"></path> <path d="M84.8698 118.42L85.4898 118.18L82.2498 111.66H81.5098L84.8698 118.42Z" fill="white"></path> <path d="M81.3998 118.82L82.0098 118.54L78.7898 111.66H78.0498L81.3998 118.82Z" fill="white"></path> <path d="M40.0397 28.85L39.4297 29.09L40.3997 31.17V29.6L40.0397 28.85Z" fill="white"></path> <path d="M40.0397 31.24L39.4297 31.52L40.3997 33.7V32.04L40.0397 31.24Z" fill="white"></path> <path d="M78.46 118.95L79.11 118.7L75.97 111.66H75.21L78.46 118.95Z" fill="white"></path> <path d="M75.4398 118.95L76.0498 118.7L73.0498 111.66H72.3198L75.4398 118.95Z" fill="white"></path> <path d="M39.8199 33.79L39.1699 34.01L40.4099 36.91V35.17L39.8199 33.79Z" fill="white"></path> <path d="M39.9799 36.62L39.3599 36.86L40.4099 39.46V37.68L39.9799 36.62Z" fill="white"></path> <path d="M72.7302 119.25L73.3702 119L70.4002 111.66H69.6602L72.7302 119.25Z" fill="white"></path> <path d="M68.3499 119.56L68.9599 119.34L66.0999 111.65H65.3999L68.3499 119.56Z" fill="white"></path> <path d="M40.0401 41.69L39.3901 41.9L40.4201 44.65V42.69L40.0401 41.69Z" fill="white"></path> <path fill-rule="evenodd" clip-rule="evenodd" d="M0.0398246 114.18C0.0398246 114.18 15.8198 118.33 41.7098 118.76C48.3098 118.86 54.3198 118.89 59.7498 118.86L36.8498 51.15L25.3998 82.26L25.1098 73.63L35.4098 45.92V4.89001L37.9198 1.41243e-05C37.6898 -0.0299859 37.7898 47.74 37.7898 47.74L63.9698 118.84C77.4298 118.72 87.0898 118.26 94.3098 117.92L93.6598 124.34C93.6598 124.34 46.7798 129.43 31.3398 128.63C15.8998 127.83 8.00982 126.85 6.34982 126.32C4.68982 125.79 4.73982 126.32 2.73982 122.98C0.739825 119.64 -0.220175 115.91 0.0398246 114.18Z" fill="white"></path> <path d="M128.6 1.74C127.12 0.9 125.45 0.47 123.75 0.48C118.14 0.48 113.54 4.77 113.54 10.16C113.54 15.45 118.08 19.59 123.55 19.59C125.31 19.6 127.04 19.17 128.59 18.33V15.63C127.18 16.87 125.37 17.56 123.49 17.57C119.36 17.55 116.02 14.19 116.04 10.06C116.06 5.93 119.42 2.59 123.55 2.61C125.39 2.62 127.17 3.25 128.59 4.41L128.6 1.74ZM142.59 0.48C137.11 0.48 132.51 4.81 132.51 10.03C132.51 15.5 137.05 19.58 142.59 19.58C148.13 19.58 152.67 15.5 152.67 10.03C152.66 4.81 148.13 0.48 142.59 0.48ZM142.59 17.49C138.42 17.54 134.99 14.21 134.93 10.04C134.95 5.93 138.3 2.62 142.4 2.65C142.47 2.65 142.54 2.65 142.61 2.65C147.15 2.65 150.3 6.01 150.3 10.04C150.24 14.22 146.8 17.56 142.62 17.49H142.59ZM166.4 19.59L172.19 7.09L174.46 19.23H176.92L173.03 0.12L166.39 14.54L159.78 0.12L155.89 19.23H158.35L160.62 7.09H160.68L166.41 19.59H166.4ZM191.79 19.59L197.45 7.09H197.51L199.78 19.23H202.24L198.35 0.12L191.8 14.54L185.16 0.12L181.27 19.23H183.73L186 7.09H186.06L191.8 19.59H191.79ZM206.97 0.88V12.5C206.97 16.53 209.61 19.59 214.03 19.59C218.44 19.59 221.02 16.53 221.02 12.5V0.88H218.62V11.72C218.62 14.72 217.68 17.49 214.02 17.49C210.36 17.49 209.35 14.72 209.35 11.72V0.88H206.97ZM226.06 19.21H228.46V5.59L242.82 19.95V0.88H240.43V14.42L226.06 0V19.23V19.21ZM250.75 0.64H248.34V18.99H250.74V0.66L250.75 0.64ZM260.9 2.99H265.44V0.88H253.97V2.99H258.51V19.19H260.91V2.99H260.9ZM274.06 11.25V19.23H276.46V11.25L282.69 0.88H279.92L275.26 8.66L270.54 0.88H267.79L274.06 11.25Z" fill="white"></path> <path d="M118.83 35.81H119.84C123.11 35.81 125.82 36.41 125.82 39.95C125.82 43.62 123.11 44.22 119.77 44.22H118.82V35.8L118.83 35.81ZM118.83 46.75H121.04C124.19 46.75 128.29 47.53 128.29 51.08C128.29 54.63 124.82 55.62 121.54 55.62H118.83V46.75ZM115.31 58.41H121.93C126.97 58.41 131.82 56.37 131.82 51.32C131.73 48.08 129.35 45.36 126.15 44.84V44.78C128 43.89 129.18 42.02 129.18 39.97C129.18 34.2 124.14 33 118.81 33H115.34V58.42L115.31 58.41ZM150.52 32.46C142.39 32.46 135.65 38.4 135.65 45.67C135.65 53.24 142.26 58.95 150.52 58.95C158.78 58.95 165.38 53.23 165.38 45.66C165.39 38.39 158.65 32.45 150.52 32.46ZM150.52 56.01C144.34 56.01 139.18 51.47 139.18 45.64C139.18 40.05 143.84 35.37 150.52 35.37C157.2 35.37 161.86 40.06 161.86 45.64C161.86 51.47 156.64 56.01 150.52 56.01ZM185.48 52.04L188.72 58.41H192.5L178.94 31.91L165.39 58.41H169.23L172.44 52.04H185.48ZM183.96 49.15H173.9L178.94 38.78L183.98 49.15H183.96ZM202.43 35.88V58.41H198.9V35.88H192.22V32.99H209.16V35.88H202.43ZM215.79 33H212.26V58.42H215.79V33ZM223.35 58.41H226.88V39.41L248.24 59.5V32.99H244.71V51.74L223.32 31.73V58.41H223.35ZM270.09 45.91V48.84H277.46C277.34 52.98 272.55 56.35 268.14 56.35C262.03 56.35 257.12 51.3 257.12 45.98C257.12 40.33 262.09 35.7 268.46 35.7C271.9 35.71 275.17 37.23 277.4 39.85L279.86 37.69C276.88 34.5 272.69 32.72 268.33 32.76C260.14 32.76 253.59 38.77 253.59 46.1C253.59 53.13 260.02 59.32 267.95 59.32C275.88 59.32 281.39 53.9 281.39 46.93V45.91H270.09Z" fill="white"></path> <path d="M116.51 73.37H114.49V88.76H116.51V73.37ZM120.6 88.75H122.61V77.27L134.77 89.41V73.37H132.75V84.73L120.6 72.59V88.75ZM150.71 74.12C149.46 73.41 148.05 73.04 146.61 73.04C141.82 73.04 137.98 76.59 137.98 81.15C137.98 85.71 141.82 89.14 146.41 89.14C147.9 89.12 149.37 88.75 150.69 88.06V85.78C149.47 86.81 147.93 87.38 146.34 87.4C142.87 87.49 139.99 84.76 139.9 81.29C139.81 77.82 142.54 74.94 146.01 74.85C146.14 74.85 146.28 74.85 146.41 74.85C147.97 74.83 149.49 75.36 150.69 76.35V74.12H150.71ZM161.67 73.04C157.07 73.04 153.24 76.7 153.24 81.09C153.24 85.63 157.02 89.14 161.67 89.14C166.32 89.14 170.17 85.66 170.17 81.09C170.18 76.7 166.34 73.04 161.67 73.04ZM161.67 87.34C158.17 87.39 155.3 84.6 155.25 81.1V81.09C155.57 77.52 158.72 74.89 162.28 75.21C165.4 75.49 167.88 77.96 168.16 81.09C168.11 84.59 165.22 87.39 161.72 87.34C161.71 87.34 161.69 87.34 161.67 87.34ZM178.3 82.11C180.53 81.91 182.23 80.02 182.19 77.78C182.22 76.25 181.39 74.84 180.05 74.11C178.75 73.39 177.21 73.39 175.82 73.39H173.36V88.78H175.38V82.3H176.2L180.98 88.78H183.38L178.27 82.11H178.3ZM175.41 75.08H175.92C177.94 75.08 180.33 75.44 180.33 77.84C180.33 80.24 178.13 80.67 176.05 80.67H175.4V75.08H175.41ZM188.32 82.35H189.45C192.53 82.35 195.12 81.09 195.12 77.81C195.12 74.99 193.6 73.36 188.64 73.36H186.31V88.75H188.33V82.32L188.32 82.35ZM188.32 75.08H188.83C190.85 75.08 193.24 75.38 193.24 77.78C193.24 80.18 191.04 80.61 188.96 80.61H188.31V75.08H188.32ZM205.46 73.04C200.79 73.04 196.96 76.7 196.96 81.09C196.96 85.63 200.8 89.14 205.46 89.14C210.12 89.14 213.89 85.66 213.89 81.09C213.88 76.7 210.04 73.04 205.46 73.04ZM205.46 87.34C202.01 87.5 199.08 84.83 198.93 81.38C198.77 77.93 201.44 75 204.89 74.85C205.08 74.84 205.27 74.84 205.46 74.85C208.91 74.75 211.78 77.47 211.88 80.92C211.88 80.98 211.88 81.04 211.88 81.1C211.83 84.59 208.96 87.38 205.46 87.34ZM222.09 82.11C224.31 81.89 225.99 80.01 225.98 77.78C226.01 76.25 225.18 74.84 223.83 74.11C222.57 73.39 221 73.39 219.55 73.39H217.16V88.78H219.18V82.3H220L224.72 88.78H227.18L222.08 82.11H222.09ZM219.18 75.05H219.69C221.71 75.05 224.1 75.41 224.1 77.81C224.1 80.21 221.83 80.64 219.82 80.64H219.17V75.05H219.18ZM239.78 84.9L241.61 88.75H243.76L236.07 72.7L228.29 88.75H230.5L232.32 84.9H239.78ZM238.91 83.19H233.18L236.08 76.94L238.91 83.19ZM249.05 75.14V88.78H247.05V75.11H243.21V73.37H252.93V75.11L249.05 75.14ZM255.73 88.78H264.42V87.04H257.74V81.21H264.22V79.47H257.74V75.14H264.42V73.4H255.73V88.78V88.78ZM268.05 88.78H271.33C276.43 88.78 280.46 86.25 280.46 81C280.46 75.75 276.36 73.37 271.39 73.37H268.05V88.76V88.78ZM270.06 75.14H270.75C274.91 75.14 278.44 76.59 278.44 81.09C278.44 85.59 274.91 87.04 270.75 87.04H270.06V75.14Z" fill="white"></path> <path d="M117.64 117.05H118.14C119.84 117.05 121.17 117.35 121.17 119.21C121.17 121.07 119.78 121.43 118.14 121.43H117.64V117.05ZM117.64 122.7H118.77C120.34 122.7 122.42 123.12 122.42 124.92C122.42 126.72 120.66 127.26 119.02 127.26H117.63V122.72V122.7H117.64ZM115.88 128.71H119.22C121.74 128.71 124.2 127.69 124.2 125.04C124.15 123.39 122.94 122 121.3 121.74V121.68C122.26 121.24 122.88 120.28 122.87 119.22C122.87 116.22 120.28 115.62 117.64 115.62H115.88V128.71ZM151.34 116.03C147.31 116.03 143.91 119.1 143.91 122.88C143.91 126.77 147.25 129.73 151.34 129.73C155.43 129.73 158.84 126.78 158.84 122.88C158.84 119.1 155.44 116.03 151.34 116.03ZM151.34 128.17C148.26 128.17 145.67 125.82 145.67 122.88C145.67 119.94 148 117.53 151.34 117.53C154.68 117.53 157.08 119.93 157.08 122.88C157.08 125.82 154.48 128.17 151.34 128.17ZM187.25 117.65C186.48 116.38 185.08 115.62 183.59 115.67C181.44 115.67 179.37 116.93 179.37 119.03C179.37 120.9 180.88 121.74 182.45 122.4L183.45 122.76C184.75 123.24 185.91 123.84 185.91 125.29C185.87 126.72 184.69 127.84 183.26 127.81C181.83 127.91 180.59 126.83 180.5 125.4C180.5 125.38 180.5 125.36 180.5 125.35L178.73 125.71C179.06 127.87 180.96 129.45 183.14 129.37C185.73 129.37 187.68 127.63 187.68 125.29C187.68 123.07 186.16 122.05 184.15 121.32L183.15 120.96C182.27 120.66 181.13 120.12 181.13 119.02C181.13 117.92 182.39 117.16 183.52 117.16C184.47 117.12 185.37 117.61 185.85 118.42L187.24 117.64V117.65H187.25ZM212.39 117.41H215.79V115.97H207.22V117.41H210.56V129.08H212.39V117.41ZM241.62 115.67C237.52 115.67 234.13 118.74 234.13 122.52C234.13 126.41 237.47 129.37 241.62 129.37C245.77 129.37 249.12 126.43 249.12 122.52C249.11 118.73 245.71 115.67 241.62 115.67ZM241.62 127.81C238.54 127.81 235.89 125.53 235.89 122.52C235.89 119.64 238.28 117.17 241.62 117.17C244.62 117.04 247.15 119.36 247.29 122.36C247.29 122.41 247.29 122.47 247.29 122.52C247.29 125.53 244.69 127.81 241.62 127.81ZM269.59 128.89H271.35V119.1L282.04 129.43V115.82H280.28V125.49L269.57 115.16L269.59 128.89Z" fill="white"></path> <path d="M282.7 102.81H112.92V103.65H282.7V102.81Z" fill="white"></path> </g> <defs> <clipPath id="clip0"> <rect width="282.69" height="129.73" fill="white"></rect> </clipPath> </defs> </svg>
+												<svg viewBox="0 0 283 130" fill="none" xmlns="http://www.w3.org/2000/svg"> <g> <path fillRule="evenodd" clipRule="evenodd" d="M26.7596 90.05L40.0296 53.41L64.2496 120.16L68.4396 119.24L40.6096 46.54V5.92L38.4196 1V49.02L25.5996 83.02C25.5996 83.02 26.7296 90.09 26.7596 90.05Z" fill="white"></path> <path fillRule="evenodd" clipRule="evenodd" d="M38.0199 112.08C38.0199 112.08 2.80988 113.38 0.589882 113.76C0.589882 113.76 -0.510118 113.76 1.29988 109.95C3.10988 106.14 33.9299 33.06 33.9299 33.06C33.9299 33.06 9.02988 85.81 38.0199 112.08Z" fill="white"></path> <path d="M39.9799 39.04L70.9899 119.19L70.3799 119.41L39.3599 39.26L39.9799 39.04Z" fill="white"></path> <path d="M40.3999 32.04L75.9699 111.66H78.0499L40.3999 31.17V32.04Z" fill="white"></path> <path d="M40.4099 35.17L73.0499 111.66H75.2099L40.3999 33.7L40.4099 35.17Z" fill="white"></path> <path d="M40.4202 42.69L66.1002 111.65L69.6602 111.66L40.4102 39.46L40.4202 42.69Z" fill="white"></path> <path d="M40.4102 37.68L70.4002 111.66H72.3202L40.4102 36.91V37.68Z" fill="white"></path> <path d="M40.5199 111.64L65.3999 111.65L40.4199 44.65L40.5199 111.64Z" fill="white"></path> <path d="M40.3901 27.49L82.2501 111.66L85.3501 111.67L40.3901 25.77V27.49Z" fill="white"></path> <path d="M40.3999 29.6L78.7899 111.66H81.5099L40.3999 29V29.6Z" fill="white"></path> <path d="M40.3599 5.68001L40.3799 21.84L86.5999 103.9C76.2199 81.22 46.2499 16.01 40.3599 5.68001Z" fill="white"></path> <path d="M40.3899 24.38L86.0999 111.67H90.1499C90.1499 111.67 90.0899 111.54 89.9799 111.3L40.3799 23.22L40.3899 24.38Z" fill="white"></path> <path d="M94.4701 117.87L86.6001 103.9C88.3701 107.76 89.5701 110.39 89.9801 111.3L93.8601 118.18L94.4701 117.87Z" fill="white"></path> <path d="M40.1097 21.35L39.4897 21.63L40.3897 23.22L40.3797 21.84L40.1097 21.35Z" fill="white"></path> <path d="M39.9801 23.59L39.3901 23.87L40.3901 25.77V24.38L39.9801 23.59Z" fill="white"></path> <path d="M88.8101 118.27L89.4201 117.99L86.1001 111.67H85.3501L88.8101 118.27Z" fill="white"></path> <path d="M39.85 26.39L39.23 26.66L40.4 29L40.39 27.49L39.85 26.39Z" fill="white"></path> <path d="M84.8698 118.42L85.4898 118.18L82.2498 111.66H81.5098L84.8698 118.42Z" fill="white"></path> <path d="M81.3998 118.82L82.0098 118.54L78.7898 111.66H78.0498L81.3998 118.82Z" fill="white"></path> <path d="M40.0397 28.85L39.4297 29.09L40.3997 31.17V29.6L40.0397 28.85Z" fill="white"></path> <path d="M40.0397 31.24L39.4297 31.52L40.3997 33.7V32.04L40.0397 31.24Z" fill="white"></path> <path d="M78.46 118.95L79.11 118.7L75.97 111.66H75.21L78.46 118.95Z" fill="white"></path> <path d="M75.4398 118.95L76.0498 118.7L73.0498 111.66H72.3198L75.4398 118.95Z" fill="white"></path> <path d="M39.8199 33.79L39.1699 34.01L40.4099 36.91V35.17L39.8199 33.79Z" fill="white"></path> <path d="M39.9799 36.62L39.3599 36.86L40.4099 39.46V37.68L39.9799 36.62Z" fill="white"></path> <path d="M72.7302 119.25L73.3702 119L70.4002 111.66H69.6602L72.7302 119.25Z" fill="white"></path> <path d="M68.3499 119.56L68.9599 119.34L66.0999 111.65H65.3999L68.3499 119.56Z" fill="white"></path> <path d="M40.0401 41.69L39.3901 41.9L40.4201 44.65V42.69L40.0401 41.69Z" fill="white"></path> <path fillRule="evenodd" clipRule="evenodd" d="M0.0398246 114.18C0.0398246 114.18 15.8198 118.33 41.7098 118.76C48.3098 118.86 54.3198 118.89 59.7498 118.86L36.8498 51.15L25.3998 82.26L25.1098 73.63L35.4098 45.92V4.89001L37.9198 1.41243e-05C37.6898 -0.0299859 37.7898 47.74 37.7898 47.74L63.9698 118.84C77.4298 118.72 87.0898 118.26 94.3098 117.92L93.6598 124.34C93.6598 124.34 46.7798 129.43 31.3398 128.63C15.8998 127.83 8.00982 126.85 6.34982 126.32C4.68982 125.79 4.73982 126.32 2.73982 122.98C0.739825 119.64 -0.220175 115.91 0.0398246 114.18Z" fill="white"></path> <path d="M128.6 1.74C127.12 0.9 125.45 0.47 123.75 0.48C118.14 0.48 113.54 4.77 113.54 10.16C113.54 15.45 118.08 19.59 123.55 19.59C125.31 19.6 127.04 19.17 128.59 18.33V15.63C127.18 16.87 125.37 17.56 123.49 17.57C119.36 17.55 116.02 14.19 116.04 10.06C116.06 5.93 119.42 2.59 123.55 2.61C125.39 2.62 127.17 3.25 128.59 4.41L128.6 1.74ZM142.59 0.48C137.11 0.48 132.51 4.81 132.51 10.03C132.51 15.5 137.05 19.58 142.59 19.58C148.13 19.58 152.67 15.5 152.67 10.03C152.66 4.81 148.13 0.48 142.59 0.48ZM142.59 17.49C138.42 17.54 134.99 14.21 134.93 10.04C134.95 5.93 138.3 2.62 142.4 2.65C142.47 2.65 142.54 2.65 142.61 2.65C147.15 2.65 150.3 6.01 150.3 10.04C150.24 14.22 146.8 17.56 142.62 17.49H142.59ZM166.4 19.59L172.19 7.09L174.46 19.23H176.92L173.03 0.12L166.39 14.54L159.78 0.12L155.89 19.23H158.35L160.62 7.09H160.68L166.41 19.59H166.4ZM191.79 19.59L197.45 7.09H197.51L199.78 19.23H202.24L198.35 0.12L191.8 14.54L185.16 0.12L181.27 19.23H183.73L186 7.09H186.06L191.8 19.59H191.79ZM206.97 0.88V12.5C206.97 16.53 209.61 19.59 214.03 19.59C218.44 19.59 221.02 16.53 221.02 12.5V0.88H218.62V11.72C218.62 14.72 217.68 17.49 214.02 17.49C210.36 17.49 209.35 14.72 209.35 11.72V0.88H206.97ZM226.06 19.21H228.46V5.59L242.82 19.95V0.88H240.43V14.42L226.06 0V19.23V19.21ZM250.75 0.64H248.34V18.99H250.74V0.66L250.75 0.64ZM260.9 2.99H265.44V0.88H253.97V2.99H258.51V19.19H260.91V2.99H260.9ZM274.06 11.25V19.23H276.46V11.25L282.69 0.88H279.92L275.26 8.66L270.54 0.88H267.79L274.06 11.25Z" fill="white"></path> <path d="M118.83 35.81H119.84C123.11 35.81 125.82 36.41 125.82 39.95C125.82 43.62 123.11 44.22 119.77 44.22H118.82V35.8L118.83 35.81ZM118.83 46.75H121.04C124.19 46.75 128.29 47.53 128.29 51.08C128.29 54.63 124.82 55.62 121.54 55.62H118.83V46.75ZM115.31 58.41H121.93C126.97 58.41 131.82 56.37 131.82 51.32C131.73 48.08 129.35 45.36 126.15 44.84V44.78C128 43.89 129.18 42.02 129.18 39.97C129.18 34.2 124.14 33 118.81 33H115.34V58.42L115.31 58.41ZM150.52 32.46C142.39 32.46 135.65 38.4 135.65 45.67C135.65 53.24 142.26 58.95 150.52 58.95C158.78 58.95 165.38 53.23 165.38 45.66C165.39 38.39 158.65 32.45 150.52 32.46ZM150.52 56.01C144.34 56.01 139.18 51.47 139.18 45.64C139.18 40.05 143.84 35.37 150.52 35.37C157.2 35.37 161.86 40.06 161.86 45.64C161.86 51.47 156.64 56.01 150.52 56.01ZM185.48 52.04L188.72 58.41H192.5L178.94 31.91L165.39 58.41H169.23L172.44 52.04H185.48ZM183.96 49.15H173.9L178.94 38.78L183.98 49.15H183.96ZM202.43 35.88V58.41H198.9V35.88H192.22V32.99H209.16V35.88H202.43ZM215.79 33H212.26V58.42H215.79V33ZM223.35 58.41H226.88V39.41L248.24 59.5V32.99H244.71V51.74L223.32 31.73V58.41H223.35ZM270.09 45.91V48.84H277.46C277.34 52.98 272.55 56.35 268.14 56.35C262.03 56.35 257.12 51.3 257.12 45.98C257.12 40.33 262.09 35.7 268.46 35.7C271.9 35.71 275.17 37.23 277.4 39.85L279.86 37.69C276.88 34.5 272.69 32.72 268.33 32.76C260.14 32.76 253.59 38.77 253.59 46.1C253.59 53.13 260.02 59.32 267.95 59.32C275.88 59.32 281.39 53.9 281.39 46.93V45.91H270.09Z" fill="white"></path> <path d="M116.51 73.37H114.49V88.76H116.51V73.37ZM120.6 88.75H122.61V77.27L134.77 89.41V73.37H132.75V84.73L120.6 72.59V88.75ZM150.71 74.12C149.46 73.41 148.05 73.04 146.61 73.04C141.82 73.04 137.98 76.59 137.98 81.15C137.98 85.71 141.82 89.14 146.41 89.14C147.9 89.12 149.37 88.75 150.69 88.06V85.78C149.47 86.81 147.93 87.38 146.34 87.4C142.87 87.49 139.99 84.76 139.9 81.29C139.81 77.82 142.54 74.94 146.01 74.85C146.14 74.85 146.28 74.85 146.41 74.85C147.97 74.83 149.49 75.36 150.69 76.35V74.12H150.71ZM161.67 73.04C157.07 73.04 153.24 76.7 153.24 81.09C153.24 85.63 157.02 89.14 161.67 89.14C166.32 89.14 170.17 85.66 170.17 81.09C170.18 76.7 166.34 73.04 161.67 73.04ZM161.67 87.34C158.17 87.39 155.3 84.6 155.25 81.1V81.09C155.57 77.52 158.72 74.89 162.28 75.21C165.4 75.49 167.88 77.96 168.16 81.09C168.11 84.59 165.22 87.39 161.72 87.34C161.71 87.34 161.69 87.34 161.67 87.34ZM178.3 82.11C180.53 81.91 182.23 80.02 182.19 77.78C182.22 76.25 181.39 74.84 180.05 74.11C178.75 73.39 177.21 73.39 175.82 73.39H173.36V88.78H175.38V82.3H176.2L180.98 88.78H183.38L178.27 82.11H178.3ZM175.41 75.08H175.92C177.94 75.08 180.33 75.44 180.33 77.84C180.33 80.24 178.13 80.67 176.05 80.67H175.4V75.08H175.41ZM188.32 82.35H189.45C192.53 82.35 195.12 81.09 195.12 77.81C195.12 74.99 193.6 73.36 188.64 73.36H186.31V88.75H188.33V82.32L188.32 82.35ZM188.32 75.08H188.83C190.85 75.08 193.24 75.38 193.24 77.78C193.24 80.18 191.04 80.61 188.96 80.61H188.31V75.08H188.32ZM205.46 73.04C200.79 73.04 196.96 76.7 196.96 81.09C196.96 85.63 200.8 89.14 205.46 89.14C210.12 89.14 213.89 85.66 213.89 81.09C213.88 76.7 210.04 73.04 205.46 73.04ZM205.46 87.34C202.01 87.5 199.08 84.83 198.93 81.38C198.77 77.93 201.44 75 204.89 74.85C205.08 74.84 205.27 74.84 205.46 74.85C208.91 74.75 211.78 77.47 211.88 80.92C211.88 80.98 211.88 81.04 211.88 81.1C211.83 84.59 208.96 87.38 205.46 87.34ZM222.09 82.11C224.31 81.89 225.99 80.01 225.98 77.78C226.01 76.25 225.18 74.84 223.83 74.11C222.57 73.39 221 73.39 219.55 73.39H217.16V88.78H219.18V82.3H220L224.72 88.78H227.18L222.08 82.11H222.09ZM219.18 75.05H219.69C221.71 75.05 224.1 75.41 224.1 77.81C224.1 80.21 221.83 80.64 219.82 80.64H219.17V75.05H219.18ZM239.78 84.9L241.61 88.75H243.76L236.07 72.7L228.29 88.75H230.5L232.32 84.9H239.78ZM238.91 83.19H233.18L236.08 76.94L238.91 83.19ZM249.05 75.14V88.78H247.05V75.11H243.21V73.37H252.93V75.11L249.05 75.14ZM255.73 88.78H264.42V87.04H257.74V81.21H264.22V79.47H257.74V75.14H264.42V73.4H255.73V88.78V88.78ZM268.05 88.78H271.33C276.43 88.78 280.46 86.25 280.46 81C280.46 75.75 276.36 73.37 271.39 73.37H268.05V88.76V88.78ZM270.06 75.14H270.75C274.91 75.14 278.44 76.59 278.44 81.09C278.44 85.59 274.91 87.04 270.75 87.04H270.06V75.14Z" fill="white"></path> <path d="M117.64 117.05H118.14C119.84 117.05 121.17 117.35 121.17 119.21C121.17 121.07 119.78 121.43 118.14 121.43H117.64V117.05ZM117.64 122.7H118.77C120.34 122.7 122.42 123.12 122.42 124.92C122.42 126.72 120.66 127.26 119.02 127.26H117.63V122.72V122.7H117.64ZM115.88 128.71H119.22C121.74 128.71 124.2 127.69 124.2 125.04C124.15 123.39 122.94 122 121.3 121.74V121.68C122.26 121.24 122.88 120.28 122.87 119.22C122.87 116.22 120.28 115.62 117.64 115.62H115.88V128.71ZM151.34 116.03C147.31 116.03 143.91 119.1 143.91 122.88C143.91 126.77 147.25 129.73 151.34 129.73C155.43 129.73 158.84 126.78 158.84 122.88C158.84 119.1 155.44 116.03 151.34 116.03ZM151.34 128.17C148.26 128.17 145.67 125.82 145.67 122.88C145.67 119.94 148 117.53 151.34 117.53C154.68 117.53 157.08 119.93 157.08 122.88C157.08 125.82 154.48 128.17 151.34 128.17ZM187.25 117.65C186.48 116.38 185.08 115.62 183.59 115.67C181.44 115.67 179.37 116.93 179.37 119.03C179.37 120.9 180.88 121.74 182.45 122.4L183.45 122.76C184.75 123.24 185.91 123.84 185.91 125.29C185.87 126.72 184.69 127.84 183.26 127.81C181.83 127.91 180.59 126.83 180.5 125.4C180.5 125.38 180.5 125.36 180.5 125.35L178.73 125.71C179.06 127.87 180.96 129.45 183.14 129.37C185.73 129.37 187.68 127.63 187.68 125.29C187.68 123.07 186.16 122.05 184.15 121.32L183.15 120.96C182.27 120.66 181.13 120.12 181.13 119.02C181.13 117.92 182.39 117.16 183.52 117.16C184.47 117.12 185.37 117.61 185.85 118.42L187.24 117.64V117.65H187.25ZM212.39 117.41H215.79V115.97H207.22V117.41H210.56V129.08H212.39V117.41ZM241.62 115.67C237.52 115.67 234.13 118.74 234.13 122.52C234.13 126.41 237.47 129.37 241.62 129.37C245.77 129.37 249.12 126.43 249.12 122.52C249.11 118.73 245.71 115.67 241.62 115.67ZM241.62 127.81C238.54 127.81 235.89 125.53 235.89 122.52C235.89 119.64 238.28 117.17 241.62 117.17C244.62 117.04 247.15 119.36 247.29 122.36C247.29 122.41 247.29 122.47 247.29 122.52C247.29 125.53 244.69 127.81 241.62 127.81ZM269.59 128.89H271.35V119.1L282.04 129.43V115.82H280.28V125.49L269.57 115.16L269.59 128.89Z" fill="white"></path> <path d="M282.7 102.81H112.92V103.65H282.7V102.81Z" fill="white"></path> </g> <defs> <clipPath id="clip0"> <rect width="282.69" height="129.73" fill="white"></rect> </clipPath> </defs> </svg>
 											</div>
 											<div className="footer-address">
 												21 David G Mugar Way<br />
@@ -590,7 +326,7 @@ export class FactaBody extends React.Component {
 
 													<div className="col-auto">
 														<div className="footer-social-item">
-															<a href="https://twitter.com/sailcbi" title="Twitter">
+															<a target="_blank" href="https://twitter.com/sailcbi" title="Twitter">
 																<svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" className="svg-inline--fa fa-twitter fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
 															</a>
 														</div>
@@ -598,7 +334,7 @@ export class FactaBody extends React.Component {
 
 													<div className="col-auto">
 														<div className="footer-social-item">
-															<a href="https://www.facebook.com/CommunityBoating" title="Facebook">
+															<a target="_blank" href="https://www.facebook.com/CommunityBoating" title="Facebook">
 																<svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="facebook-f" className="svg-inline--fa fa-facebook-f fa-w-10" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path></svg>
 															</a>
 														</div>
@@ -606,7 +342,7 @@ export class FactaBody extends React.Component {
 
 													<div className="col-auto">
 														<div className="footer-social-item">
-															<a href="https://www.youtube.com/user/SailCBI/videos" title="Youtube">
+															<a target="_blank" href="https://www.youtube.com/user/SailCBI/videos" title="Youtube">
 																<svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="youtube" className="svg-inline--fa fa-youtube fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path></svg>
 															</a>
 														</div>
@@ -614,7 +350,7 @@ export class FactaBody extends React.Component {
 
 													<div className="col-auto">
 														<div className="footer-social-item">
-															<a href="https://www.instagram.com/sailcbi/" title="Instagram">
+															<a target="_blank" href="https://www.instagram.com/sailcbi/" title="Instagram">
 																<svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="instagram" className="svg-inline--fa fa-instagram fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path></svg>
 															</a>
 														</div>
@@ -623,7 +359,7 @@ export class FactaBody extends React.Component {
 												</div>
 											</div>
 											<div className="footer-support">
-												<a href="/support-us/">SUPPORT US</a>
+												<a target="_blank" href="https://www.community-boating.org/support-us/">SUPPORT US</a>
 											</div>
 										</div>
 									</div>
@@ -642,42 +378,20 @@ export class FactaBody extends React.Component {
 						<div className="col">
 							<div className="row justify-content-center">
 								<div className="col-auto">
-									<a href='/privacy-policy/'>Privacy Policy</a>
+									<a target="_blank" href='https://www.community-boating.org/sitemap/'>Sitemap</a>
 								</div>
 								<div className="col-auto">
-									<a href='/sitemap/'>Sitemap</a>
+									<a target="_blank" href='https://www.community-boating.org/terms-of-use/'>Terms of Use</a>
 								</div>
 								<div className="col-auto">
-									<a href='/terms-of-use/'>Terms of Use</a>
-								</div>
-								<div className="col-auto">
-									<a href='/about-us/contact-us/'>Contact Us</a>
+									<a target="_blank" href='https://www.community-boating.org/about-us/contact-us/'>Contact Us</a>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div id="pop-search" className="mfp-hide">
-					<form role="search" id="pop-search-form" className='site-search-form'>
-						<div className="form-group">
-							<label htmlFor="pop-search-input">
-								<i className="fad fa-file-search"></i>
-								<span>Search Community Boating</span>
-							</label>
-							<div className="input-group">
-								<input id='pop-search-input' type="text" className="form-control site-search-input"
-									placeholder="Search Community Boating..." aria-label="Search Community Boating"
-									aria-describedby="pop-search-button" />
-								<div className="input-group-append">
-									<button id="pop-search-button" className="btn btn-outline-primary site-search-button"
-										type="button">Search</button>
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
 			</div>
-			<script type='text/javascript'
+			{/* <script type='text/javascript'
 				src='https://www.community-boating.org/wp-content/themes/custom/assets/js/custom.js?ver=1590961919'></script>
 			<script type='text/javascript'
 				src='https://www.community-boating.org/wp-includes/js/wp-embed.min.js?ver=5.4.1'></script>
@@ -712,7 +426,7 @@ export class FactaBody extends React.Component {
 					(function (document, tag) { var script = document.createElement(tag); var element = document.getElementsByTagName('body')[0]; script.src = 'https://acsbap.com/apps/app/assets/js/acsb.js'; script.async = true; script.defer = true; (typeof element === 'undefined' ? document.getElementsByTagName('html')[0] : element).appendChild(script); script.onload = function () {acsbJS.init({ statementLink: '', feedbackLink: '', footerHtml: '', hideMobile: false, hideTrigger: false, language: 'en', position: 'right', leadColor: '#146FF8', triggerColor: '#146FF8', triggerRadius: '50%', triggerPositionX: 'right', triggerPositionY: 'bottom', triggerIcon: 'default', triggerSize: 'medium', triggerOffsetX: 20, triggerOffsetY: 20, mobile: { triggerSize: 'small', triggerPositionX: 'right', triggerPositionY: 'bottom', triggerOffsetX: 0, triggerOffsetY: 0, triggerRadius: '0' } }); }; }(document, 'script'));
 					`}
 
-			</script>
+			</script> */}
 		</div>;
 	}
 }
@@ -725,7 +439,6 @@ export default class FactaBase extends React.Component {
 					{this.props.children}
 				</FactaBody>
 			</FactaHelmet>
-
 		</React.Fragment>)
 	}
 }
