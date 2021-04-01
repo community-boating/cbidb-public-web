@@ -4,12 +4,12 @@ import { jpPathPayments } from "@paths/jp/payments";
 import PageWrapper from "@core/PageWrapper";
 import RouteWrapper from "@core/RouteWrapper";
 import { setJPImage } from '@util/set-bg-image';
-import JoomlaLoadingPage from '@joomla/JoomlaLoadingPage';
 import ManageStaggeredPayments from '@containers/ManageStaggeredPayments';
 import { PageFlavor } from '@components/Page';
 import {getWrapper, validator} from "@async/member/open-order-details-jp"
 import { some } from 'fp-ts/lib/Option';
 import { jpBasePath } from '@paths/jp/_base';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayments, history => <PageWrapper
 	key="jp-payments"
 	history={history}
@@ -34,5 +34,5 @@ export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayme
 		})
 		.catch(err => Promise.resolve(null));
 	}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 />);

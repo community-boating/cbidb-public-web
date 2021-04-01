@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { InstanceInfo } from "@async/junior/get-class-instances";
-import JoomlaReport from "@joomla/JoomlaReport";
+import StandardReport from "@facta/StandardReport";
 import { ClassAction } from '@containers/jp/class-signup/SelectClassTime';
 import { postWrapper as doSignup } from "@async/junior/class-signup"
 import { postWrapper as deleteSignup } from "@async/junior/class-signup-delete"
@@ -95,7 +95,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 	render() {
 		const self = this;
 		return (
-			<JoomlaReport
+			<StandardReport
 				headers={["First Day", "Last Day", "Class Time", "Spots Left", "Action", "Notes"]}
 				rows={this.props.instances.map(c => ([
 					c.firstDay,

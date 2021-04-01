@@ -285,10 +285,6 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 			: ""
 		);
 
-		// const headerRegion = <JoomlaArticleRegion title="Please take a moment to confirm your personal information.">
-		// 	New address or phone number? Need to change your emergency contact? Help us keep our records up-to-date.
-		// </JoomlaArticleRegion>;
-
 		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}
 			<FactaNotitleRegion>

@@ -2,7 +2,6 @@ import * as t from 'io-ts';
 import * as React from "react";
 
 import { validator } from "@async/junior/see-types";
-import Joomla8_4 from "@joomla/Joomla8_4";
 import FactaArticleRegion from "@facta/FactaArticleRegion";
 import { asDiv, asFragment, ClassType } from "./class-description";
 import advanced from "./types/advanced";
@@ -18,6 +17,7 @@ import NavBarLogoutOnly from '@components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
 import { setJPImage } from '@util/set-bg-image';
 import { jpBasePath } from '@paths/jp/_base';
+import FactaSidebarPage from '@facta/FactaSidebarPage';
 
 export const path = "/class/:personId"
 
@@ -123,7 +123,7 @@ export default class SelectClassType extends React.Component<Props, State> {
 		);
 
 		return (
-			<Joomla8_4 setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})} main={allRegions} right={<JpClassSignupSidebar
+			<FactaSidebarPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})} main={allRegions} right={<JpClassSignupSidebar
 				signups={self.props.signups}
 				history={self.props.history}
 				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}

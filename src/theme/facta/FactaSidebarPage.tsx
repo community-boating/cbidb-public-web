@@ -4,7 +4,7 @@ import Page from "@components/Page";
 interface Props {
 	navBar?: JSX.Element,
 	main: React.ReactNode,
-	left?: React.ReactNode
+	right: React.ReactNode,
 }
 
 export default class FactaSidebarPage extends Page<Props> {
@@ -32,7 +32,7 @@ export default class FactaSidebarPage extends Page<Props> {
 					<div className="col-12 col-lg-3 order-lg-1 d-lg-block d-none">
 
 						<div className="sidebar-item sidebar-item-toc">
-							{this.props.left}
+							{this.props.right}
 						</div>
 					</div>
 				</div>

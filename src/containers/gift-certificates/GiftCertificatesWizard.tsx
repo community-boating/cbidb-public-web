@@ -5,7 +5,6 @@ import PageWrapper from "@core/PageWrapper";
 import ProgressThermometer from "@components/ProgressThermometer";
 import { State as BreadcrumbState} from "@core/Breadcrumb";
 import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "@core/WizardPageflow";
-import JoomlaLoadingPage from "@joomla/JoomlaLoadingPage";
 import { setCheckoutImage } from "@util/set-bg-image";
 import { apBasePath } from "@paths/ap/_base";
 import GiftCertificatesDetailsPage from "./GiftCertificatesDetailsPage";
@@ -17,6 +16,7 @@ import { apiw as orderStatus } from "@async/order-status"
 import { PageFlavor } from "@components/Page";
 import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
 import { PostURLEncoded } from "@core/APIWrapperUtil";
+import FactaLoadingPage from "@facta/FactaLoadingPage";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -50,7 +50,7 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 	
 		const pageWrapperProps = {
 			urlProps: {},
-			shadowComponent: <JoomlaLoadingPage setBGImage={setCheckoutImage} />
+			shadowComponent: <FactaLoadingPage setBGImage={setCheckoutImage} />
 		}
 	
 		return <WizardPageflow 

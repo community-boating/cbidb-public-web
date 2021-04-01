@@ -18,7 +18,7 @@ import { StaggeredPaymentSchedule } from "@components/StaggeredPaymentSchedule";
 import { MAGIC_NUMBERS } from "@app/magicNumbers";
 import { RadioGroup } from "@components/InputGroup";
 import FactaButton from "@facta/FactaButton";
-import JoomlaReport from "@joomla/JoomlaReport";
+import StandardReport from "@facta/StandardReport";
 
 type SinglePayment = t.TypeOf<typeof singlePaymentValidator>;
 
@@ -69,7 +69,7 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 		/>);
 		const totals = this.props.paymentSchedules.map(s => s.reduce((agg, p) => agg + p.paymentAmtCents, 0));
 		return <React.Fragment>
-			<JoomlaReport
+			<StandardReport
 				headers={["Payments", "Monthly Amt", "Final Payment", "Total"]}
 				cellStyles={[{textAlign: "left"}, {textAlign: "right"}, {textAlign: "right"}, {textAlign: "right"}]}
 				rows={this.props.paymentSchedules.filter((s, i) => i > 0).map(s => 

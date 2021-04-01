@@ -2,12 +2,10 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import JoomlaArticleRegion from "@joomla/JoomlaArticleRegion";
-
 import { setAPImage, setCheckoutImage, setJPImage } from '@util/set-bg-image';
 import { PageFlavor } from '@components/Page';
 import { paymentValidator, validator } from '@async/member/open-order-details-ap';
-import JoomlaReport from '@joomla/JoomlaReport';
+import StandardReport from '@facta/StandardReport';
 import * as moment from 'moment';
 import Currency from '@util/Currency';
 import StripeElement from '@components/StripeElement';
@@ -15,14 +13,15 @@ import { PaymentMethod } from '@models/stripe/PaymentMethod';
 import {postWrapper as storePaymentMethodAP} from "@async/stripe/store-payment-method-ap"
 import {postWrapper as storePaymentMethodJP} from "@async/stripe/store-payment-method-jp"
 import { makePostJSON } from '@core/APIWrapperUtil';
-import JoomlaMainPage from '@joomla/JoomlaMainPage';
 import {postWrapper as finishOrderAP} from "@async/member/finish-open-order-ap"
 import {postWrapper as finishOrderJP} from "@async/member/finish-open-order-jp"
 import { apBasePath } from '@paths/ap/_base';
 import { jpBasePath } from '@paths/jp/_base';
-import {JoomlaErrorDiv} from '@joomla/JoomlaErrorDiv';
 import { Option } from 'fp-ts/lib/Option';
 import FactaButton from '@facta/FactaButton';
+import FactaMainPage from '@facta/FactaMainPage';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import { FactaErrorDiv } from '@facta/FactaErrorDiv';
 
 type Payment = t.TypeOf<typeof paymentValidator>
 type PaymentList = t.TypeOf<typeof validator>
@@ -62,7 +61,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
@@ -124,15 +123,15 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 		const paid = <span style={{color:"#22772d"}}>Paid</span>
 		const failed = <span style={{color:"#ff0000"}}>Failed</span>
 
-		return <JoomlaMainPage setBGImage={setBGImage}>
+		return <FactaMainPage setBGImage={setBGImage}>
 			{errorPopup}
 			<br />
 			<FactaButton text="< Back" onClick={() => {
 				this.props.history.push(backRoute);
 				return Promise.resolve();
 			}}/>
-			<JoomlaArticleRegion title="Upcoming Payments">
-				<JoomlaReport
+			<FactaArticleRegion title="Upcoming Payments">
+				<StandardReport
 					headers={["Date", "Amount", "Status"]}
 					rows={this.props.payments.map((p: Payment) => {
 						return [
@@ -147,10 +146,10 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 					<td><b>Total Outstanding: {outstandingTotal.format()}</b></td>	
 					<td style={{paddingLeft: "10px"}}><FactaButton text="Pay All" onClick={clickPayAll} spinnerOnClick/></td>
 				</tr></tbody></table>
-			</JoomlaArticleRegion>
-			<JoomlaArticleRegion title="Update Payment Method">
+			</FactaArticleRegion>
+			<FactaArticleRegion title="Update Payment Method">
 				{stripeElement}
-			</JoomlaArticleRegion>
-		</JoomlaMainPage>
+			</FactaArticleRegion>
+		</FactaMainPage>
 	}
 }

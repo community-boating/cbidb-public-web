@@ -1,15 +1,15 @@
 import * as React from "react";
 import {History} from 'history';
-import JoomlaMainPage from "@joomla/JoomlaMainPage";
-import JoomlaArticleRegion from "@joomla/JoomlaArticleRegion";
 import { setCheckoutImage } from "@util/set-bg-image";
 import TextInput from "@components/TextInput";
 import { none, Option } from "fp-ts/lib/Option";
 import formUpdateState from "@util/form-update-state";
 import {apiw as proveMember} from "@async/prove-member"
 import { makePostString } from "@core/APIWrapperUtil";
-import {JoomlaErrorDiv} from "@joomla/JoomlaErrorDiv";
-import JoomlaButton from "@joomla/JoomlaButton";
+import FactaMainPage from "@facta/FactaMainPage";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import FactaButton from "@facta/FactaButton";
+import { FactaErrorDiv } from "@facta/FactaErrorDiv";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -73,17 +73,17 @@ export default class StandaloneLoginPage extends React.PureComponent<Props, Stat
 			}
 			else return Promise.resolve();
 		}
-		const loginButton = (<JoomlaButton key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
+		const loginButton = (<FactaButton key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
-		return <JoomlaMainPage setBGImage={setCheckoutImage}>
+		return <FactaMainPage setBGImage={setCheckoutImage}>
 			{errorPopup}
-			<JoomlaArticleRegion title={"Sign In"}>
+			<FactaArticleRegion title={"Sign In"}>
 			<table><tbody>
 				<FormInput
 					id="username"
@@ -102,7 +102,7 @@ export default class StandaloneLoginPage extends React.PureComponent<Props, Stat
 					onEnter={loginFunction}
 				/>
 			</tbody></table>
-			</JoomlaArticleRegion>
-		</JoomlaMainPage>
+			</FactaArticleRegion>
+		</FactaMainPage>
 	}
 }

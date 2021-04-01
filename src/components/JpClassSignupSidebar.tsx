@@ -1,5 +1,4 @@
 import * as React from 'react';
-import JoomlaSidebarRegion from "@joomla/JoomlaSidebarRegion";
 import { GetSignupsAPIResult, EnrollmentAPIResult, WaitListTopAPIResult, WaitListAPIResult } from '@async/junior/get-signups';
 import { postWrapper as doSignup } from "@async/junior/class-signup"
 import { postWrapper as deleteSignup } from "@async/junior/class-signup-delete"
@@ -10,6 +9,7 @@ import * as moment from 'moment';
 import { Link } from 'react-router-dom';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '@lov/magicStrings';
 import {signupNotePageRoute} from "@routes/jp/signupNote";
+import FactaSidebarRegion from '@facta/FactaSidebarRegion';
 
 function resizeRatings(){
 	var heightPx = window.getComputedStyle(document.getElementById('dhtmltooltip').getElementsByTagName('table')[0]).getPropertyValue('height');
@@ -159,21 +159,21 @@ export default (props: {
 	}
 	
 	const enrolledComponent = (enrollments: EnrollmentAPIResult[]) => (
-		<JoomlaSidebarRegion title="Your Signups">
+		<FactaSidebarRegion title="Your Signups">
 			{printEnrollments(enrollments)}
-		</JoomlaSidebarRegion>
+		</FactaSidebarRegion>
 	);
 	
 	const waitListTopComponent = (tops: WaitListTopAPIResult[]) => (
-		<JoomlaSidebarRegion title="Top of the Wait List">
+		<FactaSidebarRegion title="Top of the Wait List">
 			<div><table style={{width: "100%"}} cellPadding="10"><tbody>
 				{tops.map(printWLTop)}
 			</tbody></table> </div>	
-		</JoomlaSidebarRegion>
+		</FactaSidebarRegion>
 	);
 	
 	const waitListComponent = (wls: WaitListAPIResult[]) => (
-		<JoomlaSidebarRegion title="Wait Lists">
+		<FactaSidebarRegion title="Wait Lists">
 			<div><table style={{width: "100%"}} cellPadding="10"><tbody>
 				{wls.map(wl => (<tr key={wl.instanceId}><td>
 					<b>{wl.className}</b><br />
@@ -197,7 +197,7 @@ export default (props: {
 					>How does the wait list work?</span>
 				</td></tr>))}
 			</tbody></table></div>	
-		</JoomlaSidebarRegion>
+		</FactaSidebarRegion>
 	);
 
 	return (

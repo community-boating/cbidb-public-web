@@ -1,13 +1,10 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import JoomlaMainPage from '@joomla/JoomlaMainPage';
-import JoomlaArticleRegion from '@joomla/JoomlaArticleRegion';
 import { setCheckoutImage } from '@util/set-bg-image';
 import {validator as gcValidator} from "@async/member/gc-purchase"
 import { orderStatusValidator } from "@async/order-status"
 import StripeConfirm from '@components/StripeConfirm';
-import {JoomlaErrorDiv} from '@joomla/JoomlaErrorDiv';
 import { postWrapper as submitPayment } from "@async/stripe/submit-payment-standalone"
 import { makePostJSON, makePostString } from '@core/APIWrapperUtil';
 import { PageFlavor } from '@components/Page';
@@ -16,8 +13,11 @@ import { postWrapper as clearCard } from '@async/stripe/clear-card'
 import StripeElement from '@components/StripeElement';
 import { postWrapper as storeToken } from "@async/stripe/store-token"
 import { TokensResult } from '@models/stripe/tokens';
-import JoomlaButton from '@joomla/JoomlaButton';
 import PlainButton from '@components/PlainButton';
+import FactaMainPage from '@facta/FactaMainPage';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import { FactaErrorDiv } from '@facta/FactaErrorDiv';
+import FactaButton from '@facta/FactaButton';
 
 type GC = t.TypeOf<typeof gcValidator>;
 
@@ -46,7 +46,7 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
@@ -65,8 +65,8 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 			to deactivate the old gift certificate and reissue a new gift certificate by e-mail.
 			All gift certificates are valid for up to seven years from the date of purchase.
 			<br /><br />
-			<JoomlaButton text="< Back" onClick={this.props.goPrev}/>
-			<JoomlaButton text="Submit Payment" spinnerOnClick onClick={() => {
+			<FactaButton text="< Back" onClick={this.props.goPrev}/>
+			<FactaButton text="Submit Payment" spinnerOnClick onClick={() => {
 				self.setState({
 					...self.state,
 					validationErrors: []
@@ -131,26 +131,22 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 			elementId="card-element"
 			cardErrorsId="card-errors"
 			then={processToken}
-			additionalButtons={<JoomlaButton text="< Back" onClick={this.props.goPrev}/>}
+			additionalButtons={<FactaButton text="< Back" onClick={this.props.goPrev}/>}
 		/>;
-
-		<JoomlaArticleRegion title="Credit Card Information">
-
-		</JoomlaArticleRegion>
 		
 		return (
-			<JoomlaMainPage setBGImage={setCheckoutImage}>
+			<FactaMainPage setBGImage={setCheckoutImage}>
 				{errorPopup}
-				<JoomlaArticleRegion title="Gift Certificate Order">
+				<FactaArticleRegion title="Gift Certificate Order">
 					<GiftCertConfirmationRegion {...this.props.gc} />
-				</JoomlaArticleRegion>
-				<JoomlaArticleRegion title={"Your Billing Info"}>
+				</FactaArticleRegion>
+				<FactaArticleRegion title={"Your Billing Info"}>
 					{paymentTextOrResetLink}
 					<br />
 					<br />
 					{confirm.getOrElse(stripeElement)}
-				</JoomlaArticleRegion>
-			</JoomlaMainPage>
+				</FactaArticleRegion>
+			</FactaMainPage>
 		)
 	}
 }

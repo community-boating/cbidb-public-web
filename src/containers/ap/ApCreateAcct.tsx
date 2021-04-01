@@ -7,8 +7,6 @@ import FactaButton from '@facta/FactaButton';
 import {FactaErrorDiv} from '@facta/FactaErrorDiv';
 import FactaArticleRegion from '@facta/FactaArticleRegion';
 import { apPreRegRoute } from '@routes/ap/prereg';
-import JoomlaSidebarRegion from '@joomla/JoomlaSidebarRegion';
-import Joomla8_4 from '@joomla/Joomla8_4';
 import { setAPImage } from '@util/set-bg-image';
 import { postWrapper as create } from '@async/create-member'
 import {History} from "history"
@@ -16,6 +14,8 @@ import { PostURLEncoded } from '@core/APIWrapperUtil';
 import { apBasePath } from '@paths/ap/_base';
 import asc from '@app/AppStateContainer';
 import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
+import FactaSidebarPage from '@facta/FactaSidebarPage';
+import FactaSidebarRegion from '@facta/FactaSidebarRegion';
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -156,16 +156,16 @@ export default class ApCreateAcct extends React.PureComponent<Props, State> {
 			</FactaArticleRegion>
 		</React.Fragment>);
 
-		const sidebarInfo = (<JoomlaSidebarRegion title="INFO">
+		const sidebarInfo = (<FactaSidebarRegion title="INFO">
 			<div>
 			Please supply an email address and password for your online account.
 			Your account will allow you to register for classes, renew your membership, and sign up for special events.<br />
 			<br />
 			If you start the registration process and don't complete it, you can use this email/password to continue from where you left off.
 			</div>
-		</JoomlaSidebarRegion>);
+		</FactaSidebarRegion>);
 
-		return <Joomla8_4 setBGImage={setAPImage} main={main} right={sidebarInfo} />
+		return <FactaSidebarPage setBGImage={setAPImage} main={main} right={sidebarInfo} />
 	}
 }
 1

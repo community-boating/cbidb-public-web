@@ -6,8 +6,8 @@ import { PageFlavor } from '@components/Page';
 import RecurringDonations from '@containers/RecurringDonations';
 import PageWrapper from '@core/PageWrapper';
 import {getWrapper as getRecurringInfo, resultValidator as getRecurringInfoValidator} from "@async/stripe/get-recurring-info"
-import JoomlaLoadingPage from '@joomla/JoomlaLoadingPage';
 import { setAPImage } from '@util/set-bg-image';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 
 export const apDonateRoute = new RouteWrapper(true, apDonatePath, history => <PageWrapper
 	key="DonatePage"
@@ -18,7 +18,7 @@ export const apDonateRoute = new RouteWrapper(true, apDonatePath, history => <Pa
 		program={PageFlavor.AP}
 	/>}
 	urlProps={{}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 	getAsyncProps={() => {
 		return getRecurringInfo.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
 	}}

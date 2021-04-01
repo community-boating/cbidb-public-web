@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import JoomlaMainPage from '@joomla/JoomlaMainPage';
-import JoomlaArticleRegion from '@joomla/JoomlaArticleRegion';
 import { setCheckoutImage } from '@util/set-bg-image';
 // import { DonationThirdPartyWidget } from '@components/DonationThirdPartyWidget';
 import { none, Option, some } from 'fp-ts/lib/Option';
@@ -19,12 +17,14 @@ import FullCartReport from '@components/FullCartReport';
 import { CartItem } from '@async/get-cart-items-donate';
 import { PageFlavor } from '@components/Page';
 import { Either, left, right } from 'fp-ts/lib/Either';
-import {JoomlaErrorDiv} from '@joomla/JoomlaErrorDiv';
 import { orderStatusValidator } from "@async/order-status"
 import standaloneLoginPath from "@paths/common/standalone-signin"
 import {apiw as detach} from "@async/proto-detach-member"
 import {postWrapper as savePersonData } from "@async/member/donate-set-person"
-import JoomlaButton from '@joomla/JoomlaButton';
+import FactaMainPage from '@facta/FactaMainPage';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import FactaButton from '@facta/FactaButton';
+import { FactaErrorDiv } from '@facta/FactaErrorDiv';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -217,7 +217,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				</tbody></table>
 				: null
 			}
-			<JoomlaButton text="Add Donation" spinnerOnClick onClick={() => this.doAddDonation()}/>
+			<FactaButton text="Add Donation" spinnerOnClick onClick={() => this.doAddDonation()}/>
 		</div>)
 
 		const fundCell = (<div>
@@ -261,12 +261,12 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
 		const ifStarted = <React.Fragment>
-			<JoomlaArticleRegion title="Donation Summary">
+			<FactaArticleRegion title="Donation Summary">
 				<FullCartReport
 					cartItems={self.props.cartItems}
 					history={this.props.history}
@@ -275,8 +275,8 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					excludeMemberName={true}
 					pageFlavor={PageFlavor.DONATE}
 				/>
-			</JoomlaArticleRegion>
-			<JoomlaArticleRegion title="Personal Info">
+			</FactaArticleRegion>
+			<FactaArticleRegion title="Personal Info">
 				{!self.props.orderStatus.authedAsRealPerson
 					? <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
 						If you have an online account already, <a href="#" onClick={() => newPopWin(standaloneLoginPath.getPathFromArgs({}), 1100, 800)}>
@@ -320,14 +320,14 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 						disabled={this.props.orderStatus.authedAsRealPerson}
 					/>
 				</tbody></table>
-			</JoomlaArticleRegion>
-			<JoomlaButton text="Next >" onClick={this.doSubmit.bind(this)} />
+			</FactaArticleRegion>
+			<FactaButton text="Next >" onClick={this.doSubmit.bind(this)} />
 		</React.Fragment>;
 
 		return (
-			<JoomlaMainPage setBGImage={setCheckoutImage}>
+			<FactaMainPage setBGImage={setCheckoutImage}>
 				{errorPopup}
-				<JoomlaArticleRegion title={"Support Community Boating!"}>
+				<FactaArticleRegion title={"Support Community Boating!"}>
 					{/* <DonationThirdPartyWidget /> */}
 					<br />
 					Community Boating, Inc. is a private, 501(c)3 non-profit organization operating affordable and accessible programs
@@ -335,10 +335,10 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					<br />
 					<br />
 					You can donate to multiple areas if you wish; simply choose a fund, click "Add Donation," and repeat for as many funds as you like.
-				</JoomlaArticleRegion>
+				</FactaArticleRegion>
 				{donationRow}
 				{self.props.cartItems.length > 0 ? ifStarted : null}
-			</JoomlaMainPage>
+			</FactaMainPage>
 		)
 	}
 }

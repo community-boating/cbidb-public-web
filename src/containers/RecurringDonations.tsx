@@ -2,8 +2,7 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import JoomlaArticleRegion from "@joomla/JoomlaArticleRegion";
-import JoomlaMainPage from "@joomla/JoomlaMainPage";
+import FactaMainPage from "@facta/FactaMainPage";
 import { none } from 'fp-ts/lib/Option';
 import { setCheckoutImage } from '@util/set-bg-image';
 import { jpBasePath } from '@paths/jp/_base';
@@ -15,6 +14,7 @@ import {postWrapper as storePaymentMethod} from "@async/stripe/store-payment-met
 import { makePostJSON } from '@core/APIWrapperUtil';
 import {resultValidator as getRecurringInfoValidator} from "@async/stripe/get-recurring-info"
 import FactaButton from '@facta/FactaButton';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
 
 type RecurringDonationInfo = t.TypeOf<typeof getRecurringInfoValidator>;
 
@@ -70,24 +70,24 @@ export default class RecurringDonations extends React.PureComponent<Props> {
 
 		const addPaymentMessage = "To create one, first add a new Payment Method below."
 
-		const newDonationRegion = <JoomlaArticleRegion title="Add Recurring Donation">
+		const newDonationRegion = <FactaArticleRegion title="Add Recurring Donation">
 			You currently have no active recurring donations.{havePayment ? "" : addPaymentMessage}
-		</JoomlaArticleRegion>
+		</FactaArticleRegion>
 
-		return <JoomlaMainPage setBGImage={setCheckoutImage}>
-			<JoomlaArticleRegion title="Active Monthly Donations">
+		return <FactaMainPage setBGImage={setCheckoutImage}>
+			<FactaArticleRegion title="Active Monthly Donations">
 				You currently have no active recurring donations.{havePayment ? "" : addPaymentMessage}
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			{havePayment ? newDonationRegion : null}
-			<JoomlaArticleRegion title={(havePayment ? "Update " : "Add ") + "Payment Method"}>
+			<FactaArticleRegion title={(havePayment ? "Update " : "Add ") + "Payment Method"}>
 				{
 					havePayment
 					? <React.Fragment>You already have a credit card stored; complete the following to replace it with a new one.<br /><br /></React.Fragment>
 					: null
 				}
 				{stripeElement}
-			</JoomlaArticleRegion>
+			</FactaArticleRegion>
 			<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(basePath))}/>
-		</JoomlaMainPage>
+		</FactaMainPage>
 	}
 }

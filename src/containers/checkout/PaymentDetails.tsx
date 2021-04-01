@@ -38,7 +38,7 @@ import { apRegPageRoute } from "@routes/ap/reg";
 import { Link } from "react-router-dom";
 import { PageFlavor } from "@components/Page";
 import PlainButton from "@components/PlainButton";
-import JoomlaReport from "@joomla/JoomlaReport";
+import StandardReport from "@facta/StandardReport";
 import {postWrapper as setJPStaggered} from "@async/member/set-payment-plan-jp"
 import fundsPath from "@paths/common/funds"
 
@@ -431,7 +431,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			</React.Fragment>);
 		}
 
-		const singlePaymentTable = (total: Currency) => <JoomlaReport
+		const singlePaymentTable = (total: Currency) => <StandardReport
 			headers={["Date", "Amount"]}
 			cellStyles={[{textAlign: "right"}, {textAlign: "right"}]}
 			rows={[[

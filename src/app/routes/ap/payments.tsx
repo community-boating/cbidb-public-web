@@ -4,12 +4,12 @@ import { apPathPayments } from "@paths/ap/payments";
 import PageWrapper from "@core/PageWrapper";
 import RouteWrapper from "@core/RouteWrapper";
 import { setAPImage } from '@util/set-bg-image';
-import JoomlaLoadingPage from '@joomla/JoomlaLoadingPage';
 import ManageStaggeredPayments from '@containers/ManageStaggeredPayments';
 import { PageFlavor } from '@components/Page';
 import {getWrapper, validator} from "@async/member/open-order-details-ap"
 import { apBasePath } from '@paths/ap/_base';
 import { none } from 'fp-ts/lib/Option';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 
 
 export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayments, history => <PageWrapper
@@ -34,5 +34,5 @@ export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayme
 		})
 		.catch(err => Promise.resolve(null));
 	}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 />);

@@ -3,7 +3,7 @@ import * as t from 'io-ts';
 import { validator } from "@async/member-welcome-jp";
 import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
 import FactaArticleRegion from "@facta/FactaArticleRegion";
-import JoomlaReport from "@joomla/JoomlaReport";
+import StandardReport from "@facta/StandardReport";
 import homePageActions from "./HomePageActionsJP";
 import FactaButton from '@facta/FactaButton';
 import { History } from 'history';
@@ -53,7 +53,7 @@ export default class HomePageJP extends React.Component<Props, State> {
 		}))
 
 		const mainTable = <FactaArticleRegion title="My Junior Program Memberships">
-			<JoomlaReport headers={["Name", "Status", "Actions"]} rows={rowData.map(r => [r.name, r.status, r.actions])}/>
+			<StandardReport headers={["Name", "Status", "Actions"]} rows={rowData.map(r => [r.name, r.status, r.actions])}/>
 		</FactaArticleRegion>
 
 		const checkoutButton = (<FactaButton onClick={() => Promise.resolve(this.props.history.push(checkoutPageRoute.getPathFromArgs({})))} text="Checkout" />);

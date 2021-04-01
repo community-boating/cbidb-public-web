@@ -4,7 +4,7 @@ import * as React from "react";
 import { validator } from "@async/member-welcome-ap";
 import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
 import FactaArticleRegion from "@facta/FactaArticleRegion";
-import JoomlaReport from "@joomla/JoomlaReport";
+import StandardReport from "@facta/StandardReport";
 import { History } from 'history';
 import * as moment from 'moment';
 import { checkUpgradedAsValidationErrorArray } from '@util/checkUpgraded';
@@ -39,7 +39,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 		const expirationDate = self.props.data.expirationDate.map(d => moment(d))
 
 		const mainTable = <FactaArticleRegion title="My Membership">
-			<JoomlaReport
+			<StandardReport
 				headers={["Name", "Status", "Actions"]}
 				rows={[[
 					`${self.props.data.firstName} ${self.props.data.lastName}`,

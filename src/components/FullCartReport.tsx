@@ -1,5 +1,5 @@
 import * as React from 'react';
-import JoomlaReport from '@joomla/JoomlaReport';
+import StandardReport from '@facta/StandardReport';
 import { CartItem } from '@async/get-cart-items';
 import Currency from '@util/Currency';
 import {postWrapper as deleteDonation} from "@async/member/delete-donation"
@@ -99,7 +99,7 @@ export default class FullCartReport extends React.PureComponent<Props> {
 			hasAtLeastOneInMem,
 		);
 		
-		return (<JoomlaReport
+		return (<StandardReport
 			headers={
 				(this.props.includeCancel ? ["Cancel"] : [])
 				.concat(hasAtLeastOneInMem ? ["In Memory/Honor Of"] : [])

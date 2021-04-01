@@ -3,7 +3,6 @@ import * as React from "react";
 
 import { getClassInstancesValidator, InstanceInfo } from '@async/junior/get-class-instances';
 import JpClassesAvailTable from "@components/JpClassesAvailTable";
-import Joomla8_4 from "@joomla/Joomla8_4";
 import FactaArticleRegion from "@facta/FactaArticleRegion";
 import { weeksValidator, Week } from '@async/weeks';
 import { Select } from '@components/Select';
@@ -18,6 +17,7 @@ import FactaButton from '@facta/FactaButton';
 import NavBarLogoutOnly from '@components/NavBarLogoutOnly';
 import {classPageRoute} from "@routes/jp/class"
 import { setJPImage } from '@util/set-bg-image';
+import FactaSidebarPage from '@facta/FactaSidebarPage';
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 
@@ -142,7 +142,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		);
 
 		return (
-			<Joomla8_4 setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})} main={allRegions} right={<JpClassSignupSidebar
+			<FactaSidebarPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})} main={allRegions} right={<JpClassSignupSidebar
 				signups={self.props.signups}
 				history={self.props.history}
 				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}
