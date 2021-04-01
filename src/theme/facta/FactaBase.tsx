@@ -270,7 +270,7 @@ export class FactaBody extends React.Component {
 				<div className='page-title'>
 					<div className='ratio'></div>
 					<div className='cover'
-						style={{ backgroundImage: "url(facta/assets/images/IMG_1495-scaled.jpeg)" }}>
+						style={{ backgroundImage: "url(/facta/assets/images/IMG_1495-scaled.jpeg)" }}>
 					</div>
 					<div className='page-title-content'>
 						<div className='container'>
@@ -285,7 +285,7 @@ export class FactaBody extends React.Component {
 				{this.props.children}
 			</main>
 			<footer className="footer">
-				<div className="footer-bg cover" style={{ backgroundImage: "url(images/footer-bg.png)" }}></div>
+				<div className="footer-bg cover" style={{ backgroundImage: "url(/images/footer-bg.png)" }}></div>
 				<div className="container-lg">
 					<div className="row">
 						<div className="col-12 order-lg-1">
