@@ -4,6 +4,7 @@ import asc, { AppStateContainer } from '@app/AppStateContainer';
 import router from "@app/routing";
 import {  none } from 'fp-ts/lib/Option';
 import {apiw as isLoggedInAsMember} from '@async/is-logged-in-as-member';
+import FactaBase from '@facta/FactaBase';
 
 interface Props {
 	history: any
@@ -32,13 +33,18 @@ export default class App extends React.Component<Props> {
 			// not logged in
 		})
 	}
+	componentDidMount() {
+		// Hide everything to avoid content flicker
+		// Page base should unhide when ready
+		document.body.style.display = "none";
+	}
 	render() {
 		const self = this;
 		console.log("in app render")
 		const ret = (
-			<React.Fragment>
+			<FactaBase>
 				{router(self.props.history)}
-			</React.Fragment>
+			</FactaBase>
 		);
 
 		return ret;

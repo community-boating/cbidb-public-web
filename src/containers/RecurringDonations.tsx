@@ -2,7 +2,6 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import Button from "@components/Button";
 import JoomlaArticleRegion from "@joomla/JoomlaArticleRegion";
 import JoomlaMainPage from "@joomla/JoomlaMainPage";
 import { none } from 'fp-ts/lib/Option';

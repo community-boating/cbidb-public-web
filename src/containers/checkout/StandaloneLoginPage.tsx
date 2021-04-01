@@ -6,7 +6,6 @@ import { setCheckoutImage } from "@util/set-bg-image";
 import TextInput from "@components/TextInput";
 import { none, Option } from "fp-ts/lib/Option";
 import formUpdateState from "@util/form-update-state";
-import Button from "@components/Button";
 import {apiw as proveMember} from "@async/prove-member"
 import { makePostString } from "@core/APIWrapperUtil";
 import {JoomlaErrorDiv} from "@joomla/JoomlaErrorDiv";

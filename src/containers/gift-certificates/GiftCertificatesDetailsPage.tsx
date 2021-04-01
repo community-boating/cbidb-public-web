@@ -4,7 +4,6 @@ import {History} from 'history';
 import JoomlaMainPage from '@joomla/JoomlaMainPage';
 import JoomlaArticleRegion from '@joomla/JoomlaArticleRegion';
 import { setCheckoutImage } from '@util/set-bg-image';
-import Button from '@components/Button';
 import {validator as pricesValidator} from "@async/prices"
 import JoomlaReport from '@joomla/JoomlaReport';
 import { MAGIC_NUMBERS } from '@app/magicNumbers';

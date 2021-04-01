@@ -2,11 +2,9 @@ import * as React from "react";
 import { Helmet } from "react-helmet";
 import asc from "@app/AppStateContainer";
 import { logout } from "@async/logout";
-import { Link } from "react-router-dom";
 
 class FactaHelmet extends React.Component {
 	render() {
-		const fileRoot = "/joomsource";
 		return (
 			<React.Fragment>
 				<Helmet>
@@ -80,8 +78,22 @@ class FactaHelmet extends React.Component {
 };
 
 export class FactaBody extends React.Component {
+	componentDidMount() {
+		// Every 20ms, check if we are ready to unhide the content
+		// Check on an animation frame just to be ultra safe
+		const interval = window.setInterval(function() {
+			window.requestAnimationFrame(function() {
+				if (document.readyState === 'complete') {
+					document.body.style.display = "";
+					window.clearInterval(interval);
+				} else {
+					console.log("not ready to show.....")
+				}
+			})
+		}, 20)
+	}
 	render() {
-		return <div id="wholebody">
+		return <div>
 			<noscript>You need to enable JavaScript to run this app.</noscript>
 
 			<header className="header" role="banner">
@@ -219,13 +231,13 @@ export class FactaBody extends React.Component {
 
 									<div className='col-auto'>
 										<div className='nav-item  '>
-											<Link className='nav-item-parent' to='/ap'>Adult Program</Link>
+											<a className='nav-item-parent' href='/ap'>Adult Program</a>
 										</div>
 									</div>
 
 									<div className='col-auto'>
 										<div className='nav-item  '>
-											<Link className='nav-item-parent' to='/jp'>Youth Program</Link>
+											<a className='nav-item-parent' href='/jp'>Youth Program</a>
 										</div>
 									</div>
 

@@ -16,7 +16,6 @@ import {postWrapper as storePaymentMethodAP} from "@async/stripe/store-payment-m
 import {postWrapper as storePaymentMethodJP} from "@async/stripe/store-payment-method-jp"
 import { makePostJSON } from '@core/APIWrapperUtil';
 import JoomlaMainPage from '@joomla/JoomlaMainPage';
-import Button from '@components/Button';
 import {postWrapper as finishOrderAP} from "@async/member/finish-open-order-ap"
 import {postWrapper as finishOrderJP} from "@async/member/finish-open-order-jp"
 import { apBasePath } from '@paths/ap/_base';

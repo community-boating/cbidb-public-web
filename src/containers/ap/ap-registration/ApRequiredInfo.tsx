@@ -23,7 +23,6 @@ import { setAPImage } from '@util/set-bg-image';
 import { makePostJSON } from '@core/APIWrapperUtil';
 import FactaMainPage from '@facta/FactaMainPage';
 import FactaButton from '@facta/FactaButton';
-import JoomlaMainPage from '@joomla/JoomlaMainPage';
 
 type ApiType = t.TypeOf<typeof validator>
 

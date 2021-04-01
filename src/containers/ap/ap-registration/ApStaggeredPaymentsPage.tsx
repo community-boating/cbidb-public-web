@@ -5,7 +5,6 @@ import * as t from 'io-ts';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
-import Button from "@components/Button";
 import FactaArticleRegion from "@facta/FactaArticleRegion";
 import FactaMainPage from "@facta/FactaMainPage";
 import FactaNotitleRegion from "@facta/FactaNotitleRegion";

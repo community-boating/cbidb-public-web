@@ -13,7 +13,6 @@ import {resultValidator as classesValidator} from "@async/member/ap-classes-for-
 import * as _ from 'lodash'
 import getNow from "@util/getNow";
 import { Option, none, some } from "fp-ts/lib/Option";
-import JoomlaHideShowRegion from "@joomla/JoomlaHideShowRegion";
 import { CheckboxGroup } from "@components/InputGroup";
 import formUpdateState from "@util/form-update-state";
 import optionify from "@util/optionify"

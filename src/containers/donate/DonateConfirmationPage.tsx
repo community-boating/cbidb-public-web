@@ -4,7 +4,6 @@ import {History} from 'history';
 import JoomlaMainPage from '@joomla/JoomlaMainPage';
 import JoomlaArticleRegion from '@joomla/JoomlaArticleRegion';
 import { setCheckoutImage } from '@util/set-bg-image';
-import Button from '@components/Button';
 import { CartItem } from '@async/get-cart-items';
 import FullCartReport from '@components/FullCartReport';
 import { PageFlavor } from '@components/Page';

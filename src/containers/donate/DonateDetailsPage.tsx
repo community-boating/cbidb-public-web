@@ -4,7 +4,6 @@ import {History} from 'history';
 import JoomlaMainPage from '@joomla/JoomlaMainPage';
 import JoomlaArticleRegion from '@joomla/JoomlaArticleRegion';
 import { setCheckoutImage } from '@util/set-bg-image';
-import Button from '@components/Button';
 // import { DonationThirdPartyWidget } from '@components/DonationThirdPartyWidget';
 import { none, Option, some } from 'fp-ts/lib/Option';
 import {donationFundValidator} from "@async/donation-funds"

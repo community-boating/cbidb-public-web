@@ -6,7 +6,6 @@ import { History } from 'history';
 import FactaButton from "@facta/FactaButton";
 import TextInput from "@components/TextInput";
 import FactaArticleRegion from "@facta/FactaArticleRegion";
-import JoomlaTwoColumns from "@joomla/JoomlaTwoColumns";
 import formUpdateState from "@util/form-update-state";
 import {FactaErrorDiv} from "@facta/FactaErrorDiv";
 import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
@@ -27,7 +26,6 @@ import { jpPathLogin } from "@paths/jp/login";
 import { apPathLogin } from "@paths/ap/login";
 import { PostURLEncoded } from "@core/APIWrapperUtil";
 // import { apClosedPath } from "@paths/ap/closed";
-import FactaMainPage from "@facta/FactaMainPage";
 import FactaTwoColumns from "@facta/FactaTwoColumns";
 
 export const formDefault = {

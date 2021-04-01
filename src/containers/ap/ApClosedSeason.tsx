@@ -1,5 +1,4 @@
 import * as React from "react";
-import JoomlaMainPage from '@joomla/JoomlaMainPage';
 import { History } from 'history';
 import FactaArticleRegion from '@facta/FactaArticleRegion';
 import { setAPImage } from "@util/set-bg-image";
