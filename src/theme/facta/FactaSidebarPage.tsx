@@ -12,7 +12,7 @@ export default class FactaSidebarPage extends Page<Props> {
 		return <div className="main-single-wrapper">
 			<div className="container">
 				<div className="row">
-					<div className="col-12 col-lg-12 order-lg-2">
+					<div className="col-12 col-lg-8 order-lg-1">
 						<div className="main-single-content">
 
 							<div className="blocks">
@@ -29,8 +29,7 @@ export default class FactaSidebarPage extends Page<Props> {
 
 						</div>
 					</div>
-					<div className="col-12 col-lg-3 order-lg-1 d-lg-block d-none">
-
+					<div className="col-12 col-lg-3 order-lg-2 d-lg-block d-none">
 						<div className="sidebar-item sidebar-item-toc">
 							{this.props.right}
 						</div>
