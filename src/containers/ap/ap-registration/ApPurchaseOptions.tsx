@@ -101,6 +101,12 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 			eligible: this.props.discountsProps.eligibleForMGH,
 			available: true,
 			discountAmt: this.props.discountsProps.mghDiscountAmt
+		}, {
+			id: MAGIC_NUMBERS.DISCOUNT_ID.MA_TEACHERS_ASSN,
+			display: "MA Teachers Association",
+			eligible: this.props.discountsProps.eligibleForTeachersAssn,
+			available: true,
+			discountAmt: this.props.discountsProps.maTeachersAssnAmt
 		}];
 
 		// biggest discoutns first

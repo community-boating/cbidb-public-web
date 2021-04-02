@@ -9,6 +9,7 @@ export const discountsValidator = t.type({
 	eligibleForVeteranOnline: t.boolean,
 	eligibleForStudent: t.boolean,
 	eligibleForMGH: t.boolean,
+	eligibleForTeachersAssn: t.boolean,
 	seniorAvailable: t.boolean,
 	youthAvailable: t.boolean,
 	canRenew: t.boolean,
@@ -18,6 +19,7 @@ export const discountsValidator = t.type({
 	studentDiscountAmt: t.number,
 	veteranDiscountAmt: t.number,
 	mghDiscountAmt: t.number,
+	maTeachersAssnAmt: t.number,
 	fyBasePrice: t.number,
 })
 
