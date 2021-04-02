@@ -27,6 +27,7 @@ import { apPathLogin } from "@paths/ap/login";
 import { PostURLEncoded } from "@core/APIWrapperUtil";
 // import { apClosedPath } from "@paths/ap/closed";
 import FactaSidebarPage from "@facta/FactaSidebarPage";
+import { giftCertificatesPageRoute } from "@routes/gift-certificates";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -170,7 +171,7 @@ export default class LoginPage extends React.Component<Props, State> {
 					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Click here if you are already an adult member but don't yet have an online account.</Link></li>
 					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li>
 					{/* <li><Link to={apClosedPath.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
-					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Click here to purchase a gift certificate.</a></li>
+					<li><Link to={giftCertificatesPageRoute.getPathFromArgs({})}>Click here to purchase a gift certificate.</Link></li>
 					{/* <li><PlaceholderLink>Click here to register as a guest.</PlaceholderLink></li> */}
 				</ul>
 			</FactaArticleRegion>

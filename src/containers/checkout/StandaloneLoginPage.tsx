@@ -39,7 +39,6 @@ export default class StandaloneLoginPage extends React.PureComponent<Props, Stat
 	}
 	componentDidMount() {
 		setCheckoutImage()
-		document.getElementById("rt-showcase").remove()
 	}
 	render() {
 		const self = this;

@@ -6,6 +6,7 @@ import { jpBasePath } from "@paths/jp/_base";
 import { Link } from "react-router-dom";
 import { apCreateAcctRoute } from "@routes/ap/create-acct";
 import FactaMainPage from "@facta/FactaMainPage";
+import { giftCertificatesPageRoute } from "@routes/gift-certificates";
 
 type Props = {
 	history: History<any>
@@ -25,7 +26,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			<br />
 			<ul>
 				<li><Link to={apCreateAcctRoute.getPathFromArgs({})}>I certify that I am purchasing a membership for myself.</Link></li>
-				<li><a href="https://portal2.community-boating.org/ords/f?p=640">I would like to purchase a gift certificate for someone else.</a></li>
+				<li><Link to={giftCertificatesPageRoute.getPathFromArgs({})}>I would like to purchase a gift certificate for someone else.</Link></li>
 				<li><Link to={jpBasePath.getPathFromArgs({})}>I'm in the wrong place! Please take me to Junior Program registration.</Link></li>
 			</ul>
 			</FactaArticleRegion>
