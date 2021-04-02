@@ -316,7 +316,7 @@ export class FactaBody extends React.Component {
 												<strong>Phone</strong> (617) 523-1038
 										</div>
 											<div className="footer-directions">
-												<a href="/about-us/hours-and-directions/"><strong>HOURS &amp; DIRECTIONS</strong></a>
+												<a target="_blank" href="https://www.community-boating.org/about-us/hours-and-directions/"><strong>HOURS &amp; DIRECTIONS</strong></a>
 											</div>
 										</div>
 									</div>
