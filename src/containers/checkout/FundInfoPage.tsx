@@ -12,7 +12,6 @@ export interface Props {
 export default class FundInfoPage extends React.PureComponent<Props> {
 	componentDidMount() {
 		setCheckoutImage()
-		document.getElementById("rt-showcase").remove()
 	}
 	static renderFund(fund: t.TypeOf<typeof donationFundValidator>) {
 		return (<React.Fragment key={fund.fundId}>

@@ -93,7 +93,7 @@ export default class StripeElement extends React.Component<Props> {
 		const self = this;
 		const paymentForm = (
 			<form action="/charge" method="post" id={this.props.formId}>
-				<div className="form-row" style={{border: "1px solid #777", padding: "10px"}}>
+				<div className="stripe-form-row" style={{border: "1px solid #777", padding: "10px"}}>
 					<label htmlFor={self.props.elementId}>
 						Credit or debit card
 					</label>
