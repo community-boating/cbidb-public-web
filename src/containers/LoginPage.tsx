@@ -26,7 +26,7 @@ import { jpPathLogin } from "@paths/jp/login";
 import { apPathLogin } from "@paths/ap/login";
 import { PostURLEncoded } from "@core/APIWrapperUtil";
 // import { apClosedPath } from "@paths/ap/closed";
-import FactaTwoColumns from "@facta/FactaTwoColumns";
+import FactaSidebarPage from "@facta/FactaSidebarPage";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -200,6 +200,7 @@ export default class LoginPage extends React.Component<Props, State> {
 							isPassword={false}
 							value={self.state.formData.username}
 							updateAction={updateState}
+							size={23}
 						/>
 						<FormInput
 							id="password"
@@ -209,6 +210,7 @@ export default class LoginPage extends React.Component<Props, State> {
 							value={self.state.formData.password}
 							updateAction={updateState}
 							onEnter={self.loginFunction}
+							size={23}
 						/>
 						<tr><td></td><td><span>
 							<Link to={forgotPassword}>I forgot my password!</Link>
@@ -242,11 +244,11 @@ export default class LoginPage extends React.Component<Props, State> {
 					leftColumn: <div>
 						{jpWelcomeRegion}
 						{scholarshipRegion}
+						{inPersonRegion}
 					</div>,
 					rightColumn: <div>
 						{jpNewAcctRegion}
 						{loginRegion}
-						{inPersonRegion}
 					</div>
 				};
 			case PageFlavor.AP:
@@ -266,9 +268,9 @@ export default class LoginPage extends React.Component<Props, State> {
 		}());
 
 		return (
-			<FactaTwoColumns setBGImage={setBGImage} left={leftColumn} right={rightColumn}>
+			<FactaSidebarPage setBGImage={setBGImage} main={leftColumn} right={rightColumn}>
 				{errorPopup}
-			</FactaTwoColumns>
+			</FactaSidebarPage>
 		);
 	}
 }

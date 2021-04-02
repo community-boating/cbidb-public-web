@@ -4266,7 +4266,18 @@ img.mfp-img { width: auto; max-width: 100%; height: auto; display: block; line-h
 
 .legal a:hover { color: #fff; }
 
-.sidebar-item { color: #0292BE; font-size: 24px; font-weight: 700; text-transform: uppercase; }
+.sidebar-item {
+  color: #00507D;
+  padding: 0 0 25px 25px;
+  font-size: 16px;
+  /* font-weight: 700;
+  text-transform: uppercase; */
+}
+
+.sidebar-item a {
+  color: #f25151;
+  text-decoration: underline;
+}
 
 .sidebar-item-title { margin: 0 0 8px 0; }
 
