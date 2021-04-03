@@ -4337,7 +4337,17 @@ img.mfp-img { width: auto; max-width: 100%; height: auto; display: block; line-h
 
 .alert-top .alert-subject { height: 100%; color: #fff; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-align: center; -ms-flex-align: center; align-items: center; position: relative; padding: 20px; }
 
-.alert-top .alert-body { height: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-align: center; -ms-flex-align: center; align-items: center; position: relative; padding: 20px; }
+.alert-top .alert-body {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  /* padding: 20px; */
+}
 
 @media (min-width: 992px) { .alert-top .alert-body { padding: 20px 100px 20px 20px; } }
 
