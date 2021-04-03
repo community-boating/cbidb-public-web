@@ -12,8 +12,8 @@ import {FactaErrorDiv} from "@facta/FactaErrorDiv";
 import {apiw as submit} from "@async/update-acct"
 import { PostURLEncoded } from "@core/APIWrapperUtil";
 import FactaMainPage from "@facta/FactaMainPage";
-import { PageFlavor } from "../components/Page";
-import { jpBasePath } from "../app/paths/jp/_base";
+import { PageFlavor } from "@components/Page";
+import { jpBasePath } from "@paths/jp/_base";
 
 type Form = {
 	email: Option<string>,

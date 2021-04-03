@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import {apBasePath} from "@paths/ap/_base"
 import {jpBasePath} from "@paths/jp/_base"
 import { apSettingsPagePath } from "@paths/ap/settings";
-import { jpSettingsPagePath } from ".@paths/jp/settings";
+import { jpSettingsPagePath } from "@paths/jp/settings";
 
 export default (props: {history: History<any>, sysdate: Option<Moment>, showProgramLink: boolean}) => {
 	const pathComponents = props.history.location.pathname.split("/");
