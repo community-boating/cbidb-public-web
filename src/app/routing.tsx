@@ -55,6 +55,7 @@ import { apManageStaggeredPaymentsRoute } from './routes/ap/payments';
 import { jpManageStaggeredPaymentsRoute } from './routes/jp/payments';
 import { giftCertificatesPageRoute } from "../app/routes/gift-certificates"
 import {standaloneLoginRoute} from "../app/routes/common/standalone-signin"
+import { jpSettingsPageRoute } from './routes/jp/settings';
 
 const defaultRouteRender = () => {
 	console.log("uncaught path...", window.location.pathname)
@@ -143,6 +144,7 @@ export default function (history: History<any>) {
 		apRegPageRoute.asRoute(history),
 		apEditPageRoute.asRoute(history),
 		apSettingsPageRoute.asRoute(history),
+		jpSettingsPageRoute.asRoute(history),
 		jpManageStaggeredPaymentsRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),
 		apClassesPageRoute.asRoute(history),
