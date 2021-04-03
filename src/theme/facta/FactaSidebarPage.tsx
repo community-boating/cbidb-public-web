@@ -14,7 +14,7 @@ export default class FactaSidebarPage extends Page<Props> {
 				<div className="row">
 					{this.props.children}
 					<table><tbody><tr>
-						<td width="66%" style={{verticalAlign: "top"}}>
+						<td style={{verticalAlign: "top"}}>
 								<div className="main-single-content">
 
 									<div className="blocks">
@@ -31,7 +31,7 @@ export default class FactaSidebarPage extends Page<Props> {
 
 								</div>
 						</td>	
-						<td style={{verticalAlign: "top"}}>
+						<td width="30%" style={{verticalAlign: "top"}}>
 								<div className="sidebar-item sidebar-item-toc">
 									{this.props.right}
 								</div>
