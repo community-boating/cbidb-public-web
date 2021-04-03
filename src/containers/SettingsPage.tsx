@@ -1,7 +1,7 @@
 import * as React from "react";
 import FactaButton from '@facta/FactaButton';
 import FactaArticleRegion from '@facta/FactaArticleRegion';
-import { setAPImage } from '@util/set-bg-image';
+import { setAPImage, setJPImage } from '@util/set-bg-image';
 import {History} from "history"
 import { Option, none } from "fp-ts/lib/Option";
 import asc from "@app/AppStateContainer";
@@ -12,6 +12,8 @@ import {FactaErrorDiv} from "@facta/FactaErrorDiv";
 import {apiw as submit} from "@async/update-acct"
 import { PostURLEncoded } from "@core/APIWrapperUtil";
 import FactaMainPage from "@facta/FactaMainPage";
+import { PageFlavor } from "../components/Page";
+import { jpBasePath } from "../app/paths/jp/_base";
 
 type Form = {
 	email: Option<string>,
@@ -21,7 +23,8 @@ type Form = {
 }
 
 type Props = {
-	history: History<any>
+	history: History<any>,
+	pageFlavor: PageFlavor,
 }
 
 type State = {
@@ -31,7 +34,7 @@ type State = {
 
 class FormInput extends TextInput<Form> {}
 
-export default class ApSettingsPage extends React.PureComponent<Props, State> {
+export default class SettingsPage extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
@@ -66,8 +69,14 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
+		const returnRoute = (
+			this.props.pageFlavor == PageFlavor.JP
+			? jpBasePath.getPathFromArgs({})
+			: apBasePath.getPathFromArgs({})
+		);
+
 		const doSubmit = () => {
-			const validationResults = ApSettingsPage.validate(this.state);
+			const validationResults = SettingsPage.validate(this.state);
 			if (validationResults.length > 0) {
 				self.setState({
 					...self.state,
@@ -86,7 +95,7 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 						if (email.length > 0) {
 							asc.updateState.login.setLoggedIn(email);
 						}
-						self.props.history.push(apBasePath.getPathFromArgs({}));
+						self.props.history.push(returnRoute);
 					} else {
 						window.scrollTo(0, 0);
 						self.setState({
@@ -99,7 +108,7 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 		}
 
 		const buttons = <div>
-			<FactaButton text="< Cancel" onClick={() => Promise.resolve(this.props.history.push(apBasePath.getPathFromArgs({})))}/>
+			<FactaButton text="< Cancel" onClick={() => Promise.resolve(this.props.history.push(returnRoute))}/>
 			<FactaButton text="Apply Changes" onClick={doSubmit} spinnerOnClick/>
 		</div>
 
@@ -109,7 +118,13 @@ export default class ApSettingsPage extends React.PureComponent<Props, State> {
 			: ""
 		);
 
-		return <FactaMainPage setBGImage={setAPImage}>
+		const setBgImage = (
+			this.props.pageFlavor == PageFlavor.JP
+			? setJPImage
+			: setAPImage
+		);
+
+		return <FactaMainPage setBGImage={setBgImage}>
 		{errorPopup}
 			<FactaArticleRegion title="Edit Account Info" buttons={buttons}>
 				<table><tbody>

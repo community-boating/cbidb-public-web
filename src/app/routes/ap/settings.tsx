@@ -2,13 +2,14 @@ import * as React from 'react';
 import RouteWrapper from "@core/RouteWrapper";
 import PageWrapper from '@core/PageWrapper';
 import { apSettingsPagePath } from '@paths/ap/settings';
-import ApSettingsPage from '@containers/ap/ApSettingsPage';
+import SettingsPage from '@containers/SettingsPage';
 
 export const apSettingsPageRoute = new RouteWrapper(true, apSettingsPagePath, history => <PageWrapper
-	key="StartClaimAcct"
+	key="APSettingsPage"
 	history={history}
-	component={(urlProps: {}, async: any) => <ApSettingsPage
+	component={(urlProps: {}, async: any) => <SettingsPage
 		history={history}
+		pageFlavor={PageFlavor.AP}
 	/>}
 	urlProps={{}}
 />);
