@@ -45,7 +45,7 @@ export default class OffseasonClassesStandalone extends React.Component<Props, S
 		}
 
 		const classes = <FactaArticleRegion title="Available Classes">
-			{asDivOptionalSignupLink(false)(self.props.personId)(raceTeam22Seats)}
+			{asDivOptionalSignupLink(false)(self.props.history, self.props.personId)(raceTeam22Seats)}
 		</FactaArticleRegion>;
 
 		const main = <React.Fragment>

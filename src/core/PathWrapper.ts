@@ -32,11 +32,20 @@ export default class PathWrapper<T extends StringObject> {
 		return new PathWrapper<T & T_NewProps>(this.path + '/' + PathWrapper.removeLeadingTrailingSlashes(subPath))
 	}
 
-	getPathFromArgs(args: T): string {
+	getPathFromArgs(args: T, query?: object): string {
 		const keys = Object.keys(args);
-		return keys.reduce((path, key) => {
+		const ret = keys.reduce((path, key) => {
 			const regex = new RegExp(':' + key, 'g');
 			return path.replace(regex, args[key]);
 		}, this.path);
+		const queryObj: any = query || {};
+		const queryKeys: string[] = Object.keys(queryObj);
+		if (queryKeys.length > 0) {
+			return ret + "?" + queryKeys.map(key => {
+				return key + "=" + String(queryObj[key]);
+			}).join("&");
+		} else {
+			return ret;
+		}
 	}
 }

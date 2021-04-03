@@ -73,7 +73,7 @@ export default abstract class Button extends React.PureComponent<PropsForSubclas
 		const spinner = <td style={{paddingLeft: "4px"}}>
 			<img height="17px" style={{height: "17px", marginTop: "-3px", verticalAlign: "middle"}} src="/images/spinner-white.gif" />
 		</td>;
-		const maybeSpinner = this.props.forceSpinner || (this.state.clicked && this.props.spinnerOnClick) ? spinner : "";
+		const maybeSpinner = this.props.forceSpinner || (this.state.clicked && this.props.spinnerOnClick) ? spinner : null;
 		const contents = <table><tbody><tr><td>{this.props.text}</td>{maybeSpinner}</tr></tbody></table>
 		return this.props.container(this.buttonOnClick.bind(this), contents);
 	}

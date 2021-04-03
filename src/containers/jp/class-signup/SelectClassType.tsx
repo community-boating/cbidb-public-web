@@ -14,10 +14,11 @@ import { History } from 'history'
 import FactaButton from '@facta/FactaButton';
 import {FactaErrorDiv} from '@facta/FactaErrorDiv';
 import NavBarLogoutOnly from '@components/NavBarLogoutOnly';
-import { none } from 'fp-ts/lib/Option';
+import { none, Option } from 'fp-ts/lib/Option';
 import { setJPImage } from '@util/set-bg-image';
 import { jpBasePath } from '@paths/jp/_base';
 import FactaSidebarPage from '@facta/FactaSidebarPage';
+import { FactaSuccessDiv } from '@facta/FactaSuccessDiv';
 
 export const path = "/class/:personId"
 
@@ -44,7 +45,8 @@ interface Props {
 	personId: number,
 	history: History<any>,
 	apiResultArray: APIResult,
-	signups: GetSignupsAPIResult
+	signups: GetSignupsAPIResult,
+	successMsg: Option<string>
 }
 
 type State = {
@@ -62,8 +64,8 @@ export default class SelectClassType extends React.Component<Props, State> {
 	}
 	render() {
 		const self = this;
-		const asFragmentCurried = asFragment(self.props.personId)
-		const asDivCurried = asDiv(self.props.personId)
+		const asFragmentCurried = asFragment(self.props.history, self.props.personId)
+		const asDivCurried = asDiv(self.props.history, self.props.personId)
 		const canSeeClass = (c: ClassType) => !!this.formData.classTypesHash[String(c.typeId)];
 
 		const beginnerRegion = (canSeeClass(beginner)
@@ -110,6 +112,8 @@ export default class SelectClassType extends React.Component<Props, State> {
 			: ""
 		);
 
+		const success = this.props.successMsg.map(msg => <FactaSuccessDiv msg={msg} />).getOrElse(null);
+
 		const allRegions = (
 			<React.Fragment>
 				{errorPopup}
@@ -127,7 +131,9 @@ export default class SelectClassType extends React.Component<Props, State> {
 				signups={self.props.signups}
 				history={self.props.history}
 				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}
-			/>} />
+			/>}>
+				{success}
+			</FactaSidebarPage>
 		)
 	}
 }
