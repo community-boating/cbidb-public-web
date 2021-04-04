@@ -122,14 +122,15 @@ export default class LoginPage extends React.Component<Props, State> {
 		const apWelcomeRegion = (
 			<FactaArticleRegion title={<span><b>Welcome to CBI Membership Online! </b><br /> Adult Program Self Service Portal</span>}>
 				<div>
-				<a href="https://www.community-boating.org" target="_blank">Click here for our Main Website:www.community-boating.org</a>
+				<a href="https://www.community-boating.org" target="_blank">Click here for our main website: www.community-boating.org</a>
 				<br />
+				If you are new to Community Boating and would like to purchase a membership now, <b>click on the first option</b> to the right.
+				Once your account is complete you can return here to signup for classes and view your progression throughout the summer.<br />
 				<br />
 				If you have already purchased a membership in person, either this year or last year,
-				please <b>click on the first option</b> to the right and you will be prompted to create a password and update your personal information.<br />
+				please <b>click on the second option</b> to the right and you will be prompted to create a password and update your personal information.<br />
 				<br />
-				If you are new to Community Boating and would like to purchase a membership now, <b>click on the second option</b> to the right.
-				Once your account is complete you can return here to signup for classes and view your progression throughout the summer.<br />
+				If you want to give the gift of membership, <b>click on the third option</b> to the right.
 				<br />
 				If you want to register as a guest so you can go sailing with a CBI member, click on the fourth option to the right to skip the line at the Front Desk and get your guest card right away!<br />
 				<br />

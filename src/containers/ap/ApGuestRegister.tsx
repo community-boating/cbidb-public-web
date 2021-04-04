@@ -88,8 +88,10 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				<br />
 				At the end of registration you will have the option to print your ticket, receive an email ticket or a text code to use at the boathouse.
 				<br />
-				<table><tbody>
-					Guest Information
+				<table id="info" width="100%"><tbody>
+					<th>Guest Information</th>
+					<tr>
+						<td>
 					<FormInput
 						id="firstName"
 						label="First Name"
@@ -98,6 +100,8 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						value={self.state.formData.firstName}
 						updateAction={updateState}
 					/>
+					</td>
+					<td>
 					<FormInput
 						id="lastName"
 						label="Last Name"
@@ -106,14 +110,21 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						value={self.state.formData.lastName}
 						updateAction={updateState}
 					/>
-					<FormInput
-						id="email"
-						label="Email"
+					</td>
+					</tr>
+					<tr>
+						<td>
+						<FormInput
+						id="dob"
+						label="Birthday"
 						isPassword={false}
 						isRequired
-						value={self.state.formData.email}
+						value={self.state.formData.dob}
+						appendToElementCell={<span style={{ color: "#777", fontSize: "0.8em" }}>  (MM/DD/YYYY)</span>}
 						updateAction={updateState}
 					/>
+					</td>
+					<td>
 					<FormInput
 						id="phone"
 						label="Phone Number"
@@ -123,16 +134,73 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						appendToElementCell={<span style={{ color: "#777", fontSize: "0.8em" }}>  (No International Phone Numbers Please)</span>}
 						updateAction={updateState}
 					/>
-					<FormInput
-						id="dob"
-						label="Birthday"
+					</td>
+					</tr>
+					<tr>
+						<td>
+						<FormInput
+						id="email"
+						label="Email"
 						isPassword={false}
 						isRequired
-						value={self.state.formData.dob}
-						appendToElementCell={<span style={{ color: "#777", fontSize: "0.8em" }}>  (MM/DD/YYYY)</span>}
+						value={self.state.formData.email}
+						updateAction={updateState}
+					/>
+					</td>
+					<td>
+						<p>opt out</p>
+						</td>
+						</tr>
+					<th>Emergency Contact Information</th>
+					<tr>This should be someone close to you who is not going on the water with you.</tr>
+					<tr>For under 18 guests this should be a parent or guardian.</tr>
+					<tr>
+						<td>
+					<FormInput
+						id="ecFirstName"
+						label="First Name"
+						isPassword={false}
+						isRequired
+						value={self.state.formData.ecFirstName}
+						updateAction={updateState}
+					/>
+					</td>
+					<td>
+					<FormInput
+						id="ecLastName"
+						label="Last Name"
+						isPassword={false}
+						isRequired
+						value={self.state.formData.ecLastName}
+						updateAction={updateState}
+					/>
+					</td>
+					</tr>
+					<tr>
+						<td>
+						<FormInput
+						id="ecRelationship"
+						label="Relationship"
+						isPassword={false}
+						isRequired
+						value={self.state.formData.ecRelationship}
+						updateAction={updateState}
+					/>
+					</td>
+					<td>
+					<FormInput
+						id="ecPhone"
+						label="Phone Number"
+						isPassword={false}
+						isRequired
+						value={self.state.formData.ecPhone}
+						appendToElementCell={<span style={{ color: "#777", fontSize: "0.8em" }}>  (No International Phone Numbers Please)</span>}
 						updateAction={updateState}
 						//extraCells={nextButton}
+						onEnter={doRegister}
 					/>
+					</td>
+					</tr>
 				</tbody></table>
 </div>
 				<div id="adultwaiver">
@@ -145,51 +213,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				<iframe title="Waiver of Liability" src="../../../waivers/live/Under18GuestWaiver.html" width="100%" height="550px"></iframe>
 				<table><tbody>
 					AGREE BUTTON
-				</tbody></table>
-</div>
-<div id="ecinfo">
-				<b>Emergency Contact Information</b>
-				<br />
-					This should be someone close to you who is not going on the water with you.
-				<br />
-					For under 18 guests this should be a parent or guardian.
-				<br />	
-				<table><tbody>
-					<FormInput
-						id="ecFirstName"
-						label="First Name"
-						isPassword={false}
-						isRequired
-						value={self.state.formData.ecFirstName}
-						updateAction={updateState}
-					/>
-					<FormInput
-						id="ecLastName"
-						label="Last Name"
-						isPassword={false}
-						isRequired
-						value={self.state.formData.ecLastName}
-						updateAction={updateState}
-					/>
-					<FormInput
-						id="ecPhone"
-						label="Phone Number"
-						isPassword={false}
-						isRequired
-						value={self.state.formData.ecPhone}
-						appendToElementCell={<span style={{ color: "#777", fontSize: "0.8em" }}>  (No International Phone Numbers Please)</span>}
-						updateAction={updateState}
-					/>
-					<FormInput
-						id="ecRelationship"
-						label="Relationship"
-						isPassword={false}
-						isRequired
-						value={self.state.formData.ecRelationship}
-						updateAction={updateState}
-						onEnter={doRegister}
-						//extraCells={nextButton}
-					/>
 				</tbody></table>
 </div>
 			</FactaArticleRegion>
