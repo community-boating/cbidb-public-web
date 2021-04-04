@@ -3,6 +3,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import { History } from 'history';
 
+<<<<<<< HEAD
 import FactaButton from "../theme/facta/FactaButton";
 import TextInput from "../components/TextInput";
 import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
@@ -30,6 +31,34 @@ import { PostURLEncoded } from "../core/APIWrapperUtil";
 // import { apClosedPath } from "../app/paths/ap/closed";
 import FactaMainPage from "../theme/facta/FactaMainPage";
 import FactaTwoColumns from "../theme/facta/FactaTwoColumns";
+=======
+import FactaButton from "@facta/FactaButton";
+import TextInput from "@components/TextInput";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import formUpdateState from "@util/form-update-state";
+import {FactaErrorDiv} from "@facta/FactaErrorDiv";
+import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
+import { checkUpgradedAsValidationErrorArray } from "@util/checkUpgraded";
+import Currency from "@util/Currency";
+import { jpForgotPasswordPageRoute } from "@routes/jp/forgot-pw";
+import { apForgotPasswordPageRoute } from "@routes/ap/forgot-pw";
+import { setJPImage, setAPImage } from "@util/set-bg-image";
+import { PageFlavor } from "@components/Page";
+import { apPreRegRoute } from "@routes/ap/prereg";
+import { apGuestRegRoute } from "../app/routes/ap/guest-reg";
+import { jpClosedCovidPageRoute } from "@routes/jp/closed";
+import { apPathStartClaimAcct } from "@paths/ap/start-claim-acct";
+import { jpPathReserve } from "@paths/jp/reserve";
+import asc from "@app/AppStateContainer";
+import { jpBasePath } from "@paths/jp/_base";
+import { apBasePath } from "@paths/ap/_base";
+import { jpPathLogin } from "@paths/jp/login";
+import { apPathLogin } from "@paths/ap/login";
+import { PostURLEncoded } from "@core/APIWrapperUtil";
+// import { apClosedPath } from "@paths/ap/closed";
+import FactaSidebarPage from "@facta/FactaSidebarPage";
+import { giftCertificatesPageRoute } from "@routes/gift-certificates";
+>>>>>>> release/facta
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -102,7 +131,7 @@ export default class LoginPage extends React.Component<Props, State> {
 	render() {
 		const self = this;
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
-		const loginButton = (<FactaButton small key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={this.loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
+		const loginButton = (<FactaButton key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={this.loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
 		
 		// left column 
 
@@ -173,8 +202,13 @@ export default class LoginPage extends React.Component<Props, State> {
 					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Become an adult program member.</Link></li>
 					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Activate my online account.</Link></li>
 					{/* <li><Link to={apClosedPath.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
+<<<<<<< HEAD
 					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Purchase a gift certificate.</a></li>
 					<li><Link to={apGuestRegRoute.getPathFromArgs({})}>Register as a guest.</Link></li>
+=======
+					<li><Link to={giftCertificatesPageRoute.getPathFromArgs({})}>Click here to purchase a gift certificate.</Link></li>
+					{/* <li><PlaceholderLink>Click here to register as a guest.</PlaceholderLink></li> */}
+>>>>>>> release/facta
 				</ul>
 			</FactaArticleRegion>
 		);
@@ -203,6 +237,7 @@ export default class LoginPage extends React.Component<Props, State> {
 							isPassword={false}
 							value={self.state.formData.username}
 							updateAction={updateState}
+							size={23}
 						/>
 						<FormInput
 							id="password"
@@ -212,6 +247,7 @@ export default class LoginPage extends React.Component<Props, State> {
 							value={self.state.formData.password}
 							updateAction={updateState}
 							onEnter={self.loginFunction}
+							size={23}
 						/>
 						<tr><td></td><td><span>
 							<Link to={forgotPassword}>I forgot my password!</Link>
@@ -245,11 +281,11 @@ export default class LoginPage extends React.Component<Props, State> {
 					leftColumn: <div>
 						{jpWelcomeRegion}
 						{scholarshipRegion}
+						{inPersonRegion}
 					</div>,
 					rightColumn: <div>
 						{jpNewAcctRegion}
 						{loginRegion}
-						{inPersonRegion}
 					</div>
 				};
 			case PageFlavor.AP:
@@ -269,9 +305,9 @@ export default class LoginPage extends React.Component<Props, State> {
 		}());
 
 		return (
-			<FactaTwoColumns setBGImage={setBGImage} left={leftColumn} right={rightColumn}>
+			<FactaSidebarPage setBGImage={setBGImage} main={leftColumn} right={rightColumn}>
 				{errorPopup}
-			</FactaTwoColumns>
+			</FactaSidebarPage>
 		);
 	}
 }
