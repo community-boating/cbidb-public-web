@@ -1,13 +1,13 @@
 import * as React from 'react';
-import RouteWrapper from "../../../core/RouteWrapper";
-import { apPathAddons } from '../../paths/ap/addons';
-import AddonsWizard from '../../../containers/ap/AddonsWizard';
-import PageWrapper from '../../../core/PageWrapper';
-import { setAPImage } from '../../../util/set-bg-image';
-import { apiw as welcomeAPI } from "../../../async/member-welcome-ap";
-import { getNoGP, getNoDW } from '../../../containers/ap/HomePageActionsAP';
-import { apBasePath } from '../../paths/ap/_base';
-import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
+import RouteWrapper from "@core/RouteWrapper";
+import { apPathAddons } from '@paths/ap/addons';
+import AddonsWizard from '@containers/ap/AddonsWizard';
+import PageWrapper from '@core/PageWrapper';
+import { setAPImage } from '@util/set-bg-image';
+import { apiw as welcomeAPI } from "@async/member-welcome-ap";
+import { getNoGP, getNoDW } from '@containers/ap/HomePageActionsAP';
+import { apBasePath } from '@paths/ap/_base';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 
 type AddonsProps = {
 	noGP: boolean,

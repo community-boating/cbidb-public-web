@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { Option, none } from 'fp-ts/lib/Option';
-import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
-import TextArea from "../../../components/TextArea";
-import formUpdateState from '../../../util/form-update-state';
-import FactaButton from '../../../theme/facta/FactaButton';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import TextArea from "@components/TextArea";
+import formUpdateState from '@util/form-update-state';
+import FactaButton from '@facta/FactaButton';
 import { History } from 'history';
-import { postWrapper as saveNote } from "../../../async/junior/signup-note-proto"
-import { makePostJSON } from '../../../core/APIWrapperUtil';
-import { PreRegistration } from '../../../app/global-state/jp-pre-registrations';
-import {reservePageRoute} from "../../../app/routes/jp/reserve"
-import { setJPImage } from '../../../util/set-bg-image';
-import FactaMainPage from '../../../theme/facta/FactaMainPage';
+import { postWrapper as saveNote } from "@async/junior/signup-note-proto"
+import { makePostJSON } from '@core/APIWrapperUtil';
+import { PreRegistration } from '@app/global-state/jp-pre-registrations';
+import {reservePageRoute} from "@routes/jp/reserve"
+import { setJPImage } from '@util/set-bg-image';
+import FactaMainPage from '@facta/FactaMainPage';
 
 type Props = {
 	history: History<any>,

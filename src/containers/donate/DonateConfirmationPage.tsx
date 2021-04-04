@@ -1,24 +1,23 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import { setCheckoutImage } from '../../util/set-bg-image';
-import Button from '../../components/Button';
-import { CartItem } from '../../async/get-cart-items';
-import FullCartReport from '../../components/FullCartReport';
-import { PageFlavor } from '../../components/Page';
-import { orderStatusValidator } from "../../async/order-status"
-import { postWrapper as submitPayment } from "../../async/stripe/submit-payment-standalone"
-import { makePostJSON, makePostString } from '../../core/APIWrapperUtil';
-import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
-import StripeConfirm from '../../components/StripeConfirm';
-import { postWrapper as clearCard } from '../../async/stripe/clear-card'
-import StripeElement from '../../components/StripeElement';
-import { postWrapper as storeToken } from "../../async/stripe/store-token"
-import { TokensResult } from '../../models/stripe/tokens';
-import JoomlaButton from '../../theme/joomla/JoomlaButton';
-import PlainButton from '../../components/PlainButton';
+import { setCheckoutImage } from '@util/set-bg-image';
+import { CartItem } from '@async/get-cart-items';
+import FullCartReport from '@components/FullCartReport';
+import { PageFlavor } from '@components/Page';
+import { orderStatusValidator } from "@async/order-status"
+import { postWrapper as submitPayment } from "@async/stripe/submit-payment-standalone"
+import { makePostJSON, makePostString } from '@core/APIWrapperUtil';
+import StripeConfirm from '@components/StripeConfirm';
+import { postWrapper as clearCard } from '@async/stripe/clear-card'
+import StripeElement from '@components/StripeElement';
+import { postWrapper as storeToken } from "@async/stripe/store-token"
+import { TokensResult } from '@models/stripe/tokens';
+import PlainButton from '@components/PlainButton';
+import FactaMainPage from '@facta/FactaMainPage';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import { FactaErrorDiv } from '@facta/FactaErrorDiv';
+import FactaButton from '@facta/FactaButton';
 
 type Props = {
 	goNext: () => Promise<void>,
@@ -45,7 +44,7 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
@@ -53,8 +52,8 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 			<StripeConfirm
 				cardData={cd}
 			/>
-			<JoomlaButton text="< Back" onClick={this.props.goPrev}/>
-			<JoomlaButton text="Submit Donation" spinnerOnClick onClick={() => {
+			<FactaButton text="< Back" onClick={this.props.goPrev}/>
+			<FactaButton text="Submit Donation" spinnerOnClick onClick={() => {
 				self.setState({
 					...self.state,
 					validationErrors: []
@@ -119,13 +118,13 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 			elementId="card-element"
 			cardErrorsId="card-errors"
 			then={processToken}
-			additionalButtons={<JoomlaButton text="< Back" onClick={this.props.goPrev}/>}
+			additionalButtons={<FactaButton text="< Back" onClick={this.props.goPrev}/>}
 		/>;
 
 		return (
-			<JoomlaMainPage setBGImage={setCheckoutImage}>
+			<FactaMainPage setBGImage={setCheckoutImage}>
 				{errorPopup}
-				<JoomlaArticleRegion title={"Donation Summary"}>
+				<FactaArticleRegion title={"Donation Summary"}>
 					<FullCartReport
 						cartItems={this.props.cartItems}
 						history={this.props.history}
@@ -135,14 +134,14 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 						pageFlavor={PageFlavor.DONATE}
 					/>
 					<br />
-				</JoomlaArticleRegion>
-				<JoomlaArticleRegion title={"Your Billing Info"}>
+				</FactaArticleRegion>
+				<FactaArticleRegion title={"Your Billing Info"}>
 					{paymentTextOrResetLink}
 					<br />
 					<br />
 					{confirm.getOrElse(stripeElement)}
-				</JoomlaArticleRegion>
-			</JoomlaMainPage>
+				</FactaArticleRegion>
+			</FactaMainPage>
 		)
 	}
 }

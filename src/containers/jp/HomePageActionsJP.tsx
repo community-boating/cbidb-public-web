@@ -1,18 +1,18 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom';
 
-import { postWrapper as abortRegistration } from "../../async/junior/abort-mem-reg"
-import { makePostJSON } from '../../core/APIWrapperUtil';
+import { postWrapper as abortRegistration } from "@async/junior/abort-mem-reg"
+import { makePostJSON } from '@core/APIWrapperUtil';
 import { History } from 'history';
-import {ratingsPageRoute} from '../../app/routes/jp/ratings'
-// import {classPageRoute} from '../../app/routes/jp/class'
-import {regPageRoute} from '../../app/routes/jp/reg'
-import {editPageRoute} from "../../app/routes/jp/edit"
-import {postWrapper as offseasonWLDelete} from "../../async/junior/offseason-wl-delete"
-import {offseasonPageRoute} from "../../app/routes/jp/offseason"
-import { jpBasePath } from '../../app/paths/jp/_base';
-import { classPageRoute } from '../../app/routes/jp/class';
-import { jpManageStaggeredPaymentsRoute } from '../../app/routes/jp/payments';
+import {ratingsPageRoute} from '@routes/jp/ratings'
+// import {classPageRoute} from '@routes/jp/class'
+import {regPageRoute} from '@routes/jp/reg'
+import {editPageRoute} from "@routes/jp/edit"
+import {postWrapper as offseasonWLDelete} from "@async/junior/offseason-wl-delete"
+import {offseasonPageRoute} from "@routes/jp/offseason"
+import { jpBasePath } from '@paths/jp/_base';
+import { classPageRoute } from '@routes/jp/class';
+import { jpManageStaggeredPaymentsRoute } from '@routes/jp/payments';
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)

@@ -3,18 +3,18 @@ import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { postWrapper, validator } from "../../../async/junior/emerg-contact";
-import FactaButton from "../../../theme/facta/FactaButton";
-import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "../../../components/PhoneTriBox";
-import TextInput from "../../../components/TextInput";
-import { makePostJSON } from "../../../core/APIWrapperUtil";
-import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
-import formUpdateState from '../../../util/form-update-state';
-import {FactaErrorDiv} from "../../../theme/facta/FactaErrorDiv";
-import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
-import { setJPImage } from "../../../util/set-bg-image";
-import FactaMainPage from "../../../theme/facta/FactaMainPage";
+import { postWrapper, validator } from "@async/junior/emerg-contact";
+import FactaButton from "@facta/FactaButton";
+import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "@components/PhoneTriBox";
+import TextInput from "@components/TextInput";
+import { makePostJSON } from "@core/APIWrapperUtil";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import FactaNotitleRegion from "@facta/FactaNotitleRegion";
+import formUpdateState from '@util/form-update-state';
+import {FactaErrorDiv} from "@facta/FactaErrorDiv";
+import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
+import { setJPImage } from "@util/set-bg-image";
+import FactaMainPage from "@facta/FactaMainPage";
 
 type ApiType = t.TypeOf<typeof validator>
 

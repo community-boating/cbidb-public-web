@@ -1,10 +1,10 @@
 import * as React from 'react';
-import PageWrapper from "../../core/PageWrapper";
-import RouteWrapper from "../../core/RouteWrapper";
-import { setCheckoutImage } from '../../util/set-bg-image';
-import JoomlaLoadingPage from '../../theme/joomla/JoomlaLoadingPage';
-import DonateWizard from '../../containers/donate/DonateWizard';
-import { donatePath } from '../paths/donate';
+import PageWrapper from "@core/PageWrapper";
+import RouteWrapper from "@core/RouteWrapper";
+import { setCheckoutImage } from '@util/set-bg-image';
+import DonateWizard from '@containers/donate/DonateWizard';
+import { donatePath } from '@paths/donate';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 
 export const donatePageRoute = new RouteWrapper(false, donatePath, history => <PageWrapper
 	key="donate"
@@ -13,5 +13,5 @@ export const donatePageRoute = new RouteWrapper(false, donatePath, history => <P
 		history={history}
 	/>}
 	urlProps={{}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setCheckoutImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 />);

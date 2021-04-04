@@ -19,7 +19,7 @@ import { jpForgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
 import { jpResetPasswordPageRoute } from './routes/jp/reset-pw';
 import { jpHomePageRoute } from './routes/jp/_base';
 import { apHomePageRoute } from './routes/ap/_base';
-import PathWrapper from '../core/PathWrapper';
+import PathWrapper from '@core/PathWrapper';
 import { offseasonPageRoute } from './routes/jp/offseason'
 import { apRegPageRoute } from './routes/ap/reg';
 import { apEditPageRoute } from './routes/ap/edit';
@@ -30,7 +30,7 @@ import { apCreateAcctRoute } from './routes/ap/create-acct';
 import { apForgotPasswordPageRoute } from './routes/ap/forgot-pw';
 import { apForgotPasswordSentPageRoute } from './routes/ap/forgot-pw-sent';
 import { apResetPasswordPageRoute } from './routes/ap/reset-pw';
-import { assertUniqueKeys } from '../util/assertUniqueKeys';
+import { assertUniqueKeys } from '@util/assertUniqueKeys';
 import { jpClosedCovidPageRoute } from './routes/jp/closed';
 import { apStartClaimAcctPageRoute } from './routes/ap/start-claim-acct';
 import { apClaimAcctSentPageRoute } from './routes/ap/claim-acct-sent';
@@ -46,19 +46,20 @@ import { apBasePath } from './paths/ap/_base';
 import { apPathLogin } from './paths/ap/login';
 import { jpPathLogin } from './paths/jp/login';
 import { jpBasePath } from './paths/jp/_base';
-import LoginRoute from "../app/routes/common/login";
-import { PageFlavor } from '../components/Page';
+import LoginRoute from "@routes/common/login";
+import { PageFlavor } from '@components/Page';
 import { apAddonsPageRoute } from './routes/ap/addons';
 // import { apDonateRoute } from './routes/ap/donate';
 import { apClosedPageRoute } from './routes/ap/closed';
-import { donatePageRoute } from "../app/routes/donate"
+import { donatePageRoute } from "@routes/donate"
 import { apManageStaggeredPaymentsRoute } from './routes/ap/payments';
 import { jpManageStaggeredPaymentsRoute } from './routes/jp/payments';
-import { giftCertificatesPageRoute } from "../app/routes/gift-certificates"
-import {standaloneLoginRoute} from "../app/routes/common/standalone-signin"
+import { giftCertificatesPageRoute } from "@routes/gift-certificates"
+import {standaloneLoginRoute} from "@routes/common/standalone-signin"
+import { jpSettingsPageRoute } from '@routes/jp/settings';
 
 const defaultRouteRender = () => {
-	console.log("uncaught path...", window.location.pathname)
+	// console.log("uncaught path...", window.location.pathname)
 	const redirectRegex = /^\/redirect\/(.*)$/;
 	const redirectRegexMatchResult = redirectRegex.exec(window.location.pathname);
 	if (redirectRegexMatchResult) {
@@ -72,11 +73,11 @@ const defaultRouteRender = () => {
 		}());
 		return <Redirect to={'/' + redirectRegexMatchResult[1] + tail} />;
 	} else {
-		console.log("its not a redirect....")
+		// console.log("its not a redirect....")
 		const jpRegex = /^\/jp\/(.*)$/;
 		const jpRegexMatchResult = jpRegex.exec(window.location.pathname);
 		if (jpRegexMatchResult) {
-			console.log("it does have a jp in front and its still nothing.  GIve up")
+			// console.log("it does have a jp in front and its still nothing.  GIve up")
 			const apRegex = /^\/jp\/ap\/(.*)$/;
 			const apRegexMatchResult = apRegex.exec(window.location.pathname);
 			if (apRegexMatchResult) {
@@ -85,7 +86,7 @@ const defaultRouteRender = () => {
 				return <Redirect to={jpPathLogin.getPathFromArgs({})} />;
 			}
 		} else {
-			console.log("... its doesnt have a jp in front, lets try adding one")
+			// console.log("... its doesnt have a jp in front, lets try adding one")
 			// Sentry.captureMessage("Uncaught route " + window.location.pathname)
 			return <Redirect to={'/jp/' + PathWrapper.removeLeadingTrailingSlashes(window.location.pathname)} />;
 		}
@@ -145,6 +146,7 @@ export default function (history: History<any>) {
 		apRegPageRoute.asRoute(history),
 		apEditPageRoute.asRoute(history),
 		apSettingsPageRoute.asRoute(history),
+		jpSettingsPageRoute.asRoute(history),
 		jpManageStaggeredPaymentsRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),
 		apClassesPageRoute.asRoute(history),
@@ -161,8 +163,6 @@ export default function (history: History<any>) {
 	const finalRoute = <Route key="defaultPub" render={defaultRouteRender} />;
 
 	const isLoggedIn = (asc.state.login.authenticatedUserName as Option<string>).isSome();
-
-	console.log("is logged in? ", isLoggedIn)
 
 	const routes = (
 		isLoggedIn

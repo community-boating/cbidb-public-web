@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import { jpPathPayments } from "../../paths/jp/payments";
-import PageWrapper from "../../../core/PageWrapper";
-import RouteWrapper from "../../../core/RouteWrapper";
-import { setJPImage } from '../../../util/set-bg-image';
-import JoomlaLoadingPage from '../../../theme/joomla/JoomlaLoadingPage';
-import ManageStaggeredPayments from '../../../containers/ManageStaggeredPayments';
-import { PageFlavor } from '../../../components/Page';
-import {getWrapper, validator} from "../../../async/member/open-order-details-jp"
+import { jpPathPayments } from "@paths/jp/payments";
+import PageWrapper from "@core/PageWrapper";
+import RouteWrapper from "@core/RouteWrapper";
+import { setJPImage } from '@util/set-bg-image';
+import ManageStaggeredPayments from '@containers/ManageStaggeredPayments';
+import { PageFlavor } from '@components/Page';
+import {getWrapper, validator} from "@async/member/open-order-details-jp"
 import { some } from 'fp-ts/lib/Option';
-import { jpBasePath } from '../../paths/jp/_base';
+import { jpBasePath } from '@paths/jp/_base';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayments, history => <PageWrapper
 	key="jp-payments"
 	history={history}
@@ -26,7 +26,6 @@ export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayme
 		return getWrapper(urlProps.juniorId).send(null)
 		.then(r => {
 			if (r.type != "Success" || r.success.length == 0) {
-				console.log("fail ", r)
 				history.push(jpBasePath.getPathFromArgs({}));
 			} else {
 				return r;
@@ -34,5 +33,5 @@ export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayme
 		})
 		.catch(err => Promise.resolve(null));
 	}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setJPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 />);

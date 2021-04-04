@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
-import { setCheckoutImage } from "../../util/set-bg-image";
-import {donationFundValidator} from "../../async/donation-funds"
-import FactaMainPage from "../../theme/facta/FactaMainPage";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import { setCheckoutImage } from "@util/set-bg-image";
+import {donationFundValidator} from "@async/donation-funds"
+import FactaMainPage from "@facta/FactaMainPage";
 
 export interface Props {
 	donationFunds: t.TypeOf<typeof donationFundValidator>[]
@@ -12,7 +12,6 @@ export interface Props {
 export default class FundInfoPage extends React.PureComponent<Props> {
 	componentDidMount() {
 		setCheckoutImage()
-		document.getElementById("rt-showcase").remove()
 	}
 	static renderFund(fund: t.TypeOf<typeof donationFundValidator>) {
 		return (<React.Fragment key={fund.fundId}>

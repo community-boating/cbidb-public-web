@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { TokensResult } from '../models/stripe/tokens';
-import FactaButton from '../theme/facta/FactaButton';
-import assertNever from '../util/assertNever';
-import { PaymentMethod } from '../models/stripe/PaymentMethod';
+import { TokensResult } from '@models/stripe/tokens';
+import FactaButton from '@facta/FactaButton';
+import assertNever from '@util/assertNever';
+import { PaymentMethod } from '@models/stripe/PaymentMethod';
 
 type Props = {
 	formId: string, 		// "payment-form"
@@ -93,7 +93,7 @@ export default class StripeElement extends React.Component<Props> {
 		const self = this;
 		const paymentForm = (
 			<form action="/charge" method="post" id={this.props.formId}>
-				<div className="form-row" style={{border: "1px solid #777", padding: "10px"}}>
+				<div className="stripe-form-row" style={{border: "1px solid #777", padding: "10px"}}>
 					<label htmlFor={self.props.elementId}>
 						Credit or debit card
 					</label>

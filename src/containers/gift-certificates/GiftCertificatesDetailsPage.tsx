@@ -1,30 +1,29 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import JoomlaMainPage from '../../theme/joomla/JoomlaMainPage';
-import JoomlaArticleRegion from '../../theme/joomla/JoomlaArticleRegion';
-import { setCheckoutImage } from '../../util/set-bg-image';
-import Button from '../../components/Button';
-import {validator as pricesValidator} from "../../async/prices"
-import JoomlaReport from '../../theme/joomla/JoomlaReport';
-import { MAGIC_NUMBERS } from '../../app/magicNumbers';
-import Currency from '../../util/Currency';
+import { setCheckoutImage } from '@util/set-bg-image';
+import {validator as pricesValidator} from "@async/prices"
+import StandardReport from '@facta/StandardReport';
+import { MAGIC_NUMBERS } from '@app/magicNumbers';
+import Currency from '@util/Currency';
 import { none, Option, some } from 'fp-ts/lib/Option';
-import TextInput from '../../components/TextInput';
-import formUpdateState from '../../util/form-update-state';
-import { RadioGroup } from '../../components/InputGroup';
-import { Select } from '../../components/Select';
-import states from '../../lov/states';
-import {postWrapper as setGC} from "../../async/member/gc-purchase"
-import { makePostJSON, PostURLEncoded } from '../../core/APIWrapperUtil';
-import {JoomlaErrorDiv} from '../../theme/joomla/JoomlaErrorDiv';
-import {postWrapper as getProtoPersonCookie} from "../../async/check-proto-person-cookie"
-import {validator as gcValidator} from "../../async/member/gc-purchase"
-import { orderStatusValidator } from "../../async/order-status"
-import newPopWin from "../../util/newPopWin";
-import standaloneLoginPath from "../../app/paths/common/standalone-signin"
-import {apiw as detach} from "../../async/proto-detach-member"
-import JoomlaButton from '../../theme/joomla/JoomlaButton';
+import TextInput from '@components/TextInput';
+import formUpdateState from '@util/form-update-state';
+import { RadioGroup } from '@components/InputGroup';
+import { Select } from '@components/Select';
+import states from '@lov/states';
+import {postWrapper as setGC} from "@async/member/gc-purchase"
+import { makePostJSON, PostURLEncoded } from '@core/APIWrapperUtil';
+import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
+import {validator as gcValidator} from "@async/member/gc-purchase"
+import { orderStatusValidator } from "@async/order-status"
+import newPopWin from "@util/newPopWin";
+import standaloneLoginPath from "@paths/common/standalone-signin"
+import {apiw as detach} from "@async/proto-detach-member"
+import FactaMainPage from '@facta/FactaMainPage';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import FactaButton from '@facta/FactaButton';
+import { FactaErrorDiv } from '@facta/FactaErrorDiv';
 
 type Prices = t.TypeOf<typeof pricesValidator>;
 type GC = t.TypeOf<typeof gcValidator>;
@@ -264,14 +263,14 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <JoomlaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
 
 		return (
-			<JoomlaMainPage setBGImage={setCheckoutImage}>
+			<FactaMainPage setBGImage={setCheckoutImage}>
 				{errorPopup}
-				<JoomlaArticleRegion title={"Purchase a gift certificate to Community Boating!"}>
+				<FactaArticleRegion title={"Purchase a gift certificate to Community Boating!"}>
 					Give your family member or friend the gift of sailing at Community Boating so they can enjoy the great outdoors by sailing,
 					kayaking, paddleboarding, or windsurfing on the Charles River. Gift Certificates can be sold for a given dollar value,
 					which can be used towards Adult Program memberships, merchandise, or additional add-ons. Memberships include classes,
@@ -282,13 +281,13 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 					<br />
 					<table><tbody><tr>
 						<td style={{verticalAlign: "top"}}>
-							<JoomlaReport
+							<StandardReport
 								headers={["Recommended values*:"]}
 								rows={memRows}
 							/>
 						</td>
 						<td style={{verticalAlign: "top", paddingLeft:"20px"}}>
-							<JoomlaReport
+							<StandardReport
 								headers={["Add Ons*:"]}
 								rows={[
 									[this.renderRow("Damage Waiver", Currency.dollars(this.props.prices.damageWaiverPrice).format())],
@@ -311,8 +310,8 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 					<br />
 					*The recommended values are based off of this season's membership pricing.
 					These values are subject to change on a seasonal basis and the difference will be due at the time of redemption.
-				</JoomlaArticleRegion>
-				<JoomlaArticleRegion title="Certificate Amount">
+				</FactaArticleRegion>
+				<FactaArticleRegion title="Certificate Amount">
 					<table><tbody>
 						<FormInput
 							id="certAmount"
@@ -321,10 +320,10 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 							updateAction={updateState}
 						/>
 					</tbody></table>
-				</JoomlaArticleRegion>
+				</FactaArticleRegion>
 				<table><tbody><tr>
 					<td style={{verticalAlign: "top"}}>
-						<JoomlaArticleRegion title="Purchaser Information">
+						<FactaArticleRegion title="Purchaser Information">
 							{!self.props.orderStatus.authedAsRealPerson
 								? <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
 									If you have an online account already, <a href="#" onClick={() => newPopWin(standaloneLoginPath.getPathFromArgs({}), 1100, 800)}>
@@ -368,10 +367,10 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 									disabled={this.props.orderStatus.authedAsRealPerson}
 								/>
 							</tbody></table>
-						</JoomlaArticleRegion>
+						</FactaArticleRegion>
 					</td>
 					<td style={{paddingLeft: "30px", verticalAlign: "top"}}>
-						<JoomlaArticleRegion title="Recipient Information">
+						<FactaArticleRegion title="Recipient Information">
 							<table><tbody>
 								<FormInput
 									id="recipientNameFirst"
@@ -392,10 +391,10 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 									isRequired
 								/>
 							</tbody></table>
-						</JoomlaArticleRegion>
+						</FactaArticleRegion>
 					</td>
 				</tr></tbody></table>
-				<JoomlaArticleRegion title="Delivery Information">
+				<FactaArticleRegion title="Delivery Information">
 					<table width="100%"><tbody><tr>
 						<td style={{verticalAlign: "top"}}>
 							How would you like your gift certificate to be delivered?
@@ -425,9 +424,9 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 							{this.state.formData.deliveryMethod.getOrElse(null) == GiftCertDeliveryMethod.Mail ? mailFragment : null}
 						</td>
 					</tr></tbody></table>
-				</JoomlaArticleRegion>
-				<JoomlaButton text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)} />
-			</JoomlaMainPage>
+				</FactaArticleRegion>
+				<FactaButton text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)} />
+			</FactaMainPage>
 		)
 	}
 }

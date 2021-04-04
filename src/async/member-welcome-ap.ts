@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
-import APIWrapper from '../core/APIWrapper';
-import { HttpMethod } from "../core/HttpMethod";
-import { OptionalNumber, OptionalString } from '../util/OptionalTypeValidators';
+import APIWrapper from '@core/APIWrapper';
+import { HttpMethod } from "@core/HttpMethod";
+import { OptionalNumber, OptionalString } from '@util/OptionalTypeValidators';
 
 export const discountsValidator = t.type({
 	eligibleForSeniorOnline: t.boolean,
@@ -9,6 +9,7 @@ export const discountsValidator = t.type({
 	eligibleForVeteranOnline: t.boolean,
 	eligibleForStudent: t.boolean,
 	eligibleForMGH: t.boolean,
+	eligibleForTeachersAssn: t.boolean,
 	seniorAvailable: t.boolean,
 	youthAvailable: t.boolean,
 	canRenew: t.boolean,
@@ -18,6 +19,7 @@ export const discountsValidator = t.type({
 	studentDiscountAmt: t.number,
 	veteranDiscountAmt: t.number,
 	mghDiscountAmt: t.number,
+	maTeachersAssnAmt: t.number,
 	fyBasePrice: t.number,
 })
 

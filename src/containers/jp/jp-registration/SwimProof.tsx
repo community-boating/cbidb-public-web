@@ -2,17 +2,17 @@ import { Option, none } from "fp-ts/lib/Option";
 import * as React from "react";
 import { History } from 'history';
 
-import { postWrapper } from "../../../async/junior/swim-proof";
-import FactaButton from "../../../theme/facta/FactaButton";
-import { RadioGroup } from "../../../components/InputGroup";
-import { makePostJSON } from "../../../core/APIWrapperUtil";
-import swimProofValues from "../../../lov/swimProof";
-import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
-import formUpdateState from "../../../util/form-update-state";
-import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
-import { setJPImage } from "../../../util/set-bg-image";
-import FactaMainPage from "../../../theme/facta/FactaMainPage";
+import { postWrapper } from "@async/junior/swim-proof";
+import FactaButton from "@facta/FactaButton";
+import { RadioGroup } from "@components/InputGroup";
+import { makePostJSON } from "@core/APIWrapperUtil";
+import swimProofValues from "@lov/swimProof";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import FactaNotitleRegion from "@facta/FactaNotitleRegion";
+import formUpdateState from "@util/form-update-state";
+import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
+import { setJPImage } from "@util/set-bg-image";
+import FactaMainPage from "@facta/FactaMainPage";
 
 export interface Form {
 	swimProofId: Option<string>

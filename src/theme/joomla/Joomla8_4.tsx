@@ -1,5 +1,5 @@
 import * as React from "react";
-import Page from "../../components/Page";
+import Page from "@components/Page";
 import JoomlaBase from "./JoomlaBase";
 
 interface Joomla8_4Props {

@@ -1,21 +1,21 @@
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { validator } from "../../async/member-welcome-ap";
-import NavBarLogoutOnly from "../../components/NavBarLogoutOnly";
-import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
-import JoomlaReport from "../../theme/joomla/JoomlaReport";
+import { validator } from "@async/member-welcome-ap";
+import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import StandardReport from "@facta/StandardReport";
 import { History } from 'history';
 import * as moment from 'moment';
-import { checkUpgradedAsValidationErrorArray } from '../../util/checkUpgraded';
-import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
+import { checkUpgradedAsValidationErrorArray } from '@util/checkUpgraded';
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
 import { some } from 'fp-ts/lib/Option';
-import { checkoutPageRoute } from '../../app/routes/checkout-ap';
-import { setAPImage } from '../../util/set-bg-image';
+import { checkoutPageRoute } from '@routes/checkout-ap';
+import { setAPImage } from '@util/set-bg-image';
 import homePageActions from "./HomePageActionsAP";
-import Currency from '../../util/Currency';
-import FactaMainPage from '../../theme/facta/FactaMainPage';
-import FactaButton from '../../theme/facta/FactaButton';
+import Currency from '@util/Currency';
+import FactaMainPage from '@facta/FactaMainPage';
+import FactaButton from '@facta/FactaButton';
 
 type Props = {
 	data:  t.TypeOf<typeof validator>,
@@ -39,7 +39,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 		const expirationDate = self.props.data.expirationDate.map(d => moment(d))
 
 		const mainTable = <FactaArticleRegion title="My Membership">
-			<JoomlaReport
+			<StandardReport
 				headers={["Name", "Status", "Actions"]}
 				rows={[[
 					`${self.props.data.firstName} ${self.props.data.lastName}`,

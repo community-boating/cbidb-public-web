@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Moment } from 'moment';
 import * as _ from 'lodash';
-import FactaButton from '../theme/facta/FactaButton';
+import FactaButton from '@facta/FactaButton';
 import * as moment from 'moment';
 
 // TODO: calendar should be instantiated with a way to ask for data in a given date range
@@ -118,7 +118,6 @@ export default class Calendar extends React.PureComponent<Props, State> {
 	}
 
 	componentWillReceiveProps(props: Props) {
-		console.log("in cal ctor: ", props.days.length)
 		this.dayElementsHash = props.days.reduce((hash, day) => {
 			const dayString = Calendar.momentToDayString(day.dayMoment);
 			hash[dayString] = day.elements;
@@ -127,7 +126,6 @@ export default class Calendar extends React.PureComponent<Props, State> {
 	}
 
 	render() {
-		console.log("rendering calendar")
 		const renderedDateArray = Calendar.getDateArrayForMonth(this.state.firstOfFocusedMonth, this.props.monthStartOnDate);
 		const dayHeaders = Calendar.getDayOfWeekNames(renderedDateArray[0]).map((header, i) => <th key={i} className="DayOfWeek">{header}</th>);
 		const currentMonth = this.state.firstOfFocusedMonth.format("MM");

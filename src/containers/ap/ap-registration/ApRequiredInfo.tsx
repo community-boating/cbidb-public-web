@@ -3,27 +3,26 @@ import { History } from 'history';
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { validator, postWrapper } from "../../../async/member/required";
-import DateTriPicker, {  dateStringToComponents, DateTriPickerProps, componentsToDate } from "../../../components/DateTriPicker";
-import PhoneTriBox, { PhoneTriBoxProps, splitPhone, combinePhone } from "../../../components/PhoneTriBox";
-import { Select } from "../../../components/Select";
-import TextArea from "../../../components/TextArea";
-import TextInput from "../../../components/TextInput";
-import countries from "../../../lov/countries";
-import states from "../../../lov/states";
-import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
-import formUpdateState from '../../../util/form-update-state';
-import range from "../../../util/range";
+import { validator, postWrapper } from "@async/member/required";
+import DateTriPicker, {  dateStringToComponents, DateTriPickerProps, componentsToDate } from "@components/DateTriPicker";
+import PhoneTriBox, { PhoneTriBoxProps, splitPhone, combinePhone } from "@components/PhoneTriBox";
+import { Select } from "@components/Select";
+import TextArea from "@components/TextArea";
+import TextInput from "@components/TextInput";
+import countries from "@lov/countries";
+import states from "@lov/states";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import FactaNotitleRegion from "@facta/FactaNotitleRegion";
+import formUpdateState from '@util/form-update-state';
+import range from "@util/range";
 import * as moment from 'moment';
-import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
-import asc from '../../../app/AppStateContainer';
-import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
-import { setAPImage } from '../../../util/set-bg-image';
-import { makePostJSON } from '../../../core/APIWrapperUtil';
-import FactaMainPage from '../../../theme/facta/FactaMainPage';
-import FactaButton from '../../../theme/facta/FactaButton';
-import JoomlaMainPage from '../../../theme/joomla/JoomlaMainPage';
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import asc from '@app/AppStateContainer';
+import NavBarLogoutOnly from '@components/NavBarLogoutOnly';
+import { setAPImage } from '@util/set-bg-image';
+import { makePostJSON } from '@core/APIWrapperUtil';
+import FactaMainPage from '@facta/FactaMainPage';
+import FactaButton from '@facta/FactaButton';
 
 type ApiType = t.TypeOf<typeof validator>
 
@@ -285,10 +284,6 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
-
-		// const headerRegion = <JoomlaArticleRegion title="Please take a moment to confirm your personal information.">
-		// 	New address or phone number? Need to change your emergency contact? Help us keep our records up-to-date.
-		// </JoomlaArticleRegion>;
 
 		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
 			{errorPopup}

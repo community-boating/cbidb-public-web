@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import { History } from 'history';
-import Joomla8_4 from '../../theme/joomla/Joomla8_4';
-import FactaArticleRegion from '../../theme/facta/FactaArticleRegion';
-import Currency from '../../util/Currency';
-import JoomlaSidebarRegion from '../../theme/joomla/JoomlaSidebarRegion';
 
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import Currency from '@util/Currency'
 import { asDivOptionalSignupLink, ClassType } from "./class-signup/class-description";
 import raceTeam from './class-signup/types/other/race-team'
-import {validator as offseasonClassesValidator} from "../../async/junior/offseason-classes"
-import { setJPImage } from '../../util/set-bg-image';
+import {validator as offseasonClassesValidator} from "@async/junior/offseason-classes"
+import { setJPImage } from '@util/set-bg-image';
+import FactaSidebarPage from '@facta/FactaSidebarPage';
+import FactaSidebarRegion from '@facta/FactaSidebarRegion';
 
 type Props = {
 	history: History<any>,
@@ -32,8 +32,7 @@ export default class OffseasonClassesStandalone extends React.Component<Props, S
 	}
 	render() {
 		const self = this;
-		console.log(self.props.offseasonClasses)
-
+		
 		const header = <FactaArticleRegion title="Spring Classes">
 			Spring classes are available to all {self.props.currentSeason} Juniors. Classes are {self.props.offseasonPriceBase.format(true)} but discounts based on income will automatically apply.<br />
 			<br />
@@ -46,7 +45,7 @@ export default class OffseasonClassesStandalone extends React.Component<Props, S
 		}
 
 		const classes = <FactaArticleRegion title="Available Classes">
-			{asDivOptionalSignupLink(false)(self.props.personId)(raceTeam22Seats)}
+			{asDivOptionalSignupLink(false)(self.props.history, self.props.personId)(raceTeam22Seats)}
 		</FactaArticleRegion>;
 
 		const main = <React.Fragment>
@@ -54,10 +53,9 @@ export default class OffseasonClassesStandalone extends React.Component<Props, S
 			{classes}
 		</React.Fragment>
 
-		const sidebar = <JoomlaSidebarRegion title="Register for Classes"></JoomlaSidebarRegion>
+		const sidebar = <FactaSidebarRegion title="Register for Classes"></FactaSidebarRegion>
 
 
-		return <Joomla8_4 setBGImage={setJPImage} main={main} right={sidebar}>
-		</Joomla8_4>
+		return <FactaSidebarPage setBGImage={setJPImage} main={main} right={sidebar} />
 	}
 }
