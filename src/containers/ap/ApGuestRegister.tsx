@@ -2,15 +2,19 @@ import * as React from "react";
 import { setAPImage } from "../../util/set-bg-image";
 import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
 import { History } from 'history'
+import DateTriPicker, {  DateTriPickerProps } from "@components/DateTriPicker";
+import PhoneTriBox, { PhoneTriBoxProps } from "@components/PhoneTriBox";
 import formUpdateState from '../../util/form-update-state';
 import TextInput from '../../components/TextInput';
-import Validation from '../../util/Validation';
+//import Validation from '../../util/Validation';
 //import FactaButton from '../../theme/facta/FactaButton';
 import { Option, none } from 'fp-ts/lib/Option';
 //import { jpBasePath } from "../../app/paths/jp/_base";
 //import { Link } from "react-router-dom";
 //import { apCreateAcctRoute } from "../../app/routes/ap/create-acct";
 import FactaMainPage from "../../theme/facta/FactaMainPage";
+import * as moment from 'moment';
+import range from "@util/range";
 
 type Props = {
 	history: History<any>
@@ -26,21 +30,30 @@ const defaultForm = {
 	firstName: none as Option<string>,
 	lastName: none as Option<string>,
 	email: none as Option<string>,
-	dob: none as Option<string>,
-	phone: none as Option<string>,
-	pw1: none as Option<string>,
-	pw2: none as Option<string>,
+	dobMonth: none as Option<string>,
+	dobDay: none as Option<string>,
+	dobYear: none as Option<string>,
+	guestPhoneFirst: none as Option<string>,
+	guestPhoneSecond: none as Option<string>,
+	guestPhoneThird: none as Option<string>,
+	guestPhoneExt: none as Option<string>,
+	guestPhoneType: none as Option<string>,
 	ecFirstName: none as Option<string>,
 	ecLastName: none as Option<string>,
-	ecPhone: none as Option<string>,
+	ecPhoneFirst: none as Option<string>,
+	ecPhoneSecond: none as Option<string>,
+	ecPhoneThird: none as Option<string>,
+	ecPhoneExt: none as Option<string>,
+	ecPhoneType: none as Option<string>,
 	ecRelationship: none as Option<string>
+
 }
 
 type Form = typeof defaultForm
 
 class FormInput extends TextInput<Form> {}
 
-const validate: (state: State) => string[] = state => {
+/*const validate: (state: State) => string[] = state => {
 	const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
 
 	const validations = [
@@ -51,7 +64,7 @@ const validate: (state: State) => string[] = state => {
 	];
 
 	return validations.filter(v => !v.pass).map(v => v.errorString);
-}
+}*/
 
 export default class ApPreRegister extends React.PureComponent<Props, State> {
 	
@@ -64,7 +77,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 	}
 	
 	render() {
-		const doRegister = () => {
+		/*const doRegister = () => {
 			const validationResults = validate(this.state);
 			if (validationResults.length > 0) {
 				self.setState({
@@ -76,7 +89,9 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				//TODO something here
 				return null;
 			}
-		}
+		}*/
+		const thisYear = Number(moment().format("YYYY"))
+		const years = range(thisYear-120, thisYear-15)
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 		//const nextButton = null;//(<FactaButton small key={"loginbutton-"} text="Next >" onClick={doRegister} spinnerOnClick forceSpinner={false}/>);
 		
@@ -114,26 +129,34 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 					</tr>
 					<tr>
 						<td>
-						<FormInput
-						id="dob"
-						label="Birthday"
-						isPassword={false}
-						isRequired
-						value={self.state.formData.dob}
-						appendToElementCell={<span style={{ color: "#777", fontSize: "0.8em" }}>  (MM/DD/YYYY)</span>}
-						updateAction={updateState}
-					/>
+						<DateTriPicker<Form, DateTriPickerProps<Form>>
+					years={years}
+					monthID="dobMonth"
+					dayID="dobDay"
+					yearID="dobYear"
+					isRequired={true}
+					monthValue={self.state.formData.dobMonth}
+					dayValue={self.state.formData.dobDay}
+					yearValue={self.state.formData.dobYear}
+					updateAction={updateState}
+				/>
 					</td>
 					<td>
-					<FormInput
-						id="phone"
-						label="Phone Number"
-						isPassword={false}
-						isRequired
-						value={self.state.formData.phone}
-						appendToElementCell={<span style={{ color: "#777", fontSize: "0.8em" }}>  (No International Phone Numbers Please)</span>}
-						updateAction={updateState}
-					/>
+					<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
+					label="Phone"
+					firstID="guestPhoneFirst"
+					secondID="guestPhoneSecond"
+					thirdID="guestPhoneThird"
+					extID="guestPhoneExt"
+					typeID="guestPhoneType"
+					firstValue={self.state.formData.guestPhoneFirst}
+					secondValue={self.state.formData.guestPhoneSecond}
+					thirdValue={self.state.formData.guestPhoneThird}
+					extValue={self.state.formData.guestPhoneExt}
+					typeValue={self.state.formData.guestPhoneType}
+					updateAction={updateState}
+					isRequired={true}
+				/>
 					</td>
 					</tr>
 					<tr>
@@ -188,33 +211,45 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 					/>
 					</td>
 					<td>
-					<FormInput
-						id="ecPhone"
-						label="Phone Number"
-						isPassword={false}
-						isRequired
-						value={self.state.formData.ecPhone}
-						appendToElementCell={<span style={{ color: "#777", fontSize: "0.8em" }}>  (No International Phone Numbers Please)</span>}
-						updateAction={updateState}
-						//extraCells={nextButton}
-						onEnter={doRegister}
-					/>
+					<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
+					label="Emergency Contact Phone"
+					firstID="ecPhoneFirst"
+					secondID="ecPhoneSecond"
+					thirdID="ecPhoneThird"
+					extID="ecPhoneExt"
+					typeID="ecPhoneType"
+					firstValue={self.state.formData.ecPhoneFirst}
+					secondValue={self.state.formData.ecPhoneSecond}
+					thirdValue={self.state.formData.ecPhoneThird}
+					extValue={self.state.formData.ecPhoneExt}
+					typeValue={self.state.formData.ecPhoneType}
+					updateAction={updateState}
+					isRequired={true}
+				/>
 					</td>
 					</tr>
 				</tbody></table>
 </div>
 				<div id="adultwaiver">
-				<iframe title="Waiver of Liability" src="../../../waivers/live/ApGuestWaiver.html" width="100%" height="550px"></iframe>
-				<table><tbody>
-					AGREE BUTTON
+				<table width="100%"><tbody>
+					<tr>
+						<iframe title="Waiver of Liability" src="../../../waivers/live/ApGuestWaiver.html" width="100%" height="400px"></iframe>
+					</tr>
+					<tr>
+						<td>Agree and Continue</td>
+					</tr>
 				</tbody></table>
 				</div>
 				<div id="under18waiver">
-				<iframe title="Waiver of Liability" src="../../../waivers/live/Under18GuestWaiver.html" width="100%" height="550px"></iframe>
-				<table><tbody>
-					AGREE BUTTON
+				<table width="100%"><tbody>
+					<tr>
+						<iframe title="Waiver of Liability" src="../../../waivers/live/Under18GuestWaiver.html" width="100%" height="400px"></iframe>
+					</tr>
+					<tr>
+						<td>Agree and Continue</td>
+					</tr>
 				</tbody></table>
-</div>
+				</div>
 			</FactaArticleRegion>
 		</FactaMainPage>
 	}
