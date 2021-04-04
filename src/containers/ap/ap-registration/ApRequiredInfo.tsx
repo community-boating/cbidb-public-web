@@ -218,21 +218,6 @@ export default class ApRequiredInfo extends React.Component<Props, State> {
 					nullDisplay="- Select -"
 				/>
 				<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
-					label="Primary Phone"
-					firstID="primaryPhoneFirst"
-					secondID="primaryPhoneSecond"
-					thirdID="primaryPhoneThird"
-					extID="primaryPhoneExt"
-					typeID="primaryPhoneType"
-					firstValue={formData.primaryPhoneFirst}
-					secondValue={formData.primaryPhoneSecond}
-					thirdValue={formData.primaryPhoneThird}
-					extValue={formData.primaryPhoneExt}
-					typeValue={formData.primaryPhoneType}
-					updateAction={updateState}
-					isRequired={true}
-				/>
-				<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
 					label="Alternate Phone"
 					firstID="alternatePhoneFirst"
 					secondID="alternatePhoneSecond"
