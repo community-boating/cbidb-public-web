@@ -152,12 +152,6 @@ export class FactaBody extends React.Component {
 						}
 					</div>
 				</div>
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> release/facta
 				<nav className="nav" role="navigation">
 					<div className='container-fluid'>
 						<div className="row no-gutters align-items-center">

@@ -2,36 +2,6 @@ import { none, Option } from "fp-ts/lib/Option";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { History } from 'history';
-
-<<<<<<< HEAD
-import FactaButton from "../theme/facta/FactaButton";
-import TextInput from "../components/TextInput";
-import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
-import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";
-import formUpdateState from "../util/form-update-state";
-import {FactaErrorDiv} from "../theme/facta/FactaErrorDiv";
-import {postWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
-import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
-import Currency from "../util/Currency";
-import { jpForgotPasswordPageRoute } from "../app/routes/jp/forgot-pw";
-import { apForgotPasswordPageRoute } from "../app/routes/ap/forgot-pw";
-import { setJPImage, setAPImage } from "../util/set-bg-image";
-import { PageFlavor } from "../components/Page";
-import { apPreRegRoute } from "../app/routes/ap/prereg";
-import { apGuestRegRoute } from "../app/routes/ap/guest-reg";
-import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
-import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
-import { jpPathReserve } from "../app/paths/jp/reserve";
-import asc from "../app/AppStateContainer";
-import { jpBasePath } from "../app/paths/jp/_base";
-import { apBasePath } from "../app/paths/ap/_base";
-import { jpPathLogin } from "../app/paths/jp/login";
-import { apPathLogin } from "../app/paths/ap/login";
-import { PostURLEncoded } from "../core/APIWrapperUtil";
-// import { apClosedPath } from "../app/paths/ap/closed";
-import FactaMainPage from "../theme/facta/FactaMainPage";
-import FactaTwoColumns from "../theme/facta/FactaTwoColumns";
-=======
 import FactaButton from "@facta/FactaButton";
 import TextInput from "@components/TextInput";
 import FactaArticleRegion from "@facta/FactaArticleRegion";
@@ -45,6 +15,7 @@ import { apForgotPasswordPageRoute } from "@routes/ap/forgot-pw";
 import { setJPImage, setAPImage } from "@util/set-bg-image";
 import { PageFlavor } from "@components/Page";
 import { apPreRegRoute } from "@routes/ap/prereg";
+//Fix
 import { apGuestRegRoute } from "../app/routes/ap/guest-reg";
 import { jpClosedCovidPageRoute } from "@routes/jp/closed";
 import { apPathStartClaimAcct } from "@paths/ap/start-claim-acct";
@@ -58,7 +29,6 @@ import { PostURLEncoded } from "@core/APIWrapperUtil";
 // import { apClosedPath } from "@paths/ap/closed";
 import FactaSidebarPage from "@facta/FactaSidebarPage";
 import { giftCertificatesPageRoute } from "@routes/gift-certificates";
->>>>>>> release/facta
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -202,13 +172,8 @@ export default class LoginPage extends React.Component<Props, State> {
 					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Become an adult program member.</Link></li>
 					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Activate my online account.</Link></li>
 					{/* <li><Link to={apClosedPath.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
-<<<<<<< HEAD
-					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Purchase a gift certificate.</a></li>
+					<li><Link to={giftCertificatesPageRoute.getPathFromArgs({})}>Purchase a gift certificate.</Link></li>
 					<li><Link to={apGuestRegRoute.getPathFromArgs({})}>Register as a guest.</Link></li>
-=======
-					<li><Link to={giftCertificatesPageRoute.getPathFromArgs({})}>Click here to purchase a gift certificate.</Link></li>
-					{/* <li><PlaceholderLink>Click here to register as a guest.</PlaceholderLink></li> */}
->>>>>>> release/facta
 				</ul>
 			</FactaArticleRegion>
 		);
