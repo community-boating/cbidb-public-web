@@ -15,8 +15,7 @@ import { apForgotPasswordPageRoute } from "@routes/ap/forgot-pw";
 import { setJPImage, setAPImage } from "@util/set-bg-image";
 import { PageFlavor } from "@components/Page";
 import { apPreRegRoute } from "@routes/ap/prereg";
-//Fix
-import { apGuestRegRoute } from "../app/routes/ap/guest-reg";
+import { apGuestRegRoute } from "@routes/ap/guest-reg";
 import { jpClosedCovidPageRoute } from "@routes/jp/closed";
 import { apPathStartClaimAcct } from "@paths/ap/start-claim-acct";
 import { jpPathReserve } from "@paths/jp/reserve";

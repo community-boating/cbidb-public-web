@@ -5,10 +5,10 @@ import { History } from 'history'
 import formUpdateState from '../../util/form-update-state';
 import TextInput from '../../components/TextInput';
 import Validation from '../../util/Validation';
-import FactaButton from '../../theme/facta/FactaButton';
+//import FactaButton from '../../theme/facta/FactaButton';
 import { Option, none } from 'fp-ts/lib/Option';
 //import { jpBasePath } from "../../app/paths/jp/_base";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 //import { apCreateAcctRoute } from "../../app/routes/ap/create-acct";
 import FactaMainPage from "../../theme/facta/FactaMainPage";
 
@@ -78,7 +78,8 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			}
 		}
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
-		const nextButton = (<FactaButton small key={"loginbutton-"} text="Next >" onClick={doRegister} spinnerOnClick forceSpinner={false}/>);
+		//const nextButton = null;//(<FactaButton small key={"loginbutton-"} text="Next >" onClick={doRegister} spinnerOnClick forceSpinner={false}/>);
+		
 		const self=this;
 		return <FactaMainPage setBGImage={setAPImage}>
 			<FactaArticleRegion title="Register as a Guest">
@@ -130,7 +131,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						value={self.state.formData.dob}
 						appendToElementCell={<span style={{ color: "#777", fontSize: "0.8em" }}>  (MM/DD/YYYY)</span>}
 						updateAction={updateState}
-						extraCells={nextButton}
+						//extraCells={nextButton}
 					/>
 				</tbody></table>
 </div>
@@ -187,7 +188,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						value={self.state.formData.ecRelationship}
 						updateAction={updateState}
 						onEnter={doRegister}
-						extraCells={nextButton}
+						//extraCells={nextButton}
 					/>
 				</tbody></table>
 </div>
