@@ -56,6 +56,7 @@ import { jpManageStaggeredPaymentsRoute } from './routes/jp/payments';
 import { giftCertificatesPageRoute } from "@routes/gift-certificates"
 import {standaloneLoginRoute} from "@routes/common/standalone-signin"
 import { jpSettingsPageRoute } from '@routes/jp/settings';
+import LandingPage from '@containers/LandingPage';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)
@@ -96,7 +97,7 @@ const defaultRouteRender = () => {
 export default function (history: History<any>) {
 	const universalRoutes = assertUniqueKeys([
 		<Route key="homeExplicit" path="/home" render={() => <Redirect to="/" />} />,
-		<Route key="noProgramRedirect" path="/" exact render={() => <Redirect to={apBasePath.getPathFromArgs({})} />} />,
+		<Route key="noProgram" path="/" exact render={() => <LandingPage history={history} />} />,
 		maintenancePageRoute.asRoute(history),
 		fundInfoRoute.asRoute(history),
 		asc.state.jpClosedCovid ? null : reservePageRoute.asRoute(history),

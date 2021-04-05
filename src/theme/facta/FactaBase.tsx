@@ -279,9 +279,9 @@ export class FactaBody extends React.Component {
 			</header>
 			<main role='main' className='main main-single'>
 				<div className='page-title'>
-					<div className='ratio'></div>
-					<div className='cover'
-						style={{ backgroundImage: "url(/facta/assets/images/IMG_1495-scaled.jpeg)" }}>
+					<div className='ratio' style={{paddingBottom: "330px"}}></div>
+					<div className='cover' id="hero"
+						style={{ backgroundImage: "url(/facta/assets/images/common-hero.jpg)" }}>
 					</div>
 					<div className='page-title-content'>
 						<div className='container'>
