@@ -32,25 +32,23 @@ const signupNoteMaybe = (typeId: number, juniorId: number, instanceId: number) =
 declare var ddrivetip: any;
 declare var hideddrivetip: any;
 
-const wlTopTooltip = `<table><tr><td>
+const wlTopTooltip = `<table class="tooltip-table"><tr><td>
 A seat in the class has opened and you are next in line!  Click "Join the class" to enroll, or "Delist" if you are no longer interested (choosing "Delist" will permanently remove you from the wait list).  If this class conflicts with any others you are already signed up for, you will be prompted to unenroll from each of them before continuing.<br />
 <br />
 In the interest of making sure all our classes are filled, your wait list offer is valid only until the time and date specified.  If you are unable to respond before then, your place in line will be preserved but you are no longer guaranteed a seat in the class.  If you accept the offer after it has expired, you must still wait for the next available seat to open, and you will be required to reaffirm your interest.
-
 </td></tr></table>`;
 
-const wlTooltip = `<table><tr><td>
+const wlTooltip = `<table class="tooltip-table"><tr><td>
 When a spot becomes available you will be notified at the email address you use to log into this account.  In the interest of making sure all our classes are filled, you will only have 48 hours to respond before the offer expires (sooner if the seat opens during the weekend before the class begins) so be sure to check your email and/or check back to this page.  The Front Office will also attempt to reach you by phone at the phone number listed on your account.<br />
 <br />
 If the offer expires before you are able to respond, the open seat will be offered to the next Junior on the wait list, but your place in line will not be lost.  At any time you can reaffirm that you are still interested, and the next available seat will be offered to you.
 </td></tr></table>`;
 
-const wlExpiredTooltip = `<table><tr><td>
+const wlExpiredTooltip = `<table class="tooltip-table"><tr><td>
 
 A seat in the class opened for you, but you were not able to respond in time.  In the interest of making sure all our classes are filled, wait list offers are only valid for a short time before they expire and we attempt to contact other Juniors.<br />
 <br />
 If you would still like to join the class, your position in line has not been lost.  While your original seat has been offered to someone else, if you click "Take next seat" then the next seat in the class that becomes available will be offered to you.  You will be asked again to reaffirm your interest and availability when another seat becomes available to you.
-
 </td></tr></table>`;
 
 export default (props: {
@@ -123,8 +121,8 @@ export default (props: {
 				but you can still take<br />
 				the next available spot.</i><br />
 				<span
-					style={{color: "#2358A6", cursor: "help"}}
-					onMouseOver={() => {ddrivetip(wlExpiredTooltip,'lightYellow',300); resizeRatings();}}
+					style={{color: "#f25151", textDecoration: "underline", cursor: "help"}}
+					onMouseOver={() => {ddrivetip(wlExpiredTooltip,'lightYellow',350); resizeRatings();}}
 					onMouseOut={() => hideddrivetip()}
 				>What does this mean?</span>
 			</td></tr>);
@@ -150,8 +148,8 @@ export default (props: {
 				}
 			}}>Delist</a><br />
 			<span
-				style={{color: "#2358A6", cursor: "help"}}
-				onMouseOver={() => {ddrivetip(wlTopTooltip,'lightYellow',300); resizeRatings();}}
+				style={{color: "#f25151", textDecoration: "underline", cursor: "help"}}
+				onMouseOver={() => {ddrivetip(wlTopTooltip,'lightYellow',350); resizeRatings();}}
 				onMouseOut={() => hideddrivetip()}
 			>What does this mean?</span>
 		</td></tr>);
@@ -192,7 +190,7 @@ export default (props: {
 					<i>You are in position {wl.wlPosition} in line.</i><br />
 					<span
 						style={{color: "#f25151", textDecoration: "underline", cursor: "help"}}
-						onMouseOver={() => {ddrivetip(wlTooltip,'lightYellow',300); resizeRatings();}}
+						onMouseOver={() => {ddrivetip(wlTooltip,'lightYellow',350); resizeRatings();}}
 						onMouseOut={() => hideddrivetip()}
 					>How does the wait list work?</span>
 				</td></tr>))}
