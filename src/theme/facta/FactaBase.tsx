@@ -8,7 +8,6 @@ class FactaHelmet extends React.Component {
 		return (
 			<React.Fragment>
 				<Helmet>
-					<meta charSet="UTF-8" />
 					<link rel="icon" type="image/png" sizes="32x32" href="https://www.community-boating.org/wp-content/themes/custom/assets/images/favicon/favicon-32x32.png" />
 					<link rel="icon" type="image/png" sizes="16x16" href="https://www.community-boating.org/wp-content/themes/custom/assets/images/favicon/favicon-16x16.png" />
 					{/* Uncomment this to re-enable responsiveness */}
