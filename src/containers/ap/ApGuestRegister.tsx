@@ -66,8 +66,23 @@ const validate: (state: State) => string[] = state => {
 	const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
 	//const emailValid = (os : Option<string>) => os.isSome() && os.getOrElse("")
 	const validations = [
-		new Validation(isNotNull(state.formData.email), "Email must be specified."),
-		new Validation(isNotNull(state.formData.firstName), "First Name must be specified.")
+		new Validation(isNotNull(state.formData.firstName), "Please enter your first name."),
+		new Validation(isNotNull(state.formData.lastName), "Please enter your last name."),
+		new Validation(isNotNull(state.formData.dobMonth), "Please enter your birth month."),
+		new Validation(isNotNull(state.formData.dobDay), "Please enter your birth day."),
+		new Validation(isNotNull(state.formData.dobYear), "Please enter your birth year."),
+		new Validation(isNotNull(state.formData.guestPhoneFirst), "Please enter a valid phone number."),
+		new Validation(isNotNull(state.formData.guestPhoneSecond), "Please enter a valid phone number."),
+		new Validation(isNotNull(state.formData.guestPhoneThird), "Please enter a valid phone number."),
+		new Validation(isNotNull(state.formData.guestPhoneType), "Please select a phone type."),
+		new Validation(isNotNull(state.formData.email), "Please enter your email."),
+		new Validation(isNotNull(state.formData.ecFirstName), "Please enter an emergency contact first name."),
+		new Validation(isNotNull(state.formData.ecLastName), "Please enter an emergency contact last name."),
+		new Validation(isNotNull(state.formData.ecRelationship), "Please enter your relationship to your emergency contact."),
+		new Validation(isNotNull(state.formData.ecPhoneFirst), "Please enter a valid emergency contact phone number."),
+		new Validation(isNotNull(state.formData.ecPhoneSecond), "Please enter a valid emergency contact phone number."),
+		new Validation(isNotNull(state.formData.ecPhoneThird), "Please enter a valid emergency contact phone number."),
+		new Validation(isNotNull(state.formData.ecPhoneType), "Please select an emergency contact phone type.")
 		];
 
 	return validations.filter(v => !v.pass).map(v => v.errorString);
@@ -106,7 +121,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		const thisYear = Number(moment().format("YYYY"))
 		const years = range(thisYear-120, thisYear-15)
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
-		const progressButton = (<FactaButton key={"key..."} text="next" onClick={this.progressFunction} spinnerOnClick forceSpinner={false}/>);
+		const progressButton = (<FactaButton key={"key..."} text="next >" onClick={this.progressFunction} spinnerOnClick forceSpinner={false}/>);
 		
 		const self=this;
 
@@ -125,7 +140,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			<table id="info" width="100%"><tbody>
 				<th>Guest Information</th>
 				<tr>
-					<td>
+				<td>
 				<FormInput
 					id="firstName"
 					label="First Name"
@@ -147,8 +162,8 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				</td>
 				</tr>
 				<tr>
-					<td>
-					<DateTriPicker<Form, DateTriPickerProps<Form>>
+				<td>
+				<DateTriPicker<Form, DateTriPickerProps<Form>>
 				years={years}
 				monthID="dobMonth"
 				dayID="dobDay"
@@ -158,7 +173,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				dayValue={self.state.formData.dobDay}
 				yearValue={self.state.formData.dobYear}
 				updateAction={updateState}
-			/>
+				/>
 				</td>
 				<td>
 				<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
@@ -179,55 +194,54 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				</td>
 				</tr>
 				<tr>
-					<td>
-					<FormInput
-					id="email"
-					label="Email"
-					isPassword={false}
-					isRequired
-					value={self.state.formData.email}
-					updateAction={updateState}
+				<td>
+				<FormInput
+				id="email"
+				label="Email"
+				isPassword={false}
+				isRequired
+				value={self.state.formData.email}
+				updateAction={updateState}
 				/>
 				</td>
 				<td>
-					<p>opt out</p>
-					</td>
-					</tr>
+				<p>opt out</p>
+				</td>
+				</tr>
 				<th>Emergency Contact Information</th>
 				<tr>This should be someone close to you who is not going on the water with you.</tr>
 				<tr>For under 18 guests this should be a parent or guardian.</tr>
 				<tr>
-					<td>
+				<td>
 				<FormInput
-					id="ecFirstName"
-					label="First Name"
-					isPassword={false}
-					isRequired
-					value={self.state.formData.ecFirstName}
-					updateAction={updateState}
+				id="ecFirstName"
+				label="First Name"
+				isPassword={false}
+				isRequired
+				value={self.state.formData.ecFirstName}
+				updateAction={updateState}
 				/>
 				</td>
 				<td>
 				<FormInput
-					id="ecLastName"
-					label="Last Name"
-					isPassword={false}
-					isRequired
-					value={self.state.formData.ecLastName}
-					updateAction={updateState}
+				id="ecLastName"
+				label="Last Name"
+				isPassword={false}
+				isRequired
+				value={self.state.formData.ecLastName}
+				updateAction={updateState}
 				/>
 				</td>
 				</tr>
 				<tr>
-					<td>
-					<FormInput
-					id="ecRelationship"
-					label="Relationship"
-					isPassword={false}
-					isRequired
-					value={self.state.formData.ecRelationship}
-					updateAction={updateState}
-					extraCells={ progressButton }
+				<td>
+				<FormInput
+				id="ecRelationship"
+				label="Relationship"
+				isPassword={false}
+				isRequired
+				value={self.state.formData.ecRelationship}
+				updateAction={updateState}
 				/>
 				</td>
 				<td>
@@ -245,8 +259,14 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				typeValue={self.state.formData.ecPhoneType}
 				updateAction={updateState}
 				isRequired={true}
-
-			/>
+				/>
+				</td>
+				</tr>
+				<tr>
+				<td>
+				</td>	
+				<td>
+				{ progressButton }
 				</td>
 				</tr>
 			</tbody></table>
