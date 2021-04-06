@@ -155,7 +155,7 @@ export class FactaBody extends React.Component {
 					<div className='container-fluid'>
 						<div className="row no-gutters align-items-center">
 							<div className="col">
-								<a href='#' className='nav-logo' style={{ marginLeft: "60px" }}>
+								<a href='#' id="nav-logo" className='nav-logo' style={{ marginLeft: "60px" }}>
 									<svg viewBox="0 0 440 167" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ height: "70px" }}>
 										<g>
 											<path
