@@ -57,6 +57,7 @@ import { giftCertificatesPageRoute } from "@routes/gift-certificates"
 import {standaloneLoginRoute} from "@routes/common/standalone-signin"
 import { jpSettingsPageRoute } from '@routes/jp/settings';
 import LandingPage from '@containers/LandingPage';
+import { jpPublicClassesRoute } from '@routes/jp/all-classes';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)
@@ -121,6 +122,7 @@ export default function (history: History<any>) {
 		giftCertificatesPageRoute.asRoute(history),
 		donatePageRoute.asRoute(history),
 		standaloneLoginRoute.asRoute(history),
+		jpPublicClassesRoute.asRoute(history),
 	].filter(Boolean));
 
 	const mustNotBeLoggedIn = [

@@ -13,7 +13,7 @@ export default (props: Props) => (
 	<table cellPadding="0" cellSpacing="0" className="report-standard">
 		<tbody><tr>
 			{props.headers.zipWithIndex().map(headerTuple => (
-				<th key={`header_${headerTuple[1]}`} align="center" id="NAME" className="header" style={({border: "none"})}>
+				<th key={`header_${headerTuple[1]}`} className="header" style={({border: "none", textAlign: "center"})}>
 					{headerTuple[0]}
 				</th>
 			))}

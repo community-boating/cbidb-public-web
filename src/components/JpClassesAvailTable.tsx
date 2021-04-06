@@ -11,11 +11,12 @@ import { History } from 'history';
 import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '@lov/magicStrings';
 import assertNever from "@util/assertNever";
 import {signupNotePageRoute} from "@routes/jp/signupNote"
+import { Option } from "fp-ts/lib/Option";
 
 interface Props {
-	typeId: number,
+	typeId: Option<number>,
 	instances: InstanceInfo[],
-	juniorId: number,
+	juniorId: Option<number>,
 	history: History<any>,
 	setValidationErrors: (errors: string[]) => void,
 	url: string
@@ -28,9 +29,10 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 		e.preventDefault();
 		return apiw.send(makePostJSON(payload)).then(ret => {
 			if (ret.type == "Success") {
+				const typeId = self.props.typeId.getOrElse(-1)
 				const url = (
-					goToNote && (self.props.typeId == jpClassTypeId_BeginnerSailing || self.props.typeId == jpClassTypeId_IntermediateSailing || self.props.typeId == jpClassTypeId_IntermediateOneWeek)
-					? signupNotePageRoute.getPathFromArgs({ personId: String(self.props.juniorId), instanceId: String(instanceId) })
+					goToNote && (typeId == jpClassTypeId_BeginnerSailing || typeId == jpClassTypeId_IntermediateSailing || typeId == jpClassTypeId_IntermediateOneWeek)
+					? signupNotePageRoute.getPathFromArgs({ personId: String(self.props.juniorId.getOrElse(null)), instanceId: String(instanceId) })
 					: `/redirect${this.props.url}`
 				);
 				this.props.history.push(url)
@@ -40,7 +42,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 			}
 		});
 	}
-	actionToComponent = (action: ClassAction, typeId: number, instanceId: number, juniorId: number) => {
+	actionToComponent = (action: ClassAction, instanceId: number, juniorId: number) => {
 		switch (action) {
 		case ClassAction.BEGUN:
 			return <span style={{fontWeight: "bold", color: "#777", fontStyle: "italic"}}>Class has already begun</span>;
@@ -93,16 +95,25 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 	}
 
 	render() {
-		const self = this;
+		const includeAction = this.props.juniorId.isSome();
+		const notesIndex = includeAction ? 6 : 5
 		return (
 			<StandardReport
-				headers={["First Day", "Last Day", "Class Time", "Spots Left", "Action", "Notes"]}
+				headers={["Class Name", "First Day", "Last Day", "Class Time", "Spots Left"]
+					.concat(includeAction ? ["Action"] : [])
+					.concat(["Notes"])
+				}
 				rows={this.props.instances.map(c => ([
+					c.className,
 					c.firstDay,
 					c.lastDay,
 					c.classTime,
 					c.spotsLeft,
-					this.actionToComponent(c.action as ClassAction, self.props.typeId, c.instanceId, this.props.juniorId),
+					(
+						includeAction
+						? this.actionToComponent(c.action as ClassAction, c.instanceId, this.props.juniorId.getOrElse(null))
+						: null
+					),
 					c.notes.getOrElse("-")
 				]))}
 				cellStyles={[
@@ -111,9 +122,14 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 					{textAlign: "center"},
 					{textAlign: "center"},
 					{textAlign: "center"},
+					(
+						includeAction
+						? {textAlign: "center"}
+						: null
+					),
 					{}
 				]}
-				rawHtml={{0: true, 1: true, 3: true, 5: true}}
+				rawHtml={{1: true, 2: true, 4: true, [notesIndex]: true}}
 			/>
 		);
 	}
