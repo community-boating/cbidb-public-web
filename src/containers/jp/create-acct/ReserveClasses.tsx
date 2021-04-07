@@ -1,32 +1,32 @@
 import { Option, none, some } from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
 import * as React from "react";
-import TextInput from "../../../components/TextInput";
-import Joomla8_4 from '../../../theme/joomla/Joomla8_4';
-import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
-import JoomlaSidebarRegion from '../../../theme/joomla/JoomlaSidebarRegion';
-import formUpdateState from '../../../util/form-update-state';
-import { Select } from '../../../components/Select';
-import { validatorSingleRow } from "../../../async/class-instances-with-avail"
-import JoomlaReport from '../../../theme/joomla/JoomlaReport';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek } from '../../../lov/magicStrings';
+import TextInput from "@components/TextInput";
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import formUpdateState from '@util/form-update-state';
+import { Select } from '@components/Select';
+import { validatorSingleRow } from "@async/class-instances-with-avail"
+import StandardReport from '@facta/StandardReport';
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek } from '@lov/magicStrings';
 import { Moment } from 'moment';
-import FactaButton from '../../../theme/facta/FactaButton';
-import { PreRegistration, PreRegistrationClass } from '../../../app/global-state/jp-pre-registrations';
-import optionify from '../../../util/optionify';
-import {postWrapper as addJuniorPostWrapper} from "../../../async/junior/add-junior-class-reservation"
-import { validator as reservationAPIValidator } from '../../../async/junior/get-junior-class-reservations'
-import { makePostJSON, makePostString } from '../../../core/APIWrapperUtil';
+import FactaButton from '@facta/FactaButton';
+import { PreRegistration, PreRegistrationClass } from '@app/global-state/jp-pre-registrations';
+import optionify from '@util/optionify';
+import {postWrapper as addJuniorPostWrapper} from "@async/junior/add-junior-class-reservation"
+import { validator as reservationAPIValidator } from '@async/junior/get-junior-class-reservations'
+import { makePostJSON, makePostString } from '@core/APIWrapperUtil';
 import { History } from 'history';
-import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
-import {postWrapper as deleteJunior} from '../../../async/junior/delete-junior-class-reservation'
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import {postWrapper as deleteJunior} from '@async/junior/delete-junior-class-reservation'
 import * as moment from 'moment';
-import getClassesAndPreregistrations from '../../../async/util/getClassesAndPreregistrations';
-import { reserveNotesPageRoute } from '../../../app/routes/jp/reserve-notes';
-import { createAcctPageRoute } from '../../../app/routes/jp/create-acct';
-import { reservePageRoute } from '../../../app/routes/jp/reserve';
-import { setJPImage } from '../../../util/set-bg-image';
-import { jpBasePath } from '../../../app/paths/jp/_base';
+import getClassesAndPreregistrations from '@async/util/getClassesAndPreregistrations';
+import { reserveNotesPageRoute } from '@routes/jp/reserve-notes';
+import { createAcctPageRoute } from '@routes/jp/create-acct';
+import { reservePageRoute } from '@routes/jp/reserve';
+import { setJPImage } from '@util/set-bg-image';
+import { jpBasePath } from '@paths/jp/_base';
+import FactaSidebarPage from '@facta/FactaSidebarPage';
+import FactaSidebarRegion from '@facta/FactaSidebarRegion';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,
@@ -112,7 +112,7 @@ function classReport(statePropName: keyof Form, update: (id: string, value: stri
 		wrapInLabelNone("-")
 	]
 
-	return (<JoomlaReport
+	return (<StandardReport
 		headers={["Select", "Class Date", "Class Time", "Spots Left", "Notes"]}
 		rows={[noneRow].concat(classes.map(c => {
 			const wrapInLabelSpecific = wrapInLabel(statePropName, String(c.instanceId))
@@ -325,7 +325,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					}
 					
 				}, err => {
-					console.log("Error: ", err)
+
 				});
 			}
 		}
@@ -405,7 +405,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			)}/>
 		</React.Fragment>);
 
-		const sidebar = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>
+		const sidebar = (<FactaSidebarRegion title="Your Juniors"><table><tbody>
 			{self.state.preRegistrations.length==0
 				? <tr><td>As you reserve classes for more juniors, they will appear in this box.  When you have reserved a class for all your juniors, click the button below!</td></tr>
 				: self.state.preRegistrations.map(preRegRender(() => self.props.history.push(`/redirect${reservePageRoute.getPathFromArgs({})}`)))
@@ -428,8 +428,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			/></td></tr>
 			</tbody></table>
 			
-		</JoomlaSidebarRegion>);
+		</FactaSidebarRegion>);
 
-		return <Joomla8_4 setBGImage={setJPImage} main={main} right={sidebar} />
+		return <FactaSidebarPage setBGImage={setJPImage} main={main} right={sidebar} />
 	}
 }

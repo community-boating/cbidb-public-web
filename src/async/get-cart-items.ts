@@ -1,8 +1,8 @@
 import * as t from 'io-ts';
-import { PageFlavor } from '../components/Page';
-import APIWrapper from '../core/APIWrapper';
-import { HttpMethod } from "../core/HttpMethod";
-import { OptionalString, OptionalNumber } from '../util/OptionalTypeValidators';
+import { PageFlavor } from '@components/Page';
+import APIWrapper from '@core/APIWrapper';
+import { HttpMethod } from "@core/HttpMethod";
+import { OptionalString, OptionalNumber } from '@util/OptionalTypeValidators';
 
 export const cartItemValidator = t.type({
 	itemNameHTML: t.string,

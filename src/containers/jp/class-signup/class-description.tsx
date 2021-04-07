@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import {History} from 'history';
 
-import {classTimePageRoute} from "../../../app/routes/jp/classTime"
+import {classTimePageRoute} from "@routes/jp/classTime"
+import FactaButton from "@facta/FactaButton";
 
 export interface ClassType {
 	typeId: number,
@@ -15,7 +16,7 @@ export interface ClassType {
 	durationOverride?: string,
 }
 
-export const asFragmentOptionalSignupLink = (includeLink: boolean) => (juniorId: number) => (ct: ClassType) => {
+export const asFragmentOptionalSignupLink = (includeLink: boolean) => (history: History<any>, juniorId: number) => (ct: ClassType) => {
 	const lengthString = (
 		ct.sessionLengthMinutes
 		? `${ct.sessionLengthMinutes} minutes/day`
@@ -34,7 +35,7 @@ export const asFragmentOptionalSignupLink = (includeLink: boolean) => (juniorId:
 			<br /><br />
 			{includeLink ? (
 				<React.Fragment>
-					<Link to={classTimePageRoute.pathWrapper.getPathFromArgs({ personId: String(juniorId), typeId: String(ct.typeId) })}>Click here to sign up!</Link>
+					<FactaButton text="Click here to sign up!" onClick={() => Promise.resolve(history.push(classTimePageRoute.pathWrapper.getPathFromArgs({ personId: String(juniorId), typeId: String(ct.typeId) })))}/>
 					<br /><br />
 				</React.Fragment>
 			) : null}
@@ -46,10 +47,10 @@ export const asFragmentOptionalSignupLink = (includeLink: boolean) => (juniorId:
 export const asFragment = asFragmentOptionalSignupLink(true)
 
 
-export const asDivOptionalSignupLink = (includeLink: boolean) => (juniorId: number) => (ct: ClassType) => (
+export const asDivOptionalSignupLink = (includeLink: boolean) => (history: History<any>, juniorId: number) => (ct: ClassType) => (
 	<div style={{ paddingLeft: "40px"}} key={ct.typeId}>
 		<h3 style={{ textTransform: "none", fontSize: "1.4em" }}><span style={{ fontStyle: "italic" }}>{ct.typeName}</span></h3>
-		{asFragmentOptionalSignupLink(includeLink)(juniorId)(ct)}
+		{asFragmentOptionalSignupLink(includeLink)(history, juniorId)(ct)}
 	</div>
 )
 

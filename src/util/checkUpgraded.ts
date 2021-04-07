@@ -1,7 +1,7 @@
 import * as url from 'url';
 import * as querystring from 'querystring';
 import { History } from 'history';
-import {getWrapper as getEFuse} from "../async/efuse/cbidb-public-web"
+import {getWrapper as getEFuse} from "@async/efuse/cbidb-public-web"
 
 export const upgradedParamName = "updatedForReq"
 

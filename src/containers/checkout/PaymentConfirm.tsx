@@ -1,20 +1,20 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
-import FactaButton from "../../theme/facta/FactaButton";
-import StripeConfirm from "../../components/StripeConfirm";
-import {orderStatusValidator} from "../../async/order-status"
-import { postWrapper as submitPaymentAP } from "../../async/stripe/submit-payment-ap"
-import { postWrapper as submitPaymentJP } from "../../async/stripe/submit-payment-jp"
-import { makePostString } from "../../core/APIWrapperUtil";
-import {FactaErrorDiv} from "../../theme/facta/FactaErrorDiv";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import FactaButton from "@facta/FactaButton";
+import StripeConfirm from "@components/StripeConfirm";
+import {orderStatusValidator} from "@async/order-status"
+import { postWrapper as submitPaymentAP } from "@async/stripe/submit-payment-ap"
+import { postWrapper as submitPaymentJP } from "@async/stripe/submit-payment-jp"
+import { makePostString } from "@core/APIWrapperUtil";
+import {FactaErrorDiv} from "@facta/FactaErrorDiv";
 import { History } from "history";
-import { setCheckoutImage } from "../../util/set-bg-image";
-import FullCartReport from "../../components/FullCartReport";
-import { CartItem } from "../../async/get-cart-items";
-import Currency from "../../util/Currency";
-import { PageFlavor } from "../../components/Page";
-import FactaMainPage from "../../theme/facta/FactaMainPage";
+import { setCheckoutImage } from "@util/set-bg-image";
+import FullCartReport from "@components/FullCartReport";
+import { CartItem } from "@async/get-cart-items";
+import Currency from "@util/Currency";
+import { PageFlavor } from "@components/Page";
+import FactaMainPage from "@facta/FactaMainPage";
 
 export interface Props {
 	history: History<any>,

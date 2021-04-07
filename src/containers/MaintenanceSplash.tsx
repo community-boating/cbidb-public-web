@@ -1,7 +1,7 @@
 import * as React from 'react';
-import FactaArticleRegion from '../theme/facta/FactaArticleRegion';
-import { setJPImage } from '../util/set-bg-image';
-import FactaMainPage from '../theme/facta/FactaMainPage';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import { setJPImage } from '@util/set-bg-image';
+import FactaMainPage from '@facta/FactaMainPage';
 
 export default class MaintenanceSplash extends React.PureComponent {
 	componentDidMount() {

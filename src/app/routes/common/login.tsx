@@ -1,15 +1,15 @@
 import * as React from 'react';
 import {History} from 'history';
-import PageWrapper from '../../../core/PageWrapper';
-import LoginPage from '../../../containers/LoginPage';
+import PageWrapper from '@core/PageWrapper';
+import LoginPage from '@containers/LoginPage';
 import asc from '../../AppStateContainer';
-import { PageFlavor } from '../../../components/Page';
-import {apiw as getStaticYearly} from "../../../async/static-yearly-data"
+import { PageFlavor } from '@components/Page';
+import {apiw as getStaticYearly} from "@async/static-yearly-data"
 import { none, some } from 'fp-ts/lib/Option';
-import Currency from '../../../util/Currency';
-import { setJPImage, setAPImage, setCheckoutImage } from '../../../util/set-bg-image';
-import assertNever from '../../../util/assertNever';
-import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
+import Currency from '@util/Currency';
+import { setJPImage, setAPImage, setCheckoutImage } from '@util/set-bg-image';
+import assertNever from '@util/assertNever';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 
 export default (flavor: PageFlavor) => (history: History<any>) => <PageWrapper
 	key="Loginpage"

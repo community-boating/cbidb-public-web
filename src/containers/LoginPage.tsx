@@ -2,34 +2,32 @@ import { none, Option } from "fp-ts/lib/Option";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { History } from 'history';
-
-import FactaButton from "../theme/facta/FactaButton";
-import TextInput from "../components/TextInput";
-import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
-import JoomlaTwoColumns from "../theme/joomla/JoomlaTwoColumns";
-import formUpdateState from "../util/form-update-state";
-import {FactaErrorDiv} from "../theme/facta/FactaErrorDiv";
-import {postWrapper as getProtoPersonCookie} from "../async/check-proto-person-cookie"
-import { checkUpgradedAsValidationErrorArray } from "../util/checkUpgraded";
-import Currency from "../util/Currency";
-import { jpForgotPasswordPageRoute } from "../app/routes/jp/forgot-pw";
-import { apForgotPasswordPageRoute } from "../app/routes/ap/forgot-pw";
-import { setJPImage, setAPImage } from "../util/set-bg-image";
-import { PageFlavor } from "../components/Page";
-import { apPreRegRoute } from "../app/routes/ap/prereg";
-import { apGuestRegRoute } from "../app/routes/ap/guest-reg";
-import { jpClosedCovidPageRoute } from "../app/routes/jp/closed";
-import { apPathStartClaimAcct } from "../app/paths/ap/start-claim-acct";
-import { jpPathReserve } from "../app/paths/jp/reserve";
-import asc from "../app/AppStateContainer";
-import { jpBasePath } from "../app/paths/jp/_base";
-import { apBasePath } from "../app/paths/ap/_base";
-import { jpPathLogin } from "../app/paths/jp/login";
-import { apPathLogin } from "../app/paths/ap/login";
-import { PostURLEncoded } from "../core/APIWrapperUtil";
-// import { apClosedPath } from "../app/paths/ap/closed";
-import FactaMainPage from "../theme/facta/FactaMainPage";
-import FactaTwoColumns from "../theme/facta/FactaTwoColumns";
+import FactaButton from "@facta/FactaButton";
+import TextInput from "@components/TextInput";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import formUpdateState from "@util/form-update-state";
+import {FactaErrorDiv} from "@facta/FactaErrorDiv";
+import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
+import { checkUpgradedAsValidationErrorArray } from "@util/checkUpgraded";
+import Currency from "@util/Currency";
+import { jpForgotPasswordPageRoute } from "@routes/jp/forgot-pw";
+import { apForgotPasswordPageRoute } from "@routes/ap/forgot-pw";
+import { setJPImage, setAPImage } from "@util/set-bg-image";
+import { PageFlavor } from "@components/Page";
+import { apPreRegRoute } from "@routes/ap/prereg";
+import { apGuestRegRoute } from "@routes/ap/guest-reg";
+import { jpClosedCovidPageRoute } from "@routes/jp/closed";
+import { apPathStartClaimAcct } from "@paths/ap/start-claim-acct";
+import { jpPathReserve } from "@paths/jp/reserve";
+import asc from "@app/AppStateContainer";
+import { jpBasePath } from "@paths/jp/_base";
+import { apBasePath } from "@paths/ap/_base";
+import { jpPathLogin } from "@paths/jp/login";
+import { apPathLogin } from "@paths/ap/login";
+import { PostURLEncoded } from "@core/APIWrapperUtil";
+// import { apClosedPath } from "@paths/ap/closed";
+import FactaSidebarPage from "@facta/FactaSidebarPage";
+import { giftCertificatesPageRoute } from "@routes/gift-certificates";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -102,7 +100,7 @@ export default class LoginPage extends React.Component<Props, State> {
 	render() {
 		const self = this;
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
-		const loginButton = (<FactaButton small key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={this.loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
+		const loginButton = (<FactaButton key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={this.loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
 		
 		// left column 
 
@@ -124,14 +122,15 @@ export default class LoginPage extends React.Component<Props, State> {
 		const apWelcomeRegion = (
 			<FactaArticleRegion title={<span><b>Welcome to CBI Membership Online! </b><br /> Adult Program Self Service Portal</span>}>
 				<div>
-				<a href="https://www.community-boating.org" target="_blank">Click here for our Main Website:www.community-boating.org</a>
+				<a href="https://www.community-boating.org" target="_blank">Click here for our main website: www.community-boating.org</a>
 				<br />
+				If you are new to Community Boating and would like to purchase a membership now, <b>click on the first option</b> to the right.
+				Once your account is complete you can return here to signup for classes and view your progression throughout the summer.<br />
 				<br />
 				If you have already purchased a membership in person, either this year or last year,
-				please <b>click on the first option</b> to the right and you will be prompted to create a password and update your personal information.<br />
+				please <b>click on the second option</b> to the right and you will be prompted to create a password and update your personal information.<br />
 				<br />
-				If you are new to Community Boating and would like to purchase a membership now, <b>click on the second option</b> to the right.
-				Once your account is complete you can return here to signup for classes and view your progression throughout the summer.<br />
+				If you want to give the gift of membership, <b>click on the third option</b> to the right.
 				<br />
 				If you want to register as a guest so you can go sailing with a CBI member, click on the fourth option to the right to skip the line at the Front Desk and get your guest card right away!<br />
 				<br />
@@ -173,7 +172,7 @@ export default class LoginPage extends React.Component<Props, State> {
 					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Become an adult program member.</Link></li>
 					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Activate my online account.</Link></li>
 					{/* <li><Link to={apClosedPath.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
-					<li><a href="https://portal2.community-boating.org/ords/f?p=640">Purchase a gift certificate.</a></li>
+					<li><Link to={giftCertificatesPageRoute.getPathFromArgs({})}>Purchase a gift certificate.</Link></li>
 					<li><Link to={apGuestRegRoute.getPathFromArgs({})}>Register as a guest.</Link></li>
 				</ul>
 			</FactaArticleRegion>
@@ -203,6 +202,7 @@ export default class LoginPage extends React.Component<Props, State> {
 							isPassword={false}
 							value={self.state.formData.username}
 							updateAction={updateState}
+							size={23}
 						/>
 						<FormInput
 							id="password"
@@ -212,6 +212,7 @@ export default class LoginPage extends React.Component<Props, State> {
 							value={self.state.formData.password}
 							updateAction={updateState}
 							onEnter={self.loginFunction}
+							size={23}
 						/>
 						<tr><td></td><td><span>
 							<Link to={forgotPassword}>I forgot my password!</Link>
@@ -245,11 +246,11 @@ export default class LoginPage extends React.Component<Props, State> {
 					leftColumn: <div>
 						{jpWelcomeRegion}
 						{scholarshipRegion}
+						{inPersonRegion}
 					</div>,
 					rightColumn: <div>
 						{jpNewAcctRegion}
 						{loginRegion}
-						{inPersonRegion}
 					</div>
 				};
 			case PageFlavor.AP:
@@ -269,9 +270,9 @@ export default class LoginPage extends React.Component<Props, State> {
 		}());
 
 		return (
-			<FactaTwoColumns setBGImage={setBGImage} left={leftColumn} right={rightColumn}>
+			<FactaSidebarPage setBGImage={setBGImage} main={leftColumn} right={rightColumn}>
 				{errorPopup}
-			</FactaTwoColumns>
+			</FactaSidebarPage>
 		);
 	}
 }

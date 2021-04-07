@@ -1,23 +1,23 @@
 import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
-import TextInput from "../../../components/TextInput";
-import FactaButton from '../../../theme/facta/FactaButton';
+import TextInput from "@components/TextInput";
+import FactaButton from '@facta/FactaButton';
 import { History } from 'history';
-import FactaArticleRegion from '../../../theme/facta/FactaArticleRegion';
-import formUpdateState from '../../../util/form-update-state';
-import JoomlaSidebarRegion from '../../../theme/joomla/JoomlaSidebarRegion';
-import Joomla8_4 from '../../../theme/joomla/Joomla8_4';
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import formUpdateState from '@util/form-update-state';
 import { preRegRender } from './ReserveClasses';
-import { PreRegistration } from '../../../app/global-state/jp-pre-registrations';
-import { postWrapper as create } from '../../../async/create-member'
-import { PostURLEncoded } from '../../../core/APIWrapperUtil';
-import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
-import Validation from '../../../util/Validation';
-import asc from '../../../app/AppStateContainer';
-import {reservePageRoute} from "../../../app/routes/jp/reserve"
-import { createAcctPageRoute } from '../../../app/routes/jp/create-acct';
-import { setJPImage } from '../../../util/set-bg-image';
-import { jpBasePath } from '../../../app/paths/jp/_base';
+import { PreRegistration } from '@app/global-state/jp-pre-registrations';
+import { postWrapper as create } from '@async/create-member'
+import { PostURLEncoded } from '@core/APIWrapperUtil';
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import Validation from '@util/Validation';
+import asc from '@app/AppStateContainer';
+import {reservePageRoute} from "@routes/jp/reserve"
+import { createAcctPageRoute } from '@routes/jp/create-acct';
+import { setJPImage } from '@util/set-bg-image';
+import { jpBasePath } from '@paths/jp/_base';
+import FactaSidebarPage from '@facta/FactaSidebarPage';
+import FactaSidebarRegion from '@facta/FactaSidebarRegion';
 
 const defaultForm = {
 	firstName: none as Option<string>,
@@ -158,24 +158,24 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 			</FactaArticleRegion>
 		</React.Fragment>);
 
-		const sidebarPrereg = (<JoomlaSidebarRegion title="Your Juniors"><table><tbody>
+		const sidebarPrereg = (<FactaSidebarRegion title="Your Juniors"><table><tbody>
 		{self.props.preRegistrations.length==0
 			? <tr><td>You have no reserved any classes yet.  This is ok; you can always sign up for classes after purchasing a membership.</td></tr>
 			: self.props.preRegistrations.map(preRegRender(() => self.props.history.push(`/redirect${createAcctPageRoute.getPathFromArgs({})}`)))
 		}
 		</tbody></table>
 
-		</JoomlaSidebarRegion>);
+		</FactaSidebarRegion>);
 
-		const sidebarInfo = <JoomlaSidebarRegion title="INFO">
+		const sidebarInfo = <FactaSidebarRegion title="INFO">
 			<div>
 				Your account will allow you to register your child(ren) for classes, track their progress, and renew their memberships.<br />
 				<br />
 				If you start the registration process and don't complete it, you can use this email/password to finish at a later date.
 				Note that class sign-up is only saved for two hours.
 			</div>
-		</JoomlaSidebarRegion>
-		return <Joomla8_4 setBGImage={setJPImage} main={main} right={(
+		</FactaSidebarRegion>
+		return <FactaSidebarPage setBGImage={setJPImage} main={main} right={(
 			<React.Fragment>
 				{sidebarInfo}
 				{sidebarPrereg}

@@ -14,7 +14,7 @@ export default class RouteWrapper<T extends StringObject>{
 		return <Route key={this.pathWrapper.path} path={this.pathWrapper.path} render={() => this.render(history)} />;
 	}
 
-	getPathFromArgs(args: T): string {
-		return this.pathWrapper.getPathFromArgs(args);
+	getPathFromArgs(args: T, query?: object): string {
+		return this.pathWrapper.getPathFromArgs(args, query);
 	}
 }

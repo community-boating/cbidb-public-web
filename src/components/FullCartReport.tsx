@@ -1,11 +1,11 @@
 import * as React from 'react';
-import JoomlaReport from '../theme/joomla/JoomlaReport';
-import { CartItem } from '../async/get-cart-items';
-import Currency from '../util/Currency';
-import {postWrapper as deleteDonation} from "../async/member/delete-donation"
-import { makePostJSON } from '../core/APIWrapperUtil';
+import StandardReport from '@facta/StandardReport';
+import { CartItem } from '@async/get-cart-items';
+import Currency from '@util/Currency';
+import {postWrapper as deleteDonation} from "@async/member/delete-donation"
+import { makePostJSON } from '@core/APIWrapperUtil';
 import {History} from 'history'
-import {postWrapper as unapplyGC} from "../async/member/unapply-gc"
+import {postWrapper as unapplyGC} from "@async/member/unapply-gc"
 import { PageFlavor } from './Page';
 
 const renderItemRow: (
@@ -99,7 +99,7 @@ export default class FullCartReport extends React.PureComponent<Props> {
 			hasAtLeastOneInMem,
 		);
 		
-		return (<JoomlaReport
+		return (<StandardReport
 			headers={
 				(this.props.includeCancel ? ["Cancel"] : [])
 				.concat(hasAtLeastOneInMem ? ["In Memory/Honor Of"] : [])

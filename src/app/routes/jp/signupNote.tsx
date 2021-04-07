@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {jpPathSignupNote} from "../../paths/jp/signup-note";
-import PageWrapper from "../../../core/PageWrapper";
-import RouteWrapper from "../../../core/RouteWrapper";
+import {jpPathSignupNote} from "@paths/jp/signup-note";
+import PageWrapper from "@core/PageWrapper";
+import RouteWrapper from "@core/RouteWrapper";
 import { Option } from 'fp-ts/lib/Option';
-import SignupNotePage from '../../../containers/jp/class-signup/SignupNotePage';
-import {getWrapper as getSignupNote} from "../../../async/junior/signup-note"
-import { setJPImage } from '../../../util/set-bg-image';
-import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
+import SignupNotePage from '@containers/jp/class-signup/SignupNotePage';
+import {getWrapper as getSignupNote} from "@async/junior/signup-note"
+import { setJPImage } from '@util/set-bg-image';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 
 export const signupNotePageRoute = new RouteWrapper(true, jpPathSignupNote, history => <PageWrapper
     key="signupNote"

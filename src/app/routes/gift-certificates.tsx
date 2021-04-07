@@ -1,10 +1,10 @@
 import * as React from 'react';
-import PageWrapper from "../../core/PageWrapper";
-import RouteWrapper from "../../core/RouteWrapper";
-import { setAPImage } from '../../util/set-bg-image';
-import JoomlaLoadingPage from '../../theme/joomla/JoomlaLoadingPage';
-import GiftCertificatesWizard from '../../containers/gift-certificates/GiftCertificatesWizard';
-import { giftCertificatesPath } from '../paths/gift-certificates';
+import PageWrapper from "@core/PageWrapper";
+import RouteWrapper from "@core/RouteWrapper";
+import { setAPImage } from '@util/set-bg-image';
+import GiftCertificatesWizard from '@containers/gift-certificates/GiftCertificatesWizard';
+import { giftCertificatesPath } from '@paths/gift-certificates';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 
 export const giftCertificatesPageRoute = new RouteWrapper(false, giftCertificatesPath, history => <PageWrapper
 	key="giftCerts"
@@ -13,5 +13,5 @@ export const giftCertificatesPageRoute = new RouteWrapper(false, giftCertificate
 		history={history}
 	/>}
 	urlProps={{}}
-	shadowComponent={<JoomlaLoadingPage setBGImage={setAPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 />);

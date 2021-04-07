@@ -57,7 +57,6 @@ export default abstract class Button extends React.PureComponent<PropsForSubclas
 		}
 	}
 	buttonOnClick(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-		console.log("click")
 		const didWork = this.setClicked();
 		if (didWork || this.props.notIdempotent) {
 			// Whatever happens on this click, after its done, attempt to reset the button which may or may not still exist
@@ -71,10 +70,11 @@ export default abstract class Button extends React.PureComponent<PropsForSubclas
 		}
 	}
 	render() {
-		console.log("this.props.spinnerOnClick ", this.props.spinnerOnClick)
-		console.log("this.state.clicked", this.state.clicked)
-		const spinner = <img height="17px" style={{height: "17px", marginTop: "-3px", verticalAlign: "middle"}} src="/images/spinner-white.gif" />;
-		const maybeSpinner = this.props.forceSpinner || (this.state.clicked && this.props.spinnerOnClick) ? <span>&nbsp;&nbsp;{spinner}</span> : "";
-		return this.props.container(this.buttonOnClick.bind(this), <span>{this.props.text}{maybeSpinner}</span>);
+		const spinner = <td style={{paddingLeft: "4px"}}>
+			<img height="17px" style={{height: "17px", marginTop: "-3px", verticalAlign: "middle"}} src="/images/spinner-white.gif" />
+		</td>;
+		const maybeSpinner = this.props.forceSpinner || (this.state.clicked && this.props.spinnerOnClick) ? spinner : null;
+		const contents = <table><tbody><tr><td>{this.props.text}</td>{maybeSpinner}</tr></tbody></table>
+		return this.props.container(this.buttonOnClick.bind(this), contents);
 	}
 }

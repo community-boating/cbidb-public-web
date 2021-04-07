@@ -1,15 +1,15 @@
 import * as React from 'react';
-import JoomlaSidebarRegion from "../theme/joomla/JoomlaSidebarRegion";
-import { GetSignupsAPIResult, EnrollmentAPIResult, WaitListTopAPIResult, WaitListAPIResult } from '../async/junior/get-signups';
-import { postWrapper as doSignup } from "../async/junior/class-signup"
-import { postWrapper as deleteSignup } from "../async/junior/class-signup-delete"
-import APIWrapper from '../core/APIWrapper';
-import { makePostJSON } from '../core/APIWrapperUtil';
+import { GetSignupsAPIResult, EnrollmentAPIResult, WaitListTopAPIResult, WaitListAPIResult } from '@async/junior/get-signups';
+import { postWrapper as doSignup } from "@async/junior/class-signup"
+import { postWrapper as deleteSignup } from "@async/junior/class-signup-delete"
+import APIWrapper from '@core/APIWrapper';
+import { makePostJSON } from '@core/APIWrapperUtil';
 import { History } from 'history';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '../lov/magicStrings';
-import {signupNotePageRoute} from "../app/routes/jp/signupNote";
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '@lov/magicStrings';
+import {signupNotePageRoute} from "@routes/jp/signupNote";
+import FactaSidebarRegion from '@facta/FactaSidebarRegion';
 
 function resizeRatings(){
 	var heightPx = window.getComputedStyle(document.getElementById('dhtmltooltip').getElementsByTagName('table')[0]).getPropertyValue('height');
@@ -32,20 +32,20 @@ const signupNoteMaybe = (typeId: number, juniorId: number, instanceId: number) =
 declare var ddrivetip: any;
 declare var hideddrivetip: any;
 
-const wlTopTooltip = `<table style="font-size:1.1em;"><tr><td>
+const wlTopTooltip = `<table><tr><td>
 A seat in the class has opened and you are next in line!  Click "Join the class" to enroll, or "Delist" if you are no longer interested (choosing "Delist" will permanently remove you from the wait list).  If this class conflicts with any others you are already signed up for, you will be prompted to unenroll from each of them before continuing.<br />
 <br />
 In the interest of making sure all our classes are filled, your wait list offer is valid only until the time and date specified.  If you are unable to respond before then, your place in line will be preserved but you are no longer guaranteed a seat in the class.  If you accept the offer after it has expired, you must still wait for the next available seat to open, and you will be required to reaffirm your interest.
 
 </td></tr></table>`;
 
-const wlTooltip = `<table style="font-size:1.1em;"><tr><td>
+const wlTooltip = `<table><tr><td>
 When a spot becomes available you will be notified at the email address you use to log into this account.  In the interest of making sure all our classes are filled, you will only have 48 hours to respond before the offer expires (sooner if the seat opens during the weekend before the class begins) so be sure to check your email and/or check back to this page.  The Front Office will also attempt to reach you by phone at the phone number listed on your account.<br />
 <br />
 If the offer expires before you are able to respond, the open seat will be offered to the next Junior on the wait list, but your place in line will not be lost.  At any time you can reaffirm that you are still interested, and the next available seat will be offered to you.
 </td></tr></table>`;
 
-const wlExpiredTooltip = `<table style="font-size:1.1em;"><tr><td>
+const wlExpiredTooltip = `<table><tr><td>
 
 A seat in the class opened for you, but you were not able to respond in time.  In the interest of making sure all our classes are filled, wait list offers are only valid for a short time before they expire and we attempt to contact other Juniors.<br />
 <br />
@@ -73,7 +73,7 @@ export default (props: {
 	function printEnrollments(es: EnrollmentAPIResult[]) {
 		if (es.length == 0) {
 			return (<div>
-				<span className="nodatafound">As you sign up for classes, they will appear in this box!</span>
+				<span className="nodatafound">As you sign up for classes, they will appear here!</span>
 			</div>);
 		} else {
 			return (<div><table style={{width: "100%"}} cellPadding="10"><tbody>
@@ -159,21 +159,21 @@ export default (props: {
 	}
 	
 	const enrolledComponent = (enrollments: EnrollmentAPIResult[]) => (
-		<JoomlaSidebarRegion title="Your Signups">
+		<FactaSidebarRegion title="Your Signups">
 			{printEnrollments(enrollments)}
-		</JoomlaSidebarRegion>
+		</FactaSidebarRegion>
 	);
 	
 	const waitListTopComponent = (tops: WaitListTopAPIResult[]) => (
-		<JoomlaSidebarRegion title="Top of the Wait List">
+		<FactaSidebarRegion title="Top of the Wait List">
 			<div><table style={{width: "100%"}} cellPadding="10"><tbody>
 				{tops.map(printWLTop)}
 			</tbody></table> </div>	
-		</JoomlaSidebarRegion>
+		</FactaSidebarRegion>
 	);
 	
 	const waitListComponent = (wls: WaitListAPIResult[]) => (
-		<JoomlaSidebarRegion title="Wait Lists">
+		<FactaSidebarRegion title="Wait Lists">
 			<div><table style={{width: "100%"}} cellPadding="10"><tbody>
 				{wls.map(wl => (<tr key={wl.instanceId}><td>
 					<b>{wl.className}</b><br />
@@ -191,13 +191,13 @@ export default (props: {
 					}}>Delist</a>{signupNoteMaybe(wl.typeId, props.signups.juniorId, wl.instanceId)}<br />
 					<i>You are in position {wl.wlPosition} in line.</i><br />
 					<span
-						style={{color: "#2358A6", cursor: "help"}}
+						style={{color: "#f25151", textDecoration: "underline", cursor: "help"}}
 						onMouseOver={() => {ddrivetip(wlTooltip,'lightYellow',300); resizeRatings();}}
 						onMouseOut={() => hideddrivetip()}
 					>How does the wait list work?</span>
 				</td></tr>))}
 			</tbody></table></div>	
-		</JoomlaSidebarRegion>
+		</FactaSidebarRegion>
 	);
 
 	return (

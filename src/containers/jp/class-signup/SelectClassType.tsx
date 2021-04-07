@@ -1,23 +1,24 @@
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { validator } from "../../../async/junior/see-types";
-import Joomla8_4 from "../../../theme/joomla/Joomla8_4";
-import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
+import { validator } from "@async/junior/see-types";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
 import { asDiv, asFragment, ClassType } from "./class-description";
 import advanced from "./types/advanced";
 import beginner from "./types/beginner";
 import intermediate from "./types/intermediate";
 import other from './types/other';
-import JpClassSignupSidebar from '../../../components/JpClassSignupSidebar';
-import { GetSignupsAPIResult } from '../../../async/junior/get-signups';
+import JpClassSignupSidebar from '@components/JpClassSignupSidebar';
+import { GetSignupsAPIResult } from '@async/junior/get-signups';
 import { History } from 'history'
-import FactaButton from '../../../theme/facta/FactaButton';
-import {FactaErrorDiv} from '../../../theme/facta/FactaErrorDiv';
-import NavBarLogoutOnly from '../../../components/NavBarLogoutOnly';
-import { none } from 'fp-ts/lib/Option';
-import { setJPImage } from '../../../util/set-bg-image';
-import { jpBasePath } from '../../../app/paths/jp/_base';
+import FactaButton from '@facta/FactaButton';
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import NavBarLogoutOnly from '@components/NavBarLogoutOnly';
+import { none, Option } from 'fp-ts/lib/Option';
+import { setJPImage } from '@util/set-bg-image';
+import { jpBasePath } from '@paths/jp/_base';
+import FactaSidebarPage from '@facta/FactaSidebarPage';
+import { FactaSuccessDiv } from '@facta/FactaSuccessDiv';
 
 export const path = "/class/:personId"
 
@@ -44,7 +45,8 @@ interface Props {
 	personId: number,
 	history: History<any>,
 	apiResultArray: APIResult,
-	signups: GetSignupsAPIResult
+	signups: GetSignupsAPIResult,
+	successMsg: Option<string>
 }
 
 type State = {
@@ -62,8 +64,8 @@ export default class SelectClassType extends React.Component<Props, State> {
 	}
 	render() {
 		const self = this;
-		const asFragmentCurried = asFragment(self.props.personId)
-		const asDivCurried = asDiv(self.props.personId)
+		const asFragmentCurried = asFragment(self.props.history, self.props.personId)
+		const asDivCurried = asDiv(self.props.history, self.props.personId)
 		const canSeeClass = (c: ClassType) => !!this.formData.classTypesHash[String(c.typeId)];
 
 		const beginnerRegion = (canSeeClass(beginner)
@@ -110,6 +112,8 @@ export default class SelectClassType extends React.Component<Props, State> {
 			: ""
 		);
 
+		const success = this.props.successMsg.map(msg => <FactaSuccessDiv msg={msg} />).getOrElse(null);
+
 		const allRegions = (
 			<React.Fragment>
 				{errorPopup}
@@ -123,11 +127,13 @@ export default class SelectClassType extends React.Component<Props, State> {
 		);
 
 		return (
-			<Joomla8_4 setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})} main={allRegions} right={<JpClassSignupSidebar
+			<FactaSidebarPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})} main={allRegions} right={<JpClassSignupSidebar
 				signups={self.props.signups}
 				history={self.props.history}
 				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}
-			/>} />
+			/>}>
+				{success}
+			</FactaSidebarPage>
 		)
 	}
 }

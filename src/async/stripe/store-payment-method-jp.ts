@@ -1,7 +1,7 @@
 import { Option } from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
-import APIWrapper from '../../core/APIWrapper';
-import { HttpMethod } from "../../core/HttpMethod";
+import APIWrapper from '@core/APIWrapper';
+import { HttpMethod } from "@core/HttpMethod";
 
 export type PostType = {
 	paymentMethodId: string

@@ -2,20 +2,20 @@ import { none, Option } from 'fp-ts/lib/Option';
 import { History } from "history";
 import * as React from "react";
 
-import { postWrapper as postNo } from "../../async/junior/scholarship-no";
-import { postWrapper as postYes } from "../../async/junior/scholarship-yes";
-import FactaButton from "../../theme/facta/FactaButton";
-import { RadioGroup, SingleCheckbox } from "../../components/InputGroup";
-import { Select } from "../../components/Select";
-import TextInput from "../../components/TextInput";
-import { makePostJSON } from "../../core/APIWrapperUtil";
-import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
-import FactaNotitleRegion from "../../theme/facta/FactaNotitleRegion";
-import Currency from "../../util/Currency";
-import formUpdateState from '../../util/form-update-state';
-import {FactaErrorDiv} from '../../theme/facta/FactaErrorDiv';
-import { setJPImage } from '../../util/set-bg-image';
-import FactaMainPage from '../../theme/facta/FactaMainPage';
+import { postWrapper as postNo } from "@async/junior/scholarship-no";
+import { postWrapper as postYes } from "@async/junior/scholarship-yes";
+import FactaButton from "@facta/FactaButton";
+import { RadioGroup, SingleCheckbox } from "@components/InputGroup";
+import { Select } from "@components/Select";
+import TextInput from "@components/TextInput";
+import { makePostJSON } from "@core/APIWrapperUtil";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import FactaNotitleRegion from "@facta/FactaNotitleRegion";
+import Currency from "@util/Currency";
+import formUpdateState from '@util/form-update-state';
+import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import { setJPImage } from '@util/set-bg-image';
+import FactaMainPage from '@facta/FactaMainPage';
 
 export interface Form {
 	isApplying: Option<string>,

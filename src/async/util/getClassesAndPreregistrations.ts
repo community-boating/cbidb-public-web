@@ -1,9 +1,9 @@
 import {getWrapper as getClassesWithAvail} from "../class-instances-with-avail"
 import * as moment from 'moment';
-import { Success } from '../../core/APIWrapperTypes';
+import { Success } from '@core/APIWrapperTypes';
 import {postWrapper as getProtoPersonCookie} from "../check-proto-person-cookie"
 import { getWrapper as getReservations } from '../junior/get-junior-class-reservations'
-import { PostURLEncoded } from "../../core/APIWrapperUtil";
+import { PostURLEncoded } from "@core/APIWrapperUtil";
 
 
 const getClassesAndPreregistrations = () => {

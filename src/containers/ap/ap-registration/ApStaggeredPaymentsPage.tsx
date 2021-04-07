@@ -5,21 +5,20 @@ import * as t from 'io-ts';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
-import Button from "../../../components/Button";
-import FactaArticleRegion from "../../../theme/facta/FactaArticleRegion";
-import FactaMainPage from "../../../theme/facta/FactaMainPage";
-import FactaNotitleRegion from "../../../theme/facta/FactaNotitleRegion";
-import NavBarLogoutOnly from "../../../components/NavBarLogoutOnly";
-import { setAPImage } from "../../../util/set-bg-image";
-import Currency from "../../../util/Currency";
-import { singlePaymentValidator } from "../../../async/member/payment-plan-options";
-import {postWrapper as submit} from "../../../async/member/set-payment-plan"
-import { makePostJSON } from "../../../core/APIWrapperUtil";
-import { StaggeredPaymentSchedule } from "../../../components/StaggeredPaymentSchedule";
-import { MAGIC_NUMBERS } from "../../../app/magicNumbers";
-import { RadioGroup } from "../../../components/InputGroup";
-import FactaButton from "../../../theme/facta/FactaButton";
-import JoomlaReport from "../../../theme/joomla/JoomlaReport";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
+import FactaMainPage from "@facta/FactaMainPage";
+import FactaNotitleRegion from "@facta/FactaNotitleRegion";
+import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
+import { setAPImage } from "@util/set-bg-image";
+import Currency from "@util/Currency";
+import { singlePaymentValidator } from "@async/member/payment-plan-options";
+import {postWrapper as submit} from "@async/member/set-payment-plan"
+import { makePostJSON } from "@core/APIWrapperUtil";
+import { StaggeredPaymentSchedule } from "@components/StaggeredPaymentSchedule";
+import { MAGIC_NUMBERS } from "@app/magicNumbers";
+import { RadioGroup } from "@components/InputGroup";
+import FactaButton from "@facta/FactaButton";
+import StandardReport from "@facta/StandardReport";
 
 type SinglePayment = t.TypeOf<typeof singlePaymentValidator>;
 
@@ -70,7 +69,7 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 		/>);
 		const totals = this.props.paymentSchedules.map(s => s.reduce((agg, p) => agg + p.paymentAmtCents, 0));
 		return <React.Fragment>
-			<JoomlaReport
+			<StandardReport
 				headers={["Payments", "Monthly Amt", "Final Payment", "Total"]}
 				cellStyles={[{textAlign: "left"}, {textAlign: "right"}, {textAlign: "right"}, {textAlign: "right"}]}
 				rows={this.props.paymentSchedules.filter((s, i) => i > 0).map(s => 

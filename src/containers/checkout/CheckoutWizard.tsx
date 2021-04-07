@@ -1,20 +1,20 @@
 import { History } from "history";
 import * as React from "react";
-import WizardPageflow, { ComponentPropsFromWizard } from "../../core/WizardPageflow";
+import WizardPageflow, { ComponentPropsFromWizard } from "@core/WizardPageflow";
 import { Option, none, some } from "fp-ts/lib/Option";
-import PageWrapper from "../../core/PageWrapper";
-import { apiw as welcomeAPIAP } from "../../async/member-welcome-ap";
-import { apiw as welcomeAPIJP } from "../../async/member-welcome-jp";
+import PageWrapper from "@core/PageWrapper";
+import { apiw as welcomeAPIAP } from "@async/member-welcome-ap";
+import { apiw as welcomeAPIJP } from "@async/member-welcome-jp";
 import PaymentDetailsPage from "./PaymentDetails";
 import PaymentConfirmPage from "./PaymentConfirm";
-import { apiw as orderStatus, CardData } from "../../async/order-status"
-import { setCheckoutImage } from "../../util/set-bg-image";
-import { apiw as getCartItems } from "../../async/get-cart-items"
-import { jpBasePath } from "../../app/paths/jp/_base";
-import {getWrapper as getDonationFunds} from "../../async/donation-funds"
+import { apiw as orderStatus, CardData } from "@async/order-status"
+import { setCheckoutImage } from "@util/set-bg-image";
+import { apiw as getCartItems } from "@async/get-cart-items"
+import { jpBasePath } from "@paths/jp/_base";
+import {getWrapper as getDonationFunds} from "@async/donation-funds"
 import ThankYouPage from "./ThankYou";
-import { PageFlavor } from "../../components/Page";
-import FactaLoadingPage from "../../theme/facta/FactaLoadingPage";
+import { PageFlavor } from "@components/Page";
+import FactaLoadingPage from "@facta/FactaLoadingPage";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -105,7 +105,6 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 									this.setHasApMemberships();
 								}
 							}
-							console.log(this.state)
 							return Promise.resolve([welcome, order, cart, funds])
 						}
 					}).catch(err => Promise.resolve(null));  // TODO: handle failure

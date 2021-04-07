@@ -1,16 +1,16 @@
 import * as React from "react";
 
-import { InstanceInfo } from "../async/junior/get-class-instances";
-import JoomlaReport from "../theme/joomla/JoomlaReport";
-import { ClassAction } from '../containers/jp/class-signup/SelectClassTime';
-import { postWrapper as doSignup } from "../async/junior/class-signup"
-import { postWrapper as deleteSignup } from "../async/junior/class-signup-delete"
-import APIWrapper from '../core/APIWrapper';
-import { makePostJSON } from '../core/APIWrapperUtil';
+import { InstanceInfo } from "@async/junior/get-class-instances";
+import StandardReport from "@facta/StandardReport";
+import { ClassAction } from '@containers/jp/class-signup/SelectClassTime';
+import { postWrapper as doSignup } from "@async/junior/class-signup"
+import { postWrapper as deleteSignup } from "@async/junior/class-signup-delete"
+import APIWrapper from '@core/APIWrapper';
+import { makePostJSON } from '@core/APIWrapperUtil';
 import { History } from 'history';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '../lov/magicStrings';
-import assertNever from "../util/assertNever";
-import {signupNotePageRoute} from "../app/routes/jp/signupNote"
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '@lov/magicStrings';
+import assertNever from "@util/assertNever";
+import {signupNotePageRoute} from "@routes/jp/signupNote"
 
 interface Props {
 	typeId: number,
@@ -95,7 +95,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 	render() {
 		const self = this;
 		return (
-			<JoomlaReport
+			<StandardReport
 				headers={["First Day", "Last Day", "Class Time", "Spots Left", "Action", "Notes"]}
 				rows={this.props.instances.map(c => ([
 					c.firstDay,

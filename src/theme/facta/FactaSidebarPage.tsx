@@ -1,45 +1,47 @@
 import * as React from "react";
-import Page from "../../components/Page";
-import FactaBase from "./FactaBase";
+import Page from "@components/Page";
 
 interface Props {
 	navBar?: JSX.Element,
 	main: React.ReactNode,
-	left?: React.ReactNode
+	right: React.ReactNode,
 }
 
 export default class FactaSidebarPage extends Page<Props> {
 	render() {
-		return <FactaBase>
-			<div className="main-single-wrapper">
-				<div className="container">
-					<div className="row">
-						<div className="col-12 col-lg-12 order-lg-2">
-							<div className="main-single-content">
+		return <div className="main-single-wrapper">
+			<div className="container">
+				<div className="row">
+					{this.props.children}
+					<table><tbody><tr>
+						<td style={{verticalAlign: "top"}}>
+								<div className="main-single-content">
 
-								<div className="blocks">
+									<div className="blocks">
 
-									<div className="container">
-										<div className="row justify-content-center">
-											<div className="col-12 ">
-												{this.props.main}
+										<div className="container">
+											<div className="row justify-content-center">
+												<div className="col-12 ">
+													{this.props.main}
+												</div>
 											</div>
 										</div>
+
 									</div>
 
 								</div>
+						</td>	
+						<td width="30%" style={{verticalAlign: "top"}}>
+								<div className="sidebar-item sidebar-item-toc">
+									{this.props.right}
+								</div>
+						</td>
 
-							</div>
-						</div>
-						<div className="col-12 col-lg-3 order-lg-1 d-lg-block d-none">
-
-							<div className="sidebar-item sidebar-item-toc">
-								{this.props.left}
-							</div>
-						</div>
-					</div>
+					</tr></tbody></table>
+					
+					
 				</div>
 			</div>
-		</FactaBase>
+		</div>
 	}
 }

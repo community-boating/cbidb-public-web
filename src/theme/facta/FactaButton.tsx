@@ -1,15 +1,15 @@
 import * as React from "react";
-import Button, { PropsForUser as ButtonProps } from "../../components/Button";
+import Button, { PropsForUser as ButtonProps } from "@components/Button";
 
 type FactaButtonProps = ButtonProps & {
-	small?: boolean
+	big?: boolean
 }
 
 const FactaButton: React.FunctionComponent<FactaButtonProps> = 
 	(props) => {
 		const classNames = [
 			"facta-button"
-		].concat(props.small ? ["facta-button-small"] : [])
+		].concat(props.big ? []: ["facta-button-small"])
 		.join(" ");
 
 		return <Button

@@ -1,14 +1,14 @@
 import { History } from 'history';
 import * as React from "react";
 
-import FactaButton from "../theme/facta/FactaButton";
-import FactaArticleRegion from "../theme/facta/FactaArticleRegion";
+import FactaButton from "@facta/FactaButton";
+import FactaArticleRegion from "@facta/FactaArticleRegion";
 import { none } from 'fp-ts/lib/Option';
-import { setAPImage, setJPImage } from '../util/set-bg-image';
-import { PageFlavor } from '../components/Page';
-import { apPathLogin } from '../app/paths/ap/login';
-import { jpPathLogin } from '../app/paths/jp/login';
-import FactaMainPage from '../theme/facta/FactaMainPage';
+import { setAPImage, setJPImage } from '@util/set-bg-image';
+import { PageFlavor } from '@components/Page';
+import { apPathLogin } from '@paths/ap/login';
+import { jpPathLogin } from '@paths/jp/login';
+import FactaMainPage from '@facta/FactaMainPage';
 
 type Props = {
 	history: History<any>,

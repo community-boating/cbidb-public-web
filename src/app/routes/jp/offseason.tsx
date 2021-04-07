@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import {jpPathOffseason} from "../../paths/jp/offseason";
-import PageWrapper from "../../../core/PageWrapper";
-import RouteWrapper from "../../../core/RouteWrapper";
-import { apiw as welcomeAPI, validator as welcomeValidator } from "../../../async/member-welcome-jp";
-import OffseasonClassesStandalone from '../../../containers/jp/OffseasonClassesStandalone';
-import Currency from '../../../util/Currency';
-import {getWrapper as getOffseasonClasses, validator as offseasonClassesValidator} from "../../../async/junior/offseason-classes"
-import { setJPImage } from '../../../util/set-bg-image';
-import FactaLoadingPage from '../../../theme/facta/FactaLoadingPage';
+import {jpPathOffseason} from "@paths/jp/offseason";
+import PageWrapper from "@core/PageWrapper";
+import RouteWrapper from "@core/RouteWrapper";
+import { apiw as welcomeAPI, validator as welcomeValidator } from "@async/member-welcome-jp";
+import OffseasonClassesStandalone from '@containers/jp/OffseasonClassesStandalone';
+import Currency from '@util/Currency';
+import {getWrapper as getOffseasonClasses, validator as offseasonClassesValidator} from "@async/junior/offseason-classes"
+import { setJPImage } from '@util/set-bg-image';
+import FactaLoadingPage from '@facta/FactaLoadingPage';
 
 type CombinedApiResult = {
 	welcome: t.TypeOf<typeof welcomeValidator>,

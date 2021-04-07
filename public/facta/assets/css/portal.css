@@ -58,7 +58,7 @@ div.wizardProgress ul li.non-current span.pastCurrent, div.wizardProgress ul li.
 }
 
 div.wizardProgress ul li.current span, div.wizardProgress ul li.first-current span, div.wizardProgress ul li.last-current span {
-    color: #333;
+    color: #00507D;
     font-weight: bold;
     background-position: 50% -556px;
 }
@@ -73,7 +73,7 @@ div.wizardProgress ul li span {
     padding: 36px 4px 0 4px;
     font-size: 12px;
     line-height: 14px;
-    color: #404040;
+    color: #00507D;
     background-image: url(/i/apex_ui/apex_ui.png);
     background-repeat: no-repeat;
     text-align: center;
@@ -93,11 +93,11 @@ label {
 
 .apex-item-select {
 	height: 29px;
-	margin: 4px 0;
+	margin: 2px 0;
 }
 
 .apex-item-text {
-	margin: 4px 0;
+	margin: 2px 0;
 }
 
 h3 {

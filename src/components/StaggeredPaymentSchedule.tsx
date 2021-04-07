@@ -1,14 +1,14 @@
 import * as React from "react";
-import JoomlaReport from "../theme/joomla/JoomlaReport";
+import StandardReport from "@facta/StandardReport";
 import * as moment from 'moment';
-import Currency from "../util/Currency";
+import Currency from "@util/Currency";
 
 type Props = {
 	schedule: {paymentDate: string, paymentAmtCents: number}[]
 }
 
 export const StaggeredPaymentSchedule = (props: Props) => {
-	return <JoomlaReport
+	return <StandardReport
 	headers={["Date", "Amount"]}
 	cellStyles={[{textAlign: "right"}, {textAlign: "right"}]}
 	rows={props.schedule.map((p, i) => {
