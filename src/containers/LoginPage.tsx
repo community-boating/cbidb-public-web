@@ -61,7 +61,10 @@ export default class LoginPage extends React.Component<Props, State> {
 		getProtoPersonCookie.send(PostURLEncoded({}))
 	}
 	componentDidMount = () => {
-		document.getElementById("username").focus();
+		window.setTimeout(() => {
+			const node = document.getElementById("username");
+			node.focus();
+		}, 0);
 	}
 	loginFunction = () => {
 		const self = this;
