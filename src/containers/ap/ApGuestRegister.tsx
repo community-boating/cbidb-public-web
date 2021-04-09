@@ -399,7 +399,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		const adultWaiverContent = (<div id="adultwaiver">
 		<table width="100%"><tbody>
 				<tr>
-					<iframe title="Waiver of Liability" src="../../../waivers/live/ApGuestWaiver.html" width="100%" height="400px"></iframe>
+					<iframe title="Waiver of Liability" src="/waivers/live/ApGuestWaiver.html" width="100%" height="400px"></iframe>
 				</tr>
 				<tr>
 					<td>{ agreeCheckbox } { progressButton }</td>
