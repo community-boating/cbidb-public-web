@@ -8,7 +8,8 @@ export const validator = t.type({
 
 export const responseValidator = t.type({
 	cardAssignID: t.number,
-    cardNumber: t.number
+    cardNumber: t.number,
+	barcode: t.string
 })
 
 const path = "/fo-kiosk/create-card"

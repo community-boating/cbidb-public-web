@@ -1,14 +1,16 @@
 import * as React from "react";
 import { setAPImage } from "../../util/set-bg-image";
-import FactaArticleRegion from "../../theme/facta/FactaArticleRegion";
+import FactaArticleRegion from '@facta/FactaArticleRegion';
+import FactaNotitleRegion from "@facta/FactaNotitleRegion";
 import { History } from 'history'
 import DateTriPicker, {  DateTriPickerProps } from "@components/DateTriPicker";
 import PhoneTriBox, { PhoneTriBoxProps } from "@components/PhoneTriBox";
+import { SingleCheckbox } from "@components/InputGroup";
 import formUpdateState from '../../util/form-update-state';
 import TextInput from '../../components/TextInput';
 import Validation from '../../util/Validation';
 import FactaButton from '../../theme/facta/FactaButton';
-import { Option, none } from 'fp-ts/lib/Option';
+import { Option, none, some } from 'fp-ts/lib/Option';
 import { postWrapper as createPerson } from "@async/ap/create-person"
 import { postWrapper as createCard } from  "@async/ap/create-card"
 //import { jpBasePath } from "../../app/paths/jp/_base";
@@ -25,11 +27,18 @@ type Props = {
 	history: History<any>
 }
 
+type NewGuestInformation = {
+	personID: number,
+	cardNumber: number,
+	cardImageData: string
+}
 
 type State = {
 	formData: Form,
 	validationErrors: string[],
-	pageState: PageState
+	pageState: PageState,
+	waiverAccepted: boolean,
+	createResults: Option<NewGuestInformation>
 }
 
 enum PageState{
@@ -102,7 +111,9 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		this.state = {
 			formData: defaultForm,
 			validationErrors: [],
-			pageState: PageState.WAIVER
+			pageState: PageState.WAIVER,
+			waiverAccepted: false,
+			createResults: none
 		}
 	}
 
@@ -141,31 +152,64 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 					emerg1PhonePrimary: emergPhone,
 					previousMember: false
 				}))*/
-				createPerson.send(makePostJSON({
-					firstName: "Jon",
-					lastName: "Cole",
-					emailAddress: "jon@community-boating.org",
-					dob: "07/24/1988",
-					phonePrimary: "6175231038",
-					emerg1Name: "Charlie Zechel",
-					emerg1Relation: "boss",
-					emerg1PhonePrimary: "6175231038",
-					previousMember: true
-				})).then(res => {
-					if(res.type === "Success"){
-						createCard.send(makePostJSON({
-							personID: 1
-						})).then(res =>{
-							if(res.type === "Success"){
-								console.log("created a new person, " + res.success.cardNumber);
-							}else{
-								console.log("error with card creation call");
-							}
-						});
-					}else{
-						console.log("error with person creation call");
-					}
-				});
+				if(this.state.waiverAccepted){
+					const self = this;
+					this.setState({
+						...this.state,
+						validationErrors: []
+					})
+					return createPerson.send(makePostJSON({
+						firstName: "Jon",
+						lastName: "Cole",
+						emailAddress: "jon@community-boating.org",
+						dob: "07/24/1988",
+						phonePrimary: "6175231038",
+						emerg1Name: "Charlie Zechel",
+						emerg1Relation: "boss",
+						emerg1PhonePrimary: "6175231038",
+						previousMember: true
+					})).then(res => {
+						if(res.type === "Success"){
+							return createCard.send(makePostJSON({
+								personID: res.success.personID
+							})).then(res2 =>{
+								if(res2.type === "Success"){
+									console.log("created a new person and card, " + res2.success.cardNumber);
+										self.setState({
+										...self.state,
+										pageState: PageState.FINISH,
+										createResults: some({
+											personID: res.success.personID,
+											cardNumber: res2.success.cardNumber,
+											cardImageData: res2.success.barcode
+										}),
+										validationErrors: []
+									})
+									return Promise.resolve("Success");
+								}else{
+									console.log("error with card creation call");
+									self.setState({
+										...self.state,
+										validationErrors: ["An internal error has occured, please try again later"]
+									})
+									return Promise.resolve("Failure");
+								}
+							});
+						}else{
+							console.log("error with person creation call");
+							self.setState({
+								...self.state,
+								validationErrors: ["An internal error has occured, please try again later"]
+							})
+							return Promise.resolve("Failure");
+						}
+					});
+				}else{
+					this.setState({
+						...this.state,
+						validationErrors: ["Please agree to the terms to continue"]
+					});
+				}
 			break;
 		}
 		return Promise.resolve("Success");
@@ -325,14 +369,40 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				</tr>
 			</tbody></table>
 		</div>);
+		const finishScreenContent = (
+			<div>
+				<h1>Success!</h1>
+				<h3>You are now registered as a guest!</h3> 
+				<p>Your card number is shown below, you will also receive a confirmation email with your card attatched. </p>
+				<p>You may either print your card now using the print button or bring the emailed copy along in print or on a mobile device.</p>
+				<p>You will have the option to print your card at the boathouse if you don't have a printer or mobile device available.</p>
+					<img src="/images/guest-ticket.png" alt={'Community Boating Guest Ticket'} ></img>
+					<img src={'data:image/png;base64,'.concat(self.state.createResults.getOrElse({ personID: 0, cardNumber: 0, cardImageData: '' }).cardImageData)} alt={'Barcode Error, Please See Front Office'} ></img>
+			</div>);
+		console.log(self.state.createResults.getOrElse({personID: 0, cardNumber: 0, cardImageData: ""}).cardImageData);
+		const agreeCheckbox = (<FactaNotitleRegion>
+			<SingleCheckbox
+				id="accept"
+				label="I Agree To These Terms"
 
+				updateAction={(id: string, waiverValue: any) => {
+					self.setState({
+						...this.state,
+						waiverAccepted: (waiverValue === true)
+					})
+					console.log(waiverValue);
+				}}
+				value={self.state ? some(self.state.waiverAccepted) : none}
+				justElement={true}
+			/>
+		</FactaNotitleRegion>);
 		const adultWaiverContent = (<div id="adultwaiver">
 		<table width="100%"><tbody>
 				<tr>
 					<iframe title="Waiver of Liability" src="../../../waivers/live/ApGuestWaiver.html" width="100%" height="400px"></iframe>
 				</tr>
 				<tr>
-					<td>Agree and Continue { progressButton }</td>
+					<td>{ agreeCheckbox } { progressButton }</td>
 				</tr>
 			</tbody></table>
 		</div>);
@@ -343,19 +413,27 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 					<iframe title="Waiver of Liability" src="../../../waivers/live/Under18GuestWaiver.html" width="100%" height="400px"></iframe>
 				</tr>
 				<tr>
-					<td>Agree and Continue { progressButton }</td>
+					<td>{ agreeCheckbox } { progressButton }</td>
 				</tr>
 			</tbody></table>
 		</div>);
 
 		var articleContent = formContent;
 
-		if(this.state.pageState == PageState.WAIVER){
-			articleContent = adultWaiverContent;
-			const now = new Date();
-			const DOB = new Date(parseInt(this.state.formData.dobYear.getOrElse("")), parseInt(this.state.formData.dobMonth.getOrElse("")), parseInt(this.state.formData.dobDay.getOrElse("")))
-			if(Number(DOB) >= (Number(now) - 18 * 365 * 24 * 60 * 60 * 1000))
-				articleContent = under18WaiverContent;
+		switch(this.state.pageState){
+			case PageState.GUEST_INFORMATION:
+				articleContent = formContent;
+				break;
+			case PageState.WAIVER:
+				articleContent = adultWaiverContent;
+				const now = new Date();
+				const DOB = new Date(parseInt(this.state.formData.dobYear.getOrElse("")), parseInt(this.state.formData.dobMonth.getOrElse("")), parseInt(this.state.formData.dobDay.getOrElse("")))
+				if(Number(DOB) >= (Number(now) - 18 * 365 * 24 * 60 * 60 * 1000))
+					articleContent = under18WaiverContent;
+				break;
+			case PageState.FINISH:
+				articleContent = finishScreenContent;
+				break;
 		}
 
 
