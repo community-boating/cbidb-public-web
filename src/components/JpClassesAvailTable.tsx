@@ -96,40 +96,38 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 
 	render() {
 		const includeAction = this.props.juniorId.isSome();
-		const notesIndex = includeAction ? 6 : 5
+		const notesIndex = includeAction ? 7 : 6
 		return (
 			<StandardReport
-				headers={["Class Name", "First Day", "Last Day", "Class Time", "Spots Left"]
+				headers={["Week", "Class Name", "First Day", "Last Day", "Class Time", "Spots Left"]
 					.concat(includeAction ? ["Action"] : [])
 					.concat(["Notes"])
 				}
-				rows={this.props.instances.map(c => ([
+				rows={this.props.instances.map(c => (([
+					"Week " + c.week,
 					c.className,
 					c.firstDay,
 					c.lastDay,
 					c.classTime,
-					c.spotsLeft,
-					(
-						includeAction
-						? this.actionToComponent(c.action as ClassAction, c.instanceId, this.props.juniorId.getOrElse(null))
-						: null
-					),
-					c.notes.getOrElse("-")
-				]))}
-				cellStyles={[
+					c.spotsLeft
+				] as React.ReactNode[]).concat(
+					includeAction
+					? [this.actionToComponent(c.action as ClassAction, c.instanceId, this.props.juniorId.getOrElse(null))]
+					: []
+				).concat([c.notes.getOrElse("-")])
+				))}
+				cellStyles={([
 					{textAlign: "center"},
 					{textAlign: "center"},
 					{textAlign: "center"},
 					{textAlign: "center"},
 					{textAlign: "center"},
-					(
-						includeAction
-						? {textAlign: "center"}
-						: null
-					),
-					{}
-				]}
-				rawHtml={{1: true, 2: true, 4: true, [notesIndex]: true}}
+					{textAlign: "center"}
+				] as React.CSSProperties[])
+					.concat(includeAction ? [{textAlign: "center"}] : [])
+					.concat([{}])
+				}
+				rawHtml={{2: true, 3: true, 5: true, [notesIndex]: true}}
 			/>
 		);
 	}
