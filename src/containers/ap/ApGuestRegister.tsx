@@ -100,21 +100,49 @@ const validate: (state: State) => string[] = state => {
 	return validations.filter(v => !v.pass).map(v => v.errorString);
 }
 
-/*function makePhone (ext : Option<string>, first : Option<string>, second : Option<string>, third : Option<string>) : number {
-	return Number.parseInt(ext.getOrElse("").concat(first.getOrElse("")).concat(second.getOrElse("")).concat(third.getOrElse("")));
-}*/
+function makePhone (ext : Option<string>, first : Option<string>, second : Option<string>, third : Option<string>) : string {
+	return ext.getOrElse("").concat(first.getOrElse("")).concat(second.getOrElse("")).concat(third.getOrElse(""));
+}
 
 export default class ApPreRegister extends React.PureComponent<Props, State> {
 	
+	//private printableDivRef: React.RefObject<HTMLDivElement>
+
 	constructor(props: Props) {
 		super(props);
 		this.state = {
 			formData: defaultForm,
 			validationErrors: [],
-			pageState: PageState.WAIVER,
+			pageState: PageState.GUEST_INFORMATION,
 			waiverAccepted: false,
 			createResults: none
 		}
+	}
+
+	handlePrint = () => {
+		//TODO maybe redo this in react style, if jon wants.
+		console.log("printing");
+		var a = window.open('', '', 'height=500px, width=600px');
+            a.document.write('<html>');
+			a.document.write('<head>');
+			a.document.write('<title>');
+			a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
+			a.document.write(' Guest Ticket</title>');
+			a.document.write('<body>');
+			a.document.write('<div id="printbox" style="padding: 40px; width: 220px; border: 2px solid black;">');
+			a.document.write('<img src="/images/guest-ticket.png" alt="Community Boating Guest Ticket" width="150px" style="padding-left: 30px"></img>');
+			a.document.write('<img src="data:image/png;base64,'.concat(this.state.createResults.getOrElse({ personID: 0, cardNumber: 0, cardImageData: "" }).cardImageData).concat('" alt="Barcode Error, Please See Front Office"  width="150PX" style="padding-top: 10px; padding-left:30px"></img>'));
+			a.document.write('<h3 style="text-align: center">');
+			a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
+			a.document.write('</h3>');
+			a.document.write('<p>Please bring this card with you to the dockhouse when you come sailing.</p>');
+			a.document.write('</div>');
+            a.document.write('</body></html>');
+			//a.document.body.append(this.printableDivRef.current);
+            a.document.close();
+			a.onload = () => {
+				a.print();
+			};
 	}
 
 	progressFunction = () => {
@@ -137,10 +165,10 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			}
 			break;
 			case PageState.WAIVER:
-				//const dob : Date = new Date(Number.parseInt(this.state.formData.dobYear.getOrElse("")), Number.parseInt(this.state.formData.dobMonth.getOrElse("")), Number.parseInt(this.state.formData.dobDay.getOrElse("")));
-				//let formattedDate = (moment(dob)).format('MM-DD-YYYY');
-				//let guestPhone = makePhone(this.state.formData.guestPhoneExt, this.state.formData.guestPhoneFirst, this.state.formData.guestPhoneSecond, this.state.formData.guestPhoneThird);
-				//let emergPhone = makePhone(this.state.formData.ecPhoneExt, this.state.formData.ecPhoneFirst, this.state.formData.ecPhoneSecond, this.state.formData.ecPhoneThird);
+				const dob : Date = new Date(Number.parseInt(this.state.formData.dobYear.getOrElse("")), Number.parseInt(this.state.formData.dobMonth.getOrElse("")), Number.parseInt(this.state.formData.dobDay.getOrElse("")));
+				let formattedDate = (moment(dob)).format('MM/DD/YYYY');
+				let guestPhone = makePhone(this.state.formData.guestPhoneExt, this.state.formData.guestPhoneFirst, this.state.formData.guestPhoneSecond, this.state.formData.guestPhoneThird);
+				let emergPhone = makePhone(this.state.formData.ecPhoneExt, this.state.formData.ecPhoneFirst, this.state.formData.ecPhoneSecond, this.state.formData.ecPhoneThird);
 				/*createPerson.send(PostURLEncoded({
 					firstName: this.state.formData.firstName.getOrElse(""),
 					lastName: this.state.formData.lastName.getOrElse(""),
@@ -159,15 +187,15 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						validationErrors: []
 					})
 					return createPerson.send(makePostJSON({
-						firstName: "Jon",
-						lastName: "Cole",
-						emailAddress: "jon@community-boating.org",
-						dob: "07/24/1988",
-						phonePrimary: "6175231038",
-						emerg1Name: "Charlie Zechel",
-						emerg1Relation: "boss",
-						emerg1PhonePrimary: "6175231038",
-						previousMember: true
+						firstName: this.state.formData.firstName.getOrElse(""),
+						lastName: this.state.formData.lastName.getOrElse(""),
+						emailAddress: this.state.formData.email.getOrElse(""),
+						dob: formattedDate,
+						phonePrimary: guestPhone,
+						emerg1Name: this.state.formData.ecFirstName.getOrElse("").concat(this.state.formData.ecLastName.getOrElse("")),
+						emerg1Relation: this.state.formData.ecRelationship.getOrElse(""),
+						emerg1PhonePrimary: emergPhone,
+						previousMember: false
 					})).then(res => {
 						if(res.type === "Success"){
 							return createCard.send(makePostJSON({
@@ -233,7 +261,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		<div id="guestinfo">
 			Guests must self register. Members please direct your guests to this page to register themselves. Under 18 guests must be registered by their parent or guardian.
 			<br />
-			At the end of registration you will have the option to print your ticket, receive an email ticket or a text code to use at the boathouse.
+			At the end of registration you will be able to print or save your ticket, you'll also receive an email ticket.
 			<br />
 			<table id="info" width="100%"><tbody>
 				<th>Guest Information</th>
@@ -373,12 +401,11 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			<div>
 				<h1>Success!</h1>
 				<h3>You are now registered as a guest!</h3> 
-				<p>Your card number is shown below, you will also receive a confirmation email with your card attatched. </p>
-				<p>You may either print your card now using the print button or bring the emailed copy along in print or on a mobile device.</p>
+				<p>You may print or save your card below, you will also receive a confirmation email with your card attatched. </p>
+				<p>Please bring your card along in print or on a mobile device when you visit the boathouse.</p>
 				<p>You will have the option to print your card at the boathouse if you don't have a printer or mobile device available.</p>
-					<img src="/images/guest-ticket.png" alt={'Community Boating Guest Ticket'} ></img>
-					<img src={'data:image/png;base64,'.concat(self.state.createResults.getOrElse({ personID: 0, cardNumber: 0, cardImageData: '' }).cardImageData)} alt={'Barcode Error, Please See Front Office'} ></img>
-			</div>);
+				<a onClick={self.handlePrint}>Guest Card</a>
+				</div>);
 		console.log(self.state.createResults.getOrElse({personID: 0, cardNumber: 0, cardImageData: ""}).cardImageData);
 		const agreeCheckbox = (<FactaNotitleRegion>
 			<SingleCheckbox
@@ -410,7 +437,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		<div id="under18waiver">
 			<table width="100%"><tbody>
 				<tr>
-					<iframe title="Waiver of Liability" src="../../../waivers/live/Under18GuestWaiver.html" width="100%" height="400px"></iframe>
+					<iframe title="Waiver of Liability" src="/waivers/live/Under18GuestWaiver.html" width="100%" height="400px"></iframe>
 				</tr>
 				<tr>
 					<td>{ agreeCheckbox } { progressButton }</td>
@@ -439,7 +466,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 
 		return <FactaMainPage setBGImage={setAPImage}>
 			{errorPopup}
-			<FactaArticleRegion title="Register as a Guest">
+			<FactaArticleRegion title="Guest Registration">
 				{ articleContent }
 				
 			</FactaArticleRegion>
