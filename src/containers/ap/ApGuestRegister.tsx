@@ -263,10 +263,8 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			<br />
 			At the end of registration you will be able to print or save your ticket, you'll also receive an email ticket.
 			<br />
-			<table id="info" width="100%"><tbody>
-				<th>Guest Information</th>
-				<tr>
-				<td>
+				<table id="info" style={{ width: "100%"}}><tbody>
+					<th>Guest Information</th>
 				<FormInput
 					id="firstName"
 					label="First Name"
@@ -275,8 +273,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 					value={self.state.formData.firstName}
 					updateAction={updateState}
 				/>
-				</td>
-				<td>
 				<FormInput
 					id="lastName"
 					label="Last Name"
@@ -285,10 +281,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 					value={self.state.formData.lastName}
 					updateAction={updateState}
 				/>
-				</td>
-				</tr>
-				<tr>
-				<td>
 				<DateTriPicker<Form, DateTriPickerProps<Form>>
 				years={years}
 				monthID="dobMonth"
@@ -300,8 +292,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				yearValue={self.state.formData.dobYear}
 				updateAction={updateState}
 				/>
-				</td>
-				<td>
 				<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
 				label="Phone"
 				firstID="guestPhoneFirst"
@@ -316,11 +306,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				typeValue={self.state.formData.guestPhoneType}
 				updateAction={updateState}
 				isRequired={true}
-			/>
-				</td>
-				</tr>
-				<tr>
-				<td>
+				/>
 				<FormInput
 				id="email"
 				label="Email"
@@ -329,16 +315,11 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				value={self.state.formData.email}
 				updateAction={updateState}
 				/>
-				</td>
-				<td>
-				<p>opt out</p>
-				</td>
-				</tr>
+				</tbody></table>
+				<table id="ecInfo" style={{ width: "100%",}}><tbody>
 				<th>Emergency Contact Information</th>
-				<tr>This should be someone close to you who is not going on the water with you.</tr>
-				<tr>For under 18 guests this should be a parent or guardian.</tr>
-				<tr>
-				<td>
+				<tr><td />This should be someone close to you who is not going on the water with you.</tr>
+				<tr><td />For under 18 guests this should be a parent or guardian.</tr>
 				<FormInput
 				id="ecFirstName"
 				label="First Name"
@@ -347,8 +328,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				value={self.state.formData.ecFirstName}
 				updateAction={updateState}
 				/>
-				</td>
-				<td>
 				<FormInput
 				id="ecLastName"
 				label="Last Name"
@@ -357,10 +336,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				value={self.state.formData.ecLastName}
 				updateAction={updateState}
 				/>
-				</td>
-				</tr>
-				<tr>
-				<td>
 				<FormInput
 				id="ecRelationship"
 				label="Relationship"
@@ -369,8 +344,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				value={self.state.formData.ecRelationship}
 				updateAction={updateState}
 				/>
-				</td>
-				<td>
 				<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
 				label="Emergency Contact Phone"
 				firstID="ecPhoneFirst"
@@ -386,16 +359,10 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				updateAction={updateState}
 				isRequired={true}
 				/>
-				</td>
-				</tr>
 				<tr>
-				<td>
-				</td>	
-				<td>
 				{ progressButton }
-				</td>
 				</tr>
-			</tbody></table>
+				</tbody></table>
 		</div>);
 		const finishScreenContent = (
 			<div>
