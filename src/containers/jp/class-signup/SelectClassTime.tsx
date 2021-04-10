@@ -6,7 +6,7 @@ import JpClassesAvailTable from "@components/JpClassesAvailTable";
 import FactaArticleRegion from "@facta/FactaArticleRegion";
 import { weeksValidator, Week } from '@async/weeks';
 import { Select } from '@components/Select';
-import { Option, none } from 'fp-ts/lib/Option';
+import { Option, none, some } from 'fp-ts/lib/Option';
 import formUpdateState from '@util/form-update-state';
 import * as moment from 'moment'
 import {FactaErrorDiv} from '@facta/FactaErrorDiv';
@@ -87,9 +87,9 @@ export default class SelectClassTime extends React.Component<Props, State> {
 			shownInstances.length == 0
 			? `No ${self.props.apiResult.typeName} classes scheduled in that week.`
 			: (<JpClassesAvailTable
-				typeId={this.props.typeId}
+				typeId={some(this.props.typeId)}
 				instances={shownInstances}
-				juniorId={this.props.personId} 
+				juniorId={some(this.props.personId)} 
 				history={this.props.history}
 				setValidationErrors={function(validationErrors: string[]) { return self.setState({ ...self.state, validationErrors }); }.bind(self)}
 				url={this.props.history.location.pathname}

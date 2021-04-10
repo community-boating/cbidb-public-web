@@ -7,7 +7,7 @@
 ***********************************************/
 
 var offsetxpoint = -60 //Customize x offset of tooltip
-var offsetypoint = 20 //Customize y offset of tooltip
+var offsetypoint = 35 //Customize y offset of tooltip
 var ie = document.all
 var ns6 = document.getElementById && !document.all
 var enabletip = false

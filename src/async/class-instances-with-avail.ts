@@ -14,7 +14,8 @@ export const validatorSingleRow = t.type({
 	action: t.string,
 	typeId: t.number,
 	startDatetimeRaw: t.string,
-	endDatetimeRaw: t.string
+	endDatetimeRaw: t.string,
+	week: t.number,
 })
 
 export const validator = t.array(validatorSingleRow)
@@ -36,6 +37,7 @@ export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
 		action: "ACTION",
 		typeId: "TYPE_ID",
 		startDatetimeRaw: "START_DATETIME_RAW",
-		endDatetimeRaw: "END_DATETIME_RAW"
+		endDatetimeRaw: "END_DATETIME_RAW",
+		week: "WEEK",
 	}
 })

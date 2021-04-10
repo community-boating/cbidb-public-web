@@ -13,7 +13,7 @@ export default class FactaSidebarPage extends Page<Props> {
 			<div className="container">
 				<div className="row">
 					{this.props.children}
-					<table><tbody><tr>
+					<table style={{width: "100%"}}><tbody><tr>
 						<td style={{verticalAlign: "top"}}>
 								<div className="main-single-content">
 

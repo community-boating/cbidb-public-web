@@ -34,7 +34,6 @@ const LINKS = {
 	abort: abortText("Membership"),
 	classes: (history: History<any>) => <Link to={apClassesPageRoute.getPathFromArgs({})}>Signup for Classes</Link>,
 	edit: (history: History<any>) => <Link to={apEditPageRoute.getPathFromArgs({})}>Edit Information</Link>,
-	kayakOrSUPRental: (history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?sheet=275108&full-items=yes&flow=411419" target="_blank">Reserve a Kayak/SUP *</a>,
 }
 
 export const getNoGP = (bv: number) => testBit(bv, 16);
@@ -98,56 +97,39 @@ export default (
 			LINKS.classes
 		]
 	}, {
-		show: showSignupLink(14),
-		getElements: [
-			LINKS.kayakOrSUPRental
-		] 
-	}, {
-		show: showSignupLink(15),
-		getElements: [
-			LINKS.kayakOrSUPRental
-		] 
-	}, {
-		show: showSignupLink(18),
-		getElements: [
-			(history: History<any>) => <React.Fragment>
-				<a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/items/245032/?full-items=yes">Sign up for your Rigging Test</a>
-				<br />
-				<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>Please review the Rigging class resources in our Virtual Learning Center<br />(<a style={{fontSize: "0.9em"}} target="_blank" href="https://www.community-boating.org/elearning">www.community-boating.org/elearning</a>).</span>
-			</React.Fragment>
-		] 
-	}, {
-		show: showSignupLink(25),
-		getElements: [
-			(history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=437192" target="_blank">Reserve a Keel Mercury *</a>
-		] 
-	}, {
 		show: showSignupLink(24),
 		getElements: [
-			(history: History<any>) => <a href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431635" target="_blank">Reserve a Keel Mercury *</a>
-		] 
-	}, {
-		show: showSignupLink(20),
-		getElements: [
-			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431544">Reserve a Laser *</a>
-				
+			(history: History<any>) =>
+				<a href="https://fareharbor.com/embeds/book/communityboating/items/240416/calendar/2021/04/?full-items=yes" target="_blank">Reserve a Keel Mercury *</a>,
+			(history: History<any>) =>
+				<a href="https://fareharbor.com/embeds/book/communityboating/items/291803/calendar/2021/04/?full-items=yes" target="_blank">Reserve a Centerboard Mercury *</a>
 		] 
 	}, {
 		show: showSignupLink(21),
 		getElements: [
-			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431540">Reserve a Sonar *</a>
+			(history: History<any>) =>
+				<a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/items/246104/calendar/2021/04/?full-items=yes">Reserve a Sonar *</a>
 				
 		] 
 	}, {
 		show: showSignupLink(22),
 		getElements: [
-			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431542">Reserve an Ideal 18 *</a>
+			(history: History<any>) =>
+				<a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/items/246486/calendar/2021/04/?full-items=yes">Reserve an Ideal 18 *</a>
 				
 		] 
 	}, {
 		show: showSignupLink(23),
 		getElements: [
-			(history: History<any>) => <a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/?full-items=yes&flow=431633">Reserve a 420 *</a>
+			(history: History<any>) =>
+				<a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/items/246674/calendar/2021/04/?full-items=yes">Reserve a 420 *</a>
+				
+		] 
+	}, {
+		show: showSignupLink(20),
+		getElements: [
+			(history: History<any>) =>
+				<a target="_blank" href="https://fareharbor.com/embeds/book/communityboating/items/244905/calendar/2021/04/?full-items=yes">Reserve a Laser *</a>
 				
 		] 
 	}, {
@@ -245,18 +227,24 @@ export default (
 		]
 	}*/];
 
-	const showReserveFooter = (
-		testBit(bv, 14) || 
-		testBit(bv, 15) || 
-		testBit(bv, 19) || 
-		testBit(bv, 20)
-	);
+	// const showReserveFooter = (
+	// 	testBit(bv, 14) || 
+	// 	testBit(bv, 15) || 
+	// 	testBit(bv, 19) || 
+	// 	testBit(bv, 20)
+	// );
 
-	const footer = <React.Fragment>
-		<br />
-		<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>* Reservations must be made in advance;<br />we cannot accommodate walkups.</span><br />
-		<span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>  Please book only one sailing appointment<br />per weekend (Satuday - Sunday)</span>
-	</React.Fragment>;
+	const footerElements = [{
+		show: testBit(bv, 3) && !testBit(bv, 19),
+		element: "Kayaks/SUPs are available to members and their guests exclusively on a walk-up basis."
+	}, {
+		show: testBit(bv, 14) || testBit(bv, 19),
+		element: "Reservations are limited. The majority of our fleet will be available for walk-ups."
+	}, {
+		show: testBit(bv, 14),
+		element: "Windsurfing is available exclusively on a walk-up basis for any member with at least a Windsurf Green rating."
+	}].filter(e => e.show)
+	.map(e => <React.Fragment><br /><span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>{e.element}</span></React.Fragment>);
 
 	return (<React.Fragment>
 		<ul>
@@ -274,6 +262,6 @@ export default (
 				.map((element, i) => <li key={i}>{element}</li>)
 			}
 		</ul>
-		{showReserveFooter ? footer : null}
+		{footerElements}
 	</React.Fragment>);
 }

@@ -8,7 +8,6 @@ class FactaHelmet extends React.Component {
 		return (
 			<React.Fragment>
 				<Helmet>
-					<meta charSet="UTF-8" />
 					<link rel="icon" type="image/png" sizes="32x32" href="https://www.community-boating.org/wp-content/themes/custom/assets/images/favicon/favicon-32x32.png" />
 					<link rel="icon" type="image/png" sizes="16x16" href="https://www.community-boating.org/wp-content/themes/custom/assets/images/favicon/favicon-16x16.png" />
 					{/* Uncomment this to re-enable responsiveness */}
@@ -156,7 +155,7 @@ export class FactaBody extends React.Component {
 					<div className='container-fluid'>
 						<div className="row no-gutters align-items-center">
 							<div className="col">
-								<a href='#' className='nav-logo' style={{ marginLeft: "60px" }}>
+								<a href='https://www.community-boating.org' target='_blank' id="nav-logo" className='nav-logo' style={{ marginLeft: "60px" }}>
 									<svg viewBox="0 0 440 167" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ height: "70px" }}>
 										<g>
 											<path
@@ -280,9 +279,9 @@ export class FactaBody extends React.Component {
 			</header>
 			<main role='main' className='main main-single'>
 				<div className='page-title'>
-					<div className='ratio'></div>
-					<div className='cover'
-						style={{ backgroundImage: "url(/facta/assets/images/IMG_1495-scaled.jpeg)" }}>
+					<div className='ratio' style={{paddingBottom: "330px"}}></div>
+					<div className='cover' id="hero"
+						style={{ backgroundImage: "url(/facta/assets/images/common-hero.jpg)" }}>
 					</div>
 					<div className='page-title-content'>
 						<div className='container'>
