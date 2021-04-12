@@ -43,6 +43,7 @@ type State = {
 
 enum PageState{
 	GUEST_INFORMATION,
+	EC_INFORMATION,
 	WAIVER,
 	FINISH
 }
@@ -74,34 +75,45 @@ type Form = typeof defaultForm
 
 class FormInput extends TextInput<Form> {}
 
-const validate: (state: State) => string[] = state => {
+/* 
+ * DOB is a valid date (e.g. 2/31/1990 should throw an error)
+ * Email is a valid email (I use the regex /^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$/i )
+ * Phone number is valid (matches /^[0-9]{10}.*$/ ie exactly 10 digits, with the .* for any extension )
+*/
+
+const phoneRegExp = new RegExp(/^[0-9]{10}.*$/);
+const isPhoneValid = (p1 : Option<string>, p2 : Option<string>, p3 : Option<string>, pe : Option<string>) => phoneRegExp.test(makePhone(pe, p1, p2, p3));
+const validateECInfo: (state: State) => string[] = state => {
 	const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
-	//const emailValid = (os : Option<string>) => os.isSome() && os.getOrElse("")
+	const validations = [
+		new Validation(isNotNull(state.formData.ecFirstName), "Please enter an emergency contact first name."),
+		new Validation(isNotNull(state.formData.ecLastName), "Please enter an emergency contact last name."),
+		new Validation(isNotNull(state.formData.ecRelationship), "Please enter your relationship to your emergency contact."),
+		new Validation(isPhoneValid(state.formData.ecPhoneFirst, state.formData.ecPhoneSecond, state.formData.ecPhoneThird, state.formData.ecPhoneExt), "Please enter a valid emergency contact phone number.")
+		];
+
+	return validations.filter(v => !v.pass).map(v => v.errorString);
+}
+
+const validateGuestInfo: (state: State) => string[] = state => {
+	const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
+	const email
+	const isEmailValid = (os : Option<string>) => os.isSome() && os.getOrElse("").match(/^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$/i) != null;
 	const validations = [
 		new Validation(isNotNull(state.formData.firstName), "Please enter your first name."),
 		new Validation(isNotNull(state.formData.lastName), "Please enter your last name."),
 		new Validation(isNotNull(state.formData.dobMonth), "Please enter your birth month."),
 		new Validation(isNotNull(state.formData.dobDay), "Please enter your birth day."),
 		new Validation(isNotNull(state.formData.dobYear), "Please enter your birth year."),
-		new Validation(isNotNull(state.formData.guestPhoneFirst), "Please enter a valid phone number."),
-		new Validation(isNotNull(state.formData.guestPhoneSecond), "Please enter a valid phone number."),
-		new Validation(isNotNull(state.formData.guestPhoneThird), "Please enter a valid phone number."),
-		new Validation(isNotNull(state.formData.guestPhoneType), "Please select a phone type."),
-		new Validation(isNotNull(state.formData.email), "Please enter your email."),
-		new Validation(isNotNull(state.formData.ecFirstName), "Please enter an emergency contact first name."),
-		new Validation(isNotNull(state.formData.ecLastName), "Please enter an emergency contact last name."),
-		new Validation(isNotNull(state.formData.ecRelationship), "Please enter your relationship to your emergency contact."),
-		new Validation(isNotNull(state.formData.ecPhoneFirst), "Please enter a valid emergency contact phone number."),
-		new Validation(isNotNull(state.formData.ecPhoneSecond), "Please enter a valid emergency contact phone number."),
-		new Validation(isNotNull(state.formData.ecPhoneThird), "Please enter a valid emergency contact phone number."),
-		new Validation(isNotNull(state.formData.ecPhoneType), "Please select an emergency contact phone type.")
+		new Validation(isPhoneValid(state.formData.guestPhoneFirst, state.formData.guestPhoneSecond, state.formData.guestPhoneThird, state.formData.guestPhoneExt), "Please enter a valid guest phone number."),
+		new Validation(isEmailValid(state.formData.email), "Please enter a valid email.")
 		];
 
 	return validations.filter(v => !v.pass).map(v => v.errorString);
 }
 
 function makePhone (ext : Option<string>, first : Option<string>, second : Option<string>, third : Option<string>) : string {
-	return ext.getOrElse("").concat(first.getOrElse("")).concat(second.getOrElse("")).concat(third.getOrElse(""));
+	return first.getOrElse("").concat(second.getOrElse("")).concat(third.getOrElse("")).concat(ext.getOrElse(""));
 }
 
 export default class ApPreRegister extends React.PureComponent<Props, State> {
@@ -146,9 +158,27 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 	}
 
 	progressFunction = () => {
+		var validationResults;
 		switch(this.state.pageState){
 			case PageState.GUEST_INFORMATION:
-			const validationResults = validate(this.state);
+			validationResults = validateGuestInfo(this.state);
+			if (validationResults.length > 0) {
+				this.setState({
+					...this.state,
+					validationErrors: validationResults
+				})
+				return Promise.resolve();
+			} else {
+				this.setState({
+					...this.state,
+					validationErrors: [],
+					pageState: PageState.EC_INFORMATION
+				});
+				return Promise.resolve();
+			}
+			break;
+			case PageState.EC_INFORMATION:
+			validationResults = validateECInfo(this.state);
 			if (validationResults.length > 0) {
 				this.setState({
 					...this.state,
@@ -257,14 +287,14 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			: ""
 		);
 
-		const formContent = (
+		const guestContent = (
 		<div id="guestinfo">
 			Guests must self register. Members please direct your guests to this page to register themselves. Under 18 guests must be registered by their parent or guardian.
 			<br />
 			At the end of registration you will be able to print or save your ticket, you'll also receive an email ticket.
 			<br />
 				<table id="info" style={{ width: "100%"}}><tbody>
-				<tr><th>Guest Information</th></tr>
+					<tr><th style={{ width: "250px" }}>Guest Information</th><th style={{ width: "350px" }} /></tr>
 				<FormInput
 					id="firstName"
 					label="First Name"
@@ -314,15 +344,17 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				isRequired
 				value={self.state.formData.email}
 				updateAction={updateState}
-					/>
-					<tr><td /><td /><td>
+					/><tr><td /><td /><td>
 						{progressButton}
 					</td></tr>
 				</tbody></table>
-				<table id="ecInfo" style={{ width: "100%",}}><tbody>
-				<tr><th>Emergency Contact Information</th></tr>
-				<tr><td /><td style="">This should be someone close to you who is not going on the water with you.</td></tr>
-				<tr><td /><td>For under 18 guests this should be a parent or guardian.</td></tr>
+				</div>);
+		const ecContent = (
+				<div id="ecinfo">
+				<table id="ecInfo" style={{ width: "100%"}}><tbody>
+					<tr><th style={{ width: "250px" }}>Emergency Contact Information</th><th style={{ width: "350px" }} /></tr>
+					<tr><td /><td>This should be someone close to you who is not going on the water with you.</td></tr>
+					<tr><td /><td>For under 18 guests this should be a parent or guardian.</td></tr>
 				<FormInput
 				id="ecFirstName"
 				label="First Name"
@@ -422,11 +454,14 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			</tbody></table>
 		</div>);
 
-		var articleContent = formContent;
+		var articleContent = guestContent;
 
 		switch(this.state.pageState){
 			case PageState.GUEST_INFORMATION:
-				articleContent = formContent;
+				articleContent = guestContent;
+				break;
+			case PageState.EC_INFORMATION:
+				articleContent = ecContent;
 				break;
 			case PageState.WAIVER:
 				articleContent = adultWaiverContent;
