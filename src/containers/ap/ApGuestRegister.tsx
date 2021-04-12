@@ -245,7 +245,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 	
 	render() {
 		const thisYear = Number(moment().format("YYYY"))
-		const years = range(thisYear-120, thisYear-15)
+		const years = range(thisYear-120, thisYear)
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 		const progressButton = (<FactaButton key={"key..."} text="next >" onClick={this.progressFunction} spinnerOnClick forceSpinner={false}/>);
 		
@@ -264,7 +264,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			At the end of registration you will be able to print or save your ticket, you'll also receive an email ticket.
 			<br />
 				<table id="info" style={{ width: "100%"}}><tbody>
-					<th>Guest Information</th>
+				<tr><th>Guest Information</th></tr>
 				<FormInput
 					id="firstName"
 					label="First Name"
@@ -314,12 +314,15 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				isRequired
 				value={self.state.formData.email}
 				updateAction={updateState}
-				/>
+					/>
+					<tr><td /><td /><td>
+						{progressButton}
+					</td></tr>
 				</tbody></table>
 				<table id="ecInfo" style={{ width: "100%",}}><tbody>
-				<th>Emergency Contact Information</th>
-				<tr><td />This should be someone close to you who is not going on the water with you.</tr>
-				<tr><td />For under 18 guests this should be a parent or guardian.</tr>
+				<tr><th>Emergency Contact Information</th></tr>
+				<tr><td /><td style="">This should be someone close to you who is not going on the water with you.</td></tr>
+				<tr><td /><td>For under 18 guests this should be a parent or guardian.</td></tr>
 				<FormInput
 				id="ecFirstName"
 				label="First Name"
@@ -359,9 +362,9 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				updateAction={updateState}
 				isRequired={true}
 				/>
-				<tr>
+				<tr><td /><td /><td>
 				{ progressButton }
-				</tr>
+				</td></tr>
 				</tbody></table>
 		</div>);
 		const finishScreenContent = (
@@ -393,19 +396,26 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		const adultWaiverContent = (<div id="adultwaiver">
 		<table width="100%"><tbody>
 				<tr>
-					<iframe title="Waiver of Liability" src="/waivers/live/ApGuestWaiver.html" width="100%" height="400px"></iframe>
+					<td>
+						<iframe title="Waiver of Liability" src="/waivers/live/ApGuestWaiver.html" width="100%" height="400px"></iframe>
+					</td>
 				</tr>
 				<tr>
-					<td>{ agreeCheckbox } { progressButton }</td>
+					<td>
+						{agreeCheckbox}
+						{progressButton}
+					</td>
 				</tr>
 			</tbody></table>
 		</div>);
 		const under18WaiverContent = (
 		<div id="under18waiver">
 			<table width="100%"><tbody>
-				<tr>
-					<iframe title="Waiver of Liability" src="/waivers/live/Under18GuestWaiver.html" width="100%" height="400px"></iframe>
-				</tr>
+					<tr>
+						<td>
+							<iframe title="Waiver of Liability" src="/waivers/live/Under18GuestWaiver.html" width="100%" height="400px"></iframe>
+						</td>
+					</tr>
 				<tr>
 					<td>{ agreeCheckbox } { progressButton }</td>
 				</tr>
