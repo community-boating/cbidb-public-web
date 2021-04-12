@@ -99,18 +99,23 @@ const validateGuestInfo: (state: State) => string[] = state => {
 	const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
 	const emailRegexp = new RegExp(/^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$/i);
 	const isEmailValid = (os : Option<string>) => os.isSome() && emailRegexp.test(os.getOrElse(""))
+	const isDateValid = (date: Date) => moment(date).isValid();
+	const dob = getDOB(state);
+	console.log(dob);
 	const validations = [
 		new Validation(isNotNull(state.formData.firstName), "Please enter your first name."),
 		new Validation(isNotNull(state.formData.lastName), "Please enter your last name."),
-		new Validation(isNotNull(state.formData.dobMonth), "Please enter your birth month."),
-		new Validation(isNotNull(state.formData.dobDay), "Please enter your birth day."),
-		new Validation(isNotNull(state.formData.dobYear), "Please enter your birth year."),
+		new Validation(isDateValid(dob), "Please enter a valid birthday"),
 		new Validation(isPhoneValid(state.formData.guestPhoneFirst, state.formData.guestPhoneSecond, state.formData.guestPhoneThird, state.formData.guestPhoneExt), "Please enter a valid guest phone number."),
 		new Validation(isEmailValid(state.formData.email), "Please enter a valid email.")
 		];
 
 	return validations.filter(v => !v.pass).map(v => v.errorString);
 }
+
+function getDOB (state: State) : Date {
+	return new Date(Number.parseInt(state.formData.dobYear.getOrElse("")), Number.parseInt(state.formData.dobMonth.getOrElse("")), Number.parseInt(state.formData.dobDay.getOrElse("")));
+}	
 
 function makePhone (ext : Option<string>, first : Option<string>, second : Option<string>, third : Option<string>) : string {
 	return first.getOrElse("").concat(second.getOrElse("")).concat(third.getOrElse("")).concat(ext.getOrElse(""));
@@ -129,7 +134,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			waiverAccepted: false,
 			createResults: none
 		}
-	}
+	}	
 
 	handlePrint = () => {
 		//TODO maybe redo this in react style, if jon wants.
@@ -195,8 +200,9 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			}
 			break;
 			case PageState.WAIVER:
-				const dob : Date = new Date(Number.parseInt(this.state.formData.dobYear.getOrElse("")), Number.parseInt(this.state.formData.dobMonth.getOrElse("")), Number.parseInt(this.state.formData.dobDay.getOrElse("")));
+				let dob = getDOB(this.state);
 				let formattedDate = (moment(dob)).format('MM/DD/YYYY');
+				console.log("date of birth" + formattedDate);
 				let guestPhone = makePhone(this.state.formData.guestPhoneExt, this.state.formData.guestPhoneFirst, this.state.formData.guestPhoneSecond, this.state.formData.guestPhoneThird);
 				let emergPhone = makePhone(this.state.formData.ecPhoneExt, this.state.formData.ecPhoneFirst, this.state.formData.ecPhoneSecond, this.state.formData.ecPhoneThird);
 				/*createPerson.send(PostURLEncoded({
@@ -466,7 +472,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			case PageState.WAIVER:
 				articleContent = adultWaiverContent;
 				const now = new Date();
-				const DOB = new Date(parseInt(this.state.formData.dobYear.getOrElse("")), parseInt(this.state.formData.dobMonth.getOrElse("")), parseInt(this.state.formData.dobDay.getOrElse("")))
+				const DOB = getDOB(this.state);
 				if(Number(DOB) >= (Number(now) - 18 * 365 * 24 * 60 * 60 * 1000))
 					articleContent = under18WaiverContent;
 				break;
