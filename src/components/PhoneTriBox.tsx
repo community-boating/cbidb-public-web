@@ -112,7 +112,7 @@ export default class PhoneTriBox<U, T extends PhoneTriBoxProps<U>> extends React
 			<Select<U>
 				id={self.props.typeID}
 				label="Type"
-				//isRequired={self.props.isRequired}
+				isRequired={self.props.isRequired}
 				value={self.props.typeValue}
 				updateAction={self.props.updateAction}
 				options={["Home", "Work", "Cell"].map(k => ({key: k, display: k}))}
