@@ -99,11 +99,11 @@ const validateGuestInfo: (state: State) => string[] = state => {
 	const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
 	const emailRegexp = new RegExp(/^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$/i);
 	const isEmailValid = (os : Option<string>) => os.isSome() && emailRegexp.test(os.getOrElse(""))
-	const isDOBValid = (state : State) => getMoment(state).isValid();
+	const isDOBValid = (state : State) => getDOBMoment(state).isValid();
 	const validations = [
 		new Validation(isNotNull(state.formData.firstName), "Please enter your first name."),
 		new Validation(isNotNull(state.formData.lastName), "Please enter your last name."),
-		new Validation(isDOBValid(state), "Please a valid birthday"),
+		new Validation(isDOBValid(state), "Please ententer a valid birthday"),
 		new Validation(isPhoneValid(state.formData.guestPhoneFirst, state.formData.guestPhoneSecond, state.formData.guestPhoneThird, state.formData.guestPhoneExt), "Please enter a valid guest phone number."),
 		new Validation(isEmailValid(state.formData.email), "Please enter a valid email.")
 		];
@@ -115,7 +115,7 @@ function makePhone (ext : Option<string>, first : Option<string>, second : Optio
 	return first.getOrElse("").concat(second.getOrElse("")).concat(third.getOrElse("")).concat(ext.getOrElse(""));
 }
 
-function getMoment (state : State) : any {
+function getDOBMoment (state : State) : any {
 	return moment({year: Number.parseInt(state.formData.dobYear.getOrElse("-1")), month: (Number.parseInt(state.formData.dobMonth.getOrElse("-1"))-1), date: Number.parseInt(state.formData.dobDay.getOrElse("-1"))});
 }
 
@@ -198,7 +198,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			}
 			break;
 			case PageState.WAIVER:
-				let formattedDate = (getMoment(this.state)).format('MM/DD/YYYY');
+				let formattedDate = (getDOBMoment(this.state)).format('MM/DD/YYYY');
 				let guestPhone = makePhone(this.state.formData.guestPhoneExt, this.state.formData.guestPhoneFirst, this.state.formData.guestPhoneSecond, this.state.formData.guestPhoneThird);
 				let emergPhone = makePhone(this.state.formData.ecPhoneExt, this.state.formData.ecPhoneFirst, this.state.formData.ecPhoneSecond, this.state.formData.ecPhoneThird);
 				/*createPerson.send(PostURLEncoded({
@@ -467,9 +467,9 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				break;
 			case PageState.WAIVER:
 				articleContent = adultWaiverContent;
-				const now = new Date();
-				const DOB = new Date(parseInt(this.state.formData.dobYear.getOrElse("")), parseInt(this.state.formData.dobMonth.getOrElse("")), parseInt(this.state.formData.dobDay.getOrElse("")))
-				if(Number(DOB) >= (Number(now) - 18 * 365 * 24 * 60 * 60 * 1000))
+				let now = moment();
+				let dob = getDOBMoment(this.state);
+				if(dob.isAfter(now.subtract(18, "years")))
 					articleContent = under18WaiverContent;
 				break;
 			case PageState.FINISH:
