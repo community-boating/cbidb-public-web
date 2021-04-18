@@ -99,12 +99,11 @@ const validateGuestInfo: (state: State) => string[] = state => {
 	const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
 	const emailRegexp = new RegExp(/^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$/i);
 	const isEmailValid = (os : Option<string>) => os.isSome() && emailRegexp.test(os.getOrElse(""))
+	const isDOBValid = (state : State) => getMoment(state).isValid();
 	const validations = [
 		new Validation(isNotNull(state.formData.firstName), "Please enter your first name."),
 		new Validation(isNotNull(state.formData.lastName), "Please enter your last name."),
-		new Validation(isNotNull(state.formData.dobMonth), "Please enter your birth month."),
-		new Validation(isNotNull(state.formData.dobDay), "Please enter your birth day."),
-		new Validation(isNotNull(state.formData.dobYear), "Please enter your birth year."),
+		new Validation(isDOBValid(state), "Please a valid birthday"),
 		new Validation(isPhoneValid(state.formData.guestPhoneFirst, state.formData.guestPhoneSecond, state.formData.guestPhoneThird, state.formData.guestPhoneExt), "Please enter a valid guest phone number."),
 		new Validation(isEmailValid(state.formData.email), "Please enter a valid email.")
 		];
@@ -114,6 +113,10 @@ const validateGuestInfo: (state: State) => string[] = state => {
 
 function makePhone (ext : Option<string>, first : Option<string>, second : Option<string>, third : Option<string>) : string {
 	return first.getOrElse("").concat(second.getOrElse("")).concat(third.getOrElse("")).concat(ext.getOrElse(""));
+}
+
+function getMoment (state : State) : any {
+	return moment({year: Number.parseInt(state.formData.dobYear.getOrElse("-1")), month: (Number.parseInt(state.formData.dobMonth.getOrElse("-1"))-1), date: Number.parseInt(state.formData.dobDay.getOrElse("-1"))});
 }
 
 export default class ApPreRegister extends React.PureComponent<Props, State> {
@@ -195,8 +198,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			}
 			break;
 			case PageState.WAIVER:
-				const dob : Date = new Date(Number.parseInt(this.state.formData.dobYear.getOrElse("")), Number.parseInt(this.state.formData.dobMonth.getOrElse("")), Number.parseInt(this.state.formData.dobDay.getOrElse("")));
-				let formattedDate = (moment(dob)).format('MM/DD/YYYY');
+				let formattedDate = (getMoment(this.state)).format('MM/DD/YYYY');
 				let guestPhone = makePhone(this.state.formData.guestPhoneExt, this.state.formData.guestPhoneFirst, this.state.formData.guestPhoneSecond, this.state.formData.guestPhoneThird);
 				let emergPhone = makePhone(this.state.formData.ecPhoneExt, this.state.formData.ecPhoneFirst, this.state.formData.ecPhoneSecond, this.state.formData.ecPhoneThird);
 				/*createPerson.send(PostURLEncoded({
