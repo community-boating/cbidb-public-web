@@ -16,9 +16,8 @@ const data: ClassType = {
 		Upon completion of the class, sailors will earn a green rating which indicates their ability to sail in light wind
 		and qualifies them to take the Intermediate Class next year.
 		<br /><br />
-		New juniors with prior sailing experience can begin with more advanced classes; please email Niko Kotsatos, or Fiona O'Connor, Junior Program Co-Directors,
-		at <a href="mailto:niko@community-boating.org">niko@community-boating.org</a> and <a href="mailto:fiona@community-boating.org">fiona@community-boating.org</a> if you would
-		like to request advanced placement.
+		New juniors with prior sailing experience can begin with more advanced classes; please email Fiona O'Connor, Junior Program Director,
+		at <a href="mailto:fiona@community-boating.org">fiona@community-boating.org</a> if you would like to request advanced placement.
 	</React.Fragment>)
 }
 

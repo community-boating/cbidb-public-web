@@ -83,8 +83,8 @@ export default class SwimProof extends React.Component<Props, State> {
                 <span>
                 If you believe you have a proof of swimming ability not on the above list,
                 <br />
-				please contact Fiona and Niko, Junior Program Co-Directors, 
-				at <a href="mailto:fiona@community-boating.org">fiona@community-boating.org</a> and <a href="mailto:niko@community-boating.org">niko@community-boating.org</a>.
+				please contact Fiona O'Connor, Junior Program Director, 
+				at <a href="mailto:fiona@community-boating.org">fiona@community-boating.org</a>.
                 </span>
 			</FactaNotitleRegion>
 			<FactaButton text="< Back" onClick={this.props.goPrev}/>
