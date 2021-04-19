@@ -13,15 +13,11 @@ import FactaButton from '../../theme/facta/FactaButton';
 import { Option, none, some } from 'fp-ts/lib/Option';
 import { postWrapper as createPerson } from "@async/ap/create-person"
 import { postWrapper as createCard } from  "@async/ap/create-card"
-//import { jpBasePath } from "../../app/paths/jp/_base";
-//import { Link } from "react-router-dom";
-//import { apCreateAcctRoute } from "../../app/routes/ap/create-acct";
 import { makePostJSON } from "@core/APIWrapperUtil";
 import {FactaErrorDiv} from "@facta/FactaErrorDiv";
 import FactaMainPage from "../../theme/facta/FactaMainPage";
 import * as moment from 'moment';
 import range from "@util/range";
-//import { make } from "fp-ts/lib/Tree";
 
 type Props = {
 	history: History<any>
@@ -81,32 +77,31 @@ class FormInput extends TextInput<Form> {}
  * Phone number is valid (matches /^[0-9]{10}.*$/ ie exactly 10 digits, with the .* for any extension )
 */
 
-const phoneRegExp = new RegExp(/^[0-9]{10}.*$/);
+const phoneRegExp = new RegExp(/^[0-9]{10}([0-9])*$/);
 const isPhoneValid = (p1 : Option<string>, p2 : Option<string>, p3 : Option<string>, pe : Option<string>) => phoneRegExp.test(makePhone(pe, p1, p2, p3));
+const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
 const validateECInfo: (state: State) => string[] = state => {
-	const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
 	const validations = [
 		new Validation(isNotNull(state.formData.ecFirstName), "Please enter an emergency contact first name."),
 		new Validation(isNotNull(state.formData.ecLastName), "Please enter an emergency contact last name."),
 		new Validation(isNotNull(state.formData.ecRelationship), "Please enter your relationship to your emergency contact."),
 		new Validation(isPhoneValid(state.formData.ecPhoneFirst, state.formData.ecPhoneSecond, state.formData.ecPhoneThird, state.formData.ecPhoneExt), "Please enter a valid emergency contact phone number.")
-		];
+	];
 
 	return validations.filter(v => !v.pass).map(v => v.errorString);
 }
 
 const validateGuestInfo: (state: State) => string[] = state => {
-	const isNotNull = (os: Option<string>) => os.isSome() && os.getOrElse("").length > 0;
 	const emailRegexp = new RegExp(/^[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}$/i);
 	const isEmailValid = (os : Option<string>) => os.isSome() && emailRegexp.test(os.getOrElse(""))
 	const isDOBValid = (state : State) => getDOBMoment(state).isValid();
 	const validations = [
 		new Validation(isNotNull(state.formData.firstName), "Please enter your first name."),
 		new Validation(isNotNull(state.formData.lastName), "Please enter your last name."),
-		new Validation(isDOBValid(state), "Please ententer a valid birthday"),
+		new Validation(isDOBValid(state), "Please enter a valid birthday."),
 		new Validation(isPhoneValid(state.formData.guestPhoneFirst, state.formData.guestPhoneSecond, state.formData.guestPhoneThird, state.formData.guestPhoneExt), "Please enter a valid guest phone number."),
 		new Validation(isEmailValid(state.formData.email), "Please enter a valid email.")
-		];
+	];
 
 	return validations.filter(v => !v.pass).map(v => v.errorString);
 }
@@ -120,9 +115,6 @@ function getDOBMoment (state : State) : any {
 }
 
 export default class ApPreRegister extends React.PureComponent<Props, State> {
-	
-	//private printableDivRef: React.RefObject<HTMLDivElement>
-
 	constructor(props: Props) {
 		super(props);
 		this.state = {
@@ -136,28 +128,27 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 
 	handlePrint = () => {
 		//TODO maybe redo this in react style, if jon wants.
-		console.log("printing");
 		var a = window.open('', '', 'height=500px, width=600px');
-            a.document.write('<html>');
-			a.document.write('<head>');
-			a.document.write('<title>');
-			a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
-			a.document.write(' Guest Ticket</title>');
-			a.document.write('<body>');
-			a.document.write('<div id="printbox" style="padding: 40px; width: 220px; border: 2px solid black;">');
-			a.document.write('<img src="/images/guest-ticket.png" alt="Community Boating Guest Ticket" width="150px" style="padding-left: 30px"></img>');
-			a.document.write('<img src="data:image/png;base64,'.concat(this.state.createResults.getOrElse({ personID: 0, cardNumber: 0, cardImageData: "" }).cardImageData).concat('" alt="Barcode Error, Please See Front Office"  width="150PX" style="padding-top: 10px; padding-left:30px"></img>'));
-			a.document.write('<h3 style="text-align: center">');
-			a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
-			a.document.write('</h3>');
-			a.document.write('<p>Please bring this card with you to the dockhouse when you come sailing.</p>');
-			a.document.write('</div>');
-            a.document.write('</body></html>');
-			//a.document.body.append(this.printableDivRef.current);
-            a.document.close();
-			a.onload = () => {
-				a.print();
-			};
+		a.document.write('<html>');
+		a.document.write('<head>');
+		a.document.write('<title>');
+		a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
+		a.document.write(' Guest Ticket</title>');
+		a.document.write('<body>');
+		a.document.write('<div id="printbox" style="padding: 40px; width: 220px; border: 2px solid black;">');
+		a.document.write('<img src="/images/guest-ticket.png" alt="Community Boating Guest Ticket" width="150px" style="padding-left: 30px"></img>');
+		a.document.write('<img src="data:image/png;base64,'.concat(this.state.createResults.getOrElse({ personID: 0, cardNumber: 0, cardImageData: "" }).cardImageData).concat('" alt="Barcode Error, Please See Front Office"  width="150PX" style="padding-top: 10px; padding-left:30px"></img>'));
+		a.document.write('<h3 style="text-align: center">');
+		a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
+		a.document.write('</h3>');
+		a.document.write('<p>Please bring this card with you to the dockhouse when you come sailing.</p>');
+		a.document.write('</div>');
+		a.document.write('</body></html>');
+		//a.document.body.append(this.printableDivRef.current);
+		a.document.close();
+		a.onload = () => {
+			a.print();
+		};
 	}
 
 	progressFunction = () => {
@@ -201,17 +192,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				let formattedDate = (getDOBMoment(this.state)).format('MM/DD/YYYY');
 				let guestPhone = makePhone(this.state.formData.guestPhoneExt, this.state.formData.guestPhoneFirst, this.state.formData.guestPhoneSecond, this.state.formData.guestPhoneThird);
 				let emergPhone = makePhone(this.state.formData.ecPhoneExt, this.state.formData.ecPhoneFirst, this.state.formData.ecPhoneSecond, this.state.formData.ecPhoneThird);
-				/*createPerson.send(PostURLEncoded({
-					firstName: this.state.formData.firstName.getOrElse(""),
-					lastName: this.state.formData.lastName.getOrElse(""),
-					emailAddress: this.state.formData.email.getOrElse(""),
-					dob: formattedDate,
-					phonePrimary: guestPhone,
-					emerg1Name: this.state.formData.ecFirstName.getOrElse("").concat(this.state.formData.ecLastName.getOrElse("")),
-					emerg1Relation: this.state.formData.ecRelationship.getOrElse(""),
-					emerg1PhonePrimary: emergPhone,
-					previousMember: false
-				}))*/
 				if(this.state.waiverAccepted){
 					const self = this;
 					this.setState({
@@ -224,7 +204,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						emailAddress: this.state.formData.email.getOrElse(""),
 						dob: formattedDate,
 						phonePrimary: guestPhone,
-						emerg1Name: this.state.formData.ecFirstName.getOrElse("").concat(this.state.formData.ecLastName.getOrElse("")),
+						emerg1Name: this.state.formData.ecFirstName.getOrElse("") + " " + this.state.formData.ecLastName.getOrElse(""),
 						emerg1Relation: this.state.formData.ecRelationship.getOrElse(""),
 						emerg1PhonePrimary: emergPhone,
 						previousMember: false
@@ -234,7 +214,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 								personID: res.success.personID
 							})).then(res2 =>{
 								if(res2.type === "Success"){
-									console.log("created a new person and card, " + res2.success.cardNumber);
 										self.setState({
 										...self.state,
 										pageState: PageState.FINISH,
@@ -247,7 +226,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 									})
 									return Promise.resolve("Success");
 								}else{
-									console.log("error with card creation call");
 									self.setState({
 										...self.state,
 										validationErrors: ["An internal error has occured, please try again later"]
@@ -256,7 +234,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 								}
 							});
 						}else{
-							console.log("error with person creation call");
 							self.setState({
 								...self.state,
 								validationErrors: ["An internal error has occured, please try again later"]
@@ -279,7 +256,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		const thisYear = Number(moment().format("YYYY"))
 		const years = range(thisYear-120, thisYear)
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
-		const progressButton = (<FactaButton key={"key..."} text="next >" onClick={this.progressFunction} spinnerOnClick forceSpinner={false}/>);
+		const progressButton = (<FactaButton key={"key..."} text="next >" onClick={this.progressFunction} spinnerOnClick />);
 		
 		const self=this;
 
@@ -291,115 +268,117 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 
 		const guestContent = (
 		<div id="guestinfo">
-			Guests must self register. Members please direct your guests to this page to register themselves. Under 18 guests must be registered by their parent or guardian.
+			Guests must self register. Members please direct your guests to this page to register themselves.
+			Under 18 guests must be registered by their parent or guardian.
 			<br />
 			At the end of registration you will be able to print or save your ticket, you'll also receive an email ticket.
 			<br />
 				<table id="info" style={{ width: "100%"}}><tbody>
 					<tr><th style={{ width: "250px" }}>Guest Information</th><th style={{ width: "350px" }} /></tr>
-				<FormInput
-					id="firstName"
-					label="First Name"
-					isPassword={false}
-					isRequired
-					value={self.state.formData.firstName}
-					updateAction={updateState}
-				/>
-				<FormInput
-					id="lastName"
-					label="Last Name"
-					isPassword={false}
-					isRequired
-					value={self.state.formData.lastName}
-					updateAction={updateState}
-				/>
-				<DateTriPicker<Form, DateTriPickerProps<Form>>
-				years={years}
-				monthID="dobMonth"
-				dayID="dobDay"
-				yearID="dobYear"
-				isRequired={true}
-				monthValue={self.state.formData.dobMonth}
-				dayValue={self.state.formData.dobDay}
-				yearValue={self.state.formData.dobYear}
-				updateAction={updateState}
-				/>
-				<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
-				label="Phone"
-				firstID="guestPhoneFirst"
-				secondID="guestPhoneSecond"
-				thirdID="guestPhoneThird"
-				extID="guestPhoneExt"
-				typeID="guestPhoneType"
-				firstValue={self.state.formData.guestPhoneFirst}
-				secondValue={self.state.formData.guestPhoneSecond}
-				thirdValue={self.state.formData.guestPhoneThird}
-				extValue={self.state.formData.guestPhoneExt}
-				typeValue={self.state.formData.guestPhoneType}
-				updateAction={updateState}
-				isRequired={true}
-				/>
-				<FormInput
-				id="email"
-				label="Email"
-				isPassword={false}
-				isRequired
-				value={self.state.formData.email}
-				updateAction={updateState}
-					/><tr><td /><td /><td>
+					<FormInput
+						id="firstName"
+						label="First Name"
+						isPassword={false}
+						isRequired
+						value={self.state.formData.firstName}
+						updateAction={updateState}
+					/>
+					<FormInput
+						id="lastName"
+						label="Last Name"
+						isRequired
+						value={self.state.formData.lastName}
+						updateAction={updateState}
+					/>
+					<DateTriPicker<Form, DateTriPickerProps<Form>>
+						years={years}
+						monthID="dobMonth"
+						dayID="dobDay"
+						yearID="dobYear"
+						isRequired
+						monthValue={self.state.formData.dobMonth}
+						dayValue={self.state.formData.dobDay}
+						yearValue={self.state.formData.dobYear}
+						updateAction={updateState}
+					/>
+					<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
+						label="Phone"
+						firstID="guestPhoneFirst"
+						secondID="guestPhoneSecond"
+						thirdID="guestPhoneThird"
+						extID="guestPhoneExt"
+						typeID="guestPhoneType"
+						firstValue={self.state.formData.guestPhoneFirst}
+						secondValue={self.state.formData.guestPhoneSecond}
+						thirdValue={self.state.formData.guestPhoneThird}
+						extValue={self.state.formData.guestPhoneExt}
+						typeValue={self.state.formData.guestPhoneType}
+						updateAction={updateState}
+						isRequired
+					/>
+					<FormInput
+						id="email"
+						label="Email"
+						isPassword={false}
+						isRequired
+						value={self.state.formData.email}
+						updateAction={updateState}
+					/>
+					<tr><td /><td /><td>
 						{progressButton}
 					</td></tr>
 				</tbody></table>
-				</div>);
+				</div>
+		);
 		const ecContent = (
-				<div id="ecinfo">
-				<table id="ecInfo" style={{ width: "100%"}}><tbody>
-					<tr><th style={{ width: "250px" }}>Emergency Contact Information</th><th style={{ width: "350px" }} /></tr>
-					<tr><td /><td>This should be someone close to you who is not going on the water with you.</td></tr>
-					<tr><td /><td>For under 18 guests this should be a parent or guardian.</td></tr>
+			<div id="ecinfo">
+			<table id="ecInfo" style={{ width: "100%"}}><tbody>
+				<tr><th style={{ width: "250px" }}>Emergency Contact Information</th><th style={{ width: "350px" }} /></tr>
+				<tr><td /><td>This should be someone close to you who is not going on the water with you.</td></tr>
+				<tr><td /><td>For under 18 guests this should be a parent or guardian.</td></tr>
 				<FormInput
-				id="ecFirstName"
-				label="First Name"
-				isPassword={false}
-				isRequired
-				value={self.state.formData.ecFirstName}
-				updateAction={updateState}
+					id="ecFirstName"
+					label="First Name"
+					isPassword={false}
+					isRequired
+					value={self.state.formData.ecFirstName}
+					updateAction={updateState}
 				/>
 				<FormInput
-				id="ecLastName"
-				label="Last Name"
-				isPassword={false}
-				isRequired
-				value={self.state.formData.ecLastName}
-				updateAction={updateState}
+					id="ecLastName"
+					label="Last Name"
+					isPassword={false}
+					isRequired
+					value={self.state.formData.ecLastName}
+					updateAction={updateState}
 				/>
 				<FormInput
-				id="ecRelationship"
-				label="Relationship"
-				isPassword={false}
-				isRequired
-				value={self.state.formData.ecRelationship}
-				updateAction={updateState}
+					id="ecRelationship"
+					label="Relationship"
+					isPassword={false}
+					isRequired
+					value={self.state.formData.ecRelationship}
+					updateAction={updateState}
 				/>
 				<PhoneTriBox<Form,  PhoneTriBoxProps<Form>>
-				label="Emergency Contact Phone"
-				firstID="ecPhoneFirst"
-				secondID="ecPhoneSecond"
-				thirdID="ecPhoneThird"
-				extID="ecPhoneExt"
-				typeID="ecPhoneType"
-				firstValue={self.state.formData.ecPhoneFirst}
-				secondValue={self.state.formData.ecPhoneSecond}
-				thirdValue={self.state.formData.ecPhoneThird}
-				extValue={self.state.formData.ecPhoneExt}
-				typeValue={self.state.formData.ecPhoneType}
-				updateAction={updateState}
-				isRequired={true}
+					label="Emergency Contact Phone"
+					firstID="ecPhoneFirst"
+					secondID="ecPhoneSecond"
+					thirdID="ecPhoneThird"
+					extID="ecPhoneExt"
+					typeID="ecPhoneType"
+					firstValue={self.state.formData.ecPhoneFirst}
+					secondValue={self.state.formData.ecPhoneSecond}
+					thirdValue={self.state.formData.ecPhoneThird}
+					extValue={self.state.formData.ecPhoneExt}
+					typeValue={self.state.formData.ecPhoneType}
+					updateAction={updateState}
+					isRequired
 				/>
-				<tr><td /><td /><td>
-				{ progressButton }
-				</td></tr>
-				</tbody></table>
+			<tr><td /><td /><td>
+			{ progressButton }
+			</td></tr>
+			</tbody></table>
 		</div>);
 		const finishScreenContent = (
 			<div>
@@ -408,9 +387,8 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				<p>You may print or save your card below, you will also receive a confirmation email with your card attatched. </p>
 				<p>Please bring your card along in print or on a mobile device when you visit the boathouse.</p>
 				<p>You will have the option to print your card at the boathouse if you don't have a printer or mobile device available.</p>
-				<a onClick={self.handlePrint}>Guest Card</a>
-				</div>);
-		console.log(self.state.createResults.getOrElse({personID: 0, cardNumber: 0, cardImageData: ""}).cardImageData);
+				<a href="#" onClick={self.handlePrint}>Guest Card</a>
+			</div>);
 		const agreeCheckbox = (<FactaNotitleRegion>
 			<SingleCheckbox
 				id="accept"
@@ -421,14 +399,13 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						...this.state,
 						waiverAccepted: (waiverValue === true)
 					})
-					console.log(waiverValue);
 				}}
 				value={self.state ? some(self.state.waiverAccepted) : none}
 				justElement={true}
 			/>
 		</FactaNotitleRegion>);
 		const adultWaiverContent = (<div id="adultwaiver">
-		<table width="100%"><tbody>
+			<table width="100%"><tbody>
 				<tr>
 					<td>
 						<iframe title="Waiver of Liability" src="/waivers/live/ApGuestWaiver.html" width="100%" height="400px"></iframe>
@@ -482,7 +459,6 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			{errorPopup}
 			<FactaArticleRegion title="Guest Registration">
 				{ articleContent }
-				
 			</FactaArticleRegion>
 		</FactaMainPage>
 	}
