@@ -11,20 +11,19 @@ import TextInput from '../../components/TextInput';
 import Validation from '../../util/Validation';
 import FactaButton from '../../theme/facta/FactaButton';
 import { Option, none, some } from 'fp-ts/lib/Option';
-import { postWrapper as createPerson } from "@async/ap/create-person"
-import { postWrapper as createCard } from  "@async/ap/create-card"
-import { makePostJSON } from "@core/APIWrapperUtil";
+import { postWrapper as createGuest } from "@async/ap/create-ap-guest"
+import { makePostJSON, PostURLEncoded } from "@core/APIWrapperUtil";
 import {FactaErrorDiv} from "@facta/FactaErrorDiv";
 import FactaMainPage from "../../theme/facta/FactaMainPage";
 import * as moment from 'moment';
 import range from "@util/range";
+import {postWrapper as refreshProto} from "@async/check-proto-person-cookie"
 
 type Props = {
 	history: History<any>
 }
 
 type NewGuestInformation = {
-	personID: number,
 	cardNumber: number,
 	cardImageData: string
 }
@@ -123,7 +122,8 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			pageState: PageState.GUEST_INFORMATION,
 			waiverAccepted: false,
 			createResults: none
-		}
+		};
+		refreshProto.send(PostURLEncoded({}));
 	}
 
 	handlePrint = () => {
@@ -137,7 +137,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		a.document.write('<body>');
 		a.document.write('<div id="printbox" style="padding: 40px; width: 220px; border: 2px solid black;">');
 		a.document.write('<img src="/images/guest-ticket.png" alt="Community Boating Guest Ticket" width="150px" style="padding-left: 30px"></img>');
-		a.document.write('<img src="data:image/png;base64,'.concat(this.state.createResults.getOrElse({ personID: 0, cardNumber: 0, cardImageData: "" }).cardImageData).concat('" alt="Barcode Error, Please See Front Office"  width="150PX" style="padding-top: 10px; padding-left:30px"></img>'));
+		a.document.write('<img src="data:image/png;base64,'.concat(this.state.createResults.getOrElse({ cardNumber: 0, cardImageData: "" }).cardImageData).concat('" alt="Barcode Error, Please See Front Office"  width="150PX" style="padding-top: 10px; padding-left:30px"></img>'));
 		a.document.write('<h3 style="text-align: center">');
 		a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
 		a.document.write('</h3>');
@@ -168,6 +168,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 					validationErrors: [],
 					pageState: PageState.EC_INFORMATION
 				});
+				refreshProto.send(PostURLEncoded({}));
 				return Promise.resolve();
 			}
 			break;
@@ -185,6 +186,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 					validationErrors: [],
 					pageState: PageState.WAIVER
 				});
+				refreshProto.send(PostURLEncoded({}));
 				return Promise.resolve();
 			}
 			break;
@@ -198,7 +200,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						...this.state,
 						validationErrors: []
 					})
-					return createPerson.send(makePostJSON({
+					return createGuest.send(makePostJSON({
 						firstName: this.state.formData.firstName.getOrElse(""),
 						lastName: this.state.formData.lastName.getOrElse(""),
 						emailAddress: this.state.formData.email.getOrElse(""),
@@ -210,29 +212,17 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						previousMember: false
 					})).then(res => {
 						if(res.type === "Success"){
-							return createCard.send(makePostJSON({
-								personID: res.success.personID
-							})).then(res2 =>{
-								if(res2.type === "Success"){
-										self.setState({
-										...self.state,
-										pageState: PageState.FINISH,
-										createResults: some({
-											personID: res.success.personID,
-											cardNumber: res2.success.cardNumber,
-											cardImageData: res2.success.barcode
-										}),
-										validationErrors: []
-									})
-									return Promise.resolve("Success");
-								}else{
-									self.setState({
-										...self.state,
-										validationErrors: ["An internal error has occured, please try again later"]
-									})
-									return Promise.resolve("Failure");
-								}
+							self.setState({
+								...self.state,
+								pageState: PageState.FINISH,
+								createResults: some({
+									cardNumber: res.success.cardNumber,
+									cardImageData: res.success.barcode
+								}),
+								validationErrors: []
 							});
+							refreshProto.send(PostURLEncoded({}));
+							return Promise.resolve("Success");
 						}else{
 							self.setState({
 								...self.state,
