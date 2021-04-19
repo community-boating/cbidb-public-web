@@ -24,8 +24,7 @@ type Props = {
 }
 
 type NewGuestInformation = {
-	cardNumber: number,
-	cardImageData: string
+	ticketHTML: string
 }
 
 type State = {
@@ -135,14 +134,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
 		a.document.write(' Guest Ticket</title>');
 		a.document.write('<body>');
-		a.document.write('<div id="printbox" style="padding: 40px; width: 220px; border: 2px solid black;">');
-		a.document.write('<img src="/images/guest-ticket.png" alt="Community Boating Guest Ticket" width="150px" style="padding-left: 30px"></img>');
-		a.document.write('<img src="data:image/png;base64,'.concat(this.state.createResults.getOrElse({ cardNumber: 0, cardImageData: "" }).cardImageData).concat('" alt="Barcode Error, Please See Front Office"  width="150PX" style="padding-top: 10px; padding-left:30px"></img>'));
-		a.document.write('<h3 style="text-align: center">');
-		a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
-		a.document.write('</h3>');
-		a.document.write('<p>Please bring this card with you to the dockhouse when you come sailing.</p>');
-		a.document.write('</div>');
+		a.document.write(this.state.createResults.map(r => r.ticketHTML).getOrElse(""));
 		a.document.write('</body></html>');
 		//a.document.body.append(this.printableDivRef.current);
 		a.document.close();
@@ -216,8 +208,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 								...self.state,
 								pageState: PageState.FINISH,
 								createResults: some({
-									cardNumber: res.success.cardNumber,
-									cardImageData: res.success.barcode
+									ticketHTML: res.success.ticketHTML
 								}),
 								validationErrors: []
 							});

@@ -17,7 +17,7 @@ export const validator = t.type({
 export const responseValidator = t.type({
 	cardAssignID: t.number,
 	cardNumber: t.number,
-	barcode: t.string
+	ticketHTML: t.string
 })
 
 const path = "/ap/create-ap-guest"
