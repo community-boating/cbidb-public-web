@@ -98,12 +98,11 @@ export default class PhoneTriBox<U, T extends PhoneTriBoxProps<U>> extends React
 				isRequired={self.props.isRequired}
 				size={3}
 				maxLength={3}
-				prependToElementCell="("
 				appendToElementCell={(
 					<span>
-						{") - "}
+						{"-"}
 						{second}
-						{" - "}
+						{"-"}
 						{third}
 						{"  ext."}
 						{ext}

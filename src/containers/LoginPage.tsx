@@ -2,7 +2,6 @@ import { none, Option } from "fp-ts/lib/Option";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { History } from 'history';
-
 import FactaButton from "@facta/FactaButton";
 import TextInput from "@components/TextInput";
 import FactaArticleRegion from "@facta/FactaArticleRegion";
@@ -16,6 +15,7 @@ import { apForgotPasswordPageRoute } from "@routes/ap/forgot-pw";
 import { setJPImage, setAPImage } from "@util/set-bg-image";
 import { PageFlavor } from "@components/Page";
 import { apPreRegRoute } from "@routes/ap/prereg";
+import { apGuestRegRoute } from "@routes/ap/guest-reg";
 import { jpClosedCovidPageRoute } from "@routes/jp/closed";
 import { apPathStartClaimAcct } from "@paths/ap/start-claim-acct";
 import { jpPathReserve } from "@paths/jp/reserve";
@@ -108,7 +108,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		// left column 
 
 		const jpWelcomeRegion = (
-			<FactaArticleRegion title={<span>Welcome to CBI Online!<br />-  Junior Program  -</span>}>
+			<FactaArticleRegion title={<span><b>Welcome to CBI Membership Online!</b><br />Junior Program Self Service Portal</span>}>
 				<div>
 					If you're new to Community Boating and would like to sign up for youth novice classes,
 					choose the first option on the right. Once your child's registration is complete
@@ -123,16 +123,17 @@ export default class LoginPage extends React.Component<Props, State> {
 		);
 
 		const apWelcomeRegion = (
-			<FactaArticleRegion title={<span>Welcome to CBI Online!<br />-  Adult Program  -</span>}>
+			<FactaArticleRegion title={<span><b>Welcome to CBI Membership Online! </b><br /> Adult Program Self Service Portal</span>}>
 				<div>
-				<a href="https://www.community-boating.org" target="_blank">Click here for our Main Website:<br />
-				www.community-boating.org</a><br />
+				<a href="https://www.community-boating.org" target="_blank">Click here for our main website: www.community-boating.org</a>
+				<br />
+				If you are new to Community Boating and would like to purchase a membership now, <b>click on the first option</b> to the right.
+				Once your account is complete you can return here to signup for classes and view your progression throughout the summer.<br />
 				<br />
 				If you have already purchased a membership in person, either this year or last year,
-				please <b>click on the first option</b> to the right and you will be prompted to create a password and update your personal information.<br />
+				please <b>click on the second option</b> to the right and you will be prompted to create a password and update your personal information.<br />
 				<br />
-				If you are new to Community Boating and would like to purchase a membership now, <b>click on the second option</b> to the right.
-				Once your account is complete you can return here to signup for classes and view your progression throughout the summer.<br />
+				If you want to give the gift of membership, <b>click on the third option</b> to the right.
 				<br />
 				If you want to register as a guest so you can go sailing with a CBI member, click on the fourth option to the right to skip the line at the Front Desk and get your guest card right away!<br />
 				<br />
@@ -169,13 +170,13 @@ export default class LoginPage extends React.Component<Props, State> {
 		);
 
 		const apNewAcctRegion = (
-			<FactaArticleRegion title="I don't have a password yet.">
+			<FactaArticleRegion title="I would like to...">
 				<ul style={{fontSize: "0.92em"}}>
-					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Click here if you are already an adult member but don't yet have an online account.</Link></li>
-					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li>
+					<li><Link to={apPreRegRoute.getPathFromArgs({})}>Become an adult program member.</Link></li>
+					<li><Link to={apPathStartClaimAcct.getPathFromArgs({})}>Activate my online account.</Link></li>
 					{/* <li><Link to={apClosedPath.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
-					<li><Link to={giftCertificatesPageRoute.getPathFromArgs({})}>Click here to purchase a gift certificate.</Link></li>
-					{/* <li><PlaceholderLink>Click here to register as a guest.</PlaceholderLink></li> */}
+					<li><Link to={giftCertificatesPageRoute.getPathFromArgs({})}>Purchase a gift certificate.</Link></li>
+					<li><Link to={apGuestRegRoute.getPathFromArgs({})}>Register as a guest.</Link></li>
 				</ul>
 			</FactaArticleRegion>
 		);
