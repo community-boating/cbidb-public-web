@@ -83,7 +83,8 @@ const validateECInfo: (state: State) => string[] = state => {
 		new Validation(isNotNull(state.formData.ecFirstName), "Please enter an emergency contact first name."),
 		new Validation(isNotNull(state.formData.ecLastName), "Please enter an emergency contact last name."),
 		new Validation(isNotNull(state.formData.ecRelationship), "Please enter your relationship to your emergency contact."),
-		new Validation(isPhoneValid(state.formData.ecPhoneFirst, state.formData.ecPhoneSecond, state.formData.ecPhoneThird, state.formData.ecPhoneExt), "Please enter a valid emergency contact phone number.")
+		new Validation(isPhoneValid(state.formData.ecPhoneFirst, state.formData.ecPhoneSecond, state.formData.ecPhoneThird, state.formData.ecPhoneExt), "Please enter a valid emergency contact phone number."),
+		new Validation(isNotNull(state.formData.ecPhoneType), "Please specify phone number type."),
 	];
 
 	return validations.filter(v => !v.pass).map(v => v.errorString);
@@ -98,6 +99,7 @@ const validateGuestInfo: (state: State) => string[] = state => {
 		new Validation(isNotNull(state.formData.lastName), "Please enter your last name."),
 		new Validation(isDOBValid(state), "Please enter a valid birthday."),
 		new Validation(isPhoneValid(state.formData.guestPhoneFirst, state.formData.guestPhoneSecond, state.formData.guestPhoneThird, state.formData.guestPhoneExt), "Please enter a valid guest phone number."),
+		new Validation(isNotNull(state.formData.guestPhoneType), "Please specify phone number type."),
 		new Validation(isEmailValid(state.formData.email), "Please enter a valid email.")
 	];
 
@@ -201,7 +203,9 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						emerg1Name: this.state.formData.ecFirstName.getOrElse("") + " " + this.state.formData.ecLastName.getOrElse(""),
 						emerg1Relation: this.state.formData.ecRelationship.getOrElse(""),
 						emerg1PhonePrimary: emergPhone,
-						previousMember: false
+						previousMember: false,
+						phonePrimaryType: this.state.formData.guestPhoneType.getOrElse(""),
+						emerg1PhonePrimaryType: this.state.formData.ecPhoneType.getOrElse(""),
 					})).then(res => {
 						if(res.type === "Success"){
 							self.setState({

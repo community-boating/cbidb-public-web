@@ -8,11 +8,13 @@ export const validator = t.type({
 	emailAddress: t.string,
 	dob: t.string,
 	phonePrimary: t.string,
+	phonePrimaryType: t.string,
 	emerg1Name: t.string,
 	emerg1Relation: t.string,
 	emerg1PhonePrimary: t.string,
+	emerg1PhonePrimaryType: t.string,
 	previousMember: t.boolean
-})
+});
 
 export const responseValidator = t.type({
 	cardAssignID: t.number,
