@@ -134,7 +134,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
 		a.document.write(' Guest Ticket</title>');
 		a.document.write('<body>');
-		a.document.write(this.state.createResults.map(r => r.ticketHTML).getOrElse(""));
+		a.document.write(this.state.createResults.map(r => r.ticketHTML.replace("$API_URL$", "")).getOrElse(""));
 		a.document.write('</body></html>');
 		//a.document.body.append(this.printableDivRef.current);
 		a.document.close();
