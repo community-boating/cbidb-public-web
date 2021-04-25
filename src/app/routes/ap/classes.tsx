@@ -5,7 +5,7 @@ import PageWrapper from "@core/PageWrapper";
 import RouteWrapper from "@core/RouteWrapper";
 import { setAPImage } from '@util/set-bg-image';
 import ApClassPage from '@containers/ap/ApClassPage';
-import {getWrapper as getTypesWithAvailability, validator as typesValidator} from "@async/member/ap-class-type-avail"
+import {getWrapper as getTypesWithAvailability, validator as availabilities} from "@async/member/ap-class-type-avail"
 import {getWrapper as getClasses, resultValidator as classesValidator} from "@async/member/ap-classes-for-calendar"
 import FactaLoadingPage from '@facta/FactaLoadingPage';
 
@@ -13,9 +13,9 @@ import FactaLoadingPage from '@facta/FactaLoadingPage';
 export const apClassesPageRoute = new RouteWrapper(true, apPathClasses, history => <PageWrapper
     key="reg"
     history={history}
-    component={(urlProps: {}, async: {types: t.TypeOf<typeof typesValidator>, instances: t.TypeOf<typeof classesValidator>}) => <ApClassPage
+    component={(urlProps: {}, async: {availabilities: t.TypeOf<typeof availabilities>, instances: t.TypeOf<typeof classesValidator>}) => <ApClassPage
 		history={history}
-		types={async.types}
+		availabilities={async.availabilities}
 		instances={async.instances}
     />}
     urlProps={{}}
@@ -25,12 +25,12 @@ export const apClassesPageRoute = new RouteWrapper(true, apPathClasses, history 
 			getTypesWithAvailability.send(null),
 			getClasses.send(null)
 		])
-		.then(([types, instances]) => {
-			if (types.type == "Success" && instances.type == "Success") {
+		.then(([availabilities, instances]) => {
+			if (availabilities.type == "Success" && instances.type == "Success") {
 				return Promise.resolve({
 					type: "Success",
 					success: {
-						types: types.success,
+						availabilities: availabilities.success,
 						instances: instances.success
 					}
 				})

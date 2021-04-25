@@ -3,7 +3,7 @@ import APIWrapper from '@core/APIWrapper';
 import { HttpMethod } from "@core/HttpMethod";
 import { OptionalString } from '@util/OptionalTypeValidators';
 
-export const validator = t.array(t.type({
+export const availabilityValidator = t.type({
 	typeId: t.number,
 	typeName: t.string,
 	availabilityFlag: t.number,
@@ -11,7 +11,12 @@ export const validator = t.array(t.type({
 	noSignup: t.boolean,
 	seeTypeError: OptionalString,
 	description: t.string
-}))
+});
+
+export const validator = t.type({
+	types: t.array(availabilityValidator),
+	voucherCt: t.number
+})
 
 export enum AvailabilityFlag {
 	RECOMMENDED = 1,

@@ -22,6 +22,8 @@ import { makePostJSON } from "@core/APIWrapperUtil";
 import { apPathClasses } from "@paths/ap/classes";
 import FactaMainPage from "@facta/FactaMainPage";
 import { FactaHideShowRegion } from "@facta/FactaHideShowRegion";
+import { Link } from "react-router-dom";
+import { FactaErrorDiv } from "@facta/FactaErrorDiv";
 
 declare var ddrivetip: any;
 declare var hideddrivetip: any;
@@ -53,13 +55,14 @@ type Form = {
 
 type Props = {
 	history: History<any>,
-	types: t.TypeOf<typeof typesValidator>,
+	availabilities: t.TypeOf<typeof typesValidator>,
 	instances: t.TypeOf<typeof classesValidator>
 }
 
 type State = {
 	formData: Form,
-	focusedInstance: Option<number>
+	focusedInstance: Option<number>,
+	validationErrors: string[],
 }
 
 type SessionObject = {
@@ -79,7 +82,7 @@ class FormCheckbox extends CheckboxGroup<Form>{}
 
 export default class ApClassPage extends React.PureComponent<Props, State> {
 	private calendarDayElements(): CalendarDayElement[] {
-		const typeAvailabilities = this.props.types.reduce((hash, type) => {
+		const typeAvailabilities = this.props.availabilities.types.reduce((hash, type) => {
 			hash[String(type.typeId)] = type.availabilityFlag;
 			return hash;
 		}, {} as {[K: string] : number});
@@ -93,7 +96,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 		}, {} as {[K: string]: true});
 
 		const sessionsList = this.props.instances
-		.filter(i => typesToShow[String(i.typeId)] && i.price <= 0)
+		.filter(i => typesToShow[String(i.typeId)])
 		.flatMap(instance => {
 			return instance.sessions.map((session, i) => {
 				const startMoment = moment(session.sessionDatetime, "YYYY-MM-DD HH:mm:ss");
@@ -190,11 +193,12 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 
 		this.state = {
 			formData: {
-				recommendedClasses: some(this.props.types.filter(t => t.availabilityFlag == AvailabilityFlag.RECOMMENDED).map(t => String(t.typeId))),
+				recommendedClasses: some(this.props.availabilities.types.filter(t => t.availabilityFlag == AvailabilityFlag.RECOMMENDED).map(t => String(t.typeId))),
 				reviewClasses: none,
 				ineligibleClasses: none
 			},
-			focusedInstance: none
+			focusedInstance: none,
+			validationErrors: []
 		}
 	}
 	render() {
@@ -228,7 +232,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 					<FormCheckbox
 						id={id}
 						columns={1}
-						values={self.props.types.filter(t => t.availabilityFlag == status).map(t => ({key: String(t.typeId), display: t.typeName}))}
+						values={self.props.availabilities.types.filter(t => t.availabilityFlag == status).map(t => ({key: String(t.typeId), display: t.typeName}))}
 						updateAction={(id: string, value: string) => {
 							updateState(id, value)
 						}}
@@ -242,15 +246,25 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 				return optionify(self.props.instances.find(e => e.instanceId == instanceId));
 			}).map(i => {
 				const datetimeMoment = moment(i.sessions[0].sessionDatetime, "YYYY-MM-DD HH:mm:ss");
-				const classType = self.props.types.find(t => t.typeId == i.typeId);
+				const classType = self.props.availabilities.types.find(t => t.typeId == i.typeId);
 				const description = classType.description;
 				const noSignup = classType.noSignup;
-				const doSignup = (doWaitlist: boolean) => signup.send(makePostJSON({
+				const doSignup = (doWaitlist: boolean, navToHome?: boolean) => signup.send(makePostJSON({
 					instanceId: i.instanceId,
 					doWaitlist
 				})).then(res => {
 					if (res.type == "Success") {
-						self.props.history.push("/redirect" + apPathClasses.getPathFromArgs({}))
+						if (navToHome) {
+							self.props.history.push(apBasePath.getPathFromArgs({}));
+						} else {
+							self.props.history.push("/redirect" + apPathClasses.getPathFromArgs({}));
+						}
+					} else {
+						window.scrollTo(0, 0);
+						self.setState({
+							...self.state,
+							validationErrors: res.message.split("\\n")
+						});
 					}
 				});
 				const doUnenroll = () => unenroll.send(makePostJSON({
@@ -289,14 +303,25 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 								<b>A spot has opened!</b>
 								<br /><br />
 								<ul>
+									<li>{(function() {
+										if (i.price <= 0 || self.props.availabilities.voucherCt > 0) {
+											return <a href="#" onClick={e => {
+												e.preventDefault();
+												doSignup(false);
+											}}>Click here to enroll.</a>
+										} else {
+											return <React.Fragment><a href="#" onClick={e => {
+												e.preventDefault();
+												doSignup(false, true);
+											}}>Click here to enroll</a>.  This is a paid class;
+											a spot will be held for you for 20 minutes while you complete the purchase process.
+											</ React.Fragment>
+										}
+									}())}</li>
 									<li><a href="#" onClick={e => {
 										e.preventDefault();
-										doSignup(false);
-									}}>Click here to enroll.</a></li>
-									<li><a href="#" onClick={e => {
-							e.preventDefault();
-							doUnenroll();
-						}}>Click here to delist.</a></li>
+										doUnenroll();
+									}}>Click here to delist.</a></li>
 								</ul>
 							</React.Fragment>
 						} else {
@@ -305,6 +330,15 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 								doUnenroll();
 							}}>Click here to delist.</a></b>
 						}
+					} else if (i.signupType.getOrElse("") == "P") {
+						return <React.Fragment>
+							<b>A spot is being held for you while you complete this purchase.</b><br /><br />
+							<ul><li><Link to={apBasePath.getPathFromArgs({})}>Click here to return to the homepage to checkout.</Link></li>
+							<li><a href="#" onClick={e => {
+								e.preventDefault();
+								doUnenroll(); // TODO: Is this ok? Not how 610 does it
+							}}>Click here to cancel your pending signup.</a></li></ul>
+						</React.Fragment>
 					} else if (noSignup) {
 						return <b>No signup is required for {classType.typeName} classes; simply show up at class time.  There is no limit on class size.</b>
 					} else if (classType.seeTypeError.isSome()) {
@@ -321,7 +355,20 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 							e.preventDefault();
 							doSignup(false);
 						}}>click here to signup!</a></b>
-					} else return null;
+					} else {
+						// paid
+						if (self.props.availabilities.voucherCt > 0) {
+							return <b>This is a paid class, however your account has {self.props.availabilities.voucherCt} class credit(s); <a href="#" onClick={e => {
+								e.preventDefault();
+								doSignup(false);
+							}}>click here to signup.</a></b>
+						} else {
+							return <b>This is a paid class; <a href="#" onClick={e => {
+								e.preventDefault();
+								doSignup(false, true);
+							}}>click here to add to add to your cart</a>.  Your seat will be held for up to 20 minutes while you complete the purchase process.</b>
+						}
+					};
 				}());
 				return <FactaArticleRegion title={`${i.typeName} - ${datetimeMoment.format("dddd MMMM Do, h:mmA")}`} id="focus">
 					{description}
@@ -338,7 +385,13 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 			{getFilterCell(AvailabilityFlag.INELIGIBLE)}
 		</tr></tbody></table>)
 		const elements = this.calendarDayElements();
+		const errorPopup = (
+			(this.state.validationErrors.length > 0)
+			? <FactaErrorDiv errors={this.state.validationErrors}/>
+			: ""
+		);
 		return <FactaMainPage setBGImage={setAPImage}>
+			{errorPopup}
 			<FactaArticleRegion title="AP Class Calendar">
 				<Calendar
 					monthStartOnDate={0}
