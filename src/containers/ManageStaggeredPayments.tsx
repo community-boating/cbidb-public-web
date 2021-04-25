@@ -108,7 +108,15 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 
 			if (confirm(confirmText)) {
 				return finishOrder.send(makePostJSON({})).then(r => {
-					self.props.history.push("/redirect" + window.location.pathname)
+					if (r.type == "Success") {
+						self.props.history.push("/redirect" + window.location.pathname)
+					} else {
+						self.setState({
+							...self.state,
+							validationErrors: [r.message]
+						})
+					}
+					
 				})
 			} else return Promise.resolve();
 		}
