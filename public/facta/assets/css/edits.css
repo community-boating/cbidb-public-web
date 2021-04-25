@@ -851,3 +851,7 @@ svg:not(:root).svg-inline--fa {
 	font-size: 0.8em;
 	padding: 10px
 }
+
+th.header {
+	padding: 0 4px;
+}

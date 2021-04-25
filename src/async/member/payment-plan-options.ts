@@ -16,9 +16,14 @@ export const scmValidator = t.type({
 	membershipTypeId: t.number
 })
 
+export const planValidator = t.type({
+	payments: t.array(singlePaymentValidator),
+	startDate: t.string,
+})
+
 export const validator = t.type({
 	scm: scmValidator,
-	plans: t.array(t.array(singlePaymentValidator))
+	plans: t.array(planValidator)
 })
 
 const path = "/member/payment-plan-options"

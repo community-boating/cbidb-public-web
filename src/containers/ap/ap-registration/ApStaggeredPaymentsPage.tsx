@@ -11,7 +11,7 @@ import FactaNotitleRegion from "@facta/FactaNotitleRegion";
 import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
 import { setAPImage } from "@util/set-bg-image";
 import Currency from "@util/Currency";
-import { singlePaymentValidator } from "@async/member/payment-plan-options";
+import { planValidator } from "@async/member/payment-plan-options";
 import {postWrapper as submit} from "@async/member/set-payment-plan"
 import { makePostJSON } from "@core/APIWrapperUtil";
 import { StaggeredPaymentSchedule } from "@components/StaggeredPaymentSchedule";
@@ -20,14 +20,14 @@ import { RadioGroup } from "@components/InputGroup";
 import FactaButton from "@facta/FactaButton";
 import StandardReport from "@facta/StandardReport";
 
-type SinglePayment = t.TypeOf<typeof singlePaymentValidator>;
+type Plan = t.TypeOf<typeof planValidator>
 
 interface Props {
 	membershipTypeId: number,
 	appliedDiscountId: Option<number>,
 	basePrice: Currency,
 	discountAmt: Option<Currency>,
-	paymentSchedules: SinglePayment[][],
+	paymentSchedules: Plan[],
 	history: History<any>
 	breadcrumb: JSX.Element,
 	goNext: () => Promise<void>,
@@ -67,18 +67,19 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 			onChange={(e) => this.setState({ ...this.state, selectedNumberPayments: some(Number(e.target.value))})}
 			checked={this.state.selectedNumberPayments.getOrElse(null) == paymentCt}
 		/>);
-		const totals = this.props.paymentSchedules.map(s => s.reduce((agg, p) => agg + p.paymentAmtCents, 0));
+		const totals = this.props.paymentSchedules.map(s => s.payments.reduce((agg, p) => agg + p.paymentAmtCents, 0));
 		return <React.Fragment>
 			<StandardReport
-				headers={["Payments", "Monthly Amt", "Final Payment", "Total"]}
+				headers={["Payments", "Monthly Amt", "Final Payment", "Membership Start", "Total"]}
 				cellStyles={[{textAlign: "left"}, {textAlign: "right"}, {textAlign: "right"}, {textAlign: "right"}]}
 				rows={this.props.paymentSchedules.filter((s, i) => i > 0).map(s => 
 					[
-						<span>{getRadio(s.length)}<label htmlFor={`sel_${s.length}`}>{s.length}</label></span>,
-						Currency.cents(s[0].paymentAmtCents).format(),
-						moment(s[s.length-1].paymentDate, "YYYY-MM-DD").format("MM/DD/YYYY"),
+						<span>{getRadio(s.payments.length)}<label htmlFor={`sel_${s.payments.length}`}>{s.payments.length}</label></span>,
+						Currency.cents(s.payments[0].paymentAmtCents).format(),
+						moment(s.payments[s.payments.length-1].paymentDate, "YYYY-MM-DD").format("MM/DD/YYYY"),
+						moment(s.startDate, "YYYY-MM-DD").format("MM/DD/YYYY"),
 						(function() {
-							const total = s.reduce((agg, p) => agg + p.paymentAmtCents, 0);
+							const total = s.payments.reduce((agg, p) => agg + p.paymentAmtCents, 0);
 							const totalFormatted = Currency.cents(total).format();
 							if (self.doRenewal && total == totals[0]) {
 								return <b>*{totalFormatted}</b>
@@ -93,7 +94,7 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 	}
 	scheduleDetail() {
 		return this.state.selectedNumberPayments.map(ct => {
-			const schedule = this.props.paymentSchedules[ct - 1]
+			const schedule = this.props.paymentSchedules[ct - 1].payments
 			return <StaggeredPaymentSchedule schedule={schedule}/>;
 		}).getOrElse(null);
 	}
@@ -146,6 +147,9 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 					to charge your credit card for the agreed upon months. You understand your membership is not active until the final payment is received. 
 					It is your responsibility to update your account with any changes to your credit card information. 
 					If you cancel this agreement or do not complete all required payments the amount paid will be transferred to a Community Boating gift certificate.
+					<br />
+					<br />
+					<span style={{fontWeight: "bold", color: "#F00"}}>PLEASE NOTE: Your membership will not activate until all payments have been successfully processed.</span>
 					</React.Fragment>
 
 					: null
