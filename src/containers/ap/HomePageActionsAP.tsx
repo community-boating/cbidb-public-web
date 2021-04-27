@@ -65,11 +65,11 @@ export default (
 	};
 
 	const showAnySignupLink = (
-		showSignupLink(20) || 
-		showSignupLink(21) || 
-		showSignupLink(22) || 
-		showSignupLink(23) || 
-		showSignupLink(24)
+		showSignupLink(20)() || 
+		showSignupLink(21)() || 
+		showSignupLink(22)() || 
+		showSignupLink(23)() || 
+		showSignupLink(24)()
 	);
 
 	const noGP = getNoGP(bv);
@@ -260,7 +260,7 @@ export default (
 		We will honor any existing reservations.</React.Fragment>;
 
 	const footer = (
-		showAnySignupLink()
+		showAnySignupLink
 		? <React.Fragment><br /><span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>{footerText}</span></React.Fragment>
 		: null
 	)
