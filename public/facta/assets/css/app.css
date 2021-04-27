@@ -4094,7 +4094,7 @@ img.mfp-img { width: auto; max-width: 100%; height: auto; display: block; line-h
 
 .header-utility-item a { height: 100%; color: #fff; font-size: 11px; font-weight: 500; letter-spacing: 1px; line-height: 1; text-transform: uppercase; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-align: center; -ms-flex-align: center; align-items: center; background-color: #0292be; margin: 0 0 0 2px; padding: 12px 10px; }
 
-.header-utility-item a svg { width: 9px; height: auto; margin: 0 5px 0 0; position: relative; top: -1px; }
+.header-utility-item a svg { width: 13px; height: auto; margin: 0 5px 0 0; position: relative; top: -1px; }
 
 .header-utility-item a:hover { background-color: #027fa5; }
 
