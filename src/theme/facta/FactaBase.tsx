@@ -92,6 +92,9 @@ export class FactaBody extends React.Component {
 		}, 20)
 	}
 	render() {
+		const isJp = (window.location.pathname + "/").indexOf("/jp/") > -1;
+		const settingsURL = (isJp ? "/jp/" : "/ap/") + "settings";
+		
 		return <div>
 			<noscript>You need to enable JavaScript to run this app.</noscript>
 
@@ -124,29 +127,37 @@ export class FactaBody extends React.Component {
 					<div className='header-utility-items'>
 						{
 							asc.state.login.authenticatedUserName.isSome()
-								? <div className='header-utility-item'>
-									<a href='#' onClick={e => {
-										e.preventDefault();
-										logout.send({ type: "json", jsonData: {} }).then(() => {
-											asc.updateState.login.logout()
-										})
-									}}>
-										<div className='header-utility-item-icon'><svg viewBox="0 0 17 17" fill="none"
-											xmlns="http://www.w3.org/2000/svg">
-											<g>
-												<path
-													d="M16.08 14.34C15.29 13.05 13.65 13.02 12.38 12.67C10.93 12.27 9.72996 11.71 10.18 9.97C10.36 9.27 10.83 8.74 11.15 8.09C11.5 7.36 11.72 6.52 11.78 5.74C11.84 5.05 11.77 4.32 11.74 3.64C11.7 2.86 11.51 2.46 11.06 1.83C10.51 1.06 9.35996 0.1 8.29996 0.01V0C8.28996 0 8.24996 0 8.21996 0H8.18995H8.17996C8.15996 0 8.14996 0 8.13996 0V0.01C8.12996 0.01 8.10995 0.01 8.10995 0.01C7.03995 0.09 5.87996 1.06 5.31996 1.83C4.86996 2.46 4.67996 2.86 4.63996 3.64C4.60996 4.31 4.53996 5.04 4.59996 5.74C4.66996 6.53 4.87996 7.37 5.22996 8.09C5.54996 8.75 6.00995 9.27 6.19995 9.98C6.64995 11.72 5.44995 12.28 3.99995 12.68C2.72995 13.03 1.08996 13.06 0.299955 14.35C0.0699551 14.73 -0.200045 15.79 0.239955 16.14C0.619955 16.44 1.78995 16.38 2.28995 16.38C3.51995 16.38 6.97995 16.39 8.19995 16.39C9.63996 16.39 12.97 16.38 14.11 16.38C14.61 16.38 15.78 16.44 16.16 16.14C16.58 15.78 16.32 14.73 16.08 14.34Z"
-													fill="white" />
-											</g>
-											<defs>
-												<clipPath id="clip0">
-													<rect width="16.38" height="16.38" fill="white" />
-												</clipPath>
-											</defs>
-										</svg></div>
-										<div className='header-utility-item-text d-none d-sm-block'>Logout</div>
-									</a>
-								</div>
+								? <React.Fragment>
+									<div className='header-utility-item'>
+										<a href={settingsURL}>
+											<div className='header-utility-item-icon'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="feather align-middle mr-2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
+											<div className='header-utility-item-text d-none d-sm-block'>Settings</div>
+										</a>
+									</div>
+									<div className='header-utility-item'>
+										<a href='#' onClick={e => {
+											e.preventDefault();
+											logout.send({ type: "json", jsonData: {} }).then(() => {
+												asc.updateState.login.logout()
+											})
+										}}>
+											<div className='header-utility-item-icon'><svg viewBox="0 0 17 17" fill="none"
+												xmlns="http://www.w3.org/2000/svg">
+												<g>
+													<path
+														d="M16.08 14.34C15.29 13.05 13.65 13.02 12.38 12.67C10.93 12.27 9.72996 11.71 10.18 9.97C10.36 9.27 10.83 8.74 11.15 8.09C11.5 7.36 11.72 6.52 11.78 5.74C11.84 5.05 11.77 4.32 11.74 3.64C11.7 2.86 11.51 2.46 11.06 1.83C10.51 1.06 9.35996 0.1 8.29996 0.01V0C8.28996 0 8.24996 0 8.21996 0H8.18995H8.17996C8.15996 0 8.14996 0 8.13996 0V0.01C8.12996 0.01 8.10995 0.01 8.10995 0.01C7.03995 0.09 5.87996 1.06 5.31996 1.83C4.86996 2.46 4.67996 2.86 4.63996 3.64C4.60996 4.31 4.53996 5.04 4.59996 5.74C4.66996 6.53 4.87996 7.37 5.22996 8.09C5.54996 8.75 6.00995 9.27 6.19995 9.98C6.64995 11.72 5.44995 12.28 3.99995 12.68C2.72995 13.03 1.08996 13.06 0.299955 14.35C0.0699551 14.73 -0.200045 15.79 0.239955 16.14C0.619955 16.44 1.78995 16.38 2.28995 16.38C3.51995 16.38 6.97995 16.39 8.19995 16.39C9.63996 16.39 12.97 16.38 14.11 16.38C14.61 16.38 15.78 16.44 16.16 16.14C16.58 15.78 16.32 14.73 16.08 14.34Z"
+														fill="white" />
+												</g>
+												<defs>
+													<clipPath id="clip0">
+														<rect width="16.38" height="16.38" fill="white" />
+													</clipPath>
+												</defs>
+											</svg></div>
+											<div className='header-utility-item-text d-none d-sm-block'>Logout</div>
+										</a>
+									</div>
+								</React.Fragment>
 								: null
 						}
 					</div>
