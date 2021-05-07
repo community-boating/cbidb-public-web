@@ -59,6 +59,7 @@ import {standaloneLoginRoute} from "@routes/common/standalone-signin"
 import { jpSettingsPageRoute } from '@routes/jp/settings';
 import LandingPage from '@containers/LandingPage';
 import { jpPublicClassesRoute } from '@routes/jp/all-classes';
+import { apTVPageRoute } from '@routes/tv/ap-class-instances';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)
@@ -125,6 +126,7 @@ export default function (history: History<any>) {
 		donatePageRoute.asRoute(history),
 		standaloneLoginRoute.asRoute(history),
 		jpPublicClassesRoute.asRoute(history),
+		apTVPageRoute.asRoute(history),
 	].filter(Boolean));
 
 	const mustNotBeLoggedIn = [
