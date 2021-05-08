@@ -97,7 +97,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 			discountAmt: this.props.discountsProps.veteranDiscountAmt
 		}, {
 			id: MAGIC_NUMBERS.DISCOUNT_ID.MGH_DISCOUNT_ID,
-			display: "MGH/Partners Employee",
+			display: "Healthcare Professionals",
 			eligible: this.props.discountsProps.eligibleForMGH,
 			available: true,
 			discountAmt: this.props.discountsProps.mghDiscountAmt
