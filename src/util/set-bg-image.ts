@@ -1,7 +1,11 @@
 // import { apBasePath } from "@paths/ap/_base";
 // import { jpBasePath } from "@paths/jp/_base";
 
-export function setCheckoutImage() {
+export function setCheckoutImageForDonations() {
+	return setCheckoutImage("CBI Donation Portal");
+}
+
+export function setCheckoutImage(heroText?: string) {
 	const bgImageNode = document.getElementById('hero');
 	if (bgImageNode) {
 		bgImageNode.style.background = 'url(/facta/assets/images/common-hero.jpg)';
@@ -14,7 +18,7 @@ export function setCheckoutImage() {
 	// }
 
 	const heroTextNode = document.getElementById('hero-text');
-	if (heroTextNode) heroTextNode.innerText = "CBI Membership Portal"
+	if (heroTextNode) heroTextNode.innerText = heroText || "CBI Membership Portal";
 }
 
 export function setJPImage() {

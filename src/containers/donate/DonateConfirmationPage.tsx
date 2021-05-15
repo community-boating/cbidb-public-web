@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import { setCheckoutImage } from '@util/set-bg-image';
+import {  setCheckoutImageForDonations } from '@util/set-bg-image';
 import { CartItem } from '@async/get-cart-items';
 import FullCartReport from '@components/FullCartReport';
 import { PageFlavor } from '@components/Page';
@@ -52,6 +52,7 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 			<StripeConfirm
 				cardData={cd}
 			/>
+			<br />
 			<FactaButton text="< Back" onClick={this.props.goPrev}/>
 			<FactaButton text="Submit Donation" spinnerOnClick onClick={() => {
 				self.setState({
@@ -122,7 +123,7 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 		/>;
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImage}>
+			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
 				{errorPopup}
 				<FactaArticleRegion title={"Donation Summary"}>
 					<FullCartReport
@@ -137,7 +138,6 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 				</FactaArticleRegion>
 				<FactaArticleRegion title={"Your Billing Info"}>
 					{paymentTextOrResetLink}
-					<br />
 					<br />
 					{confirm.getOrElse(stripeElement)}
 				</FactaArticleRegion>

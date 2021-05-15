@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import { setCheckoutImage } from '@util/set-bg-image';
+import { setCheckoutImageForDonations } from '@util/set-bg-image';
 // import { DonationThirdPartyWidget } from '@components/DonationThirdPartyWidget';
 import { none, Option, some } from 'fp-ts/lib/Option';
 import {donationFundValidator} from "@async/donation-funds"
@@ -325,9 +325,9 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 		</React.Fragment>;
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImage}>
+			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
 				{errorPopup}
-				<FactaArticleRegion title={"Support Community Boating!"}>
+				<FactaArticleRegion title={<span>Support Community Boating's <b>75th anniversary</b> by making a donation today!</span>}>
 					{/* <DonationThirdPartyWidget /> */}
 					<br />
 					Community Boating, Inc. is a private, 501(c)3 non-profit organization operating affordable and accessible programs
