@@ -56,7 +56,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 				<td style={{ textAlign: "right" }}>{title}:</td>
 				<td>{price.format(true)}</td>
 				<td>{buyButton}</td>
-				<td><span className="not-available"> - <span style={{fontWeight: "bold", color: "red"}}>Your membership will be on hold</span> until you can verify eligibility with the Front Office.</span></td>
+				<td><span className="not-available"> - <span style={{fontWeight: "bold", color: "red"}}>Your membership will be frozen</span> until you can verify eligibility with the Front Office.</span></td>
 			</tr>);
 		case DiscountState.eligible:
 			return (<tr key={id}>
@@ -224,7 +224,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					<ul>
 						<li>Access to all boats</li>
 						<li>Basic and Intermediate classes</li>
-						<li>Advanced classes for a nominal fee of $35</li>
+						<li>Advanced classes for a nominal fee of {Currency.dollars(self.props.prices.apClassPrice).format(true)}</li>
 						<li>Discounts to CBI events</li>
 						<li>Guest privileges (with appropriate rating)</li>
 					</ul><br />
@@ -242,7 +242,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					<ul>
 						<li>Access to all boat usage, classes and instruction</li>
 						<li>Able to earn all ratings</li>
-						<li>Advanced classes for a nominal fee of $35</li>
+						<li>Advanced classes for a nominal fee of {Currency.dollars(self.props.prices.apClassPrice).format(true)}</li>
 						<li>Guest privileges can be purchased for {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)}</li>
 					</ul><br />
 
@@ -257,7 +257,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 					<ul>
 						<li>Access to all boat usage, classes and instruction</li>
 						<li>Able to earn all ratings</li>
-						<li>Advanced classes for a nominal fee of $35</li>
+						<li>Advanced classes for a nominal fee of {Currency.dollars(self.props.prices.apClassPrice).format(true)}</li>
 						<li>Guest privileges can be purchased for {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)}</li>
 					</ul><br />
 
