@@ -286,7 +286,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			} else if (beginner.isNone() && intermediate.isNone()) {
 				this.setState({
 					...this.state,
-					validationErrors: ["Please specify class to reserve. Experienced sailors and anyone who does not want to reserve a Beginner Class at this time, should just click \"Continue\" to the right. You will have the opportunity to add more juniors later."]
+					validationErrors: ["Please specify class to reserve. Experienced sailors and anyone who does not want to reserve a Beginner Class at this time, should just contact the JP Director at fiona@community-boating.org for assistance."]
 				})
 				return Promise.reject();
 			} else if (beginner.isNone() && intermediate.isSome()) {
@@ -361,7 +361,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			<FactaArticleRegion title="Reserve Classes">
 				Our sliding scale junior membership fee covers two weeks of classes.
 				Novice sailors start with our two-week Beginner Sailing, and can reserve a spot below.
-				Experienced sailors should just click "Continue" on the right without reserving, and contact the JP directors via email for proper placement.
+				Experienced sailors should email the JP Director at <a href="mailto:fiona@community-boating.org">fiona@community-boating.org</a> for proper class placement.
 				<br />
 				<br />
 				
@@ -444,11 +444,19 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					const formData = self.state.formData;
 					const didStuff = formData.juniorFirstName.isSome() || formData.selectedBeginnerInstance.isSome() || formData.selectedIntermediateInstance.isSome();
 					const juniorCt = self.state.preRegistrations.length;
-					const s = juniorCt == 1 ? "" : "s";
-					if (!didStuff || confirm(`You have unsaved work on this page.  Continue to finalize registration with ${juniorCt} junior${s}?`)) {
-						return Promise.resolve(self.props.history.push(createAcctPageRoute.getPathFromArgs({})))
+					if (juniorCt == 0) {
+						this.setState({
+							...this.state,
+							validationErrors: ["Please create at least one junior to continue.  If you are looking to sign up for an advanced sailing class, please contact the JP Director at fiona@community-boating.org to proceed."]
+						})
+						return Promise.reject();
 					} else {
-						return Promise.resolve();
+						const s = juniorCt == 1 ? "" : "s";
+						if (!didStuff || confirm(`You have unsaved work on this page.  Continue to finalize registration with ${juniorCt} junior${s}?`)) {
+							return Promise.resolve(self.props.history.push(createAcctPageRoute.getPathFromArgs({})))
+						} else {
+							return Promise.resolve();
+						}
 					}
 				}}
 			/></td></tr>
