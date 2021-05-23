@@ -11,6 +11,7 @@ type Props = {
 	submitMethod: "TOKEN" | "PAYMENT_METHOD",
 	then: (result: TokensResult | PaymentMethod) => Promise<any>,
 	additionalButtons?: JSX.Element,
+	buttonText?: string,
 }
 
 declare var Stripe: any;
@@ -102,7 +103,7 @@ export default class StripeElement extends React.Component<Props> {
 				</div>
 				<br />
 				{this.props.additionalButtons}
-				<FactaButton text="Submit Card Details" spinnerOnClick onClick={() => Promise.resolve(this.submit())}/>
+				<FactaButton text={this.props.buttonText || "Submit Card Details"} spinnerOnClick onClick={() => Promise.resolve(this.submit())}/>
 			</form>
 		);
 		return paymentForm;

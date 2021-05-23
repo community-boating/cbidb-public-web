@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
 import APIWrapper from '@core/APIWrapper';
 import { HttpMethod } from "@core/HttpMethod";
-import { OptionalString } from '@util/OptionalTypeValidators';
+import { OptionalBoolean, OptionalString } from '@util/OptionalTypeValidators';
 
 export const validator = t.type({
 	fundId: t.number,
@@ -10,6 +10,7 @@ export const validator = t.type({
 	nameFirst: OptionalString,
 	nameLast: OptionalString,
 	email: OptionalString,
+	doRecurring: OptionalBoolean,
 })
 
 const path = "/add-donation-standalone"

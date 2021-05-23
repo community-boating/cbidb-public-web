@@ -13,4 +13,5 @@ export enum PageFlavor {
 	SHARED = "Shared",
 	DONATE = "Donate",
 	GC = "GC",
+	AUTO_DONATE = "AUTO_DONATE"
 }

@@ -7,6 +7,7 @@ export const validator = t.type({
 	nameFirst: OptionalString,
 	nameLast: OptionalString,
 	email: OptionalString,
+	doRecurring: t.boolean,
 })
 
 const resultValidator = t.type({success: t.boolean})

@@ -31,6 +31,7 @@ export default (flavor: PageFlavor) => (history: History<any>) => <PageWrapper
 			case PageFlavor.SHARED:
 			case PageFlavor.DONATE:
 			case PageFlavor.GC:
+			case PageFlavor.AUTO_DONATE:
 				return setCheckoutImage;
 			default:
 				assertNever(flavor);

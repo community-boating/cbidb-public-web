@@ -18,6 +18,8 @@ import FactaMainPage from '@facta/FactaMainPage';
 import FactaArticleRegion from '@facta/FactaArticleRegion';
 import { FactaErrorDiv } from '@facta/FactaErrorDiv';
 import FactaButton from '@facta/FactaButton';
+import { PaymentMethod } from '@models/stripe/PaymentMethod';
+import {postWrapper as storePaymentMethod} from "@async/stripe/store-payment-method-donate"
 
 type Props = {
 	goNext: () => Promise<void>,
@@ -88,7 +90,7 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 						.then(() => self.props.reload());
 				}} />
 			} else {
-				return "Please enter payment information below. Credit card information is communicated securely to our payment processor and will not be stored by CBI for this order.";
+				return "Please enter payment information below. Credit card information is communicated securely to our payment processor and is not stored by CBI.";
 			}
 		}());
 
@@ -96,6 +98,23 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 			return storeToken.send(makePostJSON({
 				token: result.token.id,
 				orderId: self.props.orderStatus.orderId
+			})).then(result => {
+				if (result.type == "Success") {
+					self.props.reload();
+				} else {
+					self.setState({
+						...self.state,
+						validationErrors: [result.message]
+					});
+					window.scrollTo(0, 0);
+				}
+			})
+		}
+
+		const processPaymentMethod = (result: PaymentMethod) => {
+			return storePaymentMethod.send(makePostJSON({
+				paymentMethodId: result.paymentMethod.id,
+				retryLatePayments: false
 			})).then(result => {
 				if (result.type == "Success") {
 					self.props.reload();
@@ -118,7 +137,11 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 			formId="payment-form"
 			elementId="card-element"
 			cardErrorsId="card-errors"
-			then={processToken}
+			then={
+				self.props.orderStatus.paymentMethodRequired
+				? processPaymentMethod
+				: processToken
+			}
 			additionalButtons={<FactaButton text="< Back" onClick={this.props.goPrev}/>}
 		/>;
 
