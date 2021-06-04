@@ -84,7 +84,7 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 					e.preventDefault();
 					return submitPayment.send(makePostJSON({})).then(res => {
 						if (res.type == "Success") {
-							self.props.history.push(`/redirect${window.location.pathname}`);
+							self.props.history.push(`/redirect${window.location.pathname}?success`);
 						} else {
 							self.setState({
 								...self.state,
@@ -109,7 +109,7 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 					retryLatePayments: true
 				})).then(result => {
 					if (result.type == "Success") {
-						self.props.history.push("/redirect" + window.location.pathname+"?success")
+						self.props.history.push("/redirect" + window.location.pathname)
 					} else {
 						self.setState({
 							...self.state,
