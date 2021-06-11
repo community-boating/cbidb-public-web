@@ -6,7 +6,7 @@ import PageWrapper from "@core/PageWrapper";
 import ProgressThermometer from "@components/ProgressThermometer";
 import { State as BreadcrumbState} from "@core/Breadcrumb";
 import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "@core/WizardPageflow";
-import { setCheckoutImage } from "@util/set-bg-image";
+import { setCheckoutImageForDonations } from "@util/set-bg-image";
 import { apBasePath } from "@paths/ap/_base";
 import DonateDetailsPage from "./DonateDetailsPage";
 import DonateConfirmationPage from "./DonateConfirmationPage";
@@ -52,7 +52,7 @@ export default class DonateWizard extends React.Component<Props, State> {
 	
 		const pageWrapperProps = {
 			urlProps: {},
-			shadowComponent: <FactaLoadingPage setBGImage={setCheckoutImage} />
+			shadowComponent: <FactaLoadingPage setBGImage={setCheckoutImageForDonations} />
 		}
 	
 		return <WizardPageflow 

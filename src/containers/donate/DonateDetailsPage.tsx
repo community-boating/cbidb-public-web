@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import { setCheckoutImage } from '@util/set-bg-image';
+import { setCheckoutImageForDonations } from '@util/set-bg-image';
 // import { DonationThirdPartyWidget } from '@components/DonationThirdPartyWidget';
 import { none, Option, some } from 'fp-ts/lib/Option';
 import {donationFundValidator} from "@async/donation-funds"
@@ -48,6 +48,7 @@ type Form = {
 	firstName: Option<string>,
 	lastName: Option<string>,
 	email: Option<string>,
+	doRecurring: Option<string>,
 }
 
 type State = {
@@ -59,6 +60,11 @@ type State = {
 class FormInput extends TextInput<Form> {}
 class FormRadio extends RadioGroup<Form> {}
 class FormSelect extends Select<Form> {}
+
+enum Recurring {
+	ONCE="One-Time",
+	RECURRING="Monthly Recurring",
+}
 
 export default class DonateDetailsPage extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
@@ -82,6 +88,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				firstName: props.orderStatus.nameFirst,
 				lastName: props.orderStatus.nameLast,
 				email: props.orderStatus.email,
+				doRecurring: this.props.orderStatus.paymentMethodRequired ? some(Recurring.RECURRING) : some(Recurring.ONCE),
 			},
 			validationErrors: [],
 		}
@@ -135,6 +142,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				nameFirst: this.state.formData.firstName,
 				nameLast: this.state.formData.lastName,
 				email: this.state.formData.email,
+				doRecurring: this.state.formData.doRecurring.map(r => r == Recurring.RECURRING)
 			})))
 			.then(ret => {
 				if (ret.type == "Success") {
@@ -157,6 +165,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 			nameFirst: self.state.formData.firstName,
 			nameLast: self.state.formData.lastName,
 			email: self.state.formData.email,
+			doRecurring: self.state.formData.doRecurring.map(r => r == Recurring.RECURRING).getOrElse(false),
 		}))).then(ret => {
 			if (ret.type == "Success") {
 				self.props.goNext();
@@ -261,7 +270,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={this.state.validationErrors} dontEscapeHTML />
 			: ""
 		);
 
@@ -275,6 +284,23 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					excludeMemberName={true}
 					pageFlavor={PageFlavor.DONATE}
 				/>
+				<br />
+				<table><tbody><tr>
+					<td>Would you like to repeat this donation monthly? </td>
+					<td style={{width: "10%"}}></td>
+					<td>
+						<FormRadio 
+							id="doRecurring"
+							value={self.state.formData.doRecurring}
+							values={[Recurring.ONCE, Recurring.RECURRING].map(v => ({
+								key: v,
+								display: v
+							}))}
+							justElement
+							updateAction={updateState}
+						/>
+					</td>
+				</tr></tbody></table>
 			</FactaArticleRegion>
 			<FactaArticleRegion title="Personal Info">
 				{!self.props.orderStatus.authedAsRealPerson
@@ -321,13 +347,13 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					/>
 				</tbody></table>
 			</FactaArticleRegion>
-			<FactaButton text="Next >" onClick={this.doSubmit.bind(this)} />
+			<FactaButton text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)} />
 		</React.Fragment>;
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImage}>
+			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
 				{errorPopup}
-				<FactaArticleRegion title={"Support Community Boating!"}>
+				<FactaArticleRegion title={<span>Support Community Boating's <b>75th anniversary</b> by making a donation today!</span>}>
 					{/* <DonationThirdPartyWidget /> */}
 					<br />
 					Community Boating, Inc. is a private, 501(c)3 non-profit organization operating affordable and accessible programs

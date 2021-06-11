@@ -4080,7 +4080,7 @@ img.mfp-img { width: auto; max-width: 100%; height: auto; display: block; line-h
   .mfp-arrow-right { -webkit-transform-origin: 100%; transform-origin: 100%; }
   .mfp-container { padding-left: 6px; padding-right: 6px; } }
 
-.header-utility { background-color: #00507d; display: -webkit-box; display: -ms-flexbox; display: flex; position: relative; -webkit-box-align: center; -ms-flex-align: center; align-items: center; padding-left: 15px; z-index: 10; }
+.header-utility { background-color: #00507d; display: -webkit-box; display: -ms-flexbox; display: flex; position: relative; -webkit-box-align: center; -ms-flex-align: center; align-items: center; padding-left: 15px; z-index: 10; height: 37px;}
 
 .header-utility-icon { -webkit-box-flex: 1; -ms-flex-positive: 1; flex-grow: 1; }
 

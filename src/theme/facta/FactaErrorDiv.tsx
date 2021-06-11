@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export const FactaErrorDiv = (props: { errors: string[] }) => (
+export const FactaErrorDiv = (props: { errors: string[], dontEscapeHTML?: boolean }) => (
 	<div className="alert-global alert-top alert-yellow" style={{marginBottom: "15px"}}>
 		<div className="row no-gutters">
 			<table><tbody><tr>
@@ -20,7 +20,11 @@ export const FactaErrorDiv = (props: { errors: string[] }) => (
 						<ul style={{margin: "auto"}}>
 							{props.errors.map((err, i) => (
 								<li key={"err_" + i} style={{color: "#b28010"}}>
-									{err}
+									{(
+										props.dontEscapeHTML
+										? <span dangerouslySetInnerHTML={{__html: err}} />
+										: err
+									)}
 								</li>
 							))}
 						</ul>

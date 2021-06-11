@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { setCheckoutImage } from '@util/set-bg-image';
+import { setCheckoutImageForDonations } from '@util/set-bg-image';
 import { donatePageRoute } from '@routes/donate';
 import { Link } from 'react-router-dom';
 import FactaMainPage from '@facta/FactaMainPage';
@@ -13,7 +13,7 @@ type Props = {
 export default class DonateThankYouPage extends React.PureComponent<Props> {
 	render() {
 		return (
-			<FactaMainPage setBGImage={setCheckoutImage}>
+			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
 				<FactaArticleRegion title={"Thank you for your donation."}>
 				Your donation is complete! Please feel free to call us at 617-523-1038 with any questions.
 				<br />

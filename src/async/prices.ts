@@ -16,7 +16,8 @@ const membershipsValidator = t.type({
 export const validator = t.type({
 	memberships: t.array(membershipsValidator),
 	guestPrivsPrice: t.number,
-	damageWaiverPrice: t.number
+	damageWaiverPrice: t.number,
+	apClassPrice: t.number,
 })
 
 const path = "/prices"

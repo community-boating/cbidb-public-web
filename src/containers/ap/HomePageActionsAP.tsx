@@ -10,11 +10,10 @@ import * as _ from 'lodash';
 import { makePostJSON } from '@core/APIWrapperUtil';
 import {postWrapper as abortRegistration} from "@async/member/abort-mem-reg"
 import { apBasePath } from '@paths/ap/_base';
-//import { apClassesPageRoute } from '@routes/ap/classes';
 import { apEditPageRoute } from '@routes/ap/edit';
 import { apClassesPageRoute } from '@routes/ap/classes';
 import { apPathAddons } from '@paths/ap/addons';
-// import { apDonateRoute } from '@routes/ap/donate';
+import { apDonateRoute } from '@routes/ap/donate';
 import {apManageStaggeredPaymentsRoute} from "@routes/ap/payments"
 
 function testBit(num: number, bit: number) {
@@ -223,17 +222,12 @@ export default (
 		getElements: [
 			() => <Link to={apManageStaggeredPaymentsRoute.getPathFromArgs({})}>Manage Upcoming Payments</Link>
 		]	
-	} /*, {
+	}, {
 		place: 29,
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
 		]
-	}, {
-		place: 30,
-		getElements: [
-			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>View Payment Plan</Link>
-		]
-	}*/];
+	}];
 
 	// const showReserveFooter = (
 	// 	testBit(bv, 14) || 

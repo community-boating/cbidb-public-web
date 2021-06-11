@@ -49,7 +49,7 @@ import { jpBasePath } from './paths/jp/_base';
 import LoginRoute from "@routes/common/login";
 import { PageFlavor } from '@components/Page';
 import { apAddonsPageRoute } from './routes/ap/addons';
-// import { apDonateRoute } from './routes/ap/donate';
+import { apDonateRoute } from './routes/ap/donate';
 import { apClosedPageRoute } from './routes/ap/closed';
 import { donatePageRoute } from "@routes/donate"
 import { apManageStaggeredPaymentsRoute } from './routes/ap/payments';
@@ -59,6 +59,7 @@ import {standaloneLoginRoute} from "@routes/common/standalone-signin"
 import { jpSettingsPageRoute } from '@routes/jp/settings';
 import LandingPage from '@containers/LandingPage';
 import { jpPublicClassesRoute } from '@routes/jp/all-classes';
+import { apDonateEditRoute } from '@routes/ap/donate-edit';
 import { apTVPageRoute } from '@routes/tv/ap-class-instances';
 
 const defaultRouteRender = () => {
@@ -68,13 +69,7 @@ const defaultRouteRender = () => {
 	if (redirectRegexMatchResult) {
 		// First see if its a redirect
 		// console.log("... its a redirect, going to " + redirectRegexMatchResult[1]);
-		const elementIDRegex = /(#[^\/]+)$/
-		const tail = (function() {
-			const result = elementIDRegex.exec(window.location.href);
-			if (result && result[1]) return result[1];
-			else return "";
-		}());
-		return <Redirect to={'/' + redirectRegexMatchResult[1] + tail} />;
+		return <Redirect to={'/' + redirectRegexMatchResult[1] + window.location.search + window.location.hash} />;
 	} else {
 		// console.log("its not a redirect....")
 		const jpRegex = /^\/jp\/(.*)$/;
@@ -157,7 +152,8 @@ export default function (history: History<any>) {
 		apClassesPageRoute.asRoute(history),
 		apAddonsPageRoute.asRoute(history),
 		apManageStaggeredPaymentsRoute.asRoute(history),
-	//	apDonateRoute.asRoute(history),
+		apDonateEditRoute.asRoute(history),
+		apDonateRoute.asRoute(history),
 		(
 			asc.state.justLoggedIn
 			? <Route key="homeAP" path={apBasePath.getPathFromArgs({})} exact render={() => <Redirect to={apRegPageRoute.getPathFromArgs({})} />} />
