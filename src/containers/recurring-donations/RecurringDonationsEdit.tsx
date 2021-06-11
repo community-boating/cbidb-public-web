@@ -91,13 +91,17 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 	constructor(props: Props) {
 		super(props);
 		this.state = {
-			formData: {
-				...formDefault,
-				selectedFund: this.getDefaultFund()
-			},
+			formData: formDefault,
 			stagedDonationPlan: this.props.initialDonationPlan,
 			formDirty: false,
 			validationErrors: [],
+		}
+		this.state = {
+			...this.state,
+			formData: {
+				...this.state.formData,
+				selectedFund: this.getDefaultFund()
+			}
 		}
 	}
 	createMode = this.props.initialDonationPlan.recurringDonations.length == 0;
