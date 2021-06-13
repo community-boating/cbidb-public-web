@@ -6,13 +6,11 @@ import { setJPImage } from "@util/set-bg-image";
 import { jpBasePath } from "@paths/jp/_base";
 import FactaMainPage from "@facta/FactaMainPage";
 
-export default class ClosedCovid extends React.PureComponent<{history: History<any>}> {
+export default class JpRegistrationClosedPage extends React.PureComponent<{history: History<any>}> {
 	render() {
 		return <FactaMainPage setBGImage={setJPImage}>
 			<FactaArticleRegion title="Registration is suspended.">
-				Thank you for your patience and support this spring.
-				We regret to inform you that CBI will not be able to offer the 2020 edition of our summer Junior Program.
-				If we find later this summer that we can safely offer some limited youth events or other opportunities, we will notify you right away!
+				Junior Program registration is currently suspended.  Please keep an eye on our <a target="_blank" href="https://www.community-boating.org">website</a> for more information!
 			</FactaArticleRegion>
 			<FactaButton text="< Back" onClick={() => Promise.resolve(this.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 		</FactaMainPage>

@@ -16,7 +16,7 @@ import { setJPImage, setAPImage } from "@util/set-bg-image";
 import { PageFlavor } from "@components/Page";
 import { apPreRegRoute } from "@routes/ap/prereg";
 import { apGuestRegRoute } from "@routes/ap/guest-reg";
-import { jpClosedCovidPageRoute } from "@routes/jp/closed";
+import { jpRegClosedPageRoute } from "@routes/jp/closed";
 import { apPathStartClaimAcct } from "@paths/ap/start-claim-acct";
 import { jpPathReserve } from "@paths/jp/reserve";
 import asc from "@app/AppStateContainer";
@@ -159,7 +159,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		const jpNewAcctRegion = (
 			<FactaArticleRegion title="New CBI Parents...">
 				<div>
-					<Link to={asc.state.jpClosedCovid ? jpClosedCovidPageRoute.getPathFromArgs({}) : jpPathReserve.getPathFromArgs({})}>
+					<Link to={asc.state.jpRegistrationClosed ? jpRegClosedPageRoute.getPathFromArgs({}) : jpPathReserve.getPathFromArgs({})}>
 						...click here to sign up your child(ren)!
 					</Link>
 					<br />
