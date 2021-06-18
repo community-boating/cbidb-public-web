@@ -227,6 +227,11 @@ export default (
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
 		]
+	}, {
+		place: 18,
+		getElements: [
+			(history: History<any>) => <a href="https://cbidockparty.eventbrite.com/?discount=FYAPMEM" target="_blank">CBI's Lawn & Dock Party on July 18th - Click here to get your discounted member tickets</a>
+		]
 	}];
 
 	// const showReserveFooter = (
