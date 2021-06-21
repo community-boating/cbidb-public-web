@@ -101,7 +101,7 @@ export class AppStateContainer {
 				authenticatedUserName: none
 			},
 			justLoggedIn: false,
-			jpRegistrationClosed: true
+			jpRegistrationClosed: false
 		};
 	}
 }
