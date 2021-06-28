@@ -3,7 +3,7 @@ import * as t from 'io-ts';
 import path from "@paths/ap/edit";
 import PageWrapper from "@core/PageWrapper";
 import RouteWrapper from "@core/RouteWrapper";
-import { validator as welcomeAPValidator } from "@async/member-welcome-ap";
+import { validator as welcomeAPValidator, apiw as welcomeAPIAP } from "@async/member-welcome-ap";
 import { setAPImage } from '@util/set-bg-image';
 import ApRegistrationWizard from '@containers/ap/ap-registration/ApRegistrationWizard';
 import FactaLoadingPage from '@facta/FactaLoadingPage';
@@ -24,6 +24,9 @@ export const apEditPageRoute = new RouteWrapper(true, path, history => <PageWrap
 	/>}
 	urlProps={{
 		personId: Number(path.extractURLParams(history.location.pathname).personId),
+	}}
+	getAsyncProps={(urlProps: {}) => {
+		return welcomeAPIAP.send(null).catch(err => Promise.resolve(null));
 	}}
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 />);
