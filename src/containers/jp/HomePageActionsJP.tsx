@@ -69,10 +69,12 @@ export default (bv: number, juniorId: number, history: History<any>, hasOpenOrde
     }/*, {
         place: 14,
         element: <PlaceholderLink>{"Rejoin Waitlist"}</PlaceholderLink>
-    }*/ , {
-        place: 15,
-        element: <a target="_blank" href="https://sailabration.eventbrite.com/?discount=CBIjr">{"Buy 4th of July Tickets"}</a>
-    }]
+    }*/ ,{
+		place: 15,
+		getElements: [
+			(history: History<any>) => <a href="https://cbidockparty.eventbrite.com/?discount=JPPARENT" target="_blank">CBI's Lawn & Dock Party on July 18th - Click here to get your discounted member tickets</a>
+		]
+	}]
 
     return (function() {
         if (!asc.state.jpRegistrationClosed && testBit(bv, 0)) {
