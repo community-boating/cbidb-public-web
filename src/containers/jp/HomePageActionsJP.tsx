@@ -71,9 +71,7 @@ export default (bv: number, juniorId: number, history: History<any>, hasOpenOrde
         element: <PlaceholderLink>{"Rejoin Waitlist"}</PlaceholderLink>
     }*/ ,{
 		place: 15,
-		getElements: [
-			(history: History<any>) => <a href="https://cbidockparty.eventbrite.com/?discount=JPPARENT" target="_blank">CBI's Lawn & Dock Party on July 18th - Click here to get your discounted member tickets</a>
-		]
+		element: <a href="https://cbidockparty.eventbrite.com/?discount=JPPARENT" target="_blank">CBI's Lawn & Dock Party on July 18th - Click here to get your discounted member tickets</a>
 	}]
 
     return (function() {
