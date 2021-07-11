@@ -13,6 +13,7 @@ import wsRacingClinic from "./ws-racing-clinic";
 import kayakAdventure from "./kayak-adventure";
 import learnToRace from "./learn-to-race";
 import waterQualityLab from "./water-quality-lab";
+import testingClinic from "./testing-clinic";
 
 export default ([
 	mercFastTrack,
@@ -30,4 +31,5 @@ export default ([
 	funGames,
 	learnToRace,
 	waterQualityLab,
+	testingClinic,
 ]);
