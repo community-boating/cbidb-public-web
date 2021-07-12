@@ -37,6 +37,12 @@ jobs:
           node-version: '14'
       - name: install
         run: npm install
-
       - name: build
-        run: npm build
+        run: npm run build
+      - name: tar
+        run: tar -zcvf build.tar.gz ./build
+      - name: save artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build.tar.gz
+          path: build.tar.gz
