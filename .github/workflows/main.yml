@@ -35,6 +35,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - name: config
+        run: cp ini/config.ini.template ini/config.ini
       - name: install
         run: npm install
       - name: build
