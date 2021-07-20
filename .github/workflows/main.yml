@@ -53,7 +53,7 @@ jobs:
       - name: Install doctl 
         uses: digitalocean/action-doctl@v2
         with:
-          token: ${{ secrets.DOCKER_REGISTRY_AUTH }}
+          token: ${{ secrets.DO_ACCESS_TOKEN }}
       - name: Log in to DO Container Registry 
         run: doctl registry login --expiry-seconds 600
       - name: Build and push
@@ -61,6 +61,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: cbidb-public-web:latest
+          tags: registry.digitalocean.com/cbidb-public-web:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
