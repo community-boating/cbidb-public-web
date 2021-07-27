@@ -16,10 +16,6 @@ const data: ClassType = {
 		the jib. When a jib is added to the mix, sailing becomes even more fun and sailors really learn to work together as skipper and crew.
 		By the end of the week, if a Junior displays competence in the skills above, they may receive their Yellow Rating,
 		which indicates their ability to sail in moderate wind, or even their Red Rating, which indicates their ability to sail in heavy wind with a jib.
-		<br /><br />
-		Juniors who are just moving up to the Intermediate level this year are encouraged to take it twice.
-		If you think your junior is ready to receive their Red Rating by the end of a One-Week Intermediate,
-		keep in mind that the Red Rating would qualify someone to take a one-week advanced class.
 	</React.Fragment>)
 }
 
