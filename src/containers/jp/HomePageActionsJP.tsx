@@ -13,6 +13,7 @@ import {offseasonPageRoute} from "@routes/jp/offseason"
 import { jpBasePath } from '@paths/jp/_base';
 import { classPageRoute } from '@routes/jp/class';
 import { jpManageStaggeredPaymentsRoute } from '@routes/jp/payments';
+import asc from '@app/AppStateContainer';
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)
@@ -68,19 +69,19 @@ export default (bv: number, juniorId: number, history: History<any>, hasOpenOrde
     }/*, {
         place: 14,
         element: <PlaceholderLink>{"Rejoin Waitlist"}</PlaceholderLink>
-    }*/ , {
-        place: 15,
-        element: <a target="_blank" href="https://sailabration.eventbrite.com/?discount=CBIjr">{"Buy 4th of July Tickets"}</a>
-    }]
+    }*/ /*,{
+		place: 15,
+		element: <a href="https://cbidockparty.eventbrite.com/?discount=JPPARENT" target="_blank">CBI's Lawn & Dock Party on July 18th - Click here to get your discounted member tickets</a>
+	}*/]
 
     return (function() {
-        if (testBit(bv, 0)) {
+        if (!asc.state.jpRegistrationClosed && testBit(bv, 0)) {
             return [<Link to={reg}>{"Purchase Summer Membership and/or Spring Class"}</Link>];
-        } else if (testBit(bv, 1)) {
+        } else if (!asc.state.jpRegistrationClosed && testBit(bv, 1)) {
             return [<Link to={reg}>{"Purchase Summer Membership"}</Link>];
-        } else if (testBit(bv, 2)) {
+        } else if (!asc.state.jpRegistrationClosed && testBit(bv, 2)) {
             return [<Link to={reg}>{"Complete Registration"}</Link>]
-        } else if (testBit(bv, 16)) {
+        } else if (!asc.state.jpRegistrationClosed && testBit(bv, 16)) {
             return [<Link to={reg}>{"Edit Registration"}</Link>]
         } else return [];
     }()).concat(actions.filter(({place}) => testBit(bv, place)).map(({element}) => element))

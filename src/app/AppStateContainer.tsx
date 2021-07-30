@@ -37,7 +37,7 @@ type State = {
 		authenticatedUserName: Option<string>
 	},
 	justLoggedIn: boolean,
-	jpClosedCovid: boolean
+	jpRegistrationClosed: boolean
 }
 
 // TODO: should this not expose anything publically except the "reducer" functions to update state?  Seems like <App /> should be the only thing that can read state
@@ -101,7 +101,7 @@ export class AppStateContainer {
 				authenticatedUserName: none
 			},
 			justLoggedIn: false,
-			jpClosedCovid: false
+			jpRegistrationClosed: false
 		};
 	}
 }

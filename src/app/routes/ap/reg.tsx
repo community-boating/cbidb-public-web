@@ -20,6 +20,7 @@ export const apRegPageRoute = new RouteWrapper(true, path, history => <PageWrapp
 		editOnly={false}
 		currentSeason={async.season}
 		hasStripeCustomerId={hasStripeCustomerId(async.actions)}
+		canRenew={async.discountsResult.canRenew}
 	/>}
 	urlProps={{
 		personId: Number(path.extractURLParams(history.location.pathname).personId),

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {jpPathClosed} from "@paths/jp/closed";
 import RouteWrapper from "@core/RouteWrapper";
-import ClosedCovid from '@containers/jp/ClosedCovid';
+import JpRegistrationClosedPage from '@containers/jp/JpRegistrationClosedPage';
 
-export const jpClosedCovidPageRoute = new RouteWrapper(true, jpPathClosed, history => <ClosedCovid history={history} />);
+export const jpRegClosedPageRoute = new RouteWrapper(true, jpPathClosed, history => <JpRegistrationClosedPage history={history} />);

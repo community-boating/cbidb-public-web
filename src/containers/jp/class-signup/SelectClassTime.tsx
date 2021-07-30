@@ -101,22 +101,9 @@ export default class SelectClassTime extends React.Component<Props, State> {
 			: ""
 		);
 
-		const showCovidMessage = (
-			this.props.currentSeason == 2020 &&
-			this.state.formData.selectedWeek.filter(w => Number(w) < 3).isSome()
-		);
-
 		const chooseTimeRegion = (<FactaArticleRegion title="Choose a Time">
 			{times}
 		</FactaArticleRegion>);
-
-		const covidMessage = (<FactaArticleRegion title="CBI Temporarily Closed For COVID-19">
-			In keeping with the governor's order closing school and daycare facilities through June 26,
-			we must also delay our summer Junior Program opening until after that date. <a target="_blank" href="https://myemail.constantcontact.com/Junior-Program-Updates.html?soid=1100561406121&aid=BfyWiOJtf98">
-				Click here for letter from the Junior Program Director
-			</a>. For CBI COVID-19 updates, see <a target="_blank" href="https://www.community-boating.org/covid19">www.community-boating.org/covid19</a>
-
-		</FactaArticleRegion>)
 
         const allRegions = (
 			<React.Fragment>
@@ -133,11 +120,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 						nullDisplay="- All Weeks -"
 					/></tbody></table>
 				</FactaArticleRegion>
-				{
-					showCovidMessage
-					? covidMessage
-					: chooseTimeRegion
-				}
+				{chooseTimeRegion}
 			</React.Fragment>
 		);
 

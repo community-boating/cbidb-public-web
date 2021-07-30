@@ -66,19 +66,17 @@ export default class HomePageJP extends React.Component<Props, State> {
 
 		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
 			{errorPopup}
-			{/* {
-				asc.state.jpClosedCovid
+			{
+				asc.state.jpRegistrationClosed
 				? <FactaArticleRegion title="Registration is suspended.">
-					Thank you for your patience and support this spring.
-					We regret to inform you that CBI will not be able to offer the 2020 edition of our summer Junior Program.
-					If we find later this summer that we can safely offer some limited youth events or other opportunities, we will notify you right away!  
+					Junior Program registration is currently suspended.  Please keep an eye on our <a target="_blank" href="https://www.community-boating.org">website</a> for more information!
 				</FactaArticleRegion>
 				: null
-			} */}
+			}
 			
 			{mainTable}
 			{
-				asc.state.jpClosedCovid
+				asc.state.jpRegistrationClosed
 				? null
 				: <FactaButton onClick={() => Promise.resolve(this.props.history.push(regEmptyPageRoute.pathWrapper.path))} text="Add new Junior" />
 			}			
