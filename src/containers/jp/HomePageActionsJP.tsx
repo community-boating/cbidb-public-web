@@ -69,10 +69,10 @@ export default (bv: number, juniorId: number, history: History<any>, hasOpenOrde
     }/*, {
         place: 14,
         element: <PlaceholderLink>{"Rejoin Waitlist"}</PlaceholderLink>
-    }*/ /*,{
+    }*/ ,{
 		place: 15,
-		element: <a href="https://cbidockparty.eventbrite.com/?discount=JPPARENT" target="_blank">CBI's Lawn & Dock Party on July 18th - Click here to get your discounted member tickets</a>
-	}*/]
+		element: <a href="https://www.eventbrite.com/e/community-boatings-75th-anniversary-sailabration-tickets-164881167009?discount=CBIMEM" target="_blank">Celebrate CBI's 75th Anniversary on August 28th! - Click here to get your discounted member tickets</a>
+	}]
 
     return (function() {
         if (!asc.state.jpRegistrationClosed && testBit(bv, 0)) {
