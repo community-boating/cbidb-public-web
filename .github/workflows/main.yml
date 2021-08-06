@@ -39,6 +39,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Set docker tag to dev
+        if: endsWith(github.ref, '/cluster/dev')
+        run: echo "IMAGE_TAG=dev" >> "$GITHUB_ENV"
+      - name: Set docker tag to latest
+        if: endsWith(github.ref, '/master')
+        run: echo "IMAGE_TAG=latest" >> "$GITHUB_ENV"
+      - name: echo docker tag
+        run: echo $IMAGE_TAG
       - uses: actions/checkout@v2
       - name: Fetch artifact
         uses: actions/download-artifact@v2
@@ -51,10 +59,10 @@ jobs:
         with:
           token: ${{ secrets.DO_ACCESS_TOKEN }}
       - name: build image
-        run: docker build -t registry.digitalocean.com/community-boating-docker/cbidb-public-web:latest .
+        run: docker build -t registry.digitalocean.com/community-boating-docker/cbidb-public-web:$IMAGE_TAG .
       - name: Log in to DO Container Registry 
         run: doctl registry login --expiry-seconds 600
       - name: push image
-        run: docker push registry.digitalocean.com/community-boating-docker/cbidb-public-web:latest
+        run: docker push registry.digitalocean.com/community-boating-docker/cbidb-public-web:$IMAGE_TAG
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
