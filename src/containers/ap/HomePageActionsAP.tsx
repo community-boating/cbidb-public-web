@@ -227,12 +227,12 @@ export default (
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
 		]
-	}, {
+	}/*, {
 		place: 18,
 		getElements: [
 			(history: History<any>) => <a href="https://www.eventbrite.com/e/community-boatings-75th-anniversary-sailabration-tickets-164881167009?discount=CBIMEM" target="_blank">Celebrate CBI's 75th Anniversary on August 28th! - Click here to get your discounted member tickets</a>
 		]
-	}];
+	}*/];
 
 	// const showReserveFooter = (
 	// 	testBit(bv, 14) || 
