@@ -49,27 +49,11 @@ export default (
 	show4th: boolean,
 	hasOpenStaggeredOrder: boolean
 ) => {
-	// const canRenew = testBit(bv, 4) || testBit(bv, 7);
-
 	const renewText = () => (<React.Fragment>
 		Renew for a year
 		<br />
 		({discountAmt.format()} discount until {expirationDate.getOrElse(null).clone().add(7, 'days').format("MM/DD/YYYY")})
 		</React.Fragment>);
-
-	const showSignupLink = (place: number) => {
-	//	const discountFrozen = testBit(bv, 26);
-		const adminHold = testBit(bv, 27);
-		return () => !adminHold && testBit(bv, place);
-	};
-
-	const showAnySignupLink = (
-		showSignupLink(20)() || 
-		showSignupLink(21)() || 
-		showSignupLink(22)() || 
-		showSignupLink(23)() || 
-		showSignupLink(24)()
-	);
 
 	const noGP = getNoGP(bv);
 	const noDW = getNoDW(bv);
@@ -234,36 +218,6 @@ export default (
 		]
 	}];
 
-	// const showReserveFooter = (
-	// 	testBit(bv, 14) || 
-	// 	testBit(bv, 15) || 
-	// 	testBit(bv, 19) || 
-	// 	testBit(bv, 20)
-	// );
-
-	// const footerElements = [{
-	// 	show: testBit(bv, 3) && !testBit(bv, 19),
-	// 	element: "Kayaks/SUPs are available to members and their guests exclusively on a walk-up basis."
-	// }, {
-	// 	show: testBit(bv, 14) || testBit(bv, 19),
-	// 	element: "Reservations are limited. The majority of our fleet will be available for walk-ups."
-	// }, {
-	// 	show: testBit(bv, 14),
-	// 	element: "Windsurfing is available exclusively on a walk-up basis for any member with at least a Windsurf Green rating."
-	// }].filter(e => e.show)
-	// .map(e => <React.Fragment><br /><span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>{e.element}</span></React.Fragment>);
-
-	const footerText = <React.Fragment>
-		We are transitioning to an exclusive walk-up system<br />
-		for all member sailing and paddling opportunities.<br />
-		We will honor any existing reservations.</React.Fragment>;
-
-	const footer = (
-		showAnySignupLink
-		? <React.Fragment><br /><span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>{footerText}</span></React.Fragment>
-		: null
-	)
-
 	return (<React.Fragment>
 		<ul>
 			{actions
@@ -280,6 +234,5 @@ export default (
 				.map((element, i) => <li key={i}>{element}</li>)
 			}
 		</ul>
-		{footer}
 	</React.Fragment>);
 }
