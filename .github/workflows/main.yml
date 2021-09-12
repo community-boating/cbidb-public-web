@@ -39,14 +39,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Set docker tag to dev
-        if: endsWith(github.ref, '/cluster/dev')
-        run: echo "IMAGE_TAG=dev" >> "$GITHUB_ENV"
-      - name: Set docker tag to latest
-        if: endsWith(github.ref, '/master')
-        run: echo "IMAGE_TAG=latest" >> "$GITHUB_ENV"
-      - name: echo docker tag
-        run: echo $IMAGE_TAG
+      - name: Get branch name (merge)
+        if: github.event_name != 'pull_request'
+        shell: bash
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / _)" >> $GITHUB_ENV
+
+      - name: Get branch name (pull request)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF} | tr / _)" >> $GITHUB_ENV
+
+      - name: echo branch name
+        run: echo ${{ env.BRANCH_NAME }}
+
       - uses: actions/checkout@v2
       - name: Fetch artifact
         uses: actions/download-artifact@v2
@@ -59,10 +64,10 @@ jobs:
         with:
           token: ${{ secrets.DO_ACCESS_TOKEN }}
       - name: build image
-        run: docker build -t registry.digitalocean.com/community-boating-docker/cbidb-public-web:$IMAGE_TAG .
+        run: docker build -t registry.digitalocean.com/community-boating-docker/cbidb-public-web:${{ env.BRANCH_NAME }} .
       - name: Log in to DO Container Registry 
         run: doctl registry login --expiry-seconds 600
       - name: push image
-        run: docker push registry.digitalocean.com/community-boating-docker/cbidb-public-web:$IMAGE_TAG
+        run: docker push registry.digitalocean.com/community-boating-docker/cbidb-public-web:${{ env.BRANCH_NAME }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
