@@ -235,7 +235,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 			breadcrumbHTML: <React.Fragment>Survey<br />Information</React.Fragment>
 		}].concat(maybeTOS)
 	
-		const nodes = maybeScholarship.concat(otherNodes)
+		const nodes = (this.props.editOnly ? [] : maybeScholarship).concat(otherNodes)
 	
 		return <WizardPageflow 
 			history={self.props.history}
