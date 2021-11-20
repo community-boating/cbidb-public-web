@@ -18,7 +18,6 @@ import { apPreRegRoute } from "@routes/ap/prereg";
 import { apGuestRegRoute } from "@routes/ap/guest-reg";
 import { jpRegClosedPageRoute } from "@routes/jp/closed";
 import { apPathStartClaimAcct } from "@paths/ap/start-claim-acct";
-import { jpPathReserve } from "@paths/jp/reserve";
 import asc from "@app/AppStateContainer";
 import { jpBasePath } from "@paths/jp/_base";
 import { apBasePath } from "@paths/ap/_base";
@@ -28,6 +27,7 @@ import { PostURLEncoded } from "@core/APIWrapperUtil";
 // import { apClosedPath } from "@paths/ap/closed";
 import FactaSidebarPage from "@facta/FactaSidebarPage";
 import { giftCertificatesPageRoute } from "@routes/gift-certificates";
+import { jpPathCreateAcct } from "@paths/jp/create-acct";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -159,7 +159,7 @@ export default class LoginPage extends React.Component<Props, State> {
 		const jpNewAcctRegion = (
 			<FactaArticleRegion title="New CBI Parents...">
 				<div>
-					<Link to={asc.state.jpRegistrationClosed ? jpRegClosedPageRoute.getPathFromArgs({}) : jpPathReserve.getPathFromArgs({})}>
+					<Link to={asc.state.jpRegistrationClosed ? jpRegClosedPageRoute.getPathFromArgs({}) : jpPathCreateAcct.getPathFromArgs({})}>
 						...click here to sign up your child(ren)!
 					</Link>
 					<br />
