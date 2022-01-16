@@ -286,7 +286,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			} else if (beginner.isNone() && intermediate.isNone()) {
 				this.setState({
 					...this.state,
-					validationErrors: ["Please specify class to reserve. Experienced sailors and anyone who does not want to reserve a Beginner Class at this time, should just contact the JP Director at fiona@community-boating.org for assistance."]
+					validationErrors: ["Please specify class to reserve. Experienced sailors and anyone who does not want to reserve a Beginner Class at this time, should contact the JP Director at juniorprogramdirector@community-boating.org for assistance."]
 				})
 				return Promise.reject();
 			} else if (beginner.isNone() && intermediate.isSome()) {
@@ -361,7 +361,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			<FactaArticleRegion title="Reserve Classes">
 				Our sliding scale junior membership fee covers two weeks of classes.
 				Novice sailors start with our two-week Beginner Sailing, and can reserve a spot below.
-				Experienced sailors should email the JP Director at <a href="mailto:fiona@community-boating.org">fiona@community-boating.org</a> for proper class placement.
+				Experienced sailors should email the JP Director at <a href="mailto:juniorprogramdirector@community-boating.org">juniorprogramdirector@community-boating.org</a> for proper class placement.
 				<br />
 				<br />
 				
@@ -447,7 +447,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					if (juniorCt == 0) {
 						this.setState({
 							...this.state,
-							validationErrors: ["Please create at least one junior to continue.  If you are looking to sign up for an advanced sailing class, please contact the JP Director at fiona@community-boating.org to proceed."]
+							validationErrors: ["Please create at least one junior to continue.  If you are looking to sign up for an advanced sailing class, please contact the JP Director at juniorprogramdirector@community-boating.org to proceed."]
 						})
 						return Promise.reject();
 					} else {

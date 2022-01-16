@@ -30,8 +30,8 @@ export default class ScholarshipResultsPage extends React.Component<Props> {
 				</a>
 				<br />
 				<br />
-				If you have a unique circumstance regarding membership fees, please contact Fiona O'Connor, Junior Program Director,
-				at <a href="mailto:fiona@community-boating.org">fiona@community-boating.org</a>.
+				If you have a unique circumstance regarding membership fees, please contact the Junior Program Director
+				at <a href="mailto:juniorprogramdirector@community-boating.org">juniorprogramdirector@community-boating.org</a>.
 			</FactaArticleRegion>
 			<FactaButton text="Next >" onClick={this.props.goNext}/>
 		</FactaMainPage>
