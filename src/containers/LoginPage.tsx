@@ -28,6 +28,7 @@ import { PostURLEncoded } from "@core/APIWrapperUtil";
 import FactaSidebarPage from "@facta/FactaSidebarPage";
 import { giftCertificatesPageRoute } from "@routes/gift-certificates";
 import { jpPathCreateAcct } from "@paths/jp/create-acct";
+import { jpPathReserve } from "@paths/jp/reserve";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -156,10 +157,20 @@ export default class LoginPage extends React.Component<Props, State> {
 
 		// right columns 
 
+		const jpSignupLink = (
+			asc.state.jpRegistrationClosed
+			? jpRegClosedPageRoute.getPathFromArgs({})
+			: (
+				asc.state.jpReservationAllowed
+				? jpPathReserve.getPathFromArgs({})
+				: jpPathCreateAcct.getPathFromArgs({})
+			)
+		)
+
 		const jpNewAcctRegion = (
 			<FactaArticleRegion title="New CBI Parents...">
 				<div>
-					<Link to={asc.state.jpRegistrationClosed ? jpRegClosedPageRoute.getPathFromArgs({}) : jpPathCreateAcct.getPathFromArgs({})}>
+					<Link to={jpSignupLink}>
 						...click here to sign up your child(ren)!
 					</Link>
 					<br />

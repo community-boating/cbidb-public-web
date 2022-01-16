@@ -8,7 +8,7 @@ import { postWrapper as deleteSignup } from "@async/junior/class-signup-delete"
 import APIWrapper from '@core/APIWrapper';
 import { makePostJSON } from '@core/APIWrapperUtil';
 import { History } from 'history';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '@lov/magicStrings';
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_intermediate1 } from '@lov/magicStrings';
 import assertNever from "@util/assertNever";
 import {signupNotePageRoute} from "@routes/jp/signupNote"
 import { Option } from "fp-ts/lib/Option";
@@ -31,7 +31,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 			if (ret.type == "Success") {
 				const typeId = self.props.typeId.getOrElse(-1)
 				const url = (
-					goToNote && (typeId == jpClassTypeId_BeginnerSailing || typeId == jpClassTypeId_IntermediateSailing || typeId == jpClassTypeId_IntermediateOneWeek)
+					goToNote && (typeId == jpClassTypeId_BeginnerSailing || typeId == jpClassTypeId_intermediate1)
 					? signupNotePageRoute.getPathFromArgs({ personId: String(self.props.juniorId.getOrElse(null)), instanceId: String(instanceId) })
 					: `/redirect${this.props.url}`
 				);

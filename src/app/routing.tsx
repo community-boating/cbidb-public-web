@@ -35,8 +35,8 @@ import { jpRegClosedPageRoute } from './routes/jp/closed';
 import { apStartClaimAcctPageRoute } from './routes/ap/start-claim-acct';
 import { apClaimAcctSentPageRoute } from './routes/ap/claim-acct-sent';
 import { apDoClaimAcctPageRoute } from './routes/ap/do-claim-acct';
-// import { reservePageRoute } from './routes/jp/reserve';
-// import { reserveNotesPageRoute } from './routes/jp/reserve-notes';
+import { reservePageRoute } from './routes/jp/reserve';
+import { reserveNotesPageRoute } from './routes/jp/reserve-notes';
 import { createAcctPageRoute } from './routes/jp/create-acct';
 import { apClassesPageRoute } from './routes/ap/classes';
 import { apSettingsPageRoute } from './routes/ap/settings';
@@ -97,8 +97,8 @@ export default function (history: History<any>) {
 		<Route key="noProgram" path="/" exact render={() => <LandingPage history={history} />} />,
 		maintenancePageRoute.asRoute(history),
 		fundInfoRoute.asRoute(history),
-	//	asc.state.jpRegistrationClosed ? null : reservePageRoute.asRoute(history),
-	//	asc.state.jpRegistrationClosed ? null : reserveNotesPageRoute.asRoute(history),
+		asc.state.jpRegistrationClosed || !asc.state.jpReservationAllowed ? null : reservePageRoute.asRoute(history),
+		asc.state.jpRegistrationClosed || !asc.state.jpReservationAllowed ? null : reserveNotesPageRoute.asRoute(history),
 		asc.state.jpRegistrationClosed ? null : createAcctPageRoute.asRoute(history),
 		asc.state.jpRegistrationClosed ? jpRegClosedPageRoute.asRoute(history) : null,
 		jpForgotPasswordPageRoute.asRoute(history),

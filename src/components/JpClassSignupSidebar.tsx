@@ -7,7 +7,7 @@ import { makePostJSON } from '@core/APIWrapperUtil';
 import { History } from 'history';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '@lov/magicStrings';
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_intermediate1 } from '@lov/magicStrings';
 import {signupNotePageRoute} from "@routes/jp/signupNote";
 import FactaSidebarRegion from '@facta/FactaSidebarRegion';
 
@@ -22,7 +22,7 @@ function resizeRatings(){
 	document.getElementById('dhtmltooltip').style.height = height+"px";
 }
 
-const showSignupNote = (typeId: number) => typeId == jpClassTypeId_BeginnerSailing || typeId == jpClassTypeId_IntermediateSailing || typeId == jpClassTypeId_IntermediateOneWeek;
+const showSignupNote = (typeId: number) => typeId == jpClassTypeId_BeginnerSailing || typeId == jpClassTypeId_intermediate1;
 const signupNoteMaybe = (typeId: number, juniorId: number, instanceId: number) => (
 	showSignupNote(typeId)
 	? <React.Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Link to={signupNotePageRoute.getPathFromArgs({ personId: String(juniorId), instanceId: String(instanceId) })}>Signup Note</Link></React.Fragment>
