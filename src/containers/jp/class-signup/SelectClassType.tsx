@@ -6,7 +6,8 @@ import FactaArticleRegion from "@facta/FactaArticleRegion";
 import { asDiv, asFragment, ClassType } from "./class-description";
 import advanced from "./types/advanced";
 import beginner from "./types/beginner";
-import intermediate from "./types/one-week-intermediate";
+import int1 from "./types/intermediate-1";
+import int2 from "./types/intermediate-2";
 import other from './types/other';
 import JpClassSignupSidebar from '@components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '@async/junior/get-signups';
@@ -77,10 +78,19 @@ export default class SelectClassType extends React.Component<Props, State> {
 			: ""
 		);
 
-		const intermediateRegion = (canSeeClass(intermediate)
+		const int1Region = (canSeeClass(int1)
 			? (
-				<FactaArticleRegion title={<React.Fragment>Next Step: <i>One-Week Intermediate</i></React.Fragment>}>
-					{asFragmentCurried(intermediate)}
+				<FactaArticleRegion title={<React.Fragment>Intermediate I</React.Fragment>}>
+					{asFragmentCurried(int1)}
+				</FactaArticleRegion>
+			)
+			: ""
+		);
+
+		const int2Region = (canSeeClass(int2)
+			? (
+				<FactaArticleRegion title={<React.Fragment>Intermediate II</React.Fragment>}>
+					{asFragmentCurried(int2)}
 				</FactaArticleRegion>
 			)
 			: ""
@@ -120,7 +130,8 @@ export default class SelectClassType extends React.Component<Props, State> {
 				<br />
 				<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
 				{beginnerRegion}
-				{intermediateRegion}
+				{int1Region}
+				{int2Region}
 				{advancedRegion}
 				{otherRegion}
 			</React.Fragment>
