@@ -6,8 +6,8 @@ const data: ClassType = {
 	typeName: "Beginner Sailing",
 	prereq: "no experience necessary",
 	sessionCt: 10,
-	sessionLength: 2.5,
-	classSize: 12,
+	sessionLength: 3,
+	classSize: 16,
 	description: (<React.Fragment>
 		Beginner Sailing includes an orientation to CBI, kayak safety, shore school, and much more. The first week covers all the basics including rigging,
 		safety rules, and sailing maneuvers; everyone will sail with a partner in our beginner boats, with an instructor accompanying the group in a powerboat.

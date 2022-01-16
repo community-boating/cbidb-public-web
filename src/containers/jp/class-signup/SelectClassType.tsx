@@ -6,7 +6,7 @@ import FactaArticleRegion from "@facta/FactaArticleRegion";
 import { asDiv, asFragment, ClassType } from "./class-description";
 import advanced from "./types/advanced";
 import beginner from "./types/beginner";
-import intermediate from "./types/intermediate";
+import intermediate from "./types/one-week-intermediate";
 import other from './types/other';
 import JpClassSignupSidebar from '@components/JpClassSignupSidebar';
 import { GetSignupsAPIResult } from '@async/junior/get-signups';
