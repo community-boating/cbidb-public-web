@@ -103,7 +103,7 @@ export class AppStateContainer {
 			},
 			justLoggedIn: false,
 			jpRegistrationClosed: false,
-			jpReservationAllowed: true,
+			jpReservationAllowed: false,
 		};
 	}
 }
