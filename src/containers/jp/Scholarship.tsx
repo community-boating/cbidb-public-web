@@ -127,9 +127,8 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 						On your most recent return, please refer to:<br />
 						<br />
 						<ul>
-							<li>Line 4 if you filed a Form 1040EZ</li>
-							<li>Line 21 if you filed a Form 1040A</li>
-							<li>Line 37 if you filed a Form 1040</li>
+							<li>Line 11 if you file a Form 1040</li>
+							<li>Line 11 if you file a Form 1040SR</li>
 						</ul>
 					</div>
 				</FactaArticleRegion>
