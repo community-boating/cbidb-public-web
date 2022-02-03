@@ -9,7 +9,7 @@ This is the public-facing web application for Community Boating, live at https:/
 
 ## Installation/Setup
 - copy `ini/config.ini.template` to `ini/config.ini`, change defaults as needed
-    - Default ini values should work out of the box; by default the application will connect to `api-dev.community-boating.org` as the backend
+    - Default ini values should work out of the box; by default the application will connect to `api-qa.community-boating.org` as the backend
 - Run `npm install`
 - Run `npm start` to run in development mode, or `npm run build` to build for production
 
