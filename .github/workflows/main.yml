@@ -59,10 +59,6 @@ jobs:
           name: build.tar.gz
       - name: unpack
         run: tar -zxvf build.tar.gz && ls -l
-      - name: Install doctl 
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DO_ACCESS_TOKEN }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -76,17 +72,19 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: build image
-        run: docker build -t registry.digitalocean.com/community-boating-docker/cbidb-public-web:${{ env.BRANCH_NAME }} .
-      - name: Log in to DO Container Registry 
-        run: doctl registry login --expiry-seconds 600
+        run: docker build -t docker-snapshots.community-boating.org/cbidb-public-web:${{ env.BRANCH_NAME }} .
+
+      - name: Log in to nexus Registry
+        run: docker login -u ci -p ${{ secrets.NEXUS_PASSWORD }} docker-snapshots.community-boating.org
+
       - name: push image
-        run: docker push registry.digitalocean.com/community-boating-docker/cbidb-public-web:${{ env.BRANCH_NAME }}
+        run: docker push docker-snapshots.community-boating.org/cbidb-public-web:${{ env.BRANCH_NAME }}
 
       - name: tag & push aws
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          docker tag registry.digitalocean.com/community-boating-docker/cbidb-public-web:${{ env.BRANCH_NAME }} $ECR_REGISTRY/cbidb-public-web-snapshot:${{ env.BRANCH_NAME }}
+          docker tag docker-snapshots.community-boating.org/cbidb-public-web:${{ env.BRANCH_NAME }} $ECR_REGISTRY/cbidb-public-web-snapshot:${{ env.BRANCH_NAME }}
           docker push $ECR_REGISTRY/cbidb-public-web-snapshot:${{ env.BRANCH_NAME }}
 
       - name: Image digest
