@@ -23,6 +23,8 @@ jobs:
           node-version: '14'
       - name: config
         run: cp ini/config.ini.ci ini/config.ini
+      - name: inject commit sha
+        run: sed -i 's/\$\$GITHUB_SHA\$\$/'"${GITHUB_SHA}"'/' public/index.html
       - name: install
         run: npm install
       - name: build
