@@ -7,7 +7,7 @@ import FactaLoadingPage from '@facta/FactaLoadingPage';
 import { setAPImage } from '@util/set-bg-image';
 import FlagNotificationsPage from '@containers/ap/FlagNotificationsPage';
 import { PageFlavor } from '@components/Page';
-import { getWrapper as getMemberAlerts, validator as getValidator } from '@async/member/alerts';
+import { getWrapper as getMemberAlerts, alertEventsValidator as getValidator } from '@async/member/alerts';
 
 export const apFlagNotificationsPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="flagNotifications"

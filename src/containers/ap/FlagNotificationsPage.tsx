@@ -5,8 +5,6 @@ import { setAPImage, setJPImage } from '@util/set-bg-image';
 import {History} from "history"
 import { Option, some, none } from "fp-ts/lib/Option";
 import * as t from 'io-ts';
-// import asc from "@app/AppStateContainer";
-// import TextInput from "@components/TextInput";
 import formUpdateState from "@util/form-update-state";
 import { apBasePath } from "@paths/ap/_base";
 import {FactaErrorDiv} from "@facta/FactaErrorDiv";
@@ -15,12 +13,14 @@ import FactaMainPage from "@facta/FactaMainPage";
 import { PageFlavor } from "@components/Page";
 import { jpBasePath } from "@paths/jp/_base";
 import { CheckboxGroup } from "@components/InputGroup";
-import { getWrapper as getMemberAlerts, postWrapper as postMemberAlerts } from "@async/member/alerts";
-// import notificationMethods from "@lov/notificationMethods";
+import { postWrapper as postMemberAlerts } from "@async/member/alerts";
 import alertFlagColors from "@lov/alertFlagColors";
-import { validator as flagNotificationsValidator } from '@async/member/alerts';
+import { alertEventsValidator as flagNotificationsValidator } from '@async/member/alerts';
 
-
+enum FLAG_COLORS {
+	YELLOW="Yellow",
+	RED="Red"
+}
 
 type Form = {
 	'email': Option<string[]>
@@ -57,22 +57,22 @@ export default class FlagNotificationsPage extends React.PureComponent<Props, St
 
 	serialize(payload: t.TypeOf<typeof flagNotificationsValidator>) : Form {
 		let result = emptyForm();
-		if (payload["yellowAp"].email) {
-			result.email.getOrElse([]).push('Yellow');
+		if (payload.yellowAp.email) {
+			result.email.getOrElse([]).push(FLAG_COLORS.YELLOW);
 		}
-		if (payload["redAp"].email) {
-			result.email.getOrElse([]).push('Red');
+		if (payload.redAp.email) {
+			result.email.getOrElse([]).push(FLAG_COLORS.RED);
 		}
 		return result;
 	}
 
 	deserialize(form: Form): t.TypeOf<typeof flagNotificationsValidator> {
-		let result = {
-			'yellowAp': {
-				'email': form.email.getOrElse([]).contains('Yellow')
+		let result: t.TypeOf<typeof flagNotificationsValidator> = {
+			yellowAp: {
+				email: form.email.getOrElse([]).contains(FLAG_COLORS.YELLOW)
 			},
-			'redAp': {
-				'email': form.email.getOrElse([]).contains('Red')
+			redAp: {
+				email: form.email.getOrElse([]).contains(FLAG_COLORS.RED)
 			}
 		};
 		return result;
@@ -80,7 +80,6 @@ export default class FlagNotificationsPage extends React.PureComponent<Props, St
 	
 	render() {
 		const self = this;
-		getMemberAlerts;
 
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
@@ -101,16 +100,12 @@ export default class FlagNotificationsPage extends React.PureComponent<Props, St
 			let payload = this.deserialize(this.state.formData)
 			return postMemberAlerts.send(makePostJSON(payload)).then(ret => {
 				if (ret.type == "Success") {
-					// const email = self.state.formData.email.getOrElse("");
-					// if (email.length > 0) {
-					// 	asc.updateState.login.setLoggedIn(email);
-					// } XXX we may need to have code here to actually preserve updated checkboxes
 					self.props.history.push(returnRoute);
 				} else {
 					window.scrollTo(0, 0);
 					self.setState({
 						...self.state,
-						validationErrors: ret.message.split("\\n") // TODO
+						validationErrors: ret.message.split("\\n")
 					});
 				}
 			});
@@ -118,7 +113,7 @@ export default class FlagNotificationsPage extends React.PureComponent<Props, St
 
 		const buttons = <div>
 			<FactaButton text="< Cancel" onClick={() => Promise.resolve(this.props.history.push(returnRoute))}/>
-			<FactaButton text="Unsubscribe From All" onClick={() => Promise.resolve(doClear()).then(() => doSubmit())} spinnerOnClick/>
+			<FactaButton text="Unsubscribe From All" onClick={() => Promise.resolve(doClear()).then(doSubmit)} spinnerOnClick/>
 			<FactaButton text="Submit" onClick={doSubmit} spinnerOnClick/>
 		</div>
 
@@ -153,8 +148,8 @@ export default class FlagNotificationsPage extends React.PureComponent<Props, St
 						columns={2}
 						values={alertFlagColors}
 						updateAction={(id: string, value: string) => {
-								updateState(id, value);
-							}}
+							updateState(id, value);
+						}}
 						value={this.state.formData.email || none}
 					/>
 					{/* Add checkboxes for new notification methods here (e.g. SMS) */}
