@@ -16,7 +16,6 @@ if (sentryKey) {
 	Sentry.init({dsn: sentryKey});
 }
 
-
 export const history = createBrowserHistory()
 
 // const seedState = replaceWithOption((window as any).initialStateFromServer)
