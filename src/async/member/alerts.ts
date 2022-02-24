@@ -3,8 +3,8 @@ import APIWrapper from '@core/APIWrapper';
 import { HttpMethod } from "@core/HttpMethod";
 
 export const validator = t.type({
-  'redAp': t.record(t.string, t.boolean),
-  'yellowAp': t.record(t.string, t.boolean)
+	'redAp': t.record(t.string, t.boolean),
+	'yellowAp': t.record(t.string, t.boolean)
 })
 
 const path = "/member/alerts"

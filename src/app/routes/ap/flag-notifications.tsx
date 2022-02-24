@@ -9,13 +9,12 @@ import FlagNotificationsPage from '@containers/ap/FlagNotificationsPage';
 import { PageFlavor } from '@components/Page';
 import { getWrapper as getMemberAlerts, validator as getValidator } from '@async/member/alerts';
 
-export const apFlagNotificationsPageRoute = new RouteWrapper(true, path, 
-  history => <PageWrapper
+export const apFlagNotificationsPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="flagNotifications"
 	history={history}
 	component={(urlProps: {}, initialNotificationSettings: t.TypeOf<typeof getValidator>) => <FlagNotificationsPage
 		history={history}
-    pageFlavor={PageFlavor.AP}
+		pageFlavor={PageFlavor.AP}
 		initialNotificationSettings={initialNotificationSettings}
 	/>}
 	urlProps={{}}
@@ -23,6 +22,5 @@ export const apFlagNotificationsPageRoute = new RouteWrapper(true, path,
 		return getMemberAlerts.send(null).catch(err => Promise.resolve(null));
 	}}
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
-/>
-);
+/>);
 
