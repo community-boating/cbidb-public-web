@@ -60,6 +60,7 @@ import { jpSettingsPageRoute } from '@routes/jp/settings';
 import LandingPage from '@containers/LandingPage';
 import { jpPublicClassesRoute } from '@routes/jp/all-classes';
 import { apDonateEditRoute } from '@routes/ap/donate-edit';
+import { apFlagNotificationsPageRoute } from '@routes/ap/flag-notifications';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)
@@ -144,6 +145,7 @@ export default function (history: History<any>) {
 		apRegPageRoute.asRoute(history),
 		apEditPageRoute.asRoute(history),
 		apSettingsPageRoute.asRoute(history),
+		apFlagNotificationsPageRoute.asRoute(history),
 		jpSettingsPageRoute.asRoute(history),
 		jpManageStaggeredPaymentsRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),

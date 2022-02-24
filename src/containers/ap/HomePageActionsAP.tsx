@@ -15,6 +15,7 @@ import { apClassesPageRoute } from '@routes/ap/classes';
 import { apPathAddons } from '@paths/ap/addons';
 import { apDonateRoute } from '@routes/ap/donate';
 import {apManageStaggeredPaymentsRoute} from "@routes/ap/payments"
+import { apFlagNotificationsPageRoute } from '@routes/ap/flag-notifications';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -210,6 +211,11 @@ export default (
 		place: 29,
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
+		]
+	}, {
+		place: 3,
+		getElements: [
+			(history: History<any>) => <Link to={apFlagNotificationsPageRoute.getPathFromArgs({})}>Edit Flag Notifications</Link>
 		]
 	}, {
 		place: 18,
