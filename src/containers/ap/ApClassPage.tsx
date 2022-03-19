@@ -293,10 +293,15 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 					if (datetimeMoment.isBefore(getNow())) {
 						return <span style={{fontWeight: "bold", fontStyle: "italic"}}>This class has already taken place.</span>;
 					} else if (i.signupType.getOrElse("") == "E") {
+						const voucherText = (
+							i.price <= 0
+							? ""
+							: " Credit is transferrable to another paid class up to 48 hours before class start time."
+						);
 						return <span style={{fontWeight: "bold", fontStyle: "italic"}}>You are enrolled in this class, <a href="#" onClick={e => {
 							e.preventDefault();
 							doUnenroll();
-						}}>click here to unenroll</a>.</span>;
+						}}>click here to unenroll</a>.{voucherText}</span>;
 					} else if (i.signupType.getOrElse("") == "W") {
 						if (i.waitlistResult.getOrElse("") == "P") {
 							return <React.Fragment>
