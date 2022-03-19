@@ -132,11 +132,17 @@ export default class FlagNotificationsPage extends React.PureComponent<Props, St
 		return <FactaMainPage setBGImage={setBgImage}>
 		{errorPopup}
 			<FactaArticleRegion title="Edit Flag Notifications" buttons={buttons}>
-				Community Boating can send you a notification through the methods below 
-				whenever our flag changes color to yellow or red. Note that flag colors 
-				are subject to change at any time and that a flag notification does not 
-				guarantee that the flag will remain the same color.
-				<br/> <br/>
+				Community Boating can send you an email notification whenever our flag changes color to yellow or red.
+				<br /><br/>
+				<b>Please note the following important caveats:</b>
+				<br />
+				<ul>
+					<li>Flag colors are subject to change at any time, and a flag notification
+						does not guarantee that the flag will remain the same color.</li>
+					<li>A yellow or red flag may be raised for safety purposes, and does not necessarily imply the associated testing will be offered.</li>
+					<li>This system will send at most one notification per flag color, per day.  If the flag color changes back to a previous color,
+						or to green, you will not be sent a notification.</li>
+				</ul>
 				This feature is completely opt-in. To unsubscribe from all notifications,
 				click "Unsubscribe From All". Otherwise, after editing your notification
 				settings, click "Submit" to save your changes.
