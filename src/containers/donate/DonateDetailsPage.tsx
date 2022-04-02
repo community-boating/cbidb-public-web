@@ -353,7 +353,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 		return (
 			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
 				{errorPopup}
-				<FactaArticleRegion title={<span>Support Community Boating's <b>75th anniversary</b> by making a donation today!</span>}>
+				<FactaArticleRegion title={<span>Support Community Boating by making a donation today!</span>}>
 					{/* <DonationThirdPartyWidget /> */}
 					<br />
 					Community Boating, Inc. is a private, 501(c)3 non-profit organization operating affordable and accessible programs
