@@ -61,6 +61,7 @@ import LandingPage from '@containers/LandingPage';
 import { jpPublicClassesRoute } from '@routes/jp/all-classes';
 import { apDonateEditRoute } from '@routes/ap/donate-edit';
 import { apFlagNotificationsPageRoute } from '@routes/ap/flag-notifications';
+import { apRentalRegRoute } from '@routes/ap/rental-reg';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)
@@ -110,6 +111,7 @@ export default function (history: History<any>) {
 		apResetPasswordPageRoute.asRoute(history),
 		apPreRegRoute.asRoute(history),
 		apGuestRegRoute.asRoute(history),
+		apRentalRegRoute.asRoute(history),
 		apCreateAcctRoute.asRoute(history),
 		apClosedPageRoute.asRoute(history),
 		apStartClaimAcctPageRoute.asRoute(history),
