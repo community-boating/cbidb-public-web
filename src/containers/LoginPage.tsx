@@ -29,7 +29,6 @@ import FactaSidebarPage from "@facta/FactaSidebarPage";
 import { giftCertificatesPageRoute } from "@routes/gift-certificates";
 import { jpPathCreateAcct } from "@paths/jp/create-acct";
 import { jpPathReserve } from "@paths/jp/reserve";
-import { apRentalRegRoute } from "@routes/ap/rental-reg";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -189,7 +188,6 @@ export default class LoginPage extends React.Component<Props, State> {
 					{/* <li><Link to={apClosedPath.getPathFromArgs({})}>Click here if you are new to CBI.</Link></li> */}
 					<li><Link to={giftCertificatesPageRoute.getPathFromArgs({})}>Purchase a gift certificate.</Link></li>
 					<li><Link to={apGuestRegRoute.getPathFromArgs({})}>Register as a guest.</Link></li>
-					<li><Link to={apRentalRegRoute.getPathFromArgs({})}>Rent a kayak or stand up paddleboard.</Link></li>
 				</ul>
 			</FactaArticleRegion>
 		);
