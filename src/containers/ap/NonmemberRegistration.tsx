@@ -136,20 +136,28 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 	handlePrint = () => {
 		//TODO maybe redo this in react style, if jon wants.
 		var a = window.open('', '', 'height=500px, width=600px');
-		a.document.write('<html>');
-		a.document.write('<head>');
-		a.document.write('<title>');
-		a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
-		a.document.write(' Guest Ticket</title>');
-		a.document.write('<body>');
-		a.document.write(this.state.createResults.map(r => r.ticketHTML.replace("$API_URL$", "")).getOrElse(""));
-		a.document.write('</body></html>');
-		//a.document.body.append(this.printableDivRef.current);
-		a.document.close();
+		this.writeToDocument(a.document);
 		a.onload = () => {
 			a.print();
 		};
 	}
+
+	writeToDocument(document: Document) {
+		document.write('<html>');
+		document.write('<head>');
+		document.write('<title>');
+		document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
+		document.write(' Guest Ticket</title>');
+		document.write('<body>');
+		
+		// document.write(this.state.createResults.map(r => r.ticketHTML.replace("$API_URL$", "")).getOrElse(""));
+		document.write(this.cardHtml);
+
+		document.write('</body></html>');
+		document.close();
+	}
+
+	cardHtml = '<div id="printbox" style="padding: 40px; width: 220px; border: 2px solid black;"><img src="https://portal.community-boating.org/images/guest-ticket.png" alt="Community Boating Guest Ticket" width="150px" style="padding-left: 30px"></img><img src="/api/ap/guest-ticket-barcode?cardNumber=7000226&nonce=R5yGulwt" alt="Barcode Error, Please See Front Office" width="150PX" style="padding-top: 10px; padding-left:30px" /><h3 style="text-align: center">jfkjdfjkg sdfkjsdgfsd</h3><p>Please bring this card with you to the dockhouse when you come sailing.</p></div>'
 
 	progressFunction = () => {
 		var validationResults;
@@ -242,6 +250,12 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		}
 		return Promise.resolve("Success");
 	}
+
+	noun = (
+		this.props.rentalMode == NONMEM_REG_FLOW.RENTAL
+		? "Renter"
+		: "Guest"
+	)
 	
 	render() {
 		const thisYear = Number(moment().format("YYYY"))
@@ -259,13 +273,13 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 
 		const guestContent = (
 		<div id="guestinfo">
-			Guests must self register. Members please direct your guests to this page to register themselves.
-			Under 18 guests must be registered by their parent or guardian.
+			{this.noun}s must self register. Members/Renters please direct your guests to this page to register themselves.
+			Under 18 {this.noun}s must be registered by their parent or guardian.
 			<br />
 			At the end of registration you will be able to print or save your ticket, you'll also receive an email ticket.
 			<br />
 				<table id="info" style={{ width: "100%"}}><tbody>
-					<tr><th style={{ width: "250px" }}>Guest Information</th><th style={{ width: "350px" }} /></tr>
+					<tr><th style={{ width: "250px" }}>{`${this.noun} Information`}</th><th style={{ width: "350px" }} /></tr>
 					<FormInput
 						id="firstName"
 						label="First Name"
@@ -371,7 +385,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			</td></tr>
 			</tbody></table>
 		</div>);
-		const finishScreenContent = (
+		const finishScreenContentGuest = (
 			<div>
 				<h1>Success!</h1>
 				<h3>You are now registered as a guest!</h3> 
@@ -379,7 +393,24 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				<p>Please bring your card along in print or on a mobile device when you visit the boathouse.</p>
 				<p>You will have the option to print your card at the boathouse if you don't have a printer or mobile device available.</p>
 				<a href="#" onClick={self.handlePrint}>Guest Card</a>
-			</div>);
+			</div>
+		);
+
+		const finishScreenContentRenter = (
+			<div>
+				<h1>Success!</h1>
+				<h3>Your registration has been accepted!</h3> 
+				<p>Please return this ticket to the front office and tell them you have completed registration online and would like to pay.</p>
+				{/* <p>{this.state.createResults.map(r => r.ticketHTML.replace("$API_URL$", "")).getOrElse("")}</p> */}
+				<iframe id="renterTicket" style={{height: "480px", width: "320px"}}></iframe>
+			</div>
+		);
+
+		const finishScreenContent = (
+			this.props.rentalMode == NONMEM_REG_FLOW.RENTAL
+			? finishScreenContentRenter
+			: finishScreenContentGuest
+		);
 		const agreeCheckbox = (<FactaNotitleRegion>
 			<SingleCheckbox
 				id="accept"
@@ -399,7 +430,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			<table width="100%"><tbody>
 				<tr>
 					<td>
-						<iframe title="Waiver of Liability" src="/waivers/live/ApGuestWaiver.html" width="100%" height="400px"></iframe>
+						<iframe title="Waiver of Liability" src="/waivers/live/ApGuestWaiver.html" width="100%" height="430px"></iframe>
 					</td>
 				</tr>
 				<tr>
@@ -415,7 +446,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			<table width="100%"><tbody>
 					<tr>
 						<td>
-							<iframe title="Waiver of Liability" src="/waivers/live/Under18GuestWaiver.html" width="100%" height="400px"></iframe>
+							<iframe title="Waiver of Liability" src="/waivers/live/Under18GuestWaiver.html" width="100%" height="470px"></iframe>
 						</td>
 					</tr>
 				<tr>
@@ -442,13 +473,17 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				break;
 			case PageState.FINISH:
 				articleContent = finishScreenContent;
+				// let the page render, then fill the iframe
+				setTimeout(() => {
+					const node: HTMLIFrameElement = document.getElementById("renterTicket") as HTMLIFrameElement;
+					if (node) this.writeToDocument(node.contentDocument)
+				}, 0)
 				break;
 		}
 
-
 		return <FactaMainPage setBGImage={setAPImage}>
 			{errorPopup}
-			<FactaArticleRegion title="Guest Registration">
+			<FactaArticleRegion title={`${this.noun} Information`}>
 				{ articleContent }
 			</FactaArticleRegion>
 		</FactaMainPage>
