@@ -149,15 +149,10 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
 		document.write(' Guest Ticket</title>');
 		document.write('<body>');
-		
-		// document.write(this.state.createResults.map(r => r.ticketHTML.replace("$API_URL$", "")).getOrElse(""));
-		document.write(this.cardHtml);
-
+		document.write(this.state.createResults.map(r => r.ticketHTML.replace("$API_URL$", "")).getOrElse(""));
 		document.write('</body></html>');
 		document.close();
 	}
-
-	cardHtml = '<div id="printbox" style="padding: 40px; width: 220px; border: 2px solid black;"><img src="https://portal.community-boating.org/images/guest-ticket.png" alt="Community Boating Guest Ticket" width="150px" style="padding-left: 30px"></img><img src="/api/ap/guest-ticket-barcode?cardNumber=7000226&nonce=R5yGulwt" alt="Barcode Error, Please See Front Office" width="150PX" style="padding-top: 10px; padding-left:30px" /><h3 style="text-align: center">jfkjdfjkg sdfkjsdgfsd</h3><p>Please bring this card with you to the dockhouse when you come sailing.</p></div>'
 
 	progressFunction = () => {
 		var validationResults;
