@@ -215,6 +215,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						previousMember: false,
 						phonePrimaryType: this.state.formData.guestPhoneType.getOrElse(""),
 						emerg1PhonePrimaryType: this.state.formData.ecPhoneType.getOrElse(""),
+						forRental: this.props.rentalMode == NONMEM_REG_FLOW.RENTAL,
 					})).then(res => {
 						if(res.type === "Success"){
 							self.setState({

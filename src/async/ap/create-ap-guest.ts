@@ -13,7 +13,8 @@ export const validator = t.type({
 	emerg1Relation: t.string,
 	emerg1PhonePrimary: t.string,
 	emerg1PhonePrimaryType: t.string,
-	previousMember: t.boolean
+	previousMember: t.boolean,
+	forRental: t.boolean,
 });
 
 export const responseValidator = t.type({
