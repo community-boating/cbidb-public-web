@@ -269,8 +269,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 
 		const guestContent = (
 		<div id="guestinfo">
-			{this.noun}s must self register. Members/Renters please direct your guests to this page to register themselves.
-			Under 18 {this.noun}s must be registered by their parent or guardian.
+			{this.noun}s must self register. {this.props.rentalMode != NONMEM_REG_FLOW.RENTAL ? "Members/Renters please direct your guests to this page to register themselves.  " : ""}Under 18 {this.noun}s must be registered by their parent or guardian.
 			<br />
 			At the end of registration you will be able to print or save your ticket, you'll also receive an email ticket.
 			<br />
@@ -422,34 +421,57 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				justElement={true}
 			/>
 		</FactaNotitleRegion>);
-		const adultWaiverContent = (<div id="adultwaiver">
-			<table width="100%"><tbody>
-				<tr>
-					<td>
-						<iframe title="Waiver of Liability" src="/waivers/live/ApGuestWaiver.html" width="100%" height="430px"></iframe>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						{agreeCheckbox}
-						{progressButton}
-					</td>
-				</tr>
-			</tbody></table>
-		</div>);
-		const under18WaiverContent = (
-		<div id="under18waiver">
-			<table width="100%"><tbody>
-					<tr>
-						<td>
-							<iframe title="Waiver of Liability" src="/waivers/live/Under18GuestWaiver.html" width="100%" height="470px"></iframe>
-						</td>
-					</tr>
-				<tr>
-					<td>{ agreeCheckbox } { progressButton }</td>
-				</tr>
-			</tbody></table>
-		</div>);
+
+		const waiverContent = (function() {
+			let now = moment();
+			let dob = getDOBMoment(self.state);
+			const under18 = dob.isAfter(now.subtract(18, "years"));
+			if (under18) {
+				return <div id="under18waiver">
+					<table width="100%"><tbody>
+						<tr>
+							<td>
+								<iframe title="Waiver of Liability" src="/waivers/live/Under18GuestWaiver.html" width="100%" height="470px"></iframe>
+							</td>
+						</tr>
+						{
+							self.props.rentalMode == NONMEM_REG_FLOW.RENTAL
+							? <tr><td style={{paddingLeft: "5px"}}>
+								I certify that I am fully qualified to operate a kayak or stand up paddleboard in a safe manner and agree to follow all CBI rules.
+							</td></tr>
+							: null
+						}
+						<tr>
+							<td>{ agreeCheckbox } { progressButton }</td>
+						</tr>
+					</tbody></table>
+					
+				</div>
+			} else {
+				return (<div id="adultwaiver">
+					<table width="100%"><tbody>
+						<tr>
+							<td>
+								<iframe title="Waiver of Liability" src="/waivers/live/ApGuestWaiver.html" width="100%" height="430px"></iframe>
+							</td>
+						</tr>
+						{
+							self.props.rentalMode == NONMEM_REG_FLOW.RENTAL
+							? <tr><td style={{paddingLeft: "5px"}}>
+								I certify that I am fully qualified to operate a kayak or stand up paddleboard in a safe manner and agree to follow all CBI rules.
+							</td></tr>
+							: null
+						}
+						<tr>
+							<td>
+								{agreeCheckbox}
+								{progressButton}
+							</td>
+						</tr>
+					</tbody></table>
+				</div>);
+			}
+		}());
 
 		var articleContent = guestContent;
 
@@ -461,11 +483,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				articleContent = ecContent;
 				break;
 			case PageState.WAIVER:
-				articleContent = adultWaiverContent;
-				let now = moment();
-				let dob = getDOBMoment(this.state);
-				if(dob.isAfter(now.subtract(18, "years")))
-					articleContent = under18WaiverContent;
+				articleContent = waiverContent;
 				break;
 			case PageState.FINISH:
 				articleContent = finishScreenContent;
