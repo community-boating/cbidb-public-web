@@ -247,7 +247,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 			}).map(i => {
 				const datetimeMoment = moment(i.sessions[0].sessionDatetime, "YYYY-MM-DD HH:mm:ss");
 				const classType = self.props.availabilities.types.find(t => t.typeId == i.typeId);
-				const description = classType.description;
+				const description = classType.description.getOrElse("");
 				const noSignup = classType.noSignup;
 				const doSignup = (doWaitlist: boolean, navToHome?: boolean) => signup.send(makePostJSON({
 					instanceId: i.instanceId,
