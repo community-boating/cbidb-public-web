@@ -376,7 +376,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 					};
 				}());
 				return <FactaArticleRegion title={`${i.typeName} - ${datetimeMoment.format("dddd MMMM Do, h:mmA")}`} id="focus">
-					{description}
+					{<span dangerouslySetInnerHTML={{__html: description}}></span>}
 					{multiSessionText}
 					<br />
 					<br />
