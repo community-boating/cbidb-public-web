@@ -12,21 +12,7 @@
 			"es5",
 			"es6",
 			"dom"
-		],
-		"paths": {
-			"@async/*": ["async/*"],
-			"@routes/*": ["app/routes/*"],
-			"@paths/*": ["app/paths/*"],
-			"@app/*": ["app/*"],
-			"@components/*": ["components/*"],
-			"@containers/*": ["containers/*"],
-			"@core/*": ["core/*"],
-			"@lov/*": ["lov/*"],
-			"@models/*": ["models/*"],
-			"@facta/*": ["theme/facta/*"],
-			"@joomla/*": ["theme/joomla/*"],
-			"@util/*": ["util/*"]
-		}
+		]
 	},
 	"include": [
 		"./src/**/*",
