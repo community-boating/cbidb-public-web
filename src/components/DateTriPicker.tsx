@@ -2,7 +2,7 @@ import { none, Option, some } from 'fp-ts/lib/Option';
 import * as moment from 'moment';
 import * as React from "react";
 
-import range from "@util/range";
+import range from "util/range";
 import { KeyAndDisplay, Select } from "./Select";
 
 

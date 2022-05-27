@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { setCheckoutImageForDonations } from '@util/set-bg-image';
-import { donatePageRoute } from '@routes/donate';
+import { setCheckoutImageForDonations } from 'util/set-bg-image';
+import { donatePageRoute } from 'app/routes/donate';
 import { Link } from 'react-router-dom';
-import FactaMainPage from '@facta/FactaMainPage';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
+import FactaMainPage from 'theme/facta/FactaMainPage';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 
 type Props = {
 	goNext: () => Promise<void>,

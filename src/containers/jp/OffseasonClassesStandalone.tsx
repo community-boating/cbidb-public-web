@@ -2,14 +2,14 @@ import * as React from 'react';
 import * as t from 'io-ts';
 import { History } from 'history';
 
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import Currency from '@util/Currency'
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import Currency from 'util/Currency'
 import { asDivOptionalSignupLink, ClassType } from "./class-signup/class-description";
 import raceTeam from './class-signup/types/other/race-team'
-import {validator as offseasonClassesValidator} from "@async/junior/offseason-classes"
-import { setJPImage } from '@util/set-bg-image';
-import FactaSidebarPage from '@facta/FactaSidebarPage';
-import FactaSidebarRegion from '@facta/FactaSidebarRegion';
+import {validator as offseasonClassesValidator} from "async/junior/offseason-classes"
+import { setJPImage } from 'util/set-bg-image';
+import FactaSidebarPage from 'theme/facta/FactaSidebarPage';
+import FactaSidebarRegion from 'theme/facta/FactaSidebarRegion';
 
 type Props = {
 	history: History<any>,

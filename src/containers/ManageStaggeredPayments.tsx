@@ -2,26 +2,26 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import { setAPImage, setCheckoutImage, setJPImage } from '@util/set-bg-image';
-import { PageFlavor } from '@components/Page';
-import { paymentValidator, validator } from '@async/member/open-order-details-ap';
-import StandardReport from '@facta/StandardReport';
+import { setAPImage, setCheckoutImage, setJPImage } from 'util/set-bg-image';
+import { PageFlavor } from 'components/Page';
+import { paymentValidator, validator } from 'async/member/open-order-details-ap';
+import StandardReport from 'theme/facta/StandardReport';
 import * as moment from 'moment';
-import Currency from '@util/Currency';
-import StripeElement from '@components/StripeElement';
-import { PaymentMethod } from '@models/stripe/PaymentMethod';
-import {postWrapper as storePaymentMethodAP} from "@async/stripe/store-payment-method-ap"
-import {postWrapper as storePaymentMethodJP} from "@async/stripe/store-payment-method-jp"
-import { makePostJSON } from '@core/APIWrapperUtil';
-import {postWrapper as finishOrderAP} from "@async/member/finish-open-order-ap"
-import {postWrapper as finishOrderJP} from "@async/member/finish-open-order-jp"
-import { apBasePath } from '@paths/ap/_base';
-import { jpBasePath } from '@paths/jp/_base';
+import Currency from 'util/Currency';
+import StripeElement from 'components/StripeElement';
+import { PaymentMethod } from 'models/stripe/PaymentMethod';
+import {postWrapper as storePaymentMethodAP} from "async/stripe/store-payment-method-ap"
+import {postWrapper as storePaymentMethodJP} from "async/stripe/store-payment-method-jp"
+import { makePostJSON } from 'core/APIWrapperUtil';
+import {postWrapper as finishOrderAP} from "async/member/finish-open-order-ap"
+import {postWrapper as finishOrderJP} from "async/member/finish-open-order-jp"
+import { apBasePath } from 'app/paths/ap/_base';
+import { jpBasePath } from 'app/paths/jp/_base';
 import { Option } from 'fp-ts/lib/Option';
-import FactaButton from '@facta/FactaButton';
-import FactaMainPage from '@facta/FactaMainPage';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import { FactaErrorDiv } from '@facta/FactaErrorDiv';
+import FactaButton from 'theme/facta/FactaButton';
+import FactaMainPage from 'theme/facta/FactaMainPage';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 
 type Payment = t.TypeOf<typeof paymentValidator>
 type PaymentList = t.TypeOf<typeof validator>

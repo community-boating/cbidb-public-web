@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { TokensResult } from '@models/stripe/tokens';
-import FactaButton from '@facta/FactaButton';
-import assertNever from '@util/assertNever';
-import { PaymentMethod } from '@models/stripe/PaymentMethod';
+import { TokensResult } from 'models/stripe/tokens';
+import FactaButton from 'theme/facta/FactaButton';
+import assertNever from 'util/assertNever';
+import { PaymentMethod } from 'models/stripe/PaymentMethod';
 
 type Props = {
 	formId: string, 		// "payment-form"

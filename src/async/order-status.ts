@@ -1,8 +1,8 @@
 import * as t from 'io-ts';
-import { PageFlavor } from '@components/Page';
-import APIWrapper from '@core/APIWrapper';
-import { HttpMethod } from "@core/HttpMethod";
-import { OptionalString, makeOptional } from '@util/OptionalTypeValidators';
+import { PageFlavor } from 'components/Page';
+import APIWrapper from 'core/APIWrapper';
+import { HttpMethod } from "core/HttpMethod";
+import { OptionalString, makeOptional } from 'util/OptionalTypeValidators';
 
 export const cardDataValidator = t.type({
 	last4: t.string,

@@ -3,17 +3,17 @@ import { History } from "history";
 import * as React from "react";
 import * as t from 'io-ts';
 
-import FactaButton from "@facta/FactaButton";
-import { RadioGroup } from "@components/InputGroup";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
-import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
-import { setAPImage } from "@util/set-bg-image";
-import {postWrapper as submit} from "@async/member/select-guest-privs"
-import { makePostJSON } from "@core/APIWrapperUtil";
-import {validator as pricesValidator} from "@async/prices"
-import Currency from "@util/Currency";
-import FactaMainPage from "@facta/FactaMainPage";
+import FactaButton from "theme/facta/FactaButton";
+import { RadioGroup } from "components/InputGroup";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
+import NavBarLogoutOnly from "components/NavBarLogoutOnly";
+import { setAPImage } from "util/set-bg-image";
+import {postWrapper as submit} from "async/member/select-guest-privs"
+import { makePostJSON } from "core/APIWrapperUtil";
+import {validator as pricesValidator} from "async/prices"
+import Currency from "util/Currency";
+import FactaMainPage from "theme/facta/FactaMainPage";
 
 interface Props {
 	prices: t.TypeOf<typeof pricesValidator>,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Moment } from 'moment';
 import * as _ from 'lodash';
-import FactaButton from '@facta/FactaButton';
+import FactaButton from 'theme/facta/FactaButton';
 import * as moment from 'moment';
 
 // TODO: calendar should be instantiated with a way to ask for data in a given date range

@@ -2,15 +2,15 @@ import { none, some } from "fp-ts/lib/Option";
 import { History } from "history";
 import * as React from "react";
 
-import FactaButton from "@facta/FactaButton";
-import { RadioGroup } from "@components/InputGroup";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
-import {apiw as accept} from "@async/junior/accept-tos"
-import { makePostJSON } from "@core/APIWrapperUtil";
-import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
-import { setJPImage } from "@util/set-bg-image";
-import FactaMainPage from "@facta/FactaMainPage";
+import FactaButton from "theme/facta/FactaButton";
+import { RadioGroup } from "components/InputGroup";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
+import {apiw as accept} from "async/junior/accept-tos"
+import { makePostJSON } from "core/APIWrapperUtil";
+import NavBarLogoutOnly from "components/NavBarLogoutOnly";
+import { setJPImage } from "util/set-bg-image";
+import FactaMainPage from "theme/facta/FactaMainPage";
 
 interface Props {
 	personId: number,

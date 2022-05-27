@@ -1,21 +1,21 @@
 import * as React from "react";
-import FactaButton from '@facta/FactaButton';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import { setAPImage, setJPImage } from '@util/set-bg-image';
+import FactaButton from 'theme/facta/FactaButton';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import { setAPImage, setJPImage } from 'util/set-bg-image';
 import {History} from "history"
 import { Option, some, none } from "fp-ts/lib/Option";
 import * as t from 'io-ts';
-import formUpdateState from "@util/form-update-state";
-import { apBasePath } from "@paths/ap/_base";
-import {FactaErrorDiv} from "@facta/FactaErrorDiv";
-import { makePostJSON } from "@core/APIWrapperUtil";
-import FactaMainPage from "@facta/FactaMainPage";
-import { PageFlavor } from "@components/Page";
-import { jpBasePath } from "@paths/jp/_base";
-import { CheckboxGroup } from "@components/InputGroup";
-import { postWrapper as postMemberAlerts } from "@async/member/alerts";
-import alertFlagColors from "@lov/alertFlagColors";
-import { alertEventsValidator as flagNotificationsValidator } from '@async/member/alerts';
+import formUpdateState from "util/form-update-state";
+import { apBasePath } from "app/paths/ap/_base";
+import {FactaErrorDiv} from "theme/facta/FactaErrorDiv";
+import { makePostJSON } from "core/APIWrapperUtil";
+import FactaMainPage from "theme/facta/FactaMainPage";
+import { PageFlavor } from "components/Page";
+import { jpBasePath } from "app/paths/jp/_base";
+import { CheckboxGroup } from "components/InputGroup";
+import { postWrapper as postMemberAlerts } from "async/member/alerts";
+import alertFlagColors from "lov/alertFlagColors";
+import { alertEventsValidator as flagNotificationsValidator } from 'async/member/alerts';
 
 enum FLAG_COLORS {
 	YELLOW="Yellow",

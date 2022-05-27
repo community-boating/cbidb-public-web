@@ -1,21 +1,21 @@
 import { History } from 'history';
 import * as React from "react";
 
-import FactaButton from "@facta/FactaButton";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
+import FactaButton from "theme/facta/FactaButton";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
 import { Option, none } from 'fp-ts/lib/Option';
-import formUpdateState from '@util/form-update-state';
-import TextInput from '@components/TextInput';
-import {apiw} from "@async/reset-pw"
-import { PostURLEncoded } from '@core/APIWrapperUtil';
-import Validation from '@util/Validation'
-import {FactaErrorDiv} from '@facta/FactaErrorDiv';
-import asc from '@app/AppStateContainer';
-import { setJPImage, setAPImage, setCheckoutImage } from '@util/set-bg-image';
-import { jpBasePath } from '@paths/jp/_base';
-import { PageFlavor } from '@components/Page';
-import { apBasePath } from '@paths/ap/_base';
-import FactaMainPage from '@facta/FactaMainPage';
+import formUpdateState from 'util/form-update-state';
+import TextInput from 'components/TextInput';
+import {apiw} from "async/reset-pw"
+import { PostURLEncoded } from 'core/APIWrapperUtil';
+import Validation from 'util/Validation'
+import {FactaErrorDiv} from 'theme/facta/FactaErrorDiv';
+import asc from 'app/AppStateContainer';
+import { setJPImage, setAPImage, setCheckoutImage } from 'util/set-bg-image';
+import { jpBasePath } from 'app/paths/jp/_base';
+import { PageFlavor } from 'components/Page';
+import { apBasePath } from 'app/paths/ap/_base';
+import FactaMainPage from 'theme/facta/FactaMainPage';
 
 type Props = {
 	history: History<any>,

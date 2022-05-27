@@ -5,8 +5,8 @@ import * as https from "https";
 import * as t from 'io-ts';
 import { PathReporter } from 'io-ts/lib/PathReporter';
 
-import asc from "@app/AppStateContainer";
-import { removeOptions } from '@util/deserializeOption';
+import asc from "app/AppStateContainer";
+import { removeOptions } from 'util/deserializeOption';
 import { HttpMethod } from "./HttpMethod";
 import { PostType, Config, ApiResult, ServerParams } from './APIWrapperTypes';
 

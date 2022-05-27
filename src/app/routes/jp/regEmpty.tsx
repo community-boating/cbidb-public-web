@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import {jpPathRegEmpty} from "@paths/jp/regEmpty";
-import PageWrapper from "@core/PageWrapper";
-import RouteWrapper from "@core/RouteWrapper";
-import { apiw as welcomeAPI, validator as welcomeJPValidator } from "@async/member-welcome-jp";
-import RegistrationWizard from '@containers/jp/jp-registration/pageflow/RegistrationWizard';
+import {jpPathRegEmpty} from "app/paths/jp/regEmpty";
+import PageWrapper from "core/PageWrapper";
+import RouteWrapper from "core/RouteWrapper";
+import { apiw as welcomeAPI, validator as welcomeJPValidator } from "async/member-welcome-jp";
+import RegistrationWizard from 'containers/jp/jp-registration/pageflow/RegistrationWizard';
 import { none } from 'fp-ts/lib/Option';
-import { setJPImage } from '@util/set-bg-image';
-import FactaLoadingPage from '@facta/FactaLoadingPage';
+import { setJPImage } from 'util/set-bg-image';
+import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
 
 export const regEmptyPageRoute = new RouteWrapper(true, jpPathRegEmpty, history => <PageWrapper
     key="regEmpty"

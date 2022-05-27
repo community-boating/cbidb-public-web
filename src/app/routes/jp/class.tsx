@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import {jpPathClass} from "@paths/jp/class";
-import PageWrapper from "@core/PageWrapper";
-import RouteWrapper from "@core/RouteWrapper";
-import { getWrapper as seeTypesWrapper, validator as seeTypesValidator } from "@async/junior/see-types";
-import SelectClassType from "@containers/jp/class-signup/SelectClassType";
-import { getWrapper as getSignups, GetSignupsAPIResult } from '@async/junior/get-signups';
-import { setJPImage } from '@util/set-bg-image';
-import FactaLoadingPage from '@facta/FactaLoadingPage';
+import {jpPathClass} from "app/paths/jp/class";
+import PageWrapper from "core/PageWrapper";
+import RouteWrapper from "core/RouteWrapper";
+import { getWrapper as seeTypesWrapper, validator as seeTypesValidator } from "async/junior/see-types";
+import SelectClassType from "containers/jp/class-signup/SelectClassType";
+import { getWrapper as getSignups, GetSignupsAPIResult } from 'async/junior/get-signups';
+import { setJPImage } from 'util/set-bg-image';
+import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
 import { Option } from 'fp-ts/lib/Option';
-import optionify from '@util/optionify';
+import optionify from 'util/optionify';
 
 export const classPageRoute = new RouteWrapper(true, jpPathClass, history => <PageWrapper
 	key="SelectClassType"

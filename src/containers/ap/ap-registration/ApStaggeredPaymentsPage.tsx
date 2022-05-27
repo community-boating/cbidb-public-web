@@ -5,20 +5,20 @@ import * as t from 'io-ts';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import FactaMainPage from "@facta/FactaMainPage";
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
-import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
-import { setAPImage } from "@util/set-bg-image";
-import Currency from "@util/Currency";
-import { planValidator } from "@async/member/payment-plan-options";
-import {postWrapper as submit} from "@async/member/set-payment-plan"
-import { makePostJSON } from "@core/APIWrapperUtil";
-import { StaggeredPaymentSchedule } from "@components/StaggeredPaymentSchedule";
-import { MAGIC_NUMBERS } from "@app/magicNumbers";
-import { RadioGroup } from "@components/InputGroup";
-import FactaButton from "@facta/FactaButton";
-import StandardReport from "@facta/StandardReport";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import FactaMainPage from "theme/facta/FactaMainPage";
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
+import NavBarLogoutOnly from "components/NavBarLogoutOnly";
+import { setAPImage } from "util/set-bg-image";
+import Currency from "util/Currency";
+import { planValidator } from "async/member/payment-plan-options";
+import {postWrapper as submit} from "async/member/set-payment-plan"
+import { makePostJSON } from "core/APIWrapperUtil";
+import { StaggeredPaymentSchedule } from "components/StaggeredPaymentSchedule";
+import { MAGIC_NUMBERS } from "app/magicNumbers";
+import { RadioGroup } from "components/InputGroup";
+import FactaButton from "theme/facta/FactaButton";
+import StandardReport from "theme/facta/StandardReport";
 
 type Plan = t.TypeOf<typeof planValidator>
 

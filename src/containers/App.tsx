@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import asc, { AppStateContainer } from '@app/AppStateContainer';
-import router from "@app/routing";
+import asc, { AppStateContainer } from 'app/AppStateContainer';
+import router from "app/routing";
 import {  none } from 'fp-ts/lib/Option';
-import {apiw as isLoggedInAsMember} from '@async/is-logged-in-as-member';
-import FactaBase from '@facta/FactaBase';
+import {apiw as isLoggedInAsMember} from 'async/is-logged-in-as-member';
+import FactaBase from 'theme/facta/FactaBase';
 
 interface Props {
 	history: any

@@ -1,25 +1,25 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import {  setCheckoutImageForDonations } from '@util/set-bg-image';
-import { CartItem } from '@async/get-cart-items';
-import FullCartReport from '@components/FullCartReport';
-import { PageFlavor } from '@components/Page';
-import { orderStatusValidator } from "@async/order-status"
-import { postWrapper as submitPayment } from "@async/stripe/submit-payment-standalone"
-import { makePostJSON, makePostString } from '@core/APIWrapperUtil';
-import StripeConfirm from '@components/StripeConfirm';
-import { postWrapper as clearCard } from '@async/stripe/clear-card'
-import StripeElement from '@components/StripeElement';
-import { postWrapper as storeToken } from "@async/stripe/store-token"
-import { TokensResult } from '@models/stripe/tokens';
-import PlainButton from '@components/PlainButton';
-import FactaMainPage from '@facta/FactaMainPage';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import { FactaErrorDiv } from '@facta/FactaErrorDiv';
-import FactaButton from '@facta/FactaButton';
-import { PaymentMethod } from '@models/stripe/PaymentMethod';
-import {postWrapper as storePaymentMethod} from "@async/stripe/store-payment-method-donate"
+import {  setCheckoutImageForDonations } from 'util/set-bg-image';
+import { CartItem } from 'async/get-cart-items';
+import FullCartReport from 'components/FullCartReport';
+import { PageFlavor } from 'components/Page';
+import { orderStatusValidator } from "async/order-status"
+import { postWrapper as submitPayment } from "async/stripe/submit-payment-standalone"
+import { makePostJSON, makePostString } from 'core/APIWrapperUtil';
+import StripeConfirm from 'components/StripeConfirm';
+import { postWrapper as clearCard } from 'async/stripe/clear-card'
+import StripeElement from 'components/StripeElement';
+import { postWrapper as storeToken } from "async/stripe/store-token"
+import { TokensResult } from 'models/stripe/tokens';
+import PlainButton from 'components/PlainButton';
+import FactaMainPage from 'theme/facta/FactaMainPage';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
+import FactaButton from 'theme/facta/FactaButton';
+import { PaymentMethod } from 'models/stripe/PaymentMethod';
+import {postWrapper as storePaymentMethod} from "async/stripe/store-payment-method-donate"
 
 type Props = {
 	goNext: () => Promise<void>,
