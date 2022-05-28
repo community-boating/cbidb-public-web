@@ -66,10 +66,10 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 						}
 					})
 				} else {
-					const postData = JSON.stringify(removeOptions({
+					const postData = removeOptions({
 						...data.jsonData,
 						...(self.config.fixedParams || {})
-					}))
+					})
 					if (postData == undefined) return none;
 					else return some({
 						content: postData,
@@ -82,16 +82,18 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 			 } else return none;
 		}())
 
+		const headers = {
+			...serverParams.staticHeaders,
+			...(self.config.extraHeaders || {}),
+			...postValues.map(pv => pv.headers).getOrElse(null)
+		}
+
 		return getOrCreateAxios(serverParams)({
 			method: self.config.type,
 			url: (serverParams.pathPrefix || "") + self.config.path,
 			// params,
 			data: postValues.map(pv => pv.content).getOrElse(null),
-			headers: {
-				...serverParams.staticHeaders,
-				...(self.config.extraHeaders || {}),
-				...postValues.map(pv => pv.headers).getOrElse(null)
-			}
+			headers
 		}).then((res: AxiosResponse) => {
 			return this.parseResponse(res.data);
 		}, err => {
