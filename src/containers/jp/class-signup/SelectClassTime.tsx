@@ -1,23 +1,23 @@
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { getClassInstancesValidator, InstanceInfo } from '@async/junior/get-class-instances';
-import JpClassesAvailTable from "@components/JpClassesAvailTable";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import { weeksValidator, Week } from '@async/weeks';
-import { Select } from '@components/Select';
+import { getClassInstancesValidator, InstanceInfo } from 'async/junior/get-class-instances';
+import JpClassesAvailTable from "components/JpClassesAvailTable";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import { weeksValidator, Week } from 'async/weeks';
+import { Select } from 'components/Select';
 import { Option, none, some } from 'fp-ts/lib/Option';
-import formUpdateState from '@util/form-update-state';
+import formUpdateState from 'util/form-update-state';
 import * as moment from 'moment'
-import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import {FactaErrorDiv} from 'theme/facta/FactaErrorDiv';
 import { History } from 'history';
-import JpClassSignupSidebar from '@components/JpClassSignupSidebar';
-import { GetSignupsAPIResult } from '@async/junior/get-signups';
-import FactaButton from '@facta/FactaButton';
-import NavBarLogoutOnly from '@components/NavBarLogoutOnly';
-import {classPageRoute} from "@routes/jp/class"
-import { setJPImage } from '@util/set-bg-image';
-import FactaSidebarPage from '@facta/FactaSidebarPage';
+import JpClassSignupSidebar from 'components/JpClassSignupSidebar';
+import { GetSignupsAPIResult } from 'async/junior/get-signups';
+import FactaButton from 'theme/facta/FactaButton';
+import NavBarLogoutOnly from 'components/NavBarLogoutOnly';
+import {classPageRoute} from "app/routes/jp/class"
+import { setJPImage } from 'util/set-bg-image';
+import FactaSidebarPage from 'theme/facta/FactaSidebarPage';
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 

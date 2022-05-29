@@ -1,30 +1,30 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import { setCheckoutImageForDonations } from '@util/set-bg-image';
-// import { DonationThirdPartyWidget } from '@components/DonationThirdPartyWidget';
+import { setCheckoutImageForDonations } from 'util/set-bg-image';
+// import { DonationThirdPartyWidget } from 'components/DonationThirdPartyWidget';
 import { none, Option, some } from 'fp-ts/lib/Option';
-import {donationFundValidator} from "@async/donation-funds"
-import TextInput from '@components/TextInput';
-import { RadioGroup } from '@components/InputGroup';
-import { Select } from '@components/Select';
-import formUpdateState from '@util/form-update-state';
-import newPopWin from "@util/newPopWin";
-import {postWrapper as addDonation} from "@async/add-donation-standalone"
-import { makePostJSON, PostURLEncoded } from '@core/APIWrapperUtil';
-import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
-import FullCartReport from '@components/FullCartReport';
-import { CartItem } from '@async/get-cart-items-donate';
-import { PageFlavor } from '@components/Page';
+import {donationFundValidator} from "async/donation-funds"
+import TextInput from 'components/TextInput';
+import { RadioGroup } from 'components/InputGroup';
+import { Select } from 'components/Select';
+import formUpdateState from 'util/form-update-state';
+import newPopWin from "util/newPopWin";
+import {postWrapper as addDonation} from "async/add-donation-standalone"
+import { makePostJSON, PostURLEncoded } from 'core/APIWrapperUtil';
+import {postWrapper as getProtoPersonCookie} from "async/check-proto-person-cookie"
+import FullCartReport from 'components/FullCartReport';
+import { CartItem } from 'async/get-cart-items-donate';
+import { PageFlavor } from 'components/Page';
 import { Either, left, right } from 'fp-ts/lib/Either';
-import { orderStatusValidator } from "@async/order-status"
-import standaloneLoginPath from "@paths/common/standalone-signin"
-import {apiw as detach} from "@async/proto-detach-member"
-import {postWrapper as savePersonData } from "@async/member/donate-set-person"
-import FactaMainPage from '@facta/FactaMainPage';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import FactaButton from '@facta/FactaButton';
-import { FactaErrorDiv } from '@facta/FactaErrorDiv';
+import { orderStatusValidator } from "async/order-status"
+import standaloneLoginPath from "app/paths/common/standalone-signin"
+import {apiw as detach} from "async/proto-detach-member"
+import {postWrapper as savePersonData } from "async/member/donate-set-person"
+import FactaMainPage from 'theme/facta/FactaMainPage';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import FactaButton from 'theme/facta/FactaButton';
+import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 

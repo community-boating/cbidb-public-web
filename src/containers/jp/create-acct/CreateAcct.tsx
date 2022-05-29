@@ -1,22 +1,22 @@
 import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
-import TextInput from "@components/TextInput";
-import FactaButton from '@facta/FactaButton';
+import TextInput from "components/TextInput";
+import FactaButton from 'theme/facta/FactaButton';
 import { History } from 'history';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import formUpdateState from '@util/form-update-state';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import formUpdateState from 'util/form-update-state';
 // import { preRegRender } from './ReserveClasses';
-import { PreRegistration } from '@app/global-state/jp-pre-registrations';
-import { postWrapper as create } from '@async/create-member'
-import { PostURLEncoded } from '@core/APIWrapperUtil';
-import {FactaErrorDiv} from '@facta/FactaErrorDiv';
-import Validation from '@util/Validation';
-import asc from '@app/AppStateContainer';
-// import { createAcctPageRoute } from '@routes/jp/create-acct';
-import { setJPImage } from '@util/set-bg-image';
-import { jpBasePath } from '@paths/jp/_base';
-import FactaSidebarPage from '@facta/FactaSidebarPage';
-import FactaSidebarRegion from '@facta/FactaSidebarRegion';
+import { PreRegistration } from 'app/global-state/jp-pre-registrations';
+import { postWrapper as create } from 'async/create-member'
+import { PostURLEncoded } from 'core/APIWrapperUtil';
+import {FactaErrorDiv} from 'theme/facta/FactaErrorDiv';
+import Validation from 'util/Validation';
+import asc from 'app/AppStateContainer';
+// import { createAcctPageRoute } from 'app/routes/jp/create-acct';
+import { setJPImage } from 'util/set-bg-image';
+import { jpBasePath } from 'app/paths/jp/_base';
+import FactaSidebarPage from 'theme/facta/FactaSidebarPage';
+import FactaSidebarRegion from 'theme/facta/FactaSidebarRegion';
 
 const defaultForm = {
 	firstName: none as Option<string>,

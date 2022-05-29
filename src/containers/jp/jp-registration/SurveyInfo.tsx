@@ -3,20 +3,20 @@ import { History } from "history";
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { postWrapper, validator } from "@async/junior/survey";
-import FactaButton from "@facta/FactaButton";
-import { CheckboxGroup, RadioGroup, SingleCheckbox } from "@components/InputGroup";
-import TextInput from "@components/TextInput";
-import { makePostJSON } from "@core/APIWrapperUtil";
-import ethnicities from "@lov/ethnicities";
-import genders from "@lov/genders";
-import referralSources from "@lov/referralSources";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
-import formUpdateState from '@util/form-update-state';
-import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
-import { setJPImage } from "@util/set-bg-image";
-import FactaMainPage from "@facta/FactaMainPage";
+import { postWrapper, validator } from "async/junior/survey";
+import FactaButton from "theme/facta/FactaButton";
+import { CheckboxGroup, RadioGroup, SingleCheckbox } from "components/InputGroup";
+import TextInput from "components/TextInput";
+import { makePostJSON } from "core/APIWrapperUtil";
+import ethnicities from "lov/ethnicities";
+import genders from "lov/genders";
+import referralSources from "lov/referralSources";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
+import formUpdateState from 'util/form-update-state';
+import NavBarLogoutOnly from "components/NavBarLogoutOnly";
+import { setJPImage } from "util/set-bg-image";
+import FactaMainPage from "theme/facta/FactaMainPage";
  
 export type Form = t.TypeOf<typeof validator>
 

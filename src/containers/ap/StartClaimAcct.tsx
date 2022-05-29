@@ -1,17 +1,17 @@
 import { Option, none } from 'fp-ts/lib/Option';
 import * as React from "react";
-import TextInput from '@components/TextInput';
-import formUpdateState from '@util/form-update-state';
-import FactaButton from '@facta/FactaButton';
-import {FactaErrorDiv} from '@facta/FactaErrorDiv';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import { setAPImage } from '@util/set-bg-image';
+import TextInput from 'components/TextInput';
+import formUpdateState from 'util/form-update-state';
+import FactaButton from 'theme/facta/FactaButton';
+import {FactaErrorDiv} from 'theme/facta/FactaErrorDiv';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import { setAPImage } from 'util/set-bg-image';
 import {History} from "history"
-import { PostURLEncoded } from '@core/APIWrapperUtil';
-import {postWrapper} from "@async/member/start-claim-acct"
-import { apPathClaimAcctSent } from '@paths/ap/claim-acct-sent';
-import { apBasePath } from '@paths/ap/_base';
-import FactaMainPage from '@facta/FactaMainPage';
+import { PostURLEncoded } from 'core/APIWrapperUtil';
+import {postWrapper} from "async/member/start-claim-acct"
+import { apPathClaimAcctSent } from 'app/paths/ap/claim-acct-sent';
+import { apBasePath } from 'app/paths/ap/_base';
+import FactaMainPage from 'theme/facta/FactaMainPage';
 
 const defaultForm = {
 	email: none as Option<string>

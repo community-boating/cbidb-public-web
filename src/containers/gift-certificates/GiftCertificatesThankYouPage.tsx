@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { setCheckoutImage } from '@util/set-bg-image';
+import { setCheckoutImage } from 'util/set-bg-image';
 import { Link } from 'react-router-dom';
-import { giftCertificatesPageRoute } from '@routes/gift-certificates';
-import FactaMainPage from '@facta/FactaMainPage';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
+import { giftCertificatesPageRoute } from 'app/routes/gift-certificates';
+import FactaMainPage from 'theme/facta/FactaMainPage';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 
 type Props = {
 	goNext: () => Promise<void>,

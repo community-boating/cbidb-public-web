@@ -1,16 +1,16 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 
-import {apDonateEditPath} from "@paths/ap/donate-edit";
-import RouteWrapper from "@core/RouteWrapper";
-import { PageFlavor } from '@components/Page';
-import PageWrapper from '@core/PageWrapper';
-import { setCheckoutImage } from '@util/set-bg-image';
-import FactaLoadingPage from '@facta/FactaLoadingPage';
-import {getWrapper as getRecurringDonations, validator as getRecurringDonationsValidator} from "@async/member/recurring-donations"
-import { getWrapper as getDonationFunds, validator as donationFundsValidator } from '@async/donation-funds';
-import RecurringDonationsEdit from '@containers/recurring-donations/RecurringDonationsEdit';
-import {getWrapper as getDonationHistory, validator as donationHistoryValidator} from "@async/member/recurring-donation-history";
+import {apDonateEditPath} from "app/paths/ap/donate-edit";
+import RouteWrapper from "core/RouteWrapper";
+import { PageFlavor } from 'components/Page';
+import PageWrapper from 'core/PageWrapper';
+import { setCheckoutImage } from 'util/set-bg-image';
+import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
+import {getWrapper as getRecurringDonations, validator as getRecurringDonationsValidator} from "async/member/recurring-donations"
+import { getWrapper as getDonationFunds, validator as donationFundsValidator } from 'async/donation-funds';
+import RecurringDonationsEdit from 'containers/recurring-donations/RecurringDonationsEdit';
+import {getWrapper as getDonationHistory, validator as donationHistoryValidator} from "async/member/recurring-donation-history";
 
 type AsyncType = [t.TypeOf<typeof getRecurringDonationsValidator>, t.TypeOf<typeof donationFundsValidator>, t.TypeOf<typeof donationHistoryValidator>];
 

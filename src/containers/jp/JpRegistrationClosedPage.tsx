@@ -1,10 +1,10 @@
 import * as React from "react";
-import FactaButton from '@facta/FactaButton';
+import FactaButton from 'theme/facta/FactaButton';
 import { History } from 'history';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import { setJPImage } from "@util/set-bg-image";
-import { jpBasePath } from "@paths/jp/_base";
-import FactaMainPage from "@facta/FactaMainPage";
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import { setJPImage } from "util/set-bg-image";
+import { jpBasePath } from "app/paths/jp/_base";
+import FactaMainPage from "theme/facta/FactaMainPage";
 
 export default class JpRegistrationClosedPage extends React.PureComponent<{history: History<any>}> {
 	render() {

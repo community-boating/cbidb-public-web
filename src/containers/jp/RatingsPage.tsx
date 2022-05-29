@@ -2,14 +2,14 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import FactaButton from "@facta/FactaButton";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import NavBarLogoutOnly from '@components/NavBarLogoutOnly';
+import FactaButton from "theme/facta/FactaButton";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import NavBarLogoutOnly from 'components/NavBarLogoutOnly';
 import { none } from 'fp-ts/lib/Option';
-import { setJPImage } from '@util/set-bg-image';
-import { validator as welcomeJPValidator } from "@async/member-welcome-jp";
-import { jpBasePath } from '@paths/jp/_base';
-import FactaMainPage from '@facta/FactaMainPage';
+import { setJPImage } from 'util/set-bg-image';
+import { validator as welcomeJPValidator } from "async/member-welcome-jp";
+import { jpBasePath } from 'app/paths/jp/_base';
+import FactaMainPage from 'theme/facta/FactaMainPage';
 
 export interface Props {
 	personId: number,

@@ -1,32 +1,32 @@
 import { Option, none, some } from 'fp-ts/lib/Option';
 import * as t from 'io-ts';
 import * as React from "react";
-import TextInput from "@components/TextInput";
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import formUpdateState from '@util/form-update-state';
-import { Select } from '@components/Select';
-import { validatorSingleRow } from "@async/class-instances-with-avail"
-import StandardReport from '@facta/StandardReport';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_intermediate1/*, jpClassTypeId_intermediate2 */} from '@lov/magicStrings';
+import TextInput from "components/TextInput";
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import formUpdateState from 'util/form-update-state';
+import { Select } from 'components/Select';
+import { validatorSingleRow } from "async/class-instances-with-avail"
+import StandardReport from 'theme/facta/StandardReport';
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_intermediate1/*, jpClassTypeId_intermediate2 */} from 'lov/magicStrings';
 import { Moment } from 'moment';
-import FactaButton from '@facta/FactaButton';
-import { PreRegistration, PreRegistrationClass } from '@app/global-state/jp-pre-registrations';
-import optionify from '@util/optionify';
-import {postWrapper as addJuniorPostWrapper} from "@async/junior/add-junior-class-reservation"
-import { validator as reservationAPIValidator } from '@async/junior/get-junior-class-reservations'
-import { makePostJSON, makePostString } from '@core/APIWrapperUtil';
+import FactaButton from 'theme/facta/FactaButton';
+import { PreRegistration, PreRegistrationClass } from 'app/global-state/jp-pre-registrations';
+import optionify from 'util/optionify';
+import {postWrapper as addJuniorPostWrapper} from "async/junior/add-junior-class-reservation"
+import { validator as reservationAPIValidator } from 'async/junior/get-junior-class-reservations'
+import { makePostJSON, makePostString } from 'core/APIWrapperUtil';
 import { History } from 'history';
-import {FactaErrorDiv} from '@facta/FactaErrorDiv';
-import {postWrapper as deleteJunior} from '@async/junior/delete-junior-class-reservation'
+import {FactaErrorDiv} from 'theme/facta/FactaErrorDiv';
+import {postWrapper as deleteJunior} from 'async/junior/delete-junior-class-reservation'
 import * as moment from 'moment';
-import getClassesAndPreregistrations from '@async/util/getClassesAndPreregistrations';
-import { reserveNotesPageRoute } from '@routes/jp/reserve-notes';
-import { createAcctPageRoute } from '@routes/jp/create-acct';
-import { reservePageRoute } from '@routes/jp/reserve';
-import { setJPImage } from '@util/set-bg-image';
-import { jpBasePath } from '@paths/jp/_base';
-import FactaSidebarPage from '@facta/FactaSidebarPage';
-import FactaSidebarRegion from '@facta/FactaSidebarRegion';
+import getClassesAndPreregistrations from 'async/util/getClassesAndPreregistrations';
+import { reserveNotesPageRoute } from 'app/routes/jp/reserve-notes';
+import { createAcctPageRoute } from 'app/routes/jp/create-acct';
+import { reservePageRoute } from 'app/routes/jp/reserve';
+import { setJPImage } from 'util/set-bg-image';
+import { jpBasePath } from 'app/paths/jp/_base';
+import FactaSidebarPage from 'theme/facta/FactaSidebarPage';
+import FactaSidebarRegion from 'theme/facta/FactaSidebarRegion';
 
 export type ClassInstanceObject = t.TypeOf<typeof validatorSingleRow> & {
 	startDateMoment: Moment,

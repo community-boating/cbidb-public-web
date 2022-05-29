@@ -1,29 +1,29 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import { setAPImage } from "@util/set-bg-image";
-import { apBasePath } from "@paths/ap/_base";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import FactaButton from "@facta/FactaButton";
+import { setAPImage } from "util/set-bg-image";
+import { apBasePath } from "app/paths/ap/_base";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import FactaButton from "theme/facta/FactaButton";
 import {History} from 'history'
-import Calendar, { CalendarDayElement } from "@components/Calendar";
+import Calendar, { CalendarDayElement } from "components/Calendar";
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import {validator as typesValidator, AvailabilityFlag} from "@async/member/ap-class-type-avail"
-import {resultValidator as classesValidator} from "@async/member/ap-classes-for-calendar"
+import {validator as typesValidator, AvailabilityFlag} from "async/member/ap-class-type-avail"
+import {resultValidator as classesValidator} from "async/member/ap-classes-for-calendar"
 import * as _ from 'lodash'
-import getNow from "@util/getNow";
+import getNow from "util/getNow";
 import { Option, none, some } from "fp-ts/lib/Option";
-import { CheckboxGroup } from "@components/InputGroup";
-import formUpdateState from "@util/form-update-state";
-import optionify from "@util/optionify"
-import {postWrapper as signup} from "@async/member/ap-class-signup"
-import {postWrapper as unenroll} from "@async/member/ap-class-unenroll"
-import { makePostJSON } from "@core/APIWrapperUtil";
-import { apPathClasses } from "@paths/ap/classes";
-import FactaMainPage from "@facta/FactaMainPage";
-import { FactaHideShowRegion } from "@facta/FactaHideShowRegion";
+import { CheckboxGroup } from "components/InputGroup";
+import formUpdateState from "util/form-update-state";
+import optionify from "util/optionify"
+import {postWrapper as signup} from "async/member/ap-class-signup"
+import {postWrapper as unenroll} from "async/member/ap-class-unenroll"
+import { makePostJSON } from "core/APIWrapperUtil";
+import { apPathClasses } from "app/paths/ap/classes";
+import FactaMainPage from "theme/facta/FactaMainPage";
+import { FactaHideShowRegion } from "theme/facta/FactaHideShowRegion";
 import { Link } from "react-router-dom";
-import { FactaErrorDiv } from "@facta/FactaErrorDiv";
+import { FactaErrorDiv } from "theme/facta/FactaErrorDiv";
 
 declare var ddrivetip: any;
 declare var hideddrivetip: any;

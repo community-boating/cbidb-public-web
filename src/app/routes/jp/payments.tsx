@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import { jpPathPayments } from "@paths/jp/payments";
-import PageWrapper from "@core/PageWrapper";
-import RouteWrapper from "@core/RouteWrapper";
-import { setJPImage } from '@util/set-bg-image';
-import ManageStaggeredPayments from '@containers/ManageStaggeredPayments';
-import { PageFlavor } from '@components/Page';
-import {getWrapper, validator} from "@async/member/open-order-details-jp"
+import { jpPathPayments } from "app/paths/jp/payments";
+import PageWrapper from "core/PageWrapper";
+import RouteWrapper from "core/RouteWrapper";
+import { setJPImage } from 'util/set-bg-image';
+import ManageStaggeredPayments from 'containers/ManageStaggeredPayments';
+import { PageFlavor } from 'components/Page';
+import {getWrapper, validator} from "async/member/open-order-details-jp"
 import { some } from 'fp-ts/lib/Option';
-import { jpBasePath } from '@paths/jp/_base';
-import FactaLoadingPage from '@facta/FactaLoadingPage';
+import { jpBasePath } from 'app/paths/jp/_base';
+import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
 export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayments, history => <PageWrapper
 	key="jp-payments"
 	history={history}

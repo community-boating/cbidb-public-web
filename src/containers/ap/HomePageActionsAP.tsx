@@ -1,21 +1,21 @@
 import * as React from 'react'
 import { History } from 'history';
-import {apRegPageRoute} from "@routes/ap/reg"
+import {apRegPageRoute} from "app/routes/ap/reg"
 import { Link } from 'react-router-dom';
-import Currency from '@util/Currency';
+import Currency from 'util/Currency';
 import { Option } from 'fp-ts/lib/Option';
 import { Moment } from 'moment';
 import * as _ from 'lodash';
 
-import { makePostJSON } from '@core/APIWrapperUtil';
-import {postWrapper as abortRegistration} from "@async/member/abort-mem-reg"
-import { apBasePath } from '@paths/ap/_base';
-import { apEditPageRoute } from '@routes/ap/edit';
-import { apClassesPageRoute } from '@routes/ap/classes';
-import { apPathAddons } from '@paths/ap/addons';
-import { apDonateRoute } from '@routes/ap/donate';
-import {apManageStaggeredPaymentsRoute} from "@routes/ap/payments"
-import { apFlagNotificationsPageRoute } from '@routes/ap/flag-notifications';
+import { makePostJSON } from 'core/APIWrapperUtil';
+import {postWrapper as abortRegistration} from "async/member/abort-mem-reg"
+import { apBasePath } from 'app/paths/ap/_base';
+import { apEditPageRoute } from 'app/routes/ap/edit';
+import { apClassesPageRoute } from 'app/routes/ap/classes';
+import { apPathAddons } from 'app/paths/ap/addons';
+import { apDonateRoute } from 'app/routes/ap/donate';
+import {apManageStaggeredPaymentsRoute} from "app/routes/ap/payments"
+import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)

@@ -1,15 +1,15 @@
 import * as React from "react";
 import {History} from 'history';
-import { setCheckoutImage } from "@util/set-bg-image";
-import TextInput from "@components/TextInput";
+import { setCheckoutImage } from "util/set-bg-image";
+import TextInput from "components/TextInput";
 import { none, Option } from "fp-ts/lib/Option";
-import formUpdateState from "@util/form-update-state";
-import {apiw as proveMember} from "@async/prove-member"
-import { makePostString } from "@core/APIWrapperUtil";
-import FactaMainPage from "@facta/FactaMainPage";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import FactaButton from "@facta/FactaButton";
-import { FactaErrorDiv } from "@facta/FactaErrorDiv";
+import formUpdateState from "util/form-update-state";
+import {apiw as proveMember} from "async/prove-member"
+import { makePostString } from "core/APIWrapperUtil";
+import FactaMainPage from "theme/facta/FactaMainPage";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import FactaButton from "theme/facta/FactaButton";
+import { FactaErrorDiv } from "theme/facta/FactaErrorDiv";
 
 export const formDefault = {
 	username: none as Option<string>,

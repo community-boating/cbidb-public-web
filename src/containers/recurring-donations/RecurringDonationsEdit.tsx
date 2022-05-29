@@ -2,27 +2,27 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import FactaMainPage from "@facta/FactaMainPage";
+import FactaMainPage from "theme/facta/FactaMainPage";
 import { none, Option, some } from 'fp-ts/lib/Option';
-import { setCheckoutImage } from '@util/set-bg-image';
-// import { jpBasePath } from '@paths/jp/_base';
-// import { apBasePath } from '@paths/ap/_base';
-import { PageFlavor } from '@components/Page';
-import { makePostJSON } from '@core/APIWrapperUtil';
-import FactaButton from '@facta/FactaButton';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import {validator as getRecurringDonationsValidator, postWrapper as setRecurringDonations} from "@async/member/recurring-donations";
-import { validator as donationFundsValidator } from '@async/donation-funds';
-import { Select } from '@components/Select';
-import formUpdateState from '@util/form-update-state';
-import { RadioGroup } from '@components/InputGroup';
-import TextInput from '@components/TextInput';
-import Currency from '@util/Currency';
+import { setCheckoutImage } from 'util/set-bg-image';
+// import { jpBasePath } from 'app/paths/jp/_base';
+// import { apBasePath } from 'app/paths/ap/_base';
+import { PageFlavor } from 'components/Page';
+import { makePostJSON } from 'core/APIWrapperUtil';
+import FactaButton from 'theme/facta/FactaButton';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import {validator as getRecurringDonationsValidator, postWrapper as setRecurringDonations} from "async/member/recurring-donations";
+import { validator as donationFundsValidator } from 'async/donation-funds';
+import { Select } from 'components/Select';
+import formUpdateState from 'util/form-update-state';
+import { RadioGroup } from 'components/InputGroup';
+import TextInput from 'components/TextInput';
+import Currency from 'util/Currency';
 import { Either, left, right } from 'fp-ts/lib/Either';
-import { FactaErrorDiv } from '@facta/FactaErrorDiv';
-import { apDonatePath } from '@paths/ap/donate';
-import { validator as donationHistoryValidator} from "@async/member/recurring-donation-history";
-import { apBasePath } from '@paths/ap/_base';
+import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
+import { apDonatePath } from 'app/paths/ap/donate';
+import { validator as donationHistoryValidator} from "async/member/recurring-donation-history";
+import { apBasePath } from 'app/paths/ap/_base';
 
 type Props = {
 	history: History<any>,

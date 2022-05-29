@@ -1,29 +1,29 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import { setCheckoutImage } from '@util/set-bg-image';
-import {validator as pricesValidator} from "@async/prices"
-import StandardReport from '@facta/StandardReport';
-import { MAGIC_NUMBERS } from '@app/magicNumbers';
-import Currency from '@util/Currency';
+import { setCheckoutImage } from 'util/set-bg-image';
+import {validator as pricesValidator} from "async/prices"
+import StandardReport from 'theme/facta/StandardReport';
+import { MAGIC_NUMBERS } from 'app/magicNumbers';
+import Currency from 'util/Currency';
 import { none, Option, some } from 'fp-ts/lib/Option';
-import TextInput from '@components/TextInput';
-import formUpdateState from '@util/form-update-state';
-import { RadioGroup } from '@components/InputGroup';
-import { Select } from '@components/Select';
-import states from '@lov/states';
-import {postWrapper as setGC} from "@async/member/gc-purchase"
-import { makePostJSON, PostURLEncoded } from '@core/APIWrapperUtil';
-import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
-import {validator as gcValidator} from "@async/member/gc-purchase"
-import { orderStatusValidator } from "@async/order-status"
-import newPopWin from "@util/newPopWin";
-import standaloneLoginPath from "@paths/common/standalone-signin"
-import {apiw as detach} from "@async/proto-detach-member"
-import FactaMainPage from '@facta/FactaMainPage';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import FactaButton from '@facta/FactaButton';
-import { FactaErrorDiv } from '@facta/FactaErrorDiv';
+import TextInput from 'components/TextInput';
+import formUpdateState from 'util/form-update-state';
+import { RadioGroup } from 'components/InputGroup';
+import { Select } from 'components/Select';
+import states from 'lov/states';
+import {postWrapper as setGC} from "async/member/gc-purchase"
+import { makePostJSON, PostURLEncoded } from 'core/APIWrapperUtil';
+import {postWrapper as getProtoPersonCookie} from "async/check-proto-person-cookie"
+import {validator as gcValidator} from "async/member/gc-purchase"
+import { orderStatusValidator } from "async/order-status"
+import newPopWin from "util/newPopWin";
+import standaloneLoginPath from "app/paths/common/standalone-signin"
+import {apiw as detach} from "async/proto-detach-member"
+import FactaMainPage from 'theme/facta/FactaMainPage';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import FactaButton from 'theme/facta/FactaButton';
+import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 
 type Prices = t.TypeOf<typeof pricesValidator>;
 type GC = t.TypeOf<typeof gcValidator>;

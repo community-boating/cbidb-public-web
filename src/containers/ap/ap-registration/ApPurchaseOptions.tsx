@@ -3,18 +3,18 @@ import { History } from "history";
 import * as React from "react";
 import * as t from 'io-ts';
 
-import FactaButton from "@facta/FactaButton";
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
-import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
-import { setAPImage } from "@util/set-bg-image";
-import {discountsValidator} from "@async/member-welcome-ap"
-import Currency from "@util/Currency";
-import assertNever from "@util/assertNever";
-import {postWrapper as submit} from "@async/member/select-for-purchase"
-import { makePostJSON } from "@core/APIWrapperUtil";
-import { MAGIC_NUMBERS } from "@app/magicNumbers";
-import {validator as pricesValidator} from "@async/prices"
-import FactaMainPage from "@facta/FactaMainPage";
+import FactaButton from "theme/facta/FactaButton";
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
+import NavBarLogoutOnly from "components/NavBarLogoutOnly";
+import { setAPImage } from "util/set-bg-image";
+import {discountsValidator} from "async/member-welcome-ap"
+import Currency from "util/Currency";
+import assertNever from "util/assertNever";
+import {postWrapper as submit} from "async/member/select-for-purchase"
+import { makePostJSON } from "core/APIWrapperUtil";
+import { MAGIC_NUMBERS } from "app/magicNumbers";
+import {validator as pricesValidator} from "async/prices"
+import FactaMainPage from "theme/facta/FactaMainPage";
 
 type DiscountsProps = t.TypeOf<typeof discountsValidator>;
 

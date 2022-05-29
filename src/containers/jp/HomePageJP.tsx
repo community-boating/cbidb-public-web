@@ -1,21 +1,21 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import { validator } from "@async/member-welcome-jp";
-import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import StandardReport from "@facta/StandardReport";
+import { validator } from "async/member-welcome-jp";
+import NavBarLogoutOnly from "components/NavBarLogoutOnly";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import StandardReport from "theme/facta/StandardReport";
 import homePageActions from "./HomePageActionsJP";
-import FactaButton from '@facta/FactaButton';
+import FactaButton from 'theme/facta/FactaButton';
 import { History } from 'history';
 import * as moment from 'moment';
-import { checkUpgradedAsValidationErrorArray } from '@util/checkUpgraded';
-import {FactaErrorDiv} from '@facta/FactaErrorDiv';
+import { checkUpgradedAsValidationErrorArray } from 'util/checkUpgraded';
+import {FactaErrorDiv} from 'theme/facta/FactaErrorDiv';
 import { some } from 'fp-ts/lib/Option';
-import {regEmptyPageRoute} from '@routes/jp/regEmpty'
-import { checkoutPageRoute } from '@routes/checkout-jp';
-import { setJPImage } from '@util/set-bg-image';
-import asc from "@app/AppStateContainer";
-import FactaMainPage from "@facta/FactaMainPage";
+import {regEmptyPageRoute} from 'app/routes/jp/regEmpty'
+import { checkoutPageRoute } from 'app/routes/checkout-jp';
+import { setJPImage } from 'util/set-bg-image';
+import asc from "app/AppStateContainer";
+import FactaMainPage from "theme/facta/FactaMainPage";
 
 type Props = {
 	data: t.TypeOf<typeof validator>,

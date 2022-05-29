@@ -1,10 +1,10 @@
 import * as React from "react";
-import FactaArticleRegion from "@facta/FactaArticleRegion"; 
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
-import Currency from "@util/Currency";
-import FactaButton from "@facta/FactaButton";
-import { setJPImage } from "@util/set-bg-image";
-import FactaMainPage from "@facta/FactaMainPage";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion"; 
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
+import Currency from "util/Currency";
+import FactaButton from "theme/facta/FactaButton";
+import { setJPImage } from "util/set-bg-image";
+import FactaMainPage from "theme/facta/FactaMainPage";
 
 interface Props {
 	jpPrice: Currency,

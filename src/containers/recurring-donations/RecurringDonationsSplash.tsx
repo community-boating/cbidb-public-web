@@ -2,30 +2,30 @@ import { History } from 'history';
 import * as React from "react";
 import * as t from 'io-ts';
 
-import FactaMainPage from "@facta/FactaMainPage";
-import { setCheckoutImage } from '@util/set-bg-image';
-import { jpBasePath } from '@paths/jp/_base';
-import { apBasePath } from '@paths/ap/_base';
-import { PageFlavor } from '@components/Page';
-import FactaButton from '@facta/FactaButton';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import {validator as getRecurringDonationsValidator} from "@async/member/recurring-donations";
-import { validator as donationFundsValidator } from '@async/donation-funds';
-import Currency from '@util/Currency';
-import StripeConfirm from '@components/StripeConfirm';
-import { postWrapper as clearCard } from '@async/stripe/clear-card'
-import { makePostJSON } from '@core/APIWrapperUtil';
-import StripeElement from '@components/StripeElement';
-import { PaymentMethod } from '@models/stripe/PaymentMethod';
-import {postWrapper as storePaymentMethodAP} from "@async/stripe/store-payment-method-ap"
-import { FactaErrorDiv } from '@facta/FactaErrorDiv';
-import { apDonateEditPath } from '@paths/ap/donate-edit';
-import { validator as donationHistoryValidator} from "@async/member/recurring-donation-history";
-import {postWrapper as submitPayment} from "@async/stripe/submit-payment-autodonate"
-import StandardReport from '@facta/StandardReport';
-import { toMomentFromLocalDate } from '@util/dateUtil';
+import FactaMainPage from "theme/facta/FactaMainPage";
+import { setCheckoutImage } from 'util/set-bg-image';
+import { jpBasePath } from 'app/paths/jp/_base';
+import { apBasePath } from 'app/paths/ap/_base';
+import { PageFlavor } from 'components/Page';
+import FactaButton from 'theme/facta/FactaButton';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import {validator as getRecurringDonationsValidator} from "async/member/recurring-donations";
+import { validator as donationFundsValidator } from 'async/donation-funds';
+import Currency from 'util/Currency';
+import StripeConfirm from 'components/StripeConfirm';
+import { postWrapper as clearCard } from 'async/stripe/clear-card'
+import { makePostJSON } from 'core/APIWrapperUtil';
+import StripeElement from 'components/StripeElement';
+import { PaymentMethod } from 'models/stripe/PaymentMethod';
+import {postWrapper as storePaymentMethodAP} from "async/stripe/store-payment-method-ap"
+import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
+import { apDonateEditPath } from 'app/paths/ap/donate-edit';
+import { validator as donationHistoryValidator} from "async/member/recurring-donation-history";
+import {postWrapper as submitPayment} from "async/stripe/submit-payment-autodonate"
+import StandardReport from 'theme/facta/StandardReport';
+import { toMomentFromLocalDate } from 'util/dateUtil';
 import { Option } from 'fp-ts/lib/Option';
-import { FactaSuccessDiv } from '@facta/FactaSuccessDiv';
+import { FactaSuccessDiv } from 'theme/facta/FactaSuccessDiv';
 
 type Props = {
 	history: History<any>,

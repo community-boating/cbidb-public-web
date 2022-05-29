@@ -1,23 +1,23 @@
 import * as React from "react";
-import { setAPImage } from "@util/set-bg-image";
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
+import { setAPImage } from "util/set-bg-image";
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
 import { History } from 'history'
-import DateTriPicker, {  DateTriPickerProps } from "@components/DateTriPicker";
-import PhoneTriBox, { PhoneTriBoxProps } from "@components/PhoneTriBox";
-import { SingleCheckbox } from "@components/InputGroup";
-import formUpdateState from '@util/form-update-state';
-import TextInput from '@components/TextInput';
-import Validation from '@util/Validation';
-import FactaButton from '@facta/FactaButton';
+import DateTriPicker, {  DateTriPickerProps } from "components/DateTriPicker";
+import PhoneTriBox, { PhoneTriBoxProps } from "components/PhoneTriBox";
+import { SingleCheckbox } from "components/InputGroup";
+import formUpdateState from 'util/form-update-state';
+import TextInput from 'components/TextInput';
+import Validation from 'util/Validation';
+import FactaButton from 'theme/facta/FactaButton';
 import { Option, none, some } from 'fp-ts/lib/Option';
-import { postWrapper as createGuest } from "@async/ap/create-ap-guest"
-import { makePostJSON, PostURLEncoded } from "@core/APIWrapperUtil";
-import {FactaErrorDiv} from "@facta/FactaErrorDiv";
-import FactaMainPage from "@facta/FactaMainPage";
+import { postWrapper as createGuest } from "async/ap/create-ap-guest"
+import { makePostJSON, PostURLEncoded } from "core/APIWrapperUtil";
+import {FactaErrorDiv} from "theme/facta/FactaErrorDiv";
+import FactaMainPage from "theme/facta/FactaMainPage";
 import * as moment from 'moment';
-import range from "@util/range";
-import {postWrapper as refreshProto} from "@async/check-proto-person-cookie"
+import range from "util/range";
+import {postWrapper as refreshProto} from "async/check-proto-person-cookie"
 
 export enum NONMEM_REG_FLOW {
 	GUEST,
