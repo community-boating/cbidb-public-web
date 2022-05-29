@@ -23,6 +23,7 @@ var apiAxios: AxiosInstance = null;
 
 function getOrCreateAxios(serverParams: ServerParams) {
 	if (apiAxios == null) {
+		console.log('instantiating axios');
 		const portString = (function() {
 			if (
 				(serverParams.https && serverParams.port != 443) || 
