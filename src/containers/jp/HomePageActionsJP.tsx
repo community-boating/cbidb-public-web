@@ -72,6 +72,9 @@ export default (bv: number, juniorId: number, history: History<any>, hasOpenOrde
     }*/ ,{
 		place: 15,
 		element: <a target="_blank" href={`http://www.eventbrite.com/e/159166714929/?discount=CBIjr`}>Buy 4th of July Tickets</a>
+	}, {
+		place: 18,
+		element: <a href="http://www.eventbrite.com/e/358870921587/?discount=CBIJR" target="_blank">Buy your discounted "Summer Kickoff Lawn & Dock Party" here</a>
 	}]
 
     return (function() {

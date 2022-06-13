@@ -220,7 +220,7 @@ export default (
 	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <a href="https://www.eventbrite.com/e/community-boatings-75th-anniversary-sailabration-tickets-164881167009?discount=CBIMEM" target="_blank">Celebrate CBI's 75th Anniversary on August 28th! - Click here to get your discounted member tickets</a>
+			(history: History<any>) => <a href="http://www.eventbrite.com/e/358870921587/?discount=CBIMEMBER" target="_blank">Buy your discounted "Summer Kickoff Lawn & Dock Party" here</a>
 		]
 	}];
 
