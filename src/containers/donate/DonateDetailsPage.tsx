@@ -190,20 +190,20 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				justElement={true}
 				columns={3}
 				values={[{
-					key: "10",
-					display: "$10"
-				}, {
-					key: "20",
-					display: "$20"
-				}, {
 					key: "50",
 					display: "$50"
 				}, {
-					key: "75",
-					display: "$75"
-				}, {
 					key: "100",
 					display: "$100"
+				}, {
+					key: "250",
+					display: "$250"
+				}, {
+					key: "500",
+					display: "$500"
+				}, {
+					key: "1000",
+					display: "$1000"
 				}, {
 					key: "Other",
 					display: "Other"
