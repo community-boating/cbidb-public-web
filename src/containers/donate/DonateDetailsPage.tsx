@@ -25,6 +25,8 @@ import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import FactaButton from 'theme/facta/FactaButton';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
+import { MAGIC_NUMBERS } from 'app/magicNumbers';
+import optionify from 'util/optionify';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -35,6 +37,7 @@ type Props = {
 	donationFunds: DonationFund[],
 	cartItems: CartItem[],
 	orderStatus: t.TypeOf<typeof orderStatusValidator>,
+	fundCode: Option<string>
 }
 
 type Form = {
@@ -66,20 +69,42 @@ enum Recurring {
 	RECURRING="Monthly Recurring",
 }
 
+// TODO: should be data driven
+const fundCodeToId = (code: string) => {
+	switch (code){
+	case "priebatsch":
+		return some(MAGIC_NUMBERS.DONATION_FUND_ID.PRIEBATSCH_ENDOWMENT)
+	default:
+		return none;
+	}
+}
+
 export default class DonateDetailsPage extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props)
+		const self = this;
 		const fundIsUnused = (fund: t.TypeOf<typeof donationFundValidator>) => {
 			return !this.props.cartItems.find(item => item.fundId.getOrElse(null) == fund.fundId)
 		}
 
 		const availableFunds = this.props.donationFunds.filter(fundIsUnused)
 
+		const selectedFund = (function() {
+			if (availableFunds.length == 0) return none;
+			else {
+				const fund = self.props.fundCode
+					.chain(fundCodeToId)
+					.chain(id => optionify(availableFunds.find(f => f.fundId == id)))
+					.getOrElse(availableFunds[0]);
+				return some(String(fund.fundId))
+			}
+		}());
+
 		this.state = {
 			availableFunds,
 			formData: {
 				selectedDonationAmount: none,
-				selectedFund: availableFunds.length > 0 ? some(String(availableFunds[0].fundId)) : none,
+				selectedFund: selectedFund,
 				otherAmount: none,
 				promoCode: none,
 				gcNumber: none,
@@ -353,7 +378,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 		return (
 			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
 				{errorPopup}
-				<FactaArticleRegion title={<span>Support Community Boating by making a donation today!</span>}>
+				<FactaArticleRegion title={<span>Support Community Boating by making a donation today! {this.props.fundCode.getOrElse("none")}</span>}>
 					{/* <DonationThirdPartyWidget /> */}
 					<br />
 					Community Boating, Inc. is a private, 501(c)3 non-profit organization operating affordable and accessible programs
