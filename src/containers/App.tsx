@@ -6,7 +6,7 @@ import {  none } from 'fp-ts/lib/Option';
 import {apiw as isLoggedInAsMember} from 'async/is-logged-in-as-member';
 import FactaBase from 'theme/facta/FactaBase';
 import {  Route, Router, Switch } from 'react-router';
-import { apTVPageRoute } from 'routes/tv/ap-class-instances';
+import { apTVPageRoute } from 'app/routes/tv/ap-class-instances';
 
 interface Props {
 	history: any

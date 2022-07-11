@@ -62,7 +62,7 @@ import { jpPublicClassesRoute } from 'app/routes/jp/all-classes';
 import { apDonateEditRoute } from 'app/routes/ap/donate-edit';
 import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
 import { apRentalRegRoute } from 'app/routes/ap/rental-reg';
-import { apTVPageRoute } from 'routes/tv/ap-class-instances';
+import { apTVPageRoute } from 'app/routes/tv/ap-class-instances';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)

@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {apTVPath} from "@paths/tv/ap-class-instances";
-import PageWrapper from "@core/PageWrapper";
-import { APClassSchedule } from '@containers/tv/ApClassSchedule';
-import RouteWrapper from '@core/RouteWrapper';
-import {apiw} from "@async/ap-class-instances"
+import {apTVPath} from "app/paths/tv/ap-class-instances";
+import PageWrapper from "core/PageWrapper";
+import { APClassSchedule } from 'containers/tv/ApClassSchedule';
+import RouteWrapper from 'core/RouteWrapper';
+import {apiw} from "async/ap-class-instances"
 
 export const apTVPageRoute = new RouteWrapper(true, apTVPath, history => <PageWrapper
 	key="ApClassesTV"
@@ -39,7 +39,7 @@ export const apTVPageRoute = new RouteWrapper(true, apTVPath, history => <PageWr
 	urlProps={{}}
 	shadowComponent={<div></div>}
 	getAsyncProps={(urlProps: {}) => {
-		return apiw("06/15/2019").send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+		return apiw("06/15/2019").send(null).catch((err: any) => Promise.resolve(null));  // TODO: handle failure
 	}}
 />);
 
