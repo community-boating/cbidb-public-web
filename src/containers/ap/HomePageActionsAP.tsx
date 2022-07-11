@@ -1,20 +1,21 @@
 import * as React from 'react'
 import { History } from 'history';
-import {apRegPageRoute} from "@routes/ap/reg"
+import {apRegPageRoute} from "app/routes/ap/reg"
 import { Link } from 'react-router-dom';
-import Currency from '@util/Currency';
+import Currency from 'util/Currency';
 import { Option } from 'fp-ts/lib/Option';
 import { Moment } from 'moment';
 import * as _ from 'lodash';
 
-import { makePostJSON } from '@core/APIWrapperUtil';
-import {postWrapper as abortRegistration} from "@async/member/abort-mem-reg"
-import { apBasePath } from '@paths/ap/_base';
-import { apEditPageRoute } from '@routes/ap/edit';
-import { apClassesPageRoute } from '@routes/ap/classes';
-import { apPathAddons } from '@paths/ap/addons';
-import { apDonateRoute } from '@routes/ap/donate';
-import {apManageStaggeredPaymentsRoute} from "@routes/ap/payments"
+import { makePostJSON } from 'core/APIWrapperUtil';
+import {postWrapper as abortRegistration} from "async/member/abort-mem-reg"
+import { apBasePath } from 'app/paths/ap/_base';
+import { apEditPageRoute } from 'app/routes/ap/edit';
+import { apClassesPageRoute } from 'app/routes/ap/classes';
+import { apPathAddons } from 'app/paths/ap/addons';
+import { apDonateRoute } from 'app/routes/ap/donate';
+import {apManageStaggeredPaymentsRoute} from "app/routes/ap/payments"
+import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -49,27 +50,11 @@ export default (
 	show4th: boolean,
 	hasOpenStaggeredOrder: boolean
 ) => {
-	// const canRenew = testBit(bv, 4) || testBit(bv, 7);
-
 	const renewText = () => (<React.Fragment>
 		Renew for a year
 		<br />
 		({discountAmt.format()} discount until {expirationDate.getOrElse(null).clone().add(7, 'days').format("MM/DD/YYYY")})
 		</React.Fragment>);
-
-	const showSignupLink = (place: number) => {
-	//	const discountFrozen = testBit(bv, 26);
-		const adminHold = testBit(bv, 27);
-		return () => !adminHold && testBit(bv, place);
-	};
-
-	const showAnySignupLink = (
-		showSignupLink(20)() || 
-		showSignupLink(21)() || 
-		showSignupLink(22)() || 
-		showSignupLink(23)() || 
-		showSignupLink(24)()
-	);
 
 	const noGP = getNoGP(bv);
 	const noDW = getNoDW(bv);
@@ -173,7 +158,7 @@ export default (
 		place: 6,
 		getElements: [
 			LINKS.edit,
-			() => (show4th ? <a target="_blank" href={`https://sailabration-${personId}.eventbrite.com/?discount=FYAdult`}>Buy 4th of July Tickets</a> : null)
+			() => (show4th ? <a target="_blank" href={`http://www.eventbrite.com/e/159166714929/?discount=FYADULT`}>Buy 4th of July Tickets</a> : null)
 		]
 	}, {
 		place: 7,
@@ -228,41 +213,16 @@ export default (
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
 		]
 	}, {
+		place: 3,
+		getElements: [
+			(history: History<any>) => <Link to={apFlagNotificationsPageRoute.getPathFromArgs({})}>Edit Flag Notifications</Link>
+		]
+	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <a href="https://cbidockparty.eventbrite.com/?discount=FYAPMEM" target="_blank">CBI's Lawn & Dock Party on July 18th - Click here to get your discounted member tickets</a>
+			(history: History<any>) => <a href="http://www.eventbrite.com/e/358870921587/?discount=CBIMEMBER" target="_blank">Buy your discounted "Summer Kickoff Lawn & Dock Party" here</a>
 		]
 	}];
-
-	// const showReserveFooter = (
-	// 	testBit(bv, 14) || 
-	// 	testBit(bv, 15) || 
-	// 	testBit(bv, 19) || 
-	// 	testBit(bv, 20)
-	// );
-
-	// const footerElements = [{
-	// 	show: testBit(bv, 3) && !testBit(bv, 19),
-	// 	element: "Kayaks/SUPs are available to members and their guests exclusively on a walk-up basis."
-	// }, {
-	// 	show: testBit(bv, 14) || testBit(bv, 19),
-	// 	element: "Reservations are limited. The majority of our fleet will be available for walk-ups."
-	// }, {
-	// 	show: testBit(bv, 14),
-	// 	element: "Windsurfing is available exclusively on a walk-up basis for any member with at least a Windsurf Green rating."
-	// }].filter(e => e.show)
-	// .map(e => <React.Fragment><br /><span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>{e.element}</span></React.Fragment>);
-
-	const footerText = <React.Fragment>
-		We are transitioning to an exclusive walk-up system<br />
-		for all member sailing and paddling opportunities.<br />
-		We will honor any existing reservations.</React.Fragment>;
-
-	const footer = (
-		showAnySignupLink
-		? <React.Fragment><br /><span style={{color: "#555", fontSize: "0.9em", fontStyle:"italic"}}>{footerText}</span></React.Fragment>
-		: null
-	)
 
 	return (<React.Fragment>
 		<ul>
@@ -280,6 +240,5 @@ export default (
 				.map((element, i) => <li key={i}>{element}</li>)
 			}
 		</ul>
-		{footer}
 	</React.Fragment>);
 }

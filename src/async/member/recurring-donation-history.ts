@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
-import { HttpMethod } from "@core/HttpMethod";
-import { OptionalString } from '@util/OptionalTypeValidators';
-import APIWrapper from '@core/APIWrapper';
+import { HttpMethod } from "core/HttpMethod";
+import { OptionalString } from 'util/OptionalTypeValidators';
+import APIWrapper from 'core/APIWrapper';
 
 const path = "/member/recurring-donation-history";
 

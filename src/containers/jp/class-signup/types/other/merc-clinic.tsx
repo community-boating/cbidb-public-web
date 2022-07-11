@@ -4,7 +4,7 @@ import { ClassType } from "../../class-description";
 const data: ClassType = {
 	typeId: 1266,
 	typeName: "Mercury Clinic",
-	prereq: "Taken Intermediate Sailing",
+	prereq: "Taken Intermediate I",
 	sessionCt: 1,
 	sessionLength: 2.5,
 	classSize: 16,

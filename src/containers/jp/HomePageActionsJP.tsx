@@ -1,19 +1,19 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom';
 
-import { postWrapper as abortRegistration } from "@async/junior/abort-mem-reg"
-import { makePostJSON } from '@core/APIWrapperUtil';
+import { postWrapper as abortRegistration } from "async/junior/abort-mem-reg"
+import { makePostJSON } from 'core/APIWrapperUtil';
 import { History } from 'history';
-import {ratingsPageRoute} from '@routes/jp/ratings'
-// import {classPageRoute} from '@routes/jp/class'
-import {regPageRoute} from '@routes/jp/reg'
-import {editPageRoute} from "@routes/jp/edit"
-import {postWrapper as offseasonWLDelete} from "@async/junior/offseason-wl-delete"
-import {offseasonPageRoute} from "@routes/jp/offseason"
-import { jpBasePath } from '@paths/jp/_base';
-import { classPageRoute } from '@routes/jp/class';
-import { jpManageStaggeredPaymentsRoute } from '@routes/jp/payments';
-import asc from '@app/AppStateContainer';
+import {ratingsPageRoute} from 'app/routes/jp/ratings'
+// import {classPageRoute} from 'app/routes/jp/class'
+import {regPageRoute} from 'app/routes/jp/reg'
+import {editPageRoute} from "app/routes/jp/edit"
+import {postWrapper as offseasonWLDelete} from "async/junior/offseason-wl-delete"
+import {offseasonPageRoute} from "app/routes/jp/offseason"
+import { jpBasePath } from 'app/paths/jp/_base';
+import { classPageRoute } from 'app/routes/jp/class';
+import { jpManageStaggeredPaymentsRoute } from 'app/routes/jp/payments';
+import asc from 'app/AppStateContainer';
 
 function testBit(num: number, bit: number){
     return ((num>>bit) % 2 != 0)
@@ -69,10 +69,13 @@ export default (bv: number, juniorId: number, history: History<any>, hasOpenOrde
     }/*, {
         place: 14,
         element: <PlaceholderLink>{"Rejoin Waitlist"}</PlaceholderLink>
-    }*/ /*,{
+    }*/ ,{
 		place: 15,
-		element: <a href="https://cbidockparty.eventbrite.com/?discount=JPPARENT" target="_blank">CBI's Lawn & Dock Party on July 18th - Click here to get your discounted member tickets</a>
-	}*/]
+		element: <a target="_blank" href={`http://www.eventbrite.com/e/159166714929/?discount=CBIjr`}>Buy 4th of July Tickets</a>
+	}, {
+		place: 18,
+		element: <a href="http://www.eventbrite.com/e/358870921587/?discount=CBIJR" target="_blank">Buy your discounted "Summer Kickoff Lawn & Dock Party" here</a>
+	}]
 
     return (function() {
         if (!asc.state.jpRegistrationClosed && testBit(bv, 0)) {

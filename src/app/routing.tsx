@@ -19,7 +19,7 @@ import { jpForgotPasswordSentPageRoute } from './routes/jp/forgot-pw-sent';
 import { jpResetPasswordPageRoute } from './routes/jp/reset-pw';
 import { jpHomePageRoute } from './routes/jp/_base';
 import { apHomePageRoute } from './routes/ap/_base';
-import PathWrapper from '@core/PathWrapper';
+import PathWrapper from 'core/PathWrapper';
 import { offseasonPageRoute } from './routes/jp/offseason'
 import { apRegPageRoute } from './routes/ap/reg';
 import { apEditPageRoute } from './routes/ap/edit';
@@ -30,7 +30,7 @@ import { apCreateAcctRoute } from './routes/ap/create-acct';
 import { apForgotPasswordPageRoute } from './routes/ap/forgot-pw';
 import { apForgotPasswordSentPageRoute } from './routes/ap/forgot-pw-sent';
 import { apResetPasswordPageRoute } from './routes/ap/reset-pw';
-import { assertUniqueKeys } from '@util/assertUniqueKeys';
+import { assertUniqueKeys } from 'util/assertUniqueKeys';
 import { jpRegClosedPageRoute } from './routes/jp/closed';
 import { apStartClaimAcctPageRoute } from './routes/ap/start-claim-acct';
 import { apClaimAcctSentPageRoute } from './routes/ap/claim-acct-sent';
@@ -46,21 +46,23 @@ import { apBasePath } from './paths/ap/_base';
 import { apPathLogin } from './paths/ap/login';
 import { jpPathLogin } from './paths/jp/login';
 import { jpBasePath } from './paths/jp/_base';
-import LoginRoute from "@routes/common/login";
-import { PageFlavor } from '@components/Page';
+import LoginRoute from "app/routes/common/login";
+import { PageFlavor } from 'components/Page';
 import { apAddonsPageRoute } from './routes/ap/addons';
 import { apDonateRoute } from './routes/ap/donate';
 import { apClosedPageRoute } from './routes/ap/closed';
-import { donatePageRoute } from "@routes/donate"
+import { donatePageRoute } from "app/routes/donate"
 import { apManageStaggeredPaymentsRoute } from './routes/ap/payments';
 import { jpManageStaggeredPaymentsRoute } from './routes/jp/payments';
-import { giftCertificatesPageRoute } from "@routes/gift-certificates"
-import {standaloneLoginRoute} from "@routes/common/standalone-signin"
-import { jpSettingsPageRoute } from '@routes/jp/settings';
-import LandingPage from '@containers/LandingPage';
-import { jpPublicClassesRoute } from '@routes/jp/all-classes';
-import { apDonateEditRoute } from '@routes/ap/donate-edit';
-import { apTVPageRoute } from '@routes/tv/ap-class-instances';
+import { giftCertificatesPageRoute } from "app/routes/gift-certificates"
+import {standaloneLoginRoute} from "app/routes/common/standalone-signin"
+import { jpSettingsPageRoute } from 'app/routes/jp/settings';
+import LandingPage from 'containers/LandingPage';
+import { jpPublicClassesRoute } from 'app/routes/jp/all-classes';
+import { apDonateEditRoute } from 'app/routes/ap/donate-edit';
+import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
+import { apRentalRegRoute } from 'app/routes/ap/rental-reg';
+import { apTVPageRoute } from 'routes/tv/ap-class-instances';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)
@@ -98,8 +100,8 @@ export default function (history: History<any>) {
 		<Route key="noProgram" path="/" exact render={() => <LandingPage history={history} />} />,
 		maintenancePageRoute.asRoute(history),
 		fundInfoRoute.asRoute(history),
-		asc.state.jpRegistrationClosed ? null : reservePageRoute.asRoute(history),
-		asc.state.jpRegistrationClosed ? null : reserveNotesPageRoute.asRoute(history),
+		asc.state.jpRegistrationClosed || !asc.state.jpReservationAllowed ? null : reservePageRoute.asRoute(history),
+		asc.state.jpRegistrationClosed || !asc.state.jpReservationAllowed ? null : reserveNotesPageRoute.asRoute(history),
 		asc.state.jpRegistrationClosed ? null : createAcctPageRoute.asRoute(history),
 		asc.state.jpRegistrationClosed ? jpRegClosedPageRoute.asRoute(history) : null,
 		jpForgotPasswordPageRoute.asRoute(history),
@@ -110,6 +112,7 @@ export default function (history: History<any>) {
 		apResetPasswordPageRoute.asRoute(history),
 		apPreRegRoute.asRoute(history),
 		apGuestRegRoute.asRoute(history),
+		apRentalRegRoute.asRoute(history),
 		apCreateAcctRoute.asRoute(history),
 		apClosedPageRoute.asRoute(history),
 		apStartClaimAcctPageRoute.asRoute(history),
@@ -146,6 +149,7 @@ export default function (history: History<any>) {
 		apRegPageRoute.asRoute(history),
 		apEditPageRoute.asRoute(history),
 		apSettingsPageRoute.asRoute(history),
+		apFlagNotificationsPageRoute.asRoute(history),
 		jpSettingsPageRoute.asRoute(history),
 		jpManageStaggeredPaymentsRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),

@@ -1,5 +1,5 @@
 import * as React from "react";
-import Button, { PropsForUser as ButtonProps } from "@components/Button";
+import Button, { PropsForUser as ButtonProps } from "components/Button";
 
 const JoomlaButton: React.FunctionComponent<ButtonProps> = 
 	(props) => <Button

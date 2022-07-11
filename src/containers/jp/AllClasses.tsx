@@ -3,16 +3,16 @@ import * as React from "react";
 import * as moment from 'moment'
 import { History } from 'history';
 
-import {validatorSingleRow} from "@async/class-instances-with-avail"
-import JpClassesAvailTable from "@components/JpClassesAvailTable";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import { weekValidator } from '@async/weeks';
-import { Select } from '@components/Select';
+import {validatorSingleRow} from "async/class-instances-with-avail"
+import JpClassesAvailTable from "components/JpClassesAvailTable";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import { weekValidator } from 'async/weeks';
+import { Select } from 'components/Select';
 import { Option, none } from 'fp-ts/lib/Option';
-import formUpdateState from '@util/form-update-state';
-import { setJPImage } from '@util/set-bg-image';
-import { InstanceInfo } from '@async/junior/get-class-instances';
-import FactaMainPage from '@facta/FactaMainPage';
+import formUpdateState from 'util/form-update-state';
+import { setJPImage } from 'util/set-bg-image';
+import { InstanceInfo } from 'async/junior/get-class-instances';
+import FactaMainPage from 'theme/facta/FactaMainPage';
 
 type Instance = t.TypeOf<typeof validatorSingleRow>
 type Week = t.TypeOf<typeof weekValidator>;

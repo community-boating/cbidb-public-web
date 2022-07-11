@@ -3,26 +3,26 @@ import { History } from 'history';
 import * as t from 'io-ts';
 import * as React from "react";
 
-import { postWrapper, validator } from "@async/junior/required";
-import FactaButton from "@facta/FactaButton";
-import DateTriPicker, { componentsToDate, dateStringToComponents, DateTriPickerProps } from "@components/DateTriPicker";
-import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "@components/PhoneTriBox";
-import { Select } from "@components/Select";
-import TextArea from "@components/TextArea";
-import TextInput from "@components/TextInput";
-import { makePostJSON } from '@core/APIWrapperUtil';
-import countries from "@lov/countries";
-import states from "@lov/states";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
-import formUpdateState from '@util/form-update-state';
-import range from "@util/range";
+import { postWrapper, validator } from "async/junior/required";
+import FactaButton from "theme/facta/FactaButton";
+import DateTriPicker, { componentsToDate, dateStringToComponents, DateTriPickerProps } from "components/DateTriPicker";
+import PhoneTriBox, { combinePhone, PhoneTriBoxProps, splitPhone } from "components/PhoneTriBox";
+import { Select } from "components/Select";
+import TextArea from "components/TextArea";
+import TextInput from "components/TextInput";
+import { makePostJSON } from 'core/APIWrapperUtil';
+import countries from "lov/countries";
+import states from "lov/states";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
+import formUpdateState from 'util/form-update-state';
+import range from "util/range";
 import * as moment from 'moment';
-import {FactaErrorDiv} from '@facta/FactaErrorDiv';
-import asc from '@app/AppStateContainer';
-import NavBarLogoutOnly from '@components/NavBarLogoutOnly';
-import { setJPImage } from '@util/set-bg-image';
-import FactaMainPage from '@facta/FactaMainPage';
+import {FactaErrorDiv} from 'theme/facta/FactaErrorDiv';
+import asc from 'app/AppStateContainer';
+import NavBarLogoutOnly from 'components/NavBarLogoutOnly';
+import { setJPImage } from 'util/set-bg-image';
+import FactaMainPage from 'theme/facta/FactaMainPage';
 
 type ApiType = t.TypeOf<typeof validator>
 

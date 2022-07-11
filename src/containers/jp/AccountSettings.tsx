@@ -1,14 +1,14 @@
 import { History } from 'history';
 import * as React from "react";
 
-import FactaButton from "@facta/FactaButton";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import TextInput from '@components/TextInput';
+import FactaButton from "theme/facta/FactaButton";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import TextInput from 'components/TextInput';
 import { Option, none } from 'fp-ts/lib/Option';
-import formUpdateState from '@util/form-update-state';
-import { setJPImage } from '@util/set-bg-image';
-import { jpBasePath } from '@paths/jp/_base';
-import FactaMainPage from '@facta/FactaMainPage';
+import formUpdateState from 'util/form-update-state';
+import { setJPImage } from 'util/set-bg-image';
+import { jpBasePath } from 'app/paths/jp/_base';
+import FactaMainPage from 'theme/facta/FactaMainPage';
 
 export interface Props {
 	history: History<any>

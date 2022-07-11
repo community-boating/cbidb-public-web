@@ -3,18 +3,18 @@ import { History } from "history";
 import * as React from "react";
 import * as t from 'io-ts';
 
-import FactaButton from "@facta/FactaButton";
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
-import NavBarLogoutOnly from "@components/NavBarLogoutOnly";
-import { setAPImage } from "@util/set-bg-image";
-import {discountsValidator} from "@async/member-welcome-ap"
-import Currency from "@util/Currency";
-import assertNever from "@util/assertNever";
-import {postWrapper as submit} from "@async/member/select-for-purchase"
-import { makePostJSON } from "@core/APIWrapperUtil";
-import { MAGIC_NUMBERS } from "@app/magicNumbers";
-import {validator as pricesValidator} from "@async/prices"
-import FactaMainPage from "@facta/FactaMainPage";
+import FactaButton from "theme/facta/FactaButton";
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
+import NavBarLogoutOnly from "components/NavBarLogoutOnly";
+import { setAPImage } from "util/set-bg-image";
+import {discountsValidator} from "async/member-welcome-ap"
+import Currency from "util/Currency";
+import assertNever from "util/assertNever";
+import {postWrapper as submit} from "async/member/select-for-purchase"
+import { makePostJSON } from "core/APIWrapperUtil";
+import { MAGIC_NUMBERS } from "app/magicNumbers";
+import {validator as pricesValidator} from "async/prices"
+import FactaMainPage from "theme/facta/FactaMainPage";
 
 type DiscountsProps = t.TypeOf<typeof discountsValidator>;
 
@@ -93,13 +93,13 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 			id: MAGIC_NUMBERS.DISCOUNT_ID.VETERAN_DISCOUNT_ID,
 			display: "Veteran/First Responder",
 			eligible: this.props.discountsProps.eligibleForVeteranOnline,
-			available: true,
+			available: false,
 			discountAmt: this.props.discountsProps.veteranDiscountAmt
 		}, {
 			id: MAGIC_NUMBERS.DISCOUNT_ID.MGH_DISCOUNT_ID,
-			display: "Healthcare Professionals",
+			display: "MGH/Partners",
 			eligible: this.props.discountsProps.eligibleForMGH,
-			available: true,
+			available: false,
 			discountAmt: this.props.discountsProps.mghDiscountAmt
 		}, {
 			id: MAGIC_NUMBERS.DISCOUNT_ID.MA_TEACHERS_ASSN,

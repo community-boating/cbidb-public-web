@@ -1,8 +1,8 @@
 import { none, Option, some } from 'fp-ts/lib/Option';
 import * as Sentry from '@sentry/browser';
 
-import { makePostString } from '@core/APIWrapperUtil';
-import { PostString } from '@core/APIWrapperTypes';
+import { makePostString } from 'core/APIWrapperUtil';
+import { PostString } from 'core/APIWrapperTypes';
 
 // TODO: some sort of state module class that creates reducers with current state and this.setState injected into them somehow
 
@@ -37,7 +37,8 @@ type State = {
 		authenticatedUserName: Option<string>
 	},
 	justLoggedIn: boolean,
-	jpRegistrationClosed: boolean
+	jpRegistrationClosed: boolean,
+	jpReservationAllowed: boolean
 }
 
 // TODO: should this not expose anything publically except the "reducer" functions to update state?  Seems like <App /> should be the only thing that can read state
@@ -101,7 +102,8 @@ export class AppStateContainer {
 				authenticatedUserName: none
 			},
 			justLoggedIn: false,
-			jpRegistrationClosed: false
+			jpRegistrationClosed: false,
+			jpReservationAllowed: false,
 		};
 	}
 }

@@ -1,8 +1,8 @@
 import * as t from 'io-ts';
-import { HttpMethod } from "@core/HttpMethod";
-import { makeOptional } from '@util/OptionalTypeValidators';
-import APIWrapper from '@core/APIWrapper';
-import { cardDataValidator } from '@async/order-status';
+import { HttpMethod } from "core/HttpMethod";
+import { makeOptional } from 'util/OptionalTypeValidators';
+import APIWrapper from 'core/APIWrapper';
+import { cardDataValidator } from 'async/order-status';
 
 const path = "/member/get-recurring-donations";
 

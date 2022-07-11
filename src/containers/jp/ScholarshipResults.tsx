@@ -1,10 +1,10 @@
 import * as React from "react";
-import FactaArticleRegion from "@facta/FactaArticleRegion"; 
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
-import Currency from "@util/Currency";
-import FactaButton from "@facta/FactaButton";
-import { setJPImage } from "@util/set-bg-image";
-import FactaMainPage from "@facta/FactaMainPage";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion"; 
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
+import Currency from "util/Currency";
+import FactaButton from "theme/facta/FactaButton";
+import { setJPImage } from "util/set-bg-image";
+import FactaMainPage from "theme/facta/FactaMainPage";
 
 interface Props {
 	jpPrice: Currency,
@@ -25,13 +25,13 @@ export default class ScholarshipResultsPage extends React.Component<Props> {
 				.  This price will automatically apply to all junior memberships you purchase this season.
 				<br />
 				<br />
-				Community Boating Inc.'s sliding scale for membership is based on the <a href="https://livingwage.mit.edu/resources/Living-Wage-User-Guide-and-Technical-Notes-2018.pdf" target="_blank">
+				Community Boating Inc.'s sliding scale for membership is based on the <a href="https://livingwage.mit.edu/resources/Living-Wage-Users-Guide-Technical-Documentation-2021-12-28.pdf" target="_blank">
 					MIT Living Wage Calculator
 				</a>
 				<br />
 				<br />
-				If you have a unique circumstance regarding membership fees, please contact Fiona O'Connor, Junior Program Director,
-				at <a href="mailto:fiona@community-boating.org">fiona@community-boating.org</a>.
+				If you have a unique circumstance regarding membership fees, please contact the Junior Program Director
+				at <a href="mailto:juniorprogramdirector@community-boating.org">juniorprogramdirector@community-boating.org</a>.
 			</FactaArticleRegion>
 			<FactaButton text="Next >" onClick={this.props.goNext}/>
 		</FactaMainPage>

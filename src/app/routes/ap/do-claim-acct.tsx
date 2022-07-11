@@ -1,8 +1,8 @@
 import * as React from 'react';
-import RouteWrapper from "@core/RouteWrapper";
-import PageWrapper from '@core/PageWrapper';
-import DoClaimAcct from '@containers/ap/DoClaimAcct';
-import { apPathDoClaimAcct } from '@paths/ap/do-claim-acct';
+import RouteWrapper from "core/RouteWrapper";
+import PageWrapper from 'core/PageWrapper';
+import DoClaimAcct from 'containers/ap/DoClaimAcct';
+import { apPathDoClaimAcct } from 'app/paths/ap/do-claim-acct';
 
 export const apDoClaimAcctPageRoute = new RouteWrapper(true, apPathDoClaimAcct, history => <PageWrapper
 	key="DoClaimAcct"

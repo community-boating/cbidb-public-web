@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
-import APIWrapper from '@core/APIWrapper';
-import { HttpMethod } from "@core/HttpMethod";
-import { OptionalString } from '@util/OptionalTypeValidators';
+import APIWrapper from 'core/APIWrapper';
+import { HttpMethod } from "core/HttpMethod";
+import { OptionalString } from 'util/OptionalTypeValidators';
 
 const sessionValidator = t.type({
 	sessionId: t.number,

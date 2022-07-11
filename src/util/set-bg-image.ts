@@ -1,5 +1,5 @@
-// import { apBasePath } from "@paths/ap/_base";
-// import { jpBasePath } from "@paths/jp/_base";
+// import { apBasePath } from "app/paths/ap/_base";
+// import { jpBasePath } from "app/paths/jp/_base";
 
 export function setCheckoutImageForDonations() {
 	return setCheckoutImage("CBI Donation Portal");

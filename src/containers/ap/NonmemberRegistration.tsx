@@ -1,26 +1,32 @@
 import * as React from "react";
-import { setAPImage } from "../../util/set-bg-image";
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import FactaNotitleRegion from "@facta/FactaNotitleRegion";
+import { setAPImage } from "util/set-bg-image";
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import FactaNotitleRegion from "theme/facta/FactaNotitleRegion";
 import { History } from 'history'
-import DateTriPicker, {  DateTriPickerProps } from "@components/DateTriPicker";
-import PhoneTriBox, { PhoneTriBoxProps } from "@components/PhoneTriBox";
-import { SingleCheckbox } from "@components/InputGroup";
-import formUpdateState from '../../util/form-update-state';
-import TextInput from '../../components/TextInput';
-import Validation from '../../util/Validation';
-import FactaButton from '../../theme/facta/FactaButton';
+import DateTriPicker, {  DateTriPickerProps } from "components/DateTriPicker";
+import PhoneTriBox, { PhoneTriBoxProps } from "components/PhoneTriBox";
+import { SingleCheckbox } from "components/InputGroup";
+import formUpdateState from 'util/form-update-state';
+import TextInput from 'components/TextInput';
+import Validation from 'util/Validation';
+import FactaButton from 'theme/facta/FactaButton';
 import { Option, none, some } from 'fp-ts/lib/Option';
-import { postWrapper as createGuest } from "@async/ap/create-ap-guest"
-import { makePostJSON, PostURLEncoded } from "@core/APIWrapperUtil";
-import {FactaErrorDiv} from "@facta/FactaErrorDiv";
-import FactaMainPage from "../../theme/facta/FactaMainPage";
+import { postWrapper as createGuest } from "async/ap/create-ap-guest"
+import { makePostJSON, PostURLEncoded } from "core/APIWrapperUtil";
+import {FactaErrorDiv} from "theme/facta/FactaErrorDiv";
+import FactaMainPage from "theme/facta/FactaMainPage";
 import * as moment from 'moment';
-import range from "@util/range";
-import {postWrapper as refreshProto} from "@async/check-proto-person-cookie"
+import range from "util/range";
+import {postWrapper as refreshProto} from "async/check-proto-person-cookie"
+
+export enum NONMEM_REG_FLOW {
+	GUEST,
+	RENTAL
+}
 
 type Props = {
-	history: History<any>
+	history: History<any>,
+	rentalMode: NONMEM_REG_FLOW,
 }
 
 type NewGuestInformation = {
@@ -130,19 +136,22 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 	handlePrint = () => {
 		//TODO maybe redo this in react style, if jon wants.
 		var a = window.open('', '', 'height=500px, width=600px');
-		a.document.write('<html>');
-		a.document.write('<head>');
-		a.document.write('<title>');
-		a.document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
-		a.document.write(' Guest Ticket</title>');
-		a.document.write('<body>');
-		a.document.write(this.state.createResults.map(r => r.ticketHTML.replace("$API_URL$", "")).getOrElse(""));
-		a.document.write('</body></html>');
-		//a.document.body.append(this.printableDivRef.current);
-		a.document.close();
+		this.writeToDocument(a.document);
 		a.onload = () => {
 			a.print();
 		};
+	}
+
+	writeToDocument(document: Document) {
+		document.write('<html>');
+		document.write('<head>');
+		document.write('<title>');
+		document.write(this.state.formData.firstName.getOrElse("FIRST").concat(' ').concat(this.state.formData.lastName.getOrElse("LAST")));
+		document.write(' Guest Ticket</title>');
+		document.write('<body>');
+		document.write(this.state.createResults.map(r => r.ticketHTML.replace("$API_URL$", "")).getOrElse(""));
+		document.write('</body></html>');
+		document.close();
 	}
 
 	progressFunction = () => {
@@ -206,6 +215,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						previousMember: false,
 						phonePrimaryType: this.state.formData.guestPhoneType.getOrElse(""),
 						emerg1PhonePrimaryType: this.state.formData.ecPhoneType.getOrElse(""),
+						forRental: this.props.rentalMode == NONMEM_REG_FLOW.RENTAL,
 					})).then(res => {
 						if(res.type === "Success"){
 							self.setState({
@@ -236,6 +246,12 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 		}
 		return Promise.resolve("Success");
 	}
+
+	noun = (
+		this.props.rentalMode == NONMEM_REG_FLOW.RENTAL
+		? "Renter"
+		: "Guest"
+	)
 	
 	render() {
 		const thisYear = Number(moment().format("YYYY"))
@@ -253,13 +269,12 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 
 		const guestContent = (
 		<div id="guestinfo">
-			Guests must self register. Members please direct your guests to this page to register themselves.
-			Under 18 guests must be registered by their parent or guardian.
+			{this.noun}s must self register. {this.props.rentalMode != NONMEM_REG_FLOW.RENTAL ? "Members/Renters please direct your guests to this page to register themselves.  " : ""}Under 18 {this.noun}s must be registered by their parent or guardian.
 			<br />
 			At the end of registration you will be able to print or save your ticket, you'll also receive an email ticket.
 			<br />
 				<table id="info" style={{ width: "100%"}}><tbody>
-					<tr><th style={{ width: "250px" }}>Guest Information</th><th style={{ width: "350px" }} /></tr>
+					<tr><th style={{ width: "250px" }}>{`${this.noun} Information`}</th><th style={{ width: "350px" }} /></tr>
 					<FormInput
 						id="firstName"
 						label="First Name"
@@ -365,7 +380,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			</td></tr>
 			</tbody></table>
 		</div>);
-		const finishScreenContent = (
+		const finishScreenContentGuest = (
 			<div>
 				<h1>Success!</h1>
 				<h3>You are now registered as a guest!</h3> 
@@ -373,7 +388,24 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				<p>Please bring your card along in print or on a mobile device when you visit the boathouse.</p>
 				<p>You will have the option to print your card at the boathouse if you don't have a printer or mobile device available.</p>
 				<a href="#" onClick={self.handlePrint}>Guest Card</a>
-			</div>);
+			</div>
+		);
+
+		const finishScreenContentRenter = (
+			<div>
+				<h1>Success!</h1>
+				<h3>Your registration has been accepted!</h3> 
+				<p>Please return this ticket to the front office and tell them you have completed registration online and would like to pay.</p>
+				{/* <p>{this.state.createResults.map(r => r.ticketHTML.replace("$API_URL$", "")).getOrElse("")}</p> */}
+				<iframe id="renterTicket" style={{height: "480px", width: "320px"}}></iframe>
+			</div>
+		);
+
+		const finishScreenContent = (
+			this.props.rentalMode == NONMEM_REG_FLOW.RENTAL
+			? finishScreenContentRenter
+			: finishScreenContentGuest
+		);
 		const agreeCheckbox = (<FactaNotitleRegion>
 			<SingleCheckbox
 				id="accept"
@@ -389,34 +421,57 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				justElement={true}
 			/>
 		</FactaNotitleRegion>);
-		const adultWaiverContent = (<div id="adultwaiver">
-			<table width="100%"><tbody>
-				<tr>
-					<td>
-						<iframe title="Waiver of Liability" src="/waivers/live/ApGuestWaiver.html" width="100%" height="400px"></iframe>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						{agreeCheckbox}
-						{progressButton}
-					</td>
-				</tr>
-			</tbody></table>
-		</div>);
-		const under18WaiverContent = (
-		<div id="under18waiver">
-			<table width="100%"><tbody>
-					<tr>
-						<td>
-							<iframe title="Waiver of Liability" src="/waivers/live/Under18GuestWaiver.html" width="100%" height="400px"></iframe>
-						</td>
-					</tr>
-				<tr>
-					<td>{ agreeCheckbox } { progressButton }</td>
-				</tr>
-			</tbody></table>
-		</div>);
+
+		const waiverContent = (function() {
+			let now = moment();
+			let dob = getDOBMoment(self.state);
+			const under18 = dob.isAfter(now.subtract(18, "years"));
+			if (under18) {
+				return <div id="under18waiver">
+					<table width="100%"><tbody>
+						<tr>
+							<td>
+								<iframe title="Waiver of Liability" src="/waivers/live/Under18GuestWaiver.html" width="100%" height="470px"></iframe>
+							</td>
+						</tr>
+						{
+							self.props.rentalMode == NONMEM_REG_FLOW.RENTAL
+							? <tr><td style={{paddingLeft: "5px"}}>
+								I certify that I am fully qualified to operate a kayak or stand up paddleboard in a safe manner and agree to follow all CBI rules.
+							</td></tr>
+							: null
+						}
+						<tr>
+							<td>{ agreeCheckbox } { progressButton }</td>
+						</tr>
+					</tbody></table>
+					
+				</div>
+			} else {
+				return (<div id="adultwaiver">
+					<table width="100%"><tbody>
+						<tr>
+							<td>
+								<iframe title="Waiver of Liability" src="/waivers/live/ApGuestWaiver.html" width="100%" height="430px"></iframe>
+							</td>
+						</tr>
+						{
+							self.props.rentalMode == NONMEM_REG_FLOW.RENTAL
+							? <tr><td style={{paddingLeft: "5px"}}>
+								I certify that I am fully qualified to operate a kayak or stand up paddleboard in a safe manner and agree to follow all CBI rules.
+							</td></tr>
+							: null
+						}
+						<tr>
+							<td>
+								{agreeCheckbox}
+								{progressButton}
+							</td>
+						</tr>
+					</tbody></table>
+				</div>);
+			}
+		}());
 
 		var articleContent = guestContent;
 
@@ -428,21 +483,21 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				articleContent = ecContent;
 				break;
 			case PageState.WAIVER:
-				articleContent = adultWaiverContent;
-				let now = moment();
-				let dob = getDOBMoment(this.state);
-				if(dob.isAfter(now.subtract(18, "years")))
-					articleContent = under18WaiverContent;
+				articleContent = waiverContent;
 				break;
 			case PageState.FINISH:
 				articleContent = finishScreenContent;
+				// let the page render, then fill the iframe
+				setTimeout(() => {
+					const node: HTMLIFrameElement = document.getElementById("renterTicket") as HTMLIFrameElement;
+					if (node) this.writeToDocument(node.contentDocument)
+				}, 0)
 				break;
 		}
 
-
 		return <FactaMainPage setBGImage={setAPImage}>
 			{errorPopup}
-			<FactaArticleRegion title="Guest Registration">
+			<FactaArticleRegion title={`${this.noun} Information`}>
 				{ articleContent }
 			</FactaArticleRegion>
 		</FactaMainPage>

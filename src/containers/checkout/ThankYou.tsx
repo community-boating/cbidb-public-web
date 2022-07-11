@@ -1,10 +1,10 @@
 import * as React from "react";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import { setCheckoutImage } from "@util/set-bg-image";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import { setCheckoutImage } from "util/set-bg-image";
 import { Link } from "react-router-dom";
-import { jpBasePath } from "@paths/jp/_base";
-import { apBasePath } from "@paths/ap/_base";
-import FactaMainPage from "@facta/FactaMainPage";
+import { jpBasePath } from "app/paths/jp/_base";
+import { apBasePath } from "app/paths/ap/_base";
+import FactaMainPage from "theme/facta/FactaMainPage";
 
 export interface Props {
 	hasJPMemberships: boolean,

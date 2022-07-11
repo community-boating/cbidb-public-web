@@ -1,19 +1,19 @@
 import * as React from "react";
-import FactaButton from '@facta/FactaButton';
-import FactaArticleRegion from '@facta/FactaArticleRegion';
-import { setAPImage, setJPImage } from '@util/set-bg-image';
+import FactaButton from 'theme/facta/FactaButton';
+import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
+import { setAPImage, setJPImage } from 'util/set-bg-image';
 import {History} from "history"
 import { Option, none } from "fp-ts/lib/Option";
-import asc from "@app/AppStateContainer";
-import TextInput from "@components/TextInput";
-import formUpdateState from "@util/form-update-state";
-import { apBasePath } from "@paths/ap/_base";
-import {FactaErrorDiv} from "@facta/FactaErrorDiv";
-import {apiw as submit} from "@async/update-acct"
-import { PostURLEncoded } from "@core/APIWrapperUtil";
-import FactaMainPage from "@facta/FactaMainPage";
-import { PageFlavor } from "@components/Page";
-import { jpBasePath } from "@paths/jp/_base";
+import asc from "app/AppStateContainer";
+import TextInput from "components/TextInput";
+import formUpdateState from "util/form-update-state";
+import { apBasePath } from "app/paths/ap/_base";
+import {FactaErrorDiv} from "theme/facta/FactaErrorDiv";
+import {apiw as submit} from "async/update-acct"
+import { PostURLEncoded } from "core/APIWrapperUtil";
+import FactaMainPage from "theme/facta/FactaMainPage";
+import { PageFlavor } from "components/Page";
+import { jpBasePath } from "app/paths/jp/_base";
 
 type Form = {
 	email: Option<string>,

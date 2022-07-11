@@ -6,6 +6,8 @@ on:
       - release/*
       - dev/*
       - cluster/*
+    tags:
+      - '*'
   pull_request:
     branches: 
       - master
@@ -15,14 +17,16 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16'
       - name: config
         run: cp ini/config.ini.ci ini/config.ini
+      - name: inject commit sha
+        run: sed -i 's/\$\$GITHUB_SHA\$\$/'"${GITHUB_SHA}"'/' public/index.html
       - name: install
         run: npm install
       - name: build
@@ -36,9 +40,38 @@ jobs:
           name: build.tar.gz
           path: build.tar.gz
   image:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: build
+    if: github.event_name != 'pull_request'
     steps:
+      - name: set docker env (branch non PR)
+        if: github.ref_type == 'branch' && github.event_name != 'pull_request'
+        shell: bash
+        run: |
+          echo "REF_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / _)" >> $GITHUB_ENV
+          echo "NEXUS_URL=docker-snapshots.community-boating.org" >> $GITHUB_ENV
+          echo "ECR_REPO=cbidb-public-web-snapshot" >> $GITHUB_ENV
+      - name: set docker env (branch PR)
+        if: github.ref_type == 'branch' && github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          echo "REF_NAME=$(echo ${GITHUB_HEAD_REF} | tr / _)" >> $GITHUB_ENV
+          echo "NEXUS_URL=docker-snapshots.community-boating.org" >> $GITHUB_ENV
+          echo "ECR_REPO=cbidb-public-web-snapshot" >> $GITHUB_ENV
+      - name: set docker env (tag)
+        if: github.ref_type == 'tag'
+        shell: bash
+        run: |
+          echo "REF_NAME=$(echo ${GITHUB_REF#refs/tags/} | tr / _ | sed 's/^v//g')" >> $GITHUB_ENV
+          echo "NEXUS_URL=docker-releases.community-boating.org" >> $GITHUB_ENV
+          echo "ECR_REPO=cbidb-public-web-release" >> $GITHUB_ENV
+
+      - name: echo vars
+        run: |
+          echo ${{ env.REF_NAME }}
+          echo ${{ env.NEXUS_URL }}
+          echo ${{ env.ECR_REPO }}
+
       - uses: actions/checkout@v2
       - name: Fetch artifact
         uses: actions/download-artifact@v2
@@ -46,15 +79,33 @@ jobs:
           name: build.tar.gz
       - name: unpack
         run: tar -zxvf build.tar.gz && ls -l
-      - name: Install doctl 
-        uses: digitalocean/action-doctl@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          token: ${{ secrets.DO_ACCESS_TOKEN }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_TOKEN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
       - name: build image
-        run: docker build -t registry.digitalocean.com/community-boating-docker/cbidb-public-web:latest .
-      - name: Log in to DO Container Registry 
-        run: doctl registry login --expiry-seconds 600
+        run: docker build -t ${{ env.NEXUS_URL }}/cbidb-public-web:${{ env.REF_NAME }} .
+
+      - name: Log in to nexus Registry
+        run: docker login -u ci -p ${{ secrets.NEXUS_PASSWORD }} ${{ env.NEXUS_URL }}
+
       - name: push image
-        run: docker push registry.digitalocean.com/community-boating-docker/cbidb-public-web:latest
+        run: docker push ${{ env.NEXUS_URL }}/cbidb-public-web:${{ env.REF_NAME }}
+
+      - name: tag & push aws
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker tag ${{ env.NEXUS_URL }}/cbidb-public-web:${{ env.REF_NAME }} $ECR_REGISTRY/${{ env.ECR_REPO }}:${{ env.REF_NAME }}
+          docker push $ECR_REGISTRY/${{ env.ECR_REPO }}:${{ env.REF_NAME }}
+
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

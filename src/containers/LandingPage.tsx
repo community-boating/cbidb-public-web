@@ -1,11 +1,11 @@
 import { History } from 'history';
 import * as React from "react";
 
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import { setCheckoutImage } from '@util/set-bg-image';
-import FactaMainPage from '@facta/FactaMainPage';
-import { apBasePath } from '@paths/ap/_base';
-import { jpBasePath } from '@paths/jp/_base';
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import { setCheckoutImage } from 'util/set-bg-image';
+import FactaMainPage from 'theme/facta/FactaMainPage';
+import { apBasePath } from 'app/paths/ap/_base';
+import { jpBasePath } from 'app/paths/jp/_base';
 
 type Props = {
 	history: History<any>

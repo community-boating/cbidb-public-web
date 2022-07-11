@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
-import APIWrapper from '@core/APIWrapper';
-import { HttpMethod } from "@core/HttpMethod";
-import { OptionalString } from '@util/OptionalTypeValidators';
+import APIWrapper from 'core/APIWrapper';
+import { HttpMethod } from "core/HttpMethod";
+import { OptionalString } from 'util/OptionalTypeValidators';
 
 export const availabilityValidator = t.type({
 	typeId: t.number,
@@ -10,7 +10,7 @@ export const availabilityValidator = t.type({
 	displayOrder: t.number,
 	noSignup: t.boolean,
 	seeTypeError: OptionalString,
-	description: t.string
+	description: OptionalString
 });
 
 export const validator = t.type({

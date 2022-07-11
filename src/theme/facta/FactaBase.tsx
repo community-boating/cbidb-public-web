@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Helmet } from "react-helmet";
-import asc from "@app/AppStateContainer";
-import { logout } from "@async/logout";
+import asc from "app/AppStateContainer";
+import { logout } from "async/logout";
 
 class FactaHelmet extends React.Component {
 	render() {
@@ -65,6 +65,11 @@ class FactaHelmet extends React.Component {
 					
 					<link rel='shortlink' href='https://www.community-boating.org/?p=1165' />
 					<meta name="generator" content="Site Kit by Google 1.6.0" /><meta name="google-site-verification" content="Gl6xsj1u0eq_WY3gOACWkcytcq80VTf3WVrved7xvKA" />
+
+					<script async src="https://www.googletagmanager.com/gtag/js?id=AW-960648179"></script>
+					<script>{`
+						window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-960648179');
+					`}</script>
 
 					<body className="page-template-default page page-id-1165 page-child parent-pageid-76">
 					</body>

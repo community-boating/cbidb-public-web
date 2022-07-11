@@ -1,8 +1,8 @@
 import * as React from "react";
 import {History} from 'history';
 
-import {classTimePageRoute} from "@routes/jp/classTime"
-import FactaButton from "@facta/FactaButton";
+import {classTimePageRoute} from "app/routes/jp/classTime"
+import FactaButton from "theme/facta/FactaButton";
 
 export interface ClassType {
 	typeId: number,

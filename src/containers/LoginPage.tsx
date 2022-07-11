@@ -2,32 +2,33 @@ import { none, Option } from "fp-ts/lib/Option";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { History } from 'history';
-import FactaButton from "@facta/FactaButton";
-import TextInput from "@components/TextInput";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import formUpdateState from "@util/form-update-state";
-import {FactaErrorDiv} from "@facta/FactaErrorDiv";
-import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
-import { checkUpgradedAsValidationErrorArray } from "@util/checkUpgraded";
-import Currency from "@util/Currency";
-import { jpForgotPasswordPageRoute } from "@routes/jp/forgot-pw";
-import { apForgotPasswordPageRoute } from "@routes/ap/forgot-pw";
-import { setJPImage, setAPImage } from "@util/set-bg-image";
-import { PageFlavor } from "@components/Page";
-import { apPreRegRoute } from "@routes/ap/prereg";
-import { apGuestRegRoute } from "@routes/ap/guest-reg";
-import { jpRegClosedPageRoute } from "@routes/jp/closed";
-import { apPathStartClaimAcct } from "@paths/ap/start-claim-acct";
-import { jpPathReserve } from "@paths/jp/reserve";
-import asc from "@app/AppStateContainer";
-import { jpBasePath } from "@paths/jp/_base";
-import { apBasePath } from "@paths/ap/_base";
-import { jpPathLogin } from "@paths/jp/login";
-import { apPathLogin } from "@paths/ap/login";
-import { PostURLEncoded } from "@core/APIWrapperUtil";
-// import { apClosedPath } from "@paths/ap/closed";
-import FactaSidebarPage from "@facta/FactaSidebarPage";
-import { giftCertificatesPageRoute } from "@routes/gift-certificates";
+import FactaButton from "theme/facta/FactaButton";
+import TextInput from "components/TextInput";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import formUpdateState from "util/form-update-state";
+import {FactaErrorDiv} from "theme/facta/FactaErrorDiv";
+import {postWrapper as getProtoPersonCookie} from "async/check-proto-person-cookie"
+import { checkUpgradedAsValidationErrorArray } from "util/checkUpgraded";
+import Currency from "util/Currency";
+import { jpForgotPasswordPageRoute } from "app/routes/jp/forgot-pw";
+import { apForgotPasswordPageRoute } from "app/routes/ap/forgot-pw";
+import { setJPImage, setAPImage } from "util/set-bg-image";
+import { PageFlavor } from "components/Page";
+import { apPreRegRoute } from "app/routes/ap/prereg";
+import { apGuestRegRoute } from "app/routes/ap/guest-reg";
+import { jpRegClosedPageRoute } from "app/routes/jp/closed";
+import { apPathStartClaimAcct } from "app/paths/ap/start-claim-acct";
+import asc from "app/AppStateContainer";
+import { jpBasePath } from "app/paths/jp/_base";
+import { apBasePath } from "app/paths/ap/_base";
+import { jpPathLogin } from "app/paths/jp/login";
+import { apPathLogin } from "app/paths/ap/login";
+import { PostURLEncoded } from "core/APIWrapperUtil";
+// import { apClosedPath } from "app/paths/ap/closed";
+import FactaSidebarPage from "theme/facta/FactaSidebarPage";
+import { giftCertificatesPageRoute } from "app/routes/gift-certificates";
+import { jpPathCreateAcct } from "app/paths/jp/create-acct";
+import { jpPathReserve } from "app/paths/jp/reserve";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -156,10 +157,20 @@ export default class LoginPage extends React.Component<Props, State> {
 
 		// right columns 
 
+		const jpSignupLink = (
+			asc.state.jpRegistrationClosed
+			? jpRegClosedPageRoute.getPathFromArgs({})
+			: (
+				asc.state.jpReservationAllowed
+				? jpPathReserve.getPathFromArgs({})
+				: jpPathCreateAcct.getPathFromArgs({})
+			)
+		)
+
 		const jpNewAcctRegion = (
 			<FactaArticleRegion title="New CBI Parents...">
 				<div>
-					<Link to={asc.state.jpRegistrationClosed ? jpRegClosedPageRoute.getPathFromArgs({}) : jpPathReserve.getPathFromArgs({})}>
+					<Link to={jpSignupLink}>
 						...click here to sign up your child(ren)!
 					</Link>
 					<br />

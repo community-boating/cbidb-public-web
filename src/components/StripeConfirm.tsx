@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Option } from 'fp-ts/lib/Option';
-import { CardData } from '@async/order-status';
+import { CardData } from 'async/order-status';
 
 export default (props: {cardData: CardData, extraRow?: React.ReactNode}) => {
 	const zipElement: Option<React.ReactNode> = props.cardData.zip.map(zip => (

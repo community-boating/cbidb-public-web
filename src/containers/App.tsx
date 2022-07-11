@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import asc, { AppStateContainer } from '@app/AppStateContainer';
-import router from "@app/routing";
+import asc, { AppStateContainer } from 'app/AppStateContainer';
+import router from "app/routing";
 import {  none } from 'fp-ts/lib/Option';
-import {apiw as isLoggedInAsMember} from '@async/is-logged-in-as-member';
-import FactaBase from '@facta/FactaBase';
+import {apiw as isLoggedInAsMember} from 'async/is-logged-in-as-member';
+import FactaBase from 'theme/facta/FactaBase';
 import {  Route, Router, Switch } from 'react-router';
-import { apTVPageRoute } from '@routes/tv/ap-class-instances';
+import { apTVPageRoute } from 'routes/tv/ap-class-instances';
 
 interface Props {
 	history: any
@@ -46,7 +46,7 @@ export default class App extends React.Component<Props> {
 				<Switch>
 					{apTVPageRoute.asRoute(self.props.history)}
 					<Route render={() => <FactaBase>
-						{router(self.props.history)}
+				{router(self.props.history)}
 					</FactaBase>} />
 				</Switch>
 			</Router>

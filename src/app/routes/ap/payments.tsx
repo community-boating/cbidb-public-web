@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as t from 'io-ts';
-import { apPathPayments } from "@paths/ap/payments";
-import PageWrapper from "@core/PageWrapper";
-import RouteWrapper from "@core/RouteWrapper";
-import { setAPImage } from '@util/set-bg-image';
-import ManageStaggeredPayments from '@containers/ManageStaggeredPayments';
-import { PageFlavor } from '@components/Page';
-import {getWrapper, validator} from "@async/member/open-order-details-ap"
-import { apBasePath } from '@paths/ap/_base';
+import { apPathPayments } from "app/paths/ap/payments";
+import PageWrapper from "core/PageWrapper";
+import RouteWrapper from "core/RouteWrapper";
+import { setAPImage } from 'util/set-bg-image';
+import ManageStaggeredPayments from 'containers/ManageStaggeredPayments';
+import { PageFlavor } from 'components/Page';
+import {getWrapper, validator} from "async/member/open-order-details-ap"
+import { apBasePath } from 'app/paths/ap/_base';
 import { none } from 'fp-ts/lib/Option';
-import FactaLoadingPage from '@facta/FactaLoadingPage';
+import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
 
 
 export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayments, history => <PageWrapper

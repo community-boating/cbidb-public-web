@@ -1,29 +1,29 @@
 import * as React from "react";
 import * as t from 'io-ts';
-import { setAPImage } from "@util/set-bg-image";
-import { apBasePath } from "@paths/ap/_base";
-import FactaArticleRegion from "@facta/FactaArticleRegion";
-import FactaButton from "@facta/FactaButton";
+import { setAPImage } from "util/set-bg-image";
+import { apBasePath } from "app/paths/ap/_base";
+import FactaArticleRegion from "theme/facta/FactaArticleRegion";
+import FactaButton from "theme/facta/FactaButton";
 import {History} from 'history'
-import Calendar, { CalendarDayElement } from "@components/Calendar";
+import Calendar, { CalendarDayElement } from "components/Calendar";
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import {validator as typesValidator, AvailabilityFlag} from "@async/member/ap-class-type-avail"
-import {resultValidator as classesValidator} from "@async/member/ap-classes-for-calendar"
+import {validator as typesValidator, AvailabilityFlag} from "async/member/ap-class-type-avail"
+import {resultValidator as classesValidator} from "async/member/ap-classes-for-calendar"
 import * as _ from 'lodash'
-import getNow from "@util/getNow";
+import getNow from "util/getNow";
 import { Option, none, some } from "fp-ts/lib/Option";
-import { CheckboxGroup } from "@components/InputGroup";
-import formUpdateState from "@util/form-update-state";
-import optionify from "@util/optionify"
-import {postWrapper as signup} from "@async/member/ap-class-signup"
-import {postWrapper as unenroll} from "@async/member/ap-class-unenroll"
-import { makePostJSON } from "@core/APIWrapperUtil";
-import { apPathClasses } from "@paths/ap/classes";
-import FactaMainPage from "@facta/FactaMainPage";
-import { FactaHideShowRegion } from "@facta/FactaHideShowRegion";
+import { CheckboxGroup } from "components/InputGroup";
+import formUpdateState from "util/form-update-state";
+import optionify from "util/optionify"
+import {postWrapper as signup} from "async/member/ap-class-signup"
+import {postWrapper as unenroll} from "async/member/ap-class-unenroll"
+import { makePostJSON } from "core/APIWrapperUtil";
+import { apPathClasses } from "app/paths/ap/classes";
+import FactaMainPage from "theme/facta/FactaMainPage";
+import { FactaHideShowRegion } from "theme/facta/FactaHideShowRegion";
 import { Link } from "react-router-dom";
-import { FactaErrorDiv } from "@facta/FactaErrorDiv";
+import { FactaErrorDiv } from "theme/facta/FactaErrorDiv";
 
 declare var ddrivetip: any;
 declare var hideddrivetip: any;
@@ -247,7 +247,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 			}).map(i => {
 				const datetimeMoment = moment(i.sessions[0].sessionDatetime, "YYYY-MM-DD HH:mm:ss");
 				const classType = self.props.availabilities.types.find(t => t.typeId == i.typeId);
-				const description = classType.description;
+				const description = classType.description.getOrElse("");
 				const noSignup = classType.noSignup;
 				const doSignup = (doWaitlist: boolean, navToHome?: boolean) => signup.send(makePostJSON({
 					instanceId: i.instanceId,
@@ -293,10 +293,15 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 					if (datetimeMoment.isBefore(getNow())) {
 						return <span style={{fontWeight: "bold", fontStyle: "italic"}}>This class has already taken place.</span>;
 					} else if (i.signupType.getOrElse("") == "E") {
+						const voucherText = (
+							i.price <= 0
+							? ""
+							: " Credit is transferrable to another paid class up to 48 hours before class start time."
+						);
 						return <span style={{fontWeight: "bold", fontStyle: "italic"}}>You are enrolled in this class, <a href="#" onClick={e => {
 							e.preventDefault();
 							doUnenroll();
-						}}>click here to unenroll</a>.</span>;
+						}}>click here to unenroll</a>.{voucherText}</span>;
 					} else if (i.signupType.getOrElse("") == "W") {
 						if (i.waitlistResult.getOrElse("") == "P") {
 							return <React.Fragment>
@@ -371,7 +376,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 					};
 				}());
 				return <FactaArticleRegion title={`${i.typeName} - ${datetimeMoment.format("dddd MMMM Do, h:mmA")}`} id="focus">
-					{description}
+					{<span dangerouslySetInnerHTML={{__html: description}}></span>}
 					{multiSessionText}
 					<br />
 					<br />

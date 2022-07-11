@@ -1,16 +1,16 @@
 import * as React from "react";
 
-import { InstanceInfo } from "@async/junior/get-class-instances";
-import StandardReport from "@facta/StandardReport";
-import { ClassAction } from '@containers/jp/class-signup/SelectClassTime';
-import { postWrapper as doSignup } from "@async/junior/class-signup"
-import { postWrapper as deleteSignup } from "@async/junior/class-signup-delete"
-import APIWrapper from '@core/APIWrapper';
-import { makePostJSON } from '@core/APIWrapperUtil';
+import { InstanceInfo } from "async/junior/get-class-instances";
+import StandardReport from "theme/facta/StandardReport";
+import { ClassAction } from 'containers/jp/class-signup/SelectClassTime';
+import { postWrapper as doSignup } from "async/junior/class-signup"
+import { postWrapper as deleteSignup } from "async/junior/class-signup-delete"
+import APIWrapper from 'core/APIWrapper';
+import { makePostJSON } from 'core/APIWrapperUtil';
 import { History } from 'history';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_IntermediateOneWeek, jpClassTypeId_IntermediateSailing } from '@lov/magicStrings';
-import assertNever from "@util/assertNever";
-import {signupNotePageRoute} from "@routes/jp/signupNote"
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_intermediate1, jpClassTypeId_intermediate2 } from 'lov/magicStrings';
+import assertNever from "util/assertNever";
+import {signupNotePageRoute} from "app/routes/jp/signupNote"
 import { Option } from "fp-ts/lib/Option";
 
 interface Props {
@@ -31,7 +31,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 			if (ret.type == "Success") {
 				const typeId = self.props.typeId.getOrElse(-1)
 				const url = (
-					goToNote && (typeId == jpClassTypeId_BeginnerSailing || typeId == jpClassTypeId_IntermediateSailing || typeId == jpClassTypeId_IntermediateOneWeek)
+					goToNote && (typeId == jpClassTypeId_BeginnerSailing || typeId == jpClassTypeId_intermediate1 || typeId == jpClassTypeId_intermediate2)
 					? signupNotePageRoute.getPathFromArgs({ personId: String(self.props.juniorId.getOrElse(null)), instanceId: String(instanceId) })
 					: `/redirect${this.props.url}`
 				);

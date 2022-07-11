@@ -2,22 +2,23 @@ import { History } from "history";
 import * as React from "react";
 // import * as t from 'io-ts';
 
-import PageWrapper from "@core/PageWrapper";
-import ProgressThermometer from "@components/ProgressThermometer";
-import { State as BreadcrumbState} from "@core/Breadcrumb";
-import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "@core/WizardPageflow";
-import { setCheckoutImageForDonations } from "@util/set-bg-image";
-import { apBasePath } from "@paths/ap/_base";
+import PageWrapper from "core/PageWrapper";
+import ProgressThermometer from "components/ProgressThermometer";
+import { State as BreadcrumbState} from "core/Breadcrumb";
+import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "core/WizardPageflow";
+import { setCheckoutImageForDonations } from "util/set-bg-image";
+import { apBasePath } from "app/paths/ap/_base";
 import DonateDetailsPage from "./DonateDetailsPage";
 import DonateConfirmationPage from "./DonateConfirmationPage";
 import DonateThankYouPage from "./DonateThankYouPage";
-import {getWrapper as getDonationFunds} from "@async/donation-funds"
-import {apiw as getCart} from "@async/get-cart-items-donate"
-import { apiw as orderStatus } from "@async/order-status"
-import { PageFlavor } from "@components/Page";
-import {postWrapper as getProtoPersonCookie} from "@async/check-proto-person-cookie"
-import { PostURLEncoded } from "@core/APIWrapperUtil";
-import FactaLoadingPage from "@facta/FactaLoadingPage";
+import {getWrapper as getDonationFunds} from "async/donation-funds"
+import {apiw as getCart} from "async/get-cart-items-donate"
+import { apiw as orderStatus } from "async/order-status"
+import { PageFlavor } from "components/Page";
+import {postWrapper as getProtoPersonCookie} from "async/check-proto-person-cookie"
+import { PostURLEncoded } from "core/APIWrapperUtil";
+import FactaLoadingPage from "theme/facta/FactaLoadingPage";
+import { Option } from "fp-ts/lib/Option";
 
 //type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -27,7 +28,8 @@ const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e 
 })
 
 type Props = {
-	history: History<any>
+	history: History<any>,
+	fundCode: Option<string>
 };
 
 type State = {
@@ -35,6 +37,8 @@ type State = {
 
 export default class DonateWizard extends React.Component<Props, State> {
 	render() {
+		console.log("FUND CODE '" + this.props.fundCode + "'")
+		console.log(this.props.fundCode.getOrElse("") == "priebatsch")
 		const self = this;
 		const staticComponentProps = {
 			history: this.props.history
@@ -63,10 +67,11 @@ export default class DonateWizard extends React.Component<Props, State> {
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="DonateDetailsPage"
 					history={self.props.history}
-					component={(urlProps: {}, [funds, cart, orderStatus]) => <DonateDetailsPage
+					component={(urlProps: {}, [funds, cart, orderStatus]: any) => <DonateDetailsPage
 						donationFunds={funds}
 						cartItems={cart}
 						orderStatus={orderStatus}
+						fundCode={self.props.fundCode}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
@@ -83,7 +88,7 @@ export default class DonateWizard extends React.Component<Props, State> {
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="DonateConfirmationPage"
 					history={self.props.history}
-					component={(urlProps: {}, [funds, cart, orderStatus], reload: () => void) => <DonateConfirmationPage
+					component={(urlProps: {}, [funds, cart, orderStatus]: any, reload: () => void) => <DonateConfirmationPage
 						{...staticComponentProps}
 						reload={reload}
 						cartItems={cart}
