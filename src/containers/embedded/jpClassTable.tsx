@@ -92,7 +92,6 @@ const JPClassSubTable = (props: {jpClassInstances: AsyncPropsType}) => {
 
 export const JPClassTable = (props: {jpClassInstances: AsyncPropsType}) => {
     const classInstancesMap = mapClassInstances(props.jpClassInstances);
-    console.log("drawing table");
     const groupedInstances: ReactNode[] = Object.entries(classInstancesMap).map((a) => {
         return Object.entries(a[1]).map((b, index: number) => {
             return <tr key={a + ":" + b} style={{borderTop: index === 0 ? borderStyleTop : "none"}}>
@@ -100,7 +99,6 @@ export const JPClassTable = (props: {jpClassInstances: AsyncPropsType}) => {
                 <td style={{padding: "5px 20px 5px 10px", backgroundColor: mapColor(b[1][0].typeName), borderLeft: borderStyle, borderRight: "none", borderBottom: "none", borderTop: index === 0 ? "none" : borderStyle}}><JPClassSubTable jpClassInstances={b[1]}/></td>
             </tr>;
         })
-        //return <tr key={c}></tr>
     })
     return <table style={tableStyle}>
         <thead>

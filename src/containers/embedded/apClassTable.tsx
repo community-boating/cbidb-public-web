@@ -8,7 +8,6 @@ const styleMiddle: React.CSSProperties = {...styleFirst, paddingRight: "100px"};
 const style: React.CSSProperties = {margin: "0"};
 
 export const APClassTable = (props: {apClassInstances: AsyncPropsType}) => {
-    console.log(props.apClassInstances[0].locationString)
     return <table style={tableStyle}>
         <thead>
             <tr>

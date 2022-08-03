@@ -5,8 +5,7 @@ import path from "app/paths/embedded/jp-class-instances";
 import PageWrapper from 'core/PageWrapper';
 import { getWrapper, validator } from 'async/embedded/jp-class-instances';
 import * as moment from "moment";
-import { option } from 'fp-ts';
-import { makeGetString, PostURLEncoded } from 'core/APIWrapperUtil';
+import { makeGetString } from 'core/APIWrapperUtil';
 import { JPClassTable } from 'containers/embedded/jpClassTable';
 
 export type AsyncPropsType = t.TypeOf<typeof validator>
