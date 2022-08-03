@@ -9,7 +9,8 @@ interface Props<T_URL, T_Async> {
 	component: (urlProps: T_URL, asyncProps: T_Async, reload: () => void) => JSX.Element
 	getAsyncProps?: (urlProps: T_URL) => Promise<ApiResult<T_Async>>,
 	shadowComponent?: JSX.Element,
-	history: History<any>
+	history: History<any>,
+	autoRefresh?: number
 }
 
 interface State<T> {
@@ -18,6 +19,7 @@ interface State<T> {
 }
 
 export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T_URL, T_Async>, State<T_Async>> {
+	intervalID: number;
 	constructor(props: Props<T_URL, T_Async>) {
 		super(props);
 		doEFuseCheck(props.history);
@@ -36,10 +38,10 @@ export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T
 	triggerAsync() {
 		const self = this;
 		if (this.props.getAsyncProps != undefined) {
-			self.setState({
+			/*self.setState({
 				readyToRender: false,
 				componentAsyncProps: null
-			})
+			})*/
 			// When API comes back, manually trigger `serverSideResolveOnAsyncComplete`
 			// (if this is clientside, that fn will not do anything and that's fine)
 			this.props.getAsyncProps(this.props.urlProps).then(asyncProps => {
@@ -63,9 +65,24 @@ export default class PageWrapper<T_URL, T_Async> extends React.Component<Props<T
 			})
 		}
 	}
+	startPolling(){
+		const that = this;
+		this.intervalID = window.setInterval(() => {
+			that.triggerAsync();
+		},this.props.autoRefresh);
+	}
 	componentDidMount() {
 		window.scrollTo(0, 0);
 		this.triggerAsync();
+		if(this.props.autoRefresh){
+			this.startPolling();
+		}
+	}
+	componentWillUnmount() {
+		if(this.intervalID){
+			window.clearInterval(this.intervalID);
+			this.intervalID = undefined;
+		}
 	}
 	render() {
 		if (this.state.readyToRender) {

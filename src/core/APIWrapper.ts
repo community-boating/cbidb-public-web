@@ -1,6 +1,6 @@
 import { Either } from 'fp-ts/lib/Either';
 import { none, Option, some } from 'fp-ts/lib/Option';
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import * as t from 'io-ts';
 import { PathReporter } from 'io-ts/lib/PathReporter';
 
@@ -51,10 +51,11 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 		this.config = config;
 	}
 	send: (data: PostType<T_PostJSON>) => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = data => this.sendWithParams(none)(data)
-	sendWithParams: (serverParamsOption: Option<ServerParams>) => (data: PostType<T_PostJSON>) => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = serverParamsOption => data => {
+	sendWithParams: (serverParamsOption: Option<ServerParams>) => (data: PostType<T_PostJSON>) => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = (serverParamsOption) => data => {
 		const serverParams = serverParamsOption.getOrElse((process.env as any).serverToUseForAPI);
 		const self = this;
 		type Return = Promise<ApiResult<t.TypeOf<T_ResponseValidator>>>;
+		var params: any = undefined;
 		const postValues: Option<PostValues> = (function() {
 			if (self.config.type === HttpMethod.POST) {
 				if (data.type == "urlEncoded") {
@@ -66,7 +67,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 							// "Content-Length": String(postData.length)
 						}
 					})
-				} else {
+				} else if(data.type == "json") {
 					const postData = removeOptions({
 						...data.jsonData,
 						...(self.config.fixedParams || {})
@@ -80,22 +81,26 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 						}
 					})
 				}
-			 } else return none;
+			 } else {
+				if(data && data.type == "urlProps"){
+					params = data.urlProps;
+				}
+				return none;
+			 }
 		}())
-
 		const headers = {
 			...serverParams.staticHeaders,
 			...(self.config.extraHeaders || {}),
 			...postValues.map(pv => pv.headers).getOrElse(null)
 		}
-
 		return getOrCreateAxios(serverParams)({
 			method: self.config.type,
 			url: (serverParams.pathPrefix || "") + self.config.path,
-			// params,
-			data: postValues.map(pv => pv.content).getOrElse(null),
+			params,
+			//params,
+			//data: postValues.map(pv => pv.content).getOrElse(null),
 			headers
-		}).then((res: AxiosResponse) => {
+		} as AxiosRequestConfig<any>).then((res: AxiosResponse) => {
 			return this.parseResponse(res.data);
 		}, err => {
 			console.log("Error: ", err)

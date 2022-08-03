@@ -20,7 +20,7 @@ export interface ConfigCommon<T_ResponseValidator extends t.Any> {
 	path: string,
 	extraHeaders?: object,
 	resultValidator: T_ResponseValidator,
-	jsconMap?: any
+	jsconMap?: (T_ResponseValidator extends t.ArrayC<any> | t.TypeC<any> ? {[Property in keyof (T_ResponseValidator extends t.ArrayC<any> ? t.TypeOf<T_ResponseValidator>[number] : t.TypeOf<T_ResponseValidator>)]: string} : {[key: string]: string})/*(T_Value extends t.TypeC<any> ? {[Property in keyof T_Value]: string} : T_Value extends t.ArrayC<t.TypeC<any>>? {[Property in keyof t.TypeOf<T_Value>]: string} : {[key: string]: string})*/
 }
 
 export interface GetConfig<T_ResponseValidator extends t.Any> extends ConfigCommon<T_ResponseValidator> {
@@ -52,4 +52,9 @@ export interface PostJSON<T_PostJSON> {
 	jsonData: T_PostJSON
 }
 
-export type PostType<T> = PostString | PostJSON<T>
+export type PostType<T> = PostString | PostJSON<T> | GetType
+
+export type GetType = {
+	type: "urlProps",
+	urlProps: any
+}

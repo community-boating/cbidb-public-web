@@ -62,6 +62,8 @@ import { jpPublicClassesRoute } from 'app/routes/jp/all-classes';
 import { apDonateEditRoute } from 'app/routes/ap/donate-edit';
 import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
 import { apRentalRegRoute } from 'app/routes/ap/rental-reg';
+import { apClassInstancesPageRoute } from './routes/embedded/ap-class-instances';
+import { jpClassInstancesPageRoute } from './routes/embedded/jp-class-instances';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)
@@ -123,6 +125,8 @@ export default function (history: History<any>) {
 		donatePageRoute.asRoute(history),
 		standaloneLoginRoute.asRoute(history),
 		jpPublicClassesRoute.asRoute(history),
+		apClassInstancesPageRoute.asRoute(history),
+		jpClassInstancesPageRoute.asRoute(history)
 	].filter(Boolean));
 
 	const mustNotBeLoggedIn = [

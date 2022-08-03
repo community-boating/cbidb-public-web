@@ -5,6 +5,7 @@ import router from "app/routing";
 import {  none } from 'fp-ts/lib/Option';
 import {apiw as isLoggedInAsMember} from 'async/is-logged-in-as-member';
 import FactaBase from 'theme/facta/FactaBase';
+import { embeddedBase } from 'app/paths/embedded/_base';
 
 interface Props {
 	history: any
@@ -39,6 +40,11 @@ export default class App extends React.Component<Props> {
 	}
 	render() {
 		const self = this;
+		if(self.props.history.location.pathname.startsWith(embeddedBase.path)) {
+			document.body.style.display = "";
+			document.body.style.margin = "0px";
+			return <div>{router(self.props.history)}</div>;
+		}
 		const ret = (
 			<FactaBase>
 				{router(self.props.history)}
