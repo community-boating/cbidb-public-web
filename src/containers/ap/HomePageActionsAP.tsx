@@ -220,7 +220,7 @@ export default (
 	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <a href="http://www.eventbrite.com/e/358870921587/?discount=CBIMEMBER" target="_blank">Buy your discounted "Summer Kickoff Lawn & Dock Party" here</a>
+			(history: History<any>) => <a href="http://www.eventbrite.com/e/395303000917/?discount=FYMEM" target="_blank">Click here to get $5 off your ticket (& a friends!) to our Summer Dock Party fundraiser on August 20th</a>
 		]
 	}];
 
