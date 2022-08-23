@@ -64,12 +64,19 @@ export default class HomePageJP extends React.Component<Props, State> {
 			: ""
 		);
 
+		const now = moment();
+		const month = Number(now.format("M"));
+		const year = Number(now.format("YYYY"));
+
+		const isPreSeason = month < 7;
+		const closedSeason = isPreSeason ? year-1 : year;
+
 		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
 			{errorPopup}
 			{
 				asc.state.jpRegistrationClosed
 				? <FactaArticleRegion title="Registration is closed.">
-					Registration is closed for the 2021 season. Please keep an eye on our <a target="_blank" href="https://www.community-boating.org">website</a> for when registration will open for 2022.
+					Registration is closed for the {closedSeason} season. Please keep an eye on our <a target="_blank" href="https://www.community-boating.org">website</a> for when registration will open for {closedSeason+1}.
 				</FactaArticleRegion>
 				: null
 			}
