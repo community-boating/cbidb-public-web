@@ -227,6 +227,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 						<li>Advanced classes for a nominal fee of {Currency.dollars(self.props.prices.apClassPrice).format(true)}</li>
 						<li>Discounts to CBI events</li>
 						<li>Guest privileges (with appropriate rating)</li>
+						<li>Membership is valid for 365 calendar days from date of purchase. Our Adult Program runs from April 1 to October 31. All memberships are non-refundable and non-transferable.</li>
 					</ul><br />
 
 
@@ -244,6 +245,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 						<li>Able to earn all ratings</li>
 						<li>Advanced classes for a nominal fee of {Currency.dollars(self.props.prices.apClassPrice).format(true)}</li>
 						<li>Guest privileges can be purchased for {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)}</li>
+						<li>Membership is valid for 60 consecutive calendar days from date of purchase. All memberships are non-refundable and non-transferable.</li>
 					</ul><br />
 
 					<table style={{marginBottom: "10px"}}><tbody><tr><td>
@@ -259,6 +261,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 						<li>Able to earn all ratings</li>
 						<li>Advanced classes for a nominal fee of {Currency.dollars(self.props.prices.apClassPrice).format(true)}</li>
 						<li>Guest privileges can be purchased for {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)}</li>
+						<li>Membership is valid for 30 consecutive calendar days from date of purchase. All memberships are non-refundable and non-transferable.</li>
 					</ul><br />
 
 
@@ -274,6 +277,7 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 						<li>Usage of Mercury sailboats, beginner Mercury classes, and instruction</li>
 						<li>Mercury Green rating only</li>
 						<li>Not eligible for Advanced classes, Windsurfing, Kayaking, Paddleboarding, or Guest Privileges</li>
+						<li>Membership is valid for 30 consecutive calendar days from date of purchase. All memberships are non-refundable and non-transferable.</li>
 					</ul><br />
 
 					<table style={{marginBottom: "10px"}}><tbody><tr><td>
