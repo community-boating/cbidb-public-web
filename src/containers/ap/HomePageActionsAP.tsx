@@ -220,7 +220,7 @@ export default (
 	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <a href="http://http://www.eventbrite.com/e/415013625927/?discount=FYMEM" target="_blank">Click here for your discounted Fall Dock Party tickets and to register for the Ed Long UnRegatta</a>
+			(history: History<any>) => <a href="http://www.eventbrite.com/e/415013625927/?discount=FYMEM" target="_blank">Click here for your discounted Fall Dock Party tickets and to register for the Ed Long UnRegatta</a>
 		]
 	}];
 
