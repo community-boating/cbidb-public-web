@@ -14,7 +14,8 @@ export type PreRegistration = {
 	juniorPersonId: number,
 	firstName: string,
 	beginner: Option<PreRegistrationClass>,
-	intermediate: Option<PreRegistrationClass>
+	intermediate1: Option<PreRegistrationClass>,
+	intermediate2: Option<PreRegistrationClass>
 }
 
 export type JpPreRegistrationState = {

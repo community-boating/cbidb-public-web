@@ -25,9 +25,11 @@ type Props = {
 
 type Form = {
 	beginnerInstanceId: Option<number>,
-	intermediateInstanceId: Option<number>,
+	intermediate1InstanceId: Option<number>,
+	intermediate2InstanceId: Option<number>,
 	beginnerSignupNote: Option<string>,
-	intermediateSignupNote: Option<string>
+	intermediate1SignupNote: Option<string>
+	intermediate2SignupNote: Option<string>
 }
 
 type State = {
@@ -44,18 +46,22 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 			this.state = {
 				formData: {
 					beginnerInstanceId: thisJuniorReservations[0].beginner.map(e => e.instanceId),
-					intermediateInstanceId: thisJuniorReservations[0].intermediate.map(e => e.instanceId),
+					intermediate1InstanceId: thisJuniorReservations[0].intermediate1.map(e => e.instanceId),
+					intermediate2InstanceId: thisJuniorReservations[0].intermediate2.map(e => e.instanceId),
 					beginnerSignupNote: thisJuniorReservations[0].beginner.chain(e => e.signupNote),
-					intermediateSignupNote: thisJuniorReservations[0].intermediate.chain(e => e.signupNote),
+					intermediate1SignupNote: thisJuniorReservations[0].intermediate1.chain(e => e.signupNote),
+					intermediate2SignupNote: thisJuniorReservations[0].intermediate2.chain(e => e.signupNote),
 				}
 			};
 		} else {
 			this.state = {
 				formData: {
 					beginnerInstanceId: none,
-					intermediateInstanceId: none,
+					intermediate1InstanceId: none,
+					intermediate2InstanceId: none,
 					beginnerSignupNote: none,
-					intermediateSignupNote: none,
+					intermediate1SignupNote: none,
+					intermediate2SignupNote: none,
 				}
 			};
 		}
@@ -83,17 +89,35 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 			</React.Fragment>
 		);
 
-		const intermediateTextArea = (
+		const intermediate1TextArea = (
 			<React.Fragment>
 				<br />
 				<br />
-				<b>Intermediate Sailing:</b>
+				<b>Intermediate I:</b>
 				<table><tbody>
 					<FormTextArea
 						rows={10}
 						cols={108}
-						id="intermediateSignupNote"
-						value={this.state.formData.intermediateSignupNote}
+						id="intermediate1SignupNote"
+						value={this.state.formData.intermediate1SignupNote}
+						updateAction={updateState}
+						placeholder="If you are not trying to sign up with a friend, please leave the text box blank."
+					></FormTextArea>
+				</tbody></table>
+			</React.Fragment>
+		);
+
+		const intermediate2TextArea = (
+			<React.Fragment>
+				<br />
+				<br />
+				<b>Intermediate II:</b>
+				<table><tbody>
+					<FormTextArea
+						rows={10}
+						cols={108}
+						id="intermediate2SignupNote"
+						value={this.state.formData.intermediate2SignupNote}
 						updateAction={updateState}
 						placeholder="If you are not trying to sign up with a friend, please leave the text box blank."
 					></FormTextArea>
@@ -107,7 +131,8 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 				If you would like your child to be in class with another junior, please leave their name below.
 				We will try our best to honor all such requests.
 				{this.state.formData.beginnerInstanceId.isSome() ? beginnerTextArea : null}
-				{this.state.formData.intermediateInstanceId.isSome() ? intermediateTextArea : null}
+				{this.state.formData.intermediate1InstanceId.isSome() ? intermediate1TextArea : null}
+				{this.state.formData.intermediate2InstanceId.isSome() ? intermediate2TextArea : null}
 				<br />
 				<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(reservePageRoute.getPathFromArgs({})))}/>
 				<FactaButton text="Save >" spinnerOnClick={true} onClick={() => {
@@ -117,16 +142,23 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 						signupNote: self.state.formData.beginnerSignupNote
 					})));
 
-					const saveIntermediate = self.state.formData.intermediateInstanceId.map(i => () => saveNote.send(makePostJSON({
+					const saveIntermediate1 = self.state.formData.intermediate1InstanceId.map(i => () => saveNote.send(makePostJSON({
 						juniorId: self.props.personId,
 						instanceId: i,
-						signupNote: self.state.formData.intermediateSignupNote
+						signupNote: self.state.formData.intermediate1SignupNote
+					})));
+
+					const saveIntermediate2 = self.state.formData.intermediate2InstanceId.map(i => () => saveNote.send(makePostJSON({
+						juniorId: self.props.personId,
+						instanceId: i,
+						signupNote: self.state.formData.intermediate2SignupNote
 					})));
 
 					return Promise.all([
 						saveBeginner.getOrElse(() => Promise.resolve(null))(),
-						saveIntermediate.getOrElse(() => Promise.resolve(null))(),
-					]).then(([beginnerResult, intermediateResult]) => {
+						saveIntermediate1.getOrElse(() => Promise.resolve(null))(),
+						saveIntermediate2.getOrElse(() => Promise.resolve(null))(),
+					]).then(([beginnerResult, intermediate1Result, intermediate2Result]) => {
 						self.props.history.push(reservePageRoute.getPathFromArgs({}))
 					})
 				}}/>
