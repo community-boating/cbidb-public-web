@@ -99,9 +99,9 @@ export class AppStateContainer {
 	constructor() {
 		const now = moment();
 		// TODO: replace this with an api call
-		const jpOpen = moment("11/12/2022 10:33", "MM/DD/YYYY HH:mm");
+		const jpOpen = moment("11/28/2022 12:00", "MM/DD/YYYY HH:mm");
 		const reservationDays: {[K: string]: true} = {
-			"11/12/2022": true
+			"11/28/2022": true
 		}
 
 		this.state = {
