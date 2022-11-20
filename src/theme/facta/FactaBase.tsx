@@ -29,6 +29,7 @@ class FactaHelmet extends React.Component {
 							{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://www.community-boating.org/#website","url":"https://www.community-boating.org/","name":"Community Boating Incorporated","potentialAction":{"@type":"SearchAction","target":"https://www.community-boating.org/?s={search_term_string}","query-input":"required name=search_term_string"}},{"@type":"WebPage","@id":"https://www.community-boating.org/adult/membership-prices/#webpage","url":"https://www.community-boating.org/adult/membership-prices/","inLanguage":"en-US","name":"Membership Prices - Community Boating Incorporated","isPartOf":{"@id":"https://www.community-boating.org/#website"},"datePublished":"2020-05-20T22:02:08+00:00","dateModified":"2020-05-23T14:23:07+00:00"}]}
 						`}
 					</script>
+					<script src="https://demo.docusign.net/clickapi/sdk/latest/docusign-click.js"></script>
 
 					<link rel='dns-prefetch' href='//ajax.googleapis.com' />
 					<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
