@@ -28,33 +28,10 @@ export default class ApTermsConditions extends React.Component<Props, {radio: st
 				{this.props.breadcrumb}
 			</FactaNotitleRegion>
 			<FactaArticleRegion title="Terms and Conditions">
+				Verifying Terms & Conditions...
 				<div id="ds-clickwrap"></div>
 			</FactaArticleRegion>
-			<FactaNotitleRegion>
-				<RadioGroup
-					id="accept"
-					label=""
-					columns={1}
-					values={[{
-						key: "No",
-						display: "I do not accept."
-					}, {
-						key: "Yes",
-						display: "I accept."
-					}]}
-					updateAction={(id: string, radio: string) => {
-						self.setState({
-							radio
-						})
-					}}
-					value={self.state ? some(self.state.radio) : none}
-					justElement={true}
-				/>
-			</FactaNotitleRegion>
 			<FactaButton text="< Back" onClick={self.props.goPrev}/>
-			{(self.state || {} as any).radio == "Yes" ? <FactaButton text="Next >" spinnerOnClick onClick={() => 
-				accept.send(makePostJSON({})).then(self.props.goNext)
-			}/> : ""}
 			<script>
 				{
 					window.setTimeout(() => {
@@ -62,13 +39,14 @@ export default class ApTermsConditions extends React.Component<Props, {radio: st
 							environment: 'https://demo.docusign.net',
 							accountId: '99776339-0b4e-4941-9740-5e75ffc18c21',
 							clickwrapId: '9b56c66c-b1bf-4211-aae3-88972d9e48a4',
-							clientUserId: 'cbi-person-1234',
-							documentData: {
-								// fullName: 'Jon Cole',
-								// email: 'jon@community-boating.org',
-								// company: 'Company',
-								// title: 'Job Title',
-								// date: '11/12/22'
+							clientUserId: 'cbi-person-123456789',
+							documentData: { },
+							onAgreeing: (agreementData: any) => {
+								console.log("onAgreeing", agreementData)
+							},
+							onAgreed: (agreementData: any) => {
+								console.log("onAgreed", agreementData)
+								accept.send(makePostJSON({})).then(self.props.goNext)
 							}
 						}, '#ds-clickwrap')
 					}, 0)
