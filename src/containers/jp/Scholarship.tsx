@@ -151,8 +151,9 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 				</FactaArticleRegion>
 			</React.Fragment>
 
+		const form = self.state.formData
+
 		const next = <FactaButton text="Next >" spinnerOnClick onClick={() => {
-			const form = self.state.formData
 			const isApplying = form.isApplying.getOrElse("No") == "Yes"
 			if (isApplying) {
 				const rawIncome = form.income.getOrElse("0");
@@ -169,6 +170,8 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			}
 			
 		}}/>
+
+		const formCompleted = form.income.isSome() && form.numberAdults.isSome() && form.numberChildren.isSome();
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
@@ -205,7 +208,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 				const form = self.state.formData
 				const isApplying = (form.isApplying || none).getOrElse("")
 				const doAgree = (form.doAgree || none).getOrElse(false)
-				if (isApplying == "No" || (isApplying == "Yes" && doAgree)) return next
+				if (isApplying == "No" || (isApplying == "Yes" && doAgree && formCompleted)) return next
 				else return null
 			}())}
 		</FactaMainPage>
