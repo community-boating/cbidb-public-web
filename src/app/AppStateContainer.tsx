@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/browser';
 
 import { makePostString } from 'core/APIWrapperUtil';
 import { PostString } from 'core/APIWrapperTypes';
+import * as moment from 'moment';
 
 // TODO: some sort of state module class that creates reducers with current state and this.setState injected into them somehow
 
@@ -96,14 +97,21 @@ export class AppStateContainer {
 		}
 	}
 	constructor() {
+		const now = moment();
+		// TODO: replace this with an api call
+		const jpOpen = moment("11/28/2022 12:00", "MM/DD/YYYY HH:mm");
+		const reservationDays: {[K: string]: true} = {
+			"11/28/2022": true
+		}
+
 		this.state = {
 			appProps: null,
 			login: {
 				authenticatedUserName: none
 			},
 			justLoggedIn: false,
-			jpRegistrationClosed: false,
-			jpReservationAllowed: false,
+			jpRegistrationClosed: now.isBefore(jpOpen),
+			jpReservationAllowed: reservationDays[now.format("MM/DD/YYYY")]
 		};
 	}
 }

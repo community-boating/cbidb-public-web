@@ -7,7 +7,7 @@ import formUpdateState from 'util/form-update-state';
 import { Select } from 'components/Select';
 import { validatorSingleRow } from "async/class-instances-with-avail"
 import StandardReport from 'theme/facta/StandardReport';
-import { jpClassTypeId_BeginnerSailing, jpClassTypeId_intermediate1/*, jpClassTypeId_intermediate2 */} from 'lov/magicStrings';
+import { jpClassTypeId_BeginnerSailing, jpClassTypeId_intermediate1, jpClassTypeId_intermediate2} from 'lov/magicStrings';
 import { Moment } from 'moment';
 import FactaButton from 'theme/facta/FactaButton';
 import { PreRegistration, PreRegistrationClass } from 'app/global-state/jp-pre-registrations';
@@ -49,9 +49,11 @@ const morningAfternoonValues = [
 const defaultForm = {
 	juniorFirstName: none as Option<string>,
 	beginnerMorningAfternoon: some("Morning") as Option<string>,
-	intermediateMorningAfternoon: some("Morning") as Option<string>,
+	intermediate1MorningAfternoon: some("Morning") as Option<string>,
+	intermediate2MorningAfternoon: some("Morning") as Option<string>,
 	selectedBeginnerInstance: none as Option<string>,
-	selectedIntermediateInstance: none as Option<string>
+	selectedIntermediate1Instance: none as Option<string>,
+	selectedIntermediate2Instance: none as Option<string>
 }
 
 const renderClassLine = (preregClass: Option<PreRegistrationClass>) => preregClass.fold(
@@ -66,9 +68,10 @@ export const preRegRender = (then: () => void) => (prereg: PreRegistration, i: n
 		}
 	}}><img src="/images/delete.png" /></a>{"   " + prereg.firstName}</b><br />
 	Beginner Sailing:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.beginner)}}></span><br />
-	Intermediate I:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.intermediate)}}></span><br />
+	Intermediate I:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.intermediate1)}}></span><br />
+	Intermediate II:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.intermediate2)}}></span><br />
 	{function() {
-		const classToUse = prereg.beginner.getOrElse(null) || prereg.intermediate.getOrElse(null);
+		const classToUse = prereg.beginner.getOrElse(null) || prereg.intermediate1.getOrElse(null) || prereg.intermediate2.getOrElse(null);
 		if (classToUse && classToUse.expirationDateTime && classToUse.minutesRemaining) {
 			return (<span style={{fontStyle:"italic"}}>Reservation expires: {classToUse.expirationDateTime.format("hh:mmA")} ({classToUse.minutesRemaining} min)</span>)
 		} else return "";
@@ -152,7 +155,7 @@ classData => reservationRows => {
 			cio
 		}
 	}).filter(Boolean) // chuck nulls
-	.filter(r => r.cio.typeId == jpClassTypeId_BeginnerSailing || r.cio.typeId == jpClassTypeId_intermediate1) // chuck anything thats not beginner or int
+	.filter(r => r.cio.typeId == jpClassTypeId_BeginnerSailing || r.cio.typeId == jpClassTypeId_intermediate1 || r.cio.typeId == jpClassTypeId_intermediate2) // chuck anything thats not beginner or int
 
 	// next, bundle up per junior
 	const mapToPreregistration = (cio: ClassInstanceObject) => ({
@@ -166,7 +169,8 @@ classData => reservationRows => {
 				juniorPersonId: row.juniorPersonId,
 				firstName: row.juniorFirstName,
 				beginner: none,
-				intermediate: none
+				intermediate1: none,
+				intermediate2: none
 			}
 		}
 		if (row.cio.typeId == jpClassTypeId_BeginnerSailing) {
@@ -178,7 +182,15 @@ classData => reservationRows => {
 			});
 		}
 		else if (row.cio.typeId == jpClassTypeId_intermediate1) {
-			hash[row.juniorFirstName].intermediate = some({
+			hash[row.juniorFirstName].intermediate1 = some({
+				...mapToPreregistration(row.cio),
+				expirationDateTime: moment(row.expirationDateTime, "YYYY-MM-DDTHH:mm:ss"),
+				minutesRemaining: row.minutesRemaining,
+				signupNote: row.signupNote
+			});
+		}
+		else if (row.cio.typeId == jpClassTypeId_intermediate2) {
+			hash[row.juniorFirstName].intermediate2 = some({
 				...mapToPreregistration(row.cio),
 				expirationDateTime: moment(row.expirationDateTime, "YYYY-MM-DDTHH:mm:ss"),
 				minutesRemaining: row.minutesRemaining,
@@ -192,7 +204,8 @@ classData => reservationRows => {
 		juniorPersonId: -1, // TODO: currently no reason this is needed but it sucks to leave it like this
 		firstName: j,
 		beginner: none,
-		intermediate: none
+		intermediate1: none,
+		intermediate2: none
 	})));
 	return ret;
 }
@@ -208,7 +221,17 @@ export default class ReserveClasses extends React.Component<Props, State> {
 		};
 	}
 	private timeUpdateState = (prop: string, value: string) => {
-		const selectedClassFormProp: keyof Form = (prop == "beginnerMorningAfternoon" ? "selectedBeginnerInstance" : "selectedIntermediateInstance");
+		const selectedClassFormProp: keyof Form = (function() {
+			switch (prop) {
+			case "beginnerMorningAfternoon":
+				return "selectedBeginnerInstance";
+			case "intermediate1MorningAfternoon":
+				return "selectedIntermediate1Instance";
+			case "intermediate2MorningAfternoon":	
+				return "selectedIntermediate2Instance";
+			}
+		}());
+		
 		let newFormPart: any = {};
 		newFormPart[prop] = some(value);
 		newFormPart[selectedClassFormProp] = none
@@ -226,7 +249,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 		const updateStateWrappedForID = (id: string, value: string) => {
-			if ((id == "selectedBeginnerInstance" || id == "selectedIntermediateInstance") && value == "-1") {
+			if ((id == "selectedBeginnerInstance" || id == "selectedIntermediate1Instance" || id == "selectedIntermediate2Instance") && value == "-1") {
 				// empty string will be converted to none
 				updateState(id as any, "");
 			} else {
@@ -270,7 +293,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 
 		const submitAction = () => {
 			const beginner = optionify(self.state.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedBeginnerInstance.getOrElse("-1")));
-			const intermediate = optionify(self.state.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediateInstance.getOrElse("-1")));
+			const intermediate1 = optionify(self.state.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediate1Instance.getOrElse("-1")));
+			const intermediate2 = optionify(self.state.apiResult.find(c => String(c.instanceId) == self.state.formData.selectedIntermediate2Instance.getOrElse("-1")));
 			if (self.state.formData.juniorFirstName.getOrElse("").length == 0) {
 				this.setState({
 					...this.state,
@@ -283,19 +307,25 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					validationErrors: ["There is already a junior by that name.  Please use unique nicknames (it's ok if they are not the real first names for now; you will be able to update them later)."]
 				})
 				return Promise.reject();
-			} else if (beginner.isNone() && intermediate.isNone()) {
+			} else if (beginner.isNone() && intermediate1.isNone() && intermediate2.isNone()) {
 				this.setState({
 					...this.state,
 					validationErrors: ["Please specify class to reserve. Experienced sailors and anyone who does not want to reserve a Beginner Class at this time, should contact the JP Director at juniorprogramdirector@community-boating.org for assistance."]
 				})
 				return Promise.reject();
-			} else if (beginner.isNone() && intermediate.isSome()) {
+			} else if (beginner.isNone() && intermediate1.isSome()) {
 				this.setState({
 					...this.state,
-					validationErrors: ["You may not sign up for Intermediate Sailing without signing up for a Beginner Sailing as well.  If you are looking for advanced placement, contact the Front Office by emailing info@community-boating.org or calling 617-523-1038."]
+					validationErrors: ["You may not sign up for Intermediate I without signing up for a Beginner Sailing as well.  If you are looking for advanced placement, contact the Front Office by emailing info@community-boating.org or calling 617-523-1038."]
 				})
 				return Promise.reject();
-			} else if (beginner.map(classStarted).getOrElse(false) || intermediate.map(classStarted).getOrElse(false)) {
+			} else if (intermediate1.isNone() && intermediate2.isSome()) {
+				this.setState({
+					...this.state,
+					validationErrors: ["You may not sign up for Intermediate II without signing up for Intermediate I as well.  If you are looking for advanced placement, contact the Front Office by emailing info@community-boating.org or calling 617-523-1038."]
+				})
+				return Promise.reject();
+			} else if (beginner.map(classStarted).getOrElse(false) || intermediate1.map(classStarted).getOrElse(false) || intermediate2.map(classStarted).getOrElse(false)) {
 				this.setState({
 					...this.state,
 					validationErrors: ["That class has already started."]
@@ -305,7 +335,8 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				return addJuniorPostWrapper.send(makePostJSON({
 					juniorFirstName: self.state.formData.juniorFirstName.getOrElse(""),
 					beginnerInstanceId: beginner.map(c => c.instanceId),
-					intermediateInstanceId: intermediate.map(c => c.instanceId)
+					intermediate1InstanceId: intermediate1.map(c => c.instanceId),
+					intermediate2InstanceId: intermediate2.map(c => c.instanceId)
 				})).then(resp => {
 					if (resp.type == "Success") {
 						// todo: dont add to asc without a protoperson id back from api
@@ -322,7 +353,13 @@ export default class ReserveClasses extends React.Component<Props, State> {
 									timeRange: getClassTime(c),
 									signupNote: none
 								})),
-								intermediate: intermediate.map(c => ({
+								intermediate1: intermediate1.map(c => ({
+									instanceId: c.instanceId,
+									dateRange: getClassDate(c),
+									timeRange: getClassTime(c),
+									signupNote: none
+								})),
+								intermediate2: intermediate2.map(c => ({
 									instanceId: c.instanceId,
 									dateRange: getClassDate(c),
 									timeRange: getClassTime(c),
@@ -406,19 +443,36 @@ export default class ReserveClasses extends React.Component<Props, State> {
 			</FactaArticleRegion>
 			<FactaArticleRegion title="Intermediate I">
 				<table><tbody><FormSelect
-					id="intermediateMorningAfternoon"
+					id="intermediate1MorningAfternoon"
 					label="Choose a time:  "
-					value={formData.intermediateMorningAfternoon}
+					value={formData.intermediate1MorningAfternoon}
 					updateAction={self.timeUpdateState}
 					options={morningAfternoonValues.map(e => ({key: e, display: e}))}
 				/></tbody></table>
 				{classReport(
-					"selectedIntermediateInstance",
+					"selectedIntermediate1Instance",
 					updateStateWrappedForID,
-					self.state.formData.selectedIntermediateInstance,
+					self.state.formData.selectedIntermediate1Instance,
 					self.state.apiResult
 						.filter(c => c.typeId == jpClassTypeId_intermediate1)
-						.filter(c => c.isMorning == (self.state.formData.intermediateMorningAfternoon.getOrElse("") == "Morning"))
+						.filter(c => c.isMorning == (self.state.formData.intermediate1MorningAfternoon.getOrElse("") == "Morning"))
+				)}
+			</FactaArticleRegion>
+			<FactaArticleRegion title="Intermediate II">
+				<table><tbody><FormSelect
+					id="intermediate2MorningAfternoon"
+					label="Choose a time:  "
+					value={formData.intermediate2MorningAfternoon}
+					updateAction={self.timeUpdateState}
+					options={morningAfternoonValues.map(e => ({key: e, display: e}))}
+				/></tbody></table>
+				{classReport(
+					"selectedIntermediate2Instance",
+					updateStateWrappedForID,
+					self.state.formData.selectedIntermediate2Instance,
+					self.state.apiResult
+						.filter(c => c.typeId == jpClassTypeId_intermediate2)
+						.filter(c => c.isMorning == (self.state.formData.intermediate2MorningAfternoon.getOrElse("") == "Morning"))
 				)}
 			</FactaArticleRegion>
 			<FactaButton text={<span> &lt; Back</span>} spinnerOnClick={true} onClick={() => Promise.resolve(self.props.history.push(jpBasePath.getPathFromArgs({})))}/>
@@ -439,7 +493,7 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				spinnerOnClick={true}
 				onClick={() => {
 					const formData = self.state.formData;
-					const didStuff = formData.juniorFirstName.isSome() || formData.selectedBeginnerInstance.isSome() || formData.selectedIntermediateInstance.isSome();
+					const didStuff = formData.juniorFirstName.isSome() || formData.selectedBeginnerInstance.isSome() || formData.selectedIntermediate1Instance.isSome() || formData.selectedIntermediate2Instance.isSome();
 					const juniorCt = self.state.preRegistrations.length;
 					if (juniorCt == 0) {
 						this.setState({

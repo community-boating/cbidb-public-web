@@ -6,6 +6,7 @@ on:
       - release/*
       - dev/*
       - cluster/*
+      - qa/*
     tags:
       - '*'
   pull_request:

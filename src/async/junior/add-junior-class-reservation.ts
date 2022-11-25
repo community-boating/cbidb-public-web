@@ -6,7 +6,8 @@ import { OptionalNumber } from 'util/OptionalTypeValidators';
 export const validator = t.type({
 	juniorFirstName: t.string,
 	beginnerInstanceId: OptionalNumber,
-	intermediateInstanceId: OptionalNumber
+	intermediate1InstanceId: OptionalNumber,
+	intermediate2InstanceId: OptionalNumber
 })
 
 const result = t.type({
