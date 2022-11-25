@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
-    "@svgr/webpack": "^5.5.0",
+    "@svgr/webpack": "^6.5.1",
     "@types/lodash": "^4.14.167",
     "@types/mocha": "^8.2.0",
     "@types/node": "^14.14.19",
