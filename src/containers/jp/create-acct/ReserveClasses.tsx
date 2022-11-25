@@ -313,15 +313,18 @@ export default class ReserveClasses extends React.Component<Props, State> {
 					validationErrors: ["Please specify class to reserve. Experienced sailors and anyone who does not want to reserve a Beginner Class at this time, should contact the JP Director at juniorprogramdirector@community-boating.org for assistance."]
 				})
 				return Promise.reject();
-
-// TODO: validation logic for 3 classes
-
-			// } else if (beginner.isNone() && intermediate.isSome()) {
-			// 	this.setState({
-			// 		...this.state,
-			// 		validationErrors: ["You may not sign up for Intermediate Sailing without signing up for a Beginner Sailing as well.  If you are looking for advanced placement, contact the Front Office by emailing info@community-boating.org or calling 617-523-1038."]
-			// 	})
-			// 	return Promise.reject();
+			} else if (beginner.isNone() && intermediate1.isSome()) {
+				this.setState({
+					...this.state,
+					validationErrors: ["You may not sign up for Intermediate I without signing up for a Beginner Sailing as well.  If you are looking for advanced placement, contact the Front Office by emailing info@community-boating.org or calling 617-523-1038."]
+				})
+				return Promise.reject();
+			} else if (intermediate1.isNone() && intermediate2.isSome()) {
+				this.setState({
+					...this.state,
+					validationErrors: ["You may not sign up for Intermediate II without signing up for Intermediate I as well.  If you are looking for advanced placement, contact the Front Office by emailing info@community-boating.org or calling 617-523-1038."]
+				})
+				return Promise.reject();
 			} else if (beginner.map(classStarted).getOrElse(false) || intermediate1.map(classStarted).getOrElse(false) || intermediate2.map(classStarted).getOrElse(false)) {
 				this.setState({
 					...this.state,
