@@ -93,7 +93,16 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 								id="numberAdults"
 								justElement={true}
 								nullDisplay="- Select -"
-								options={generateOptions("Adult", "Adults", 1, 2)}
+								options={/*generateOptions("Adult", "Adults", 1, 2) */[{
+									key: "1",
+									display: "1 Adult"
+								}, {
+									key: "2",
+									display: "2 Adults, both working"
+								}, {
+									key: "-1",
+									display: "2 Adults, only 1 working"
+								}]}
 								value={self.state.formData.numberAdults}
 								updateAction={updateState}
 							/></td>
@@ -104,7 +113,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 								id="numberChildren"
 								justElement={true}
 								nullDisplay="- Select -"
-								options={generateOptions("Child", "Children", 1, 6)}
+								options={generateOptions("Child", "Children", 1, 3)}
 								value={self.state.formData.numberChildren}
 								updateAction={updateState}
 							/></td>

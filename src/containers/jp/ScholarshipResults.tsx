@@ -25,7 +25,7 @@ export default class ScholarshipResultsPage extends React.Component<Props> {
 				.  This price will automatically apply to all junior memberships you purchase this season.
 				<br />
 				<br />
-				Community Boating Inc.'s sliding scale for membership is based on the <a href="https://livingwage.mit.edu/resources/Living-Wage-Users-Guide-Technical-Documentation-2021-12-28.pdf" target="_blank">
+				Community Boating Inc.'s sliding scale for membership is based on the <a href="https://livingwage.mit.edu/states/25" target="_blank">
 					MIT Living Wage Calculator
 				</a>
 				<br />
