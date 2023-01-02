@@ -273,7 +273,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 				<FactaArticleRegion title={"Purchase a gift certificate to Community Boating!"}>
 					Give your family member or friend the gift of sailing at Community Boating so they can enjoy the great outdoors by sailing,
 					kayaking, paddleboarding, or windsurfing on the Charles River. Gift Certificates can be sold for a given dollar value,
-					which can be used towards Adult Program memberships, merchandise, or additional add-ons. Memberships include classes,
+					which can be used towards Adult Program memberships, non-member rentals, merchandise, or additional add-ons. Memberships include classes,
 					boat usage, and boathouse privileges. We also sell retail items at the Front Office, including t-shirts, hats, gloves,
 					water bottles, instruction books, and more.
 					<br />
