@@ -20,8 +20,8 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: config
@@ -36,7 +36,7 @@ jobs:
       - name: tar
         run: tar -zcvf build.tar.gz ./build
       - name: save artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build.tar.gz
           path: build.tar.gz
@@ -67,15 +67,15 @@ jobs:
         run: |
           echo ${{ env.REF_NAME }}
           echo ${{ env.ECR_REPO }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Fetch artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: build.tar.gz
       - name: unpack
         run: tar -zxvf build.tar.gz && ls -l
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_ID }}
           aws-secret-access-key: ${{ secrets.AWS_ACCESS_TOKEN }}
