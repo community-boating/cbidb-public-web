@@ -16,6 +16,7 @@ import { apPathAddons } from 'app/paths/ap/addons';
 import { apDonateRoute } from 'app/routes/ap/donate';
 import {apManageStaggeredPaymentsRoute} from "app/routes/ap/payments"
 import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
+import { apClassesTeachPageRoute } from 'app/routes/ap/classes-teach';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -222,6 +223,11 @@ export default (
 		getElements: [
 			(history: History<any>) => <a href="http://www.eventbrite.com/e/415013625927/?discount=FYMEM" target="_blank">Click here for your discounted Fall Dock Party tickets and to register for the Ed Long UnRegatta</a>
 		]
+	}, {
+		show: () => true,
+		getElements: [
+			() => <Link to={apClassesTeachPageRoute.getPathFromArgs({})}>Volunteer: Sign up to Teach Classes</Link>
+		]	
 	}];
 
 	return (<React.Fragment>
