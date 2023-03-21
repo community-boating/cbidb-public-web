@@ -8,22 +8,29 @@ import {getWrapper as getClasses, resultValidator as classesValidator} from "asy
 import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
 import { apPathClassesTeach } from 'app/paths/ap/classes-teach';
 import { ApVolunteerClassPage } from 'containers/ap/ApVolunteerClassPage';
+import { apiw as welcomeAPIAP, validator as welcomeValidatorAP } from "async/member-welcome-ap";
 
 
 export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach, history => <PageWrapper
     key="classesteach"
     history={history}
-    component={(urlProps: {}, async: {availabilities: t.TypeOf<typeof availabilities>, instances: t.TypeOf<typeof classesValidator>}) => <ApVolunteerClassPage
+    component={(urlProps: {}, async: {
+		availabilities: t.TypeOf<typeof availabilities>,
+		instances: t.TypeOf<typeof classesValidator>,
+		welcomeData: t.TypeOf<typeof welcomeValidatorAP>,
+	}) => <ApVolunteerClassPage
 		history={history}
 		availabilities={async.availabilities}
 		instances={async.instances}
+		welcomeData={async.welcomeData}
     />}
     urlProps={{}}
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 	getAsyncProps={() => {
 		return Promise.all([
 			getTypesWithAvailability.send(null),
-			getClasses.send(null)
+			getClasses.send(null),
+			welcomeAPIAP.send(null)
 		])
 		.then(([availabilities, instances]) => {
 			if (availabilities.type == "Success" && instances.type == "Success") {

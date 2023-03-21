@@ -14,6 +14,7 @@ import {History} from 'history'
 import {validator as typesValidator, AvailabilityFlag} from "async/member/ap-class-type-avail"
 import {resultValidator as classesValidator} from "async/member/ap-classes-for-calendar"
 import { Option } from 'fp-ts/lib/Option';
+import { validator as welcomeValidatorAP } from "async/member-welcome-ap";
 
 type SessionObject = {
 	instanceId: number,
@@ -25,14 +26,19 @@ type SessionObject = {
 	sessionStartDayString: string,
 	signupType: Option<string>,
 	waitlistResult: Option<string>,
-	availabilityFlag: number
+	availabilityFlag: number,
+	canTeach: boolean,
+	instructorId: Option<number>
 }
 
 export const ApVolunteerClassPage = (props: {
 	history: History,
 	availabilities: t.TypeOf<typeof typesValidator>,
-	instances: t.TypeOf<typeof classesValidator>
+	instances: t.TypeOf<typeof classesValidator>,
+	welcomeData: t.TypeOf<typeof welcomeValidatorAP>,
 }) => {
+	const [focusedInstanceId, setFocusedInstanceId] = React.useState(null as number)
+
 	const getDisplayForSession: (s: SessionObject) => React.ReactNode = s => {
 		const now = getNow();
 		const focused = false // s.instanceId == this.state.focusedInstance.getOrElse(-1);
@@ -42,32 +48,22 @@ export const ApVolunteerClassPage = (props: {
 					text: "#666666",
 					bg: "#C4C4C4"
 				}
-			} /*else if (s.signupType.getOrElse("") == "E") {
+			} else if (s.instructorId.filter(i => i == props.welcomeData.personId).isSome()) {
 				return {
 					text: "#008A00",
 					bg: "#8AFF8A"
 				}
-			} else if (s.signupType.getOrElse("") == "P") {
-				return {
-					text: "#B300B3",
-					bg: "#FF99FF"
-				}
-			} else if (s.signupType.getOrElse("") == "W" && s.waitlistResult.getOrElse("P") != "F") {
-				return {
-					text: "#CC8800",
-					bg: "#FFE6B3"
-				}
-			} else if (s.availabilityFlag == AvailabilityFlag.INELIGIBLE) {
+			} else if (!s.canTeach) {
 				return {
 					text: "#DD0000",
 					bg: "#FF9999"
 				}
-			} else if (s.availabilityFlag == AvailabilityFlag.REVIEW) {
+			} else if (s.instructorId.isSome()) { // someone else is already teaching it
 				return {
 					text: "#884411",
 					bg: "#F1B98E"
 				}
-			} */else {
+			} else {
 				return {
 					text: "#3377DD",
 					bg: "#BED3F4"
@@ -93,6 +89,11 @@ export const ApVolunteerClassPage = (props: {
 			return hash;
 		}, {} as {[K: string] : number});
 
+		const canTeachHash = props.availabilities.types.reduce((hash, type) => {
+			hash[String(type.typeId)] = type.canTeach;
+			return hash;
+		}, {} as {[K: string] : boolean});
+
 		const typesToShow = props.availabilities.types
 		.reduce((hash, t) => {
 			hash[t.typeId] = true;
@@ -114,7 +115,9 @@ export const ApVolunteerClassPage = (props: {
 					sessionStartDayString: Calendar.momentToDayString(startMoment),
 					signupType: instance.signupType,
 					waitlistResult: instance.waitlistResult,
-					availabilityFlag: typeAvailabilities[String(instance.typeId)]
+					availabilityFlag: typeAvailabilities[String(instance.typeId)],
+					canTeach: canTeachHash[String(instance.typeId)],
+					instructorId: instance.instructorId
 				};
 				return {
 					...sessionObj,
@@ -124,20 +127,23 @@ export const ApVolunteerClassPage = (props: {
 		});
 
 		const groupedByDay = _.groupBy(sessionsList, s => s.sessionStartDayString);
-		// const focusInstance = (instanceId: number) => () => {
-		// 	this.setState({
-		// 		...this.state,
-		// 		focusedInstance: some(instanceId)
-		// 	})
-		// }
+
 		return _.keys(groupedByDay).map(date => ({
 			dayMoment: Calendar.dayStringToMoment(date),
 			elements: groupedByDay[date].map(e => ({
 				id: e.sessionId,
 				display: e.display,
-				onClick: () => {} //focusInstance(e.instanceId)
+				onClick: () => setFocusedInstanceId(e.instanceId)
 			}))
 		}));
+	}
+
+	function instanceDiv() {
+		if (focusedInstanceId == null) return null;
+		const instance = props.instances.find(e => e.instanceId == focusedInstanceId)
+		const datetimeMoment = moment(instance.sessions[0].sessionDatetime, "YYYY-MM-DD HH:mm:ss");
+		return <FactaArticleRegion title={`${instance.typeName} - ${datetimeMoment.format("dddd MMMM Do, h:mmA")}`} id="focus">
+		</FactaArticleRegion>
 	}
 
 	return <FactaMainPage setBGImage={setAPImage}>
@@ -155,5 +161,6 @@ export const ApVolunteerClassPage = (props: {
 		>Hover for Legend</span> */}
 		<FactaButton text="< Back" onClick={() => Promise.resolve(props.history.push(apBasePath.getPathFromArgs({})))}/>
 	</FactaArticleRegion>
+	{instanceDiv()}
 </FactaMainPage>
 }

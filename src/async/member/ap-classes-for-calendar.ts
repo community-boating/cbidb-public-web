@@ -1,7 +1,7 @@
 import * as t from 'io-ts';
 import APIWrapper from 'core/APIWrapper';
 import { HttpMethod } from "core/HttpMethod";
-import { OptionalString } from 'util/OptionalTypeValidators';
+import { OptionalNumber, OptionalString } from 'util/OptionalTypeValidators';
 
 const sessionValidator = t.type({
 	sessionId: t.number,
@@ -19,7 +19,8 @@ export const instanceValidator = t.type({
 	waitlistResult: OptionalString,
 	seeInstanceError: OptionalString,
 	spotsLeft: t.number,
-	price: t.number
+	price: t.number,
+	instructorId: OptionalNumber
 });
 
 export const resultValidator = t.array(instanceValidator)

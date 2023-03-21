@@ -10,7 +10,8 @@ export const availabilityValidator = t.type({
 	displayOrder: t.number,
 	noSignup: t.boolean,
 	seeTypeError: OptionalString,
-	description: OptionalString
+	description: OptionalString,
+	canTeach: t.boolean
 });
 
 export const validator = t.type({
