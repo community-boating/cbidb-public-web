@@ -32,13 +32,14 @@ export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach
 			getClasses.send(null),
 			welcomeAPIAP.send(null)
 		])
-		.then(([availabilities, instances]) => {
-			if (availabilities.type == "Success" && instances.type == "Success") {
+		.then(([availabilities, instances, welcomeData]) => {
+			if (availabilities.type == "Success" && instances.type == "Success" && welcomeData.type == "Success") {
 				return Promise.resolve({
 					type: "Success",
 					success: {
 						availabilities: availabilities.success,
-						instances: instances.success
+						instances: instances.success,
+						welcomeData: welcomeData.success
 					}
 				})
 			} else {
