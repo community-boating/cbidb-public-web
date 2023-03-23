@@ -192,13 +192,21 @@ export const ApVolunteerClassPage = (props: {
 				case AvailabilityState.CLASS_ENDED:
 					return "This class has already taken place."
 				case AvailabilityState.AM_TEACHING:
-					return "You are currently scheduled to teach this class."
+					return <>
+						You are currently scheduled to teach this class.
+						<br /><br />
+						<FactaButton text="Unenroll as Instructor" onClick={() => Promise.resolve(confirm("Are you sure you want to cancel teaching this class?"))}/>
+					</>
 				case AvailabilityState.CANNOT_TEACH:
 					return "You are not yet certified to teach this class."
 				case AvailabilityState.SOMEONE_ELSE_TEACHING:
 					return "Another instructor is scheduled to teach this class."
 				case AvailabilityState.AVAILABLE:
-					return "This class does not yet have a scheduled instructor."
+					return <>
+					This class does not yet have a scheduled instructor.
+					<br /><br />
+					<FactaButton text="Sign up as Instructor" onClick={() => Promise.resolve(confirm("Are you sure you want to teach this class? Please double check the class date/time.  You may cancel up to 2 days before the class begins."))}/>
+				</>
 			}
 		}());
 
