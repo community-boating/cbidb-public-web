@@ -16,7 +16,7 @@ export const donationValidator = t.type({
 
 export const validator = t.type({
 	recurringDonations: t.array(donationValidator),
-	paymentMethod: makeOptional(cardDataValidator, "paymentMethod"),
+	paymentMethod: makeOptional(cardDataValidator),
 })
 
 const postResponseValidator = t.type({success: t.boolean})

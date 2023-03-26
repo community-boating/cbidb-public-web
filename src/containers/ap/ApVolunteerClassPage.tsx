@@ -17,6 +17,7 @@ import { Option, some } from 'fp-ts/lib/Option';
 import { validator as welcomeValidatorAP } from "async/member-welcome-ap";
 import { FactaHideShowRegion } from 'theme/facta/FactaHideShowRegion';
 import { CheckboxGroup } from 'components/InputGroup';
+import { ApClassInstanceInstructorInfo } from 'async/member/ap-class-instances-instructor-info';
 
 enum AvailabilityState {
 	CLASS_ENDED,
@@ -55,6 +56,7 @@ export const ApVolunteerClassPage = (props: {
 	availabilities: t.TypeOf<typeof typesValidator>,
 	instances: Instance[],
 	welcomeData: t.TypeOf<typeof welcomeValidatorAP>,
+	instructorInfo: ApClassInstanceInstructorInfo[]
 }) => {
 	const [focusedInstanceId, setFocusedInstanceId] = React.useState(null as number)
 	
@@ -128,6 +130,7 @@ export const ApVolunteerClassPage = (props: {
 			fontSize: focused ? "1.1em" : undefined
 		}}>
 			{`${time} - ${s.isContinuation ? "(Cont.) " : ""}${s.typeName}`}
+			<br />&nbsp;&nbsp;-- Jonathan C (2*/20)
 		</span>;
 	}
 

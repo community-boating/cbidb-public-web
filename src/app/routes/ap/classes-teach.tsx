@@ -9,6 +9,7 @@ import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
 import { apPathClassesTeach } from 'app/paths/ap/classes-teach';
 import { ApVolunteerClassPage } from 'containers/ap/ApVolunteerClassPage';
 import { apiw as welcomeAPIAP, validator as welcomeValidatorAP } from "async/member-welcome-ap";
+import {getWrapper as getInstructorInfo, ApClassInstanceInstructorInfo} from "async/member/ap-class-instances-instructor-info";
 
 
 export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach, history => <PageWrapper
@@ -18,11 +19,13 @@ export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach
 		availabilities: t.TypeOf<typeof availabilities>,
 		instances: t.TypeOf<typeof classesValidator>,
 		welcomeData: t.TypeOf<typeof welcomeValidatorAP>,
+		instructorInfo: ApClassInstanceInstructorInfo[]
 	}) => <ApVolunteerClassPage
 		history={history}
 		availabilities={async.availabilities}
 		instances={async.instances}
 		welcomeData={async.welcomeData}
+		instructorInfo={async.instructorInfo}
     />}
     urlProps={{}}
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
@@ -30,16 +33,18 @@ export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach
 		return Promise.all([
 			getTypesWithAvailability.send(null),
 			getClasses.send(null),
-			welcomeAPIAP.send(null)
+			welcomeAPIAP.send(null),
+			getInstructorInfo.send(null)
 		])
-		.then(([availabilities, instances, welcomeData]) => {
-			if (availabilities.type == "Success" && instances.type == "Success" && welcomeData.type == "Success") {
+		.then(([availabilities, instances, welcomeData, instructorInfo]) => {
+			if (availabilities.type == "Success" && instances.type == "Success" && welcomeData.type == "Success" && instructorInfo.type == "Success") {
 				return Promise.resolve({
 					type: "Success",
 					success: {
 						availabilities: availabilities.success,
 						instances: instances.success,
-						welcomeData: welcomeData.success
+						welcomeData: welcomeData.success,
+						instructorInfo: instructorInfo.success
 					}
 				})
 			} else {

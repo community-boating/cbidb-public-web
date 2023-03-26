@@ -150,7 +150,7 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 			headers={["Date", "Fund", "Amount"]}
 			rows={this.props.donationHistory.donationHistory.map(h => [
 				toMomentFromLocalDate(h.donatedDate).format("MM/DD/YYYY"),
-				self.props.fundInfo.find(f => f.fundId == h.fundId).fundName,
+				(self.props.fundInfo.find(f => f.fundId == h.fundId) || {fundName: "(discontinued fund)"}).fundName,
 				Currency.dollars(h.amount).format(),
 			])}
 		/>;
@@ -174,7 +174,7 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 								<table cellPadding="5"><tbody>
 									<tr><th>Fund Name</th><th>Amount</th></tr>
 									{self.props.currentDonationPlan.recurringDonations.map(d => <tr>
-										<td>{self.props.fundInfo.find(f => f.fundId == d.fundId).fundName}</td>
+										<td>{(self.props.fundInfo.find(f => f.fundId == d.fundId)|| {fundName: "(discontinued fund)"}).fundName}</td>
 										<td style={{textAlign: "right"}}>{Currency.cents(d.amountInCents).format()}</td>
 									</tr>)}
 								</tbody></table>
