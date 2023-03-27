@@ -18,6 +18,8 @@ import { validator as welcomeValidatorAP } from "async/member-welcome-ap";
 import { FactaHideShowRegion } from 'theme/facta/FactaHideShowRegion';
 import { CheckboxGroup } from 'components/InputGroup';
 import { ApClassInstanceInstructorInfo } from 'async/member/ap-class-instances-instructor-info';
+import {postWrapper as attemptTeach} from "async/member/ap-teach-instance"
+import { makePostJSON } from 'core/APIWrapperUtil';
 
 enum AvailabilityState {
 	CLASS_ENDED,
@@ -208,7 +210,13 @@ export const ApVolunteerClassPage = (props: {
 					return <>
 					This class does not yet have a scheduled instructor.
 					<br /><br />
-					<FactaButton text="Sign up as Instructor" onClick={() => Promise.resolve(confirm("Are you sure you want to teach this class? Please double check the class date/time.  You may cancel up to 2 days before the class begins."))}/>
+					<FactaButton text="Sign up as Instructor" onClick={() => {
+						if (confirm("Are you sure you want to teach this class? Please double check the class date/time.  You may cancel up to 2 days before the class begins.")) {
+							return attemptTeach.send(makePostJSON({
+								instanceId: focusedInstanceId
+							}))
+						} else return Promise.resolve()
+					}}/>
 				</>
 			}
 		}());
