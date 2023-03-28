@@ -98,10 +98,15 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 		}).then((res: AxiosResponse) => {
 			return this.parseResponse(res.data);
 		}, err => {
-			console.log("Error: ", err)
-			const ret: Return = Promise.resolve({type: "Failure", code: "fail_during_send", message: "An internal error has occurred.", extra: {err}});
-			console.log(ret);
-			return ret;
+			if (err.code == "ERR_BAD_REQUEST") {
+				// Just a 400, try to parse the error 
+				return this.parseResponse(err.response.data);
+			} else {
+				console.log("Error: ", err)
+				const ret: Return = Promise.resolve({type: "Failure", code: "fail_during_send", message: "An internal error has occurred.", extra: {err}});
+				console.log(ret);
+				return ret;
+			}
 		})
 		.catch(err => {
 			const ret: Return = Promise.resolve({type: "Failure", code: "fail_during_parse", message: "An internal error has occurred.", extra: {err}});

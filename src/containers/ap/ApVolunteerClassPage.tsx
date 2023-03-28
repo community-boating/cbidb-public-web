@@ -20,6 +20,8 @@ import { CheckboxGroup } from 'components/InputGroup';
 import { ApClassInstanceInstructorInfo } from 'async/member/ap-class-instances-instructor-info';
 import {postWrapper as attemptTeach} from "async/member/ap-teach-instance"
 import { makePostJSON } from 'core/APIWrapperUtil';
+import { FactaErrorDiv } from "theme/facta/FactaErrorDiv";
+import { apPathClassesTeach } from 'app/paths/ap/classes-teach';
 
 enum AvailabilityState {
 	CLASS_ENDED,
@@ -61,6 +63,18 @@ export const ApVolunteerClassPage = (props: {
 	instructorInfo: ApClassInstanceInstructorInfo[]
 }) => {
 	const [focusedInstanceId, setFocusedInstanceId] = React.useState(null as number)
+	const [validationErrors, setValidationErrors] = React.useState([] as string[])
+
+	const instructorInfoHash = React.useMemo(() => props.instructorInfo.reduce((agg, e) => {
+		agg[e.instanceId] = e;
+		return agg;
+	}, {} as {[K: number]: ApClassInstanceInstructorInfo}), [props.instructorInfo])
+
+	const errorPopup = (
+		(validationErrors.length > 0)
+		? <FactaErrorDiv errors={validationErrors}/>
+		: ""
+	);
 	
 	const initSelectedClasses: Form = props.availabilities.types.reduce((agg, t) => {
 		if (t.canTeach) agg.eligibleClasses = [t.typeId].concat(agg.eligibleClasses)
@@ -125,6 +139,13 @@ export const ApVolunteerClassPage = (props: {
 
 		const time = s.sessionStartMoment.format("h:mmA")
 
+		const instanceInfo = instructorInfoHash[s.instanceId];
+		const belowMin = (
+			instanceInfo.signupCt < instanceInfo.signupMin.getOrElse(0)
+			? "*"
+			: ""
+		)
+
 		return <span id={`S_${s.sessionId}_I_${s.instanceId}`} style={{
 			color: text,
 			backgroundColor: focused ? bg : undefined,
@@ -132,7 +153,12 @@ export const ApVolunteerClassPage = (props: {
 			fontSize: focused ? "1.1em" : undefined
 		}}>
 			{`${time} - ${s.isContinuation ? "(Cont.) " : ""}${s.typeName}`}
-			<br />&nbsp;&nbsp;-- Jonathan C (2*/20)
+			{(
+				instanceInfo.instructorName.isSome()
+				? <><br />&nbsp;&nbsp;-- {instanceInfo.instructorName.getOrElse("")} ({instanceInfo.signupCt}{belowMin}/{instanceInfo.signupMax.map(String).getOrElse("inf")})</>
+				: null
+			)}
+			
 		</span>;
 	}
 
@@ -214,7 +240,14 @@ export const ApVolunteerClassPage = (props: {
 						if (confirm("Are you sure you want to teach this class? Please double check the class date/time.  You may cancel up to 2 days before the class begins.")) {
 							return attemptTeach.send(makePostJSON({
 								instanceId: focusedInstanceId
-							}))
+							})).then(res => {
+								if (res.type == "Success") {
+									props.history.push("/redirect" + apPathClassesTeach.getPathFromArgs({}));
+								} else {
+									window.scrollTo(0, 0);
+									setValidationErrors(res.message.split("\\n"))
+								}
+							})
 						} else return Promise.resolve()
 					}}/>
 				</>
@@ -254,19 +287,19 @@ export const ApVolunteerClassPage = (props: {
 	</tr></tbody></table>)
 
 	return <FactaMainPage setBGImage={setAPImage}>
-	{/* {errorPopup} */}
-	<FactaArticleRegion title="AP Class Calendar">
-		<Calendar
-			monthStartOnDate={0}
-			today={getNow()}
-			days={calendarDayElements()}
-			showElementsInAdjacentMonths={false}
-		/>
-		<FactaButton text="< Back" onClick={() => Promise.resolve(props.history.push(apBasePath.getPathFromArgs({})))}/>
-		<FactaHideShowRegion title="Filter Calendar">
+		{errorPopup}
+		<FactaArticleRegion title="AP Class Calendar">
+			<Calendar
+				monthStartOnDate={0}
+				today={getNow()}
+				days={calendarDayElements()}
+				showElementsInAdjacentMonths={false}
+			/>
+			<FactaButton text="< Back" onClick={() => Promise.resolve(props.history.push(apBasePath.getPathFromArgs({})))}/>
+			<FactaHideShowRegion title="Filter Calendar">
 				{filterTable}
-		</FactaHideShowRegion>
-	</FactaArticleRegion>
-	{instanceDiv()}
-</FactaMainPage>
+			</FactaHideShowRegion>
+		</FactaArticleRegion>
+		{instanceDiv()}
+	</FactaMainPage>
 }
