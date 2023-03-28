@@ -19,6 +19,7 @@ import { FactaHideShowRegion } from 'theme/facta/FactaHideShowRegion';
 import { CheckboxGroup } from 'components/InputGroup';
 import { ApClassInstanceInstructorInfo } from 'async/member/ap-class-instances-instructor-info';
 import {postWrapper as attemptTeach} from "async/member/ap-teach-instance"
+import {postWrapper as cancelTeach} from "async/member/ap-cancel-teach-instance"
 import { makePostJSON } from 'core/APIWrapperUtil';
 import { FactaErrorDiv } from "theme/facta/FactaErrorDiv";
 import { apPathClassesTeach } from 'app/paths/ap/classes-teach';
@@ -155,7 +156,7 @@ export const ApVolunteerClassPage = (props: {
 			{`${time} - ${s.isContinuation ? "(Cont.) " : ""}${s.typeName}`}
 			{(
 				instanceInfo.instructorName.isSome()
-				? <><br />&nbsp;&nbsp;-- {instanceInfo.instructorName.getOrElse("")} ({instanceInfo.signupCt}{belowMin}/{instanceInfo.signupMax.map(String).getOrElse("inf")})</>
+				? <><br />&nbsp;&nbsp;-- {instanceInfo.instructorName.getOrElse("")} ({instanceInfo.signupCt}{belowMin}/{instanceInfo.signupMax.map(String).getOrElse("-")})</>
 				: null
 			)}
 			
@@ -219,14 +220,27 @@ export const ApVolunteerClassPage = (props: {
 		const datetimeMoment = moment(instance.sessions[0].sessionDatetime, "YYYY-MM-DD HH:mm:ss");
 
 		const instanceContent = (function() {
-			switch (availability(instance, moment(instance.sessions[0].sessionDatetime, "YYYY-MM-DD HH:mm:ss"), canTeachHash[String(instance.typeId)])) {
+			switch (availability(instance, datetimeMoment, canTeachHash[String(instance.typeId)])) {
 				case AvailabilityState.CLASS_ENDED:
 					return "This class has already taken place."
 				case AvailabilityState.AM_TEACHING:
 					return <>
 						You are currently scheduled to teach this class.
 						<br /><br />
-						<FactaButton text="Unenroll as Instructor" onClick={() => Promise.resolve(confirm("Are you sure you want to cancel teaching this class?"))}/>
+						<FactaButton text="Cancel as Instructor" onClick={() => {
+							if (confirm("Are you sure you want to CANCEL teaching this class?")) {
+								return cancelTeach.send(makePostJSON({
+									instanceId: focusedInstanceId
+								})).then(res => {
+									if (res.type == "Success") {
+										props.history.push("/redirect" + apPathClassesTeach.getPathFromArgs({}));
+									} else {
+										window.scrollTo(0, 0);
+										setValidationErrors(res.message.split("\\n"))
+									}
+								})
+							} else return Promise.resolve()
+						}}/>
 					</>
 				case AvailabilityState.CANNOT_TEACH:
 					return "You are not yet certified to teach this class."
@@ -237,7 +251,7 @@ export const ApVolunteerClassPage = (props: {
 					This class does not yet have a scheduled instructor.
 					<br /><br />
 					<FactaButton text="Sign up as Instructor" onClick={() => {
-						if (confirm("Are you sure you want to teach this class? Please double check the class date/time.  You may cancel up to 2 days before the class begins.")) {
+						if (confirm("Are you sure you want to teach this class? Please DOUBLE CHECK the class date/time: " + datetimeMoment.format("MM/DD/YYYY hh:mmA"))) {
 							return attemptTeach.send(makePostJSON({
 								instanceId: focusedInstanceId
 							})).then(res => {
