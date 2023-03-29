@@ -63,6 +63,11 @@ export default (
 	const actions: {
 		place?: number, getElements: ((history: History<any>) => JSX.Element)[], show?: () => boolean
 	}[] = [{
+		show: () => true,
+		getElements: [
+			() => <Link to={apClassesTeachPageRoute.getPathFromArgs({})}>Volunteer: Sign up to Teach Classes</Link>
+		]	
+	}, {
 		place: 0,
 		getElements: [
 			LINKS.regLink("Purchase an Adult Program membership!")
@@ -223,11 +228,6 @@ export default (
 		getElements: [
 			(history: History<any>) => <a href="http://www.eventbrite.com/e/415013625927/?discount=FYMEM" target="_blank">Click here for your discounted Fall Dock Party tickets and to register for the Ed Long UnRegatta</a>
 		]
-	}, {
-		show: () => true,
-		getElements: [
-			() => <Link to={apClassesTeachPageRoute.getPathFromArgs({})}>Volunteer: Sign up to Teach Classes</Link>
-		]	
 	}];
 
 	return (<React.Fragment>

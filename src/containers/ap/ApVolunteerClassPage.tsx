@@ -141,22 +141,27 @@ export const ApVolunteerClassPage = (props: {
 		const time = s.sessionStartMoment.format("h:mmA")
 
 		const instanceInfo = instructorInfoHash[s.instanceId];
-		const belowMin = (
-			instanceInfo.signupCt < instanceInfo.signupMin.getOrElse(0)
-			? "*"
-			: ""
-		)
 
-		return <span id={`S_${s.sessionId}_I_${s.instanceId}`} style={{
+		// 
+		const instructorLine = instanceInfo.instructorName.map(i => {
+			const sigupCt = (
+				instanceInfo.signupCt < instanceInfo.signupMin.getOrElse(0)
+				? <span style={{color: "#dd0000"}}>({instanceInfo.signupCt}/{instanceInfo.signupMax.map(String).getOrElse("-")})</span>
+				: <>({instanceInfo.signupCt}/{instanceInfo.signupMax.map(String).getOrElse("-")})</>
+			)
+			return <><br /><span style={{color: "#666"}}>&nbsp;&nbsp;-- {instanceInfo.instructorName.getOrElse("")} {sigupCt}</span></>
+		}).getOrElse(null)
+
+		return <span id={`S_${s.sessionId}_I_${s.instanceId}`}>
+			<span  style={{
 			color: text,
 			backgroundColor: focused ? bg : undefined,
 			fontWeight: focused ? "bold" : undefined,
 			fontSize: focused ? "1.1em" : undefined
-		}}>
-			{`${time} - ${s.isContinuation ? "(Cont.) " : ""}${s.typeName}`}
+		}}>{`${time} - ${s.isContinuation ? "(Cont.) " : ""}${s.typeName}`}</span>
 			{(
 				instanceInfo.instructorName.isSome()
-				? <><br />&nbsp;&nbsp;-- {instanceInfo.instructorName.getOrElse("")} ({instanceInfo.signupCt}{belowMin}/{instanceInfo.signupMax.map(String).getOrElse("-")})</>
+				? instructorLine
 				: null
 			)}
 			
@@ -215,9 +220,10 @@ export const ApVolunteerClassPage = (props: {
 
 	function instanceDiv() {
 		if (focusedInstanceId == null) return null;
-
-		const instance = props.instances.find(e => e.instanceId == focusedInstanceId)
+		const instance = props.instances.find(e => e.instanceId == focusedInstanceId);
 		const datetimeMoment = moment(instance.sessions[0].sessionDatetime, "YYYY-MM-DD HH:mm:ss");
+
+		const confirmText = "Are you sure you want to teach this class? Please DOUBLE CHECK the class date/time: " + datetimeMoment.format("dddd MMM Do hh:mmA")
 
 		const instanceContent = (function() {
 			switch (availability(instance, datetimeMoment, canTeachHash[String(instance.typeId)])) {
@@ -251,7 +257,7 @@ export const ApVolunteerClassPage = (props: {
 					This class does not yet have a scheduled instructor.
 					<br /><br />
 					<FactaButton text="Sign up as Instructor" onClick={() => {
-						if (confirm("Are you sure you want to teach this class? Please DOUBLE CHECK the class date/time: " + datetimeMoment.format("MM/DD/YYYY hh:mmA"))) {
+						if (confirm(confirmText)) {
 							return attemptTeach.send(makePostJSON({
 								instanceId: focusedInstanceId
 							})).then(res => {
