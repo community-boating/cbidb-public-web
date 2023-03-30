@@ -62,6 +62,7 @@ import { jpPublicClassesRoute } from 'app/routes/jp/all-classes';
 import { apDonateEditRoute } from 'app/routes/ap/donate-edit';
 import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
 import { apRentalRegRoute } from 'app/routes/ap/rental-reg';
+import { apGuidedSailTeachRoute } from './routes/ap/guided-sail-teach';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)
@@ -138,6 +139,7 @@ export default function (history: History<any>) {
 		checkoutPageRouteAP.asRoute(history),
 		ratingsPageRoute.asRoute(history),
 		classPageRoute.asRoute(history),
+		apGuidedSailTeachRoute.asRoute(history),
 		signupNotePageRoute.asRoute(history),
 		classTimePageRoute.asRoute(history),
 		regPageRoute.asRoute(history),

@@ -1,11 +1,14 @@
 import * as moment from 'moment';
 
+export const DATETIME_FORMAT = "YYYY-MM-DDTHH:mm:ss"
+export const DATE_FORMAT = "YYYY-MM-DD"
+
 export function toMomentFromLocalDateTime(input: string): moment.Moment {
-	return moment(input, "YYYY-MM-DDTHH:mm:ss")
+	return moment(input, DATETIME_FORMAT)
 }
 
 export function toMomentFromLocalDate(input: string): moment.Moment {
-	return moment(input, "YYYY-MM-DD")
+	return moment(input, DATE_FORMAT)
 }
 
 export function sortOnMoment<T>(f: (e: T) => moment.Moment): ((a: T, b: T) => number) {
