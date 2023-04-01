@@ -20,6 +20,7 @@ import { setJPImage } from 'util/set-bg-image';
 import { jpBasePath } from 'app/paths/jp/_base';
 import FactaSidebarPage from 'theme/facta/FactaSidebarPage';
 import { FactaSuccessDiv } from 'theme/facta/FactaSuccessDiv';
+import { JpSignupError } from './JpSignupError';
 
 export const path = "/class/:personId"
 
@@ -51,7 +52,8 @@ interface Props {
 }
 
 type State = {
-	validationErrors: string[]
+	validationErrors: string[],
+	clickedInstance: number
 }
 
 export default class SelectClassType extends React.Component<Props, State> {
@@ -60,8 +62,27 @@ export default class SelectClassType extends React.Component<Props, State> {
 		super(props);
 		this.formData = apiToForm(this.props.apiResultArray);
 		this.state = {
-			validationErrors: []
+			validationErrors: [],
+			clickedInstance: null
 		}
+	}
+	private findTypeId(instanceId: number) {
+		return this.props.signups.waitLists.filter(wl => wl.instanceId == instanceId).map(wl => wl.typeId)
+			.concat(this.props.signups.waitListTops.filter(wl => wl.instanceId == instanceId).map(wl => wl.typeId))[0]
+	}
+	private findConflictingSignups(instanceId: number) {
+		const typeId = this.findTypeId(instanceId);
+			
+
+		return this.props.signups.waitLists.filter(wl => wl.typeId == typeId && wl.instanceId != instanceId ).map(wl => ({
+			instanceId: wl.instanceId,
+			dateString: wl.dateString,
+			timeString: wl.timeString
+		})).concat(this.props.signups.waitListTops.filter(wl => wl.typeId == typeId && wl.instanceId != instanceId ).map(wl => ({
+			instanceId: wl.instanceId,
+			dateString: wl.dateString,
+			timeString: wl.timeString
+		})))
 	}
 	render() {
 		const self = this;
@@ -116,9 +137,26 @@ export default class SelectClassType extends React.Component<Props, State> {
 			: ""
 		);
 
+		const errorStrings = this.state.validationErrors.flatMap(ve => ve.split("<br><br>"))
+
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
+			? <FactaErrorDiv errors={errorStrings} dontEscapeHTML={false} suffixes={JpSignupError({
+				personId: this.props.personId,
+				typeId: this.findTypeId(this.state.clickedInstance),
+				instanceId: this.state.clickedInstance,
+				path: this.props.history.location.pathname,
+				history: this.props.history,
+				errs: errorStrings,
+				conflictingSignups: this.findConflictingSignups(this.state.clickedInstance),
+				setValidationErrors: errors => {
+					window.scrollTo(0, 0);
+					this.setState({
+						...this.state,
+						validationErrors: errors
+					})
+				}
+			})}/>
 			: ""
 		);
 
@@ -142,6 +180,7 @@ export default class SelectClassType extends React.Component<Props, State> {
 				signups={self.props.signups}
 				history={self.props.history}
 				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}
+				setClickedInstance={function(clickedInstance: number) { return self.setState({ ...self.state, clickedInstance }); }.bind(self)}
 			/>}>
 				{success}
 			</FactaSidebarPage>
