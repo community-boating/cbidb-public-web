@@ -18,6 +18,8 @@ import NavBarLogoutOnly from 'components/NavBarLogoutOnly';
 import {classPageRoute} from "app/routes/jp/class"
 import { setJPImage } from 'util/set-bg-image';
 import FactaSidebarPage from 'theme/facta/FactaSidebarPage';
+import { JpSignupError } from './JpSignupError';
+
 
 export type APIResult = t.TypeOf<typeof getClassInstancesValidator>
 
@@ -48,7 +50,8 @@ type Form = typeof defaultForm
 
 type State = {
 	formData: Form,
-	validationErrors: string[]
+	validationErrors: string[],
+	clickedInstance: number
 }
 
 class FormSelect extends Select<Form> {}
@@ -65,9 +68,23 @@ export default class SelectClassTime extends React.Component<Props, State> {
 		super(props)
 		this.state = {
 			formData: defaultForm,
-			validationErrors: []
+			validationErrors: [],
+			clickedInstance: null
 		}
 	}
+
+	private findConflictingSignups(instanceId: number) {
+		return this.props.signups.waitLists.filter(wl => wl.typeId == this.props.typeId && wl.instanceId != instanceId ).map(wl => ({
+			instanceId: wl.instanceId,
+			dateString: wl.dateString,
+			timeString: wl.timeString
+		})).concat(this.props.signups.waitListTops.filter(wl => wl.typeId == this.props.typeId && wl.instanceId != instanceId ).map(wl => ({
+			instanceId: wl.instanceId,
+			dateString: wl.dateString,
+			timeString: wl.timeString
+		})))
+	}
+	
 	render() {
 		const self = this;
 		const formData = this.state.formData
@@ -92,12 +109,31 @@ export default class SelectClassTime extends React.Component<Props, State> {
 				juniorId={some(this.props.personId)} 
 				history={this.props.history}
 				setValidationErrors={function(validationErrors: string[]) { return self.setState({ ...self.state, validationErrors }); }.bind(self)}
+				setClickedInstance={function(clickedInstance: number) { return self.setState({ ...self.state, clickedInstance }); }.bind(self)}
 				url={this.props.history.location.pathname}
 			/>)
 		)
+
+		const errorStrings = this.state.validationErrors.flatMap(ve => ve.split("<br><br>"))
+
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors.flatMap(ve => ve.split("<br><br>"))}/>
+			? <FactaErrorDiv errors={errorStrings} dontEscapeHTML={false} suffixes={JpSignupError({
+				personId: this.props.personId,
+				typeId: this.props.typeId,
+				instanceId: this.state.clickedInstance,
+				path: this.props.history.location.pathname,
+				history: this.props.history,
+				errs: errorStrings,
+				conflictingSignups: this.findConflictingSignups(this.state.clickedInstance),
+				setValidationErrors: errors => {
+					window.scrollTo(0, 0);
+					this.setState({
+						...this.state,
+						validationErrors: errors
+					})
+				}
+			})}/>
 			: ""
 		);
 
@@ -129,6 +165,7 @@ export default class SelectClassTime extends React.Component<Props, State> {
 				signups={self.props.signups}
 				history={self.props.history}
 				setValidationErrors={validationErrors => self.setState({ ...self.state, validationErrors })}
+				setClickedInstance={function(clickedInstance: number) { return self.setState({ ...self.state, clickedInstance }); }.bind(self)}
 			/>} />
 		)
 	}

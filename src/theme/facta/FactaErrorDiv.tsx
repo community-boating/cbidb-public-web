@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export const FactaErrorDiv = (props: { errors: string[], dontEscapeHTML?: boolean }) => (
+export const FactaErrorDiv = (props: { errors: string[], dontEscapeHTML?: boolean, suffixes?: React.ReactNode[] }) => (
 	<div className="alert-global alert-top alert-yellow" style={{marginBottom: "15px"}}>
 		<div className="row no-gutters">
 			<table><tbody><tr>
@@ -25,6 +25,7 @@ export const FactaErrorDiv = (props: { errors: string[], dontEscapeHTML?: boolea
 										? <span dangerouslySetInnerHTML={{__html: err}} />
 										: err
 									)}
+									{(props.suffixes || [])[i]}
 								</li>
 							))}
 						</ul>

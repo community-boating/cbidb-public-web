@@ -107,6 +107,7 @@ export default class AllClasses extends React.Component<Props, State> {
 				juniorId={none} 
 				history={this.props.history}
 				setValidationErrors={() => {}}
+				setClickedInstance={() => {}}
 				url={this.props.history.location.pathname}
 			/>)
 		)
