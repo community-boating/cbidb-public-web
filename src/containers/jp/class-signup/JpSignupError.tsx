@@ -26,7 +26,6 @@ export const JpSignupError = (props: {
 	return props.errs.map((e, i) => {
 		if (e.indexOf("other wait lists") > -1 && props.errs.length == 1) {
 			return <>
-				{e}
 				<br />
 				<div>
 					<ul>
@@ -79,7 +78,6 @@ export const JpSignupError = (props: {
 			</>
 		} else if (e.indexOf("already enrolled") > -1 && props.errs.length == 1) {
 			return <>
-				{e}
 				<br />
 				<div>
 					<ul>
