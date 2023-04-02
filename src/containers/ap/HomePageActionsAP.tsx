@@ -49,7 +49,8 @@ export default (
 	discountAmt: Currency,
 	expirationDate: Option<Moment>,
 	show4th: boolean,
-	hasOpenStaggeredOrder: boolean
+	hasOpenStaggeredOrder: boolean,
+	showVol: boolean
 ) => {
 	const renewText = () => (<React.Fragment>
 		Renew for a year
@@ -63,7 +64,7 @@ export default (
 	const actions: {
 		place?: number, getElements: ((history: History<any>) => JSX.Element)[], show?: () => boolean
 	}[] = [{
-		show: () => true,
+		show: () => showVol,
 		getElements: [
 			() => <Link to={apClassesTeachPageRoute.getPathFromArgs({})}>Volunteer: Sign up to Teach Classes</Link>
 		]	
