@@ -55,6 +55,7 @@ export default (props: {
 	signups: GetSignupsAPIResult,
 	history: History<any>,
 	setValidationErrors: (errors: string[]) => void
+	setClickedInstance: (clickedInstance: number) => void,
 }) => {
 	function makeAction(apiw: APIWrapper<any, any, any>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, payload: any){
 		e.preventDefault();
@@ -63,6 +64,7 @@ export default (props: {
 				props.history.push(`/redirect${window.location.pathname}`)
 			} else {
 				window.scrollTo(0, 0);
+				props.setClickedInstance(payload.instanceId)
 				props.setValidationErrors(ret.message.split("\\n") );
 			}
 		});

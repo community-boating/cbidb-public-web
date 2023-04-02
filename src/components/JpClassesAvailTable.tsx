@@ -19,6 +19,7 @@ interface Props {
 	juniorId: Option<number>,
 	history: History<any>,
 	setValidationErrors: (errors: string[]) => void,
+	setClickedInstance: (clickedInstance: number) => void,
 	url: string
 }
 
@@ -38,6 +39,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 				this.props.history.push(url)
 			} else {
 				window.scrollTo(0, 0);
+				this.props.setClickedInstance(instanceId)
 				this.props.setValidationErrors(ret.message.split("\\n") );
 			}
 		});
