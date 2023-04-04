@@ -57,7 +57,7 @@ export default (
 		{expirationDate.map(ed => <>
 			<br />
 			({discountAmt.format()} discount until {ed.clone().add(7, 'days').format("MM/DD/YYYY")})
-		</>)}
+		</>).getOrElse(null)}
 		</React.Fragment>);
 
 	const noGP = getNoGP(bv);
