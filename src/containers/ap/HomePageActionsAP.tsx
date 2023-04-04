@@ -54,8 +54,10 @@ export default (
 ) => {
 	const renewText = () => (<React.Fragment>
 		Renew for a year
-		<br />
-		({discountAmt.format()} discount until {expirationDate.getOrElse(null).clone().add(7, 'days').format("MM/DD/YYYY")})
+		{expirationDate.map(ed => <>
+			<br />
+			({discountAmt.format()} discount until {ed.clone().add(7, 'days').format("MM/DD/YYYY")})
+		</>)}
 		</React.Fragment>);
 
 	const noGP = getNoGP(bv);
