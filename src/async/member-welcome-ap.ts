@@ -39,6 +39,9 @@ export const validator = t.type({
 	show4thLink: t.boolean,
 	discountsResult: discountsValidator,
 	openStaggeredOrderId: OptionalNumber,
+	hasBasicVolunteerRating: t.boolean,
+	volunteerGoodStanding: t.boolean,
+	volRatings: t.string
 })
 
 const path = "/member-welcome-ap"

@@ -24,7 +24,7 @@ export const orderStatusValidator = t.type({
 	orderId: t.number,
 	total: t.number,
 	paymentMethodRequired: t.boolean,
-	cardData: makeOptional(cardDataValidator, "CardData"),
+	cardData: makeOptional(cardDataValidator),
 	staggeredPayments: t.array(staggeredPaymentValidator),
 	jpAvailablePaymentSchedule: t.array(staggeredPaymentValidator),
 	nameFirst: OptionalString,

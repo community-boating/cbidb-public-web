@@ -62,6 +62,7 @@ import { jpPublicClassesRoute } from 'app/routes/jp/all-classes';
 import { apDonateEditRoute } from 'app/routes/ap/donate-edit';
 import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
 import { apRentalRegRoute } from 'app/routes/ap/rental-reg';
+import { apClassesTeachPageRoute } from './routes/ap/classes-teach';
 import { apGuidedSailTeachRoute } from './routes/ap/guided-sail-teach';
 
 const defaultRouteRender = () => {
@@ -154,6 +155,7 @@ export default function (history: History<any>) {
 		jpManageStaggeredPaymentsRoute.asRoute(history),
 		jpHomePageRoute.asRoute(history),
 		apClassesPageRoute.asRoute(history),
+		apClassesTeachPageRoute.asRoute(history),
 		apAddonsPageRoute.asRoute(history),
 		apManageStaggeredPaymentsRoute.asRoute(history),
 		apDonateEditRoute.asRoute(history),

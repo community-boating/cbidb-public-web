@@ -16,6 +16,7 @@ import { apPathAddons } from 'app/paths/ap/addons';
 import { apDonateRoute } from 'app/routes/ap/donate';
 import {apManageStaggeredPaymentsRoute} from "app/routes/ap/payments"
 import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
+import { apClassesTeachPageRoute } from 'app/routes/ap/classes-teach';
 import { apGuidedSailTeachRoute } from 'app/routes/ap/guided-sail-teach';
 
 function testBit(num: number, bit: number) {
@@ -49,12 +50,15 @@ export default (
 	discountAmt: Currency,
 	expirationDate: Option<Moment>,
 	show4th: boolean,
-	hasOpenStaggeredOrder: boolean
+	hasOpenStaggeredOrder: boolean,
+	showVol: boolean
 ) => {
 	const renewText = () => (<React.Fragment>
 		Renew for a year
+		{expirationDate.map(ed => <>
 		<br />
-		({discountAmt.format()} discount until {expirationDate.getOrElse(null).clone().add(7, 'days').format("MM/DD/YYYY")})
+			({discountAmt.format()} discount until {ed.clone().add(7, 'days').format("MM/DD/YYYY")})
+		</>).getOrElse(null)}
 		</React.Fragment>);
 
 	const noGP = getNoGP(bv);
@@ -63,6 +67,11 @@ export default (
 	const actions: {
 		place?: number, getElements: ((history: History<any>) => JSX.Element)[], show?: () => boolean
 	}[] = [{
+		show: () => showVol,
+		getElements: [
+			() => <Link to={apClassesTeachPageRoute.getPathFromArgs({})}>Volunteer: Sign up to Teach Classes</Link>
+		]	
+	}, {
 		place: 0,
 		getElements: [
 			LINKS.regLink("Purchase an Adult Program membership!")
@@ -221,7 +230,7 @@ export default (
 	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <a href="http://www.eventbrite.com/e/415013625927/?discount=FYMEM" target="_blank">Click here for your discounted Fall Dock Party tickets and to register for the Ed Long UnRegatta</a>
+			(history: History<any>) => <a target="_blank" href={`http://www.eventbrite.com/e/605915608897/?discount=APFY`}>Intro to Celestial Navigation, $10 off discount link</a>
 		]
 	}, {
 		show: () => true,

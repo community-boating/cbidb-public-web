@@ -38,6 +38,8 @@ export default class HomePageAP extends React.Component<Props, State> {
 
 		const expirationDate = self.props.data.expirationDate.map(d => moment(d))
 
+		const isVolunteer = self.props.data.hasBasicVolunteerRating && self.props.data.volunteerGoodStanding
+
 		const mainTable = <FactaArticleRegion title="My Membership">
 			<StandardReport
 				headers={["Name", "Status", "Actions"]}
@@ -51,7 +53,8 @@ export default class HomePageAP extends React.Component<Props, State> {
 						Currency.dollars(self.props.data.discountsResult.renewalDiscountAmt),
 						expirationDate,
 						self.props.data.show4thLink,
-						self.props.data.openStaggeredOrderId.isSome()
+						self.props.data.openStaggeredOrderId.isSome(),
+						isVolunteer
 					)
 				]]}
 				rawHtml={{1: true}}
@@ -59,7 +62,14 @@ export default class HomePageAP extends React.Component<Props, State> {
 		</FactaArticleRegion>
 
 		const ratings = <FactaArticleRegion title="My Ratings">
-			<span dangerouslySetInnerHTML={{__html: self.props.data.ratings}}/>
+			<table><tbody><tr>
+				<td><span dangerouslySetInnerHTML={{__html: self.props.data.ratings}}/></td>
+				{(
+					isVolunteer
+					? <td style={{verticalAlign: "top", paddingLeft: "20px"}}><span dangerouslySetInnerHTML={{__html: self.props.data.volRatings}}/></td>
+					: null
+				)}
+			</tr></tbody></table>
 			<p>
 				<span style={{fontWeight: "bold", color:"red"}}>Acquired Rating</span>
 				<br />
