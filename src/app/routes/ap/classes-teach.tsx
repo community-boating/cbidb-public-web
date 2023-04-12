@@ -28,7 +28,11 @@ export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach
 		instructorInfo={async.instructorInfo}
     />}
     urlProps={{}}
-	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setAPImage}>
+		<div style={{textAlign: "center"}}>
+			<img src="/images/spinner-grey.gif" />
+		</div>
+	</FactaLoadingPage>}
 	getAsyncProps={() => {
 		return Promise.all([
 			getTypesWithAvailability.send(null),

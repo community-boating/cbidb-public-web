@@ -10,7 +10,7 @@ export const apGuidedSailTeachRoute = new RouteWrapper(true, apPathGuidedSailTea
 	key="guided-sail-teach"
 	history={history}
 	component={(urlProps: {}, async: {}) => <GuidedSailTeachPage
-
+		history={history}
 	/>}
 	urlProps={{}}
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}

@@ -11,8 +11,10 @@ import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import {Select} from "components/Select"
 import { DATETIME_FORMAT, DATE_FORMAT } from 'util/dateUtil';
 import FactaButton from 'theme/facta/FactaButton';
+import {History} from 'history'
+import { apBasePath } from 'app/paths/ap/_base';
 
-export const GuidedSailTeachPage = () => {
+export const GuidedSailTeachPage = (props: {history: History}) => {
 	const [selectedDay, setSelectedDay] = React.useState(none as Option<typeof GUIDED_SAIL_AVAIL_SLOTS[number]>)
 	const [selectedSlot, setSelectedSlot] = React.useState(none as Option<Moment>)
 
@@ -122,6 +124,7 @@ export const GuidedSailTeachPage = () => {
 			days={dayElements}
 			showElementsInAdjacentMonths={false}
 		/><br />
+		<FactaButton text="< Back" onClick={() => Promise.resolve(props.history.push(apBasePath.getPathFromArgs({})))}/>
 		{existingSignups}
 		{dayRegion}
 		{signupButton}
