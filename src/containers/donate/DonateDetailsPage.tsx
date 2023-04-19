@@ -76,6 +76,8 @@ const fundCodeToId = (code: string) => {
 		return some(MAGIC_NUMBERS.DONATION_FUND_ID.PRIEBATSCH_ENDOWMENT)
 	case "jpoperations":
 		return some(MAGIC_NUMBERS.DONATION_FUND_ID.JP_OPERATIONS)
+	case "jpstem":
+		return some(MAGIC_NUMBERS.DONATION_FUND_ID.JP_STEM)
 	default:
 		return none;
 	}
