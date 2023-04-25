@@ -246,7 +246,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				}))}
 				justElement={true}
 			/>&nbsp;&nbsp;
-			<a href="#" onClick={() => newPopWin(fundsPath.getPathFromArgs({}), 1100, 800)} >Click here for more information about our funds.</a>
+			<a href="#" onClick={() => newPopWin(fundsPath.getPathFromArgs({}), 1100, 800)} >Click here for a list of gift purposes.</a>
 		</div>)
 
 		const donationRow = this.state.availableFunds.length > 0 ? (<table style={{width: "100%"}}><tbody><tr>
@@ -456,7 +456,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				Please help us keep "Sailing for All" on the Charles River by making a tax deductible donation. Your support is greatly appreciated!`}
 				<br />
 				<br />
-				You can donate to multiple areas if you wish; simply choose a fund, click "Add Donation," and repeat for as many funds as you like.
+				You can donate to multiple areas if you wish; simply choose a gift purpose, click "Add Donation," and repeat for as many purposes as you like.
 			</FactaArticleRegion>
 			{donationRow}
 			<table><tbody><tr style={{verticalAlign: "top"}}>
