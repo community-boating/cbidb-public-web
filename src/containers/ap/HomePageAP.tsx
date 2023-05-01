@@ -62,14 +62,14 @@ export default class HomePageAP extends React.Component<Props, State> {
 		</FactaArticleRegion>
 
 		const ratings = <FactaArticleRegion title="My Ratings">
-			<table><tbody><tr>
-				<td><span dangerouslySetInnerHTML={{__html: self.props.data.ratings}}/></td>
+			<div style={{display: "flex", flexDirection: "row", flexWrap: "wrap"}}>
+				<div style={{verticalAlign: "top", padding: "0 20px 20px 0"}}><span dangerouslySetInnerHTML={{__html: self.props.data.ratings}}/></div>
 				{(
 					isVolunteer
-					? <td style={{verticalAlign: "top", paddingLeft: "20px"}}><span dangerouslySetInnerHTML={{__html: self.props.data.volRatings}}/></td>
+					? <div><span dangerouslySetInnerHTML={{__html: self.props.data.volRatings}}/></div>
 					: null
 				)}
-			</tr></tbody></table>
+			</div>
 			<p>
 				<span style={{fontWeight: "bold", color:"red"}}>Acquired Rating</span>
 				<br />
