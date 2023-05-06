@@ -76,6 +76,8 @@ const fundCodeToId = (code: string) => {
 		return some(MAGIC_NUMBERS.DONATION_FUND_ID.PRIEBATSCH_ENDOWMENT)
 	case "jpoperations":
 		return some(MAGIC_NUMBERS.DONATION_FUND_ID.JP_OPERATIONS)
+	case "jpstem":
+		return some(MAGIC_NUMBERS.DONATION_FUND_ID.JP_STEM)
 	default:
 		return none;
 	}
@@ -270,7 +272,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				}))}
 				justElement={true}
 			/>&nbsp;&nbsp;
-			<a href="#" onClick={() => newPopWin('/funds#funds', 1100, 800)} >Click here for more information about our funds.</a>
+			<a href="#" onClick={() => newPopWin('/funds#funds', 1100, 800)} >Click here for a list of gift purposes.</a>
 		</div>)
 
 		const inMemoryCell = (<div>
@@ -387,7 +389,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					for kids, adults and individuals with special needs under the mission of 'sailing for all.'
 					<br />
 					<br />
-					You can donate to multiple areas if you wish; simply choose a fund, click "Add Donation," and repeat for as many funds as you like.
+					You can donate to multiple areas if you wish; simply choose a gift purpose, click "Add Donation," and repeat for as many purposes as you like.
 				</FactaArticleRegion>
 				{donationRow}
 				{self.props.cartItems.length > 0 ? ifStarted : null}

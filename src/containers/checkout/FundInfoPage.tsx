@@ -28,7 +28,7 @@ export default class FundInfoPage extends React.PureComponent<Props> {
 	}
 	render() {
 		return <FactaMainPage setBGImage={setCheckoutImage}>
-			<FactaArticleRegion title={<span id="funds">CBI Funds</span>}>
+			<FactaArticleRegion title={<span id="funds">CBI Gift Purposes</span>}>
 				{this.props.donationFunds.filter(FundInfoPage.isNotEndowment).map(FundInfoPage.renderFund)}
 				<div style={{ borderLeft: "4px solid", paddingLeft: "4px"}}>
 				Donations may be made to one of Community Boating’s permanently restricted endowment funds.
