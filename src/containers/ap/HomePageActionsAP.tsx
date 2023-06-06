@@ -229,7 +229,7 @@ export default (
 	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <a target="_blank" href={`http://www.eventbrite.com/e/605915608897/?discount=APFY`}>Intro to Celestial Navigation, $10 off discount link</a>
+			(history: History<any>) => <a target="_blank" href={`http://www.eventbrite.com/e/648204355677/?discount=CBIMEMBER`}>Click here for your discounted Summer Kickoff Lawn and Dock Party Tickets</a>
 		]
 	}];
 
