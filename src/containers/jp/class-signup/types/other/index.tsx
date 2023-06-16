@@ -1,5 +1,6 @@
 import advWSClinic from "./advanced-ws-clinic";
 import envSci from "./env-sci";
+import microscopy from "./microscopy"
 import funGames from "./fun-games";
 import mainsail from "./mainsail";
 import mercClinic from "./merc-clinic";
@@ -26,6 +27,7 @@ export default ([
 	advWSClinic,
 	wsRacingClinic,
 	envSci,
+	microscopy,
 	raceTeam,
 	robosail,
 	funGames,
