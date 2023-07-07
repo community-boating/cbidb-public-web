@@ -8,6 +8,7 @@ import mercFastTrack from "./merc-fast-track";
 import paddleAdventure from "./paddle-adventure";
 import raceTeam from "./race-team";
 import robosail from "./robosail";
+import roboSub from "./robosub";
 import sup from "./sup";
 import ws from "./ws";
 import wsRacingClinic from "./ws-racing-clinic";
@@ -30,6 +31,7 @@ export default ([
 	microscopy,
 	raceTeam,
 	robosail,
+	roboSub,
 	funGames,
 	learnToRace,
 	waterQualityLab,
