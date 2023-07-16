@@ -63,6 +63,7 @@ import { apDonateEditRoute } from 'app/routes/ap/donate-edit';
 import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
 import { apRentalRegRoute } from 'app/routes/ap/rental-reg';
 import { apClassesTeachPageRoute } from './routes/ap/classes-teach';
+import { mugarDonatePageRoute } from './routes/mugarstatue';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)
@@ -122,6 +123,7 @@ export default function (history: History<any>) {
 		jpLoginPageRoute.asRoute(history),
 		giftCertificatesPageRoute.asRoute(history),
 		donatePageRoute.asRoute(history),
+		mugarDonatePageRoute.asRoute(history),
 		standaloneLoginRoute.asRoute(history),
 		jpPublicClassesRoute.asRoute(history),
 	].filter(Boolean));
