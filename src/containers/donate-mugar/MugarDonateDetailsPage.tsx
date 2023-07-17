@@ -27,6 +27,8 @@ import FactaButton from 'theme/facta/FactaButton';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import { MAGIC_NUMBERS } from 'app/magicNumbers';
 
+const FUND_ID = 1261
+
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
 type Props = {
@@ -129,17 +131,18 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 			return Promise.reject()
 		} else {
 			return getProtoPersonCookie.send(PostURLEncoded({})).then(() => addDonation.send(makePostJSON({
-				fundId: -1,
+				fundId: FUND_ID,
 				amount: errorOrOtherAmt.getOrElse(null),
 				inMemoryOf: this.state.formData.inMemory,
 				nameFirst: this.state.formData.firstName,
 				nameLast: this.state.formData.lastName,
 				email: this.state.formData.email,
-				doRecurring: this.state.formData.doRecurring.map(r => r == Recurring.RECURRING)
+				doRecurring: some(false)
 			})))
 			.then(ret => {
+				console.log(ret)
 				if (ret.type == "Success") {
-					self.props.history.push("/redirect" + window.location.pathname)
+					// self.props.history.push("/redirect" + window.location.pathname)
 					return Promise.resolve()
 				} else {
 					window.scrollTo(0, 0);
@@ -155,22 +158,27 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 	doSubmit(): Promise<any> {
 		const self = this;
 		this.clearErrors();
+		// debugger;
 
 		return this.doAddDonation()
 		.then(() => getProtoPersonCookie.send(PostURLEncoded({})).then(() => savePersonData.send(makePostJSON({
 			nameFirst: self.state.formData.firstName,
 			nameLast: self.state.formData.lastName,
 			email: self.state.formData.email,
-			doRecurring: self.state.formData.doRecurring.map(r => r == Recurring.RECURRING).getOrElse(false),
+			doRecurring: false,
 		}))).then(ret => {
+			console.log("savePersonData", ret)
+			// debugger;
 			if (ret.type == "Success") {
 				self.props.goNext();
 			} else {
+				console.log("err", ret.message.split("\\n"))
 				window.scrollTo(0, 0);
 				self.setState({
 					...self.state,
 					validationErrors: ret.message.split("\\n") // TODO
 				});
+				return Promise.reject()
 			}
 		}));
 		
