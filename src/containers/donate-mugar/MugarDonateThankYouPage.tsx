@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { setCheckoutImageForDonations } from 'util/set-bg-image';
-import { donatePageRoute } from 'app/routes/donate';
-import { Link } from 'react-router-dom';
+import { setMugarImage } from 'util/set-bg-image';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 
@@ -13,7 +11,7 @@ type Props = {
 export default class MugarDonateThankYouPage extends React.PureComponent<Props> {
 	render() {
 		return (
-			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
+			<FactaMainPage setBGImage={setMugarImage}>
 				<FactaArticleRegion title={"Thank you for your donation."}>
 				Your donation is complete! Please feel free to call us at 617-523-1038 with any questions.
 				<br />

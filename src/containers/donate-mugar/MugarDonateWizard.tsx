@@ -6,7 +6,7 @@ import PageWrapper from "core/PageWrapper";
 import ProgressThermometer from "components/ProgressThermometer";
 import { State as BreadcrumbState} from "core/Breadcrumb";
 import WizardPageflow, { ComponentPropsFromWizard, WizardNode } from "core/WizardPageflow";
-import { setCheckoutImageForDonations } from "util/set-bg-image";
+import { setMugarImage } from "util/set-bg-image";
 import { apBasePath } from "app/paths/ap/_base";
 import {getWrapper as getDonationFunds} from "async/donation-funds"
 import {apiw as getCart} from "async/get-cart-items-donate"
@@ -53,7 +53,7 @@ export default class MugarDonateWizard extends React.Component<Props, State> {
 	
 		const pageWrapperProps = {
 			urlProps: {},
-			shadowComponent: <FactaLoadingPage setBGImage={setCheckoutImageForDonations} />
+			shadowComponent: <FactaLoadingPage setBGImage={setMugarImage} />
 		}
 	
 		return <WizardPageflow 

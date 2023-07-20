@@ -5,6 +5,24 @@ export function setCheckoutImageForDonations() {
 	return setCheckoutImage("CBI Donation Portal");
 }
 
+export function setMugarImage() {
+	const bgImageNode = document.getElementById('hero');
+	if (bgImageNode) {
+		// bgImageNode.style.background = 'url(/facta/assets/images/mugar-hero.jpg)';
+		bgImageNode.style.background = 'url(/facta/assets/images/mugar-donation-header2.jpg)';
+		bgImageNode.style.backgroundPositionY = "0px";
+		bgImageNode.style.backgroundPositionX = "0px";
+	}
+
+	// const navLogo = document.getElementById('nav-logo');
+	// if (navLogo) {
+	// 	navLogo.setAttribute("href", "/")
+	// }
+
+	const heroTextNode = document.getElementById('hero-text');
+	if (heroTextNode) heroTextNode.innerText = "Donation Portal: David Mugar Statue Fund";
+}
+
 export function setCheckoutImage(heroText?: string) {
 	const bgImageNode = document.getElementById('hero');
 	if (bgImageNode) {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import {  setCheckoutImageForDonations } from 'util/set-bg-image';
+import { setMugarImage } from 'util/set-bg-image';
 import { CartItem } from 'async/get-cart-items';
 import FullCartReport from 'components/FullCartReport';
 import { PageFlavor } from 'components/Page';
@@ -146,7 +146,7 @@ export default class MugarDonateConfirmationPage extends React.PureComponent<Pro
 		/>;
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
+			<FactaMainPage setBGImage={setMugarImage}>
 				{errorPopup}
 				<FactaArticleRegion title={"Donation Summary"}>
 					<FullCartReport

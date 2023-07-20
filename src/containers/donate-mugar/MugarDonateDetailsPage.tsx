@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import {History} from 'history';
-import { setCheckoutImageForDonations } from 'util/set-bg-image';
+import { setMugarImage } from 'util/set-bg-image';
 // import { DonationThirdPartyWidget } from 'components/DonationThirdPartyWidget';
 import { none, Option, some } from 'fp-ts/lib/Option';
 import {donationFundValidator} from "async/donation-funds"
@@ -288,7 +288,7 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 		</React.Fragment>;
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
+			<FactaMainPage setBGImage={setMugarImage}>
 				{errorPopup}
 				<FactaArticleRegion title={<span>Support the Mugar Statue!</span>}>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mauris justo, imperdiet nec tortor id, finibus euismod nunc.
