@@ -2,7 +2,7 @@ import * as React from "react";
 import { ClassType } from "../../class-description";
 
 const data: ClassType = {
-	typeId: 281,
+	typeId: 1601,
 	typeName: "Learn to be Race Committee",
 	prereq: "Mercury Red (Or Yellow Plus)",
 	sessionCt: 1,
