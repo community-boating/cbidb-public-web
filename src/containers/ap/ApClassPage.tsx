@@ -371,7 +371,9 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 							return <b>This is a paid class; <a href="#" onClick={e => {
 								e.preventDefault();
 								doSignup(false, true);
-							}}>click here to add to add to your cart</a>.  Your seat will be held for up to 20 minutes while you complete the purchase process.</b>
+							}}>click here to add to add to your cart</a>.  Your seat will be held for up to 20 minutes while you complete the purchase process.
+							Credit is transferable to another paid class up to 48 hours before class start time.
+							This voucher expires at the end of the current season on October 31st.</b>
 						}
 					};
 				}());
