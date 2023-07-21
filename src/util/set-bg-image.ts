@@ -13,6 +13,7 @@ export function setMugarImage() {
 		bgImageNode.style.backgroundPositionY = "0px";
 		bgImageNode.style.backgroundPositionX = "0px";
 	}
+	setRatio(450)
 
 	// const navLogo = document.getElementById('nav-logo');
 	// if (navLogo) {
@@ -29,6 +30,7 @@ export function setCheckoutImage(heroText?: string) {
 		bgImageNode.style.background = 'url(/facta/assets/images/common-hero.jpg)';
 		bgImageNode.style.backgroundPositionY = "-730px";
 	}
+	setRatio(330)
 
 	// const navLogo = document.getElementById('nav-logo');
 	// if (navLogo) {
@@ -45,6 +47,7 @@ export function setJPImage() {
 		bgImageNode.style.background = 'url(/facta/assets/images/jp-hero.jpeg)';
 		bgImageNode.style.backgroundPositionY = "-550px";
 	}
+	setRatio(330)
 
 	// const navLogo = document.getElementById('nav-logo');
 	// if (navLogo) {
@@ -61,6 +64,7 @@ export function setAPImage() {
 		bgImageNode.style.background = 'url(/facta/assets/images/ap-hero.jpeg)';
 		bgImageNode.style.backgroundPositionY = "-550px";
 	}
+	setRatio(330)
 
 	// const navLogo = document.getElementById('nav-logo');
 	// if (navLogo) {
@@ -71,3 +75,10 @@ export function setAPImage() {
 	if (heroTextNode) heroTextNode.innerText = "Adult Program Membership Portal"
 }
 
+
+function setRatio(size: number) {
+	const ratioNode = document.getElementById('hero-ratio');
+	if (ratioNode) {
+		ratioNode.style.paddingBottom = size+"px";
+	}
+}

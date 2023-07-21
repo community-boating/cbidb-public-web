@@ -25,7 +25,6 @@ import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import FactaButton from 'theme/facta/FactaButton';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
-import { MAGIC_NUMBERS } from 'app/magicNumbers';
 
 const FUND_ID = 1261
 
@@ -287,16 +286,34 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 			<FactaButton text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)} />
 		</React.Fragment>;
 
+		const title = <span>Community Boating, Inc (CBI) and the family and friends of David Mugar
+		have established this fund in memory of David Mugar to commemorate and educate the public of Mugar's
+		extensive contributions to the Boston community.</span>
+
 		return (
 			<FactaMainPage setBGImage={setMugarImage}>
 				{errorPopup}
-				<FactaArticleRegion title={<span>Support the Mugar Statue!</span>}>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mauris justo, imperdiet nec tortor id, finibus euismod nunc.
-					Phasellus tempor mollis consequat. Nam vel mi a purus hendrerit mollis non efficitur nunc. Aenean facilisis est a aliquam maximus. Nulla eu facilisis dui, ac dignissim augue. Etiam ac placerat erat, sed mollis ex.
+				<FactaArticleRegion title={title}>
+					The David Mugar statue fund will support the construction and installation of a statue of David Mugar.  The sculpture will be a tribute to the life and legacy of Mugar in recognition for everything he accomplished and did in Boston for the greater good of the community.  The sculpture will be location of the Esplanade adjacent to the Memorial Hatch Shell.  Any funds not used as part of the Statue project will support and enhance program enrichment for CBI's <a target="_blank" href="https://www.community-boating.org/junior/welcome">Junior Program</a>.
 					<br />
+					
 				</FactaArticleRegion>
 				{donationAmountCell}
-				{ifStarted}
+				<table><tbody><tr>
+					<td style={{width: "50%", verticalAlign: "top"}}>
+					
+					{ifStarted}
+					</td>	
+					<td style={{width: "50%", verticalAlign: "top"}}>
+						If you would like to make a donation by check or donor-advised fund, please send your contribution to:<br />
+						Community Boating, Inc. <br />
+						21 David G Mugar Way<br />
+						Boston, MA 02114<br />
+						<br />
+						In the Check or Donation letter, include Mention of the "DAVID MUGAR STATUTE FUND" 
+					</td>
+				</tr></tbody></table>
+				
 			</FactaMainPage>
 		)
 	}
