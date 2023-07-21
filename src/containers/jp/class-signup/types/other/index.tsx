@@ -7,6 +7,7 @@ import mercClinic from "./merc-clinic";
 import mercFastTrack from "./merc-fast-track";
 import paddleAdventure from "./paddle-adventure";
 import raceTeam from "./race-team";
+import raceCommittee from "./race-committee";
 import robosail from "./robosail";
 import roboSub from "./robosub";
 import sup from "./sup";
@@ -30,6 +31,7 @@ export default ([
 	envSci,
 	microscopy,
 	raceTeam,
+	raceCommittee,
 	robosail,
 	roboSub,
 	funGames,
