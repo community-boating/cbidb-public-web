@@ -294,7 +294,7 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 			<FactaMainPage setBGImage={setMugarImage}>
 				{errorPopup}
 				<FactaArticleRegion title={title}>
-					The David Mugar statue fund will support the construction and installation of a statue of David Mugar.  The sculpture will be a tribute to the life and legacy of Mugar in recognition for everything he accomplished and did in Boston for the greater good of the community.  The sculpture will be location of the Esplanade adjacent to the Memorial Hatch Shell.  Any funds not used as part of the Statue project will support and enhance program enrichment for CBI's <a target="_blank" href="https://www.community-boating.org/junior/welcome">Junior Program</a>.
+					The David Mugar statue fund will support the construction and installation of a statue of David Mugar.  The sculpture will be a tribute to the life and legacy of Mugar in recognition for everything he accomplished and did in Boston for the greater good of the community.  The sculpture will be located on the Esplanade adjacent to the Hatch Shell.  Any funds not used as part of the Statue project will support and enhance program enrichment for CBI's <a target="_blank" href="https://www.community-boating.org/junior/welcome">Junior Program</a>.
 					<br />
 					
 				</FactaArticleRegion>
