@@ -310,7 +310,7 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 						21 David G Mugar Way<br />
 						Boston, MA 02114<br />
 						<br />
-						In the Check or Donation letter, include Mention of the "DAVID MUGAR STATUTE FUND" 
+						In the Check or Donation letter, include Mention of the "DAVID MUGAR STATUE FUND" 
 					</td>
 				</tr></tbody></table>
 				
