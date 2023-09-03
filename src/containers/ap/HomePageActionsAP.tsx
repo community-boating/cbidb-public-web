@@ -56,7 +56,7 @@ export default (
 		Renew for a year
 		{expirationDate.map(ed => <>
 			<br />
-			({discountAmt.format()} discount until {ed.clone().add(7, 'days').format("MM/DD/YYYY")})
+			({discountAmt.format()} discount until {ed.clone().add(14, 'days').format("MM/DD/YYYY")})
 		</>).getOrElse(null)}
 		</React.Fragment>);
 
