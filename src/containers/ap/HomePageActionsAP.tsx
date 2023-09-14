@@ -229,7 +229,7 @@ export default (
 	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <a target="_blank" href={`https://www.eventbrite.com/e/community-boatings-all-boats-on-the-water-race-summer-dock-party-tickets-689597323157?discount=FYMEM`}>Click here to get your discounted All Boats on the Water Dock Party tickets and/or reserve your boat for the race</a>
+			(history: History<any>) => <a target="_blank" href={`www.eventbrite.com/e/717959735897/?discount=FYMEM`}>Purchase Ed Long UnRegatta Registration and Discounted Fall Dock Party Tickets</a>
 		]
 	}];
 
