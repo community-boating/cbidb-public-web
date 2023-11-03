@@ -110,7 +110,7 @@ export class AppStateContainer {
 				authenticatedUserName: none
 			},
 			justLoggedIn: false,
-			jpRegistrationClosed: false,
+			jpRegistrationClosed: true,
 			jpReservationAllowed: reservationDays[now.format("MM/DD/YYYY")]
 		};
 	}
