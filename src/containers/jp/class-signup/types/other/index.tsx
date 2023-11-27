@@ -5,7 +5,8 @@ import funGames from "./fun-games";
 import mainsail from "./mainsail";
 import mercClinic from "./merc-clinic";
 import mercFastTrack from "./merc-fast-track";
-import paddleAdventure from "./paddle-adventure";
+import guidedPaddleAdventure from "./guided-paddle-adventure";
+import sailingAdventure from "./sailing-adventure";
 import raceTeam from "./race-team";
 import raceCommittee from "./race-committee";
 import robosail from "./robosail";
@@ -14,7 +15,7 @@ import sup from "./sup";
 import ws from "./ws";
 import wsRacingClinic from "./ws-racing-clinic";
 import kayakAdventure from "./kayak-adventure";
-import learnToRace from "./learn-to-race";
+import introToRacing from "./intro-to-racing";
 import waterQualityLab from "./water-quality-lab";
 import testingClinic from "./testing-clinic";
 
