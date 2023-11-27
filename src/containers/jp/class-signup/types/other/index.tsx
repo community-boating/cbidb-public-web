@@ -24,7 +24,8 @@ export default ([
 	mainsail,
 	mercClinic,
 	sup,
-	paddleAdventure,
+	guidedPaddleAdventure,
+	sailingAdventure,
 	kayakAdventure,
 	ws,
 	advWSClinic,
@@ -36,7 +37,7 @@ export default ([
 	robosail,
 	roboSub,
 	funGames,
-	learnToRace,
+	introToRacing,
 	waterQualityLab,
 	testingClinic,
 ]);
