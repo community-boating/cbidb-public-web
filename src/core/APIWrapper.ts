@@ -19,10 +19,10 @@ const searchJSCONMetaData: (metaData: any[]) => (toFind: string) => number = met
 	return null;
 }
 
-var apiAxios: AxiosInstance = null;
+var apiAxios: AxiosInstance[] = [];
 
-function getOrCreateAxios(serverParams: ServerParams) {
-	if (apiAxios == null) {
+function getOrCreateAxios(serverParams: ServerParams, serverIndex: number = 0) {
+	if (apiAxios[serverIndex] == null) {
 		console.log('instantiating axios');
 		const portString = (function() {
 			if (
@@ -32,7 +32,7 @@ function getOrCreateAxios(serverParams: ServerParams) {
 			else return "";
 		}());
 
-		apiAxios = axios.create({
+		apiAxios[serverIndex] = axios.create({
 			baseURL: `${serverParams.https ? "https://" : "http://"}${serverParams.host}${portString}`,
 			maxRedirects: 0,
 			responseType: "json",
@@ -40,7 +40,7 @@ function getOrCreateAxios(serverParams: ServerParams) {
 			// xsrfHeaderName: "X-XSRF-TOKEN",
 		})
 	}
-	return apiAxios;
+	return apiAxios[serverIndex];
 }
 
 
@@ -54,6 +54,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 	sendWithParams: (serverParamsOption: Option<ServerParams>) => (data: PostType<T_PostJSON>) => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = serverParamsOption => data => {
 		const serverParams = serverParamsOption.getOrElse((process.env as any).serverToUseForAPI);
 		const self = this;
+		console.log(serverParams);
 		type Return = Promise<ApiResult<t.TypeOf<T_ResponseValidator>>>;
 		const postValues: Option<PostValues> = (function() {
 			if (self.config.type === HttpMethod.POST) {
@@ -88,8 +89,12 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 			...(self.config.extraHeaders || {}),
 			...postValues.map(pv => pv.headers).getOrElse(null)
 		}
+<<<<<<< Updated upstream
 
 		return getOrCreateAxios(serverParams)({
+=======
+		return getOrCreateAxios(serverParams, self.config.serverIndex || 0)({
+>>>>>>> Stashed changes
 			method: self.config.type,
 			url: (serverParams.pathPrefix || "") + self.config.path,
 			// params,
