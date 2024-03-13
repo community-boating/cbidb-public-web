@@ -64,6 +64,7 @@ import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
 import { apRentalRegRoute } from 'app/routes/ap/rental-reg';
 import { apClassesTeachPageRoute } from './routes/ap/classes-teach';
 import { mugarDonatePageRoute } from './routes/mugarstatue';
+import { FOTVPageRoute } from './routes/embedded/fotv';
 
 const defaultRouteRender = () => {
 	// console.log("uncaught path...", window.location.pathname)
@@ -126,6 +127,7 @@ export default function (history: History<any>) {
 		mugarDonatePageRoute.asRoute(history),
 		standaloneLoginRoute.asRoute(history),
 		jpPublicClassesRoute.asRoute(history),
+		FOTVPageRoute.asRoute(history)
 	].filter(Boolean));
 
 	const mustNotBeLoggedIn = [

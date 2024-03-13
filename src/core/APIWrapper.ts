@@ -32,8 +32,10 @@ function getOrCreateAxios(serverParams: ServerParams, serverIndex: number = 0) {
 			else return "";
 		}());
 
+		const host = (serverParams.host ? serverParams.host : window.location.host);
+
 		apiAxios[serverIndex] = axios.create({
-			baseURL: `${serverParams.https ? "https://" : "http://"}${serverParams.host}${portString}`,
+			baseURL: `${serverParams.https ? "https://" : "http://"}${host}${portString}`,
 			maxRedirects: 0,
 			responseType: "json",
 			// xsrfCookieName: "XSRF-TOKEN",
@@ -55,6 +57,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 		const serverParams = serverParamsOption.getOrElse((process.env as any).serverToUseForAPI);
 		const self = this;
 		console.log(serverParams);
+		console.log(data);
 		type Return = Promise<ApiResult<t.TypeOf<T_ResponseValidator>>>;
 		const postValues: Option<PostValues> = (function() {
 			if (self.config.type === HttpMethod.POST) {
@@ -89,14 +92,12 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 			...(self.config.extraHeaders || {}),
 			...postValues.map(pv => pv.headers).getOrElse(null)
 		}
-<<<<<<< Updated upstream
-
-		return getOrCreateAxios(serverParams)({
-=======
+		const getParams = (data && self.config.type === HttpMethod.GET && data.type == "urlEncoded") ? data.urlEncodedData : "";
+		console.log(getParams);
+		console.log(data);
 		return getOrCreateAxios(serverParams, self.config.serverIndex || 0)({
->>>>>>> Stashed changes
 			method: self.config.type,
-			url: (serverParams.pathPrefix || "") + self.config.path,
+			url: (serverParams.pathPrefix || "") + self.config.path + getParams,
 			// params,
 			data: postValues.map(pv => pv.content).getOrElse(null),
 			headers

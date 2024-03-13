@@ -10,6 +10,7 @@ import { APClassTable } from '../class-tables/APClassTable';
 import JPClassInstancesProvider, { JPClassInstancesContext } from 'async/providers/JPClassInstancesProvider';
 import { JPClassTable } from '../class-tables/JPClassTable';
 import { MAGIC_NUMBERS } from 'app/magicNumbers';
+import { tempParams } from 'app/routes/embedded/fotv';
 
 function programIDToName(programID: number){
     switch(programID){
@@ -217,8 +218,9 @@ function imageVersionByID(fotv: FOTVType){
     return versionByID;
 }
 
-export function getImageSRC(imageID: number, versionByID: any) {
-    return "http://74.207.231.244:3000/images/" + imageID + '/' + versionByID[imageID];
+export function getImageSRC(imageID: number, versionByID: {[key: number]: string}) {
+    const params = tempParams.getOrElse({https: false, host: "", port: 0});
+    return (params.https ? "https" : "http") + "://" + params.host + ":" + params.port + "/images/" + imageID + '/' + versionByID[imageID];
 }
 
 function ImageDiv(props: {fotv: FOTVType}){

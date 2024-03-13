@@ -11,7 +11,7 @@ class FactaHelmet extends React.Component {
 					<link rel="icon" type="image/png" sizes="32x32" href="https://www.community-boating.org/wp-content/themes/custom/assets/images/favicon/favicon-32x32.png" />
 					<link rel="icon" type="image/png" sizes="16x16" href="https://www.community-boating.org/wp-content/themes/custom/assets/images/favicon/favicon-16x16.png" />
 					{/* Uncomment this to re-enable responsiveness */}
-					{/* <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
+					{/*import * as React from "react"; <meta name="viewport" content="width=device-width, initial-scale=1.0" /> */}
 					<title>Community Boating Online Portal</title>
 
 					<link rel="canonical" href="https://www.community-boating.org/adult/membership-prices/" />
@@ -473,6 +473,16 @@ export default class FactaBase extends React.Component {
 				<FactaBody>
 					{this.props.children}
 				</FactaBody>
+			</FactaHelmet>
+		</React.Fragment>)
+	}
+}
+
+export class FactaBaseEmbedded extends React.Component {
+	render() {
+		return (<React.Fragment>
+			<FactaHelmet>
+				{this.props.children}
 			</FactaHelmet>
 		</React.Fragment>)
 	}

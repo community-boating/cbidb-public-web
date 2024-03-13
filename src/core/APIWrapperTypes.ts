@@ -20,12 +20,8 @@ export interface ConfigCommon<T_ResponseValidator extends t.Any> {
 	path: string,
 	extraHeaders?: object,
 	resultValidator: T_ResponseValidator,
-<<<<<<< Updated upstream
-	jsconMap?: any
-=======
 	serverIndex?: number,
 	jsconMap?: (T_ResponseValidator extends t.ArrayC<any> | t.TypeC<any> ? {[Property in keyof (T_ResponseValidator extends t.ArrayC<any> ? t.TypeOf<T_ResponseValidator>[number] : t.TypeOf<T_ResponseValidator>)]: string} : {[key: string]: string})/*(T_Value extends t.TypeC<any> ? {[Property in keyof T_Value]: string} : T_Value extends t.ArrayC<t.TypeC<any>>? {[Property in keyof t.TypeOf<T_Value>]: string} : {[key: string]: string})*/
->>>>>>> Stashed changes
 }
 
 export interface GetConfig<T_ResponseValidator extends t.Any> extends ConfigCommon<T_ResponseValidator> {

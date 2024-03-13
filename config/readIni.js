@@ -6,12 +6,11 @@ const config = ini.parse(fs.readFileSync(`./ini/config.ini`, 'utf-8'));
 const serverConfig = (function() {
 	const prodConfig = {
 		// TODO: dev vs prod config
-	
 		SELF: {
 			host: config.hostName,
-			https: true,
+			https: false,
 			pathPrefix: "/api",
-			port: 443
+			port: 3000
 		}
 	}
 	
