@@ -12,6 +12,31 @@ h1, h2{
     overflow-x: clip;
 }
 
+.min-w-0 {
+    min-width: 0;
+}
+
+.min-h-15 {
+    min-height: 15%;
+}
+
+.h-20 {
+    height: 20%;
+}
+
+.h-15 {
+    height: 15%;
+}
+
+.h-10 {
+    height: 10%;
+}
+
+.fit-content {
+    min-width: 0px;
+    width: fit-content;
+}
+
 .col {
     flex-direction: column;
 }
@@ -124,6 +149,10 @@ body {
 
 .whitespace-nowrap {
     white-space: nowrap;
+}
+
+.max-fit-content {
+    max-width: fit-content;
 }
 
 .font-sm {
