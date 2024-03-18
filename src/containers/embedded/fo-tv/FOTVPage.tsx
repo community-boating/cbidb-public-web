@@ -13,28 +13,23 @@ import { MAGIC_NUMBERS } from 'app/magicNumbers';
 import { tempParams } from 'app/routes/embedded/fotv';
 
 function programIDToName(programID: number){
-    switch(programID){
-        case 0:
-            return 'Adult Program'
-        case 1:
-            return 'Junior Program'
-        default:
-            'Unknown Program'
-    }
+    const programMap = new Map<number, string>([
+        [0, 'Adult Program'],
+        [1, 'Junior Program']
+    ]);
+    
+    return programMap.get(programID) || 'Unknown Program';
 }
 
 function flagShortToName(flag: FlagColor){
-    switch(flag){
-        case FlagColor.GREEN:
-            return 'Green Flag'
-        case FlagColor.YELLOW:
-            return 'Yellow Flag'
-        case FlagColor.RED:
-            return 'Red Flag'
-        case FlagColor.BLACK:
-        default:
-            return 'Closed'
-    }
+    const flagMap = new Map<FlagColor, string>([
+        [FlagColor.GREEN, 'Green Flag'],
+        [FlagColor.YELLOW, 'Yellow Flag'],
+        [FlagColor.RED, 'Red Flag'],
+        [FlagColor.BLACK, 'Closed']
+    ]);
+    
+    return flagMap.get(flag) || 'Closed';
 }
 
 function ScrollingDiv(props: {children?: React.ReactNode}){
@@ -102,6 +97,12 @@ function ScrollingDiv(props: {children?: React.ReactNode}){
 }
 
 export default function FOTVPage(props: {fotvData: FOTVType}){
+    React.useEffect(() => {
+        document.body.requestFullscreen().catch((err) => {
+            console.log(err);
+            alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+        })
+    }, []);
     return <FlagColorProvider>
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Domine"/>
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto"/>
@@ -158,8 +159,8 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
             <div className='padding-t-10'>
                 <table className='items-center'>
                     <tr>
-                        <td width='50%'>
-                            <img className='m-auto h-full min-h-0 min-w-0' height={'100px'} width={'100px'} src='/images/fotv/logo.svg'/>
+                        <td width='50%' className='text-center'>
+                            <img className='mx-auto h-full min-h-0 min-w-0' height={'100px'} width={'100px'} src='/images/fotv/logo.svg'/>
                         </td>
                         <td className='nowrap'>
                             <h1 className='font-roboto color-blue font-50pt mx-auto my-0 align-center'>Welcome To Community Boating</h1>

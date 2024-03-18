@@ -10,7 +10,7 @@ const serverConfig = (function() {
 			host: config.hostName,
 			https: false,
 			pathPrefix: "/api",
-			port: 3000
+			port: 80
 		}
 	}
 	
