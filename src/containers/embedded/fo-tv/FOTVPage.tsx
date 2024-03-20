@@ -11,6 +11,7 @@ import JPClassInstancesProvider, { JPClassInstancesContext } from 'async/provide
 import { JPClassTable } from '../class-tables/JPClassTable';
 import { MAGIC_NUMBERS } from 'app/magicNumbers';
 import { tempParams } from 'app/routes/embedded/fotv';
+import RestrictionIcon from './RestrictionIcon';
 
 function programIDToName(programID: number){
     const programMap = new Map<number, string>([
@@ -48,9 +49,9 @@ function ScrollingDiv(props: {children?: React.ReactNode, className?: string}){
         if(!animationRef.current){
             animationRef.current = innerRef.current.animate([
                 { transform: 'translateX(0%)' },
-                { transform: 'translateX(-100%)' }
+                { transform: 'translateX(-50%)' }
             ], {
-                duration: 10000,
+                duration: 15000,
                 iterations: Infinity,
                 direction: 'reverse'
             })
@@ -82,13 +83,15 @@ function ScrollingDiv(props: {children?: React.ReactNode, className?: string}){
         updateScrolling();
     }, [props.children]);
     return <div ref={outerRef} className={"max-w-full relative hidden-scrollbar whitespace-nowrap overflow-scroll " + (props.className || "")}>
-        <div ref={innerRef} className='h-full whitespace-nowrap'>
-            <div ref={textMeasureRef} className="pr-5 min-w-full h-full inline-block">
+        <div ref={innerRef} className={'h-full whitespace-nowrap fit-content' + (scrolling ? "" : " mx-auto")}>
+            <div ref={textMeasureRef} className="pr-5 h-full inline-block fit-content">
                 {props.children}
             </div>
-            <div className={"min-w-full pr-5 fit-content h-full inline-block " + (scrolling ? "" : "hidden")}>
+            { scrolling ? 
+            <div className="pr-5 fit-content h-full inline-block">
                 {props.children}
             </div>
+            : <></>}
         </div>
     </div>
 }
@@ -127,23 +130,29 @@ function WrappedAPClassTable(){
     </div>;
 }
 
-function makeItemsLeft(fotvData: FOTVType){
-    const versionByID = imageVersionByID(fotvData);
-    const items = fotvData.activeProgramID == 0 ? [<WrappedAPClassTable/>] :
-    [<WrappedJPClassTable/>];
-    if(fotvData.activeProgramID == 0 && fotvData.restrictions.findIndex((a) => a.active) >= 0)
-        items.push(<RestrictionsList fotvData={fotvData}/>)
+function makeItemsRight(fotvData: FOTVType){
+    const items = [];
     //JP 3, AP 4
+    items.push(<ImageDiv fotv={fotvData}/>);
+    const versionByID = imageVersionByID(fotvData);
     const bigImage = fotvData.logoImages.find((a) => a.imageType == (fotvData.activeProgramID == 0 ? -3 : -4));
-    console.log(bigImage);
     if(bigImage != undefined){
         items.push(<img className='h-full w-full' src={getImageSRC(bigImage.imageID, versionByID)}/>)
     }
     return items;
 }
 
+function makeItemsLeft(fotvData: FOTVType){
+    const items = fotvData.activeProgramID == 0 ? [<WrappedAPClassTable/>] :
+    [<WrappedJPClassTable/>];
+    if(fotvData.activeProgramID == 0 && fotvData.restrictions.findIndex((a) => a.active) >= 0)
+        items.push(<RestrictionsList fotvData={fotvData}/>)
+    return items;
+}
+
 function FOTVPageInternal(props: {fotvData: FOTVType}){
     const itemsLeft = makeItemsLeft(props.fotvData);
+    const itemsRight = makeItemsRight(props.fotvData);
     const flagColor = React.useContext(FlagColorContext);
     const versionByID = imageVersionByID(props.fotvData);
     const backgroundImage = props.fotvData.logoImages.find((a) => a.imageType == -5)
@@ -199,9 +208,7 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
                     <Cycler slots={1} items={itemsLeft} initialOrderIndex={1}/>
                 </div>
                 <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
-                    <Cycler slots={1} initialOrderIndex={0} items={[
-                        <ImageDiv fotv={props.fotvData}/>
-                    ]}/>
+                    <Cycler slots={1} initialOrderIndex={0} items={itemsRight}/>
                 </div>
             </div>
         </div>
@@ -226,17 +233,17 @@ function ImageDiv(props: {fotv: FOTVType}){
     const sortLogos = (a: LogoImageType, b: LogoImageType) => a.displayOrder - b.displayOrder;
     const logoMap = (size: string) => (a: LogoImageType) => 
         <img className={size + ' '} src={getImageSRC(a.imageID, versionByID)}/>
-    return <div className='flex col w-full padding-10 gap-10 min-h-0'>
-        <div className='mx-auto h-full'>
+    return <div className='flex col w-full space-around'>
+        <div className='mx-auto min-h-50 h-50'>
             {props.fotv.logoImages.filter((a) => a.imageType == -2).map(logoMap('h-full'))}
         </div>
-    <ScrollingDiv className='min-h-15 h-15'>
-        <div className='flex row h-full gap-10 max-fit-content'>
+    <ScrollingDiv className='min-h-25 h-25'>
+        <div className='flex row h-full gap-10 px-10 max-fit-content'>
             {props.fotv.logoImages.filter((a) => a.imageType == 0).sort(sortLogos).map((logoMap('h-full shrink')))}
         </div>
     </ScrollingDiv>
     <ScrollingDiv className='min-h-15 h-15'>
-        <div className='flex row h-full gap-10 max-fit-content'>
+        <div className='flex row h-full gap-10 px-10 max-fit-content'>
             {props.fotv.logoImages.filter((a) => a.imageType == -1).sort(sortLogos).map((logoMap('h-full shrink')))}
         </div>
     </ScrollingDiv>
@@ -335,10 +342,11 @@ function PageTwoJP(){
 function RestrictionsList(props: {fotvData: FOTVType}){
     const versionByID = imageVersionByID(props.fotvData);
     return <ul className='w-full padding-8'>
-        {props.fotvData.restrictions.sort((a, b) => (a.groupID - b.groupID)*1000 + a.displayOrder - b.displayOrder).filter((a) => a.active).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal')}} className='w-full no-list-style p-5 br-10 flex row'>
-            {a.imageID.isSome() ? <div className='flex center'>
-                <img height={'50px'} width={'50px'} src={getImageSRC(a.imageID.value, versionByID)}/>
-            </div> : <></>}
+        {props.fotvData.restrictions.sort((a, b) => (a.groupID - b.groupID)*1000 + a.displayOrder - b.displayOrder).filter((a) => a.active).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor, borderStyle: "solid", borderWidth: "2px"}} className='w-full no-list-style p-5 br-10 flex row mt-10'>
+            <div className='flex center padding-5'>
+                {a.imageID.isSome() ? <img height={'50px'} width={'50px'} src={getImageSRC(a.imageID.value, versionByID)}/>
+                : <RestrictionIcon fill={a.textColor} width="50px" height="50px"/>}
+            </div>
             <div className='w-full'>
                 <p className='font-roboto black'>{a.title}</p>
                 <p className='text-center'>{a.message}</p>
