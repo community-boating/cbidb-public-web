@@ -56,8 +56,6 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 	sendWithParams: (serverParamsOption: Option<ServerParams>) => (data: PostType<T_PostJSON>) => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = serverParamsOption => data => {
 		const serverParams = serverParamsOption.getOrElse((process.env as any).serverToUseForAPI);
 		const self = this;
-		console.log(serverParams);
-		console.log(data);
 		type Return = Promise<ApiResult<t.TypeOf<T_ResponseValidator>>>;
 		const postValues: Option<PostValues> = (function() {
 			if (self.config.type === HttpMethod.POST) {
@@ -93,8 +91,6 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostJSON, T
 			...postValues.map(pv => pv.headers).getOrElse(null)
 		}
 		const getParams = (data && self.config.type === HttpMethod.GET && data.type == "urlEncoded") ? data.urlEncodedData : "";
-		console.log(getParams);
-		console.log(data);
 		return getOrCreateAxios(serverParams, self.config.serverIndex || 0)({
 			method: self.config.type,
 			url: (serverParams.pathPrefix || "") + self.config.path + getParams,

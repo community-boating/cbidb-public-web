@@ -14,8 +14,8 @@ export default function Cycler(props: {items: React.ReactNode[], slots?: number,
         if(props.items.length > 1){
             const current = ref.current;
             const intervalID = setInterval(() => {
-                setIndex((s) => cyclicPad(left ? s+1 : s-1,length));
-                current.animate(slideFrames, slideOptions);
+                //setIndex((s) => cyclicPad(left ? s+1 : s-1,length));
+                //current.animate(slideFrames, slideOptions);
             }, props.delay || 5000);
             return () => {
                 clearInterval(intervalID);

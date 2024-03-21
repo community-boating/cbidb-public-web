@@ -9,7 +9,6 @@ import { FlagColor } from 'async/util/flag-color';
 import { APClassTable } from '../class-tables/APClassTable';
 import JPClassInstancesProvider, { JPClassInstancesContext } from 'async/providers/JPClassInstancesProvider';
 import { JPClassTable } from '../class-tables/JPClassTable';
-import { MAGIC_NUMBERS } from 'app/magicNumbers';
 import { tempParams } from 'app/routes/embedded/fotv';
 import RestrictionIcon from './RestrictionIcon';
 
@@ -41,7 +40,7 @@ function ScrollingDiv(props: {children?: React.ReactNode, className?: string}){
     const updateScrolling = () => {
         setScrolling((textMeasureRef.current.clientWidth) > ( outerRef.current.clientWidth));
     }
-    const animationRef = React.useRef(undefined)
+    const animationRef = React.useRef<Animation>(undefined)
     const updateScrollClasses = () => {
         if(!innerRef.current){
             return;
@@ -60,9 +59,11 @@ function ScrollingDiv(props: {children?: React.ReactNode, className?: string}){
             if(animationRef.current.playState != 'idle')
                 animationRef.current.cancel();
         }else{
-            console.log(animationRef.current.playState);
-            if(animationRef.current.playState != 'running')
+            if(animationRef.current.playState != 'running'){
+                console.log("playing");
+                console.log(animationRef.current.playState);
                 animationRef.current.play();
+            }
         }
         //innerRef.current.clientWidth.toString();
         //innerRef.current.className = "inline-block left-full transition transform ease-linear -translate-x-[50%] + duration-[5000ms]";
@@ -99,7 +100,6 @@ function ScrollingDiv(props: {children?: React.ReactNode, className?: string}){
 export default function FOTVPage(props: {fotvData: FOTVType}){
     React.useEffect(() => {
         /*document.body.requestFullscreen().catch((err) => {
-            console.log(err);
             //alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
         })*/
     }, []);
@@ -205,10 +205,10 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
             </div>
             <div className='flex relative row grow min-h-0 basis-0 padding-x-20 gap-20 padding-b-20'>
                 <div className='flex h-full basis-0 grow overflow-hidden bg-opaque absolute min-w-0'>
-                    <Cycler slots={1} items={itemsLeft} initialOrderIndex={1}/>
+                    <Cycler slots={1} items={itemsLeft} initialOrderIndex={1} delay={10000}/>
                 </div>
                 <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
-                    <Cycler slots={1} initialOrderIndex={0} items={itemsRight}/>
+                    <Cycler slots={1} initialOrderIndex={0} items={itemsRight} delay={10000}/>
                 </div>
             </div>
         </div>
@@ -342,7 +342,7 @@ function PageTwoJP(){
 function RestrictionsList(props: {fotvData: FOTVType}){
     const versionByID = imageVersionByID(props.fotvData);
     return <ul className='w-full padding-8'>
-        {props.fotvData.restrictions.sort((a, b) => (a.groupID - b.groupID)*1000 + a.displayOrder - b.displayOrder).filter((a) => a.active).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor, borderStyle: "solid", borderWidth: "2px"}} className='w-full no-list-style p-5 br-10 flex row mt-10'>
+        {props.fotvData.restrictions.sort((a, b) => (a.groupID - b.groupID)*1000 + a.displayOrder - b.displayOrder).filter((a) => a.active).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}} className='w-full no-list-style p-5 br-10 flex row mt-10'>
             <div className='flex center padding-5'>
                 {a.imageID.isSome() ? <img height={'50px'} width={'50px'} src={getImageSRC(a.imageID.value, versionByID)}/>
                 : <RestrictionIcon fill={a.textColor} width="50px" height="50px"/>}

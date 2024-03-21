@@ -26,7 +26,6 @@ type ClassInstancesByTimeAndInstanceIDType = {[time: string] : {[instanceId: num
 function mapClassInstances(jpClassInstances: AsyncPropsType): ClassInstancesByTimeAndInstanceIDType{
     const classInstancesMap: ClassInstancesByTimeAndInstanceIDType = {};
     const afternoonCurrently = isAfternoon(moment());
-    console.log(jpClassInstances);
     jpClassInstances.forEach((a) => {
         classInstancesMap[a.startTime] = classInstancesMap[a.startTime] || {};
         classInstancesMap[a.startTime][a.instanceId] = classInstancesMap[a.startTime][a.instanceId] || [];

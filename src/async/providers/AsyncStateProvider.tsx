@@ -47,8 +47,6 @@ export default class AsyncStateProvider<T_Validator extends t.Any> extends React
                 //    this.waitForLogin = true;
                 //}
                 //else{
-                    console.log("issue");
-                    console.log(a);
                     this.setState((s) => ({...s, providerState: ProviderState.ERROR}));
                 //}
             }
@@ -91,9 +89,6 @@ const isCallback = (
     typeof maybeFunction === 'function'
 
 function setStateChain<T_State>(state: React.SetStateAction<T_State>, oldState: T_State){
-    //console.log("doop");
-    //console.log(state);
-    //console.log(typeof state);
     if(isCallback(state)){
         return state(oldState);
     }
