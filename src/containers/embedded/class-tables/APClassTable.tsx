@@ -6,20 +6,13 @@ function sortGroupByTime(apClassInstances: AsyncPropsType){
 
 export const APClassTable = (props: {apClassInstances: AsyncPropsType}) => {
     const byTime = sortGroupByTime(props.apClassInstances);
-    return <table className='w-full max-w-full table'>
-        <thead>
-            <tr className='font-md'>
-                <th>TIME</th>
-                <th>CLASS</th>
-                <th>LOCATION</th>
-            </tr>
-        </thead>
+    return <table className='w-full max-w-full table padding-8'>
         <tbody className='font-sm align-center'>
             {props.apClassInstances.map((a)=> {
-                return <tr key={a.instanceId} className='border-b-sm' >
-                    <td className='font-md'><p>{a.startTime}</p></td>
-                    <td className='font-md'><p>{a.typeName.getOrElse("")}</p></td>
-                    <td><p>{a.locationString.getOrElse("")}</p></td>
+                return <tr key={a.instanceId} className='b-2 b-solid b-gray br-10 block' >
+                    <td className='font-md' width="20%"><p>{a.startTime}</p></td>
+                    <td className='font-md' width="30%"><p>{a.typeName.getOrElse("")}</p></td>
+                    <td width="50%"><p>{a.locationString.getOrElse("")}</p></td>
                 </tr>
             })}
         </tbody>

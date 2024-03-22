@@ -90,20 +90,14 @@ export const JPClassTable = (props: {jpClassInstances: AsyncPropsType}) => {
     const classInstancesMap = mapClassInstances(props.jpClassInstances);
     const groupedInstances: ReactNode[] = Object.entries(classInstancesMap).map((a) => {
         return Object.entries(a[1]).map((b, index: number) => {
-            return <tr key={a + ":" + b}>
+            return <tr key={a + ":" + b} className="b-2 b-solid b-gray br-10 block">
                 <td ><p>{index === 0 ? b[1][0].startTime : ""}</p></td>
                 <td style={{backgroundColor: mapColor(b[1][0].typeName)}}><JPClassSubTable jpClassInstances={b[1]}/></td>
             </tr>;
         })
     })
     return <table>
-        <thead>
-            <tr>
-                <th><b>TIME</b></th>
-                <th><b>CLASS</b></th>
-            </tr>
-        </thead>
-        <tbody>
+        <tbody className="padding-8">
             {groupedInstances}
         </tbody>
     </table>;

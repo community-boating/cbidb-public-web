@@ -21,7 +21,8 @@ export const restrictionValidator = t.type({
     imageID: OptionalNumber,
     textColor: t.string,
     fontWeight: OptionalString,
-    displayOrder: t.number
+    displayOrder: t.number,
+    isPriority: t.boolean
 })
 
 export const restrictionGroupValidator = t.type({
@@ -35,13 +36,18 @@ export const imageValidator = t.type({
     version: t.number
 });
 
+export const singletonDataValidator = t.type({
+    data_key: t.string,
+    value: t.string
+})
+
 export const validator = t.type({
     sunset: t.string,
     restrictions: t.array(restrictionValidator),
     restrictionGroups: t.array(restrictionGroupValidator),
     logoImages: t.array(logoImageValidator),
     images: t.array(imageValidator),
-    activeProgramID: t.number
+    singletonData: t.array(singletonDataValidator)
 })
 
 const path: string = "/fotv"

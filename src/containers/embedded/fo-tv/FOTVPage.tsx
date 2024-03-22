@@ -130,12 +130,16 @@ function WrappedAPClassTable(){
     </div>;
 }
 
+function getActiveProgramID(fotvData: FOTVType){
+    return parseInt((fotvData.singletonData.find((a) => a.data_key == "ACTIVE_PROGRAM_ID") || {value: "0"}).value)
+}
+
 function makeItemsRight(fotvData: FOTVType){
     const items = [];
     //JP 3, AP 4
     items.push(<ImageDiv fotv={fotvData}/>);
     const versionByID = imageVersionByID(fotvData);
-    const bigImage = fotvData.logoImages.find((a) => a.imageType == (fotvData.activeProgramID == 0 ? -3 : -4));
+    const bigImage = fotvData.logoImages.find((a) => a.imageType == (getActiveProgramID(fotvData) == 0 ? -3 : -4));
     if(bigImage != undefined){
         items.push(<img className='h-full w-full' src={getImageSRC(bigImage.imageID, versionByID)}/>)
     }
@@ -143,11 +147,17 @@ function makeItemsRight(fotvData: FOTVType){
 }
 
 function makeItemsLeft(fotvData: FOTVType){
-    const items = fotvData.activeProgramID == 0 ? [<WrappedAPClassTable/>] :
+    const items = getActiveProgramID(fotvData) == 0 ? [<WrappedAPClassTable/>] :
     [<WrappedJPClassTable/>];
-    if(fotvData.activeProgramID == 0 && fotvData.restrictions.findIndex((a) => a.active) >= 0)
+    if(getActiveProgramID(fotvData) == 0 && fotvData.restrictions.findIndex((a) => a.active && !a.isPriority) >= 0)
         items.push(<RestrictionsList fotvData={fotvData}/>)
     return items;
+}
+
+function PriorityRestrictions(props: {fotvData: FOTVType}){
+    return <ScrollingDiv className="absolute w-full t-20">
+        {props.fotvData.restrictions.filter((a => a.active && a.isPriority)).map((a) => <p className="inline font-30pt br-10 mr-100 padding-5" style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}}>{a.message}</p>)}
+    </ScrollingDiv>
 }
 
 function FOTVPageInternal(props: {fotvData: FOTVType}){
@@ -161,6 +171,7 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
         <title>Front Office Display</title>
         <link rel='stylesheet' href='/css/fotv/style.css'/>
         <link rel='stylesheet' href='/css/fotv/newstyle.css'/>
+        <PriorityRestrictions fotvData={props.fotvData}/>
         <div className='content flex col overflow-scroll' style={{backgroundImage: 'URL(' + bgSRC + ')'}}>
             <div className='padding-t-10'>
                 <table className='items-center'>
@@ -199,12 +210,12 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
                 </div>
                     <Clock className='font-3em font-roboto'/>
                 <div className='flex row grow justify-around center basis-0'>
-                    <h2 className=''>{programIDToName(props.fotvData.activeProgramID)}</h2>
+                    <h2 className=''>{programIDToName(getActiveProgramID(props.fotvData))}</h2>
                     <h2 className=''>{flagShortToName(flagColor.flagColor)}</h2>
                 </div>
             </div>
             <div className='flex relative row grow min-h-0 basis-0 padding-x-20 gap-20 padding-b-20'>
-                <div className='flex h-full basis-0 grow overflow-hidden bg-opaque absolute min-w-0'>
+                <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
                     <Cycler slots={1} items={itemsLeft} initialOrderIndex={1} delay={10000}/>
                 </div>
                 <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
@@ -232,7 +243,7 @@ function ImageDiv(props: {fotv: FOTVType}){
     const versionByID = imageVersionByID(props.fotv);
     const sortLogos = (a: LogoImageType, b: LogoImageType) => a.displayOrder - b.displayOrder;
     const logoMap = (size: string) => (a: LogoImageType) => 
-        <img className={size + ' '} src={getImageSRC(a.imageID, versionByID)}/>
+        <img className={size + ' '} src={getImageSRC(a.imageID, versionByID)} key={a.imageID}/>
     return <div className='flex col w-full space-around'>
         <div className='mx-auto min-h-50 h-50'>
             {props.fotv.logoImages.filter((a) => a.imageType == -2).map(logoMap('h-full'))}
@@ -342,7 +353,7 @@ function PageTwoJP(){
 function RestrictionsList(props: {fotvData: FOTVType}){
     const versionByID = imageVersionByID(props.fotvData);
     return <ul className='w-full padding-8'>
-        {props.fotvData.restrictions.sort((a, b) => (a.groupID - b.groupID)*1000 + a.displayOrder - b.displayOrder).filter((a) => a.active).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}} className='w-full no-list-style p-5 br-10 flex row mt-10'>
+        {props.fotvData.restrictions.filter((a) => a.active && !a.isPriority).sort((a, b) => (a.groupID - b.groupID)*1000 + a.displayOrder - b.displayOrder).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}} className='w-full no-list-style p-5 br-10 flex row mt-10 b-2 b-solid'>
             <div className='flex center padding-5'>
                 {a.imageID.isSome() ? <img height={'50px'} width={'50px'} src={getImageSRC(a.imageID.value, versionByID)}/>
                 : <RestrictionIcon fill={a.textColor} width="50px" height="50px"/>}

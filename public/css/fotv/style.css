@@ -143,6 +143,14 @@ body {
     display: inline-block;
 }
 
+.inline {
+    display: inline;
+}
+
+.mr-100 {
+    margin-right: 100px;
+}
+
 .block {
     display: block;
 }
@@ -165,6 +173,7 @@ body {
 
 .font-30pt {
     font-family: 'Domine', sans-serif;
+    font-size: 30pt;
 }
 
 .h-150 {
@@ -405,6 +414,18 @@ body {
     display: fixed;
 }
 
+.fixed {
+    display: fixed;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.t-20 {
+    top: 20px;
+}
+
 .nowrap {
     white-space: nowrap;
 }
@@ -586,6 +607,26 @@ body {
 .dotted > *:not(:first-child):before {
     content: '•';
     float: left;
+}
+
+.border-collapse {
+    border-collapse: collapse;
+}
+
+.border-separate {
+    border-collapse: separate;
+}
+
+.b-2 {
+    border-width: 2px;
+}
+
+.b-solid {
+    border-style: solid;
+}
+
+.b-gray {
+    border-color: black;
 }
 
 .black {

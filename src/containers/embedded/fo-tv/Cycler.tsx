@@ -14,16 +14,17 @@ export default function Cycler(props: {items: React.ReactNode[], slots?: number,
         if(props.items.length > 1){
             const current = ref.current;
             const intervalID = setInterval(() => {
-                //setIndex((s) => cyclicPad(left ? s+1 : s-1,length));
-                //current.animate(slideFrames, slideOptions);
+                setIndex((s) => cyclicPad(left ? s+1 : s-1,length));
+                current.animate(slideFrames, slideOptions);
             }, props.delay || 5000);
             return () => {
                 clearInterval(intervalID);
+                console.log("stopping");
             }
         }
     }, [length, slots, ref.current, props.items.length]);
     React.useEffect(() =>  {
-        setIndex(1);
+        setIndex(2);
     }, [props.items.length])
     const children = [];
     const spacing = 40;
@@ -34,7 +35,7 @@ export default function Cycler(props: {items: React.ReactNode[], slots?: number,
     for(var i = left ? -1 : 0; i < (left ? slots : slots + 1); i++){
         const indexS = cyclicPad(index + i, length);
         const itemIndex = props.order ? props.order[indexS] : indexS;
-        children.push(<InnerCycle w={w}>
+        children.push(<InnerCycle w={w} key={itemIndex}>
                 {props.items[itemIndex]}
             </InnerCycle>);
     }
