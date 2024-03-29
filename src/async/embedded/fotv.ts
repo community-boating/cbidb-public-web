@@ -1,7 +1,7 @@
-import * as t from 'io-ts';
-import APIWrapper from 'core/APIWrapper';
-import { HttpMethod } from "core/HttpMethod";
-import { OptionalNumber, OptionalString } from 'util/OptionalTypeValidators';
+import * as t from 'io-ts'
+import APIWrapper from 'core/APIWrapper'
+import { HttpMethod } from "core/HttpMethod"
+import { OptionalNumber, OptionalString } from 'util/OptionalTypeValidators'
 
 export const logoImageValidator = t.type({
     imageID: t.number,
@@ -31,10 +31,18 @@ export const restrictionGroupValidator = t.type({
     displayOrder: t.number
 })
 
+export const restrictionConditionValidator = t.type({
+    conditionID: t.number,
+    restrictionID: t.number,
+    conditionAction: OptionalNumber,
+    conditionType: OptionalNumber,
+    conditionInfo: OptionalString
+})
+
 export const imageValidator = t.type({
     imageID: t.number,
     version: t.number
-});
+})
 
 export const singletonDataValidator = t.type({
     data_key: t.string,
@@ -45,6 +53,7 @@ export const validator = t.type({
     sunset: t.string,
     restrictions: t.array(restrictionValidator),
     restrictionGroups: t.array(restrictionGroupValidator),
+    restrictionConditions: t.array(restrictionConditionValidator),
     logoImages: t.array(logoImageValidator),
     images: t.array(imageValidator),
     singletonData: t.array(singletonDataValidator)
@@ -54,7 +63,11 @@ const path: string = "/fotv"
 
 export type FOTVType = t.TypeOf<typeof validator>
 
-export type LogoImageType = t.TypeOf<typeof logoImageValidator>;
+export type RestrictionType = t.TypeOf<typeof restrictionValidator>
+
+export type RestrictionGroupType = t.TypeOf<typeof restrictionGroupValidator>
+
+export type LogoImageType = t.TypeOf<typeof logoImageValidator>
 
 export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
     path: path,

@@ -2,7 +2,7 @@ import { AsyncPropsType } from "app/routes/embedded/class-tables/jp-class-instan
 import * as React from "react";
 import { ReactNode } from "react";
 import * as moment from "moment";
-import { option } from "fp-ts";
+import ClassSchedule, { ClassScheduleItem } from "./ClassSchedule";
 
 function isAfternoon(moment: moment.Moment){
     return moment.get("hours") >= 12;
@@ -23,15 +23,34 @@ function flagIconURL(sectionName: string){
 }
 
 type ClassInstancesByTimeAndInstanceIDType = {[time: string] : {[instanceId: number] : AsyncPropsType}}
-function mapClassInstances(jpClassInstances: AsyncPropsType): ClassInstancesByTimeAndInstanceIDType{
-    const classInstancesMap: ClassInstancesByTimeAndInstanceIDType = {};
-    const afternoonCurrently = isAfternoon(moment());
-    jpClassInstances.forEach((a) => {
-        classInstancesMap[a.startTime] = classInstancesMap[a.startTime] || {};
-        classInstancesMap[a.startTime][a.instanceId] = classInstancesMap[a.startTime][a.instanceId] || [];
-        classInstancesMap[a.startTime][a.instanceId].push(a);
-    })
-    return classInstancesMap;
+function mapClassItems(jpClassInstances: AsyncPropsType): ClassScheduleItem[] {
+    console.log(jpClassInstances);
+    return jpClassInstances.map((a) => ({
+        startTime: moment(a.startTime, "hh:mmA"),
+        id: a.instanceId,
+        display: <div className="b-solid b-2 br-10 m-5">
+                <table className="w-full no-spacing">
+                    <tbody className="no-spacing">
+                        <tr>
+                            <td>
+                                <h1 className="m-0" style={{color: mapColor(a.typeName)}}>{a.typeName}</h1>
+                            </td>
+                            <td width="40%">
+                                <img src={flagIconURL(a.sectionName.getOrElse(""))} width={18} height={18}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h2 className="">{a.locationName.getOrElse("")}</h2>
+                            </td>
+                            <td width="40%">
+                                <p className="m-0">{a.instructorNameFirst.getOrElse("")} {a.instructorNameLast.getOrElse("")}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    }))
 }
 
 const mapColor = (className: string) => {
@@ -41,6 +60,7 @@ const mapColor = (className: string) => {
 	case "Beginner Sailing":
 		return "#a3ffa3";
 	case "Mainsail":
+    case "Mainsail I":
 	case "Intermediate Sailing":
 	case "Mercury Fast Track":
 	case "Mercury Clinic":
@@ -67,38 +87,11 @@ const mapColor = (className: string) => {
 	case "RoboSail":
 		return "#a3ffff";
 	default:
-		return "#FFFFFF";
+		return "#000000";
 	}
 };
 
-const JPClassSubTable = (props: {jpClassInstances: AsyncPropsType}) => {
-    return <>
-    <b>{props.jpClassInstances[0].typeName}</b><br/>
-        <table>
-            <tbody>
-                    {props.jpClassInstances.map((a) => {
-                        return <tr key={a.sectionId}>
-                            <td>{a.sectionName.fold<ReactNode>("", (b) => <span><img src={flagIconURL(b)} width={18} height={18}/><p>{b}:</p></span>)}<span><p>{a.instructorNameFirst.getOrElse("")} @ {a.locationName.getOrElse("")}</p></span></td>
-                        </tr>;
-                    })}
-            </tbody>
-        </table>
-    </>;
-}
-
 export const JPClassTable = (props: {jpClassInstances: AsyncPropsType}) => {
-    const classInstancesMap = mapClassInstances(props.jpClassInstances);
-    const groupedInstances: ReactNode[] = Object.entries(classInstancesMap).map((a) => {
-        return Object.entries(a[1]).map((b, index: number) => {
-            return <tr key={a + ":" + b} className="b-2 b-solid b-gray br-10 block">
-                <td ><p>{index === 0 ? b[1][0].startTime : ""}</p></td>
-                <td style={{backgroundColor: mapColor(b[1][0].typeName)}}><JPClassSubTable jpClassInstances={b[1]}/></td>
-            </tr>;
-        })
-    })
-    return <table>
-        <tbody className="padding-8">
-            {groupedInstances}
-        </tbody>
-    </table>;
+    const classItems = mapClassItems(props.jpClassInstances);
+    return <ClassSchedule classItems={classItems} startTime={moment()}/>;
 }

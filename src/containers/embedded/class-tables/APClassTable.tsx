@@ -1,20 +1,35 @@
 import { AsyncPropsType } from "app/routes/embedded/class-tables/ap-class-instances"
+import * as moment from "moment"
 import * as React from "react"
-
-function sortGroupByTime(apClassInstances: AsyncPropsType){
-}
+import ClassSchedule, { ClassScheduleItem } from "./ClassSchedule"
 
 export const APClassTable = (props: {apClassInstances: AsyncPropsType}) => {
-    const byTime = sortGroupByTime(props.apClassInstances);
-    return <table className='w-full max-w-full table padding-8'>
-        <tbody className='font-sm align-center'>
-            {props.apClassInstances.map((a)=> {
-                return <tr key={a.instanceId} className='b-2 b-solid b-gray br-10 block' >
-                    <td className='font-md' width="20%"><p>{a.startTime}</p></td>
-                    <td className='font-md' width="30%"><p>{a.typeName.getOrElse("")}</p></td>
-                    <td width="50%"><p>{a.locationString.getOrElse("")}</p></td>
-                </tr>
-            })}
-        </tbody>
-    </table>
+    const mapped = mapClassItems(props.apClassInstances)
+    return <ClassSchedule classItems={mapped} startTime={moment()}/>
+}
+
+function mapClassItems(apClassInstances: AsyncPropsType): ClassScheduleItem[] {
+    return apClassInstances.map((a) => ({
+        startTime: moment(a.startTime, "hh:mmA"),
+        id: a.instanceId,
+        display: <div className="b-solid b-2 br-10 m-5">
+                <table className="w-full no-spacing">
+                    <tbody className="no-spacing">
+                        <tr>
+                            <td>
+                                <h1 className="m-0">{a.typeName.getOrElse("")}</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h2 className="">{a.locationString.getOrElse("")}</h2>
+                            </td>
+                            <td width="40%">
+                                <p className="m-0">FIRST LAST</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    }))
 }

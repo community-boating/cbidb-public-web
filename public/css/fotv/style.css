@@ -102,6 +102,10 @@ h1, h2{
     text-align: center;
 }
 
+.text-left {
+    text-align: left;
+}
+
 .min-w-full {
     min-width: 100%;
 }
@@ -135,8 +139,28 @@ h1, h2{
     font-family: 'Roboto', sans-serif;
 }
 
+.min-w-50px {
+    min-width: 50px;
+}
+
 body {
     font-family: 'Domine', sans-serif;
+}
+
+.float-left {
+    float: none;
+}
+
+.w-100 {
+    width: 100px;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.w-80 {
+    width: 80%;
 }
 
 .inline-block {
@@ -339,6 +363,78 @@ body {
     box-sizing: border-box;
 }
 
+.top-0 {
+    top: 0px;
+}
+
+.ml-100 {
+    margin: 10px;
+}
+
+.m-0 {
+    margin: 0;
+}
+
+.m-5 {
+    margin: 5px;
+}
+
+.pl-50 {
+    padding-left: 50px;
+}
+
+.pr-50 {
+    padding-right: 50px;
+}
+
+.pr-10 {
+    padding-right: 10px;
+}
+
+.pl-10 {
+    padding-left: 10px;
+}
+
+.w-0 {
+    width: 0px;
+}
+
+.l-50 {
+    left: 50px;
+}
+
+.l-60 {
+    left: 60px;
+}
+
+.r-0 {
+    right: 0px;
+}
+
+.w-ri {
+    max-width: calc(100% - 80px);
+}
+
+.w-main {
+    width: 1000px;
+    max-width: 1000px;
+    min-width: 1000px;
+}
+
+.align-super {
+    vertical-align: super;
+}
+
+.px-10 {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.px-10ish {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .padding-5 {
     padding: 5px;
 }
@@ -360,8 +456,32 @@ body {
     margin: 20px;
 }
 
+.h-60 {
+    height: 60px;
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
+.mr-30 {
+    margin-right: 30px;
+}
+
+.lh-60 {
+    line-height: 60px;
+}
+
+.pr-50 {
+    padding-right: 50px;
+}
+
 .border-b-sm {
     border-bottom: 2px black solid;
+}
+
+.r-50 {
+    right: 50px;
 }
 
 .bo {
@@ -370,6 +490,18 @@ body {
 
 .align-center {
     text-align: center;
+}
+
+.t-0 {
+    top: 0px;
+}
+
+.r-190 {
+    right: 190px;
+}
+
+.align-top {
+    vertical-align: top;
 }
 
 .gap-5 {
@@ -619,6 +751,11 @@ body {
 
 .b-2 {
     border-width: 2px;
+}
+
+.no-spacing {
+    border-spacing: 0;
+    border-collapse: collapse;
 }
 
 .b-solid {

@@ -4,8 +4,8 @@ function cyclicPad(index: number, length: number){
     return index < 0 ? length - 1 : index % length;
 }
 
-export default function Cycler(props: {items: React.ReactNode[], slots?: number, order?: number[], initialOrderIndex?: number, delay?: number, slideDelay?: number, left?: boolean}){
-    const [index, setIndex] = React.useState(props.initialOrderIndex || 0);
+export default function Cycler(props: {items: React.ReactNode[], slots?: number, order?: number[], initialOrderIndex?: number, delay?: number, slideDelay?: number, left?: boolean, indexExternal?: number, setIndexExternal?: React.Dispatch<React.SetStateAction<number>>}){
+    const [index, setIndex] = (props.indexExternal != undefined) ? [props.indexExternal, props.setIndexExternal] : React.useState(props.initialOrderIndex || 0);
     const ref = React.createRef<HTMLDivElement>();
     const length = props.order != undefined ? props.order.length : props.items.length;
     const slots = props.slots || 2;
@@ -14,8 +14,8 @@ export default function Cycler(props: {items: React.ReactNode[], slots?: number,
         if(props.items.length > 1){
             const current = ref.current;
             const intervalID = setInterval(() => {
-                setIndex((s) => cyclicPad(left ? s+1 : s-1,length));
-                current.animate(slideFrames, slideOptions);
+                //setIndex((s) => cyclicPad(left ? s+1 : s-1,length));
+                //current.animate(slideFrames, slideOptions);
             }, props.delay || 5000);
             return () => {
                 clearInterval(intervalID);
@@ -24,7 +24,7 @@ export default function Cycler(props: {items: React.ReactNode[], slots?: number,
         }
     }, [length, slots, ref.current, props.items.length]);
     React.useEffect(() =>  {
-        setIndex(2);
+        setIndex(1);
     }, [props.items.length])
     const children = [];
     const spacing = 40;
@@ -64,7 +64,7 @@ export default function Cycler(props: {items: React.ReactNode[], slots?: number,
 }
 
 function InnerCycle(props: {children: React.ReactNode, w: string}){
-    return <div className='flex shrink basis-0 overflow-hidden' style={{minWidth: props.w, width: props.w, maxWidth: props.w}}>
+    return <div className='flex shrink basis-0 overflow-hidden relative' style={{minWidth: props.w, width: props.w, maxWidth: props.w}}>
         {props.children}
     </div>
 }
