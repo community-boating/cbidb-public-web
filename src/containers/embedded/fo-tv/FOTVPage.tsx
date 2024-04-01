@@ -230,10 +230,10 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
     const filtered = props.fotvData.restrictions.filter((a) => currentRestrictionStates[a.restrictionID] == true)
     const itemsLeft = makeItemsLeft(filtered, activeProgramID, versionByID)
     const itemsRight = makeItemsRight(props.fotvData)
-
+    const filteredPriority = filtered.filter((a) => a.isPriority)
     const backgroundImage = props.fotvData.logoImages.find((a) => a.imageType == -5)
     const bgSRC = backgroundImage == undefined ? '/images/fotv/background.jpeg' : getImageSRC(backgroundImage.imageID, versionByID);
-    const headerCyclerItems = filtered.filter((a) => a.isPriority).map((a, i) => <div className='h-60 br-10 mx-auto b-solid b-2 min-w-0 w-full px-10 flex row' style={{backgroundColor: a.backgroundColor, borderColor: a.textColor}}>
+    const headerCyclerItems = filteredPriority.map((a, i) => <div className='h-60 br-10 mx-auto b-solid b-2 min-w-0 w-full px-10 flex row' style={{backgroundColor: a.backgroundColor, borderColor: a.textColor}}>
         <RestrictionImage restriction={a} versionByID={versionByID} className="mt-5 mr-30 min-w-50px"/>
         <ScrollingDiv className='min-w-0 overflow-hidden grow-1'>
             <h1 className="font-serif font-30pt inline lh-60 align-top pr-10" style={{color: a.textColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}}>{a.title}</h1>
@@ -256,10 +256,10 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
                                 <h1 className='font-roboto color-blue font-50pt mx-auto my-0 align-center'>Welcome To Community Boating</h1>
                                 <div className='w-80 relative mx-auto'>
                                     <div className='overflow-hidden w-full'>
-                                        {filtered.length > 0 ? <Cycler items={headerCyclerItems} slots={1} indexExternal={restrictionIndex} setIndexExternal={setRestrictionIndex}/> :
+                                        {filteredPriority.length > 0 ? <Cycler items={headerCyclerItems} slots={1} indexExternal={restrictionIndex} setIndexExternal={setRestrictionIndex}/> :
                                         <h1 className='font-serif color-blue font-30pt mx-auto my-0 align-center lh-60'>Sailing for All!</h1>}
                                     </div>
-                                    {filtered.length > 1 ? <p className="inline r-0 w-0 m-0 absolute t-0">{restrictionIndex+1}/{filtered.length}</p> : <></>}
+                                    {filteredPriority.length > 1 ? <p className="inline r-0 w-0 m-0 absolute t-0">{restrictionIndex+1}/{filtered.length}</p> : <></>}
                                 </div>
                             </td>
                             <td className='text-center' width='50%'>
