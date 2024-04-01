@@ -11,7 +11,6 @@ import JPClassSectionsProvider, { JPClassSectionsContext } from 'async/providers
 import { JPClassTable } from '../class-tables/JPClassTable';
 import { tempParams } from 'app/routes/embedded/fotv';
 import RestrictionIcon from './RestrictionIcon';
-import { MAGIC_NUMBERS } from 'app/magicNumbers';
 
 const PROGRAM_JP: number = 2
 const PROGRAM_AP: number = 1
@@ -203,10 +202,10 @@ function getActiveProgramID(fotvData: FOTVType){
 
 function makeItemsRight(fotvData: FOTVType){
     const items = [];
-    //JP 3, AP 4
+    //AP -3, JP -4
     items.push(<ImageDiv fotv={fotvData}/>);
     const versionByID = imageVersionByID(fotvData);
-    const bigImage = fotvData.logoImages.find((a) => a.imageType == (getActiveProgramID(fotvData) == PROGRAM_JP ? -3 : -4));
+    const bigImage = fotvData.logoImages.find((a) => a.imageType == (getActiveProgramID(fotvData) == PROGRAM_JP ? -4 : -3));
     if(bigImage != undefined){
         items.push(<img className='h-full w-full' src={getImageSRC(bigImage.imageID, versionByID)}/>)
     }
@@ -327,7 +326,7 @@ function ImageDiv(props: {fotv: FOTVType}){
     const logoMap = (size: string) => (a: LogoImageType) => 
         <img className={size + ' '} src={getImageSRC(a.imageID, versionByID)} key={a.imageID}/>
     return <div className='flex col w-full space-around'>
-        <div className='mx-auto min-h-50 h-50'>
+        <div className='mx-auto min-h-40 h-40'>
             {props.fotv.logoImages.filter((a) => a.imageType == -2).map(logoMap('h-full'))}
         </div>
     <ScrollingDiv className='min-h-25 h-25'>
@@ -447,7 +446,7 @@ function RestrictionsList(props: {restrictionsForList: RestrictionType[], versio
                 <RestrictionImage restriction={a} versionByID={versionByID}/>
             </div>
             <div className='w-full'>
-                <p className='font-roboto black'>{a.title}</p>
+                <h2 className='font-roboto black'>{a.title}</h2>
                 <p className='text-left px-10ish'>{a.message}</p>
             </div>
             </li>)}

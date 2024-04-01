@@ -35,7 +35,7 @@ export default function Cycler(props: {items: React.ReactNode[], slots?: number,
     for(var i = left ? -1 : 0; i < (left ? slots : slots + 1); i++){
         const indexS = cyclicPad(index + i, length);
         const itemIndex = props.order ? props.order[indexS] : indexS;
-        children.push(<InnerCycle w={w} key={itemIndex}>
+        children.push(<InnerCycle w={w} key={itemIndex + ":" + i}>
                 {props.items[itemIndex]}
             </InnerCycle>);
     }

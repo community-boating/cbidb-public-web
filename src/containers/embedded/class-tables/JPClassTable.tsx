@@ -93,5 +93,5 @@ const mapColor = (className: string) => {
 
 export const JPClassTable = (props: {jpClassInstances: AsyncPropsType}) => {
     const classItems = mapClassItems(props.jpClassInstances);
-    return <ClassSchedule classItems={classItems} startTime={moment()}/>;
+    return <ClassSchedule classItems={classItems}/>;
 }

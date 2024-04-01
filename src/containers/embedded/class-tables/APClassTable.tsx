@@ -5,7 +5,7 @@ import ClassSchedule, { ClassScheduleItem } from "./ClassSchedule"
 
 export const APClassTable = (props: {apClassInstances: AsyncPropsType}) => {
     const mapped = mapClassItems(props.apClassInstances)
-    return <ClassSchedule classItems={mapped} startTime={moment()}/>
+    return <ClassSchedule classItems={mapped}/>
 }
 
 function mapClassItems(apClassInstances: AsyncPropsType): ClassScheduleItem[] {

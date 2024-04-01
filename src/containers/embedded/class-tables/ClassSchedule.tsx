@@ -9,7 +9,6 @@ export type ClassScheduleItem = {
 
 export type ClassScheduleProps = {
     classItems: ClassScheduleItem[];
-    startTime: moment.Moment;
 }
 
 export type TimeBlockType = {
@@ -20,9 +19,9 @@ export type TimeBlockType = {
 
 type ClassScheduleItemMap = {[key: number] : TimeBlockType}
 
-function makeTimeBlocks(props: ClassScheduleProps): ClassScheduleItemMap{
+function makeTimeBlocks(props: ClassScheduleProps): ClassScheduleItemMap {
     const mapped: ClassScheduleItemMap = {}
-    props.classItems.filter((a) => props.startTime.isBefore(a.startTime)).sort((a, b) => (a.startTime.diff(b.startTime))).forEach((a, i) => {
+    props.classItems.sort((a, b) => (a.startTime.diff(b.startTime))).forEach((a, i) => {
         const key = a.startTime.unix();
         mapped[key] = mapped[key] || {classItems: [], startTime: a.startTime, blockDuration: 0};
         mapped[key].classItems.push(a);
