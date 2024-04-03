@@ -9,6 +9,6 @@ import FOTVPage from 'containers/embedded/fo-tv/FOTVPage';
 
 export type AsyncPropsType = t.TypeOf<typeof validator>
 
-export const tempParams = option.some({host: "159.65.226.25", https: false, port:6969});
+export const tempParams = option.some({host: "localhost", https: false, port:6969});
 
 export const FOTVPageRoute = new RouteWrapper(true, path, history => <PageWrapper key={"fotv"} urlProps={undefined} getAsyncProps={() => getWrapper.sendWithParams(tempParams)(null)} component={(urlProps: unknown, asyncProps: AsyncPropsType, reload: () => void) => <FOTVPage fotvData={asyncProps}/>} history={history} shadowComponent={<p>"Loading..."</p>} autoRefresh={5000} ></PageWrapper>);
