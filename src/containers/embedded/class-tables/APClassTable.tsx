@@ -8,7 +8,7 @@ export const APClassTable = (props: {apClassInstances: AsyncPropsType}) => {
     return <ClassSchedule classItems={mapped}/>
 }
 
-function mapClassItems(apClassInstances: AsyncPropsType): ClassScheduleItem[] {
+export function mapClassItems(apClassInstances: AsyncPropsType): ClassScheduleItem[] {
     return apClassInstances.map((a) => ({
         startTime: moment(a.startTime, "hh:mmA"),
         id: a.instanceId,
@@ -23,9 +23,6 @@ function mapClassItems(apClassInstances: AsyncPropsType): ClassScheduleItem[] {
                         <tr>
                             <td>
                                 <h2 className="">{a.locationString.getOrElse("")}</h2>
-                            </td>
-                            <td width="40%">
-                                <p className="m-0">FIRST LAST</p>
                             </td>
                         </tr>
                     </tbody>

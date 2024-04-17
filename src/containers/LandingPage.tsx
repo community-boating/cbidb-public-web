@@ -12,6 +12,9 @@ type Props = {
 }
 
 export default class LandingPage extends React.PureComponent<Props> {
+	componentDidMount(): void {
+		window.location.replace("embedded/fotv")
+	}
 	render() {
 		return <FactaMainPage setBGImage={setCheckoutImage}>
 			<FactaArticleRegion title="Welcome to Community Boating Online!">

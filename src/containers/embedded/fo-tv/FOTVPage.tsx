@@ -3,14 +3,17 @@ import FlagColorProvider, { FlagColorContext } from 'async/providers/FlagColorPr
 import * as moment from 'moment';
 import * as React from 'react';
 import { FlagStatusIcon, getFlagIcon } from './FlagStatusIcon';
-import Cycler from './Cycler';
+import Cycler, { DynamicCycler } from './Cycler';
 import APClassInstancesProvider, { APClassInstancesContext } from 'async/providers/APClassInstancesProvider';
 import { FlagColor } from 'async/util/flag-color';
-import { APClassTable } from '../class-tables/APClassTable';
+import { APClassTable, mapClassItems as mapClassItemsAPClass } from '../class-tables/APClassTable';
 import JPClassSectionsProvider, { JPClassSectionsContext } from 'async/providers/JPClassSectionsProvider';
-import { JPClassTable } from '../class-tables/JPClassTable';
-import { tempParams } from 'app/routes/embedded/fotv';
+import { JPClassTable, mapClassItems as mapClassItemsJPClass } from '../class-tables/JPClassTable';
 import RestrictionIcon from './RestrictionIcon';
+import { AsyncPropsType as AsyncPropsTypeAPClass } from 'app/routes/embedded/class-tables/ap-class-instances';
+import { AsyncPropsType as AsyncPropsTypeJPClass } from 'app/routes/embedded/class-tables/jp-class-instances';
+import { classScheduleItems } from '../class-tables/ClassSchedule';
+import { JPClassInstancesContext } from 'async/providers/JPClassInstancesProvider';
 
 const PROGRAM_JP: number = 2
 const PROGRAM_AP: number = 1
@@ -212,22 +215,35 @@ function makeItemsRight(fotvData: FOTVType){
     return items;
 }
 
-function makeItemsLeft(restrictionsForList: RestrictionType[], activeProgramID: number, versionByID: NToN){
-    const items = activeProgramID == PROGRAM_AP ? [<WrappedAPClassTable/>] :
-    [<WrappedJPClassTable/>];
+function apClassItems(apClasses: AsyncPropsTypeAPClass){
+    const classItems = mapClassItemsAPClass(apClasses)
+    return classScheduleItems({classItems})
+}
+
+function jpClassItems(jpClasses: AsyncPropsTypeJPClass){
+    const classItems = mapClassItemsJPClass(jpClasses)
+    return classScheduleItems({classItems})
+}
+
+function makeItemsLeft(restrictionsForList: RestrictionType[], activeProgramID: number, versionByID: NToN, apClasses: AsyncPropsTypeAPClass, jpClasses: AsyncPropsTypeJPClass){
+    const items = activeProgramID == PROGRAM_AP ? [apClassItems(apClasses)] :
+    [jpClassItems(jpClasses)];
     if(restrictionsForList.length > 0)
-        items.push(<RestrictionsList restrictionsForList={restrictionsForList} versionByID={versionByID}/>)
+        items.push(RestrictionsList( {restrictionsForList:restrictionsForList, versionByID:versionByID}))
+    //return [<DynamicCycler items={[[<p>derp</p>, <p>hi</p>, <p>hi</p> , <p>hi</p>], [<p>derp</p>, <p>hi</p>, <p>hi</p> , <p>hi</p> , <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>,<p>hi</p>,<p>hi</p>]]}/>]
     return items;
 }
 
 function FOTVPageInternal(props: {fotvData: FOTVType}){
+    const apClassInstances = React.useContext(APClassInstancesContext)
+    const jpClassSections = React.useContext(JPClassSectionsContext)
     const [restrictionIndex, setRestrictionIndex] = React.useState(0)
     const flagColor = React.useContext(FlagColorContext)
     const versionByID = imageVersionByID(props.fotvData)
     const activeProgramID = getActiveProgramID(props.fotvData)
     const currentRestrictionStates = calculateRestrictionConditions(props.fotvData, flagColor.flagColor)
     const filtered = props.fotvData.restrictions.filter((a) => currentRestrictionStates[a.restrictionID] == true)
-    const itemsLeft = makeItemsLeft(filtered, activeProgramID, versionByID)
+    const itemsLeft = makeItemsLeft(filtered, activeProgramID, versionByID, apClassInstances, jpClassSections)
     const itemsRight = makeItemsRight(props.fotvData)
     const filteredPriority = filtered.filter((a) => a.isPriority)
     const backgroundImage = props.fotvData.logoImages.find((a) => a.imageType == -5)
@@ -295,7 +311,7 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
             </div>
             <div className='flex relative row grow min-h-0 basis-0 padding-x-20 gap-20 padding-b-20'>
                 <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
-                    <Cycler slots={1} items={itemsLeft} initialOrderIndex={1} delay={10000}/>
+                    <DynamicCycler slots={1} items={itemsLeft} itemContainers={[undefined, (children, key) => <div key={key} className='w-full h-full flex col'>{children}</div>]} initialOrderIndex={1} delay={10000}/>
                 </div>
                 <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
                     <Cycler slots={1} initialOrderIndex={0} items={itemsRight} delay={10000}/>
@@ -316,8 +332,9 @@ function imageVersionByID(fotv: FOTVType): NToN {
 }
 
 export function getImageSRC(imageID: number, versionByID: NToN) {
-    const params = tempParams.getOrElse({https: false, host: "", port: 0})
-    return (params.https ? "https" : "http") + "://" + params.host + ":" + params.port + "/images/" + imageID + '/' + versionByID[imageID]
+    console.log(process.env.serverToUseForAPI)
+    const params = process.env.serverToUseForAPI as any
+    return (params.https ? "https://" : "http://") + params.host + ":" + params.port + params.pathPrefix + "/images/" + imageID + '/' + versionByID[imageID]
 }
 
 function ImageDiv(props: {fotv: FOTVType}){
@@ -440,8 +457,7 @@ function RestrictionImage(props:{ className?: string, restriction: RestrictionTy
 
 function RestrictionsList(props: {restrictionsForList: RestrictionType[], versionByID: NToN}){
     const versionByID = props.versionByID;
-    return <ul className='w-full padding-8'>
-        {props.restrictionsForList.sort((a, b) => (a.groupID - b.groupID) + (a.displayOrder - b.displayOrder) * 1000).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}} className='w-full no-list-style p-5 br-10 flex row mt-10 b-2 b-solid'>
+        return props.restrictionsForList.sort((a, b) => (a.groupID - b.groupID) + (a.displayOrder - b.displayOrder) * 1000).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}} className='w-full no-list-style p-5 br-10 flex row mt-10 b-2 b-solid'>
             <div className='flex center padding-5'>
                 <RestrictionImage restriction={a} versionByID={versionByID}/>
             </div>
@@ -449,8 +465,7 @@ function RestrictionsList(props: {restrictionsForList: RestrictionType[], versio
                 <h2 className='font-roboto black'>{a.title}</h2>
                 <p className='text-left px-10ish'>{a.message}</p>
             </div>
-            </li>)}
-    </ul>
+            </li>)
 }
 
 function Clock(props: any){

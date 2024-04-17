@@ -8,9 +8,9 @@ const serverConfig = (function() {
 		// TODO: dev vs prod config
 		SELF: {
 			host: config.hostName,
-			https: true,
+			https: false,
 			pathPrefix: "/api",
-			port: 443
+			port: 80
 		}
 	}
 	

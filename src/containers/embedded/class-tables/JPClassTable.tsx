@@ -23,8 +23,7 @@ function flagIconURL(sectionName: string){
 }
 
 type ClassInstancesByTimeAndInstanceIDType = {[time: string] : {[instanceId: number] : AsyncPropsType}}
-function mapClassItems(jpClassInstances: AsyncPropsType): ClassScheduleItem[] {
-    console.log(jpClassInstances);
+export function mapClassItems(jpClassInstances: AsyncPropsType): ClassScheduleItem[] {
     return jpClassInstances.map((a) => ({
         startTime: moment(a.startTime, "hh:mmA"),
         id: a.instanceId,

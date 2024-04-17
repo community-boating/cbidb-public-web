@@ -21,7 +21,7 @@ type ClassScheduleItemMap = {[key: number] : TimeBlockType}
 
 function makeTimeBlocks(props: ClassScheduleProps): ClassScheduleItemMap {
     const mapped: ClassScheduleItemMap = {}
-    props.classItems.sort((a, b) => (a.startTime.diff(b.startTime))).forEach((a, i) => {
+    props.classItems.filter((a) => a.startTime.isAfter(moment().subtract(30, 'minutes'))).sort((a, b) => (a.startTime.diff(b.startTime))).forEach((a, i) => {
         const key = a.startTime.unix();
         mapped[key] = mapped[key] || {classItems: [], startTime: a.startTime, blockDuration: 0};
         mapped[key].classItems.push(a);
@@ -40,17 +40,22 @@ function TimeStyled(props: {time: moment.Moment}){
     </span>
 }
 
-export default function ClassSchedule(props: ClassScheduleProps){
+export function classScheduleItems(props: ClassScheduleProps){
     const items = makeTimeBlocks(props);
-    return <div className='w-full h-full'>
-        {Object.entries(items).map((a, i) => <React.Fragment key={i}>
-            <hr/>
-            <div className="flex row" style={{paddingBottom: (a[1].blockDuration * 1) + "px"}}>
-                <TimeStyled time={a[1].startTime}/>
-                <div className="grow-1">
-                    {a[1].classItems.map((b) => <div className="" key={b.id}>{b.display}</div>)}
-                </div>
+    return Object.entries(items).map((a, i) => <React.Fragment key={i}>
+        <hr/>
+        <div className="flex row" style={{paddingBottom: (a[1].blockDuration * 1) + "px"}}>
+            <TimeStyled time={a[1].startTime}/>
+            <div className="grow-1">
+                {a[1].classItems.map((b) => <div className="" key={b.id}>{b.display}</div>)}
             </div>
-        </React.Fragment>)}
+        </div>
+    </React.Fragment>)
+}
+
+export default function ClassSchedule(props: ClassScheduleProps){
+    const items = classScheduleItems(props);
+    return <div className='w-full h-full'>
+        {items}
     </div>
 }

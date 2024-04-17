@@ -36,6 +36,10 @@ h1, h2{
     height: 40%;
 }
 
+.transparent {
+    display: none
+}
+
 .h-50 {
     height: 50%;
 }
