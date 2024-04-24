@@ -344,7 +344,7 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
             <div className='flex row w-full justify-around color-blue padding-10'>
                 <div className='flex row grow justify-around basis-0'>
                     <div className='flex col h-full align-center'>
-                        <h2 className=''>Call In: YOLO</h2>
+                        <h2 className=''>Call In:</h2>
                         <h2>{callInTime.format("hh:mm")}</h2>
                     </div>
                     <div className='flex col h-full align-center'>
