@@ -256,6 +256,8 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
         </ScrollingDiv>
     </div>)
     const closeTime = activeProgramID == 2 ? moment("15:00", "HH:mm") : moment(props.fotvData.sunset)
+
+    const callInTime = closeTime.clone().subtract(30, 'minutes')
     
     const logoImg = <img className='mx-auto h-full min-h-0 min-w-0 block' height={'100px'} width={'100px'} src='/images/fotv/logo.svg'/>
     
@@ -298,7 +300,7 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
                             </tr>
                             <tr>
                                 <td>
-                                    <h2>Call In: {closeTime.subtract(30, 'minutes').format("hh:mm")}</h2>
+                                    <h2>Call In: {callInTime.format("hh:mm")}</h2>
                                 </td>
                                 <td>
                                     <h2>Close: {closeTime.format("hh:mm")}</h2>
@@ -342,8 +344,8 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
             <div className='flex row w-full justify-around color-blue padding-10'>
                 <div className='flex row grow justify-around basis-0'>
                     <div className='flex col h-full align-center'>
-                        <h2 className=''>Call In:</h2>
-                        <h2>{closeTime.subtract(30, 'minutes').format("hh:mm")}</h2>
+                        <h2 className=''>Call In: YOLO</h2>
+                        <h2>{callInTime.format("hh:mm")}</h2>
                     </div>
                     <div className='flex col h-full align-center'>
                         <h2 className=''>Close:</h2>
