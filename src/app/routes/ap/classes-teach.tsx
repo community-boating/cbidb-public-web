@@ -31,10 +31,10 @@ export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 	getAsyncProps={() => {
 		return Promise.all([
-			getTypesWithAvailability.send(null),
-			getClasses.send(null),
-			welcomeAPIAP.send(null),
-			getInstructorInfo.send(null)
+			getTypesWithAvailability.send(),
+			getClasses.send(),
+			welcomeAPIAP.send(),
+			getInstructorInfo.send()
 		])
 		.then(([availabilities, instances, welcomeData, instructorInfo]) => {
 			if (availabilities.type == "Success" && instances.type == "Success" && welcomeData.type == "Success" && instructorInfo.type == "Success") {

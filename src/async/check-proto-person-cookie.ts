@@ -6,8 +6,9 @@ export const validator = t.any
 
 const path = "/check-proto-person-cookie"
 
-export const postWrapper = new APIWrapper<typeof validator, {}, {}>({
+export const postWrapper = new APIWrapper({
 	path: path,
 	type: HttpMethod.POST,
-	resultValidator: validator
+	resultValidator: validator,
+	postBodyValidator: validator
 })

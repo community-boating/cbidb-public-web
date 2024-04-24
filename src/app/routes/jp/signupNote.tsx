@@ -23,7 +23,7 @@ export const signupNotePageRoute = new RouteWrapper(true, jpPathSignupNote, hist
     }}
     shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={(urlProps: {personId: number, instanceId: number}) => {
-        return getSignupNote(urlProps.personId, urlProps.instanceId).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+        return getSignupNote(urlProps.personId, urlProps.instanceId).send().catch(err => Promise.resolve(null));  // TODO: handle failure
     }}
 />);
 

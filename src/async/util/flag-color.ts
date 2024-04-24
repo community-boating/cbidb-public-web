@@ -33,11 +33,10 @@ export const validator = t.type({
     flagColor: EnumType('flagColor', FlagColor),
 });
 
-export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = new APIWrapper({
     path: path,
     type: HttpMethod.GET,
-    resultValidator: validator,
-    serverIndex: 1
+    resultValidator: validator
 })
 
 export const flagEnumValidator = EnumType("flagColor", FlagColor);

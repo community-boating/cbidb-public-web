@@ -51,7 +51,7 @@ export type GetSignupsAPIResult = t.TypeOf<typeof validator>;
 
 const path = "/junior/get-signups"
 
-export const getWrapper = (juniorId: number) => new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = (juniorId: number) => new APIWrapper({
 	path: path + "?juniorId=" + juniorId,
 	type: HttpMethod.GET,
 	resultValidator: validator

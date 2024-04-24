@@ -16,8 +16,9 @@ const result = t.type({
 
 const path = "/junior/add-junior-class-reservation"
 
-export const postWrapper = new APIWrapper<typeof result, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
-	resultValidator: result
+	resultValidator: result,
+	postBodyValidator: validator
 })

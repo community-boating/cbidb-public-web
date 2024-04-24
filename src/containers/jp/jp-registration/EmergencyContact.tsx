@@ -208,7 +208,7 @@ export default class EmergencyContact extends React.PureComponent<Props, State> 
 			</FactaArticleRegion>
 			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			<FactaButton text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId).send(makePostJSON(formToAPI(this.state.formData))).then(res => {
+				return postWrapper(this.props.personId).sendJson(formToAPI(this.state.formData)).then(res => {
 					if (res.type == "Success") {
 						self.props.goNext()
 					} else {

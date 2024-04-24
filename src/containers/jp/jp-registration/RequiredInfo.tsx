@@ -307,7 +307,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			</FactaArticleRegion>
 			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			<FactaButton text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId, this.props.editOnly).send(makePostJSON(formToAPI(this.state.formData))).then(
+				return postWrapper(this.props.personId, this.props.editOnly).sendJson(formToAPI(this.state.formData)).then(
 					// api success
 					ret => {
 						if (ret.type == "Success") {

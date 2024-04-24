@@ -27,7 +27,7 @@ export type InstanceInfo = t.TypeOf<typeof instanceValidator>;
 
 const path = "/junior/get-class-instances"
 
-export const getWrapper = (typeId: number, juniorId: number) => new APIWrapper<typeof getClassInstancesValidator, {}, {}>({
+export const getWrapper = (typeId: number, juniorId: number) => new APIWrapper({
 	path: path + `?typeId=${typeId}&juniorId=${juniorId}`,
 	type: HttpMethod.GET,
 	resultValidator: getClassInstancesValidator

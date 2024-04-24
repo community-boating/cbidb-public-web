@@ -27,7 +27,7 @@ export const resultValidator = t.array(instanceValidator)
 
 const path = "/member/ap-classes-for-calendar"
 
-export const getWrapper = new APIWrapper<typeof resultValidator, {}, {}>({
+export const getWrapper = new APIWrapper({
 	path: path,
 	type: HttpMethod.GET,
 	resultValidator

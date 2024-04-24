@@ -24,7 +24,7 @@ export const apAddonsPageRoute = new RouteWrapper(true, apPathAddons, history =>
 	/>}
 	urlProps={{}}
 	getAsyncProps={() => {
-		return welcomeAPI.send(null).then(res => {
+		return welcomeAPI.send().then(res => {
 			if (res.type == "Success") {
 				const noGP = getNoGP(res.success.actions);
 				const noDW = getNoDW(res.success.actions);

@@ -22,8 +22,8 @@ export const apHomePageRoute = new RouteWrapper(true, apBasePath, (history: Hist
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 	getAsyncProps={(urlProps: {}) => {
 		return Promise.all([
-			getProtoPersonCookie.send(PostURLEncoded({})),
-			welcomeAPIAP.send(null)
+			getProtoPersonCookie.send(),
+			welcomeAPIAP.send()
 		]).then(([whatever, welcome]) => {
 			return Promise.resolve(welcome);
 		}).catch(err => Promise.resolve(null));  // TODO: handle failure

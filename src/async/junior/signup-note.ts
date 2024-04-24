@@ -11,15 +11,16 @@ export const validator = t.type({
 
 const path = "/junior/signup-note"
 
-export const getWrapper = (juniorId: number, instanceId: number) => new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = (juniorId: number, instanceId: number) => new APIWrapper({
 	path: path + `?juniorId=${juniorId}&instanceId=${instanceId}`,
 	type: HttpMethod.GET,
-	resultValidator: validator
+	resultValidator: validator,
 })
 
-export const postWrapper = new APIWrapper<typeof t.string, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator: t.string,
+	postBodyValidator: validator,
 	fixedParams: { }
 })

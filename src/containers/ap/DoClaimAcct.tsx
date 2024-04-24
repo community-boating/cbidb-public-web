@@ -67,12 +67,12 @@ export default class DoClaimAcct extends React.PureComponent<Props, State> {
 				})
 				return Promise.resolve();
 			} else {
-				return postWrapper.send(PostURLEncoded({
+				return postWrapper.sendJson({
 					username: self.props.email,
 					personId: self.props.personId,
 					hash: self.props.hash,
 					password: self.state.formData.pw1.getOrElse("")
-				})).then(res => {
+				}).then(res => {
 					if (res.type == "Success") {
 						asc.updateState.login.setLoggedIn(self.props.email)
 						self.props.history.push(apBasePath.getPathFromArgs({}))

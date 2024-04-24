@@ -64,7 +64,7 @@ const renderClassLine = (preregClass: Option<PreRegistrationClass>) => preregCla
 export const preRegRender = (then: () => void) => (prereg: PreRegistration, i: number) => (<tr key={`prereg_${i}`}><td>
 	<b><a href="#" onClick={() => {
 		if (window.confirm(`Do you really want to delete the reservations for ${prereg.firstName}?`)) {
-			deleteJunior.send(makePostString("name=" + prereg.firstName)).then(then)
+			deleteJunior.sendFormUrlEncoded({name: prereg.firstName}).then(then)
 		}
 	}}><img src="/images/delete.png" /></a>{"   " + prereg.firstName}</b><br />
 	Beginner Sailing:<br /><span dangerouslySetInnerHTML={{__html: renderClassLine(prereg.beginner)}}></span><br />
@@ -332,12 +332,12 @@ export default class ReserveClasses extends React.Component<Props, State> {
 				})
 				return Promise.reject();
 			} else {
-				return addJuniorPostWrapper.send(makePostJSON({
+				return addJuniorPostWrapper.sendJson({
 					juniorFirstName: self.state.formData.juniorFirstName.getOrElse(""),
 					beginnerInstanceId: beginner.map(c => c.instanceId),
 					intermediate1InstanceId: intermediate1.map(c => c.instanceId),
 					intermediate2InstanceId: intermediate2.map(c => c.instanceId)
-				})).then(resp => {
+				}).then(resp => {
 					if (resp.type == "Success") {
 						// todo: dont add to asc without a protoperson id back from api
 						// then, use that ID in the delete call

@@ -21,11 +21,11 @@ const renderItemRow: (
 		case "Donation":
 			return <a href="#" onClick={e => {
 				e.preventDefault();
-				return deleteDonation.send(makePostJSON({
+				return deleteDonation.sendJson({
 					fundId: item.fundId.getOrElse(null),
 					amount: item.price,
 					program: pageFlavor
-				}))
+				})
 				.then(ret => {
 					if (ret.type == "Success") {
 						history.push("/redirect" + window.location.pathname)
@@ -37,10 +37,10 @@ const renderItemRow: (
 		case "Gift Certificate Redeemed":
 			return <a href="#" onClick={e => {
 				e.preventDefault();
-				return unapplyGC.send(makePostJSON({
+				return unapplyGC.sendJson({
 					certId: item.itemId,
 					program: pageFlavor
-				}))
+				})
 				.then(ret => {
 					if (ret.type == "Success") {
 						history.push("/redirect" + window.location.pathname)

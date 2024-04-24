@@ -13,9 +13,10 @@ const resultValidator = t.type({
 
 const path = "/junior/class-signup-delete"
 
-export const postWrapper = new APIWrapper<typeof resultValidator, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator,
+	postBodyValidator: validator,
 	fixedParams: {}
 })

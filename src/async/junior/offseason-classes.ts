@@ -16,7 +16,7 @@ export const validator = t.type({
 
 const path = "/junior/offseason-classes"
 
-export const getWrapper = (juniorId: number) => new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = (juniorId: number) => new APIWrapper({
 	path: path + "?juniorId=" + juniorId,
 	type: HttpMethod.GET,
 	resultValidator: validator

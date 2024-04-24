@@ -3,12 +3,11 @@ import * as moment from 'moment';
 import { Success } from 'core/APIWrapperTypes';
 import {postWrapper as getProtoPersonCookie} from "../check-proto-person-cookie"
 import { getWrapper as getReservations } from '../junior/get-junior-class-reservations'
-import { PostURLEncoded } from "core/APIWrapperUtil";
 
 
 const getClassesAndPreregistrations = () => {
-	return getProtoPersonCookie.send(PostURLEncoded({}))
-	.then(() => getReservations.send(null))
+	return getProtoPersonCookie.sendJson({})
+	.then(() => getReservations.send())
 	.then(res => {
 		if (res.type == "Success") {
 			return Promise.resolve({
@@ -18,7 +17,7 @@ const getClassesAndPreregistrations = () => {
 		} else return Promise.reject()
 	})
 	.then(prereg => {
-		return getClassesWithAvail.send(null).then(classes => {
+		return getClassesWithAvail.send().then(classes => {
 			return Promise.resolve({ classes, prereg })
 		}, err => Promise.reject(err))
 	})

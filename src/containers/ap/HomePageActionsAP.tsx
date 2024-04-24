@@ -25,7 +25,7 @@ function testBit(num: number, bit: number) {
 const abortText = (text: string) => (history: History<any>) => <a href="#" onClick={e => {
 	e.preventDefault();
 	if (window.confirm(`Do you really want to abort ${text} registration?`)) {
-		abortRegistration.send(makePostJSON({})).then(() => history.push("/redirect" + apBasePath.getPathFromArgs({})))
+		abortRegistration.sendJson({}).then(() => history.push("/redirect" + apBasePath.getPathFromArgs({})))
 	}
 }}>{`Cancel ${text} Purchase`}</a>;
 

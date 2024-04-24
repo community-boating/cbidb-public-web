@@ -76,13 +76,13 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 			<br />
 			<FactaButton text="Update Card" onClick={e => {
 				e.preventDefault();
-				return clearCard.send(makePostJSON({program: PageFlavor.AUTO_DONATE})).then(() => self.props.history.push(`/redirect${window.location.pathname}`));
+				return clearCard.sendJson({program: PageFlavor.AUTO_DONATE}).then(() => self.props.history.push(`/redirect${window.location.pathname}`));
 			}} />
 			{
 				createMode
 				? <FactaButton text="Submit Donation" spinnerOnClick onClick={e => {
 					e.preventDefault();
-					return submitPayment.send(makePostJSON({})).then(res => {
+					return submitPayment.sendJson({}).then(res => {
 						if (res.type == "Success") {
 							self.props.history.push(`/redirect${window.location.pathname}?success`);
 						} else {
@@ -104,10 +104,10 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 			elementId="card-element"
 			cardErrorsId="card-errors"
 			then={(result: PaymentMethod) => {
-				return storePaymentMethodAP.send(makePostJSON({
+				return storePaymentMethodAP.sendJson({
 					paymentMethodId: result.paymentMethod.id,
 					retryLatePayments: true
-				})).then(result => {
+				}).then(result => {
 					if (result.type == "Success") {
 						self.props.history.push("/redirect" + window.location.pathname)
 					} else {

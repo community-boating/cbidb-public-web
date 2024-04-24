@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as t from 'io-ts';
 import APIWrapper from 'core/APIWrapper';
-import { option } from 'fp-ts';
 
 export type AsyncStateProviderProps<T_Validator extends t.Any> = {
     apiWrapper: APIWrapper<T_Validator, any, any>
@@ -34,8 +33,7 @@ export default class AsyncStateProvider<T_Validator extends t.Any> extends React
         this.render = this.render.bind(this);
     }
     loadAsync(){
-        const action = this.props.apiWrapper.config.serverIndex !== undefined ? this.props.apiWrapper.sendWithParams(option.none) : this.props.apiWrapper.send
-        action(this.context).then((a) => {
+        this.props.apiWrapper.send().then((a) => {
             if(!this.mounted){
                 return;
             }

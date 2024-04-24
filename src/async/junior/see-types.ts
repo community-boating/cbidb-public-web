@@ -9,7 +9,7 @@ export const validator = t.array(t.type({
 
 const path = "/junior/see-types"
 
-export const getWrapper = (personId: number) => new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = (personId: number) => new APIWrapper({
 	path: path + "?personId=" + personId,
 	type: HttpMethod.GET,
 	resultValidator: validator

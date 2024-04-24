@@ -13,7 +13,6 @@ import RestrictionIcon from './RestrictionIcon';
 import { AsyncPropsType as AsyncPropsTypeAPClass } from 'app/routes/embedded/class-tables/ap-class-instances';
 import { AsyncPropsType as AsyncPropsTypeJPClass } from 'app/routes/embedded/class-tables/jp-class-instances';
 import { classScheduleItems } from '../class-tables/ClassSchedule';
-import { JPClassInstancesContext } from 'async/providers/JPClassInstancesProvider';
 
 const PROGRAM_JP: number = 2
 const PROGRAM_AP: number = 1
@@ -235,6 +234,8 @@ function makeItemsLeft(restrictionsForList: RestrictionType[], activeProgramID: 
 }
 
 function FOTVPageInternal(props: {fotvData: FOTVType}){
+    const isSmall = window.location.hash.indexOf("small") != -1
+    const noBG = window.location.hash.indexOf("nobg") != -1
     const apClassInstances = React.useContext(APClassInstancesContext)
     const jpClassSections = React.useContext(JPClassSectionsContext)
     const [restrictionIndex, setRestrictionIndex] = React.useState(0)
@@ -247,7 +248,7 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
     const itemsRight = makeItemsRight(props.fotvData)
     const filteredPriority = filtered.filter((a) => a.isPriority)
     const backgroundImage = props.fotvData.logoImages.find((a) => a.imageType == -5)
-    const bgSRC = backgroundImage == undefined ? '/images/fotv/background.jpeg' : getImageSRC(backgroundImage.imageID, versionByID);
+    const bgSRC = backgroundImage == undefined ? '/images/fotv/background.jpeg' : getImageSRC(backgroundImage.imageID, versionByID)
     const headerCyclerItems = filteredPriority.map((a, i) => <div className='h-60 br-10 mx-auto b-solid b-2 min-w-0 w-full px-10 flex row' style={{backgroundColor: a.backgroundColor, borderColor: a.textColor}}>
         <RestrictionImage restriction={a} versionByID={versionByID} className="mt-5 mr-30 min-w-50px"/>
         <ScrollingDiv className='min-w-0 overflow-hidden grow-1'>
@@ -255,30 +256,76 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
         </ScrollingDiv>
     </div>)
     const closeTime = activeProgramID == 2 ? moment("15:00", "HH:mm") : moment(props.fotvData.sunset)
+    
+    const logoImg = <img className='mx-auto h-full min-h-0 min-w-0 block' height={'100px'} width={'100px'} src='/images/fotv/logo.svg'/>
+    
+    const priorityRestrictions = <Cycler items={headerCyclerItems} slots={1} indexExternal={restrictionIndex} setIndexExternal={setRestrictionIndex}/>
+
+    const flagIcon = <FlagStatusIcon preserveAspectRatio='meet' height='100px' width='100px' className='mx-auto h-full min-h-0 min-w-0 block' flag={getFlagIcon(flagColor.flagColor)}/>
+
+    const programElem = <h2 className=''>{programIDToName(getActiveProgramID(props.fotvData))}</h2>
+
+    const flagColorTextElem = <h2 className=''>{flagShortToName(flagColor.flagColor)}</h2>
+
     return <>
         <title>Front Office Display</title>
         <link rel='stylesheet' href='/css/fotv/style.css'/>
         <link rel='stylesheet' href='/css/fotv/newstyle.css'/>
-        <div className='content flex col overflow-scroll' style={{backgroundImage: 'URL(' + bgSRC + ')'}}>
-            <div className='padding-t-10'>
-                <table className='items-center'>
-                    <tbody>
-                        <tr>
+        <div className='content flex col overflow-scroll w-full' style={{backgroundImage: noBG ? undefined : 'URL(' + bgSRC + ')'}}>
+            {isSmall ? <>
+                <div className='padding-t-10 w-full'>
+                    {filteredPriority.length > 0 ? priorityRestrictions : <></>}
+                     <table className='font-roboto color-blue font-30pt items-center w-full text-center'>
+                        <tbody className='w-full'>
+                            <tr>
+                                <td>
+                                    {logoImg}
+                                </td>
+                                <td>
+                                    {flagIcon}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Clock className='font-2 font-roboto'/>
+                                </td>
+                                <td>
+                                    <div className='w-full flex col'>
+                                        {programElem}
+                                        {flagColorTextElem}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h2>Call In: {closeTime.subtract(30, 'minutes').format("hh:mm")}</h2>
+                                </td>
+                                <td>
+                                    <h2>Close: {closeTime.format("hh:mm")}</h2>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </> : <><div className='padding-t-10 w-full'>
+                <table className='items-center w-full'>
+                    <tbody className='w-full'>
+                        <tr className='w-full'>
                             <td width='50%' className='text-center'>
-                                <img className='mx-auto h-full min-h-0 min-w-0' height={'100px'} width={'100px'} src='/images/fotv/logo.svg'/>
+                                {logoImg}
                             </td>
                             <td className='nowrap w-main'>
                                 <h1 className='font-roboto color-blue font-50pt mx-auto my-0 align-center'>Welcome To Community Boating</h1>
                                 <div className='w-80 relative mx-auto'>
                                     <div className='overflow-hidden w-full'>
-                                        {filteredPriority.length > 0 ? <Cycler items={headerCyclerItems} slots={1} indexExternal={restrictionIndex} setIndexExternal={setRestrictionIndex}/> :
+                                        {filteredPriority.length > 0 ? priorityRestrictions :
                                         <h1 className='font-serif color-blue font-30pt mx-auto my-0 align-center lh-60'>Sailing for All!</h1>}
                                     </div>
                                     {filteredPriority.length > 1 ? <p className="inline r-0 w-0 m-0 absolute t-0">{restrictionIndex+1}/{filtered.length}</p> : <></>}
                                 </div>
                             </td>
                             <td className='text-center' width='50%'>
-                                    {<FlagStatusIcon preserveAspectRatio='meet' height='100px' width='100px' className='mx-auto h-full min-h-0 min-w-0' flag={getFlagIcon(flagColor.flagColor)}/>}
+                                {flagIcon}
                             </td>
                         </tr>
                     </tbody>
@@ -295,27 +342,28 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
             <div className='flex row w-full justify-around color-blue padding-10'>
                 <div className='flex row grow justify-around basis-0'>
                     <div className='flex col h-full align-center'>
-                        <h2 className=''>Close:</h2>
-                        <h2>{closeTime.format("hh:mm")}</h2>
-                    </div>
-                    <div className='flex col h-full align-center'>
                         <h2 className=''>Call In:</h2>
                         <h2>{closeTime.subtract(30, 'minutes').format("hh:mm")}</h2>
+                    </div>
+                    <div className='flex col h-full align-center'>
+                        <h2 className=''>Close:</h2>
+                        <h2>{closeTime.format("hh:mm")}</h2>
                     </div>
                 </div>
                     <Clock className='font-3em font-roboto'/>
                 <div className='flex row grow justify-around center basis-0'>
-                    <h2 className=''>{programIDToName(getActiveProgramID(props.fotvData))}</h2>
-                    <h2 className=''>{flagShortToName(flagColor.flagColor)}</h2>
+                    {programElem}
+                    {flagColorTextElem}
                 </div>
             </div>
+            </>}
             <div className='flex relative row grow min-h-0 basis-0 padding-x-20 gap-20 padding-b-20'>
                 <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
                     <DynamicCycler slots={1} items={itemsLeft} itemContainers={[undefined, (children, key) => <div key={key} className='w-full h-full flex col'>{children}</div>]} initialOrderIndex={1} delay={10000}/>
                 </div>
-                <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
+                {isSmall ? <></> : <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
                     <Cycler slots={1} initialOrderIndex={0} items={itemsRight} delay={10000}/>
-                </div>
+                </div>}
             </div>
         </div>
     </>;
@@ -457,11 +505,11 @@ function RestrictionImage(props:{ className?: string, restriction: RestrictionTy
 
 function RestrictionsList(props: {restrictionsForList: RestrictionType[], versionByID: NToN}){
     const versionByID = props.versionByID;
-        return props.restrictionsForList.sort((a, b) => (a.groupID - b.groupID) + (a.displayOrder - b.displayOrder) * 1000).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}} className='w-full no-list-style p-5 br-10 flex row mt-10 b-2 b-solid'>
-            <div className='flex center padding-5'>
+        return props.restrictionsForList.sort((a, b) => (a.groupID - b.groupID) + (a.displayOrder - b.displayOrder) * 1000).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}} className='min-w-0 max-w-full no-list-style p-5 br-10 flex row mt-10 b-2 b-solid h-fit-content grow-1'>
+            <div className='flex center padding-5 h-fit-content my-auto'>
                 <RestrictionImage restriction={a} versionByID={versionByID}/>
             </div>
-            <div className='w-full'>
+            <div className='h-fit-content min-w-0 overflow-break-word grow-1'>
                 <h2 className='font-roboto black'>{a.title}</h2>
                 <p className='text-left px-10ish'>{a.message}</p>
             </div>

@@ -5,6 +5,8 @@ import {getWrapper as getAPClassInstances, validator} from '../embedded/class-ta
 import { option } from 'fp-ts';
 import * as moment from 'moment';
 
+type t = typeof validator
+
 const defaultAPClassInstances: t.TypeOf<typeof validator> = [];
 
 const currentDate = moment().format('mm/dd/YYYY');

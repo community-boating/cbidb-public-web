@@ -10,9 +10,10 @@ const resultValidator = t.type({success: t.boolean})
 
 const path = "/member/set-payment-plan-jp"
 
-export const postWrapper = new APIWrapper<typeof resultValidator, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator,
+	postBodyValidator: validator,
 	fixedParams: {}
 })

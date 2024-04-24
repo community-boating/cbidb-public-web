@@ -75,12 +75,12 @@ export default class CreateAccount extends React.PureComponent<Props, State> {
 				})
 				return Promise.resolve();
 			} else {
-				return create.send(PostURLEncoded({
+				return create.sendJson({
 					username: self.state.formData.email.getOrElse(""),
 					password: self.state.formData.pw1.getOrElse(""),
 					firstName: self.state.formData.firstName.getOrElse(""),
 					lastName: self.state.formData.lastName.getOrElse(""),
-				})).then(res => {
+				}).then(res => {
 					if (res.type == "Success") {
 						self.props.history.push(jpBasePath.getPathFromArgs({}))
 						asc.updateState.login.setLoggedIn(self.state.formData.email.getOrElse(""))

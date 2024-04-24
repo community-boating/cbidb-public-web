@@ -38,7 +38,7 @@ export default (flavor: PageFlavor) => (history: History<any>) => <PageWrapper
 			}
 	}())} />}
 	getAsyncProps={(urlProps: {}) => {
-		return getStaticYearly.send(null).then(res => {
+		return getStaticYearly.send().then(res => {
 			if (res.type == "Failure") {
 				return Promise.resolve({type: "Success", success: [none, none]})
 			} else {

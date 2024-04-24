@@ -7,6 +7,7 @@ const path = "/proto-detach-member"
 export const apiw = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
+	postBodyValidator: t.any,
 	resultValidator: t.string
 })
 

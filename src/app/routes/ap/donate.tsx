@@ -36,9 +36,9 @@ export const apDonateRoute = new RouteWrapper(true, apDonatePath, history => <Pa
 	shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 	getAsyncProps={(urlProps: {}) => {
 		return Promise.all([
-			getRecurringDonations.send(null),
-			getDonationFunds.send(null),
-			getDonationHistory.send(null),
+			getRecurringDonations.send(),
+			getDonationFunds.send(),
+			getDonationHistory.send(),
 		]).catch(err => Promise.resolve(null));
 	}}
 />);

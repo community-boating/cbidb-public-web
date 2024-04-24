@@ -20,7 +20,7 @@ export const validator = t.type({
 
 const path = "/junior/get-junior-class-reservations"
 
-export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.GET,
 	resultValidator: validator

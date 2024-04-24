@@ -10,9 +10,10 @@ export const validator = t.type({
 
 const path = "/junior/scholarship-no"
 
-export const postWrapper = () => new APIWrapper<typeof t.string, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = () => new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator: t.string,
+	postBodyValidator: validator,
 	fixedParams: {}
 })

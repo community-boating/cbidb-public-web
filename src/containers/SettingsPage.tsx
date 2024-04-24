@@ -84,12 +84,12 @@ export default class SettingsPage extends React.PureComponent<Props, State> {
 				})
 				return Promise.resolve();
 			} else {
-				return submit.send(PostURLEncoded({
+				return submit.sendJson({
 					username: asc.state.login.authenticatedUserName.getOrElse(""), 
 					password: self.state.formData.oldPw.getOrElse(""),
 					newUsername: self.state.formData.email.getOrElse(""),
 					newPassword: self.state.formData.newPw1.getOrElse("")
-				})).then(ret => {
+				}).then(ret => {
 					if (ret.type == "Success") {
 						const email = self.state.formData.email.getOrElse("");
 						if (email.length > 0) {

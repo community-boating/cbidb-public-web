@@ -7,6 +7,7 @@ const path = "/stripe/submit-payment-standalone"
 export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
+	postBodyValidator: t.any,
 	resultValidator: t.type({
 		successAttemptId: t.number
 	})

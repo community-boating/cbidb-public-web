@@ -43,7 +43,7 @@ export default (bv: number, juniorId: number, history: History<any>, hasOpenOrde
         element: <a href="#" onClick={e => {
             e.preventDefault();
             if (window.confirm(`Do you really want to abort membership registration?`)) {
-                abortRegistration.send(makePostJSON({juniorId})).then(() => history.push("/redirect" + jpBasePath.getPathFromArgs({})))
+                abortRegistration.sendJson({juniorId}).then(() => history.push("/redirect" + jpBasePath.getPathFromArgs({})))
             }
         }}>{"Cancel Membership Purchase"}</a>
     }/*, {
@@ -63,7 +63,7 @@ export default (bv: number, juniorId: number, history: History<any>, hasOpenOrde
         element: <a href="#" onClick={e => {
             e.preventDefault();
             if (window.confirm(`Do you really want to leave the waitlist?  This action cannot be undone.`)) {
-                offseasonWLDelete.send(makePostJSON({juniorId})).then(() => history.push("/redirect" + jpBasePath.getPathFromArgs({})))
+                offseasonWLDelete.sendJson({juniorId}).then(() => history.push("/redirect" + jpBasePath.getPathFromArgs({})))
             }
         }}>{"Cancel Spring Class Waitlist"}</a>
     }/*, {

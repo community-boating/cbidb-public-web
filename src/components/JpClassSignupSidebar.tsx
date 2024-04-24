@@ -59,7 +59,7 @@ export default (props: {
 }) => {
 	function makeAction(apiw: APIWrapper<any, any, any>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, payload: any){
 		e.preventDefault();
-		return apiw.send(makePostJSON(payload)).then(ret => {
+		return apiw.sendJson(payload).then(ret => {
 			if (ret.type == "Success") {
 				props.history.push(`/redirect${window.location.pathname}`)
 			} else {

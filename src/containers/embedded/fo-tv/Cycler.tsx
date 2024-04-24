@@ -21,14 +21,14 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
     //itemIndex, subItemIndex
     const itemsWithSubItems = props.items.filter((a) => a.length > 1)
     //itemIndex, cellIndex, subItemIndex
-    const [cells, setCells] = React.useState<number[][][]>(itemsWithSubItems.map(a => [a.map((b, i) => i)]))
+    const cells = React.useRef<number[][][]>(itemsWithSubItems.map(a => [a.map((b, i) => i)]))
     //itemIndex, subItemIndex
     const refs = itemsWithSubItems.map(a => a.map((b) => React.createRef<HTMLDivElement>()))
     const mainRef = React.createRef<HTMLDivElement>()
     const testRef = React.createRef<HTMLDivElement>()
-    const itemsWithRef = itemsWithSubItems.map((itemsSub, itemIndex) => {
+    const itemsWithRef = React.useMemo(() => itemsWithSubItems.map((itemsSub, itemIndex) => {
         return itemsSub.map((a, i) => <div key={itemIndex + "i" + i} ref={refs[itemIndex][i]}>{a}</div>)
-    })
+    }), [cells.current])
     React.useEffect(() => {
         const listener = () => {
             setSizeTest(true)
@@ -38,15 +38,14 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
             window.removeEventListener('resize', listener)
         }
     })
+    //TODO fix this
     React.useEffect(() => {
         setSizeTest(true)
-    }, [props.items])
-    React.useEffect(() => {
-        if(sizeTest){
-            setCells(itemsWithSubItems.map((a, itemIndex) => DynamicCyclerCell(a, refs[itemIndex], mainRef, testRef).calcCells()))
-            setSizeTest(false)
-        }
-    }, [sizeTest])
+    }, [props.items.reduce((a, b) => a + ":" + b.length, "")])
+    if(sizeTest){
+        cells.current = itemsWithSubItems.map((a, itemIndex) => DynamicCyclerCell(a, refs[itemIndex], mainRef, testRef).calcCells())
+        setSizeTest(false)
+    }
 
     const makeContainer = (itemIndex: number) => (children: React.ReactNode, key: string) => {
         return (props.itemContainers[itemIndex] || ((c, k) =>  <div key={k} className='w-full h-full flex col transparent'>{c}</div>))(children, key)
@@ -59,7 +58,7 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
             {values}
         </div>
     }else{
-        const values: any = cells.map((a, itemIndex) => a.map((b, cellIndex) => makeContainer(itemIndex)(<>{b.map((c, subItemIndex) => itemsWithRef[itemIndex][c])}</>, itemIndex + ":" + cellIndex))).flatten<JSX.Element>()
+        const values: any = cells.current.map((a, itemIndex) => a.map((b, cellIndex) => makeContainer(itemIndex)(<>{b.map((c, subItemIndex) => itemsWithRef[itemIndex][c])}</>, itemIndex + ":" + cellIndex))).flatten<JSX.Element>()
         return <Cycler items={values.concat(props.items.filter((a) => a.length == 1).flatten())} indexExternal={index} setIndexExternal={setIndex} {...otherProps}/>
     }
 }
@@ -100,13 +99,10 @@ export default function Cycler(props: {items: React.ReactNode[]} & CyclerType){
     const slots = props.slots || 2
     const left = props.left === true
     React.useEffect(() => {
-        console.log(length)
+        console.log(props.items.length)
         if(props.items.length > 1){
             const current = ref.current;
-            console.log("starting")
             const intervalID = setInterval(() => {
-                console.log(length)
-                console.log("calling")
                 setIndex((s) => cyclicPad(left ? s+1 : s-1,length))
                 current.animate(slideFrames, slideOptions)
             }, props.delay || 5000)
@@ -116,7 +112,7 @@ export default function Cycler(props: {items: React.ReactNode[]} & CyclerType){
         }
     }, [length, slots, ref.current])
     React.useEffect(() =>  {
-        setIndex(0);
+        setIndex(0)
     }, [props.items.length])
     const children = []
     const spacing = 40

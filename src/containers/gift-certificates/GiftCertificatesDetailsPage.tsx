@@ -134,12 +134,12 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 			});
 			return Promise.resolve()
 		} else {
-			return getProtoPersonCookie.send(PostURLEncoded({})).then(() => setGC.send(makePostJSON({
+			return getProtoPersonCookie.sendFormUrlEncoded({}).then(() => setGC.sendJson({
 				...this.state.formData,
 				deliveryMethod: this.state.formData.deliveryMethod.getOrElse(null),
 				valueInCents: Currency.dollars(Number(this.state.formData.certAmount.getOrElse("0"))).cents,
 				purchasePriceCents: Currency.dollars(Number(this.state.formData.certAmount.getOrElse("0"))).cents,
-			}))).then(ret => {
+			})).then(ret => {
 				if (ret.type == "Success") {
 					self.props.goNext();
 				} else {
@@ -330,7 +330,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 										click here to sign in</a>!
 								</span>
 								: <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
-									Thank you for signing in! <a href="#" onClick={() => detach.send(PostURLEncoded("")).then(() => {
+									Thank you for signing in! <a href="#" onClick={() => detach.sendFormUrlEncoded({}).then(() => {
 										self.props.history.push("/redirect" + window.location.pathname)
 									})}>Click here if you would like to sign back out</a>.
 								</span>

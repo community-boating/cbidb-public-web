@@ -164,7 +164,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 			});
 			return Promise.resolve()
 		} else {
-			return getProtoPersonCookie.send(PostURLEncoded({})).then(() => addDonation.send(makePostJSON({
+			return getProtoPersonCookie.sendFormUrlEncoded({}).then(() => addDonation.sendJson({
 				fundId: this.state.formData.selectedFund.map(Number).getOrElse(null),
 				amount: errorOrOtherAmt.getOrElse(null),
 				inMemoryOf: this.state.formData.inMemory,
@@ -172,7 +172,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				nameLast: this.state.formData.lastName,
 				email: this.state.formData.email,
 				doRecurring: this.state.formData.doRecurring.map(r => r == Recurring.RECURRING)
-			})))
+			}))
 			.then(ret => {
 				if (ret.type == "Success") {
 					self.props.history.push("/redirect" + window.location.pathname)
@@ -190,12 +190,12 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 		const self = this;
 		this.clearErrors();
 
-		return getProtoPersonCookie.send(PostURLEncoded({})).then(() => savePersonData.send(makePostJSON({
+		return getProtoPersonCookie.sendFormUrlEncoded({}).then(() => savePersonData.sendJson({
 			nameFirst: self.state.formData.firstName,
 			nameLast: self.state.formData.lastName,
 			email: self.state.formData.email,
 			doRecurring: self.state.formData.doRecurring.map(r => r == Recurring.RECURRING).getOrElse(false),
-		}))).then(ret => {
+		})).then(ret => {
 			if (ret.type == "Success") {
 				self.props.goNext();
 			} else {
@@ -338,7 +338,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 							click here to sign in</a>!
 					</span>
 					: <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
-						Thank you for signing in! <a href="#" onClick={() => detach.send(PostURLEncoded("")).then(() => {
+						Thank you for signing in! <a href="#" onClick={() => detach.sendFormUrlEncoded({}).then(() => {
 							self.props.history.push("/redirect" + window.location.pathname)
 						})}>Click here if you would like to sign back out</a>.
 					</span>

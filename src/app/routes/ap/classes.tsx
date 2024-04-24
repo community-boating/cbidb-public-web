@@ -22,8 +22,8 @@ export const apClassesPageRoute = new RouteWrapper(true, apPathClasses, history 
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} spinner />}
 	getAsyncProps={() => {
 		return Promise.all([
-			getTypesWithAvailability.send(null),
-			getClasses.send(null)
+			getTypesWithAvailability.send(),
+			getClasses.send()
 		])
 		.then(([availabilities, instances]) => {
 			if (availabilities.type == "Success" && instances.type == "Success") {

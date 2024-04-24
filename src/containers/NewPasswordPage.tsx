@@ -97,7 +97,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 				})
 				return Promise.resolve();
 			} else {
-				return apiw.send(PostURLEncoded({ username: this.props.email, hash: this.props.hash, password: this.state.formData.pw1.getOrElse("") })).then(
+				return apiw.sendFormUrlEncoded({ username: this.props.email, hash: this.props.hash, password: this.state.formData.pw1.getOrElse("") }).then(
 					// api success
 					ret => {
 						if (ret.type == "Success") {

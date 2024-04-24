@@ -8,4 +8,4 @@ import { APClassTable } from 'containers/embedded/class-tables/APClassTable';
 
 export type AsyncPropsType = t.TypeOf<typeof validator>
 
-export const apClassInstancesPageRoute = new RouteWrapper(true, path, history => <PageWrapper key={"ap-class-instances"} urlProps={undefined} getAsyncProps={() => getWrapper.send(null)} component={(urlProps: unknown, asyncProps: AsyncPropsType, reload: () => void) => <APClassTable apClassInstances={asyncProps} />} history={history} shadowComponent={<p>"Loading..."</p>} autoRefresh={10000} ></PageWrapper>);
+export const apClassInstancesPageRoute = new RouteWrapper(true, path, history => <PageWrapper key={"ap-class-instances"} urlProps={undefined} getAsyncProps={() => getWrapper.send()} component={(urlProps: unknown, asyncProps: AsyncPropsType, reload: () => void) => <APClassTable apClassInstances={asyncProps} />} history={history} shadowComponent={<p>"Loading..."</p>} autoRefresh={10000} ></PageWrapper>);

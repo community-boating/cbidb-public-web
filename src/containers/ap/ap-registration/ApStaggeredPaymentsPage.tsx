@@ -158,9 +158,9 @@ export default class ApStaggeredPaymentsPage extends React.Component<Props, Stat
 			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			{self.state.radio == "No" || (self.state.selectedNumberPayments && self.state.selectedNumberPayments.isSome())
 				? <FactaButton text="Next >" spinnerOnClick onClick={() => {
-					return submit.send(makePostJSON({
+					return submit.sendJson({
 						additionalPayments: self.state.radio == "No" ? 0 : self.state.selectedNumberPayments.getOrElse(1)-1
-					})).then(res => {
+					}).then(res => {
 						if (res.type == "Success") {
 							self.props.goNext()
 						} else {

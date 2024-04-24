@@ -59,7 +59,7 @@ export default class TermsConditions extends React.Component<Props, {radio: stri
 			</FactaNotitleRegion>
 			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			{(self.state || {} as any).radio == "Yes" ? <FactaButton text="Next >" spinnerOnClick onClick={() => 
-				accept.send(makePostJSON({personId: self.props.personId})).then(self.props.goNext)
+				accept.sendJson({personId: self.props.personId}).then(self.props.goNext)
 			}/> : ""}
 		</FactaMainPage>
 	}

@@ -71,7 +71,7 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 					...self.state,
 					validationErrors: []
 				});
-				return submitPayment.send(makePostString("program=" + PageFlavor.GC)).then(res => {
+				return submitPayment.sendFormUrlEncoded({program: PageFlavor.GC}).then(res => {
 					if (res.type == "Failure" ) {
 						if (res.code == "process_err") {
 							self.setState({
@@ -96,7 +96,7 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 			if (confirm.isSome()) {
 				return <PlainButton text="Click here to use a different credit card." onClick={e => {
 					e.preventDefault();
-					return clearCard.send(makePostJSON({program: PageFlavor.GC}))
+					return clearCard.sendJson({program: PageFlavor.GC})
 						.then(() => self.props.reload());
 				}} />
 			} else {
@@ -105,10 +105,10 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 		}());
 
 		const processToken = (result: TokensResult) => {
-			return storeToken.send(makePostJSON({
+			return storeToken.sendJson({
 				token: result.token.id,
 				orderId: self.props.orderStatus.orderId
-			})).then(result => {
+			}).then(result => {
 				if (result.type == "Success") {
 					self.props.reload();
 				} else {

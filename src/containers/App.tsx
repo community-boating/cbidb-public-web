@@ -19,7 +19,7 @@ interface Props {
 export default class App extends React.Component<Props> {
 	registrationWizard: React.ComponentType
 	constructor(props: Props) {
-		super(props)
+		super(props)	
 		const self = this;
 		asc.setListener(() => {
 			self.forceUpdate()
@@ -27,7 +27,7 @@ export default class App extends React.Component<Props> {
 		this.state = {
 			loggedInUserName: none
 		}
-		isLoggedInAsMember.send(null).then(usernameResult => {
+		isLoggedInAsMember.send().then(usernameResult => {
 			if (usernameResult.type == "Success") {
 				asc.updateState.login.setLoggedIn(usernameResult.success.value)
 			}

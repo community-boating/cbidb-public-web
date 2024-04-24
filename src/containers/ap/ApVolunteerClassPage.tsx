@@ -235,9 +235,9 @@ export const ApVolunteerClassPage = (props: {
 						<br /><br />
 						<FactaButton text="Cancel as Instructor" onClick={() => {
 							if (confirm("Are you sure you want to CANCEL teaching this class?")) {
-								return cancelTeach.send(makePostJSON({
+								return cancelTeach.sendJson({
 									instanceId: focusedInstanceId
-								})).then(res => {
+								}).then(res => {
 									if (res.type == "Success") {
 										props.history.push("/redirect" + apPathClassesTeach.getPathFromArgs({}));
 									} else {
@@ -258,9 +258,9 @@ export const ApVolunteerClassPage = (props: {
 					<br /><br />
 					<FactaButton text="Sign up as Instructor" onClick={() => {
 						if (confirm(confirmText)) {
-							return attemptTeach.send(makePostJSON({
+							return attemptTeach.sendJson({
 								instanceId: focusedInstanceId
-							})).then(res => {
+							}).then(res => {
 								if (res.type == "Success") {
 									props.history.push("/redirect" + apPathClassesTeach.getPathFromArgs({}));
 								} else {

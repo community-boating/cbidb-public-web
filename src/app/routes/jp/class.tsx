@@ -28,8 +28,8 @@ export const classPageRoute = new RouteWrapper(true, jpPathClass, history => <Pa
 	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {personId: number, successMsg: Option<string>}) => {
 		return Promise.all([
-			seeTypesWrapper(urlProps.personId).send(null),
-			getSignups(urlProps.personId).send(null)
+			seeTypesWrapper(urlProps.personId).send(),
+			getSignups(urlProps.personId).send()
 		]).catch(err => Promise.resolve(null));  // TODO: handle failure
 	}}
 />);

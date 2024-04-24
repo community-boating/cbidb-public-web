@@ -10,9 +10,10 @@ export const validator = t.type({
 
 const path = "/member/add-donation"
 
-export const postWrapper = new APIWrapper<typeof t.any, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator: t.any,
+	postBodyValidator: validator,
 	fixedParams: {}
 })

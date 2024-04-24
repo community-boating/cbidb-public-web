@@ -58,7 +58,7 @@ export default class ApTermsConditions extends React.Component<Props, {radio: st
 			</FactaNotitleRegion>
 			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			{(self.state || {} as any).radio == "Yes" ? <FactaButton text="Next >" spinnerOnClick onClick={() => 
-				accept.send(makePostJSON({})).then(self.props.goNext)
+				accept.sendJson({}).then(self.props.goNext)
 			}/> : ""}
 		</FactaMainPage>
 	}

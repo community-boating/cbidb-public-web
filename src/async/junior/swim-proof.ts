@@ -9,15 +9,16 @@ export const validator = t.type({
 
 const path = "/junior/swim-proof"
 
-export const getWrapper = (personId: number) => new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = (personId: number) => new APIWrapper({
 	path: path + "?personId=" + personId,
 	type: HttpMethod.GET,
 	resultValidator: validator
 })
 
-export const postWrapper = (personId: number) => new APIWrapper<typeof t.string, t.TypeOf<typeof validator>, {personId: number}>({
+export const postWrapper = (personId: number) => new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator: t.string,
+	postBodyValidator: validator,
 	fixedParams: {personId}
 })

@@ -136,23 +136,23 @@ export default class ReservationSignupNote extends React.Component<Props, State>
 				<br />
 				<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(reservePageRoute.getPathFromArgs({})))}/>
 				<FactaButton text="Save >" spinnerOnClick={true} onClick={() => {
-					const saveBeginner = self.state.formData.beginnerInstanceId.map(b => () => saveNote.send(makePostJSON({
+					const saveBeginner = self.state.formData.beginnerInstanceId.map(b => () => saveNote.sendJson({
 						juniorId: self.props.personId,
 						instanceId: b,
 						signupNote: self.state.formData.beginnerSignupNote
-					})));
+					}));
 
-					const saveIntermediate1 = self.state.formData.intermediate1InstanceId.map(i => () => saveNote.send(makePostJSON({
+					const saveIntermediate1 = self.state.formData.intermediate1InstanceId.map(i => () => saveNote.sendJson({
 						juniorId: self.props.personId,
 						instanceId: i,
 						signupNote: self.state.formData.intermediate1SignupNote
-					})));
+					}));
 
-					const saveIntermediate2 = self.state.formData.intermediate2InstanceId.map(i => () => saveNote.send(makePostJSON({
+					const saveIntermediate2 = self.state.formData.intermediate2InstanceId.map(i => () => saveNote.sendJson({
 						juniorId: self.props.personId,
 						instanceId: i,
 						signupNote: self.state.formData.intermediate2SignupNote
-					})));
+					}));
 
 					return Promise.all([
 						saveBeginner.getOrElse(() => Promise.resolve(null))(),

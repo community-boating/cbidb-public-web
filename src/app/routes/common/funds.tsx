@@ -17,6 +17,6 @@ export const fundInfoRoute = new RouteWrapper(true, path, history => <PageWrappe
 	urlProps={{}}
 	shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 	getAsyncProps={() => {
-		return getWrapper.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+		return getWrapper.send().catch(err => Promise.resolve(null));  // TODO: handle failure
 	}}
 />);

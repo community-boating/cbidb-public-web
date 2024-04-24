@@ -152,7 +152,7 @@ export default class SurveyInfo extends React.Component<Props, State> {
             </FactaArticleRegion>
 			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			<FactaButton text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId).send(makePostJSON(this.state.formData)).then(self.props.goNext)
+				return postWrapper(this.props.personId).sendJson(this.state.formData).then(self.props.goNext)
 			}}/>
 		</FactaMainPage>
 	}

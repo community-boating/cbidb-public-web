@@ -10,7 +10,7 @@ const appProps: AppProps = {
 	jpDirectorEmail: "fiona@community-boating.org",
 	jpPriceCents: 32500,	// TODO: get from welcome pkg
 	attemptLoginFunction: (userName: string, payload: PostString) => {
-		return login().send(payload).then(res => {
+		return login().send().then(res => {
 			if (res.type == "Success" && res.success) {
 				asc.updateState.login.setLoggedIn(userName);
 				return true;

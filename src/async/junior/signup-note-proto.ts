@@ -11,9 +11,10 @@ export const validator = t.type({
 
 const path = "/junior/signup-note-proto"
 
-export const postWrapper = new APIWrapper<typeof validator, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator: validator,
+	postBodyValidator: validator,
 	fixedParams: { }
 })

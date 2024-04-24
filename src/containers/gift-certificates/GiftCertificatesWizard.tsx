@@ -67,11 +67,11 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
-					getAsyncProps={() => getProtoPersonCookie.send(PostURLEncoded({}))
+					getAsyncProps={() => getProtoPersonCookie.sendFormUrlEncoded({})
 					.then(() => Promise.all([
-						getPrices.send(null),
-						getGC.send(null),
-						orderStatus(PageFlavor.GC).send(null),
+						getPrices.send(),
+						getGC.send(),
+						orderStatus(PageFlavor.GC).send(),
 					]) as any)}
 					{...pageWrapperProps}
 				/>,
@@ -89,9 +89,9 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 						{...mapWizardProps(fromWizard)}
 					/>}
 					getAsyncProps={() => Promise.all([
-						getPrices.send(null),
-						getGC.send(null),
-						orderStatus(PageFlavor.GC).send(null),
+						getPrices.send(),
+						getGC.send(),
+						orderStatus(PageFlavor.GC).send(),
 					]).then(x => Promise.resolve(x)) as any}
 					{...pageWrapperProps}
 				/>,

@@ -21,7 +21,7 @@ const path: string = "/jp-class-sections"
 
 //PostURLEncoded({startDate: moment().format("MM/DD/yyyy")})
 
-export const getJPClasses = () => {return  new APIWrapper<typeof validator, {}, {}>({
+export const getJPClasses = () => {return  new APIWrapper({
     path: path + "?startDate=" + encodeURI(moment().format("MM/DD/yyyy")),
     type: HttpMethod.GET,
     resultValidator: validator,

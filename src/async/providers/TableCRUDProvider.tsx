@@ -1,4 +1,6 @@
+import { OptionalWithKey, makeOptionalProps } from "async/util/Optional";
 import APIWrapper from "core/APIWrapper"
+import { HttpMethod } from "core/HttpMethod";
 import { option } from "fp-ts";
 import * as t from 'io-ts';
 
@@ -11,48 +13,13 @@ interface ITableCRUDProvider<T_TableRow, T_ID extends keyof T_TableRow> {
      delete(value: T_TableRow[T_ID]): void
 }
 
-const exampleValidator = t.type({
-    id: t.number,
-    value: t.string,
-    size: t.string
-})
-
-function isOption(u: any): u is option.Option<any> {
-	return u && u['_tag'] != undefined;
-}
-
-export const makeOptional = <T extends t.Any>(someValidator: T) => new t.Type<option.Option<t.TypeOf<T>>, string, any>(
-	'Optional',
-	(u): u is option.Option<t.TypeOf<T>> => isOption(u),
-	(u, c) =>
-		t.union([someValidator as t.Any, t.null, t.undefined]).validate(u, c).chain(s => {
-			if (s === null || s === undefined) return t.success((option.none))
-			else if(s["_tag"] !== undefined) return t.success(s)
-			else return t.success(option.some(s))
-		}),
-		a => a.fold("None", (s) => `some(${s})`)
-)
-
-export const makeOptionalProps = <A extends {[key: string]: any}, PKT extends keyof A>(someValidator: t.TypeC<A>, PK?: PKT) => {
-	const newProps: OptionalWithKey<A, PKT> = {} as any;
-	Object.keys(someValidator.props).forEach((a) => {
-		if(a != PK)
-			(newProps as any)[a] = makeOptional(someValidator.props[a]);
-	})
-	return t.type(newProps);
-}
-
-const exampleValidatorOptional = makeOptionalProps(exampleValidator, 'id')
-
-exampleValidatorOptional['props'].size
-
 class ExpressTableCRUDFactory<T_TableRow extends t.Any, T_ID extends keyof T_TableRow> {
     createCRUDProvider(){
-        const provider: EagerExpressTableCRUDProvider<T_TableRow, T_ID> = new EagerExpressTableCRUDProvider()
+        /*const provider: EagerExpressTableCRUDProvider<t.TypeOf<T_TableRow>, T_ID> = new EagerExpressTableCRUDProvider()
         provider.getWrapper.send(null).then((a) => {
             if(a.type == 'Success')
                 a.success
-        })
+        })*/
     }
 }
 
@@ -78,14 +45,12 @@ class CacheTableCRUDProvider<T_TableRow, T_ID extends keyof T_TableRow> implemen
 
 }
 
-type OptionalWithKey<A extends {[key: string]: any}, PK extends keyof A> = {
-	[PropertyKey in keyof Omit<A, PK>]: t.Type<option.Option<t.TypeOf<Omit<A, PK>[PropertyKey]>>>
-} & Pick<A, PK>
 
-class EagerExpressTableCRUDProvider<T_TableRow extends t.Any, T_ID extends keyof T_TableRow> implements ITableCRUDProvider<T_TableRow, T_ID>{
+
+class EagerExpressTableCRUDProvider<T_RowValidator extends t.Any, T_ID extends keyof T_TableRow, T_TableRow extends t.TypeOf<T_RowValidator> = t.TypeOf<T_RowValidator>> implements ITableCRUDProvider<T_TableRow, T_ID>{
     tablePrimaryKey: T_ID
-    getWrapper: APIWrapper<t.ArrayC<t.TypeOf<T_TableRow>>, any, any>
-    putWrapper: APIWrapper<any, any, any>
+    //getWrapper: APIWrapper<T_RowValidator, OptionalWithKey<T_TableRow, T_ID>, any>
+    putWrapper: APIWrapper<T_TableRow, any, any>
     getMultiple(ids: T_TableRow[T_ID][]): T_TableRow[] {
         throw new Error("Method not implemented.")
     }
@@ -106,6 +71,31 @@ class EagerExpressTableCRUDProvider<T_TableRow extends t.Any, T_ID extends keyof
     }
 
 }
+
+const exampleValidator = t.type({
+    id: t.number,
+    value: t.string,
+    size: t.string
+})
+
+const exampleValidatorOptional = makeOptionalProps(exampleValidator, 'id')
+
+const testGetter = new APIWrapper({
+    path: '',
+    type: HttpMethod.GET,
+    resultValidator: exampleValidator
+})
+
+const postGetter = new APIWrapper({
+    path: '',
+    type: HttpMethod.POST,
+    resultValidator: exampleValidator,
+    postBodyValidator: makeOptionalProps(exampleValidator)
+})
+
+const testProver = new EagerExpressTableCRUDProvider<typeof exampleValidator, 'id'>()
+//testProver.getWrapper = postGetter
+//testProver.putWrapper = postGetter
 
 class LazyExpressTableCRUDProvider<T_TableRow, T_ID extends keyof T_TableRow> implements ITableCRUDProvider<T_TableRow, T_ID> {
     getMultiple(ids: T_TableRow[T_ID][]): T_TableRow[] {

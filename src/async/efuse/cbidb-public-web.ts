@@ -6,7 +6,7 @@ export const validator = t.number
 
 const path = "/efuse/cbidb-public-web"
 
-export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = new APIWrapper({
 	path: path,
 	type: HttpMethod.GET,
 	resultValidator: validator

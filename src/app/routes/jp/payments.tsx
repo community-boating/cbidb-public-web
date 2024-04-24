@@ -23,7 +23,7 @@ export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayme
 		juniorId: Number(jpPathPayments.extractURLParams(history.location.pathname).juniorId),
 	}}
 	getAsyncProps={(urlProps: {juniorId: number}) => {
-		return getWrapper(urlProps.juniorId).send(null)
+		return getWrapper(urlProps.juniorId).send()
 		.then(r => {
 			if (r.type != "Success" || r.success.length == 0) {
 				history.push(jpBasePath.getPathFromArgs({}));

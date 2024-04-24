@@ -66,8 +66,8 @@ export default class AddonsWizard extends React.Component<Props, State> {
 						{...mapWizardProps(fromWizard)}
 					/>}
 					getAsyncProps={(urlProps: {}) => Promise.all([
-						gpGet.send(null),
-						getPrices.send(null)
+						gpGet.send(),
+						getPrices.send()
 					]).catch(err => Promise.resolve(null)).then(([wantIt, prices]) => Promise.resolve({
 						type: "Success",
 						success: {
@@ -89,8 +89,8 @@ export default class AddonsWizard extends React.Component<Props, State> {
 						{...mapWizardProps(fromWizard)}
 					/>}
 					getAsyncProps={(urlProps: {}) => Promise.all([
-						dwGet.send(null),
-						getPrices.send(null)
+						dwGet.send(),
+						getPrices.send()
 					]).catch(err => Promise.resolve(null)).then(([wantIt, prices]) => Promise.resolve({
 						type: "Success",
 						success: {

@@ -59,7 +59,7 @@ export default class LoginPage extends React.Component<Props, State> {
 			loginProcessing: false,
 			validationErrors: checkUpgradedAsValidationErrorArray(this.props.history, (process.env as any).eFuse)
 		}
-		getProtoPersonCookie.send(PostURLEncoded({}))
+		getProtoPersonCookie.sendJson({})
 	}
 	componentDidMount = () => {
 		window.setTimeout(() => {

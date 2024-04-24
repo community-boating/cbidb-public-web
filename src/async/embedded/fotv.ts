@@ -69,9 +69,8 @@ export type RestrictionGroupType = t.TypeOf<typeof restrictionGroupValidator>
 
 export type LogoImageType = t.TypeOf<typeof logoImageValidator>
 
-export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = new APIWrapper({
     path: path,
     type: HttpMethod.GET,
-    resultValidator: validator,
-    serverIndex: 1
+    resultValidator: validator
 })

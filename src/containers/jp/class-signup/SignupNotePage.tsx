@@ -63,11 +63,11 @@ export default class SignupNotePage extends React.Component<Props, State> {
 					() => Promise.resolve(self.props.history.push(classPageRoute.getPathFromArgs({ personId: String(self.props.personId) })))
 				}/>
 				<FactaButton text="Save >" spinnerOnClick={true} onClick={() => {
-					return saveNote.send(makePostJSON({
+					return saveNote.sendJson({
 						juniorId: self.props.personId,
 						instanceId: self.props.instanceId,
 						signupNote: self.state.formData.signupNote
-					})).then(
+					}).then(
 						ret => Promise.resolve(self.props.history.push(classPageRoute.getPathFromArgs({ personId: String(self.props.personId) })))
 					)
 				}}/>

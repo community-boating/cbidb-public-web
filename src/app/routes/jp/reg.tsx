@@ -26,7 +26,7 @@ export const regPageRoute = new RouteWrapper(true, jpPathReg, history => <PageWr
     }}
     shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={(urlProps: {}) => {
-        return welcomeAPI.send(null).then(ret => {
+        return welcomeAPI.send().then(ret => {
             if (ret.type == "Success") {
                 return Promise.resolve(ret)
             } else return Promise.reject();

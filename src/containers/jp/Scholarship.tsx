@@ -158,13 +158,13 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			if (isApplying) {
 				const rawIncome = form.income.getOrElse("0");
 				const afterReplace = rawIncome.replace(/,/g,"").replace(/\$/g,"");
-				return postYes().send(makePostJSON({
+				return postYes().sendJson({
 					numberWorkers: Number(form.numberAdults.getOrElse("0")),
 					childCount: Number(form.numberChildren.getOrElse("0")),
 					income:  Number(afterReplace)
-				})).then(self.props.goNext)
+				}).then(self.props.goNext)
 			} else {
-				return postNo().send(makePostJSON({})).then(() => {
+				return postNo().sendJson({}).then(() => {
 					window.location.href = window.location.pathname
 				})
 			}

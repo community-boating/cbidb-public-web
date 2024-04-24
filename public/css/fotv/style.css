@@ -12,10 +12,6 @@ h1, h2{
     overflow-x: clip;
 }
 
-.min-w-0 {
-    min-width: 0;
-}
-
 .min-h-15 {
     min-height: 15%;
 }
@@ -38,6 +34,10 @@ h1, h2{
 
 .transparent {
     display: none
+}
+
+.h-fit-content {
+    height: fit-content
 }
 
 .h-50 {
@@ -199,8 +199,15 @@ body {
     font-size: 50pt;
 }
 
+.font-1-5 {
+    font-size: 1.5em;
+}
+
+.font-2 {
+    font-size: 2em;
+}
+
 .font-30pt {
-    font-family: 'Domine', sans-serif;
     font-size: 30pt;
 }
 
@@ -234,6 +241,10 @@ body {
 
 .font-lg {
     font-size: 3em;
+}
+
+.font-1em {
+    font-size: 1em;
 }
 
 .font-3em {
@@ -784,6 +795,15 @@ body {
 
 .padding-0 {
     padding: 0px;
+}
+
+.overflow-break-word {
+    overflow-wrap: break-word;
+}
+
+.my-auto {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .br-10 {

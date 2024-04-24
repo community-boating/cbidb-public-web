@@ -32,13 +32,13 @@ export const JpSignupError = (props: {
 						{props.conflictingSignups.map(i => <li>
 							<a href="#" onClick={e => {
 								e.preventDefault()
-								return doSignup.send(makePostJSON({
+								return doSignup.sendJson({
 									doEnroll: true,
 									instanceId: props.instanceId,
 									juniorId: props.personId,
 									keepInstanceId: i.instanceId,
 									deleteEnrollment: false
-								})).then(ret => {
+								}).then(ret => {
 									if (ret.type == "Success") {
 										const url = (
 											(props.typeId == jpClassTypeId_BeginnerSailing || props.typeId == jpClassTypeId_intermediate1 || props.typeId == jpClassTypeId_intermediate2)
@@ -54,13 +54,13 @@ export const JpSignupError = (props: {
 						</li>)}
 						<li><a href="#" onClick={e => {
 								e.preventDefault()
-								return doSignup.send(makePostJSON({
+								return doSignup.sendJson({
 									doEnroll: true,
 									instanceId: props.instanceId,
 									juniorId: props.personId,
 									keepInstanceId: -1,
 									deleteEnrollment: false
-								})).then(ret => {
+								}).then(ret => {
 									if (ret.type == "Success") {
 										const url = (
 											(props.typeId == jpClassTypeId_BeginnerSailing || props.typeId == jpClassTypeId_intermediate1 || props.typeId == jpClassTypeId_intermediate2)
@@ -83,13 +83,13 @@ export const JpSignupError = (props: {
 					<ul>
 						<li><a href="#" onClick={e => {
 								e.preventDefault()
-								return doSignup.send(makePostJSON({
+								return doSignup.sendJson({
 									doEnroll: true,
 									instanceId: props.instanceId,
 									juniorId: props.personId,
 									keepInstanceId: -1,
 									deleteEnrollment: true
-								})).then(ret => {
+								}).then(ret => {
 									if (ret.type == "Success") {
 										const url = (
 											(props.typeId == jpClassTypeId_BeginnerSailing || props.typeId == jpClassTypeId_intermediate1 || props.typeId == jpClassTypeId_intermediate2)

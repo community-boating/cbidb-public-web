@@ -127,7 +127,7 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 		}
 	}
 	submit() {
-		return setRecurringDonations.send(makePostJSON({recurringDonations: this.state.stagedDonationPlan.recurringDonations} as any)).then(res => {
+		return setRecurringDonations.sendJson({recurringDonations: this.state.stagedDonationPlan.recurringDonations} as any).then(res => {
 			if (res.type == "Success") {
 				if (this.state.stagedDonationPlan.recurringDonations.length == 0) {
 					return this.props.history.push(apBasePath.getPathFromArgs({}))

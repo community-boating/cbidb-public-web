@@ -27,7 +27,7 @@ export enum AvailabilityFlag {
 
 const path = "/member/ap-class-type-avail"
 
-export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = new APIWrapper({
 	path: path,
 	type: HttpMethod.GET,
 	resultValidator: validator

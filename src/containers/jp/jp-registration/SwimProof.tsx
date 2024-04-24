@@ -89,7 +89,7 @@ export default class SwimProof extends React.Component<Props, State> {
 			</FactaNotitleRegion>
 			<FactaButton text="< Back" onClick={this.props.goPrev}/>
 			{self.state.formData.swimProofId.getOrElse("-1") != "-1" ? <FactaButton text="Next >" spinnerOnClick onClick={() => {
-				return postWrapper(this.props.personId).send(makePostJSON({swimProofId: this.state.formData.swimProofId} ))
+				return postWrapper(this.props.personId).sendJson({swimProofId: this.state.formData.swimProofId} )
 					.then(this.props.goNext)
 			}}/> : null}
 			

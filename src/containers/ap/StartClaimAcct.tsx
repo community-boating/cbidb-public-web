@@ -43,9 +43,9 @@ export default class StartClaimAcct extends React.PureComponent<Props, State> {
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
 
 		const submit = () => {
-			return postWrapper.send(PostURLEncoded({
+			return postWrapper.sendJson({
 				email: self.state.formData.email.getOrElse("")
-			})).then(res => {
+			}).then(res => {
 				if (res.type == "Success") {
 					self.props.history.push(apPathClaimAcctSent.getPathFromArgs({}))
 				} else {

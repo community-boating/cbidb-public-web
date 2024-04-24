@@ -129,7 +129,7 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 			});
 			return Promise.reject()
 		} else {
-			return getProtoPersonCookie.send(PostURLEncoded({})).then(() => addDonation.send(makePostJSON({
+			return getProtoPersonCookie.sendJson({}).then(() => addDonation.sendJson({
 				fundId: FUND_ID,
 				amount: errorOrOtherAmt.getOrElse(null),
 				inMemoryOf: this.state.formData.inMemory,
@@ -137,7 +137,7 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 				nameLast: this.state.formData.lastName,
 				email: this.state.formData.email,
 				doRecurring: some(false)
-			})))
+			}))
 			.then(ret => {
 				console.log(ret)
 				if (ret.type == "Success") {
@@ -160,12 +160,12 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 		// debugger;
 
 		return this.doAddDonation()
-		.then(() => getProtoPersonCookie.send(PostURLEncoded({})).then(() => savePersonData.send(makePostJSON({
+		.then(() => getProtoPersonCookie.sendJson({}).then(() => savePersonData.sendJson({
 			nameFirst: self.state.formData.firstName,
 			nameLast: self.state.formData.lastName,
 			email: self.state.formData.email,
 			doRecurring: false,
-		}))).then(ret => {
+		})).then(ret => {
 			console.log("savePersonData", ret)
 			// debugger;
 			if (ret.type == "Success") {
@@ -245,7 +245,7 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 							click here to sign in</a>!
 					</span>
 					: <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
-						Thank you for signing in! <a href="#" onClick={() => detach.send(PostURLEncoded("")).then(() => {
+						Thank you for signing in! <a href="#" onClick={() => detach.sendFormUrlEncoded({}).then(() => {
 							self.props.history.push("/redirect" + window.location.pathname)
 						})}>Click here if you would like to sign back out</a>.
 					</span>

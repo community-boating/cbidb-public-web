@@ -22,7 +22,7 @@ export const validator = t.array(validatorSingleRow)
 
 const path = "/class-instances-with-avail"
 
-export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = new APIWrapper({
 	path: path,
 	type: HttpMethod.GET,
 	resultValidator: validator,

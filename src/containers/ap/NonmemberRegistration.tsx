@@ -130,7 +130,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 			waiverAccepted: false,
 			createResults: none
 		};
-		refreshProto.send(PostURLEncoded({}));
+		refreshProto.sendJson({});
 	}
 
 	handlePrint = () => {
@@ -171,7 +171,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 					validationErrors: [],
 					pageState: PageState.EC_INFORMATION
 				});
-				refreshProto.send(PostURLEncoded({}));
+				refreshProto.sendJson({});
 				return Promise.resolve();
 			}
 			break;
@@ -189,7 +189,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 					validationErrors: [],
 					pageState: PageState.WAIVER
 				});
-				refreshProto.send(PostURLEncoded({}));
+				refreshProto.sendJson({});
 				return Promise.resolve();
 			}
 			break;
@@ -203,7 +203,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						...this.state,
 						validationErrors: []
 					})
-					return createGuest.send(makePostJSON({
+					return createGuest.sendJson({
 						firstName: this.state.formData.firstName.getOrElse(""),
 						lastName: this.state.formData.lastName.getOrElse(""),
 						emailAddress: this.state.formData.email.getOrElse(""),
@@ -216,7 +216,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 						phonePrimaryType: this.state.formData.guestPhoneType.getOrElse(""),
 						emerg1PhonePrimaryType: this.state.formData.ecPhoneType.getOrElse(""),
 						forRental: this.props.rentalMode == NONMEM_REG_FLOW.RENTAL,
-					})).then(res => {
+					}).then(res => {
 						if(res.type === "Success"){
 							self.setState({
 								...self.state,
@@ -226,7 +226,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 								}),
 								validationErrors: []
 							});
-							refreshProto.send(PostURLEncoded({}));
+							refreshProto.sendJson({});
 							return Promise.resolve("Success");
 						}else{
 							self.setState({

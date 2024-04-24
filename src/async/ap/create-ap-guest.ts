@@ -25,9 +25,10 @@ export const responseValidator = t.type({
 
 const path = "/ap/create-ap-guest"
 
-export const postWrapper = new APIWrapper<typeof responseValidator, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator: responseValidator,
+	postBodyValidator: validator,
 	fixedParams: {}
 })

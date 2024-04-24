@@ -21,14 +21,15 @@ export const validator = t.type({
 
 const postResponseValidator = t.type({success: t.boolean})
 
-export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = new APIWrapper({
 	path: path,
 	type: HttpMethod.GET,
 	resultValidator: validator
 })
 
-export const postWrapper = new APIWrapper<typeof postResponseValidator, typeof validator, {}>({
+export const postWrapper = new APIWrapper({
 	path: setPath,
 	type: HttpMethod.POST,
+	postBodyValidator: validator,
 	resultValidator: postResponseValidator
 })

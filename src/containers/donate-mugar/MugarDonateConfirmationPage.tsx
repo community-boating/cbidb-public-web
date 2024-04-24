@@ -61,7 +61,7 @@ export default class MugarDonateConfirmationPage extends React.PureComponent<Pro
 					...self.state,
 					validationErrors: []
 				});
-				return submitPayment.send(makePostString("program=" + PageFlavor.DONATE)).then(res => {
+				return submitPayment.sendFormUrlEncoded({program: PageFlavor.DONATE}).then(res => {
 					if (res.type == "Failure" ) {
 						if (res.code == "process_err") {
 							self.setState({
@@ -86,7 +86,7 @@ export default class MugarDonateConfirmationPage extends React.PureComponent<Pro
 			if (confirm.isSome()) {
 				return <PlainButton text="Click here to use a different credit card." onClick={e => {
 					e.preventDefault();
-					return clearCard.send(makePostJSON({program: PageFlavor.DONATE}))
+					return clearCard.sendJson({program: PageFlavor.DONATE})
 						.then(() => self.props.reload());
 				}} />
 			} else {
@@ -95,10 +95,10 @@ export default class MugarDonateConfirmationPage extends React.PureComponent<Pro
 		}());
 
 		const processToken = (result: TokensResult) => {
-			return storeToken.send(makePostJSON({
+			return storeToken.sendJson({
 				token: result.token.id,
 				orderId: self.props.orderStatus.orderId
-			})).then(result => {
+			}).then(result => {
 				if (result.type == "Success") {
 					self.props.reload();
 				} else {
@@ -112,10 +112,10 @@ export default class MugarDonateConfirmationPage extends React.PureComponent<Pro
 		}
 
 		const processPaymentMethod = (result: PaymentMethod) => {
-			return storePaymentMethod.send(makePostJSON({
+			return storePaymentMethod.sendJson({
 				paymentMethodId: result.paymentMethod.id,
 				retryLatePayments: false
-			})).then(result => {
+			}).then(result => {
 				if (result.type == "Success") {
 					self.props.reload();
 				} else {

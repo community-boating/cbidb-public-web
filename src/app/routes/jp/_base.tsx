@@ -23,8 +23,8 @@ export const jpHomePageRoute = new RouteWrapper(true, jpBasePath, (history: Hist
 	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {}) => {
 		return Promise.all([
-			getProtoPersonCookie.send(PostURLEncoded({})),
-			welcomeAPIJP.send(null)
+			getProtoPersonCookie.sendJson({}),
+			welcomeAPIJP.send()
 		]).then(([whatever, welcome]) => {
 			return Promise.resolve(welcome);
 		}).catch(err => Promise.resolve(null));  // TODO: handle failure

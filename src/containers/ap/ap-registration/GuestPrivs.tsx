@@ -69,9 +69,9 @@ export default class GuestPrivs extends React.Component<Props, {radio: string}> 
 			</FactaNotitleRegion>
 			<FactaButton text="< Back" onClick={self.props.goPrev}/>
 			{(self.state || {} as any).radio != undefined ? <FactaButton text="Next >" spinnerOnClick onClick={() => {
-				return submit.send(makePostJSON({
+				return submit.sendJson({
 					wantIt: self.state.radio == "Yes"
-				})).then(res => {
+				}).then(res => {
 					if (res.type == "Success") {
 						self.props.goNext()
 					} else {

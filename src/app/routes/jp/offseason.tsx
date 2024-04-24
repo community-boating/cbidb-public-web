@@ -29,8 +29,8 @@ export const offseasonPageRoute = new RouteWrapper(true, jpPathOffseason, histor
 	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {personId: number}) => {
 		return Promise.all([
-			getOffseasonClasses(urlProps.personId).send(null),
-			welcomeAPI.send(null)
+			getOffseasonClasses(urlProps.personId).send(),
+			welcomeAPI.send()
 		]).then(([offseasonClasses, welcome]) => {
 			if (welcome.type == "Success" && offseasonClasses.type == "Success") {
 				return Promise.resolve({

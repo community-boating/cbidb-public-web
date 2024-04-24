@@ -8,8 +8,9 @@ export const postValidator = t.type({
 
 const path = "/junior/offseason-wl-delete"
 
-export const postWrapper = new APIWrapper<typeof t.string, t.TypeOf<typeof postValidator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
+	postBodyValidator: postValidator,
 	resultValidator: t.string
 })

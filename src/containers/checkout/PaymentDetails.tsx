@@ -162,11 +162,11 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			});
 			return Promise.resolve()
 		} else {
-			return addDonation.send(makePostJSON({
+			return addDonation.sendJson({
 				fundId: this.state.formData.selectedFund.map(Number).getOrElse(null),
 				amount: errorOrOtherAmt.getOrElse(null),
 				program: this.props.flavor
-			}))
+			})
 			.then(ret => {
 				if (ret.type == "Success") {
 					self.props.history.push("/redirect" + window.location.pathname)
@@ -255,10 +255,10 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 		</tr></tbody></table>) : null;
 
 		const processToken = (result: TokensResult) => {
-			return storeToken.send(makePostJSON({
+			return storeToken.sendJson({
 				token: result.token.id,
 				orderId: self.props.welcomePackage.orderId
-			})).then(result => {
+			}).then(result => {
 				if (result.type == "Success") {
 					self.props.setCardData(result.success);
 					self.props.goNext();
@@ -273,10 +273,10 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 		}
 
 		const processPaymentMethod = (result: PaymentMethod) => {
-			return self.getStorePaymentMethod().send(makePostJSON({
+			return self.getStorePaymentMethod().sendJson({
 				paymentMethodId: result.paymentMethod.id,
 				retryLatePayments: false
-			})).then(result => {
+			}).then(result => {
 				if (result.type == "Success") {
 					self.props.goNext();
 				} else {
@@ -323,7 +323,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 					);
 					return <PlainButton text={linkText} onClick={e => {
 						e.preventDefault();
-						return clearCard.send(makePostJSON({program: self.props.flavor})).then(() => self.props.history.push(`/redirect${self.getCheckoutPageRoute().getPathFromArgs({})}`));
+						return clearCard.sendJson({program: self.props.flavor}).then(() => self.props.history.push(`/redirect${self.getCheckoutPageRoute().getPathFromArgs({})}`));
 					}} />
 				} else {
 					if (self.props.orderStatus.paymentMethodRequired) {
@@ -375,11 +375,11 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				maxLength={30}
 			/>
 			<FactaButton text="Apply" spinnerOnClick onClick={() => {
-				return applyGC.send(makePostJSON({ 
+				return applyGC.sendJson({ 
 					gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
 					gcCode: this.state.formData.gcCode.getOrElse(null),
 					program: this.props.flavor
-				}))
+				})
 				.then(ret => {
 					if (ret.type == "Success") {
 						self.props.history.push("/redirect" + window.location.pathname)
@@ -405,7 +405,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 					...self.state,
 					jpDoStaggeredPayment: doStaggered ? some("Y") : some("N")
 				})
-				setJPStaggered.send(makePostJSON({doStaggeredPayments: doStaggered})).then(() => self.props.history.push("/redirect" + window.location.pathname + "#jp-payment-mode"))
+				setJPStaggered.sendJson({doStaggeredPayments: doStaggered}).then(() => self.props.history.push("/redirect" + window.location.pathname + "#jp-payment-mode"))
 			}
 			const currentlyDoingStaggered = this.state.jpDoStaggeredPayment.getOrElse(null) == "Y"
 
@@ -523,10 +523,10 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							maxLength={30}
 						/>
 						<FactaButton text="Apply" spinnerOnClick onClick={() => {
-							return addPromo.send(makePostJSON({
+							return addPromo.sendJson({
 								promoCode: this.state.formData.promoCode.getOrElse(null),
 								program: this.props.flavor
-							}))
+							})
 							.then(ret => {
 								if (ret.type == "Success") {
 									self.props.history.push("/redirect" + window.location.pathname)

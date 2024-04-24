@@ -5,8 +5,9 @@ import {requestValidator} from "models/api-generated/member/ap-teach-instance/po
 
 const path = "/member/ap-teach-instance"
 
-export const postWrapper = new APIWrapper<typeof t.string, t.TypeOf<typeof requestValidator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
+	postBodyValidator: requestValidator,
 	resultValidator: t.string,
 })

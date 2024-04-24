@@ -98,7 +98,7 @@ export default class FlagNotificationsPage extends React.PureComponent<Props, St
 
 		const doSubmit = () => {
 			let payload = this.deserialize(this.state.formData)
-			return postMemberAlerts.send(makePostJSON(payload)).then(ret => {
+			return postMemberAlerts.sendJson(payload).then(ret => {
 				if (ret.type == "Success") {
 					self.props.history.push(returnRoute);
 				} else {

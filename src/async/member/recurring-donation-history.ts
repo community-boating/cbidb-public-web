@@ -17,7 +17,7 @@ export const validator = t.type({
 	donationHistory: t.array(donationHistoryValidator)
 });
 
-export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = new APIWrapper({
 	path: path,
 	type: HttpMethod.GET,
 	resultValidator: validator

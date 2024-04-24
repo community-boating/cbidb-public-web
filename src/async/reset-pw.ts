@@ -14,8 +14,9 @@ const resultValidator = t.type({
 	success: t.boolean
 })
 
-export const apiw = new APIWrapper<typeof resultValidator, t.TypeOf<typeof postValidator>, {}>({
+export const apiw = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
+	postBodyValidator: postValidator,
 	resultValidator: resultValidator
 })

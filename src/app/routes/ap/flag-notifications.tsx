@@ -19,7 +19,7 @@ export const apFlagNotificationsPageRoute = new RouteWrapper(true, path, history
 	/>}
 	urlProps={{}}
 	getAsyncProps={(urlProps: {}) => {
-		return getMemberAlerts.send(null).catch(err => Promise.resolve(null));
+		return getMemberAlerts.send().catch(err => Promise.resolve(null));
 	}}
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 />);

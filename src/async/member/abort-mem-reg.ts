@@ -4,8 +4,9 @@ import { HttpMethod } from "core/HttpMethod";
 
 const path = "/member/abort-mem-reg"
 
-export const postWrapper = new APIWrapper<typeof t.string, {}, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
+	postBodyValidator: t.any,
 	resultValidator: t.string
 })

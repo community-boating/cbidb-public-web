@@ -58,7 +58,7 @@ export default class ApCreateAcct extends React.PureComponent<Props, State> {
 			formData: defaultForm,
 			validationErrors: []
 		}
-		getProtoPersonCookie.send(PostURLEncoded({}));
+		getProtoPersonCookie.sendJson({});
 	}
 	render() {
 		const self= this;
@@ -73,12 +73,12 @@ export default class ApCreateAcct extends React.PureComponent<Props, State> {
 				})
 				return Promise.resolve();
 			} else {
-				return create.send(PostURLEncoded({
+				return create.sendJson({
 					username: self.state.formData.email.getOrElse(""),
 					password: self.state.formData.pw1.getOrElse(""),
 					firstName: self.state.formData.firstName.getOrElse(""),
 					lastName: self.state.formData.lastName.getOrElse(""),
-				})).then(res => {
+				}).then(res => {
 					if (res.type == "Success") {
 						self.props.history.push(apBasePath.getPathFromArgs({}))
 						asc.updateState.setJustLoggedIn(true);

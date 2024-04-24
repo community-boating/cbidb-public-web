@@ -13,15 +13,16 @@ export const alertEventsValidator = t.type({
 
 const path = "/member/alerts"
 
-export const getWrapper = new APIWrapper<typeof alertEventsValidator, {}, {}>({
+export const getWrapper = new APIWrapper({
 	path: path,
 	type: HttpMethod.GET,
-	resultValidator: alertEventsValidator
+	resultValidator: alertEventsValidator,
 })
 
-export const postWrapper = new APIWrapper<typeof alertEventsValidator, t.TypeOf<typeof alertEventsValidator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator: alertEventsValidator,
+	postBodyValidator: alertEventsValidator,
 	fixedParams: {}
 })

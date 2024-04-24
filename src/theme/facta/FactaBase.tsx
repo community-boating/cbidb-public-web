@@ -150,7 +150,7 @@ export class FactaBody extends React.Component {
 									<div className='header-utility-item'>
 										<a href='#' onClick={e => {
 											e.preventDefault();
-											logout.send({ type: "json", jsonData: {} }).then(() => {
+											logout.sendJson({}).then(() => {
 												asc.updateState.login.logout()
 											})
 										}}>

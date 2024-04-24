@@ -19,6 +19,6 @@ export const ratingsPageRoute = new RouteWrapper(true, jpPathRatings, history =>
 	urlProps={{personId: Number(jpPathRatings.extractURLParams(history.location.pathname).personId)}}
 	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={() => {
-		return welcomeAPI.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+		return welcomeAPI.send().catch(err => Promise.resolve(null));  // TODO: handle failure
 	}}
 />);

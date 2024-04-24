@@ -34,7 +34,7 @@ export function checkUpgradedAsValidationErrorArray(nodeHistory: History<any>, c
 
 export function doEFuseCheck(nodeHistory: History<any>) {
 	if (!didWeJustReload()) {
-		getEFuse.send(null).then(res => {
+		getEFuse.send().then(res => {
 			if (res.type == "Success") {
 				const requiredEFuse = Number(res.success);
 				const clientEFuse = Number((process.env as any).eFuse);

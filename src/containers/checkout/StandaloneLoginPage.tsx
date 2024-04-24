@@ -2,7 +2,7 @@ import * as React from "react";
 import {History} from 'history';
 import { setCheckoutImage } from "util/set-bg-image";
 import TextInput from "components/TextInput";
-import { none, Option } from "fp-ts/lib/Option";
+import { none, option, Option } from "fp-ts/lib/Option";
 import formUpdateState from "util/form-update-state";
 import {apiw as proveMember} from "async/prove-member"
 import { makePostString } from "core/APIWrapperUtil";
@@ -51,8 +51,9 @@ export default class StandaloneLoginPage extends React.PureComponent<Props, Stat
 					loginProcessing: true,
 					validationErrors: []
 				})
-				const payload = makePostString("username=" + encodeURIComponent(this.state.formData.username.getOrElse("")) + "&password=" + encodeURIComponent(this.state.formData.password.getOrElse("")))
-				return proveMember.send(payload).then(res => {
+				const payload = {username: this.state.formData.username.getOrElse(""),
+				password:this.state.formData.password.getOrElse("")}
+				return proveMember.sendFormUrlEncoded(payload).then(res => {
 					if (res.type == "Success" && res.success) {
 						window.opener.location.reload();
 						window.close();

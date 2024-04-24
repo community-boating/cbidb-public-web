@@ -86,7 +86,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 				...self.state,
 				validationErrors: []
 			});
-			return apiw.send(PostURLEncoded({ email: this.state.formData.email.getOrElse(""), program: this.props.program })).then(
+			return apiw.sendJson({ email: this.state.formData.email.getOrElse(""), program: this.props.program }).then(
 				// api success
 				ret => {
 					if (ret.type == "Success") {

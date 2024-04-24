@@ -3,9 +3,12 @@ import * as t from 'io-ts';
 import APIWrapper from 'core/APIWrapper';
 import { HttpMethod } from "core/HttpMethod";
 
-export type PostType = {
-	paymentMethodId: string
-}
+const postBodyValidator = t.type({
+	paymentMethodId: t.string,
+	retryLatePayments: t.boolean
+})
+
+export type PostType = t.TypeOf<typeof postBodyValidator>
 
 const resultValidator = t.type({
 	success: t.boolean
@@ -13,8 +16,9 @@ const resultValidator = t.type({
 
 const path = "/stripe/store-payment-method-jp"
 
-export const postWrapper = (juniorId: Option<number>) => new APIWrapper<typeof resultValidator, PostType, {}>({
+export const postWrapper = (juniorId: Option<number>) => new APIWrapper({
 	path: path + juniorId.map(juniorId => "?juniorId=" + juniorId).getOrElse(""),
 	type: HttpMethod.POST,
-	resultValidator: resultValidator
+	postBodyValidator,
+	resultValidator
 })

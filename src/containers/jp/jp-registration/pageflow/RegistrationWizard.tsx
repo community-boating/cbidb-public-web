@@ -90,7 +90,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 					{...mapWizardProps(fromWizard)}
 					
 				/>}
-				getAsyncProps={(urlProps: {}) => welcomeAPI.send(null).catch(err => Promise.resolve(null)) }
+				getAsyncProps={(urlProps: {}) => welcomeAPI.send().catch(err => Promise.resolve(null)) }
 				{...pageWrapperProps}
 			/>,
 			breadcrumbHTML: <React.Fragment>Family<br />Information</React.Fragment>
@@ -125,7 +125,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 				/>}
 				shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 				getAsyncProps={() => {
-					return welcomeAPI.send(null).catch(err => Promise.resolve(null)).then(res => {
+					return welcomeAPI.send().catch(err => Promise.resolve(null)).then(res => {
 						if (res.type != "Success" || !res.success || res.success.jpPrice.isNone() || res.success.jpOffseasonPrice.isNone()) {
 							// TODO: this is bad
 							return abort();
@@ -170,7 +170,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 							success: requiredFormDefault
 						});
 					} else {
-						return requiredInfoAPI(self.state.personId.getOrElse(-1)).send(null).then(ret => {
+						return requiredInfoAPI(self.state.personId.getOrElse(-1)).send().then(ret => {
 							if (ret.type == "Failure") {
 								self.props.history.push(jpBasePath.getPathFromArgs({}))
 							}
@@ -194,7 +194,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 				/>}
 				getAsyncProps={(urlProps: {}) => {
 					if (self.state.personId.isNone()) return abort();
-					else return emergContactAPI(self.state.personId.getOrElse(-1)).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+					else return emergContactAPI(self.state.personId.getOrElse(-1)).send().catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 				{...pageWrapperProps}
 			/>,
@@ -211,7 +211,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 				/>}
 				getAsyncProps={(urlProps: {}) => {
 					if (self.state.personId.isNone()) return abort();
-					else return swimAPI(self.state.personId.getOrElse(-1)).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+					else return swimAPI(self.state.personId.getOrElse(-1)).send().catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 				{...pageWrapperProps}
 			/>,
@@ -228,7 +228,7 @@ export default class RegistrationWizard extends React.Component<Props, State> {
 				/>}
 				getAsyncProps={(urlProps: {}) => {
 					if (self.state.personId.isNone()) return abort();
-					else return surveyAPI(self.state.personId.getOrElse(-1)).send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+					else return surveyAPI(self.state.personId.getOrElse(-1)).send().catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 				{...pageWrapperProps}
 			/>,

@@ -6,8 +6,9 @@ const validator = t.string
 
 const path = "/member/finish-open-order-jp"
 
-export const postWrapper = (juniorId: number) => new APIWrapper<typeof validator, {}, {}>({
+export const postWrapper = (juniorId: number) => new APIWrapper({
 	path: path+"?juniorId=" + juniorId,
 	type: HttpMethod.POST,
+	postBodyValidator: validator,
 	resultValidator: validator
 })

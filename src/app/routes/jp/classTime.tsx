@@ -33,10 +33,10 @@ export const classTimePageRoute = new RouteWrapper(true, jpPathClassTime, histor
     shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
     getAsyncProps={(urlProps: {personId: number, typeId: number}) => {
         return Promise.all([
-            classTimesWrapper(urlProps.typeId, urlProps.personId).send(null),
-            getWeeks.send(null),
-			getSignups(urlProps.personId).send(null),
-			welcomeAPI.send(null)
+            classTimesWrapper(urlProps.typeId, urlProps.personId).send(),
+            getWeeks.send(),
+			getSignups(urlProps.personId).send(),
+			welcomeAPI.send()
         ]).catch(err => Promise.resolve(null));  // TODO: handle failure
     }}
 />);

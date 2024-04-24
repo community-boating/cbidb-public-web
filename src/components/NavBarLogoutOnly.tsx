@@ -40,7 +40,7 @@ export default (props: {history: History<any>, sysdate: Option<Moment>, showProg
 		switchLink,
 		settingsPage,
 		<a key="logout" href="#" onClick={() => {
-			logout.send({type: "json", jsonData: {}}).then(() => {
+			logout.sendJson({}).then(() => {
 				asc.updateState.login.logout()
 			})
 			props.history.push(logoutLink);

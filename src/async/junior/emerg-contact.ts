@@ -25,15 +25,16 @@ export const postResponseValidator = t.type({
 	personId: t.number	
 })
 
-export const getWrapper = (personId: number) => new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = (personId: number) => new APIWrapper({
 	path: path + "?personId=" + personId,
 	type: HttpMethod.GET,
 	resultValidator: validator
 })
 
-export const postWrapper = (personId: number) => new APIWrapper<typeof postResponseValidator, t.TypeOf<typeof validator>, {personId: number}>({
+export const postWrapper = (personId: number) => new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator: postResponseValidator,
+	postBodyValidator: validator,
 	fixedParams: {personId}
 })

@@ -8,8 +8,9 @@ export type PostType = {
 	program: string
 }
 
-export const postWrapper = new APIWrapper<typeof t.string, PostType, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
+	postBodyValidator: t.any,
 	resultValidator: t.string
 })

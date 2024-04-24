@@ -20,8 +20,8 @@ export const jpPublicClassesRoute = new RouteWrapper(true, jpPublicClassesPath, 
 	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 	getAsyncProps={(urlProps: {}) => {
 		return Promise.all([
-			getWrapper.send(null),
-			getWeeks.send(null),
+			getWrapper.send(),
+			getWeeks.send(),
 		]).catch(err => Promise.resolve(null));  // TODO: handle failure
 	}}
 />);

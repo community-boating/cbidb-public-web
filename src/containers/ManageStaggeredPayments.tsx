@@ -77,10 +77,10 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 			elementId="card-element"
 			cardErrorsId="card-errors"
 			then={(result: PaymentMethod) => {
-				return storePaymentMethod.send(makePostJSON({
+				return storePaymentMethod.sendJson({
 					paymentMethodId: result.paymentMethod.id,
 					retryLatePayments: true
-				})).then(result => {
+				}).then(result => {
 					if (result.type == "Success") {
 						self.props.history.push("/redirect" + window.location.pathname)
 					} else {
@@ -107,7 +107,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 			)
 
 			if (confirm(confirmText)) {
-				return finishOrder.send(makePostJSON({})).then(r => {
+				return finishOrder.sendJson("").then(r => {
 					if (r.type == "Success") {
 						self.props.history.push("/redirect" + window.location.pathname)
 					} else {

@@ -15,7 +15,6 @@ import { PageFlavor } from "components/Page";
 import {postWrapper as getProtoPersonCookie} from "async/check-proto-person-cookie"
 import { PostURLEncoded } from "core/APIWrapperUtil";
 import FactaLoadingPage from "theme/facta/FactaLoadingPage";
-import { Option } from "fp-ts/lib/Option";
 import MugarDonateDetailsPage from "./MugarDonateDetailsPage";
 import MugarDonateConfirmationPage from "./MugarDonateConfirmationPage";
 import MugarDonateThankYouPage from "./MugarDonateThankYouPage";
@@ -71,11 +70,11 @@ export default class MugarDonateWizard extends React.Component<Props, State> {
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
-					getAsyncProps={() => getProtoPersonCookie.send(PostURLEncoded({}))
+					getAsyncProps={() => getProtoPersonCookie.sendFormUrlEncoded({})
 					.then(() => Promise.all([
-						getDonationFunds.send(null),
-						getCart.send(null),
-						orderStatus(PageFlavor.DONATE).send(null),
+						getDonationFunds.send(),
+						getCart.send(),
+						orderStatus(PageFlavor.DONATE).send(),
 					]) as any)}
 					{...pageWrapperProps}
 				/>,
@@ -92,9 +91,9 @@ export default class MugarDonateWizard extends React.Component<Props, State> {
 						{...mapWizardProps(fromWizard)}
 					/>}
 					getAsyncProps={() => Promise.all([
-						getDonationFunds.send(null),
-						getCart.send(null),
-						orderStatus(PageFlavor.DONATE).send(null),
+						getDonationFunds.send(),
+						getCart.send(),
+						orderStatus(PageFlavor.DONATE).send(),
 					]) as any}
 					{...pageWrapperProps}
 				/>,

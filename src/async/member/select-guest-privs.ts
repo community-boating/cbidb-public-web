@@ -10,15 +10,16 @@ const resultValidator = t.type({success: t.boolean})
 
 const path = "/member/select-guest-privs"
 
-export const getWrapper = new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = new APIWrapper({
 	path: path,
 	type: HttpMethod.GET,
 	resultValidator: validator
 })
 
-export const postWrapper = new APIWrapper<typeof resultValidator, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
 	resultValidator,
+	postBodyValidator: validator,
 	fixedParams: {}
 })

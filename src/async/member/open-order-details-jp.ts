@@ -16,7 +16,7 @@ export const validator = t.array(paymentValidator);
 
 const path = "/member/open-order-details-jp"
 
-export const getWrapper = (juniorId: number) => new APIWrapper<typeof validator, {}, {}>({
+export const getWrapper = (juniorId: number) => new APIWrapper({
 	path: path + "?juniorId=" + juniorId,
 	type: HttpMethod.GET,
 	resultValidator: validator

@@ -8,8 +8,9 @@ export const validator = t.type({
 
 const path = "/junior/abort-mem-reg"
 
-export const postWrapper = new APIWrapper<typeof t.string, t.TypeOf<typeof validator>, {}>({
+export const postWrapper = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
-	resultValidator: t.string
+	resultValidator: t.string,
+	postBodyValidator: validator
 })

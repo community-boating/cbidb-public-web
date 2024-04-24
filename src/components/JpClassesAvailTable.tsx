@@ -28,7 +28,7 @@ export default class JpClassesAvailTable extends React.PureComponent<Props> {
 	makeAction(instanceId: number, goToNote: boolean, apiw: APIWrapper<any, any, any>, e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, payload: any){
 		const self = this;
 		e.preventDefault();
-		return apiw.send(makePostJSON(payload)).then(ret => {
+		return apiw.sendJson(payload).then(ret => {
 			if (ret.type == "Success") {
 				const typeId = self.props.typeId.getOrElse(-1)
 				const url = (

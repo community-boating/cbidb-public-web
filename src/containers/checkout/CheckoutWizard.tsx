@@ -88,10 +88,10 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 				shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
-						(self.getWelcomeAPI() as any).send(null),
-						orderStatus(this.props.flavor).send(null),
-						getCartItems(this.props.flavor).send(null),
-						getDonationFunds.send(null)
+						(self.getWelcomeAPI() as any).send(),
+						orderStatus(this.props.flavor).send(),
+						getCartItems(this.props.flavor).send(),
+						getDonationFunds.send()
 					]).then(([welcome, order, cart, funds]) => {
 						if (welcome.type == "Success" && !welcome.success.canCheckout) {
 							self.props.history.push(jpBasePath.getPathFromArgs({}));
@@ -125,8 +125,8 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 				shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 				getAsyncProps={() => {
 					return Promise.all([
-						orderStatus(this.props.flavor).send(null),
-						getCartItems(this.props.flavor).send(null)
+						orderStatus(this.props.flavor).send(),
+						getCartItems(this.props.flavor).send()
 					]).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>

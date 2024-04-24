@@ -17,6 +17,6 @@ export const standaloneLoginRoute = new RouteWrapper(true, path, history => <Pag
 	urlProps={{}}
 	shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
 	getAsyncProps={() => {
-		return getWrapper.send(null).catch(err => Promise.resolve(null));  // TODO: handle failure
+		return getWrapper.send().catch(err => Promise.resolve(null));  // TODO: handle failure
 	}}
 />);

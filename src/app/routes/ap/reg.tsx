@@ -26,7 +26,7 @@ export const apRegPageRoute = new RouteWrapper(true, path, history => <PageWrapp
 		personId: Number(path.extractURLParams(history.location.pathname).personId),
 	}}
 	getAsyncProps={(urlProps: {}) => {
-		return welcomeAPIAP.send(null).catch(err => Promise.resolve(null));
+		return welcomeAPIAP.send().catch(err => Promise.resolve(null));
 	}}
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 />);

@@ -109,7 +109,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 					{...mapWizardProps(fromWizard)}
 				/>}
 				getAsyncProps={(urlProps: {}) => Promise.all([
-					welcomeAPI.send(null).then(result => {
+					welcomeAPI.send().then(result => {
 						if (result.type == "Success") {
 							const hasStripeCustomerIdProp = hasStripeCustomerId(result.success.actions);
 							self.setState({
@@ -119,7 +119,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 						}
 						return Promise.resolve(result);
 					}),
-					getPrices.send(null)
+					getPrices.send()
 				]).catch(err => Promise.resolve(null)).then(([welcome, prices]) => Promise.resolve({
 					type: "Success",
 					success: {
@@ -143,8 +143,8 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 					{...mapWizardProps(fromWizard)}
 				/>}
 				getAsyncProps={(urlProps: {}) => Promise.all([
-					gpGet.send(null),
-					getPrices.send(null)
+					gpGet.send(),
+					getPrices.send()
 				]).catch(err => Promise.resolve(null)).then(([wantIt, prices]) => Promise.resolve({
 					type: "Success",
 					success: {
@@ -168,8 +168,8 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 					{...mapWizardProps(fromWizard)}
 				/>}
 				getAsyncProps={(urlProps: {}) => Promise.all([
-					dwGet.send(null),
-					getPrices.send(null)
+					dwGet.send(),
+					getPrices.send()
 				]).catch(err => Promise.resolve(null)).then(([wantIt, prices]) => Promise.resolve({
 					type: "Success",
 					success: {
@@ -195,7 +195,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
-				getAsyncProps={(urlProps: {}) => getPaymentPlans.send(null).catch(err => Promise.resolve(null))}
+				getAsyncProps={(urlProps: {}) => getPaymentPlans.send().catch(err => Promise.resolve(null))}
 				{...pageWrapperProps}
 			/>,
 			breadcrumbHTML: <React.Fragment>Payment<br />Options</React.Fragment>
@@ -209,7 +209,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 					{...staticComponentProps}
 					{...mapWizardProps(fromWizard)}
 				/>}
-				getAsyncProps={(urlProps: {}) => surveyAPI.send(null).catch(err => Promise.resolve(null))}
+				getAsyncProps={(urlProps: {}) => surveyAPI.send().catch(err => Promise.resolve(null))}
 				{...pageWrapperProps}
 			/>,
 			breadcrumbHTML: <React.Fragment>Terms and <br />Conditions</React.Fragment>
@@ -224,7 +224,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
-					getAsyncProps={(urlProps: {}) => requiredInfoAPI.send(null).then(ret => {
+					getAsyncProps={(urlProps: {}) => requiredInfoAPI.send().then(ret => {
 						if (ret.type == "Failure") {
 							self.props.history.push(apBasePath.getPathFromArgs({}))
 						}
@@ -242,7 +242,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
-					getAsyncProps={(urlProps: {}) => emergAPI.send(null).catch(err => Promise.resolve(null))}
+					getAsyncProps={(urlProps: {}) => emergAPI.send().catch(err => Promise.resolve(null))}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Emergency<br />Contact</React.Fragment>
@@ -260,7 +260,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
-					getAsyncProps={(urlProps: {}) => surveyAPI.send(null).catch(err => Promise.resolve(null))}
+					getAsyncProps={(urlProps: {}) => surveyAPI.send().catch(err => Promise.resolve(null))}
 					{...pageWrapperProps}
 				/>,
 				breadcrumbHTML: <React.Fragment>Survey<br />Information</React.Fragment>

@@ -23,7 +23,7 @@ export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayme
 	/>}
 	urlProps={{}}
 	getAsyncProps={(urlProps: {}) => {
-		return getWrapper.send(null)
+		return getWrapper.send()
 		.then(r => {
 			if (r.type != "Success" || r.success.length == 0) {
 				history.push(apBasePath.getPathFromArgs({}));

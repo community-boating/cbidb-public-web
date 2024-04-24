@@ -249,10 +249,10 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 				const classType = self.props.availabilities.types.find(t => t.typeId == i.typeId);
 				const description = classType.description.getOrElse("");
 				const noSignup = classType.noSignup;
-				const doSignup = (doWaitlist: boolean, navToHome?: boolean) => signup.send(makePostJSON({
+				const doSignup = (doWaitlist: boolean, navToHome?: boolean) => signup.sendJson({
 					instanceId: i.instanceId,
 					doWaitlist
-				})).then(res => {
+				}).then(res => {
 					if (res.type == "Success") {
 						if (navToHome) {
 							self.props.history.push(apBasePath.getPathFromArgs({}));
@@ -267,9 +267,9 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 						});
 					}
 				});
-				const doUnenroll = () => unenroll.send(makePostJSON({
+				const doUnenroll = () => unenroll.sendJson({
 					instanceId: i.instanceId
-				})).then(res => {
+				}).then(res => {
 					if (res.type == "Success") {
 						self.props.history.push("/redirect" + apPathClasses.getPathFromArgs({}))
 					}

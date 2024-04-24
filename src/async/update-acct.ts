@@ -8,15 +8,16 @@ const postValidator = t.type({
 	username: t.string,
 	password: t.string,
 	newUsername: t.string,
-	newPW: t.string
+	newPassword: t.string
 })
 
 const resultValidator = t.type({
 	success: t.boolean
 })
 
-export const apiw = new APIWrapper<typeof resultValidator, t.TypeOf<typeof postValidator>, {}>({
+export const apiw = new APIWrapper({
 	path,
 	type: HttpMethod.POST,
+	postBodyValidator: postValidator,
 	resultValidator: resultValidator
 })

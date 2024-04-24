@@ -156,10 +156,10 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 	makeBuyButton(memTypeId: number, requestedDiscountId: Option<number>) {
 		const self = this;
 		return (<FactaButton text="Buy" spinnerOnClick onClick={() => {
-			return submit.send(makePostJSON({
+			return submit.sendJson({
 				memTypeId: memTypeId,
 				requestedDiscountId
-			})).then(res => {
+			}).then(res => {
 				if (res.type == "Success") {
 					this.props.updateStateFromMemType(memTypeId, res.success);
 					self.props.goNext()
