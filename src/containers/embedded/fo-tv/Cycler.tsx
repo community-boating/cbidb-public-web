@@ -25,7 +25,6 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
     //itemIndex, subItemIndex
     const refs = itemsWithSubItems.map(a => a.map((b) => React.createRef<HTMLDivElement>()))
     const mainRef = React.createRef<HTMLDivElement>()
-    const testRef = React.createRef<HTMLDivElement>()
     const itemsWithRef = React.useMemo(() => itemsWithSubItems.map((itemsSub, itemIndex) => {
         return itemsSub.map((a, i) => <div key={itemIndex + "i" + i} ref={refs[itemIndex][i]}>{a}</div>)
     }), [cells.current])
@@ -38,12 +37,11 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
             window.removeEventListener('resize', listener)
         }
     })
-    //TODO fix this
     React.useEffect(() => {
         setSizeTest(true)
     }, [props.items.reduce((a, b) => a + ":" + b.length, "")])
     if(sizeTest){
-        cells.current = itemsWithSubItems.map((a, itemIndex) => DynamicCyclerCell(a, refs[itemIndex], mainRef, testRef).calcCells())
+        cells.current = itemsWithSubItems.map((a, itemIndex) => DynamicCyclerCell(a, refs[itemIndex], mainRef).calcCells())
         setSizeTest(false)
     }
 
@@ -63,7 +61,7 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
     }
 }
 
-function DynamicCyclerCell(subItems: React.ReactNode[], refs: React.RefObject<HTMLDivElement>[], mainRef: React.RefObject<HTMLDivElement>, testRef: React.RefObject<HTMLDivElement>) {
+function DynamicCyclerCell(subItems: React.ReactNode[], refs: React.RefObject<HTMLDivElement>[], mainRef: React.RefObject<HTMLDivElement>) {
     const calcCells = () => {
         const newCells: number[][] = []
         var currentCellHeight = 0
@@ -99,12 +97,11 @@ export default function Cycler(props: {items: React.ReactNode[]} & CyclerType){
     const slots = props.slots || 2
     const left = props.left === true
     React.useEffect(() => {
-        console.log(props.items.length)
         if(props.items.length > 1){
             const current = ref.current;
             const intervalID = setInterval(() => {
-                setIndex((s) => cyclicPad(left ? s+1 : s-1,length))
-                current.animate(slideFrames, slideOptions)
+                //setIndex((s) => cyclicPad(left ? s+1 : s-1,length))
+                //current.animate(slideFrames, slideOptions)
             }, props.delay || 5000)
             return () => {
                 clearInterval(intervalID)

@@ -269,6 +269,8 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
 
     const flagColorTextElem = <h2 className=''>{flagShortToName(flagColor.flagColor)}</h2>
 
+    const makeContainer = (children: any, key: string) => <div key={key} className='w-full h-full flex col'>{children}</div>
+
     return <>
         <title>Front Office Display</title>
         <link rel='stylesheet' href='/css/fotv/style.css'/>
@@ -361,7 +363,7 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
             </>}
             <div className='flex relative row grow min-h-0 basis-0 padding-x-20 gap-20 padding-b-20'>
                 <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
-                    <DynamicCycler slots={1} items={itemsLeft} itemContainers={[undefined, (children, key) => <div key={key} className='w-full h-full flex col'>{children}</div>]} initialOrderIndex={1} delay={10000}/>
+                    <DynamicCycler slots={1} items={itemsLeft} itemContainers={[makeContainer, makeContainer]} initialOrderIndex={1} delay={10000}/>
                 </div>
                 {isSmall ? <></> : <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
                     <Cycler slots={1} initialOrderIndex={0} items={itemsRight} delay={10000}/>
