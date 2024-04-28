@@ -167,7 +167,7 @@ export default (
 		place: 6,
 		getElements: [
 			LINKS.edit,
-			() => (show4th ? <a target="_blank" href={`http://www.eventbrite.com/e/560707600527/?discount=FYADULT`}>Buy 4th of July Tickets</a> : null)
+			() => (show4th ? <a target="_blank" href={`https://www.eventbrite.com/e/796271949837/?discount=FYADULT`}>Buy 4th of July Tickets</a> : null)
 		]
 	}, {
 		place: 7,
@@ -229,7 +229,7 @@ export default (
 	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <a target="_blank" href={`https://www.eventbrite.com/e/717959735897/?discount=FYMEM`}>Purchase Ed Long UnRegatta Registration and Discounted Fall Dock Party Tickets</a>
+			(history: History<any>) => <a target="_blank" href={`https://www.eventbrite.com/e/893215430397/?discount=FYMEM`}>Purchase Ed Long Race Registration and Spring Dock Party Tickets</a>
 		]
 	}];
 
