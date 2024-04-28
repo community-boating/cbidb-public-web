@@ -71,10 +71,10 @@ export default (bv: number, juniorId: number, history: History<any>, hasOpenOrde
         element: <PlaceholderLink>{"Rejoin Waitlist"}</PlaceholderLink>
     }*/ ,{
 		place: 15,
-		element: <a target="_blank" href={`http://www.eventbrite.com/e/560707600527/?discount=CBIjr`}>Buy 4th of July Tickets</a>
+		element: <a target="_blank" href={`http://www.eventbrite.com/e/796271949837/?discount=CBIjr`}>Buy 4th of July Tickets</a>
 	}, {
 		place: 18,
-		element: <a href="https://www.eventbrite.com/e/community-boatings-all-boats-on-the-water-race-summer-dock-party-tickets-689597323157?discount=FYMEM" target="_blank">Click here to get your discounted All Boats on the Water Dock Party tickets and/or reserve your boat for the race</a>
+		element: <a href="https://www.eventbrite.com/e/893215430397/?discount=JP" target="_blank">Purchase discounted Ed Long Spring Dock Party tickets</a>
 	}]
 
     return (function() {
