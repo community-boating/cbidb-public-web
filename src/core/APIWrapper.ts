@@ -11,6 +11,7 @@ import { HttpMethod } from "./HttpMethod";
 import { PostType, Config, ApiResult, ServerParams } from './APIWrapperTypes';
 import * as moment from 'moment';
 import { DefaultDateTimeFormat } from 'util/OptionalTypeValidators';
+import { option } from 'fp-ts';
 
 export const ERROR_DELIMITER = "\\n"
 
@@ -24,21 +25,34 @@ const searchJSCONMetaData: (metaData: any[]) => (toFind: string) => number = met
 	return null;
 }
 
+function getServerURL(serverParams: ServerParams){
+	const portString = (function() {
+		if (
+			(serverParams.https && serverParams.port != 443) || 
+			(!serverParams.https && serverParams.port != 80)
+		) return `:${serverParams.port}`
+		else return "";
+	}());
+	return `${serverParams.https ? "https://" : "http://"}${serverParams.host}${portString}`
+}
+
+function getServerParams(serverParamsOption: option.Option<ServerParams>): ServerParams{
+	const serverParams = serverParamsOption.getOrElse((process.env as any).serverToUseForAPI);
+	return {
+		host: serverParams.host || window.location.hostname,
+		https: (serverParams.https != undefined) ? (serverParams.https) : (window.location.protocol == 'https'),
+		port: serverParams.port || parseInt(window.location.port),
+		pathPrefix: serverParams.pathPrefix,
+		staticHeaders: serverParams.staticHeaders
+	}
+}
+
 var apiAxios: AxiosInstance;
 
 function getOrCreateAxios(serverParams: ServerParams) {
 	if (apiAxios == null) {
-		console.log('instantiating axios');
-		const portString = (function() {
-			if (
-				(serverParams.https && serverParams.port != 443) || 
-				(!serverParams.https && serverParams.port != 80)
-			) return `:${serverParams.port}`
-			else return "";
-		}());
-
 		apiAxios = axios.create({
-			baseURL: `${serverParams.https ? "https://" : "http://"}${serverParams.host}${portString}`,
+			baseURL: getServerURL(serverParams),
 			maxRedirects: 0,
 			responseType: "json",
 			transformRequest: axios.defaults.transformRequest,
@@ -76,8 +90,8 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostBodyVal
 	constructor(config: Config<T_ResponseValidator, T_PostBodyValidator, T_FixedParams>) {
 		this.config = config;
 	}
-	sendRaw(params: ServerParams, data: any, options?: AxiosRequestConfig<any>): Promise<any> {
-		return getOrCreateAxios(params).post(this.config.path, data, options)
+	sendRaw(serverParams: ServerParams, data: any, options?: AxiosRequestConfig<any>): Promise<any> {
+		return getOrCreateAxios(serverParams).post(this.config.path, data, options)
 	}
 	send: () => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = () => this.sendWithParams(none)(undefined)
 	sendJson: (data: t.TypeOf<T_PostBodyValidator>, params?: T_Params) => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = (data, params) => this.sendWithParams(none, params)(makePostJSON(data))
@@ -100,7 +114,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostBodyVal
 				});*/
 		}
 		moment.fn.toJSON = function() { return this.format(DefaultDateTimeFormat); }
-		const serverParams = serverParamsOption.getOrElse((process.env as any).serverToUseForAPI);
+		const serverParams = getServerParams(serverParamsOption);
 		const self = this;
 		type Return = Promise<ApiResult<t.TypeOf<T_ResponseValidator>>>;
 		const postValues: Option<PostValues> = (function() {
