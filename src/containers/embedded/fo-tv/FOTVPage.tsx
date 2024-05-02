@@ -269,7 +269,7 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
 
     const flagColorTextElem = <h2 className=''>{flagShortToName(flagColor.flagColor)}</h2>
 
-    const makeContainer = (children: any, key: string) => <div key={key} className='w-full h-full flex col'>{children}</div>
+    const makeContainer = (children: any, key: string) => <div key={key} id='yolo' className='w-full h-full flex col w-full'>{children}</div>
 
     return <>
         <title>Front Office Display</title>

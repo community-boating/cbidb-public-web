@@ -20,8 +20,8 @@ enum TestState {
 }
 
 //itemIndex, subItemIndex
-export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers: ((children: React.ReactNode, key: string) => React.ReactNode)[]} & Omit<CyclerType, 'items'>){
-    const {items, indexExternal, setIndexExternal, ...otherProps} = props
+export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers: ((children: React.ReactNode, key: string) => React.ReactNode)[], singleItemContainer?: (children: React.ReactNode) => React.ReactNode} & Omit<CyclerType, 'items'>){
+    const {items, indexExternal, setIndexExternal, singleItemContainer, ...otherProps} = props
     const [sizeTest, setSizeTest] = React.useState(TestState.QUEUED)
     const [index, setIndex] = (props.indexExternal != undefined) ? [props.indexExternal, props.setIndexExternal] : React.useState(props.initialOrderIndex || 0);
     //itemIndex, subItemIndex
@@ -61,14 +61,21 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
     React.useEffect(() => {
         if(sizeTest == TestState.RUNNING){
             cells.current = itemsWithSubItems.map((a, itemIndex) => DynamicCyclerCell(a, refs[itemIndex], mainRef).calcCells())
-            console.log(cells.current)
             setSizeTest(TestState.DONE)
         }
     }, [sizeTest])
 
     const makeContainer = (itemIndex: number) => (children: React.ReactNode, key: string) => {
-        return (props.itemContainers[itemIndex] || ((c, k) =>  <div key={k} className='w-full h-full flex col transparent'>{c}</div>))(children, key)
+        return (props.itemContainers[itemIndex] || ((c, k) =>  <div key={k} className='w-full h-full flex col'>{c}</div>))(children, key)
     }
+
+    const singleContainer = singleItemContainer || ((children: React.ReactNode) => {
+        return <div className='w-full h-full flex col'>
+            {children}
+        </div>
+    })
+
+    console.log("what what")
 
     //itemIndex, cellIndex, subItemIndex
     if(sizeTest != TestState.DONE){
@@ -80,7 +87,7 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
         </div>
     }else{
         const values: any = cells.current.map((a, itemIndex) => a.map((b, cellIndex) => makeContainer(itemIndex)(<>{b.map((c, subItemIndex) => itemsWithRef[itemIndex][c])}</>, itemIndex + ":" + cellIndex))).flatten<JSX.Element>()
-        return <Cycler items={values.concat(props.items.filter((a) => a.length == 1).flatten())} indexExternal={index} setIndexExternal={setIndex} {...otherProps}/>
+        return <Cycler items={values.concat(props.items.filter((a) => a.length == 1).flatten().map(singleContainer))} indexExternal={index} setIndexExternal={setIndex} {...otherProps}/>
     }
 }
 
