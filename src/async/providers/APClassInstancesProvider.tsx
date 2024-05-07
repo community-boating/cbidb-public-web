@@ -20,24 +20,6 @@ const fakeAPClassInstances: typeof defaultAPClassInstances = [
         locationString: option.some('Some Place Over Here'),
         enrollees: 0
 
-    },
-    {
-        instanceId: 2,
-        typeName: option.some('Derp Class'),
-        startDate: currentDate,
-        startTime: '08:00 PM',
-        locationString: option.some('Placey'),
-        enrollees: 0
-
-    },
-    {
-        instanceId: 3,
-        typeName: option.some('Wind Class'),
-        startDate: currentDate,
-        startTime: '09:45 PM',
-        locationString: option.some('Some Place Over Here'),
-        enrollees: 0
-
     }
 ]
 

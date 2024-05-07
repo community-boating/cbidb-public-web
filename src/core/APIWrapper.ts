@@ -1,17 +1,16 @@
-import { PostString, PostJSON } from './APIWrapperTypes';
-import { Either } from 'fp-ts/lib/Either';
-import { none, Option, some } from 'fp-ts/lib/Option';
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import * as t from 'io-ts';
-import { PathReporter } from 'io-ts/lib/PathReporter';
+import { PostString, PostJSON } from './APIWrapperTypes'
+import { Either } from 'fp-ts/lib/Either'
+import { none, Option, some } from 'fp-ts/lib/Option'
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
+import * as t from 'io-ts'
+import { PathReporter } from 'io-ts/lib/PathReporter'
 
-//import asc from "app/AppStateContainer";
-import { removeOptions } from 'util/deserializeOption';
-import { HttpMethod } from "./HttpMethod";
-import { PostType, Config, ApiResult, ServerParams } from './APIWrapperTypes';
-import * as moment from 'moment';
-import { DefaultDateTimeFormat } from 'util/OptionalTypeValidators';
-import { option } from 'fp-ts';
+import { removeOptions } from 'util/deserializeOption'
+import { HttpMethod } from "./HttpMethod"
+import { PostType, Config, ApiResult, ServerParams } from './APIWrapperTypes'
+import * as moment from 'moment'
+import { DefaultDateTimeFormat } from 'util/OptionalTypeValidators'
+import { option } from 'fp-ts'
 
 export const ERROR_DELIMITER = "\\n"
 
@@ -19,29 +18,30 @@ interface PostValues {content: string, isJson: boolean, headers: {}}
 
 const searchJSCONMetaData: (metaData: any[]) => (toFind: string) => number = metaData => toFind => {
 	for (var i=0; i<metaData.length; i++) {
-		const name = metaData[i]["name"];
-		if (name == toFind) return i;
+		const name = metaData[i]["name"]
+		if (name == toFind) return i
 	}
-	return null;
+	return null
 }
 
-function getServerURL(serverParams: ServerParams){
+export function getServerURL(serverParams: ServerParams){
 	const portString = (function() {
 		if (
-			(serverParams.https && serverParams.port != 443) || 
-			(!serverParams.https && serverParams.port != 80)
+			serverParams.port != undefined && ((serverParams.https && serverParams.port != 443) || 
+			(!serverParams.https && serverParams.port != 80))
 		) return `:${serverParams.port}`
-		else return "";
-	}());
+		else return ""
+	}())
 	return `${serverParams.https ? "https://" : "http://"}${serverParams.host}${portString}`
 }
 
-function getServerParams(serverParamsOption: option.Option<ServerParams>): ServerParams{
-	const serverParams = serverParamsOption.getOrElse((process.env as any).serverToUseForAPI);
+export function getServerParams(serverParamsOption: option.Option<ServerParams>): ServerParams{
+	const serverParams = serverParamsOption.getOrElse((process.env as any).serverToUseForAPI)
+	const portInt = parseInt(window.location.port)
 	return {
 		host: serverParams.host || window.location.hostname,
-		https: (serverParams.https != undefined) ? (serverParams.https) : (window.location.protocol == 'https'),
-		port: serverParams.port || parseInt(window.location.port),
+		https: (serverParams.https != undefined) ? (serverParams.https) : (window.location.protocol.startsWith('https')),
+		port: serverParams.port || isNaN(portInt) ? undefined : portInt,
 		pathPrefix: serverParams.pathPrefix,
 		staticHeaders: serverParams.staticHeaders
 	}
@@ -50,6 +50,7 @@ function getServerParams(serverParamsOption: option.Option<ServerParams>): Serve
 var apiAxios: AxiosInstance;
 
 function getOrCreateAxios(serverParams: ServerParams) {
+	console.log(getServerURL(serverParams))
 	if (apiAxios == null) {
 		apiAxios = axios.create({
 			baseURL: getServerURL(serverParams),
@@ -61,11 +62,11 @@ function getOrCreateAxios(serverParams: ServerParams) {
 			// xsrfHeaderName: "X-XSRF-TOKEN",
 		})
 	}
-	return apiAxios;
+	return apiAxios
 }
 
 const PostURLEncoded: <T extends {[K: string]: string}>(o: T) => string = o => {
-	var arr = [];
+	var arr = []
 	for (var p in o) {
 		arr.push(encodeURIComponent(p) + "=" + encodeURIComponent(o[p]));
 	}
@@ -88,7 +89,7 @@ var testAuth: {uuidCookie: string, idCookie: string} = undefined
 export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostBodyValidator extends t.Any, T_FixedParams = any, T_Params = any> {
 	config: Config<T_ResponseValidator, T_PostBodyValidator, T_FixedParams>
 	constructor(config: Config<T_ResponseValidator, T_PostBodyValidator, T_FixedParams>) {
-		this.config = config;
+		this.config = config
 	}
 	sendRaw(serverParams: ServerParams, data: any, options?: AxiosRequestConfig<any>): Promise<any> {
 		return getOrCreateAxios(serverParams).post(this.config.path, data, options)
@@ -99,7 +100,7 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostBodyVal
 	// send: (data: PostType<t.TypeOf<T_PostBodyValidator>>) => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = data => this.sendWithParams(none)(data)
 	sendWithParams: (serverParamsOption: Option<ServerParams>, params?: T_Params) => (data: PostType<t.TypeOf<T_PostBodyValidator>>) => Promise<ApiResult<t.TypeOf<T_ResponseValidator>>> = (serverParamsOption, params) => data => {
 		if(this.config.permissions){
-			var perm = true;
+			var perm = true
 			/*if(!asc.state.login.authenticatedUserName.isSome()){
 				return Promise.resolve({
 					type: "Failure",
@@ -114,12 +115,12 @@ export default class APIWrapper<T_ResponseValidator extends t.Any, T_PostBodyVal
 				});*/
 		}
 		moment.fn.toJSON = function() { return this.format(DefaultDateTimeFormat); }
-		const serverParams = getServerParams(serverParamsOption);
-		const self = this;
+		const serverParams = getServerParams(serverParamsOption)
+		const self = this
 		type Return = Promise<ApiResult<t.TypeOf<T_ResponseValidator>>>;
 		const postValues: Option<PostValues> = (function() {
 			if (self.config.type === HttpMethod.POST || self.config.type === HttpMethod.DELETE) {
-				if (data == undefined) return none;
+				if (data == undefined) return none
 				else if (data.type == "urlEncoded") {
 					const content = data.urlEncodedData
 					return some({

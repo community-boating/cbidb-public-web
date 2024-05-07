@@ -7,10 +7,10 @@ const serverConfig = (function() {
 	const prodConfig = {
 		// TODO: dev vs prod config
 		SELF: {
-			host: config.hostName,
-			https: config.https,
+			//host: config.hostName,
+			//https: config.https,
 			pathPrefix: "/api",
-			port: config.port
+			//port: config.port
 		}
 	}
 	
@@ -19,7 +19,7 @@ const serverConfig = (function() {
 		SELF: {
 			...prodConfig.SELF,
 			host: config.hostNameDev,
-			https: false,
+			https: config.https,
 			port: config.port || 8081
 		}
 	}

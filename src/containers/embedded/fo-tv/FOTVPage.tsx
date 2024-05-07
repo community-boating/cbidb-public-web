@@ -13,6 +13,8 @@ import RestrictionIcon from './RestrictionIcon';
 import { AsyncPropsType as AsyncPropsTypeAPClass } from 'app/routes/embedded/class-tables/ap-class-instances';
 import { AsyncPropsType as AsyncPropsTypeJPClass } from 'app/routes/embedded/class-tables/jp-class-instances';
 import { classScheduleItems } from '../class-tables/ClassSchedule';
+import { getServerParams, getServerURL } from 'core/APIWrapper';
+import { option } from 'fp-ts';
 
 const PROGRAM_JP: number = 2
 const PROGRAM_AP: number = 1
@@ -385,8 +387,8 @@ function imageVersionByID(fotv: FOTVType): NToN {
 
 export function getImageSRC(imageID: number, versionByID: NToN) {
     console.log(process.env.serverToUseForAPI)
-    const params = process.env.serverToUseForAPI as any
-    return (params.https ? "https://" : "http://") + params.host + ":" + params.port + params.pathPrefix + "/images/" + imageID + '/' + versionByID[imageID]
+    const params = getServerParams(option.none)
+    return getServerURL(params) + (params.pathPrefix || "") + "/images/" + imageID + '/' + versionByID[imageID]
 }
 
 function ImageDiv(props: {fotv: FOTVType}){
@@ -509,7 +511,7 @@ function RestrictionImage(props:{ className?: string, restriction: RestrictionTy
 
 function RestrictionsList(props: {restrictionsForList: RestrictionType[], versionByID: NToN}){
     const versionByID = props.versionByID;
-        return props.restrictionsForList.sort((a, b) => (a.groupID - b.groupID) + (a.displayOrder - b.displayOrder) * 1000).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}} className='min-w-0 max-w-full no-list-style p-5 br-10 flex row mt-10 b-2 b-solid h-fit-content grow-1'>
+        return props.restrictionsForList.sort((a, b) => (a.groupID - b.groupID) + (a.displayOrder - b.displayOrder) * 1000).map((a) => <li key={a.restrictionID} style={{color: a.textColor, backgroundColor: a.backgroundColor, fontWeight: a.fontWeight.getOrElse('normal'), borderColor: a.textColor}} className='min-w-0 max-w-full no-list-style p-5 br-10 flex row mt-10 b-2 b-solid h-fit-content'>
             <div className='flex center padding-5 h-fit-content my-auto'>
                 <RestrictionImage restriction={a} versionByID={versionByID}/>
             </div>
