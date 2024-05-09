@@ -56,8 +56,8 @@ export default (
 	const renewText = () => (<React.Fragment>
 		Renew for a year
 		{expirationDate.map(ed => <>
-		<br />
-			({discountAmt.format()} discount until {ed.clone().add(7, 'days').format("MM/DD/YYYY")})
+			<br />
+			({discountAmt.format()} discount until {ed.clone().add(14, 'days').format("MM/DD/YYYY")})
 		</>).getOrElse(null)}
 		</React.Fragment>);
 
@@ -168,7 +168,7 @@ export default (
 		place: 6,
 		getElements: [
 			LINKS.edit,
-			() => (show4th ? <a target="_blank" href={`http://www.eventbrite.com/e/560707600527/?discount=FYADULT`}>Buy 4th of July Tickets</a> : null)
+			() => (show4th ? <a target="_blank" href={`https://www.eventbrite.com/e/796271949837/?discount=FYADULT`}>Buy 4th of July Tickets</a> : null)
 		]
 	}, {
 		place: 7,
@@ -230,7 +230,7 @@ export default (
 	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <a target="_blank" href={`http://www.eventbrite.com/e/605915608897/?discount=APFY`}>Intro to Celestial Navigation, $10 off discount link</a>
+			(history: History<any>) => <a target="_blank" href={`https://www.eventbrite.com/e/893215430397/?discount=FYMEM`}>Purchase Ed Long Race Registration and Spring Dock Party Tickets</a>
 		]
 	}, {
 		show: () => true,

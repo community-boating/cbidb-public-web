@@ -71,6 +71,14 @@ class FactaHelmet extends React.Component {
 						window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-960648179');
 					`}</script>
 
+					{/* <!-- Google Tag Manager --> */}
+					<script>{`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+					new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+					j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+					'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+					})(window,document,'script','dataLayer','GTM-KXGRPNG');`}</script>
+					{/* <!-- End Google Tag Manager —> */}
+
 					<body className="page-template-default page page-id-1165 page-child parent-pageid-76">
 					</body>
 
@@ -295,7 +303,7 @@ export class FactaBody extends React.Component {
 			</header>
 			<main role='main' className='main main-single'>
 				<div className='page-title'>
-					<div className='ratio' style={{paddingBottom: "330px"}}></div>
+					<div className='ratio'  id="hero-ratio" style={{paddingBottom: "330px"}}></div>
 					<div className='cover' id="hero"
 						style={{ backgroundImage: "url(/facta/assets/images/common-hero.jpg)" }}>
 					</div>

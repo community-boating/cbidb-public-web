@@ -19,7 +19,7 @@ export const apClassesPageRoute = new RouteWrapper(true, apPathClasses, history 
 		instances={async.instances}
     />}
     urlProps={{}}
-	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} spinner />}
 	getAsyncProps={() => {
 		return Promise.all([
 			getTypesWithAvailability.send(null),
