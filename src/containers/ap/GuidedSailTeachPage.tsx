@@ -5,7 +5,6 @@ import { setAPImage } from 'util/set-bg-image';
 import getNow from "util/getNow";
 import { GUIDED_SAIL_AVAIL_SLOTS, GUIDED_SAIL_INSTANCES } from 'models/guided-sail-temp';
 import * as moment from 'moment';
-import { Moment } from 'moment';
 import { none, Option, some } from 'fp-ts/lib/Option';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import {Select} from "components/Select"
@@ -14,18 +13,25 @@ import FactaButton from 'theme/facta/FactaButton';
 import {History} from 'history'
 import { apBasePath } from 'app/paths/ap/_base';
 
+type DaySlotType = {
+	start: moment.Moment
+	end: moment.Moment
+}
+
 export const GuidedSailTeachPage = (props: {history: History}) => {
 	const [selectedDay, setSelectedDay] = React.useState(none as Option<typeof GUIDED_SAIL_AVAIL_SLOTS[number]>)
-	const [selectedSlot, setSelectedSlot] = React.useState(none as Option<Moment>)
+	const [selectedSlot, setSelectedSlot] = React.useState(none as Option<DaySlotType>)
 
-	const slots = GUIDED_SAIL_AVAIL_SLOTS
-	const instances = GUIDED_SAIL_INSTANCES
+	const [slots, setSlots] = React.useState(GUIDED_SAIL_AVAIL_SLOTS)
+	const [instances, setInstances] = React.useState(GUIDED_SAIL_INSTANCES)
 	const personId = 188910
 
 	const colors = {
 		text: "#3377DD",
 		bg: "#BED3F4"
 	}
+
+	console.log(instances)
 
 	const dayElements: CalendarDayElement[] = slots.map(s => {
 		const matchingInstances = instances.filter(i => i.instructorId == personId && moment(i.startDatetime).format(DATE_FORMAT) == s.day)
@@ -86,32 +92,40 @@ export const GuidedSailTeachPage = (props: {history: History}) => {
 						<td style={style}>{i.signupCt}</td>
 						<td style={style}><a href="#" onClick={e => {
 							e.preventDefault()
-							confirm("Are you sure you wish to cancel this guided sail appt?")
+							if(confirm("Are you sure you wish to cancel this guided sail appt?"))
+								setInstances((s) => s.filter((a) => a != i))
 						}}>Cancel</a></td>
 					</tr>)}
 				</tbody></table>
 			</FactaArticleRegion>
 		}).getOrElse(null)
-	}, [selectedDay])
+	}, [selectedDay, instances])
 
 	const dayRegion = React.useMemo(() => {
 		const options = daySlots.map(s => ({
 			key: s.start.format(DATETIME_FORMAT),
-			display: `${s.start.format("HH:mm")}-${s.end.format("HH:mm")}`
+			display: `${s.start.format("hh:mmA")}-${s.end.format("hh:mmA")}`
 		}))
 		return selectedDay.map(d => <FactaArticleRegion title={`Sign up to teach Guided Sail on ${d.day}`} id="focus">
-			<Select id="new-slot" justElement value={selectedSlot.map(m => m.format(DATETIME_FORMAT))} options={options} nullDisplay="- Select -" updateAction={(name, value) => {
+			<Select id="new-slot" justElement value={selectedSlot.map(m => m.start.format(DATETIME_FORMAT))} options={options} nullDisplay="- Select -" updateAction={(name, value) => {
 				if (value == "") setSelectedSlot(none)
-				else setSelectedSlot(some(moment(value, DATETIME_FORMAT)))
+				else setSelectedSlot(daySlots.filter((a) => a.start.isSame(moment(value, DATETIME_FORMAT))).map((a) => some(a))[0] || none)
 			}} />
 		</FactaArticleRegion>).getOrElse(null)
 	}, [selectedSlot, selectedDay, daySlots])
 
 	const signupButton = React.useMemo(() => {
 		return selectedSlot.map(s => <>
-			{/* {s.format(DATETIME_FORMAT)} */}
 			<FactaButton text="Signup" onClick={() => {
-				confirm("Are you sure you want to sign up to teach Guided Sail?")
+				if(confirm("Are you sure you want to sign up to teach Guided Sail?"))
+					setInstances((b) => b.concat([{
+						startDatetime: s.start.format(),
+						endDatetime: s.end.format(),
+						instructorId: personId,
+						signupCt: 0,
+						maxSignups: 2
+				}]))
+					selectedSlot
 				return Promise.resolve()
 			}}/>
 		</>).getOrElse(null)
