@@ -22,6 +22,7 @@ export const GuidedSailTeachPage = (props: {history: History}) => {
 	const [selectedDay, setSelectedDay] = React.useState(none as Option<typeof GUIDED_SAIL_AVAIL_SLOTS[number]>)
 	const [selectedSlot, setSelectedSlot] = React.useState(none as Option<DaySlotType>)
 
+	
 	const [slots, setSlots] = React.useState(GUIDED_SAIL_AVAIL_SLOTS)
 	const [instances, setInstances] = React.useState(GUIDED_SAIL_INSTANCES)
 	const personId = 188910
