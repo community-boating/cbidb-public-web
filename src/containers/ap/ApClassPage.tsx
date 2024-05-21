@@ -9,7 +9,6 @@ import Calendar, { CalendarDayElement } from "components/Calendar";
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import {validator as typesValidator, AvailabilityFlag} from "async/member/ap-class-type-avail"
-import {resultValidator as classesValidator} from "async/member/ap-classes-for-calendar"
 import * as _ from 'lodash'
 import getNow from "util/getNow";
 import { Option, none, some } from "fp-ts/lib/Option";
@@ -24,6 +23,7 @@ import FactaMainPage from "theme/facta/FactaMainPage";
 import { FactaHideShowRegion } from "theme/facta/FactaHideShowRegion";
 import { Link } from "react-router-dom";
 import { FactaErrorDiv } from "theme/facta/FactaErrorDiv";
+import { instancesValidator } from "async/member/ap-classes-for-calendar";
 
 declare var ddrivetip: any;
 declare var hideddrivetip: any;
@@ -54,9 +54,10 @@ type Form = {
 }
 
 type Props = {
+	personId: number,
 	history: History<any>,
 	availabilities: t.TypeOf<typeof typesValidator>,
-	instances: t.TypeOf<typeof classesValidator>
+	instances: t.TypeOf<typeof instancesValidator>
 }
 
 type State = {
@@ -355,6 +356,8 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 							e.preventDefault();
 							doSignup(true);
 						}}>click here to join the wait list.</a></b>;
+					} else if (i.instructorId.isSome() && i.instructorId.value == self.props.personId) {
+						return <b>You are already signed up to instruct this guided sail session.</b>
 					} else if (i.price <= 0) {
 						return <b>This class is free; <a href="#" onClick={e => {
 							e.preventDefault();

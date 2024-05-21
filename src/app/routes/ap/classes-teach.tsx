@@ -17,13 +17,13 @@ export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach
     history={history}
     component={(urlProps: {}, async: {
 		availabilities: t.TypeOf<typeof availabilities>,
-		instances: t.TypeOf<typeof classesValidator>,
+		classesResult: t.TypeOf<typeof classesValidator>,
 		welcomeData: t.TypeOf<typeof welcomeValidatorAP>,
 		instructorInfo: ApClassInstanceInstructorInfo[]
 	}) => <ApVolunteerClassPage
 		history={history}
 		availabilities={async.availabilities}
-		instances={async.instances}
+		instances={async.classesResult.instances}
 		welcomeData={async.welcomeData}
 		instructorInfo={async.instructorInfo}
     />}

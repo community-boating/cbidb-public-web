@@ -18,16 +18,21 @@ export type CalendarDayElement = {
 	elements: CalendarEvent[]
 }
 
+type State = {
+	firstOfFocusedMonth: Moment
+}
+
 type Props = {
 	today: Moment,
 	monthStartOnDate: number, // 0 for Sunday, 1 for Monday etc
 	days: CalendarDayElement[],
 	showElementsInAdjacentMonths: boolean
-};
+	stateControlled?: {
+		state: State,
+		setState: React.Dispatch<React.SetStateAction<State>>
+	}
+}
 
-type State = {
-	firstOfFocusedMonth: Moment
-};
 
 export default class Calendar extends React.PureComponent<Props, State> {
 	static jumpToStartOfMonth(arbitraryDate: Moment): Moment {
@@ -87,32 +92,36 @@ export default class Calendar extends React.PureComponent<Props, State> {
 	}
 
 	goBack() {
-		this.setState({
-			...this.state,
-			firstOfFocusedMonth: this.state.firstOfFocusedMonth.clone().subtract(1, 'month')
-		})
+		this.setState(s => ({
+			...s,
+			firstOfFocusedMonth: s.firstOfFocusedMonth.clone().subtract(1, 'month')
+		}))
 	}
 
 	goForward() {
-		this.setState({
-			...this.state,
-			firstOfFocusedMonth: this.state.firstOfFocusedMonth.clone().add(1, 'month')
-		})
+		this.setState(s => ({
+			...s,
+			firstOfFocusedMonth: s.firstOfFocusedMonth.clone().add(1, 'month')
+		}))
 	}
 
 	goToday() {
-		this.setState({
-			...this.state,
+		this.setState(s => ({
+			...s,
 			firstOfFocusedMonth: Calendar.jumpToStartOfMonth(this.props.today)
-		})
+		}))
 	}
 
 	private dayElementsHash: {[K: string]: CalendarEvent[]}
 
 	constructor(props: Props) {
 		super(props);
-		this.state = {
-			firstOfFocusedMonth: Calendar.jumpToStartOfMonth(this.props.today)
+		if(props.stateControlled){
+			this.setState = props.stateControlled.setState
+		}else{
+			this.state = {
+				firstOfFocusedMonth: Calendar.jumpToStartOfMonth(this.props.today)
+			}	
 		}
 		this.componentWillReceiveProps(props)
 	}
@@ -126,9 +135,10 @@ export default class Calendar extends React.PureComponent<Props, State> {
 	}
 
 	render() {
-		const renderedDateArray = Calendar.getDateArrayForMonth(this.state.firstOfFocusedMonth, this.props.monthStartOnDate);
+		const stateToUse = this.props.stateControlled ? this.props.stateControlled.state : this.state
+		const renderedDateArray = Calendar.getDateArrayForMonth(stateToUse.firstOfFocusedMonth, this.props.monthStartOnDate);
 		const dayHeaders = Calendar.getDayOfWeekNames(renderedDateArray[0]).map((header, i) => <th key={i} className="DayOfWeek">{header}</th>);
-		const currentMonth = this.state.firstOfFocusedMonth.format("MM");
+		const currentMonth = stateToUse.firstOfFocusedMonth.format("MM");
 		const isCurrentMonth = (m: Moment) => m.format("MM") == currentMonth;
 		const getCellClass = (m: Moment) => {
 			if (m.isSame(this.props.today, 'day')) {
@@ -187,7 +197,7 @@ export default class Calendar extends React.PureComponent<Props, State> {
 				<table cellPadding="0" cellSpacing="0" className="CalendarHolder" role="presentation">
 					<tbody>
 						<tr>
-							<td className="MonthTitle">{Calendar.getMonthTitle(this.state.firstOfFocusedMonth)}</td>
+							<td className="MonthTitle">{Calendar.getMonthTitle(stateToUse.firstOfFocusedMonth)}</td>
 						</tr>
 						<tr><td>
 							{mainTable}

@@ -19,8 +19,8 @@ export const GUIDED_SAIL_AVAIL_SLOTS = [{
 
 export const GUIDED_SAIL_INSTANCES = [{
 	startDatetime: "2024-05-01 13:15",
-	endDatetime: "2024-05-01 14:45",
-	instructorId: 188910,
+	sessionLength: 1.5,
+	instanceId: 0,
 	signupCt: 1,
 	maxSignups: 2
 }]

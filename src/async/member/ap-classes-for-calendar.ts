@@ -23,7 +23,12 @@ export const instanceValidator = t.type({
 	instructorId: OptionalNumber
 });
 
-export const resultValidator = t.array(instanceValidator)
+export const instancesValidator = t.array(instanceValidator)
+
+export const resultValidator = t.type({
+	personId: t.number,
+	instances: instancesValidator
+})
 
 const path = "/member/ap-classes-for-calendar"
 

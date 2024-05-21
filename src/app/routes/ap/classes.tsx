@@ -9,14 +9,14 @@ import {getWrapper as getTypesWithAvailability, validator as availabilities} fro
 import {getWrapper as getClasses, resultValidator as classesValidator} from "async/member/ap-classes-for-calendar"
 import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
 
-
 export const apClassesPageRoute = new RouteWrapper(true, apPathClasses, history => <PageWrapper
     key="reg"
     history={history}
     component={(urlProps: {}, async: {availabilities: t.TypeOf<typeof availabilities>, instances: t.TypeOf<typeof classesValidator>}) => <ApClassPage
+		personId = {async.instances.personId}	
 		history={history}
 		availabilities={async.availabilities}
-		instances={async.instances}
+		instances={async.instances.instances}
     />}
     urlProps={{}}
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} spinner />}

@@ -3,6 +3,9 @@ import * as moment from 'moment';
 export const DATETIME_FORMAT = "YYYY-MM-DDTHH:mm:ss"
 export const DATE_FORMAT = "YYYY-MM-DD"
 
+export const DATETIME_FORMAT_API = "MM/DD/yyyy  HH:mm:ss"
+export const DATE_FORMAT_API = "MM/DD/yyyy"
+
 export function toMomentFromLocalDateTime(input: string): moment.Moment {
 	return moment(input, DATETIME_FORMAT)
 }
