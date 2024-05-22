@@ -36,5 +36,5 @@ const fakeAPClassInstances: typeof defaultAPClassInstances = [
 export const APClassInstancesContext = React.createContext(defaultAPClassInstances);
 
 export default function APClassInstancesProvider(props: {children?: React.ReactNode}){
-    return <AsyncStateProvider apiWrapper={getAPClassInstances} initState={defaultAPClassInstances} refreshRate={30*1000} makeChildren={(state) => {return <APClassInstancesContext.Provider value={fakeAPClassInstances}>{props.children}</APClassInstancesContext.Provider>}}/>
+    return <AsyncStateProvider apiWrapper={getAPClassInstances} initState={defaultAPClassInstances} refreshRate={30*1000} makeChildren={(state) => {return <APClassInstancesContext.Provider value={state}>{props.children}</APClassInstancesContext.Provider>}}/>
 }
