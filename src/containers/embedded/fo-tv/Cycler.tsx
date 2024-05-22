@@ -94,7 +94,6 @@ function DynamicCyclerCell(groupItems: React.ReactNode[], refs: React.RefObject<
         var currentCellHeight = 0
         var currentCell: number[] = []
         const maxHeight = (mainRef.current || {clientHeight: 0}).clientHeight
-        console.log(maxHeight)
         for(var i = 0; i < groupItems.length; i++){
             const currentItemHeight = (refs[i].current || {clientHeight: 0}).clientHeight
             if(currentCell.length == 0 || (currentCellHeight + currentItemHeight <= maxHeight)){
