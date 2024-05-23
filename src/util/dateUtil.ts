@@ -2,6 +2,7 @@ import * as moment from 'moment';
 
 export const DATETIME_FORMAT = "YYYY-MM-DDTHH:mm:ss"
 export const DATE_FORMAT = "YYYY-MM-DD"
+export const TIME_FORMAT = "HH:mm:ss"
 
 export const DATETIME_FORMAT_API = "MM/DD/yyyy  HH:mm:ss"
 export const DATE_FORMAT_API = "MM/DD/yyyy"

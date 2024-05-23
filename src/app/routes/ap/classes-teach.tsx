@@ -46,7 +46,7 @@ export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach
 					type: "Success",
 					success: {
 						availabilities: availabilities.success,
-						instances: instances.success,
+						classesResult: instances.success,
 						welcomeData: welcomeData.success,
 						instructorInfo: instructorInfo.success
 					}

@@ -8,7 +8,7 @@ const sessionValidator = t.type({
 	instanceId: t.number,
 	sessionDatetime: t.string,
 	sessionLength: t.number
-});
+})
 
 export const instanceValidator = t.type({
 	instanceId: t.number,
@@ -21,7 +21,7 @@ export const instanceValidator = t.type({
 	spotsLeft: t.number,
 	price: t.number,
 	instructorId: OptionalNumber
-});
+})
 
 export const instancesValidator = t.array(instanceValidator)
 

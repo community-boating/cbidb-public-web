@@ -54,6 +54,7 @@ const pathSignupTeachGuidedSail = '/ap/create-guided-sail-instance'
 
 const teachResultValidator = t.type({
 	instanceId: OptionalNumber,
+	signupCt: OptionalNumber,
 	errors: OptionalString
 })
 

@@ -41,8 +41,7 @@ export const validator = t.type({
 	openStaggeredOrderId: OptionalNumber,
 	hasBasicVolunteerRating: t.boolean,
 	volunteerGoodStanding: t.boolean,
-	volRatings: t.string,
-	canTeachGuidedSail: t.boolean
+	volRatings: t.string
 })
 
 const path = "/member-welcome-ap"

@@ -40,8 +40,6 @@ export default class HomePageAP extends React.Component<Props, State> {
 
 		const isVolunteer = self.props.data.hasBasicVolunteerRating && self.props.data.volunteerGoodStanding
 
-		const showGuidedSail = self.props.data.canTeachGuidedSail
-
 		const mainTable = <FactaArticleRegion title="My Membership">
 			<StandardReport
 				headers={["Name", "Status", "Actions"]}
@@ -56,8 +54,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 						expirationDate,
 						self.props.data.show4thLink,
 						self.props.data.openStaggeredOrderId.isSome(),
-						isVolunteer,
-						showGuidedSail
+						isVolunteer
 					)
 				]]}
 				rawHtml={{1: true}}

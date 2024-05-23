@@ -51,8 +51,7 @@ export default (
 	expirationDate: Option<Moment>,
 	show4th: boolean,
 	hasOpenStaggeredOrder: boolean,
-	showVol: boolean,
-	showGuidedSail: boolean
+	showVol: boolean
 ) => {
 	const renewText = () => (<React.Fragment>
 		Renew for a year
@@ -234,7 +233,7 @@ export default (
 			(history: History<any>) => <a target="_blank" href={`https://www.eventbrite.com/e/893215430397/?discount=FYMEM`}>Purchase Ed Long Race Registration and Spring Dock Party Tickets</a>
 		]
 	}, {
-		show: () => showGuidedSail,
+		show: () => showVol,
 		getElements: [
 			() => <Link to={apGuidedSailTeachRoute.getPathFromArgs({})}>Volunteer: Teach Guided Sail</Link>
 		]	
