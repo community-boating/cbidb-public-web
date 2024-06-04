@@ -12,7 +12,7 @@ import getNow from 'util/getNow';
 import { setAPImage } from 'util/set-bg-image';
 import {History} from 'history'
 import {validator as typesValidator} from "async/member/ap-class-type-avail"
-import {resultValidator as classesValidator, instanceValidator} from "async/member/ap-classes-for-calendar"
+import {instancesValidator as classesValidator, instanceValidator} from "async/member/ap-classes-for-calendar"
 import { Option, some } from 'fp-ts/lib/Option';
 import { validator as welcomeValidatorAP } from "async/member-welcome-ap";
 import { FactaHideShowRegion } from 'theme/facta/FactaHideShowRegion';
