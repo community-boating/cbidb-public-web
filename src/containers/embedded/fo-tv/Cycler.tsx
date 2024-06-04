@@ -34,9 +34,9 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
     }
     const mainRef = React.createRef<HTMLDivElement>()
     const refs = itemsWithSubItems.map(a => a.map((b) => React.createRef<HTMLDivElement>()))
-    const itemsWithRef = itemsWithSubItems.map((itemsSub, itemIndex) => {
+    const itemsWithRef = React.useMemo(() => itemsWithSubItems.map((itemsSub, itemIndex) => {
         return itemsSub.map((a, i) => <div key={itemIndex + "i" + i} ref={refs[itemIndex][i]}>{a}</div>)
-    })
+    }), [refs])
     React.useEffect(() => {
         var timeout: NodeJS.Timeout = undefined;
         const listener = () => {
@@ -66,6 +66,7 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
     }, [sizeTest])
 
     const makeContainer = (itemIndex: number) => (children: React.ReactNode, key: string) => {
+        console.log("hello", itemIndex)
         return (props.itemContainers[itemIndex] || ((c, k) =>  <div key={k} className='w-full h-full flex col'>{c}</div>))(children, key)
     }
 

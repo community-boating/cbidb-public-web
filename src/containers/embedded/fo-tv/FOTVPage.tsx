@@ -229,8 +229,9 @@ function jpClassItems(jpClasses: AsyncPropsTypeJPClass){
 function makeItemsLeft(restrictionsForList: RestrictionType[], activeProgramID: number, versionByID: NToN, apClasses: AsyncPropsTypeAPClass, jpClasses: AsyncPropsTypeJPClass){
     const items = activeProgramID == PROGRAM_AP ? [apClassItems(apClasses)] :
     [jpClassItems(jpClasses)];
-    if(restrictionsForList.length > 0)
-        items.push(RestrictionsList( {restrictionsForList:restrictionsForList, versionByID:versionByID}))
+    console.log(items)
+    //if(restrictionsForList.length > 0)
+    //    items.push(RestrictionsList( {restrictionsForList:restrictionsForList, versionByID:versionByID}))
     //return [<DynamicCycler items={[[<p>derp</p>, <p>hi</p>, <p>hi</p> , <p>hi</p>], [<p>derp</p>, <p>hi</p>, <p>hi</p> , <p>hi</p> , <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>,<p>hi</p>,<p>hi</p>]]}/>]
     return items;
 }
