@@ -229,7 +229,7 @@ export default (
 	}, {
 		place: 18,
 		getElements: [
-			(history: History<any>) => <a target="_blank" href={`https://www.eventbrite.com/e/893215430397/?discount=FYMEM`}>Purchase Ed Long Race Registration and Spring Dock Party Tickets</a>
+			(history: History<any>) => <a target="_blank" href={`https://www.community-boating.org/yv3g2k9wj0ahrme-APFYMEM`}>Purchase Discounted Event Tickets</a>
 		]
 	}];
 
