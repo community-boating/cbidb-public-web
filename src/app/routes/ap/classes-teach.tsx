@@ -4,7 +4,7 @@ import PageWrapper from "core/PageWrapper";
 import RouteWrapper from "core/RouteWrapper";
 import { setAPImage } from 'util/set-bg-image';
 import {getWrapper as getTypesWithAvailability, validator as availabilities} from "async/member/ap-class-type-avail"
-import {getWrapper as getClasses, resultValidator as classesValidator} from "async/member/ap-classes-for-calendar"
+import {getWrapper as getClasses, instancesValidator as classesValidator} from "async/member/ap-classes-for-calendar"
 import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
 import { apPathClassesTeach } from 'app/paths/ap/classes-teach';
 import { ApVolunteerClassPage } from 'containers/ap/ApVolunteerClassPage';
@@ -17,18 +17,22 @@ export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach
     history={history}
     component={(urlProps: {}, async: {
 		availabilities: t.TypeOf<typeof availabilities>,
-		instances: t.TypeOf<typeof classesValidator>,
+		classesResult: t.TypeOf<typeof classesValidator>,
 		welcomeData: t.TypeOf<typeof welcomeValidatorAP>,
 		instructorInfo: ApClassInstanceInstructorInfo[]
 	}) => <ApVolunteerClassPage
 		history={history}
 		availabilities={async.availabilities}
-		instances={async.instances}
+		instances={async.classesResult}
 		welcomeData={async.welcomeData}
 		instructorInfo={async.instructorInfo}
     />}
     urlProps={{}}
-	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
+	shadowComponent={<FactaLoadingPage setBGImage={setAPImage}>
+		<div style={{textAlign: "center"}}>
+			<img src="/images/spinner-grey.gif" />
+		</div>
+	</FactaLoadingPage>}
 	getAsyncProps={() => {
 		return Promise.all([
 			getTypesWithAvailability.send(null),
@@ -42,7 +46,7 @@ export const apClassesTeachPageRoute = new RouteWrapper(true, apPathClassesTeach
 					type: "Success",
 					success: {
 						availabilities: availabilities.success,
-						instances: instances.success,
+						classesResult: instances.success,
 						welcomeData: welcomeData.success,
 						instructorInfo: instructorInfo.success
 					}

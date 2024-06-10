@@ -63,6 +63,7 @@ import { apDonateEditRoute } from 'app/routes/ap/donate-edit';
 import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
 import { apRentalRegRoute } from 'app/routes/ap/rental-reg';
 import { apClassesTeachPageRoute } from './routes/ap/classes-teach';
+import { apGuidedSailTeachRoute } from './routes/ap/guided-sail-teach';
 import { mugarDonatePageRoute } from './routes/mugarstatue';
 
 const defaultRouteRender = () => {
@@ -141,6 +142,7 @@ export default function (history: History<any>) {
 		checkoutPageRouteAP.asRoute(history),
 		ratingsPageRoute.asRoute(history),
 		classPageRoute.asRoute(history),
+		apGuidedSailTeachRoute.asRoute(history),
 		signupNotePageRoute.asRoute(history),
 		classTimePageRoute.asRoute(history),
 		regPageRoute.asRoute(history),

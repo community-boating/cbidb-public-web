@@ -8,7 +8,7 @@ const sessionValidator = t.type({
 	instanceId: t.number,
 	sessionDatetime: t.string,
 	sessionLength: t.number
-});
+})
 
 export const instanceValidator = t.type({
 	instanceId: t.number,
@@ -21,14 +21,14 @@ export const instanceValidator = t.type({
 	spotsLeft: t.number,
 	price: t.number,
 	instructorId: OptionalNumber
-});
+})
 
-export const resultValidator = t.array(instanceValidator)
+export const instancesValidator = t.array(instanceValidator)
 
 const path = "/member/ap-classes-for-calendar"
 
-export const getWrapper = new APIWrapper<typeof resultValidator, {}, {}>({
+export const getWrapper = new APIWrapper<typeof instancesValidator, {}, {}>({
 	path: path,
 	type: HttpMethod.GET,
-	resultValidator
+	resultValidator: instancesValidator
 })

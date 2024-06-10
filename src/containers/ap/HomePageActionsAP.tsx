@@ -17,6 +17,7 @@ import { apDonateRoute } from 'app/routes/ap/donate';
 import {apManageStaggeredPaymentsRoute} from "app/routes/ap/payments"
 import { apFlagNotificationsPageRoute } from 'app/routes/ap/flag-notifications';
 import { apClassesTeachPageRoute } from 'app/routes/ap/classes-teach';
+import { apGuidedSailTeachRoute } from 'app/routes/ap/guided-sail-teach';
 
 function testBit(num: number, bit: number) {
 	return ((num >> bit) % 2 != 0)
@@ -231,6 +232,11 @@ export default (
 		getElements: [
 			(history: History<any>) => <a target="_blank" href={`https://www.community-boating.org/yv3g2k9wj0ahrme-APFYMEM`}>Purchase Discounted Event Tickets</a>
 		]
+	}, {
+		show: () => showVol,
+		getElements: [
+			() => <Link to={apGuidedSailTeachRoute.getPathFromArgs({})}>Volunteer: Teach Guided Sail</Link>
+		]	
 	}];
 
 	return (<React.Fragment>
