@@ -60,5 +60,5 @@ const fakeJPClassSections: typeof defaultJPClassSections = [
 export const JPClassSectionsContext = React.createContext(defaultJPClassSections);
 
 export default function JPClassSectionsProvider(props: {children?: React.ReactNode}){
-    return <AsyncStateProvider apiWrapper={getJPClassInstances()} initState={defaultJPClassSections} refreshRate={30*1000} makeChildren={(state) => {return <JPClassSectionsContext.Provider value={fakeJPClassSections}>{props.children}</JPClassSectionsContext.Provider>}}/>
+    return <AsyncStateProvider apiWrapper={getJPClassInstances()} initState={defaultJPClassSections} refreshRate={30*1000} makeChildren={(state) => {return <JPClassSectionsContext.Provider value={state}>{props.children}</JPClassSectionsContext.Provider>}}/>
 }

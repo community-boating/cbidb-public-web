@@ -1,6 +1,5 @@
 import { AsyncPropsType } from "app/routes/embedded/class-tables/jp-class-instances";
 import * as React from "react";
-import { ReactNode } from "react";
 import * as moment from "moment";
 import ClassSchedule, { ClassScheduleItem } from "./ClassSchedule";
 
@@ -35,7 +34,7 @@ export function mapClassItems(jpClassInstances: AsyncPropsType): ClassScheduleIt
                                 <h1 className="m-0" style={{color: mapColor(a.typeName)}}>{a.typeName}</h1>
                             </td>
                             <td width="40%">
-                                <img src={flagIconURL(a.sectionName.getOrElse(""))} width={18} height={18}/>
+                                {(a.sectionName.isSome()) ? <img src={flagIconURL(a.sectionName.getOrElse(""))} width={18} height={18}/> : <></>}
                             </td>
                         </tr>
                         <tr>

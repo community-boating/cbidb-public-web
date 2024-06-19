@@ -20,5 +20,5 @@ const fakeJPClassInstances: typeof defaultJPClassInstances = [
 export const JPClassInstancesContext = React.createContext(defaultJPClassInstances);
 
 export default function JPClassInstancesProvider(props: {children?: React.ReactNode}){
-    return <AsyncStateProvider apiWrapper={getJPClassInstances} initState={defaultJPClassInstances} refreshRate={30*1000} makeChildren={(state) => {return <JPClassInstancesContext.Provider value={fakeJPClassInstances}>{props.children}</JPClassInstancesContext.Provider>}}/>
+    return <AsyncStateProvider apiWrapper={getJPClassInstances} initState={defaultJPClassInstances} refreshRate={30*1000} makeChildren={(state) => {return <JPClassInstancesContext.Provider value={state}>{props.children}</JPClassInstancesContext.Provider>}}/>
 }
