@@ -226,7 +226,11 @@ export default class ApPurchaseOptions extends React.Component<Props, { radio: s
 						<li>Basic and Intermediate classes</li>
 						<li>Advanced classes for a nominal fee of {Currency.dollars(self.props.prices.apClassPrice).format(true)}</li>
 						<li>Discounts to CBI events</li>
-						<li>Guest privileges (with appropriate rating)</li>
+						{
+							this.props.discountsProps.canRenew
+							? <li>Guest privileges (with appropriate rating, included with renewal)</li>
+							: <li>Guest privileges can be purchased for {Currency.dollars(this.props.prices.guestPrivsPrice).format(true)}</li>
+						}
 						<li>Membership is valid for 365 calendar days from date of purchase. Our Adult Program runs from April 1 to October 31. All memberships are non-refundable and non-transferable.</li>
 					</ul><br />
 
