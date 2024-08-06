@@ -41,7 +41,7 @@ export function getServerParams(serverParamsOption: option.Option<ServerParams>)
 	return {
 		host: serverParams.host || window.location.hostname,
 		https: (serverParams.https != undefined) ? (serverParams.https) : (window.location.protocol.startsWith('https')),
-		port: serverParams.port || isNaN(portInt) ? undefined : portInt,
+		port: serverParams.port || (isNaN(portInt) ? undefined : portInt),
 		pathPrefix: serverParams.pathPrefix,
 		staticHeaders: serverParams.staticHeaders
 	}
@@ -50,7 +50,6 @@ export function getServerParams(serverParamsOption: option.Option<ServerParams>)
 var apiAxios: AxiosInstance;
 
 function getOrCreateAxios(serverParams: ServerParams) {
-	console.log(getServerURL(serverParams))
 	if (apiAxios == null) {
 		apiAxios = axios.create({
 			baseURL: getServerURL(serverParams),

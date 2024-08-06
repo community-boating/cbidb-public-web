@@ -130,8 +130,6 @@ function ScrollingDiv(props: {children?: React.ReactNode, className?: string, st
                 animationRef.current.cancel();
         }else{
             if(animationRef.current.playState != 'running'){
-                console.log("playing");
-                console.log(animationRef.current.playState);
                 animationRef.current.play();
             }
         }
@@ -387,7 +385,6 @@ function imageVersionByID(fotv: FOTVType): NToN {
 }
 
 export function getImageSRC(imageID: number, versionByID: NToN) {
-    console.log(process.env.serverToUseForAPI)
     const params = getServerParams(option.none)
     return getServerURL(params) + (params.pathPrefix || "") + "/images/" + imageID + '/' + versionByID[imageID]
 }

@@ -19,24 +19,24 @@ enum TestState {
     DONE = 2
 }
 
-//itemIndex, subItemIndex
+//Item Group, Item
 export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers: ((children: React.ReactNode, key: string) => React.ReactNode)[], singleItemContainer?: (children: React.ReactNode) => React.ReactNode} & Omit<CyclerType, 'items'>){
     const {items, indexExternal, setIndexExternal, singleItemContainer, ...otherProps} = props
-    const [sizeTest, setSizeTest] = React.useState(TestState.QUEUED)
     const [index, setIndex] = (props.indexExternal != undefined) ? [props.indexExternal, props.setIndexExternal] : React.useState(props.initialOrderIndex || 0);
-    //itemIndex, subItemIndex
-    const itemsWithSubItems = props.items.filter((a) => a.length > 1)
-    //itemIndex, cellIndex, subItemIndex
-    const cells = React.useRef<number[][][]>(itemsWithSubItems.map(a => [a.map((b, i) => i)]))
-    //itemIndex, subItemIndex
+    //Item Group, Item Page, Item Index (In Group)
+    const [testing, setTesting] = React.useState(false)
+    const [itemsStored, setItemsStored] = React.useState<React.ReactNode[]>([])
+    const itemsPropsHash = props.items.reduce((a, b) => a + ":" + b.length, "")
+    const groupsWithMultipleItems = React.useMemo(() => props.items.filter((a) => a.length > 1), [itemsPropsHash])
     const queue = () => {
-        setSizeTest(TestState.QUEUED)
+        setTesting(true)
     }
     const mainRef = React.createRef<HTMLDivElement>()
-    const refs = itemsWithSubItems.map(a => a.map((b) => React.createRef<HTMLDivElement>()))
-    const itemsWithRef = React.useMemo(() => itemsWithSubItems.map((itemsSub, itemIndex) => {
-        return itemsSub.map((a, i) => <div key={itemIndex + "i" + i} ref={refs[itemIndex][i]}>{a}</div>)
-    }), [refs])
+    const refs = React.useMemo(() => groupsWithMultipleItems.map(a => a.map(() => React.createRef<HTMLDivElement>())), [itemsPropsHash])
+    const itemsWithRef = React.useMemo(() => groupsWithMultipleItems.map((itemsSub, itemGroup) => {
+        return itemsSub.map((itemSub, itemIndex) => <div key={itemGroup + "i" + itemIndex} ref={refs[itemGroup][itemIndex]}>{itemSub}</div>)
+    }), [itemsPropsHash])
+
     React.useEffect(() => {
         var timeout: NodeJS.Timeout = undefined;
         const listener = () => {
@@ -44,30 +44,23 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
                 clearTimeout(timeout)
             timeout = setTimeout(() => {
                 timeout = undefined
-                console.log("quertying")
                 queue()
             }, 100)
         }
+        listener()
         window.addEventListener('resize', listener)
         return () => {
             window.removeEventListener('resize', listener)
             clearTimeout(timeout)
         }
-    })
+    }, [])
     React.useEffect(() => {
         queue()
-    }, [props.items.reduce((a, b) => a + ":" + b.length, "")])
+    }, [itemsPropsHash])
     //console.log(sizeTest)
-    React.useEffect(() => {
-        if(sizeTest == TestState.RUNNING){
-            cells.current = itemsWithSubItems.map((a, itemIndex) => DynamicCyclerCell(a, refs[itemIndex], mainRef).calcCells())
-            setSizeTest(TestState.DONE)
-        }
-    }, [sizeTest])
 
-    const makeContainer = (itemIndex: number) => (children: React.ReactNode, key: string) => {
-        console.log("hello", itemIndex)
-        return (props.itemContainers[itemIndex] || ((c, k) =>  <div key={k} className='w-full h-full flex col'>{c}</div>))(children, key)
+    const makeContainer = (itemGroup: number) => (children: React.ReactNode, key: string) => {
+        return (props.itemContainers[itemGroup] || ((c, k) =>  <div key={k} className='w-full h-full flex col'>{c}</div>))(children, key)
     }
 
     const singleContainer = singleItemContainer || ((children: React.ReactNode) => {
@@ -76,29 +69,32 @@ export function DynamicCycler(props: {items: React.ReactNode[][], itemContainers
         </div>
     })
 
-    console.log("what what")
+    React.useEffect(() => {
+        if(testing){
+            const itemIndexes = groupsWithMultipleItems.map((a, itemGroup) => DynamicCyclerCell(a, refs[itemGroup], mainRef).calcCells())
+            const values = itemIndexes.map((itemGroup, itemGroupIndex) => itemGroup.map((itemPage, itemPageIndex) =>  makeContainer(itemGroupIndex)(<>{itemPage.map((itemIndex) => itemsWithRef[itemGroupIndex][itemIndex])}</>, itemGroup + ":" + itemPageIndex))).flatten<JSX.Element>()
+            setItemsStored(values)
+            setTesting(false)
+        }
+    }, [testing])
 
-    //itemIndex, cellIndex, subItemIndex
-    if(sizeTest != TestState.DONE){
+    if(testing){
         const values = itemsWithRef.flatten().flatten()
-        if(sizeTest == TestState.QUEUED)
-            setSizeTest(TestState.RUNNING)
-        return <div id="testID" ref={mainRef} className='w-full h-full flex col overflow-hidden'>
+        return <div id="testID" ref={mainRef} className='w-full h-full min-h-full flex col overflow-hidden'>
             {values}
         </div>
-    }else{
-        const values: any = cells.current.map((a, itemIndex) => a.map((b, cellIndex) => makeContainer(itemIndex)(<>{b.map((c, subItemIndex) => itemsWithRef[itemIndex][c])}</>, itemIndex + ":" + cellIndex))).flatten<JSX.Element>()
-        return <Cycler items={values.concat(props.items.filter((a) => a.length == 1).flatten().map(singleContainer))} indexExternal={index} setIndexExternal={setIndex} {...otherProps}/>
+    }else{ 
+        return <Cycler items={itemsStored.concat(props.items.filter((a) => a.length == 1).flatten().map(singleContainer))} indexExternal={index} setIndexExternal={setIndex} {...otherProps}/>
     }
 }
 
-function DynamicCyclerCell(subItems: React.ReactNode[], refs: React.RefObject<HTMLDivElement>[], mainRef: React.RefObject<HTMLDivElement>) {
+function DynamicCyclerCell(groupItems: React.ReactNode[], refs: React.RefObject<HTMLDivElement>[], mainRef: React.RefObject<HTMLDivElement>) {
     const calcCells = () => {
         const newCells: number[][] = []
         var currentCellHeight = 0
         var currentCell: number[] = []
         const maxHeight = (mainRef.current || {clientHeight: 0}).clientHeight
-        for(var i = 0; i < subItems.length; i++){
+        for(var i = 0; i < groupItems.length; i++){
             const currentItemHeight = (refs[i].current || {clientHeight: 0}).clientHeight
             if(currentCell.length == 0 || (currentCellHeight + currentItemHeight <= maxHeight)){
             }else{

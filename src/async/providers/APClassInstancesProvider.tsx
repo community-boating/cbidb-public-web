@@ -11,56 +11,23 @@ const defaultAPClassInstances: t.TypeOf<typeof validator> = [];
 
 const currentDate = moment().format('mm/dd/YYYY');
 
-const startTimeA = '5:13 PM'
-
-const startTimeB = '5:14 PM'
+const fakeTimeA = '01:00 AM'
+const fakeTimeB = '01:01 AM'
 
 const fakeAPClassInstances: typeof defaultAPClassInstances = [
     {
         instanceId: 1,
         typeName: option.some('A Class'),
         startDate: currentDate,
-        startTime: startTimeA,
+        startTime: fakeTimeA,
         locationString: option.some('Some Place Over Here'),
         enrollees: 0
     },
     {
-        instanceId: 1,
+        instanceId: 2,
         typeName: option.some('A Class'),
         startDate: currentDate,
-        startTime: startTimeA,
-        locationString: option.some('Some Place Over Here'),
-        enrollees: 0
-    },
-    {
-        instanceId: 1,
-        typeName: option.some('A Class'),
-        startDate: currentDate,
-        startTime: startTimeA,
-        locationString: option.some('Some Place Over Here'),
-        enrollees: 0
-    },
-    {
-        instanceId: 1,
-        typeName: option.some('A Class'),
-        startDate: currentDate,
-        startTime: startTimeB,
-        locationString: option.some('Some Place Over Here'),
-        enrollees: 0
-    },
-    {
-        instanceId: 1,
-        typeName: option.some('A Class'),
-        startDate: currentDate,
-        startTime: startTimeB,
-        locationString: option.some('Some Place Over Here'),
-        enrollees: 0
-    },
-    {
-        instanceId: 1,
-        typeName: option.some('A Class'),
-        startDate: currentDate,
-        startTime: startTimeB,
+        startTime: fakeTimeB,
         locationString: option.some('Some Place Over Here'),
         enrollees: 0
     }
