@@ -203,14 +203,14 @@ function getActiveProgramID(fotvData: FOTVType){
 }
 
 function makeItemsRight(fotvData: FOTVType){
-    const items = [];
+    const items: any = []
     //AP -3, JP -4
-    items.push(<ImageDiv fotv={fotvData}/>);
-    const versionByID = imageVersionByID(fotvData);
-    const bigImage = fotvData.logoImages.find((a) => a.imageType == (getActiveProgramID(fotvData) == PROGRAM_JP ? -4 : -3));
-    if(bigImage != undefined){
-        items.push(<img className='h-full w-full' src={getImageSRC(bigImage.imageID, versionByID)}/>)
-    }
+    //items.push(<ImageDiv fotv={fotvData}/>)
+    const versionByID = imageVersionByID(fotvData)
+    const bigImages = fotvData.logoImages.filter((a) => a.imageType == (getActiveProgramID(fotvData) == PROGRAM_JP ? -4 : -3)).sort((a, b) => a.displayOrder - b.displayOrder)
+    bigImages.forEach(bigImage =>
+        items.push(<img className='max-w-full max-h-full min-h-0 m-auto' src={getImageSRC(bigImage.imageID, versionByID)}/>)
+    )
     return items;
 }
 
@@ -226,12 +226,11 @@ function jpClassItems(jpClasses: AsyncPropsTypeJPClass){
 
 function makeItemsLeft(restrictionsForList: RestrictionType[], activeProgramID: number, versionByID: NToN, apClasses: AsyncPropsTypeAPClass, jpClasses: AsyncPropsTypeJPClass){
     const items = activeProgramID == PROGRAM_AP ? [apClassItems(apClasses)] :
-    [jpClassItems(jpClasses)];
-    console.log(items)
-    //if(restrictionsForList.length > 0)
-    //    items.push(RestrictionsList( {restrictionsForList:restrictionsForList, versionByID:versionByID}))
+    [jpClassItems(jpClasses)]
+    if(restrictionsForList.length > 0)
+        items.push(RestrictionsList( {restrictionsForList:restrictionsForList, versionByID:versionByID}))
     //return [<DynamicCycler items={[[<p>derp</p>, <p>hi</p>, <p>hi</p> , <p>hi</p>], [<p>derp</p>, <p>hi</p>, <p>hi</p> , <p>hi</p> , <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>, <p>hi</p>,<p>hi</p>,<p>hi</p>]]}/>]
-    return items;
+    return items
 }
 
 function FOTVPageInternal(props: {fotvData: FOTVType}){
@@ -271,6 +270,8 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
     const flagColorTextElem = <h2 className=''>{flagShortToName(flagColor.flagColor)}</h2>
 
     const makeContainer = (children: any, key: string) => <div key={key} id='yolo' className='w-full h-full flex col w-full'>{children}</div>
+
+    const showLeft = !(itemsLeft.length == 1 && itemsLeft[0].length == 0)
 
     return <>
         <title>Front Office Display</title>
@@ -363,9 +364,9 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
             </div>
             </>}
             <div className='flex relative row grow min-h-0 basis-0 padding-x-20 gap-20 padding-b-20'>
-                <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
+                {showLeft && <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
                     <DynamicCycler slots={1} items={itemsLeft} itemContainers={[makeContainer, makeContainer]} initialOrderIndex={1} delay={10000}/>
-                </div>
+                </div>}
                 {isSmall ? <></> : <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
                     <Cycler slots={1} initialOrderIndex={0} items={itemsRight} delay={10000}/>
                 </div>}
