@@ -38,7 +38,8 @@ export default class AsyncStateProvider<T_Validator extends t.Any> extends React
                 return;
             }
             if(a.type == "Success"){
-                this.setState({mainState: this.props.postGet? this.props.postGet(a.success): a.success, providerState: ProviderState.SUCCESS});
+                const stateToUse = this.props.postGet? this.props.postGet(a.success): a.success
+                this.setState({mainState: stateToUse, providerState: ProviderState.SUCCESS});
                 this.waitForLogin = false;
             }else{
                 //if(a.code == API_CODE_NOT_LOGGED_IN){

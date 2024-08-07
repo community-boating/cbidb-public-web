@@ -271,7 +271,15 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
 
     const makeContainer = (children: any, key: string) => <div key={key} id='yolo' className='w-full h-full flex col w-full'>{children}</div>
 
-    const showLeft = !(itemsLeft.length == 1 && itemsLeft[0].length == 0)
+    const showPanel = (items: JSX.Element[][]) => !(items.length == 1 && items[0].length == 0)
+
+    const showLeft = showPanel(itemsLeft)
+
+    const showRight = showPanel(itemsRight)
+
+    console.log(itemsRight)
+
+    console.log(showRight)
 
     return <>
         <title>Front Office Display</title>
@@ -364,9 +372,9 @@ function FOTVPageInternal(props: {fotvData: FOTVType}){
             </div>
             </>}
             <div className='flex relative row grow min-h-0 basis-0 padding-x-20 gap-20 padding-b-20'>
-                {showLeft && <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
+                {showLeft ? <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
                     <DynamicCycler slots={1} items={itemsLeft} itemContainers={[makeContainer, makeContainer]} initialOrderIndex={1} delay={10000}/>
-                </div>}
+                </div> : <></>}
                 {isSmall ? <></> : <div className='flex h-full basis-0 grow overflow-hidden bg-opaque min-w-0'>
                     <Cycler slots={1} initialOrderIndex={0} items={itemsRight} delay={10000}/>
                 </div>}

@@ -31,7 +31,7 @@ const path = "/flag-color";
 
 export const validator = t.type({
     flagColor: EnumType('flagColor', FlagColor),
-});
+})
 
 export const getWrapper = new APIWrapper({
     path: path,
