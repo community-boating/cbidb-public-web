@@ -2,15 +2,12 @@ import * as React from "react";
 import * as t from 'io-ts';
 import FactaMainPage from "theme/facta/FactaMainPage";
 import FactaArticleRegion from "theme/facta/FactaArticleRegion";
-import StripeElement from "components/StripeElement";
 import { TokensResult } from "models/stripe/tokens";
 import {PaymentMethod} from "models/stripe/PaymentMethod"
 import { postWrapper as storeToken } from "async/stripe/store-token"
-import { makePostJSON } from "core/APIWrapperUtil";
+import { makePostJSON, PostURLEncoded } from "core/APIWrapperUtil";
 import { orderStatusValidator, CardData } from "async/order-status"
-import StripeConfirm from "components/StripeConfirm";
 import FactaButton from "theme/facta/FactaButton";
-import { postWrapper as clearCard } from 'async/stripe/clear-card'
 import { History } from "history";
 import { setCheckoutImage } from "util/set-bg-image";
 import { CartItem } from "async/get-cart-items"
@@ -30,14 +27,13 @@ import { left, right, Either } from "fp-ts/lib/Either";
 import {postWrapper as addDonation} from "async/member/add-donation"
 import {postWrapper as addPromo} from "async/member/add-promo-code"
 import {postWrapper as applyGC} from "async/member/apply-gc"
-import {postWrapper as storePaymentMethodAP} from "async/stripe/store-payment-method-ap"
-import {postWrapper as storePaymentMethodJP} from "async/stripe/store-payment-method-jp"
+import {postWrapper as createCompassOrderAPIAP} from "async/ap/create-compass-order"
+import {postWrapper as createCompassOrderAPIJP} from "async/junior/create-compass-order"
 import { StaggeredPaymentSchedule } from "components/StaggeredPaymentSchedule";
 import Currency from "util/Currency";
 import { apRegPageRoute } from "app/routes/ap/reg";
 import { Link } from "react-router-dom";
 import { PageFlavor } from "components/Page";
-import PlainButton from "components/PlainButton";
 import StandardReport from "theme/facta/StandardReport";
 import {postWrapper as setJPStaggered} from "async/member/set-payment-plan-jp"
 import fundsPath from "app/paths/common/funds"
@@ -95,7 +91,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				gcNumber: none,
 				gcCode: none,
 			},
-			jpDoStaggeredPayment: this.props.orderStatus.staggeredPayments.length > 0 ? some("Y") : some("N"),
+			jpDoStaggeredPayment: some("N"),//this.props.orderStatus.staggeredPayments.length > 0 ? some("Y") : some("N"),
 			validationErrors: [],
 		}
 	}
@@ -108,12 +104,12 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			return jpCheckoutRoute;
 		}
 	}
-	getStorePaymentMethod() {
+	getCreateCompassOrderAPI() {
 		switch (this.props.flavor) {
 			case PageFlavor.AP:
-				return storePaymentMethodAP;
+				return createCompassOrderAPIAP;
 			case PageFlavor.JP:
-				return storePaymentMethodJP(none);
+				return createCompassOrderAPIJP;
 			}
 	}
 	componentDidMount() {
@@ -272,72 +268,9 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			})
 		}
 
-		const processPaymentMethod = (result: PaymentMethod) => {
-			return self.getStorePaymentMethod().send(makePostJSON({
-				paymentMethodId: result.paymentMethod.id,
-				retryLatePayments: false
-			})).then(result => {
-				if (result.type == "Success") {
-					self.props.goNext();
-				} else {
-					self.setState({
-						...self.state,
-						validationErrors: [result.message]
-					});
-					window.scrollTo(0, 0);
-				}
-			})
-		}
-
-		const stripeElement = <StripeElement
-			submitMethod={
-				self.props.orderStatus.paymentMethodRequired
-				? "PAYMENT_METHOD"
-				: "TOKEN"
-			}
-			formId="payment-form"
-			elementId="card-element"
-			cardErrorsId="card-errors"
-			then={
-				self.props.orderStatus.paymentMethodRequired
-				? processPaymentMethod
-				: processToken
-			}
-		/>;
-
 		const orderTotalIsZero = this.props.cartItems.reduce((sum, i) => sum + i.price, 0) <= 0;
 
-		const confirm = this.props.orderStatus.cardData.map(cd => <StripeConfirm
-			cardData={cd}
-		/>);
-
-		const paymentTextOrResetLink = (function(){
-			if (orderTotalIsZero) {
-				return "All items are fully paid for; click \"Continue\" to finalize your order.";
-			} else {
-				if (confirm.isSome()) {
-					const linkText = (
-						self.props.orderStatus.paymentMethodRequired
-						? "Click here to update your stored credit card information."
-						: "Click here to use a different credit card."
-					);
-					return <PlainButton text={linkText} onClick={e => {
-						e.preventDefault();
-						return clearCard.send(makePostJSON({program: self.props.flavor})).then(() => self.props.history.push(`/redirect${self.getCheckoutPageRoute().getPathFromArgs({})}`));
-					}} />
-				} else {
-					if (self.props.orderStatus.paymentMethodRequired) {
-						return "Please enter payment information below. " + 
-						"Because part of this order will be paid in multiple installments, " + 
-						"your credit card information will be retained by our payment processor (Stripe) and charged automatically on the date of each payment.";
-					} else {
-						return "Please enter payment information below. Credit card information is communicated securely to our payment processor and will not be stored by CBI for this order.";
-					}
-					
-				}
-			}
-			
-		}());
+		//const confirm = this.props.orderStatus.
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
@@ -540,18 +473,10 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							})
 						}}/>
 					</FactaArticleRegion>
-					{this.props.orderStatus.staggeredPayments.length > 1 ? noGCRegion : gcRegion}
 				</td>
 			</tr></tbody></table>
-			<FactaArticleRegion title="Credit Card Information">
-				{paymentTextOrResetLink}
-				{orderTotalIsZero ? null : <React.Fragment>
-					<br />
-				<br />
-				{confirm.getOrElse(stripeElement)}
-				</React.Fragment>}
-			</FactaArticleRegion>
-			{(confirm.isSome() || orderTotalIsZero )? <FactaButton text="Continue >" onClick={this.props.goNext} /> : ""}
+
+			<FactaButton text="Create Compass Order" spinnerOnClick onClick={() => this.getCreateCompassOrderAPI().send(PostURLEncoded({}))}/>
 
 		</FactaMainPage>
 	}
