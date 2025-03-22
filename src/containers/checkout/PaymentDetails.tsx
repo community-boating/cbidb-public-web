@@ -27,8 +27,6 @@ import { left, right, Either } from "fp-ts/lib/Either";
 import {postWrapper as addDonation} from "async/member/add-donation"
 import {postWrapper as addPromo} from "async/member/add-promo-code"
 import {postWrapper as applyGC} from "async/member/apply-gc"
-import {postWrapper as createCompassOrderAPIAP} from "async/ap/create-compass-order"
-import {postWrapper as createCompassOrderAPIJP} from "async/junior/create-compass-order"
 import { StaggeredPaymentSchedule } from "components/StaggeredPaymentSchedule";
 import Currency from "util/Currency";
 import { apRegPageRoute } from "app/routes/ap/reg";
@@ -103,14 +101,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 		case PageFlavor.JP:
 			return jpCheckoutRoute;
 		}
-	}
-	getCreateCompassOrderAPI() {
-		switch (this.props.flavor) {
-			case PageFlavor.AP:
-				return createCompassOrderAPIAP;
-			case PageFlavor.JP:
-				return createCompassOrderAPIJP;
-			}
 	}
 	componentDidMount() {
 		setCheckoutImage()
@@ -475,9 +465,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 					</FactaArticleRegion>
 				</td>
 			</tr></tbody></table>
-
-			<FactaButton text="Create Compass Order" spinnerOnClick onClick={() => this.getCreateCompassOrderAPI().send(PostURLEncoded({}))}/>
-
 		</FactaMainPage>
 	}
 }

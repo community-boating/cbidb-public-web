@@ -7,6 +7,8 @@ import { apiw as welcomeAPIAP } from "async/member-welcome-ap";
 import { apiw as welcomeAPIJP } from "async/member-welcome-jp";
 import PaymentDetailsPage from "./PaymentDetails";
 import PaymentConfirmPage from "./PaymentConfirm";
+import {postWrapper as upsertCompassOrderAPI} from "async/member/square/upsert-compass-order"
+import {postWrapper as upsertSquareCustomerAPI} from "async/member/square/upsert-square-customer"
 import { apiw as orderStatus, CardData } from "async/order-status"
 import { setCheckoutImage } from "util/set-bg-image";
 import { apiw as getCartItems } from "async/get-cart-items"
@@ -15,6 +17,7 @@ import {getWrapper as getDonationFunds} from "async/donation-funds"
 import ThankYouPage from "./ThankYou";
 import { PageFlavor } from "components/Page";
 import FactaLoadingPage from "theme/facta/FactaLoadingPage";
+import { makePostJSON } from "core/APIWrapperUtil";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -91,8 +94,14 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 						(self.getWelcomeAPI() as any).send(null),
 						orderStatus(this.props.flavor).send(null),
 						getCartItems(this.props.flavor).send(null),
-						getDonationFunds.send(null)
-					]).then(([welcome, order, cart, funds]) => {
+						getDonationFunds.send(null),
+						upsertCompassOrderAPI.send(makePostJSON({
+							orderAppAlias: this.props.flavor
+						})),
+						upsertSquareCustomerAPI.send(makePostJSON({}))
+					]).then(([welcome, order, cart, funds, compassOrder, squareCustomer]) => {
+						console.log(compassOrder)
+						console.log(squareCustomer)
 						if (welcome.type == "Success" && !welcome.success.canCheckout) {
 							self.props.history.push(jpBasePath.getPathFromArgs({}));
 							return Promise.resolve(null);
