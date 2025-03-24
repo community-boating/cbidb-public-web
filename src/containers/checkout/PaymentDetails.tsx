@@ -35,6 +35,10 @@ import { PageFlavor } from "components/Page";
 import StandardReport from "theme/facta/StandardReport";
 import {postWrapper as setJPStaggered} from "async/member/set-payment-plan-jp"
 import fundsPath from "app/paths/common/funds"
+import { APIConstants } from "async/member/square/fetch-api-constants";
+import SquarePaymentForm from "components/SquarePaymentForm";
+import { SquareOrder } from "async/member/square/upsert-compass-order";
+import { SquareCustomerInfo } from "async/member/square/upsert-square-customer";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -90,7 +94,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				gcCode: none,
 			},
 			jpDoStaggeredPayment: some("N"),//this.props.orderStatus.staggeredPayments.length > 0 ? some("Y") : some("N"),
-			validationErrors: [],
+			validationErrors: []
 		}
 	}
 	tableRef: HTMLTableElement
@@ -276,52 +280,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			});
 		}
 
-		const gcRegion = (<FactaArticleRegion title="Gift Certificate">
-			Enter Certificate Number<br />
-			(e.g. "1380300")
-			<FormInput
-				id="gcNumber"
-				value={this.state.formData.gcNumber}
-				justElement={true}
-				updateAction={updateState}
-				size={30}
-				maxLength={30}
-			/>
-			Enter Redemption Code<br />
-			(e.g. "F5BY8")
-			<FormInput
-				id="gcCode"
-				value={this.state.formData.gcCode}
-				justElement={true}
-				updateAction={updateState}
-				size={30}
-				maxLength={30}
-			/>
-			<FactaButton text="Apply" spinnerOnClick onClick={() => {
-				return applyGC.send(makePostJSON({ 
-					gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
-					gcCode: this.state.formData.gcCode.getOrElse(null),
-					program: this.props.flavor
-				}))
-				.then(ret => {
-					if (ret.type == "Success") {
-						self.props.history.push("/redirect" + window.location.pathname)
-					} else {
-						window.scrollTo(0, 0);
-						self.setState({
-							...self.state,
-							validationErrors: ret.message.split("\\n") // TODO
-						});
-					}
-				})
-			}}/>
-		</FactaArticleRegion>);
-
-		const noGCRegion = (<FactaArticleRegion title="Gift Certificate">
-			Gift certificates currently cannot be used with staggered payment memberships.
-			To redeem a Gift Certificate, {this.props.flavor == "AP" ? <React.Fragment><Link to={apRegPageRoute.getPathFromArgs({})}>return to registration</Link> and</React.Fragment>: ""} select a one-time payment.
-		</FactaArticleRegion>);
-
 		const scheduleRadio = (id: string, group: string, doStaggered: boolean, text: JSX.Element) => {
 			const onClick = (doStaggered: boolean) => {
 				self.setState({
@@ -445,26 +403,31 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							size={30}
 							maxLength={30}
 						/>
-						<FactaButton text="Apply" spinnerOnClick onClick={() => {
-							return addPromo.send(makePostJSON({
-								promoCode: this.state.formData.promoCode.getOrElse(null),
-								program: this.props.flavor
-							}))
-							.then(ret => {
-								if (ret.type == "Success") {
-									self.props.history.push("/redirect" + window.location.pathname)
-								} else {
-									window.scrollTo(0, 0);
-									self.setState({
-										...self.state,
-										validationErrors: ret.message.split("\\n") // TODO
-									});
-								}
-							})
-						}}/>
+						<div style={{paddingTop: "10px"}}>
+							<FactaButton text="Apply" spinnerOnClick onClick={() => {
+								return addPromo.send(makePostJSON({
+									promoCode: this.state.formData.promoCode.getOrElse(null),
+									program: this.props.flavor
+								}))
+								.then(ret => {
+									if (ret.type == "Success") {
+										self.props.history.push("/redirect" + window.location.pathname)
+									} else {
+										window.scrollTo(0, 0);
+										self.setState({
+											...self.state,
+											validationErrors: ret.message.split("\\n") // TODO
+										});
+									}
+								})
+							}}/>
+						</div>
 					</FactaArticleRegion>
 				</td>
 			</tr></tbody></table>
+			<FactaArticleRegion title="Payment">
+				<SquarePaymentForm apiConstants={this.props.apiConstants} squareInfo={this.props.squareInfo} order={this.props.order} orderAppAlias={this.props.flavor}/>
+			</FactaArticleRegion>
 		</FactaMainPage>
 	}
 }
