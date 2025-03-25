@@ -7,9 +7,6 @@ import { apiw as welcomeAPIAP } from "async/member-welcome-ap";
 import { apiw as welcomeAPIJP } from "async/member-welcome-jp";
 import PaymentDetailsPage from "./PaymentDetails";
 import PaymentConfirmPage from "./PaymentConfirm";
-import { getWrapper as upsertCompassOrderAPI } from "async/member/square/upsert-compass-order"
-import { getWrapper as upsertSquareCustomerAPI } from "async/member/square/upsert-square-customer"
-import { getWrapper as getAPIConstants } from "async/member/square/fetch-api-constants"
 import { apiw as orderStatus, CardData } from "async/order-status"
 import { setCheckoutImage } from "util/set-bg-image";
 import { apiw as getCartItems } from "async/get-cart-items"
@@ -18,7 +15,6 @@ import {getWrapper as getDonationFunds} from "async/donation-funds"
 import ThankYouPage from "./ThankYou";
 import { PageFlavor } from "components/Page";
 import FactaLoadingPage from "theme/facta/FactaLoadingPage";
-import { makePostJSON } from "core/APIWrapperUtil";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -114,7 +110,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					}).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>
-		}, {
+		},/* {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="checkout confirm"
 				history={self.props.history}
@@ -134,7 +130,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					]).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>
-		}, {
+		}, */{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="checkout confirm"
 				history={self.props.history}

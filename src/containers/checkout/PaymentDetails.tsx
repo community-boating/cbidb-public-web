@@ -3,9 +3,8 @@ import * as t from 'io-ts';
 import FactaMainPage from "theme/facta/FactaMainPage";
 import FactaArticleRegion from "theme/facta/FactaArticleRegion";
 import { TokensResult } from "models/stripe/tokens";
-import {PaymentMethod} from "models/stripe/PaymentMethod"
 import { postWrapper as storeToken } from "async/stripe/store-token"
-import { makePostJSON, PostURLEncoded } from "core/APIWrapperUtil";
+import { makePostJSON } from "core/APIWrapperUtil";
 import { orderStatusValidator, CardData } from "async/order-status"
 import FactaButton from "theme/facta/FactaButton";
 import { History } from "history";
@@ -26,19 +25,13 @@ import {FactaErrorDiv} from "theme/facta/FactaErrorDiv";
 import { left, right, Either } from "fp-ts/lib/Either";
 import {postWrapper as addDonation} from "async/member/add-donation"
 import {postWrapper as addPromo} from "async/member/add-promo-code"
-import {postWrapper as applyGC} from "async/member/apply-gc"
 import { StaggeredPaymentSchedule } from "components/StaggeredPaymentSchedule";
 import Currency from "util/Currency";
-import { apRegPageRoute } from "app/routes/ap/reg";
-import { Link } from "react-router-dom";
 import { PageFlavor } from "components/Page";
 import StandardReport from "theme/facta/StandardReport";
 import {postWrapper as setJPStaggered} from "async/member/set-payment-plan-jp"
 import fundsPath from "app/paths/common/funds"
-import { APIConstants } from "async/member/square/fetch-api-constants";
 import SquarePaymentForm from "components/SquarePaymentForm";
-import { SquareOrder } from "async/member/square/upsert-compass-order";
-import { SquareCustomerInfo } from "async/member/square/upsert-square-customer";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -93,7 +86,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				gcNumber: none,
 				gcCode: none,
 			},
-			jpDoStaggeredPayment: some("N"),//this.props.orderStatus.staggeredPayments.length > 0 ? some("Y") : some("N"),
+			jpDoStaggeredPayment: this.props.orderStatus.staggeredPayments.length > 0 ? some("Y") : some("N"),
 			validationErrors: []
 		}
 	}
@@ -294,7 +287,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				doStaggered
 				? currentlyDoingStaggered
 				: !currentlyDoingStaggered
-			);
+			)
 
 			const refObj = (
 				doStaggered
@@ -352,7 +345,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						/>
 					</FactaArticleRegion>
 					{(
-						this.props.flavor == PageFlavor.AP && this.props.orderStatus.staggeredPayments.length
+						this.props.flavor == PageFlavor.AP && this.props.orderStatus.staggeredPayments.length && false// TOOD disables the staggered payment
 						? (<FactaArticleRegion title="Payment Schedule">
 							Today your card will be charged <b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>. Your
 							card will be charged again on the following dates to complete your order:
@@ -362,7 +355,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						: null
 					)}
 					{(
-						this.props.flavor == PageFlavor.JP && this.props.orderStatus.jpAvailablePaymentSchedule.length
+						this.props.flavor == PageFlavor.JP && this.props.orderStatus.jpAvailablePaymentSchedule.length && false// TOOD disables the staggered payment
 						? (<FactaArticleRegion title="Payment Schedule">
 							Staggered payment is available.  You may pay fully today, or spread the cost of your order between now and the start of Junior Program.
 							<br /><br />
@@ -426,7 +419,9 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				</td>
 			</tr></tbody></table>
 			<FactaArticleRegion title="Payment">
-				<SquarePaymentForm apiConstants={this.props.apiConstants} squareInfo={this.props.squareInfo} order={this.props.order} orderAppAlias={this.props.flavor}/>
+				<SquarePaymentForm orderAppAlias={this.props.flavor} handleSuccess={() => {
+					this.props.goNext()
+				}}/>
 			</FactaArticleRegion>
 		</FactaMainPage>
 	}

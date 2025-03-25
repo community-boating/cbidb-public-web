@@ -16,6 +16,6 @@ const path = "/member/fetch-api-constants"
 
 export const getWrapper = new APIWrapper<typeof resultValidator, t.TypeOf<typeof validator>, {}>({
     path,
-    type: HttpMethod.GET,
+    type: HttpMethod.POST,
     resultValidator
 })

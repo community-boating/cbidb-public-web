@@ -1,19 +1,14 @@
 import * as t from 'io-ts';
 import APIWrapper from 'core/APIWrapper';
 import { HttpMethod } from "core/HttpMethod";
-import { SquareGiftCard } from './upsert-square-customer';
-
 
 export const validator = t.type({
-    orderAppAlias: t.string,
-    GAN: t.string
+    orderAppAlias: t.string
 })
 
-const resultValidator = t.type({
-    squareGiftCard: SquareGiftCard
-})
+const resultValidator = t.union([t.string, t.null, t.undefined])
 
-const path = "/member/get-square-gift-card-info"
+const path = "/member/pay-order-free"
 
 export const postWrapper = new APIWrapper<typeof resultValidator, t.TypeOf<typeof validator>, {}>({
     path,

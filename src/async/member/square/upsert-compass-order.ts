@@ -6,7 +6,7 @@ export const validator = t.type({
     orderAppAlias: t.string
 })
 
-const Money = t.type({
+export const Money = t.type({
   amount: t.number,
   currency: t.string
 })
@@ -15,9 +15,9 @@ const LineItem = t.type({
   quantity: t.string,
   uid: t.string,
   name: t.string,
-  catalogObjectId: t.string,
-  catalogVersion: t.number,
-  variationName: t.string,
+  catalogObjectId: t.union([t.string, t.null]),
+  catalogVersion: t.union([t.number, t.null]),
+  variationName: t.union([t.string, t.null]),
   itemType: t.string,
   metadata: t.union([t.record(t.string, t.string), t.null]),
   basePriceMoney: Money,
@@ -69,10 +69,11 @@ const LineItem = t.type({
 export { Order }
 
 const resultValidator = t.type({
-    squareOrder: Order
+    squareOrder: Order,
+    compassOrderId: t.number
 })
 
-export type SquareOrder = t.TypeOf<typeof resultValidator>
+export type SquareOrderInfo = t.TypeOf<typeof resultValidator>
 
 const path = "/member/upsert-compass-order"
 

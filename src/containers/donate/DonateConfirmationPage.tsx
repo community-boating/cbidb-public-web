@@ -20,6 +20,7 @@ import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import FactaButton from 'theme/facta/FactaButton';
 import { PaymentMethod } from 'models/stripe/PaymentMethod';
 import {postWrapper as storePaymentMethod} from "async/stripe/store-payment-method-donate"
+import SquarePaymentForm from 'components/SquarePaymentForm';
 
 type Props = {
 	goNext: () => Promise<void>,
@@ -128,22 +129,9 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 			})
 		}
 
-		const stripeElement = <StripeElement
-			submitMethod={
-				self.props.orderStatus.paymentMethodRequired
-				? "PAYMENT_METHOD"
-				: "TOKEN"
-			}
-			formId="payment-form"
-			elementId="card-element"
-			cardErrorsId="card-errors"
-			then={
-				self.props.orderStatus.paymentMethodRequired
-				? processPaymentMethod
-				: processToken
-			}
-			additionalButtons={<FactaButton text="< Back" onClick={this.props.goPrev}/>}
-		/>;
+		const paymentElement = <SquarePaymentForm orderAppAlias='Donate' handleSuccess={() => {
+			this.props.goNext()
+		}}/>
 
 		return (
 			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
@@ -162,7 +150,7 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 				<FactaArticleRegion title={"Your Billing Info"}>
 					{paymentTextOrResetLink}
 					<br />
-					{confirm.getOrElse(stripeElement)}
+					{confirm.getOrElse(paymentElement)}
 				</FactaArticleRegion>
 			</FactaMainPage>
 		)

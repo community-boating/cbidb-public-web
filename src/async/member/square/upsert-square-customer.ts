@@ -2,8 +2,21 @@ import * as t from 'io-ts';
 import APIWrapper from 'core/APIWrapper';
 import { HttpMethod } from "core/HttpMethod";
 import { OptionalString } from 'util/OptionalTypeValidators';
+import { Money } from './upsert-compass-order';
 
 export const validator = t.type({})
+
+export const SquareGiftCard = t.type({
+    id: t.string,
+    ganSource: t.literal('OTHER'),
+    type: t.union([t.literal('DIGITAL'), t.literal('PHYSICAL')]),
+    balanceMoney: Money, // ISO currency code (e.g., 'USD')
+    createdAt: t.string, // ISO date string
+    updatedAt: t.union([t.string,t.undefined]), // ISO date string
+    state: t.union([t.literal('ACTIVE'), t.literal('INACTIVE'), t.literal('EXPIRED')]),
+  });
+
+export type SquareGiftCard = t.TypeOf<typeof SquareGiftCard>
 
 export const SquareCard = t.type({
     id: t.string,

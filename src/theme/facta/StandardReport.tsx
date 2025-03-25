@@ -6,11 +6,12 @@ interface Props {
 	cellStyles?: React.CSSProperties[],
 	rawHtml?: {[K: number]: boolean},
 	noRowsText?: string
+	style?: React.CSSProperties
 }
 
 // TODO: drop the rawHTML override
 export default (props: Props) => (
-	<table cellPadding="0" cellSpacing="0" className="report-standard">
+	<table cellPadding="0" cellSpacing="0" className="report-standard" style={props.style}>
 		<tbody><tr>
 			{props.headers.zipWithIndex().map(headerTuple => (
 				<th key={`header_${headerTuple[1]}`} className="header" style={({border: "none", textAlign: "center"})}>
