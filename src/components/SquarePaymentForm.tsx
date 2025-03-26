@@ -185,7 +185,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const paymentRequest = mapPaymentRequest(propsCombined, intent)
     const tabGroupsMapped = Object.values(PAYMENT_TYPES).map(paymentType => ({...paymentType, disabled: isPaymentDisabled(propsCombined, paymentType)}))
     .filter((a) => (a.key == PAYMENT_TYPES.CREDIT_CARD.key || a.key == PAYMENT_TYPES.STORED_CARD.key || intent != "STORE"))
-    const isFree = propsCombined.order || propsCombined.order.squareOrder.netAmountDueMoney.amount == 0
+    const isFree = propsCombined.order && propsCombined.order.squareOrder.netAmountDueMoney.amount == 0
     if(isFree)
         return <FactaButton forceSpinner={doPoll} text="Your order is free! Click to complete it now" spinnerOnClick onClick={() => {
             return payOrderFree.send(makePostJSON({
