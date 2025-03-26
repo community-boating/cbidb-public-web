@@ -9,15 +9,11 @@ import { orderStatusValidator } from "async/order-status"
 import { postWrapper as submitPayment } from "async/stripe/submit-payment-standalone"
 import { makePostJSON, makePostString } from 'core/APIWrapperUtil';
 import { postWrapper as clearCard } from 'async/stripe/clear-card'
-import { postWrapper as storeToken } from "async/stripe/store-token"
-import { TokensResult } from 'models/stripe/tokens';
 import PlainButton from 'components/PlainButton';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import FactaButton from 'theme/facta/FactaButton';
-import { PaymentMethod } from 'models/stripe/PaymentMethod';
-import {postWrapper as storePaymentMethod} from "async/stripe/store-payment-method-donate"
 import SquarePaymentForm from 'components/SquarePaymentForm';
 
 type Props = {

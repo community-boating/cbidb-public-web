@@ -9,8 +9,6 @@ import { makePostJSON, makePostString } from 'core/APIWrapperUtil';
 import { PageFlavor } from 'components/Page';
 import GiftCertConfirmationRegion from './GiftCertConfirmationRegion';
 import { postWrapper as clearCard } from 'async/stripe/clear-card'
-import { postWrapper as storeToken } from "async/stripe/store-token"
-import { TokensResult } from 'models/stripe/tokens';
 import PlainButton from 'components/PlainButton';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
