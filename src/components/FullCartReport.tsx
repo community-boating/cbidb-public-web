@@ -87,6 +87,7 @@ type Props = {
 
 export default class FullCartReport extends React.PureComponent<Props> {
 	render() {
+		console.log(this.props)
 		const hasAtLeastOneInMem = this.props.cartItems.reduce((agg, item) => agg || item.inMemoryOf.isSome(), false);
 		const totalCellPosition = String(0 + (this.props.includeCancel ? 1 : 0) + (hasAtLeastOneInMem ? 1 : 0));
 		const rawHtml = {[totalCellPosition]: true};

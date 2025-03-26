@@ -160,9 +160,6 @@ export default class MugarDonateConfirmationPage extends React.PureComponent<Pro
 					<br />
 				</FactaArticleRegion>
 				<FactaArticleRegion title={"Your Billing Info"}>
-					{paymentTextOrResetLink}
-					<br />
-					{confirm.getOrElse(stripeElement)}
 				</FactaArticleRegion>
 			</FactaMainPage>
 		)

@@ -18,6 +18,7 @@ import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import FactaButton from 'theme/facta/FactaButton';
+import SquarePaymentForm from 'components/SquarePaymentForm';
 
 type GC = t.TypeOf<typeof gcValidator>;
 
@@ -121,19 +122,9 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 			})
 		}
 
-		const stripeElement = <StripeElement
-			submitMethod={
-				self.props.orderStatus.paymentMethodRequired
-				? "PAYMENT_METHOD"
-				: "TOKEN"
-			}
-			formId="payment-form"
-			elementId="card-element"
-			cardErrorsId="card-errors"
-			then={processToken}
-			additionalButtons={<FactaButton text="< Back" onClick={this.props.goPrev}/>}
-		/>;
-		
+		const paymentElement = <SquarePaymentForm orderAppAlias='GC' handleSuccess={() => {
+			this.props.goNext()
+		}}/>
 		return (
 			<FactaMainPage setBGImage={setCheckoutImage}>
 				{errorPopup}
@@ -144,7 +135,7 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 					{paymentTextOrResetLink}
 					<br />
 					<br />
-					{confirm.getOrElse(stripeElement)}
+					{confirm.getOrElse(paymentElement)}
 				</FactaArticleRegion>
 			</FactaMainPage>
 		)

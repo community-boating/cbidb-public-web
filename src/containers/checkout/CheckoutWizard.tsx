@@ -110,7 +110,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					}).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>
-		}, {
+		},/* {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="checkout confirm"
 				history={self.props.history}
@@ -130,7 +130,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					]).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}
 			/>
-		}, {
+		}, */{
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="checkout confirm"
 				history={self.props.history}

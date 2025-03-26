@@ -2,15 +2,11 @@ import * as React from "react";
 import * as t from 'io-ts';
 import FactaMainPage from "theme/facta/FactaMainPage";
 import FactaArticleRegion from "theme/facta/FactaArticleRegion";
-import StripeElement from "components/StripeElement";
 import { TokensResult } from "models/stripe/tokens";
-import {PaymentMethod} from "models/stripe/PaymentMethod"
 import { postWrapper as storeToken } from "async/stripe/store-token"
 import { makePostJSON } from "core/APIWrapperUtil";
 import { orderStatusValidator, CardData } from "async/order-status"
-import StripeConfirm from "components/StripeConfirm";
 import FactaButton from "theme/facta/FactaButton";
-import { postWrapper as clearCard } from 'async/stripe/clear-card'
 import { History } from "history";
 import { setCheckoutImage } from "util/set-bg-image";
 import { CartItem } from "async/get-cart-items"
@@ -29,18 +25,13 @@ import {FactaErrorDiv} from "theme/facta/FactaErrorDiv";
 import { left, right, Either } from "fp-ts/lib/Either";
 import {postWrapper as addDonation} from "async/member/add-donation"
 import {postWrapper as addPromo} from "async/member/add-promo-code"
-import {postWrapper as applyGC} from "async/member/apply-gc"
-import {postWrapper as storePaymentMethodAP} from "async/stripe/store-payment-method-ap"
-import {postWrapper as storePaymentMethodJP} from "async/stripe/store-payment-method-jp"
 import { StaggeredPaymentSchedule } from "components/StaggeredPaymentSchedule";
 import Currency from "util/Currency";
-import { apRegPageRoute } from "app/routes/ap/reg";
-import { Link } from "react-router-dom";
 import { PageFlavor } from "components/Page";
-import PlainButton from "components/PlainButton";
 import StandardReport from "theme/facta/StandardReport";
 import {postWrapper as setJPStaggered} from "async/member/set-payment-plan-jp"
 import fundsPath from "app/paths/common/funds"
+import SquarePaymentForm from "components/SquarePaymentForm";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -96,7 +87,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				gcCode: none,
 			},
 			jpDoStaggeredPayment: this.props.orderStatus.staggeredPayments.length > 0 ? some("Y") : some("N"),
-			validationErrors: [],
+			validationErrors: []
 		}
 	}
 	tableRef: HTMLTableElement
@@ -107,14 +98,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 		case PageFlavor.JP:
 			return jpCheckoutRoute;
 		}
-	}
-	getStorePaymentMethod() {
-		switch (this.props.flavor) {
-			case PageFlavor.AP:
-				return storePaymentMethodAP;
-			case PageFlavor.JP:
-				return storePaymentMethodJP(none);
-			}
 	}
 	componentDidMount() {
 		setCheckoutImage()
@@ -272,72 +255,9 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			})
 		}
 
-		const processPaymentMethod = (result: PaymentMethod) => {
-			return self.getStorePaymentMethod().send(makePostJSON({
-				paymentMethodId: result.paymentMethod.id,
-				retryLatePayments: false
-			})).then(result => {
-				if (result.type == "Success") {
-					self.props.goNext();
-				} else {
-					self.setState({
-						...self.state,
-						validationErrors: [result.message]
-					});
-					window.scrollTo(0, 0);
-				}
-			})
-		}
-
-		const stripeElement = <StripeElement
-			submitMethod={
-				self.props.orderStatus.paymentMethodRequired
-				? "PAYMENT_METHOD"
-				: "TOKEN"
-			}
-			formId="payment-form"
-			elementId="card-element"
-			cardErrorsId="card-errors"
-			then={
-				self.props.orderStatus.paymentMethodRequired
-				? processPaymentMethod
-				: processToken
-			}
-		/>;
-
 		const orderTotalIsZero = this.props.cartItems.reduce((sum, i) => sum + i.price, 0) <= 0;
 
-		const confirm = this.props.orderStatus.cardData.map(cd => <StripeConfirm
-			cardData={cd}
-		/>);
-
-		const paymentTextOrResetLink = (function(){
-			if (orderTotalIsZero) {
-				return "All items are fully paid for; click \"Continue\" to finalize your order.";
-			} else {
-				if (confirm.isSome()) {
-					const linkText = (
-						self.props.orderStatus.paymentMethodRequired
-						? "Click here to update your stored credit card information."
-						: "Click here to use a different credit card."
-					);
-					return <PlainButton text={linkText} onClick={e => {
-						e.preventDefault();
-						return clearCard.send(makePostJSON({program: self.props.flavor})).then(() => self.props.history.push(`/redirect${self.getCheckoutPageRoute().getPathFromArgs({})}`));
-					}} />
-				} else {
-					if (self.props.orderStatus.paymentMethodRequired) {
-						return "Please enter payment information below. " + 
-						"Because part of this order will be paid in multiple installments, " + 
-						"your credit card information will be retained by our payment processor (Stripe) and charged automatically on the date of each payment.";
-					} else {
-						return "Please enter payment information below. Credit card information is communicated securely to our payment processor and will not be stored by CBI for this order.";
-					}
-					
-				}
-			}
-			
-		}());
+		//const confirm = this.props.orderStatus.
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
@@ -353,52 +273,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			});
 		}
 
-		const gcRegion = (<FactaArticleRegion title="Gift Certificate">
-			Enter Certificate Number<br />
-			(e.g. "1380300")
-			<FormInput
-				id="gcNumber"
-				value={this.state.formData.gcNumber}
-				justElement={true}
-				updateAction={updateState}
-				size={30}
-				maxLength={30}
-			/>
-			Enter Redemption Code<br />
-			(e.g. "F5BY8")
-			<FormInput
-				id="gcCode"
-				value={this.state.formData.gcCode}
-				justElement={true}
-				updateAction={updateState}
-				size={30}
-				maxLength={30}
-			/>
-			<FactaButton text="Apply" spinnerOnClick onClick={() => {
-				return applyGC.send(makePostJSON({ 
-					gcNumber: Number(this.state.formData.gcNumber.getOrElse(null)),
-					gcCode: this.state.formData.gcCode.getOrElse(null),
-					program: this.props.flavor
-				}))
-				.then(ret => {
-					if (ret.type == "Success") {
-						self.props.history.push("/redirect" + window.location.pathname)
-					} else {
-						window.scrollTo(0, 0);
-						self.setState({
-							...self.state,
-							validationErrors: ret.message.split("\\n") // TODO
-						});
-					}
-				})
-			}}/>
-		</FactaArticleRegion>);
-
-		const noGCRegion = (<FactaArticleRegion title="Gift Certificate">
-			Gift certificates currently cannot be used with staggered payment memberships.
-			To redeem a Gift Certificate, {this.props.flavor == "AP" ? <React.Fragment><Link to={apRegPageRoute.getPathFromArgs({})}>return to registration</Link> and</React.Fragment>: ""} select a one-time payment.
-		</FactaArticleRegion>);
-
 		const scheduleRadio = (id: string, group: string, doStaggered: boolean, text: JSX.Element) => {
 			const onClick = (doStaggered: boolean) => {
 				self.setState({
@@ -413,7 +287,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				doStaggered
 				? currentlyDoingStaggered
 				: !currentlyDoingStaggered
-			);
+			)
 
 			const refObj = (
 				doStaggered
@@ -471,7 +345,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						/>
 					</FactaArticleRegion>
 					{(
-						this.props.flavor == PageFlavor.AP && this.props.orderStatus.staggeredPayments.length
+						this.props.flavor == PageFlavor.AP && this.props.orderStatus.staggeredPayments.length && false// TOOD disables the staggered payment
 						? (<FactaArticleRegion title="Payment Schedule">
 							Today your card will be charged <b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>. Your
 							card will be charged again on the following dates to complete your order:
@@ -481,7 +355,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						: null
 					)}
 					{(
-						this.props.flavor == PageFlavor.JP && this.props.orderStatus.jpAvailablePaymentSchedule.length
+						this.props.flavor == PageFlavor.JP && this.props.orderStatus.jpAvailablePaymentSchedule.length && false// TOOD disables the staggered payment
 						? (<FactaArticleRegion title="Payment Schedule">
 							Staggered payment is available.  You may pay fully today, or spread the cost of your order between now and the start of Junior Program.
 							<br /><br />
@@ -522,37 +396,33 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 							size={30}
 							maxLength={30}
 						/>
-						<FactaButton text="Apply" spinnerOnClick onClick={() => {
-							return addPromo.send(makePostJSON({
-								promoCode: this.state.formData.promoCode.getOrElse(null),
-								program: this.props.flavor
-							}))
-							.then(ret => {
-								if (ret.type == "Success") {
-									self.props.history.push("/redirect" + window.location.pathname)
-								} else {
-									window.scrollTo(0, 0);
-									self.setState({
-										...self.state,
-										validationErrors: ret.message.split("\\n") // TODO
-									});
-								}
-							})
-						}}/>
+						<div style={{paddingTop: "10px"}}>
+							<FactaButton text="Apply" spinnerOnClick onClick={() => {
+								return addPromo.send(makePostJSON({
+									promoCode: this.state.formData.promoCode.getOrElse(null),
+									program: this.props.flavor
+								}))
+								.then(ret => {
+									if (ret.type == "Success") {
+										self.props.history.push("/redirect" + window.location.pathname)
+									} else {
+										window.scrollTo(0, 0);
+										self.setState({
+											...self.state,
+											validationErrors: ret.message.split("\\n") // TODO
+										});
+									}
+								})
+							}}/>
+						</div>
 					</FactaArticleRegion>
-					{this.props.orderStatus.staggeredPayments.length > 1 ? noGCRegion : gcRegion}
 				</td>
 			</tr></tbody></table>
-			<FactaArticleRegion title="Credit Card Information">
-				{paymentTextOrResetLink}
-				{orderTotalIsZero ? null : <React.Fragment>
-					<br />
-				<br />
-				{confirm.getOrElse(stripeElement)}
-				</React.Fragment>}
+			<FactaArticleRegion title="Payment">
+				<SquarePaymentForm orderAppAlias={this.props.flavor} handleSuccess={() => {
+					this.props.goNext()
+				}}/>
 			</FactaArticleRegion>
-			{(confirm.isSome() || orderTotalIsZero )? <FactaButton text="Continue >" onClick={this.props.goNext} /> : ""}
-
 		</FactaMainPage>
 	}
 }
