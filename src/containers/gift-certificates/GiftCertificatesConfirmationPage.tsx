@@ -4,13 +4,11 @@ import {History} from 'history';
 import { setCheckoutImage } from 'util/set-bg-image';
 import {validator as gcValidator} from "async/member/gc-purchase"
 import { orderStatusValidator } from "async/order-status"
-import StripeConfirm from 'components/StripeConfirm';
 import { postWrapper as submitPayment } from "async/stripe/submit-payment-standalone"
 import { makePostJSON, makePostString } from 'core/APIWrapperUtil';
 import { PageFlavor } from 'components/Page';
 import GiftCertConfirmationRegion from './GiftCertConfirmationRegion';
 import { postWrapper as clearCard } from 'async/stripe/clear-card'
-import StripeElement from 'components/StripeElement';
 import { postWrapper as storeToken } from "async/stripe/store-token"
 import { TokensResult } from 'models/stripe/tokens';
 import PlainButton from 'components/PlainButton';
@@ -52,9 +50,6 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 		);
 
 		const confirm = this.props.orderStatus.cardData.map(cd => <React.Fragment>
-			<StripeConfirm
-				cardData={cd}
-			/>
 			<br />
 			By accepting the button to "Submit Payment", you understand the terms and conditions of our gift certificates:
 			<br /><br />
@@ -104,23 +99,6 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 				return "Please enter payment information below. Credit card information is communicated securely to our payment processor and will not be stored by CBI for this order.";
 			}
 		}());
-
-		const processToken = (result: TokensResult) => {
-			return storeToken.send(makePostJSON({
-				token: result.token.id,
-				orderId: self.props.orderStatus.orderId
-			})).then(result => {
-				if (result.type == "Success") {
-					self.props.reload();
-				} else {
-					self.setState({
-						...self.state,
-						validationErrors: [result.message]
-					});
-					window.scrollTo(0, 0);
-				}
-			})
-		}
 
 		const paymentElement = <SquarePaymentForm orderAppAlias='GC' handleSuccess={() => {
 			this.props.goNext()

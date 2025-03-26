@@ -2,8 +2,6 @@ import * as React from "react";
 import * as t from 'io-ts';
 import FactaMainPage from "theme/facta/FactaMainPage";
 import FactaArticleRegion from "theme/facta/FactaArticleRegion";
-import { TokensResult } from "models/stripe/tokens";
-import { postWrapper as storeToken } from "async/stripe/store-token"
 import { makePostJSON } from "core/APIWrapperUtil";
 import { orderStatusValidator, CardData } from "async/order-status"
 import FactaButton from "theme/facta/FactaButton";
@@ -237,28 +235,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			<td style={{verticalAlign: "top"}}>{fundCell}</td>
 		</tr></tbody></table>) : null;
 
-		const processToken = (result: TokensResult) => {
-			return storeToken.send(makePostJSON({
-				token: result.token.id,
-				orderId: self.props.welcomePackage.orderId
-			})).then(result => {
-				if (result.type == "Success") {
-					self.props.setCardData(result.success);
-					self.props.goNext();
-				} else {
-					self.setState({
-						...self.state,
-						validationErrors: [result.message]
-					});
-					window.scrollTo(0, 0);
-				}
-			})
-		}
-
-		const orderTotalIsZero = this.props.cartItems.reduce((sum, i) => sum + i.price, 0) <= 0;
-
-		//const confirm = this.props.orderStatus.
-
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
 			? <FactaErrorDiv errors={this.state.validationErrors}/>
@@ -345,7 +321,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						/>
 					</FactaArticleRegion>
 					{(
-						this.props.flavor == PageFlavor.AP && this.props.orderStatus.staggeredPayments.length && false// TOOD disables the staggered payment
+						this.props.flavor == PageFlavor.AP && this.props.orderStatus.staggeredPayments.length && false //TODO
 						? (<FactaArticleRegion title="Payment Schedule">
 							Today your card will be charged <b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>. Your
 							card will be charged again on the following dates to complete your order:
@@ -355,7 +331,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						: null
 					)}
 					{(
-						this.props.flavor == PageFlavor.JP && this.props.orderStatus.jpAvailablePaymentSchedule.length && false// TOOD disables the staggered payment
+						this.props.flavor == PageFlavor.JP && this.props.orderStatus.jpAvailablePaymentSchedule.length && false //TODO
 						? (<FactaArticleRegion title="Payment Schedule">
 							Staggered payment is available.  You may pay fully today, or spread the cost of your order between now and the start of Junior Program.
 							<br /><br />
@@ -419,7 +395,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				</td>
 			</tr></tbody></table>
 			<FactaArticleRegion title="Payment">
-				<SquarePaymentForm orderAppAlias={this.props.flavor} handleSuccess={() => {
+				<SquarePaymentForm intentOverride="STORE" orderAppAlias={this.props.flavor} handleSuccess={() => {
 					this.props.goNext()
 				}}/>
 			</FactaArticleRegion>

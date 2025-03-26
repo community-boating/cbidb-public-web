@@ -8,9 +8,7 @@ import { PageFlavor } from 'components/Page';
 import { orderStatusValidator } from "async/order-status"
 import { postWrapper as submitPayment } from "async/stripe/submit-payment-standalone"
 import { makePostJSON, makePostString } from 'core/APIWrapperUtil';
-import StripeConfirm from 'components/StripeConfirm';
 import { postWrapper as clearCard } from 'async/stripe/clear-card'
-import StripeElement from 'components/StripeElement';
 import { postWrapper as storeToken } from "async/stripe/store-token"
 import { TokensResult } from 'models/stripe/tokens';
 import PlainButton from 'components/PlainButton';
@@ -52,10 +50,6 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 		);
 
 		const confirm = this.props.orderStatus.cardData.map(cd => <React.Fragment>
-			<StripeConfirm
-				cardData={cd}
-			/>
-			<br />
 			<FactaButton text="< Back" onClick={this.props.goPrev}/>
 			<FactaButton text="Submit Donation" spinnerOnClick onClick={() => {
 				self.setState({
@@ -94,40 +88,6 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 				return "Please enter payment information below. Credit card information is communicated securely to our payment processor and is not stored by CBI.";
 			}
 		}());
-
-		const processToken = (result: TokensResult) => {
-			return storeToken.send(makePostJSON({
-				token: result.token.id,
-				orderId: self.props.orderStatus.orderId
-			})).then(result => {
-				if (result.type == "Success") {
-					self.props.reload();
-				} else {
-					self.setState({
-						...self.state,
-						validationErrors: [result.message]
-					});
-					window.scrollTo(0, 0);
-				}
-			})
-		}
-
-		const processPaymentMethod = (result: PaymentMethod) => {
-			return storePaymentMethod.send(makePostJSON({
-				paymentMethodId: result.paymentMethod.id,
-				retryLatePayments: false
-			})).then(result => {
-				if (result.type == "Success") {
-					self.props.reload();
-				} else {
-					self.setState({
-						...self.state,
-						validationErrors: [result.message]
-					});
-					window.scrollTo(0, 0);
-				}
-			})
-		}
 
 		const paymentElement = <SquarePaymentForm orderAppAlias='Donate' handleSuccess={() => {
 			this.props.goNext()

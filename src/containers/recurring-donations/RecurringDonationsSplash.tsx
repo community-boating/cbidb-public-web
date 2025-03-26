@@ -12,20 +12,14 @@ import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import {validator as getRecurringDonationsValidator} from "async/member/recurring-donations";
 import { validator as donationFundsValidator } from 'async/donation-funds';
 import Currency from 'util/Currency';
-import StripeConfirm from 'components/StripeConfirm';
-import { postWrapper as clearCard } from 'async/stripe/clear-card'
-import { makePostJSON } from 'core/APIWrapperUtil';
-import StripeElement from 'components/StripeElement';
-import { PaymentMethod } from 'models/stripe/PaymentMethod';
-import {postWrapper as storePaymentMethodAP} from "async/stripe/store-payment-method-ap"
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import { apDonateEditPath } from 'app/paths/ap/donate-edit';
 import { validator as donationHistoryValidator} from "async/member/recurring-donation-history";
-import {postWrapper as submitPayment} from "async/stripe/submit-payment-autodonate"
 import StandardReport from 'theme/facta/StandardReport';
 import { toMomentFromLocalDate } from 'util/dateUtil';
 import { Option } from 'fp-ts/lib/Option';
 import { FactaSuccessDiv } from 'theme/facta/FactaSuccessDiv';
+import SquarePaymentForm from 'components/SquarePaymentForm';
 
 type Props = {
 	history: History<any>,
@@ -69,56 +63,7 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 
 		const createMode = self.props.donationHistory.nextChargeDate.isNone();
 
-		const confirm = this.props.currentDonationPlan.paymentMethod.map(cd => <React.Fragment>
-			<StripeConfirm
-				cardData={cd}
-			/>
-			<br />
-			<FactaButton text="Update Card" onClick={e => {
-				e.preventDefault();
-				return clearCard.send(makePostJSON({program: PageFlavor.AUTO_DONATE})).then(() => self.props.history.push(`/redirect${window.location.pathname}`));
-			}} />
-			{
-				createMode
-				? <FactaButton text="Submit Donation" spinnerOnClick onClick={e => {
-					e.preventDefault();
-					return submitPayment.send(makePostJSON({})).then(res => {
-						if (res.type == "Success") {
-							self.props.history.push(`/redirect${window.location.pathname}?success`);
-						} else {
-							self.setState({
-								...self.state,
-								validationErrors: res.message.split("\\n") // TODO
-							});
-						}
-					})
-				}} />
-				: null
-			}
-			
-		</React.Fragment>);
-
-		const stripeElement = <StripeElement
-			submitMethod="PAYMENT_METHOD"
-			formId="recurring-form"
-			elementId="card-element"
-			cardErrorsId="card-errors"
-			then={(result: PaymentMethod) => {
-				return storePaymentMethodAP.send(makePostJSON({
-					paymentMethodId: result.paymentMethod.id,
-					retryLatePayments: true
-				})).then(result => {
-					if (result.type == "Success") {
-						self.props.history.push("/redirect" + window.location.pathname)
-					} else {
-						self.setState({
-							...self.state,
-							validationErrors: result.message.split("\\n") // TODO
-						});
-					}
-				})
-			}}
-		/>;
+		const paymentElement = <SquarePaymentForm intentOverride='STORE' orderAppAlias='JP' handleSuccess={() => {}}/>
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)
@@ -188,13 +133,12 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 						this.props.currentDonationPlan.recurringDonations.length == 0
 						? null
 						: <FactaArticleRegion title="Payment Method">
-							{confirm.getOrElse(stripeElement)}
+							{ paymentElement }
 						</FactaArticleRegion>
 					}
 				</td>
 				<td style={{width: "10%"}}></td>
 				<td style={{verticalAlign: "top"}}>
-					{}
 					<FactaArticleRegion title="Donation History">
 						{this.props.donationHistory.donationHistory.length > 0 ? donationHistoryTable : "No donations have been made yet."}
 					</FactaArticleRegion>

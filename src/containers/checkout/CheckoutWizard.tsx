@@ -6,7 +6,6 @@ import PageWrapper from "core/PageWrapper";
 import { apiw as welcomeAPIAP } from "async/member-welcome-ap";
 import { apiw as welcomeAPIJP } from "async/member-welcome-jp";
 import PaymentDetailsPage from "./PaymentDetails";
-import PaymentConfirmPage from "./PaymentConfirm";
 import { apiw as orderStatus, CardData } from "async/order-status"
 import { setCheckoutImage } from "util/set-bg-image";
 import { apiw as getCartItems } from "async/get-cart-items"
