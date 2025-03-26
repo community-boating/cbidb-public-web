@@ -321,7 +321,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						/>
 					</FactaArticleRegion>
 					{(
-						this.props.flavor == PageFlavor.AP && this.props.orderStatus.staggeredPayments.length && false //TODO
+						this.props.flavor == PageFlavor.AP && this.props.orderStatus.staggeredPayments.length
 						? (<FactaArticleRegion title="Payment Schedule">
 							Today your card will be charged <b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>. Your
 							card will be charged again on the following dates to complete your order:
@@ -331,7 +331,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						: null
 					)}
 					{(
-						this.props.flavor == PageFlavor.JP && this.props.orderStatus.jpAvailablePaymentSchedule.length && false //TODO
+						this.props.flavor == PageFlavor.JP && this.props.orderStatus.jpAvailablePaymentSchedule.length
 						? (<FactaArticleRegion title="Payment Schedule">
 							Staggered payment is available.  You may pay fully today, or spread the cost of your order between now and the start of Junior Program.
 							<br /><br />
@@ -395,7 +395,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				</td>
 			</tr></tbody></table>
 			<FactaArticleRegion title="Payment">
-				<SquarePaymentForm intentOverride="STORE" orderAppAlias={this.props.flavor} handleSuccess={() => {
+				<SquarePaymentForm orderAppAlias={this.props.flavor} handleSuccess={() => {
 					this.props.goNext()
 				}}/>
 			</FactaArticleRegion>
