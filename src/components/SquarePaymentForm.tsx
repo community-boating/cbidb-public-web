@@ -5,7 +5,7 @@ import { SquareCustomerInfo } from "async/member/square/upsert-square-customer"
 import { postWrapper as storeCard } from "async/member/square/store-card"
 import * as React from "react"
 import { ApplePay, CreditCard, GooglePay, PaymentForm } from "react-square-web-payments-sdk"
-import { makePostJSON, PostURLEncoded } from "core/APIWrapperUtil"
+import { makePostJSON } from "core/APIWrapperUtil"
 import { none, some } from "fp-ts/lib/Option"
 import {postWrapper as payOrderViaPaymentSource} from "async/member/square/pay-order-via-payment-source"
 import {postWrapper as payOrderFree} from "async/member/square/pay-order-free"
@@ -16,6 +16,7 @@ import { getWrapper as getAPIConstants } from "async/member/square/fetch-api-con
 import TabGroup from "./TabGroup"
 import StoredCards from "./StoredCards"
 import GiftCardInput from "./GiftCardInput"
+import FactaButton from "theme/facta/FactaButton"
 
 export type SquarePaymentFormProps = {
     intentOverride?: string
@@ -26,7 +27,7 @@ export type SquarePaymentFormProps = {
 type SquarePaymentFormPropsAsync = {
     apiConstants: APIConstants
     squareInfo: SquareCustomerInfo
-    order: SquareOrderInfo
+    order?: SquareOrderInfo
 }
 
 type SquarePaymentFormPropsCombined = SquarePaymentFormProps & SquarePaymentFormPropsAsync
@@ -45,9 +46,9 @@ function mapVertificationDetails(props: SquarePaymentFormPropsCombined, intent: 
     Promise.all([])
     const verificationInfo = props.squareInfo.verificationDetails
     const billingContact = verificationInfo.billingContact
-    const order = props.order
+    const orderPrice = props.order ? convertMoneyToFloat(props.order.squareOrder.netAmountDueMoney.amount) : undefined
     return {
-        amount: verificationInfo.amountOverride.getOrElse(convertMoneyToFloat(order.squareOrder.totalMoney.amount)),
+        amount: verificationInfo.amountOverride.getOrElse(orderPrice),
         billingContact: {
             givenName: billingContact.givenName.getOrElse(undefined),
             familyName: billingContact.familyName.getOrElse(undefined),
@@ -65,7 +66,9 @@ function mapVertificationDetails(props: SquarePaymentFormPropsCombined, intent: 
 }
 
 function mapPaymentRequest(props: SquarePaymentFormPropsCombined, intent: IntentTypes): PaymentRequestOptions {
-    console.log(props.squareInfo.verificationDetails.billingContact.country)
+    if(!props.order){
+        return undefined
+    }
     return {
         countryCode: props.squareInfo.verificationDetails.billingContact.country.getOrElse("US"),
         currencyCode: props.squareInfo.verificationDetails.currencyCode,
@@ -130,9 +133,9 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
         Promise.all([upsertCompassOrderAPI.send(orderAppAliasJson),
         upsertSquareCustomerAPI.send(orderAppAliasJson),
         getAPIConstants.send(orderAppAliasJson)]).then((async) => {
-            if(async[0].type == "Success" && async[1].type == "Success" && async[2].type == "Success"){
+            if(async[0].type == "Success" && async[1].type == "Success"){
                 setPropsAsync({
-                    apiConstants: async[2].success,
+                    apiConstants: async[2].type == "Success" ? async[2].success : undefined,
                     squareInfo: async[1].success,
                     order: async[0].success
                 })
@@ -170,21 +173,6 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                 clearInterval(pollingRef.current)
         }
     }, [doPoll])
-    React.useEffect(() => {
-        if(propsAsync != undefined && propsCombined.order.squareOrder.netAmountDueMoney.amount == 0 && !doPoll){
-            console.log("Order is free, processing it now")
-            payOrderFree.send(makePostJSON({
-                orderAppAlias: props.orderAppAlias
-            })).then((a) => {
-                if(a.type == "Success"){
-                    props.handleSuccess()
-                    setDoPoll(true)
-                }else{
-                    console.log("Error", a)
-                }
-            })
-        }
-    }, [propsAsync == undefined])
     if(propsAsync == null){
         return <div>
             Payment Loading...
@@ -196,6 +184,20 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const verificationDetails = mapVertificationDetails(propsCombined, intent)
     const paymentRequest = mapPaymentRequest(propsCombined, intent)
     const tabGroupsMapped = Object.values(PAYMENT_TYPES).map(paymentType => ({...paymentType, disabled: isPaymentDisabled(propsCombined, paymentType)}))
+    .filter((a) => (a.key == PAYMENT_TYPES.CREDIT_CARD.key || a.key == PAYMENT_TYPES.STORED_CARD.key || intent != "STORE"))
+    const isFree = propsCombined.order && propsCombined.order.squareOrder.netAmountDueMoney.amount == 0
+    if(isFree)
+        return <FactaButton forceSpinner={doPoll} text="Your order is free! Click to complete it now" spinnerOnClick onClick={() => {
+            return payOrderFree.send(makePostJSON({
+                orderAppAlias: props.orderAppAlias
+            })).then((a) => {
+                if(a.type == "Success"){
+                    setDoPoll(true)
+                }else{
+                    console.log("Failed to pay for order", a)
+                }
+            })
+        }}/>
     return <PaymentForm applicationId={propsCombined.apiConstants.squareApplicationId} locationId={propsCombined.apiConstants.squareLocationId} cardTokenizeResponseReceived={function (result: TokenResult, verifiedBuyer?: VerifyBuyerResponseDetails | null): void {
         if(result.errors == null && result.token != null && paymentType != PAYMENT_TYPES.GIFT_CARD.key){
             setButtonDisableOverride(true)
@@ -254,6 +256,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                 }}>
                     {mapCardIntentToButtonText(intent)}
                     </CreditCard>
+                    {(intent == "STORE") ? <p>* Your card will be stored by our payment processor Square for future purchases with us.</p> :
                     <div style={{height: "48px", float: "right"}}>
                         <div style={{paddingTop: "12px", height: "24px", paddingRight: "24px"}}>
                             <input type="checkbox" id="savePayment" checked={storePayment} onChange={(e) => {
@@ -263,7 +266,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                                 Save Payment For Future Orders?
                             </label>
                         </div>
-                    </div>
+                    </div>}
                 </div>
                 <div key={PAYMENT_TYPES.STORED_CARD.key}>
                     <StoredCards orderAppAlias={props.orderAppAlias} cardsOnFile={propsCombined.squareInfo.cardsOnFile} payWithCard={cardId => {

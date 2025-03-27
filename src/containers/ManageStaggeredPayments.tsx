@@ -8,10 +8,6 @@ import { paymentValidator, validator } from 'async/member/open-order-details-ap'
 import StandardReport from 'theme/facta/StandardReport';
 import * as moment from 'moment';
 import Currency from 'util/Currency';
-import StripeElement from 'components/StripeElement';
-import { PaymentMethod } from 'models/stripe/PaymentMethod';
-import {postWrapper as storePaymentMethodAP} from "async/stripe/store-payment-method-ap"
-import {postWrapper as storePaymentMethodJP} from "async/stripe/store-payment-method-jp"
 import { makePostJSON } from 'core/APIWrapperUtil';
 import {postWrapper as finishOrderAP} from "async/member/finish-open-order-ap"
 import {postWrapper as finishOrderJP} from "async/member/finish-open-order-jp"
@@ -22,6 +18,7 @@ import FactaButton from 'theme/facta/FactaButton';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
+import SquarePaymentForm from 'components/SquarePaymentForm';
 
 type Payment = t.TypeOf<typeof paymentValidator>
 type PaymentList = t.TypeOf<typeof validator>
@@ -65,34 +62,6 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 			: ""
 		);
 
-		const storePaymentMethod = (
-			this.props.program == PageFlavor.JP
-			? storePaymentMethodJP(this.props.juniorId)
-			: storePaymentMethodAP
-		);
-
-		const stripeElement = <StripeElement
-			submitMethod="PAYMENT_METHOD"
-			formId="recurring-form"
-			elementId="card-element"
-			cardErrorsId="card-errors"
-			then={(result: PaymentMethod) => {
-				return storePaymentMethod.send(makePostJSON({
-					paymentMethodId: result.paymentMethod.id,
-					retryLatePayments: true
-				})).then(result => {
-					if (result.type == "Success") {
-						self.props.history.push("/redirect" + window.location.pathname)
-					} else {
-						self.setState({
-							...self.state,
-							validationErrors: result.message.split("\\n") // TODO
-						});
-					}
-				})
-			}}
-		/>;
-
 		const outstandingTotal = Currency.cents(this.props.payments.filter(p => !p.paid).reduce((s, p) => s + p.amountCents, 0))
 
 		const clickPayAll = () => {
@@ -130,6 +99,8 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 		const paid = <span style={{color:"#22772d"}}>Paid</span>
 		const failed = <span style={{color:"#ff0000"}}>Failed</span>
 
+		const paymentElement = <SquarePaymentForm intentOverride="STORE" orderAppAlias="JP" handleSuccess={() => {}}/>
+
 		return <FactaMainPage setBGImage={setBGImage}>
 			{errorPopup}
 			<br />
@@ -149,13 +120,13 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 					})}
 				/>
 				<br /><br />
-				<table><tbody><tr>
+				{/* <table><tbody><tr> TODO fix this
 					<td><b>Total Outstanding: {outstandingTotal.format()}</b></td>	
 					<td style={{paddingLeft: "10px"}}><FactaButton text="Pay All" onClick={clickPayAll} spinnerOnClick/></td>
-				</tr></tbody></table>
+				</tr></tbody></table> */}
 			</FactaArticleRegion>
 			<FactaArticleRegion title="Update Payment Method">
-				{stripeElement}
+				{ paymentElement }
 			</FactaArticleRegion>
 		</FactaMainPage>
 	}
