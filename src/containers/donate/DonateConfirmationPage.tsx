@@ -6,15 +6,12 @@ import { CartItem } from 'async/get-cart-items';
 import FullCartReport from 'components/FullCartReport';
 import { PageFlavor } from 'components/Page';
 import { orderStatusValidator } from "async/order-status"
-import { postWrapper as submitPayment } from "async/stripe/submit-payment-standalone"
-import { makePostJSON, makePostString } from 'core/APIWrapperUtil';
-import { postWrapper as clearCard } from 'async/stripe/clear-card'
-import PlainButton from 'components/PlainButton';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import FactaButton from 'theme/facta/FactaButton';
-import SquarePaymentForm from 'components/SquarePaymentForm';
+import SquarePaymentForm, { SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
+import { FactaInfoDiv } from 'theme/facta/FactaInfoDiv';
 
 type Props = {
 	goNext: () => Promise<void>,
@@ -23,6 +20,7 @@ type Props = {
 	cartItems: CartItem[],
 	history: History<any>,
 	orderStatus: t.TypeOf<typeof orderStatusValidator>,
+	paymentPropsAsync: SquarePaymentFormPropsAsync
 }
 
 type State = {
@@ -39,12 +37,6 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 	render() {
 		const self = this;
 
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
-			: ""
-		);
-
 		const confirm = this.props.orderStatus.cardData.map(cd => <React.Fragment>
 			<FactaButton text="< Back" onClick={this.props.goPrev}/>
 			<FactaButton text="Submit Donation" spinnerOnClick onClick={() => {
@@ -52,46 +44,18 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 					...self.state,
 					validationErrors: []
 				});
-				return submitPayment.send(makePostString("program=" + PageFlavor.DONATE)).then(res => {
-					if (res.type == "Failure" ) {
-						if (res.code == "process_err") {
-							self.setState({
-								...self.state,
-								validationErrors: [res.message]
-							});
-						} else {
-							self.setState({
-								...self.state,
-								validationErrors: ["An error occurred.  Tech support has been notified; do not resubmit payment.  If this problem persists contact the Front Office at 617-523-1038"]
-							});
-						}
-					} else {
 						// TODO: catch any bullcrap error after payment process
-						self.props.goNext()
-					}
-				})
+				return self.props.goNext()
+
 			}}/>
 		</React.Fragment>);
 
-		const paymentTextOrResetLink = (function(){
-			if (confirm.isSome()) {
-				return <PlainButton text="Click here to use a different credit card." onClick={e => {
-					e.preventDefault();
-					return clearCard.send(makePostJSON({program: PageFlavor.DONATE}))
-						.then(() => self.props.reload());
-				}} />
-			} else {
-				return "Please enter payment information below. Credit card information is communicated securely to our payment processor and is not stored by CBI.";
-			}
-		}());
-
-		const paymentElement = <SquarePaymentForm orderAppAlias='Donate' handleSuccess={() => {
+		const paymentElement = <SquarePaymentForm {...this.props.paymentPropsAsync} orderAppAlias='Donate' handleSuccess={() => {
 			this.props.goNext()
 		}}/>
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
-				{errorPopup}
+			<FactaMainPage setBGImage={setCheckoutImageForDonations} infosOverride={["Recurring donations are current unavailable, we expect the recurring donations system to be back online by April 1st 2025."]} errors={this.state.validationErrors}>
 				<FactaArticleRegion title={"Donation Summary"}>
 					<FullCartReport
 						cartItems={this.props.cartItems}
@@ -104,8 +68,6 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 					<br />
 				</FactaArticleRegion>
 				<FactaArticleRegion title={"Your Billing Info"}>
-					{paymentTextOrResetLink}
-					<br />
 					{confirm.getOrElse(paymentElement)}
 				</FactaArticleRegion>
 			</FactaMainPage>

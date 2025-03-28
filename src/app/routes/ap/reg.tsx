@@ -7,7 +7,6 @@ import { validator as welcomeAPValidator, apiw as welcomeAPIAP } from "async/mem
 import { setAPImage } from 'util/set-bg-image';
 import ApRegistrationWizard from 'containers/ap/ap-registration/ApRegistrationWizard';
 import { apBasePath } from 'app/paths/ap/_base';
-import { hasStripeCustomerId } from 'containers/ap/HomePageActionsAP';
 import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
 
 export const apRegPageRoute = new RouteWrapper(true, path, history => <PageWrapper
@@ -19,7 +18,6 @@ export const apRegPageRoute = new RouteWrapper(true, path, history => <PageWrapp
 		end={apBasePath.getPathFromArgs({})}
 		editOnly={false}
 		currentSeason={async.season}
-		hasStripeCustomerId={hasStripeCustomerId(async.actions)}
 		canRenew={async.discountsResult.canRenew}
 	/>}
 	urlProps={{

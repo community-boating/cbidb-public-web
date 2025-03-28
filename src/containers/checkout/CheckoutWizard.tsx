@@ -14,6 +14,7 @@ import {getWrapper as getDonationFunds} from "async/donation-funds"
 import ThankYouPage from "./ThankYou";
 import { PageFlavor } from "components/Page";
 import FactaLoadingPage from "theme/facta/FactaLoadingPage";
+import { getPaymentPropsAsync } from "components/SquarePaymentForm";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -73,7 +74,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 			clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 				key="checkout details"
 				history={self.props.history}
-				component={(urlProps: {}, [welcome, orderStatus, cartItems, funds]) => <PaymentDetailsPage
+				component={(urlProps: {}, [welcome, orderStatus, cartItems, funds, paymentPropsAsync]) => <PaymentDetailsPage
 					{...mapWizardProps(fromWizard)}
 					welcomePackage={welcome}
 					orderStatus = {orderStatus}
@@ -82,6 +83,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 					cartItems={cartItems}
 					donationFunds={funds}
 					flavor={this.props.flavor}
+					paymentPropsAsync={paymentPropsAsync}
 				/>}
 				urlProps={{}}
 				shadowComponent={<FactaLoadingPage setBGImage={setCheckoutImage} />}
@@ -90,8 +92,9 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 						(self.getWelcomeAPI() as any).send(null),
 						orderStatus(this.props.flavor).send(null),
 						getCartItems(this.props.flavor).send(null),
-						getDonationFunds.send(null)
-					]).then(([welcome, order, cart, funds]) => {
+						getDonationFunds.send(null),
+						getPaymentPropsAsync(this.props.flavor)
+					]).then(([welcome, order, cart, funds, paymentPropsAsync]) => {
 						if (welcome.type == "Success" && !welcome.success.canCheckout) {
 							self.props.history.push(jpBasePath.getPathFromArgs({}));
 							return Promise.resolve(null);
@@ -104,7 +107,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 									this.setHasApMemberships();
 								}
 							}
-							return Promise.resolve([welcome, order, cart, funds])
+							return Promise.resolve([welcome, order, cart, funds, paymentPropsAsync])
 						}
 					}).catch(err => Promise.resolve(null));  // TODO: handle failure
 				}}

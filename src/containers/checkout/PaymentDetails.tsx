@@ -29,7 +29,7 @@ import { PageFlavor } from "components/Page";
 import StandardReport from "theme/facta/StandardReport";
 import {postWrapper as setJPStaggered} from "async/member/set-payment-plan-jp"
 import fundsPath from "app/paths/common/funds"
-import SquarePaymentForm from "components/SquarePaymentForm";
+import SquarePaymentForm, { SquarePaymentFormPropsAsync } from "components/SquarePaymentForm";
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -43,6 +43,7 @@ export interface Props {
 	history: History<any>,
 	donationFunds: DonationFund[],
 	flavor: PageFlavor
+	paymentPropsAsync: SquarePaymentFormPropsAsync
 }
 
 type Form = {
@@ -249,6 +250,8 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			});
 		}
 
+		const currentlyDoingStaggered = this.state.jpDoStaggeredPayment.getOrElse(null) == "Y"
+
 		const scheduleRadio = (id: string, group: string, doStaggered: boolean, text: JSX.Element) => {
 			const onClick = (doStaggered: boolean) => {
 				self.setState({
@@ -257,7 +260,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				})
 				setJPStaggered.send(makePostJSON({doStaggeredPayments: doStaggered})).then(() => self.props.history.push("/redirect" + window.location.pathname + "#jp-payment-mode"))
 			}
-			const currentlyDoingStaggered = this.state.jpDoStaggeredPayment.getOrElse(null) == "Y"
 
 			const checked = (
 				doStaggered
@@ -395,7 +397,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				</td>
 			</tr></tbody></table>
 			<FactaArticleRegion title="Payment">
-				<SquarePaymentForm orderAppAlias={this.props.flavor} handleSuccess={() => {
+				<SquarePaymentForm {...this.props.paymentPropsAsync} intentOverride={currentlyDoingStaggered ? "CHARGE_AND_STORE" : undefined} orderAppAlias={this.props.flavor} handleSuccess={() => {
 					this.props.goNext()
 				}}/>
 			</FactaArticleRegion>

@@ -19,6 +19,7 @@ import {postWrapper as getProtoPersonCookie} from "async/check-proto-person-cook
 import { PostURLEncoded } from "core/APIWrapperUtil";
 import FactaLoadingPage from "theme/facta/FactaLoadingPage";
 import { Option } from "fp-ts/lib/Option";
+import { getPaymentPropsAsync } from "components/SquarePaymentForm";
 
 //type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -79,7 +80,7 @@ export default class DonateWizard extends React.Component<Props, State> {
 					.then(() => Promise.all([
 						getDonationFunds.send(null),
 						getCart.send(null),
-						orderStatus(PageFlavor.DONATE).send(null),
+						orderStatus(PageFlavor.DONATE).send(null)
 					]) as any)}
 					{...pageWrapperProps}
 				/>,
@@ -88,17 +89,19 @@ export default class DonateWizard extends React.Component<Props, State> {
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="DonateConfirmationPage"
 					history={self.props.history}
-					component={(urlProps: {}, [funds, cart, orderStatus]: any, reload: () => void) => <DonateConfirmationPage
+					component={(urlProps: {}, [funds, cart, orderStatus, paymentPropsAsync]: any, reload: () => void) => <DonateConfirmationPage
 						{...staticComponentProps}
 						reload={reload}
 						cartItems={cart}
 						orderStatus={orderStatus}
+						paymentPropsAsync={paymentPropsAsync}
 						{...mapWizardProps(fromWizard)}
 					/>}
 					getAsyncProps={() => Promise.all([
 						getDonationFunds.send(null),
 						getCart.send(null),
 						orderStatus(PageFlavor.DONATE).send(null),
+						getPaymentPropsAsync(PageFlavor.DONATE)
 					]) as any}
 					{...pageWrapperProps}
 				/>,

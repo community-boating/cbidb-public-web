@@ -9,7 +9,7 @@ import { orderStatusValidator } from "async/order-status"
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
-import SquarePaymentForm from 'components/SquarePaymentForm';
+import SquarePaymentForm, { SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
 
 type Props = {
 	goNext: () => Promise<void>,
@@ -18,6 +18,7 @@ type Props = {
 	cartItems: CartItem[],
 	history: History<any>,
 	orderStatus: t.TypeOf<typeof orderStatusValidator>,
+	paymentPropsAsync: SquarePaymentFormPropsAsync
 }
 
 type State = {
@@ -39,7 +40,7 @@ export default class MugarDonateConfirmationPage extends React.PureComponent<Pro
 			: ""
 		);
 
-		const paymentElement = <SquarePaymentForm orderAppAlias="Donate" handleSuccess={() => {
+		const paymentElement = <SquarePaymentForm {...this.props.paymentPropsAsync} orderAppAlias="Donate" handleSuccess={() => {
 			this.props.goNext()
 		}}/>
 

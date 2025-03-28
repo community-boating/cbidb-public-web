@@ -26,7 +26,6 @@ import {apiw as getPrices, validator as pricesValidator} from "async/prices"
 import FactaLoadingPage from "theme/facta/FactaLoadingPage";
 import ApStaggeredPaymentsPage from "./ApStaggeredPaymentsPage";
 import { WizardPageflowAbstract, WizardBaseProps, WizardBaseState } from "core/WizardPageflowAbstract";
-import { hasStripeCustomerId } from "../HomePageActionsAP";
 import Currency from "util/Currency";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
@@ -38,7 +37,6 @@ type Props = WizardBaseProps & {
 	history: History<any>,
 	currentSeason: number,
 	editOnly: boolean,
-	hasStripeCustomerId: boolean
 	canRenew: boolean
 };
 
@@ -48,7 +46,6 @@ type State = WizardBaseState & {
 	guestPrivsAuto: boolean,
 	guestPrivsNA: boolean,
 	damageWavierAuto: boolean,
-	hasStripeCustomerId: boolean
 }
 
 export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, State> {
@@ -57,8 +54,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 		this.state = {
 			...this.state,
 			membershipTypeId: null,
-			hasStripeCustomerId: props.hasStripeCustomerId,
-			paymentPlanAllowed: /*props.canRenew &&*/ props.hasStripeCustomerId,
+			paymentPlanAllowed: /*props.canRenew &&*/ true,
 			guestPrivsAuto: false,
 			guestPrivsNA: false,
 			damageWavierAuto: false
@@ -70,7 +66,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 			...this.state,
 			membershipTypeId,
 			...fromServer,
-			paymentPlanAllowed: /*this.props.canRenew &&*/ this.state.hasStripeCustomerId && fromServer.paymentPlanAllowed
+			paymentPlanAllowed: fromServer.paymentPlanAllowed
 		})
 	}
 	calculateNodes(): WizardNode[] {
@@ -111,10 +107,8 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 				getAsyncProps={(urlProps: {}) => Promise.all([
 					welcomeAPI.send(null).then(result => {
 						if (result.type == "Success") {
-							const hasStripeCustomerIdProp = hasStripeCustomerId(result.success.actions);
 							self.setState({
-								...self.state,
-								hasStripeCustomerId: hasStripeCustomerIdProp,
+								...self.state
 							})
 						}
 						return Promise.resolve(result);

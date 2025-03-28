@@ -15,10 +15,10 @@ import { PageFlavor } from "components/Page";
 import {postWrapper as getProtoPersonCookie} from "async/check-proto-person-cookie"
 import { PostURLEncoded } from "core/APIWrapperUtil";
 import FactaLoadingPage from "theme/facta/FactaLoadingPage";
-import { Option } from "fp-ts/lib/Option";
 import MugarDonateDetailsPage from "./MugarDonateDetailsPage";
 import MugarDonateConfirmationPage from "./MugarDonateConfirmationPage";
 import MugarDonateThankYouPage from "./MugarDonateThankYouPage";
+import { getPaymentPropsAsync } from "components/SquarePaymentForm";
 
 //type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -84,17 +84,19 @@ export default class MugarDonateWizard extends React.Component<Props, State> {
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="DonateConfirmationPage"
 					history={self.props.history}
-					component={(urlProps: {}, [funds, cart, orderStatus]: any, reload: () => void) => <MugarDonateConfirmationPage
+					component={(urlProps: {}, [funds, cart, orderStatus, paymentPropsAsync]: any, reload: () => void) => <MugarDonateConfirmationPage
 						{...staticComponentProps}
 						reload={reload}
 						cartItems={cart}
 						orderStatus={orderStatus}
+						paymentPropsAsync={paymentPropsAsync}
 						{...mapWizardProps(fromWizard)}
 					/>}
 					getAsyncProps={() => Promise.all([
 						getDonationFunds.send(null),
 						getCart.send(null),
 						orderStatus(PageFlavor.DONATE).send(null),
+						getPaymentPropsAsync(PageFlavor.DONATE)
 					]) as any}
 					{...pageWrapperProps}
 				/>,

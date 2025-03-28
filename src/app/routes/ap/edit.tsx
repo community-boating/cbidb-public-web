@@ -8,7 +8,6 @@ import { setAPImage } from 'util/set-bg-image';
 import ApRegistrationWizard from 'containers/ap/ap-registration/ApRegistrationWizard';
 import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
 import { apBasePath } from 'app/paths/ap/_base';
-import { hasStripeCustomerId } from 'containers/ap/HomePageActionsAP';
 
 export const apEditPageRoute = new RouteWrapper(true, path, history => <PageWrapper
 	key="edit"
@@ -19,7 +18,6 @@ export const apEditPageRoute = new RouteWrapper(true, path, history => <PageWrap
 		end={apBasePath.getPathFromArgs({})}
 		editOnly={true}
 		currentSeason={async.season}
-		hasStripeCustomerId={hasStripeCustomerId(async.actions)}
 		canRenew={async.discountsResult.canRenew}
 	/>}
 	urlProps={{

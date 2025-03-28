@@ -4,17 +4,16 @@ import {History} from 'history';
 import { setCheckoutImage } from 'util/set-bg-image';
 import {validator as gcValidator} from "async/member/gc-purchase"
 import { orderStatusValidator } from "async/order-status"
-import { postWrapper as submitPayment } from "async/stripe/submit-payment-standalone"
 import { makePostJSON, makePostString } from 'core/APIWrapperUtil';
 import { PageFlavor } from 'components/Page';
 import GiftCertConfirmationRegion from './GiftCertConfirmationRegion';
-import { postWrapper as clearCard } from 'async/stripe/clear-card'
 import PlainButton from 'components/PlainButton';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import FactaButton from 'theme/facta/FactaButton';
-import SquarePaymentForm from 'components/SquarePaymentForm';
+import SquarePaymentForm, { SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
+import { FactaInfoDiv } from 'theme/facta/FactaInfoDiv';
 
 type GC = t.TypeOf<typeof gcValidator>;
 
@@ -25,6 +24,7 @@ type Props = {
 	gc: GC,
 	orderStatus: t.TypeOf<typeof orderStatusValidator>,
 	history: History<any>,
+	paymentPropsAsnyc: SquarePaymentFormPropsAsync
 }
 
 type State = {
@@ -65,40 +65,14 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 					...self.state,
 					validationErrors: []
 				});
-				return submitPayment.send(makePostString("program=" + PageFlavor.GC)).then(res => {
-					if (res.type == "Failure" ) {
-						if (res.code == "process_err") {
-							self.setState({
-								...self.state,
-								validationErrors: [res.message]
-							});
-						} else {
-							self.setState({
-								...self.state,
-								validationErrors: ["An error occurred.  Tech support has been notified; do not resubmit payment.  If this problem persists contact the Front Office at 617-523-1038"]
-							});
-						}
-					} else {
+				
 						// TODO: catch any bullcrap error after payment process
-						self.props.goNext()
-					}
-				})
+				return self.props.goNext()
+					
 			}}/>
 			</React.Fragment>);
 
-		const paymentTextOrResetLink = (function(){
-			if (confirm.isSome()) {
-				return <PlainButton text="Click here to use a different credit card." onClick={e => {
-					e.preventDefault();
-					return clearCard.send(makePostJSON({program: PageFlavor.GC}))
-						.then(() => self.props.reload());
-				}} />
-			} else {
-				return "Please enter payment information below. Credit card information is communicated securely to our payment processor and will not be stored by CBI for this order.";
-			}
-		}());
-
-		const paymentElement = <SquarePaymentForm orderAppAlias='GC' handleSuccess={() => {
+		const paymentElement = <SquarePaymentForm {...this.props.paymentPropsAsnyc} orderAppAlias='GC' handleSuccess={() => {
 			this.props.goNext()
 		}}/>
 		return (
@@ -108,9 +82,6 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 					<GiftCertConfirmationRegion {...this.props.gc} />
 				</FactaArticleRegion>
 				<FactaArticleRegion title={"Your Billing Info"}>
-					{paymentTextOrResetLink}
-					<br />
-					<br />
 					{confirm.getOrElse(paymentElement)}
 				</FactaArticleRegion>
 			</FactaMainPage>

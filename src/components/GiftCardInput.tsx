@@ -17,7 +17,7 @@ export type GiftCardInputProps = {
 function GiftCardInfo(props: {giftCard: SquareGiftCard}){
     return <div>
         <h3>Type: {gcTypeMap[props.giftCard.type]}</h3>
-        <h3>Balance: {props.giftCard.balanceMoney.amount}</h3>
+        <h3>Balance: ${(props.giftCard.balanceMoney.amount / 100).toFixed(2)}</h3>
     </div>
 }
 

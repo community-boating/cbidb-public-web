@@ -24,6 +24,7 @@ import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import FactaButton from 'theme/facta/FactaButton';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
+import { FactaInfoDiv } from 'theme/facta/FactaInfoDiv';
 
 type Prices = t.TypeOf<typeof pricesValidator>;
 type GC = t.TypeOf<typeof gcValidator>;

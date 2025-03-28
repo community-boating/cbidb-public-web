@@ -50,7 +50,7 @@ const LineItem = t.type({
     referenceId: t.string,
     source: t.type({ name: t.string }),
     customerId: t.string,
-    lineItems: t.array(LineItem),
+    lineItems: t.union([t.array(LineItem), t.null]),
     discounts: t.union([t.array(Discount), t.null]),
     netAmounts: NetAmounts,
     metadata: t.record(t.string, t.string),

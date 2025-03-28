@@ -27,6 +27,7 @@ import FactaButton from 'theme/facta/FactaButton';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import { MAGIC_NUMBERS } from 'app/magicNumbers';
 import optionify from 'util/optionify';
+import { FactaInfoDiv } from 'theme/facta/FactaInfoDiv';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -297,12 +298,6 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 			</td>
 		</tr></tbody></table>) : null;
 
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors} dontEscapeHTML />
-			: ""
-		);
-
 		const ifStarted = <React.Fragment>
 			<FactaArticleRegion title="Donation Summary">
 				<FullCartReport
@@ -314,7 +309,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					pageFlavor={PageFlavor.DONATE}
 				/>
 				<br />
-				<table><tbody><tr>
+				{/* <table><tbody><tr> TODO Reenable it
 					<td>Would you like to repeat this donation monthly? </td>
 					<td style={{width: "10%"}}></td>
 					<td>
@@ -329,7 +324,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 							updateAction={updateState}
 						/>
 					</td>
-				</tr></tbody></table>
+				</tr></tbody></table> */}
 			</FactaArticleRegion>
 			<FactaArticleRegion title="Personal Info">
 				{!self.props.orderStatus.authedAsRealPerson
@@ -380,8 +375,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 		</React.Fragment>;
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImageForDonations}>
-				{errorPopup}
+			<FactaMainPage setBGImage={setCheckoutImageForDonations} infosOverride={["Recurring donations are current unavailable, we expect the recurring donations system to be back online by April 1st 2025."]} errors={this.state.validationErrors}>
 				<FactaArticleRegion title={<span>Support Community Boating by making a donation today!</span>}>
 					{/* <DonationThirdPartyWidget /> */}
 					<br />
