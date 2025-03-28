@@ -204,7 +204,7 @@ export const GuidedSailTeachPage = (props: {history: History}) => {
 		: ""
 	);
 
-	return <FactaMainPage setBGImage={setAPImage} errors={this.state.validationErrors}>
+	return <FactaMainPage setBGImage={setAPImage} errors={validationErrors}>
 		<Calendar
 			monthStartOnDate={0}
 			today={getNow()}
