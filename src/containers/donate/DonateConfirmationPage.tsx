@@ -52,6 +52,8 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 
 		const paymentElement = <SquarePaymentForm {...this.props.paymentPropsAsync} orderAppAlias='Donate' handleSuccess={() => {
 			this.props.goNext()
+		}} setPaymentErrors={(errors) => {
+			this.setState((s) => ({...s, validationErrors: errors}))
 		}}/>
 
 		return (

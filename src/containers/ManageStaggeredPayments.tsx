@@ -104,7 +104,10 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 			})
 		}, [])
 
-		const paymentElement = paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...paymentPropsAsync} intentOverride="STORE" orderAppAlias={PageFlavor.JP} handleSuccess={() => {}}/>
+		const paymentElement = paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...paymentPropsAsync} intentOverride="STORE" orderAppAlias={PageFlavor.JP} handleSuccess={() => {}}
+		setPaymentErrors={(errors) => {
+			this.setState((s) => ({...s, validationErrors: errors}))
+		}}/>
 
 		return <FactaMainPage setBGImage={setBGImage} errors={this.state.validationErrors}>
 			<br />

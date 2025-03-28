@@ -29,6 +29,8 @@ export type SquarePaymentFormProps = SquarePaymentFormPropsAsync & {
     intentOverride?: string
     orderAppAlias: string
     handleSuccess: () => void
+    setPaymentErrors: (errors: string[]) => void
+
 }
 
 type IntentTypes = "CHARGE" | "CHARGE_AND_STORE" | "STORE"
@@ -148,7 +150,7 @@ export function getPaymentPropsAsync(orderAppAlias: string): Promise<ApiResult<S
 }
 
 export default function SquarePaymentForm(props: SquarePaymentFormProps){
-    const [paymentErrors, setPaymentErrors] = React.useState<string>(undefined)
+    const setPaymentErrors = props.setPaymentErrors
     const [paymentType, setPaymentType] = React.useState(PAYMENT_TYPES.CREDIT_CARD.key)
     const [buttonDisableOverride, setButtonDisableOverride] = React.useState(false)
     const [storePayment, setStorePayment] = React.useState(props.intentOverride == "STORE" || props.intentOverride == "CHARGE_AND_STORE")
@@ -196,7 +198,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                     setDoPoll(true)
                 }else{
                     console.log("Failed to pay for order", a)
-                    setPaymentErrors("Payment Error, please contact staff at CBI")
+                    setPaymentErrors(["Payment Error, please contact staff at CBI"])
                 }
             })
         }}/>
@@ -252,7 +254,6 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
             setButtonDisableOverride(false)
         }
     }} createVerificationDetails={() => verificationDetails} createPaymentRequest={() => paymentRequest}>
-        { paymentErrors ? <h2>{paymentErrors}</h2> : <></> }
         <TabGroup tabGroups={tabGroupsMapped} locked={buttonDisableOverride} controlled={{tabKey: paymentType, setTabKey: setPaymentType}}>
             <div key={PAYMENT_TYPES.CREDIT_CARD.key}>
                 <CreditCard buttonProps={{
@@ -283,7 +284,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                             if(a.type == "Success")
                                 setDoPoll(true)
                             else
-                                setPaymentErrors("Payment failed, please try again")
+                                setPaymentErrors(["Payment failed, please try again"])
                             setButtonDisableOverride(false)
                         })
                     }}/>
@@ -300,7 +301,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                             if(a.type == "Success")
                                 setDoPoll(true)
                             else
-                                setPaymentErrors("Payment failed, please try again")
+                                setPaymentErrors(["Payment failed, please try again"])
                             setButtonDisableOverride(false)
                         })
                     }}/>

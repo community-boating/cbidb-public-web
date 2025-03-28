@@ -236,12 +236,6 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			<td style={{verticalAlign: "top"}}>{fundCell}</td>
 		</tr></tbody></table>) : null;
 
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
-			: ""
-		);
-
 		const setErrors = (errors: string) => {
 			window.scrollTo(0, 0);
 			self.setState({
@@ -299,8 +293,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			border: selected ? "2px solid #2358A6" : undefined
 		})
 
-		return <FactaMainPage setBGImage={setCheckoutImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setCheckoutImage} errors={this.state.validationErrors}>
 			<FactaArticleRegion title="Please consider making a donation to Community Boating.">
 				{`Community Boating, Inc. (CBI) is a 501(c)3 non-profit organization operating affordable and accessible programs
 				for kids, adults and individuals with special needs under the mission of 'sailing for all.'
@@ -399,6 +392,8 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			<FactaArticleRegion title="Payment">
 				<SquarePaymentForm {...this.props.paymentPropsAsync} intentOverride={currentlyDoingStaggered ? "CHARGE_AND_STORE" : undefined} orderAppAlias={this.props.flavor} handleSuccess={() => {
 					this.props.goNext()
+				}} setPaymentErrors={(errors) => {
+					this.setState((s) => ({...s, validationErrors: errors}))
 				}}/>
 			</FactaArticleRegion>
 		</FactaMainPage>

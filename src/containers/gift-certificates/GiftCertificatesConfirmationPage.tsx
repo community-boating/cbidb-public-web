@@ -74,6 +74,8 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 
 		const paymentElement = <SquarePaymentForm {...this.props.paymentPropsAsnyc} orderAppAlias='GC' handleSuccess={() => {
 			this.props.goNext()
+		}} setPaymentErrors={(errors) => {
+			this.setState((s) => ({...s, validationErrors: errors}))
 		}}/>
 		return (
 			<FactaMainPage setBGImage={setCheckoutImage}>
