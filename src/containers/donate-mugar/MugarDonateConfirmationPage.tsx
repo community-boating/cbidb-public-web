@@ -45,8 +45,7 @@ export default class MugarDonateConfirmationPage extends React.PureComponent<Pro
 		}}/>
 
 		return (
-			<FactaMainPage setBGImage={setMugarImage}>
-				{errorPopup}
+			<FactaMainPage setBGImage={setMugarImage} errors={this.state.validationErrors}>
 				<FactaArticleRegion title={"Donation Summary"}>
 					<FullCartReport
 						cartItems={this.props.cartItems}

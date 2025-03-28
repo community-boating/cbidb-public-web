@@ -197,8 +197,7 @@ export default class ApEmergencyContact extends React.PureComponent<Props, State
 			: ""
 		);
 		
-		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})} errors={this.state.validationErrors}>
 			<FactaNotitleRegion>
 				{this.props.breadcrumb}
 			</FactaNotitleRegion>

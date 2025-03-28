@@ -97,8 +97,7 @@ export default class DoClaimAcct extends React.PureComponent<Props, State> {
 			: ""
 		);
 
-		return <FactaMainPage setBGImage={setAPImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setAPImage} errors={this.state.validationErrors}>
 			<FactaArticleRegion title="Please supply a password for your new account." buttons={buttons}>
 				<table><tbody>
 					<FormInput

@@ -288,8 +288,7 @@ export default class RequiredInfo extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: none, showProgramLink: false})} errors={this.state.validationErrors}>
 			<FactaNotitleRegion>
 				{this.props.breadcrumb}
 			</FactaNotitleRegion>

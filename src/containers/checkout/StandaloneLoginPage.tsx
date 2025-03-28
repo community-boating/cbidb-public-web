@@ -80,8 +80,7 @@ export default class StandaloneLoginPage extends React.PureComponent<Props, Stat
 			: ""
 		);
 
-		return <FactaMainPage setBGImage={setCheckoutImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setCheckoutImage} errors={this.state.validationErrors}>
 			<FactaArticleRegion title={"Sign In"}>
 			<table><tbody>
 				<FormInput

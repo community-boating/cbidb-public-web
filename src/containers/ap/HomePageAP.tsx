@@ -85,8 +85,7 @@ export default class HomePageAP extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setAPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})} errors={this.state.validationErrors}>
 			{mainTable}
 			{self.props.data.canCheckout ? checkoutButton : null}
 			{ratings}

@@ -269,8 +269,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 		);
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImage}>
-				{errorPopup}
+			<FactaMainPage setBGImage={setCheckoutImage} errors={this.state.validationErrors}>
 				<FactaArticleRegion title={"Purchase a gift certificate to Community Boating!"}>
 					Give your family member or friend the gift of sailing at Community Boating so they can enjoy the great outdoors by sailing,
 					kayaking, paddleboarding, or windsurfing on the Charles River. Gift Certificates can be sold for a given dollar value,

@@ -204,7 +204,7 @@ export const GuidedSailTeachPage = (props: {history: History}) => {
 		: ""
 	);
 
-	return <FactaMainPage setBGImage={setAPImage}>
+	return <FactaMainPage setBGImage={setAPImage} errors={this.state.validationErrors}>
 		<Calendar
 			monthStartOnDate={0}
 			today={getNow()}
@@ -213,7 +213,6 @@ export const GuidedSailTeachPage = (props: {history: History}) => {
 			stateControlled={{state: calendarState, setState: setCalendarState}}
 		/><br />
 		<FactaButton text="< Back" onClick={() => Promise.resolve(props.history.push(apBasePath.getPathFromArgs({})))}/>
-		{errorPopup}
 		{existingSignups}
 		{dayRegion}
 		{signupButton}

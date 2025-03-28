@@ -76,12 +76,6 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 		
 				const paymentElement = paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...paymentPropsAsync} intentOverride="STORE" orderAppAlias={PageFlavor.JP} handleSuccess={() => {}}/>
 
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
-			: ""
-		);
-
 		const buttonText = (
 			this.props.currentDonationPlan.recurringDonations.length == 0
 			? "Create"
@@ -113,8 +107,7 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 
 		const success = this.props.successMsg.map(msg => <FactaSuccessDiv msg="Your recurring donation was successfully created!" />).getOrElse(null);
 
-		return <FactaMainPage setBGImage={setCheckoutImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setCheckoutImage} errors={this.state.validationErrors}>
 			{success}
 			<table style={{width: "100%"}}><tbody><tr>
 				<td style={{verticalAlign: "top", width: "40%"}}>

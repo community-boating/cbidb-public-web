@@ -306,8 +306,7 @@ export const ApVolunteerClassPage = (props: {
 		{getFilterCell(false)}
 	</tr></tbody></table>)
 
-	return <FactaMainPage setBGImage={setAPImage}>
-		{errorPopup}
+	return <FactaMainPage setBGImage={setAPImage} errors={this.state.validationErrors}>
 		<FactaArticleRegion title="AP Class Calendar">
 			<Calendar
 				monthStartOnDate={0}

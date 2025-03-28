@@ -101,8 +101,7 @@ export default class ForgotPasswordPage extends React.PureComponent<Props, State
 				}
 			)
 		}
-		return <FactaMainPage setBGImage={setBGImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setBGImage} errors={this.state.validationErrors}>
 			<FactaArticleRegion title="Enter your email address and we'll get your password reset.">
 				<table><tbody>
 					<FormInput

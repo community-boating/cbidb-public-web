@@ -179,8 +179,7 @@ export default class ScholarshipPage extends React.Component<Props, State> {
 			: ""
 		);
 
-		return <FactaMainPage setBGImage={setJPImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setJPImage} errors={this.state.validationErrors}>
 			<FactaNotitleRegion>
 				{this.props.breadcrumb}
 			</FactaNotitleRegion>

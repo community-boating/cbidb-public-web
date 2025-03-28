@@ -71,8 +71,7 @@ export default class HomePageJP extends React.Component<Props, State> {
 		const isPreSeason = month < 7;
 		const closedSeason = isPreSeason ? year-1 : year;
 
-		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setJPImage} navBar={NavBarLogoutOnly({history: this.props.history, sysdate: some(moment(this.props.data.serverTime)), showProgramLink: true})} errors={this.state.validationErrors}>
 			{
 				asc.state.jpRegistrationClosed
 				? <FactaArticleRegion title="Registration is closed.">

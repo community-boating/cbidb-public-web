@@ -495,8 +495,7 @@ export default class ApPreRegister extends React.PureComponent<Props, State> {
 				break;
 		}
 
-		return <FactaMainPage setBGImage={setAPImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setAPImage} errors={this.state.validationErrors}>
 			<FactaArticleRegion title={`${this.noun} Information`}>
 				{ articleContent }
 			</FactaArticleRegion>

@@ -114,8 +114,7 @@ export default class NewPasswordPage extends React.PureComponent<Props, State> {
 				)
 			}
 		}
-		return <FactaMainPage setBGImage={setBGImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setBGImage} errors={this.state.validationErrors}>
 			<FactaArticleRegion title="Enter your new password.">
 				<table><tbody>
 					<FormInput

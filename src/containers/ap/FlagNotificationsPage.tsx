@@ -129,8 +129,7 @@ export default class FlagNotificationsPage extends React.PureComponent<Props, St
 			: setAPImage
 		);
 
-		return <FactaMainPage setBGImage={setBgImage}>
-		{errorPopup}
+		return <FactaMainPage setBGImage={setBgImage} errors={this.state.validationErrors}>
 			<FactaArticleRegion title="Edit Flag Notifications" buttons={buttons}>
 				Community Boating can send you an email notification whenever our flag changes color to yellow or red.
 				<br /><br/>

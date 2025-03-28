@@ -401,8 +401,7 @@ export default class ApClassPage extends React.PureComponent<Props, State> {
 			? <FactaErrorDiv errors={this.state.validationErrors}/>
 			: ""
 		);
-		return <FactaMainPage setBGImage={setAPImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setAPImage} errors={this.state.validationErrors}>
 			<FactaArticleRegion title="AP Class Calendar">
 				<Calendar
 					monthStartOnDate={0}

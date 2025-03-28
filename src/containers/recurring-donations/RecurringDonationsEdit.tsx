@@ -301,8 +301,7 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 			: ""
 		);
 
-		return <FactaMainPage setBGImage={setCheckoutImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setCheckoutImage} errors={this.state.validationErrors}>
 			<table width="100%"><tbody><tr>
 				<td style={{verticalAlign: "top", width: "50%"}}>
 					<FactaArticleRegion title="Active Monthly Donations">

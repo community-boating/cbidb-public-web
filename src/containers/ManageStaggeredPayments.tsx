@@ -56,12 +56,6 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 			}
 		}());
 
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
-			: ""
-		);
-
 		const outstandingTotal = Currency.cents(this.props.payments.filter(p => !p.paid).reduce((s, p) => s + p.amountCents, 0))
 
 		const clickPayAll = () => {
@@ -112,8 +106,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 
 		const paymentElement = paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...paymentPropsAsync} intentOverride="STORE" orderAppAlias={PageFlavor.JP} handleSuccess={() => {}}/>
 
-		return <FactaMainPage setBGImage={setBGImage}>
-			{errorPopup}
+		return <FactaMainPage setBGImage={setBGImage} errors={this.state.validationErrors}>
 			<br />
 			<FactaButton text="< Back" onClick={() => {
 				this.props.history.push(backRoute);

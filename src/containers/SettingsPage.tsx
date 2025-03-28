@@ -124,8 +124,7 @@ export default class SettingsPage extends React.PureComponent<Props, State> {
 			: setAPImage
 		);
 
-		return <FactaMainPage setBGImage={setBgImage}>
-		{errorPopup}
+		return <FactaMainPage setBGImage={setBgImage} errors={this.state.validationErrors}>
 			<FactaArticleRegion title="Edit Account Info" buttons={buttons}>
 				<table><tbody>
 					<FormInput
