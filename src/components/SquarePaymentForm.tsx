@@ -227,6 +227,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
             const handleResult = (promise: Promise<any>) => {
                 promise.catch(e => {
                     console.log("Error processing payment", e)
+                    setPaymentErrors(["Error handling payment"])
                 }).finally(() => {
                     (intent == "STORE") && setButtonDisableOverride(false)
                 })

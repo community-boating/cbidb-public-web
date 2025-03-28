@@ -24,10 +24,8 @@ import {postWrapper as savePersonData } from "async/member/donate-set-person"
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import FactaButton from 'theme/facta/FactaButton';
-import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import { MAGIC_NUMBERS } from 'app/magicNumbers';
 import optionify from 'util/optionify';
-import { FactaInfoDiv } from 'theme/facta/FactaInfoDiv';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -172,7 +170,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				nameFirst: this.state.formData.firstName,
 				nameLast: this.state.formData.lastName,
 				email: this.state.formData.email,
-				doRecurring: this.state.formData.doRecurring.map(r => r == Recurring.RECURRING)
+				doRecurring: some(false),//this.state.formData.doRecurring.map(r => r == Recurring.RECURRING)
 			})))
 			.then(ret => {
 				if (ret.type == "Success") {
@@ -195,7 +193,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 			nameFirst: self.state.formData.firstName,
 			nameLast: self.state.formData.lastName,
 			email: self.state.formData.email,
-			doRecurring: self.state.formData.doRecurring.map(r => r == Recurring.RECURRING).getOrElse(false),
+			doRecurring: false//self.state.formData.doRecurring.map(r => r == Recurring.RECURRING).getOrElse(false),
 		}))).then(ret => {
 			if (ret.type == "Success") {
 				self.props.goNext();

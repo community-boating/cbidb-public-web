@@ -1,7 +1,7 @@
 import * as React from "react";
 
 export const FactaErrorDiv = (props: { errors: string[], dontEscapeHTML?: boolean, suffixes?: React.ReactNode[] }) => (
-	<div className="alert-global alert-top alert-yellow" style={{marginBottom: "15px"}}>
+	<div className="alert-global alert-top alert-red" style={{marginBottom: "15px"}}>
 		<div className="row no-gutters">
 			<table><tbody><tr>
 			<td style={{height: "100%"}}>
@@ -19,7 +19,7 @@ export const FactaErrorDiv = (props: { errors: string[], dontEscapeHTML?: boolea
 					<div className="alert-body">
 						<ul style={{margin: "auto"}}>
 							{props.errors.map((err, i) => (
-								<li key={"err_" + i} style={{color: "#b28010"}}>
+								<li key={"err_" + i} style={{color: "black"}}>
 									{(
 										props.dontEscapeHTML
 										? <span dangerouslySetInnerHTML={{__html: err}} />

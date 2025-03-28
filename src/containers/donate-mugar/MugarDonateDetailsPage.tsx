@@ -82,7 +82,7 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 				firstName: props.orderStatus.nameFirst,
 				lastName: props.orderStatus.nameLast,
 				email: props.orderStatus.email,
-				doRecurring: this.props.orderStatus.paymentMethodRequired ? some(Recurring.RECURRING) : some(Recurring.ONCE),
+				doRecurring: some("")//this.props.orderStatus.paymentMethodRequired ? some(Recurring.RECURRING) : some(Recurring.ONCE),
 			},
 			validationErrors: [],
 		}
@@ -136,7 +136,7 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 				nameFirst: this.state.formData.firstName,
 				nameLast: this.state.formData.lastName,
 				email: this.state.formData.email,
-				doRecurring: some(false)
+				doRecurring: none
 			})))
 			.then(ret => {
 				console.log(ret)

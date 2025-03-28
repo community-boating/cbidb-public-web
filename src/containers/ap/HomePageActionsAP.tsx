@@ -212,7 +212,7 @@ export default (
 		getElements: [
 			LINKS.edit
 		]
-	}, {
+	}/*, {
 		show: () => hasOpenStaggeredOrder,
 		getElements: [
 			() => <Link to={apManageStaggeredPaymentsRoute.getPathFromArgs({})}>Manage Upcoming Payments</Link>
@@ -222,7 +222,7 @@ export default (
 		getElements: [
 			(history: History<any>) => <Link to={apDonateRoute.getPathFromArgs({})}>Create/Manage Recurring Donations</Link>
 		]
-	}, {
+	}*/, {
 		place: 3,
 		getElements: [
 			(history: History<any>) => <Link to={apFlagNotificationsPageRoute.getPathFromArgs({})}>Edit Flag Notifications</Link>
