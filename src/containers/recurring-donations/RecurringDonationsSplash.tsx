@@ -32,17 +32,27 @@ type Props = {
 
 type State = {
 	validationErrors: string[]
+	paymentPropsAsync?: SquarePaymentFormPropsAsync
 }
 
 export default class RecurringDonationsSplash extends React.PureComponent<Props, State> {
 	constructor(props: Props) {
 		super(props);
 		this.state = {
-			validationErrors: []
+			validationErrors: [],
+			paymentPropsAsync: undefined
 		}
 		if (this.props.donationHistory.nextChargeDate.isNone() && this.props.currentDonationPlan.recurringDonations.length == 0) {
 			this.props.history.push(apDonateEditPath.getPathFromArgs({}))
 		}
+	}
+	componentDidMount(): void {
+		getPaymentPropsAsync(PageFlavor.JP).then((a) => {
+			if(a.type == "Success")
+				this.setState(s => ({...s, paymentPropsAsync: a.success}))
+			else
+				console.log("Failed loading payment props")
+		})
 	}
 	render() {
 		const self = this;
@@ -62,21 +72,6 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 		}());
 
 		const createMode = self.props.donationHistory.nextChargeDate.isNone();
-
-		const [paymentPropsAsync, setPaymentPropsAsync] = React.useState<SquarePaymentFormPropsAsync>(undefined)
-		
-				React.useEffect(() => {
-					getPaymentPropsAsync(PageFlavor.JP).then((a) => {
-						if(a.type == "Success")
-							setPaymentPropsAsync(a.success)
-						else
-							console.log("Failed loading payment props")
-					})
-				}, [])
-		
-				const paymentElement = paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...paymentPropsAsync} intentOverride="STORE" orderAppAlias={PageFlavor.JP} handleSuccess={() => {}} setPaymentErrors={(errors) => {
-					this.setState((s) => ({...s, validationErrors: errors}))
-				}}/>
 
 		const buttonText = (
 			this.props.currentDonationPlan.recurringDonations.length == 0
@@ -108,6 +103,11 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 		/>;
 
 		const success = this.props.successMsg.map(msg => <FactaSuccessDiv msg="Your recurring donation was successfully created!" />).getOrElse(null);
+
+		const paymentElement = this.state.paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...this.state.paymentPropsAsync} intentOverride="STORE" orderAppAlias={this.props.program} handleSuccess={() => {}}
+				setPaymentErrors={(errors) => {
+					this.setState((s) => ({...s, validationErrors: errors}))
+				}}/>
 
 		return <FactaMainPage setBGImage={setCheckoutImage} errors={this.state.validationErrors}>
 			{success}

@@ -17,7 +17,6 @@ import { Option } from 'fp-ts/lib/Option';
 import FactaButton from 'theme/facta/FactaButton';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
-import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import SquarePaymentForm, { getPaymentPropsAsync, SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
 
 type Payment = t.TypeOf<typeof paymentValidator>
@@ -33,6 +32,7 @@ type Props = {
 
 type State = {
 	validationErrors: string[]
+	paymentPropsAsync?: SquarePaymentFormPropsAsync
 }
 
 
@@ -40,9 +40,19 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 	constructor(props: Props){
 		super(props)
 		this.state = {
-			validationErrors: []
+			validationErrors: [],
+			paymentPropsAsync: undefined
 		}
 	}
+	componentDidMount(): void {
+		getPaymentPropsAsync(this.props.program).then((a) => {
+			if(a.type == "Success")
+				this.setState(s => ({...s, paymentPropsAsync: a.success}))
+			else
+				console.log("Failed loading payment props")
+		})
+	}
+	
 	render() {
 		const self = this;
 		const setBGImage = (function() {
@@ -74,10 +84,10 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 					if (r.type == "Success") {
 						self.props.history.push("/redirect" + window.location.pathname)
 					} else {
-						self.setState({
-							...self.state,
+						self.setState(s => ({
+							...s,
 							validationErrors: [r.message]
-						})
+						}))
 					}
 					
 				})
@@ -93,18 +103,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 		const paid = <span style={{color:"#22772d"}}>Paid</span>
 		const failed = <span style={{color:"#ff0000"}}>Failed</span>
 
-		const [paymentPropsAsync, setPaymentPropsAsync] = React.useState<SquarePaymentFormPropsAsync>(undefined)
-
-		React.useEffect(() => {
-			getPaymentPropsAsync(PageFlavor.JP).then((a) => {
-				if(a.type == "Success")
-					setPaymentPropsAsync(a.success)
-				else
-					console.log("Failed loading payment props")
-			})
-		}, [])
-
-		const paymentElement = paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...paymentPropsAsync} intentOverride="STORE" orderAppAlias={PageFlavor.JP} handleSuccess={() => {}}
+		const paymentElement = this.state.paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...this.state.paymentPropsAsync} intentOverride="STORE" orderAppAlias={this.props.program} handleSuccess={() => {}}
 		setPaymentErrors={(errors) => {
 			this.setState((s) => ({...s, validationErrors: errors}))
 		}}/>

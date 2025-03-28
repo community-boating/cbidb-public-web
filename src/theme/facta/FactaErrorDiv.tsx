@@ -1,7 +1,11 @@
 import * as React from "react";
 
-export const FactaErrorDiv = (props: { errors: string[], dontEscapeHTML?: boolean, suffixes?: React.ReactNode[] }) => (
-	<div className="alert-global alert-top alert-red" style={{marginBottom: "15px"}}>
+export const FactaErrorDiv = (props: { errors: string[], dontEscapeHTML?: boolean, suffixes?: React.ReactNode[] }) => {
+	const ref = React.useRef<HTMLDivElement>()
+	React.useEffect(() => {
+		ref.current.scrollIntoView()
+	}, props.errors)
+	return <div ref={ref} className="alert-global alert-top alert-red" style={{marginBottom: "15px"}}>
 		<div className="row no-gutters">
 			<table><tbody><tr>
 			<td style={{height: "100%"}}>
@@ -13,7 +17,7 @@ export const FactaErrorDiv = (props: { errors: string[], dontEscapeHTML?: boolea
 						</div>
 					</div>
 				</div>
-			</td>	
+			</td>
 			<td>
 				<div className="col-12 col-lg">
 					<div className="alert-body">
@@ -37,4 +41,4 @@ export const FactaErrorDiv = (props: { errors: string[], dontEscapeHTML?: boolea
 			
 		</div>
 	</div>
-)
+}
