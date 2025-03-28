@@ -60,8 +60,6 @@ class FactaHelmet extends React.Component {
 					{/* <script type='text/javascript' src='https://www.community-boating.org/wp-content/themes/custom/assets/js/vendor.min.js?ver=1590961919'></script> */}
 
 					<script type="text/javascript" src="/joomsource/tooltip.js"></script>
-
-					<script src="https://js.stripe.com/v3/"></script>
 					
 					<link rel='shortlink' href='https://www.community-boating.org/?p=1165' />
 					<meta name="generator" content="Site Kit by Google 1.6.0" /><meta name="google-site-verification" content="Gl6xsj1u0eq_WY3gOACWkcytcq80VTf3WVrved7xvKA" />

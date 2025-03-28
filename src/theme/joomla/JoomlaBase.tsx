@@ -47,8 +47,6 @@ class JoomlaHelmet extends React.Component {
                     <script type="text/javascript" src={fileRoot + "/fusion.js"}></script>
 					<script type="text/javascript" src="/joomsource/tooltip.js"></script>
 
-					<script src="https://js.stripe.com/v3/"></script>
-
                     <script type="text/javascript">{`
                         /* BEGIN AG Google Analytics Plugin v.1.0.8 */
                         var _gaq = _gaq || [];
