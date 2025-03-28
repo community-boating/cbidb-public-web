@@ -375,7 +375,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 		</React.Fragment>;
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImageForDonations} infosOverride={["Recurring donations are current unavailable, we expect the recurring donations system to be back online by April 1st 2025."]} errors={this.state.validationErrors}>
+			<FactaMainPage setBGImage={setCheckoutImageForDonations} infosOverride={["Recurring donations are currently unavailable, we expect the recurring donations system to be back online by April 1st 2025."]} errors={this.state.validationErrors}>
 				<FactaArticleRegion title={<span>Support Community Boating by making a donation today!</span>}>
 					{/* <DonationThirdPartyWidget /> */}
 					<br />

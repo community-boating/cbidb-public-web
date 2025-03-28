@@ -66,7 +66,7 @@ function mapVertificationDetails(props: SquarePaymentFormProps, intent: IntentTy
 
 function mapPaymentRequest(props: SquarePaymentFormProps, intent: IntentTypes): PaymentRequestOptions {
     if(!props.order){
-        return undefined
+        return undefined    
     }
     return {
         countryCode: props.squareInfo.verificationDetails.billingContact.country.getOrElse("US"),
@@ -112,6 +112,7 @@ const PAYMENT_TYPES = {
 function isPaymentDisabled(props: SquarePaymentFormProps, paymentType: typeof PAYMENT_TYPES.CREDIT_CARD){
     switch(paymentType){
         case PAYMENT_TYPES.APPLE_PAY:
+            if((window as any).ApplePaySession == undefined) return true
         case PAYMENT_TYPES.GOOGLE_PAY:
             return (!props.order)
         case PAYMENT_TYPES.CREDIT_CARD:
