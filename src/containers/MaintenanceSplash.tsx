@@ -10,6 +10,7 @@ export default class MaintenanceSplash extends React.PureComponent {
 	render() {
 		return (
 			<FactaMainPage setBGImage={setJPImage}>
+				<p>Test</p>
 				<FactaArticleRegion title={"Temporarily Offline for Maintenance"}>
 					The CBI online portal is currently down for maintenance.  Please check back later!<br />
 					<br />
