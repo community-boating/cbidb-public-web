@@ -29,6 +29,7 @@ import FactaSidebarPage from "theme/facta/FactaSidebarPage";
 import { giftCertificatesPageRoute } from "app/routes/gift-certificates";
 import { jpPathCreateAcct } from "app/paths/jp/create-acct";
 import { jpPathReserve } from "app/paths/jp/reserve";
+import { FactaInfoDiv } from "theme/facta/FactaInfoDiv";
 
 export const formDefault = {
 	username: none as Option<string>,
@@ -285,6 +286,7 @@ export default class LoginPage extends React.Component<Props, State> {
 
 		return (
 			<FactaSidebarPage setBGImage={setBGImage} main={leftColumn} right={rightColumn}>
+				<FactaInfoDiv infos={["Gift cards issued before March 25 2025 are currently being imported into the new payments system and will not work temporarily. We have not yet received a timeline from Square on the import process."]}/>
 				{errorPopup}
 			</FactaSidebarPage>
 		);

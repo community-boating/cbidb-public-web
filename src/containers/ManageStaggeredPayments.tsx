@@ -18,7 +18,7 @@ import FactaButton from 'theme/facta/FactaButton';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
-import SquarePaymentForm from 'components/SquarePaymentForm';
+import SquarePaymentForm, { getPaymentPropsAsync, SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
 
 type Payment = t.TypeOf<typeof paymentValidator>
 type PaymentList = t.TypeOf<typeof validator>
@@ -99,7 +99,18 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 		const paid = <span style={{color:"#22772d"}}>Paid</span>
 		const failed = <span style={{color:"#ff0000"}}>Failed</span>
 
-		const paymentElement = <SquarePaymentForm intentOverride="STORE" orderAppAlias="JP" handleSuccess={() => {}}/>
+		const [paymentPropsAsync, setPaymentPropsAsync] = React.useState<SquarePaymentFormPropsAsync>(undefined)
+
+		React.useEffect(() => {
+			getPaymentPropsAsync(PageFlavor.JP).then((a) => {
+				if(a.type == "Success")
+					setPaymentPropsAsync(a.success)
+				else
+					console.log("Failed loading payment props")
+			})
+		}, [])
+
+		const paymentElement = paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...paymentPropsAsync} intentOverride="STORE" orderAppAlias={PageFlavor.JP} handleSuccess={() => {}}/>
 
 		return <FactaMainPage setBGImage={setBGImage}>
 			{errorPopup}

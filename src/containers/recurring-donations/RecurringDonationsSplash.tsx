@@ -19,7 +19,7 @@ import StandardReport from 'theme/facta/StandardReport';
 import { toMomentFromLocalDate } from 'util/dateUtil';
 import { Option } from 'fp-ts/lib/Option';
 import { FactaSuccessDiv } from 'theme/facta/FactaSuccessDiv';
-import SquarePaymentForm from 'components/SquarePaymentForm';
+import SquarePaymentForm, { getPaymentPropsAsync, SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
 
 type Props = {
 	history: History<any>,
@@ -63,7 +63,18 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 
 		const createMode = self.props.donationHistory.nextChargeDate.isNone();
 
-		const paymentElement = <SquarePaymentForm intentOverride='STORE' orderAppAlias='JP' handleSuccess={() => {}}/>
+		const [paymentPropsAsync, setPaymentPropsAsync] = React.useState<SquarePaymentFormPropsAsync>(undefined)
+		
+				React.useEffect(() => {
+					getPaymentPropsAsync(PageFlavor.JP).then((a) => {
+						if(a.type == "Success")
+							setPaymentPropsAsync(a.success)
+						else
+							console.log("Failed loading payment props")
+					})
+				}, [])
+		
+				const paymentElement = paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...paymentPropsAsync} intentOverride="STORE" orderAppAlias={PageFlavor.JP} handleSuccess={() => {}}/>
 
 		const errorPopup = (
 			(this.state.validationErrors.length > 0)

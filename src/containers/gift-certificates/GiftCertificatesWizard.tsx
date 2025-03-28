@@ -17,6 +17,7 @@ import { PageFlavor } from "components/Page";
 import {postWrapper as getProtoPersonCookie} from "async/check-proto-person-cookie"
 import { PostURLEncoded } from "core/APIWrapperUtil";
 import FactaLoadingPage from "theme/facta/FactaLoadingPage";
+import { getPaymentPropsAsync } from "components/SquarePaymentForm";
 
 const mapElementToBreadcrumbState: (element: WizardNode) => BreadcrumbState = e => ({
 	path: null,
@@ -80,11 +81,12 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 				clazz: (fromWizard: ComponentPropsFromWizard) => <PageWrapper
 					key="GiftCertificatesConfirmationPage"
 					history={self.props.history}
-					component={(urlProps: {}, [prices, gc, status]: any, reload: () => void) => <GiftCertificatesConfirmationPage
+					component={(urlProps: {}, [prices, gc, status, paymentPropsAsnyc]: any, reload: () => void) => <GiftCertificatesConfirmationPage
 						reload={reload}
 						history={history}
 						gc={gc}
 						orderStatus={status}
+						paymentPropsAsnyc={paymentPropsAsnyc}
 						{...staticComponentProps}
 						{...mapWizardProps(fromWizard)}
 					/>}
@@ -92,6 +94,7 @@ export default class GiftCertificatesWizard extends React.Component<Props, State
 						getPrices.send(null),
 						getGC.send(null),
 						orderStatus(PageFlavor.GC).send(null),
+						getPaymentPropsAsync(PageFlavor.GC)
 					]).then(x => Promise.resolve(x)) as any}
 					{...pageWrapperProps}
 				/>,
