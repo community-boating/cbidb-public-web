@@ -14,7 +14,6 @@ import {History} from 'history'
 import { apBasePath } from 'app/paths/ap/_base';
 import { GuidedSailInstancesType, GuidedSailSlotsType, cancelTeachGuidedSail, getCurrentGuidedSailInstances, getGuidedSailSlots, signupTeachGuidedSail } from 'async/ap/guided-sail-teach';
 import { PostURLEncoded } from 'core/APIWrapperUtil';
-import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 
 type DaySlotType = {
 	start: moment.Moment
@@ -197,12 +196,6 @@ export const GuidedSailTeachPage = (props: {history: History}) => {
 			}}/>
 		</>).getOrElse(null)
 	}, [selectedSlotKey, selectedDay])
-
-	const errorPopup = (
-		(validationErrors.length > 0)
-		? <FactaErrorDiv errors={validationErrors}/>
-		: ""
-	);
 
 	return <FactaMainPage setBGImage={setAPImage} errors={validationErrors}>
 		<Calendar
