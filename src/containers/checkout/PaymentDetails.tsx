@@ -19,7 +19,6 @@ import {donationFundValidator} from "async/donation-funds"
 import { Select } from "components/Select";
 import newPopWin from "util/newPopWin";
 import TextInput from "components/TextInput";
-import {FactaErrorDiv} from "theme/facta/FactaErrorDiv";
 import { left, right, Either } from "fp-ts/lib/Either";
 import {postWrapper as addDonation} from "async/member/add-donation"
 import {postWrapper as addPromo} from "async/member/add-promo-code"
@@ -316,7 +315,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						/>
 					</FactaArticleRegion>
 					{(
-						this.props.flavor == PageFlavor.AP && this.props.orderStatus.staggeredPayments.length && false
+						this.props.flavor == PageFlavor.AP && this.props.orderStatus.staggeredPayments.length
 						? (<FactaArticleRegion title="Payment Schedule">
 							Today your card will be charged <b>{Currency.cents(this.props.orderStatus.staggeredPayments[0].paymentAmtCents).format()}</b>. Your
 							card will be charged again on the following dates to complete your order:
@@ -326,7 +325,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 						: null
 					)}
 					{(
-						this.props.flavor == PageFlavor.JP && this.props.orderStatus.jpAvailablePaymentSchedule.length && false
+						this.props.flavor == PageFlavor.JP && this.props.orderStatus.jpAvailablePaymentSchedule.length
 						? (<FactaArticleRegion title="Payment Schedule">
 							Staggered payment is available.  You may pay fully today, or spread the cost of your order between now and the start of Junior Program.
 							<br /><br />
@@ -390,7 +389,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				</td>
 			</tr></tbody></table>
 			<FactaArticleRegion title="Payment">
-				<SquarePaymentForm {...this.props.paymentPropsAsync} intentOverride={currentlyDoingStaggered ? "CHARGE_AND_STORE" : undefined} orderAppAlias={this.props.flavor} handleSuccess={() => {
+				<SquarePaymentForm fetchOrderLate {...this.props.paymentPropsAsync} intentOverride={currentlyDoingStaggered ? "CHARGE_AND_STORE" : undefined} orderAppAlias={this.props.flavor} handleSuccess={() => {
 					this.props.goNext()
 				}} setPaymentErrors={(errors) => {
 					this.setState((s) => ({...s, validationErrors: errors}))

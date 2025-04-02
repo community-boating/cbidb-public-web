@@ -19,7 +19,7 @@ import StandardReport from 'theme/facta/StandardReport';
 import { toMomentFromLocalDate } from 'util/dateUtil';
 import { Option } from 'fp-ts/lib/Option';
 import { FactaSuccessDiv } from 'theme/facta/FactaSuccessDiv';
-import SquarePaymentForm, { getPaymentPropsAsync, SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
+import SquarePaymentForm, { getPaymentPropsAsync, getPaymentPropsAsyncNoOrder, SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
 
 type Props = {
 	history: History<any>,
@@ -47,7 +47,7 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 		}
 	}
 	componentDidMount(): void {
-		getPaymentPropsAsync(PageFlavor.JP).then((a) => {
+		getPaymentPropsAsyncNoOrder(PageFlavor.JP).then((a) => {
 			if(a.type == "Success")
 				this.setState(s => ({...s, paymentPropsAsync: a.success}))
 			else
