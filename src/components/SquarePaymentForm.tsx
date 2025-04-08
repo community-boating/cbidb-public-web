@@ -46,7 +46,7 @@ function convertMoneyToFloat(money: number){
 function mapVertificationDetails(props: SquarePaymentFormProps, intent: IntentTypes): ChargeVerifyBuyerDetails | StoreVerifyBuyerDetails {
     const verificationInfo = props.squareInfo.verificationDetails
     const billingContact = verificationInfo.billingContact
-    const orderPrice = props.order ? convertMoneyToFloat(props.order.squareOrder.netAmountDueMoney.amount) : undefined
+    const orderPrice = props.order ? convertMoneyToFloat(props.order.squareOrderPriceInCents) : undefined
     return {
         amount: verificationInfo.amountOverride.getOrElse(orderPrice),
         billingContact: {
@@ -72,7 +72,7 @@ function mapPaymentRequest(props: SquarePaymentFormProps, intent: IntentTypes): 
     return {
         countryCode: props.squareInfo.verificationDetails.billingContact.country.getOrElse("US"),
         currencyCode: props.squareInfo.verificationDetails.currencyCode,
-        total: {amount: convertMoneyToFloat(props.order.squareOrder.totalMoney.amount), label:"Total"}
+        total: {amount: convertMoneyToFloat(props.order.squareOrderPriceInCents), label:"Total"}
     }
 }
 
@@ -225,7 +225,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const showOnlyRecurring = (intent == "STORE" || intentProvided == "CHARGE_AND_STORE")
     const tabGroupsMapped = Object.values(PAYMENT_TYPES).map(paymentType => ({...paymentType, disabled: isPaymentDisabled(propsToUse, paymentType)}))
     .filter((a) => (a.key == PAYMENT_TYPES.CREDIT_CARD.key || a.key == PAYMENT_TYPES.STORED_CARD.key || !showOnlyRecurring))
-    const isFree = order && order.squareOrder.netAmountDueMoney.amount == 0
+    const isFree = order && order.squareOrderPriceInCents == 0
     const isLoading = props.fetchOrderLate && propsToUse.order == undefined
     const isPaymentAvailable = !isLoading && !buttonDisableOverride
 

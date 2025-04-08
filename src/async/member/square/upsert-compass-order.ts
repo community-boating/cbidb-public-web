@@ -69,8 +69,11 @@ const LineItem = t.type({
 export { Order }
 
 const resultValidator = t.type({
-    squareOrder: Order,
-    compassOrderId: t.number
+    compassOrderId: t.union([t.number, t.null, t.undefined]),
+    squareOrderPriceInCents: t.union([t.number, t.null, t.undefined]),
+    staggeredCompassOrderId: t.union([t.number, t.null, t.undefined]),
+    staggeredSquareOrderPriceInCents: t.union([t.number, t.null, t.undefined]),
+    staggeredOrderInvoiceId: t.union([t.string, t.null, t.undefined])
 })
 
 export type SquareOrderInfo = t.TypeOf<typeof resultValidator>
