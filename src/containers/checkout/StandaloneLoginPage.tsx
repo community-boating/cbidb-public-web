@@ -2,37 +2,40 @@ import * as React from "react";
 import {History} from 'history';
 import { setCheckoutImage } from "util/set-bg-image";
 import TextInput from "components/TextInput";
-import { none, Option } from "fp-ts/lib/Option";
+import { none, Option, some } from "fp-ts/lib/Option";
+import {apiw as prove} from "async/prove-member";
 import formUpdateState from "util/form-update-state";
-import {apiw as proveMember} from "async/prove-member"
-import { makePostString } from "core/APIWrapperUtil";
 import FactaMainPage from "theme/facta/FactaMainPage";
 import FactaArticleRegion from "theme/facta/FactaArticleRegion";
 import FactaButton from "theme/facta/FactaButton";
-import { FactaErrorDiv } from "theme/facta/FactaErrorDiv";
+import asc from "app/AppStateContainer";
+import { PostURLEncoded } from "core/APIWrapperUtil";
 
-export const formDefault = {
-	username: none as Option<string>,
+export function formDefault (username: string) {return ({
+	username: ((username || "") == "") ? none : some(username.substring(1)),
 	password: none as Option<string>
-}
+})}
 
 interface Props {
-	history: History<any>,
+	history: History<any>
 }
 
 type State = {
-	formData: typeof formDefault
+	formData: {
+		username: Option<string>
+		password: Option<string>
+	}
 	loginProcessing: boolean,
 	validationErrors: string[]
 };
 
-class FormInput extends TextInput<typeof formDefault> {}
+class FormInput extends TextInput<State['formData']> {}
 
 export default class StandaloneLoginPage extends React.PureComponent<Props, State> {
 	constructor(props: Props){
 		super(props);
 		this.state = {
-			formData: formDefault,
+			formData: formDefault(window.location.hash),
 			loginProcessing: false,
 			validationErrors: []
 		}
@@ -43,19 +46,20 @@ export default class StandaloneLoginPage extends React.PureComponent<Props, Stat
 	render() {
 		const self = this;
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
-		
 		const loginFunction = () => {
 			if (!self.state.loginProcessing) {
 				self.setState({
-					...this.state,
+					...self.state,
 					loginProcessing: true,
 					validationErrors: []
 				})
-				const payload = makePostString("username=" + encodeURIComponent(this.state.formData.username.getOrElse("")) + "&password=" + encodeURIComponent(this.state.formData.password.getOrElse("")))
-				return proveMember.send(payload).then(res => {
-					if (res.type == "Success" && res.success) {
-						window.opener.location.reload();
+				const login: Promise<any> = asc.updateState.login.attemptLogin(self.state.formData.username.getOrElse(""), self.state.formData.password.getOrElse(""))
+				return login.then(res => {
+					if (res) {
+						prove.send(PostURLEncoded("")).then(a => {
+							window.opener.location.reload();
 						window.close();
+						})
 					} else {
 						this.setState({
 							...self.state,
@@ -73,12 +77,6 @@ export default class StandaloneLoginPage extends React.PureComponent<Props, Stat
 			else return Promise.resolve();
 		}
 		const loginButton = (<FactaButton key={"loginbutton-" + !!(this.state || {}).loginProcessing} text="LOGIN" onClick={loginFunction} spinnerOnClick forceSpinner={(this.state || {}).loginProcessing}/>);
-
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
-			: ""
-		);
 
 		return <FactaMainPage setBGImage={setCheckoutImage} errors={this.state.validationErrors}>
 			<FactaArticleRegion title={"Sign In"}>

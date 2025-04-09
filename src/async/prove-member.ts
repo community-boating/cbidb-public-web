@@ -3,7 +3,7 @@ import APIWrapper from 'core/APIWrapper';
 import { HttpMethod } from "core/HttpMethod";
 import { PostString } from 'core/APIWrapperTypes';
 
-const path = "/prove-member"
+const path = "member/prove-member"
 
 export const apiw = new APIWrapper<typeof t.boolean, PostString, {}>({
 	path,

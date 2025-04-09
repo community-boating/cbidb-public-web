@@ -9,22 +9,18 @@ import TextInput from 'components/TextInput';
 import { RadioGroup } from 'components/InputGroup';
 import { Select } from 'components/Select';
 import formUpdateState from 'util/form-update-state';
-import newPopWin from "util/newPopWin";
 import {postWrapper as addDonation} from "async/add-donation-standalone"
 import { makePostJSON, PostURLEncoded } from 'core/APIWrapperUtil';
 import {postWrapper as getProtoPersonCookie} from "async/check-proto-person-cookie"
-import FullCartReport from 'components/FullCartReport';
 import { CartItem } from 'async/get-cart-items-donate';
-import { PageFlavor } from 'components/Page';
 import { Either, left, right } from 'fp-ts/lib/Either';
 import { orderStatusValidator } from "async/order-status"
-import standaloneLoginPath from "app/paths/common/standalone-signin"
-import {apiw as detach} from "async/proto-detach-member"
 import {postWrapper as savePersonData } from "async/member/donate-set-person"
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import FactaButton from 'theme/facta/FactaButton';
 import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
+import StandalonePurchaserInfo from 'components/StandalonePurchaserInfo';
 
 const FUND_ID = 1261
 
@@ -46,8 +42,8 @@ type Form = {
 	gcNumber: Option<string>,
 	gcCode: Option<string>,
 	inMemory: Option<string>,
-	firstName: Option<string>,
-	lastName: Option<string>,
+	purchaserNameFirst: Option<string>,
+	purchaserNameLast: Option<string>,
 	email: Option<string>,
 	doRecurring: Option<string>,
 }
@@ -55,6 +51,7 @@ type Form = {
 type State = {
 	formData: Form,
 	validationErrors: string[],
+	hasPersonWarning: boolean
 }
 
 class FormInput extends TextInput<Form> {}
@@ -79,12 +76,13 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 				gcNumber: none,
 				gcCode: none,
 				inMemory: none,
-				firstName: props.orderStatus.nameFirst,
-				lastName: props.orderStatus.nameLast,
+				purchaserNameFirst: props.orderStatus.nameFirst,
+				purchaserNameLast: props.orderStatus.nameLast,
 				email: props.orderStatus.email,
 				doRecurring: some("")//this.props.orderStatus.paymentMethodRequired ? some(Recurring.RECURRING) : some(Recurring.ONCE),
 			},
 			validationErrors: [],
+			hasPersonWarning: false
 		}
 	}
 	validateDonationOtherAmt(): Either<string, number> {
@@ -133,8 +131,8 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 				fundId: FUND_ID,
 				amount: errorOrOtherAmt.getOrElse(null),
 				inMemoryOf: this.state.formData.inMemory,
-				nameFirst: this.state.formData.firstName,
-				nameLast: this.state.formData.lastName,
+				nameFirst: this.state.formData.purchaserNameFirst,
+				nameLast: this.state.formData.purchaserNameLast,
 				email: this.state.formData.email,
 				doRecurring: none
 			})))
@@ -161,8 +159,8 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 
 		return this.doAddDonation()
 		.then(() => getProtoPersonCookie.send(PostURLEncoded({})).then(() => savePersonData.send(makePostJSON({
-			nameFirst: self.state.formData.firstName,
-			nameLast: self.state.formData.lastName,
+			nameFirst: self.state.formData.purchaserNameFirst,
+			nameLast: self.state.formData.purchaserNameLast,
 			email: self.state.formData.email,
 			doRecurring: false,
 		}))).then(ret => {
@@ -171,13 +169,16 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 			if (ret.type == "Success") {
 				self.props.goNext();
 			} else {
-				console.log("err", ret.message.split("\\n"))
-				window.scrollTo(0, 0);
-				self.setState({
-					...self.state,
-					validationErrors: ret.message.split("\\n") // TODO
-				});
-				return Promise.reject()
+				if(ret.message == "ACCOUNT_EXISTS"){
+					self.setState((s) => ({...s,
+						hasPersonWarning: true
+					}))
+				}else{
+					self.setState({
+						...self.state,
+						validationErrors: ret.message.split("\\n") // TODO
+					})
+				}
 			}
 		}));
 		
@@ -231,58 +232,8 @@ export default class MugarDonateDetailsPage extends React.PureComponent<Props, S
 			}
 		</div>)
 
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors} dontEscapeHTML />
-			: ""
-		);
-
 		const ifStarted = <React.Fragment>
-			<FactaArticleRegion title="Personal Info">
-				{!self.props.orderStatus.authedAsRealPerson
-					? <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
-						If you have an online account already, <a href="#" onClick={() => newPopWin(standaloneLoginPath.getPathFromArgs({}), 1100, 800)}>
-							click here to sign in</a>!
-					</span>
-					: <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
-						Thank you for signing in! <a href="#" onClick={() => detach.send(PostURLEncoded("")).then(() => {
-							self.props.history.push("/redirect" + window.location.pathname)
-						})}>Click here if you would like to sign back out</a>.
-					</span>
-				}
-				<table><tbody>
-					<FormInput
-						id="firstName"
-						label="First Name"
-						value={this.state.formData.firstName}
-						updateAction={updateState}
-						size={30}
-						maxLength={255}
-						isRequired
-						disabled={this.props.orderStatus.authedAsRealPerson}
-					/>
-					<FormInput
-						id="lastName"
-						label="Last Name"
-						value={this.state.formData.lastName}
-						updateAction={updateState}
-						size={30}
-						maxLength={255}
-						isRequired
-						disabled={this.props.orderStatus.authedAsRealPerson}
-					/>
-					<FormInput
-						id="email"
-						label="Email"
-						value={this.state.formData.email}
-						updateAction={updateState}
-						size={30}
-						maxLength={255}
-						isRequired
-						disabled={this.props.orderStatus.authedAsRealPerson}
-					/>
-				</tbody></table>
-			</FactaArticleRegion>
+			<StandalonePurchaserInfo authedAsRealPerson={this.props.orderStatus.authedAsRealPerson} state={this.state} updateState={updateState} history={this.props.history} hasPersonWarning={this.state.hasPersonWarning}/>
 			<FactaButton text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)} />
 		</React.Fragment>;
 

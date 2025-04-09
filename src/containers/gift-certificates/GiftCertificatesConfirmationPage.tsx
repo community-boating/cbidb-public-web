@@ -4,16 +4,11 @@ import {History} from 'history';
 import { setCheckoutImage } from 'util/set-bg-image';
 import {validator as gcValidator} from "async/member/gc-purchase"
 import { orderStatusValidator } from "async/order-status"
-import { makePostJSON, makePostString } from 'core/APIWrapperUtil';
-import { PageFlavor } from 'components/Page';
 import GiftCertConfirmationRegion from './GiftCertConfirmationRegion';
-import PlainButton from 'components/PlainButton';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
-import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import FactaButton from 'theme/facta/FactaButton';
 import SquarePaymentForm, { SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
-import { FactaInfoDiv } from 'theme/facta/FactaInfoDiv';
 
 type GC = t.TypeOf<typeof gcValidator>;
 
@@ -40,12 +35,6 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 	}
 	render() {
 		const self = this;
-
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
-			: ""
-		);
 
 		const confirm = this.props.orderStatus.cardData.map(cd => <React.Fragment>
 			<br />
@@ -78,8 +67,7 @@ export default class GiftCertificatesConfirmationPage extends React.PureComponen
 			this.setState((s) => ({...s, validationErrors: errors}))
 		}}/>
 		return (
-			<FactaMainPage setBGImage={setCheckoutImage}>
-				{errorPopup}
+			<FactaMainPage setBGImage={setCheckoutImage} errors={this.state.validationErrors}>
 				<FactaArticleRegion title="Gift Certificate Order">
 					<GiftCertConfirmationRegion {...this.props.gc} />
 				</FactaArticleRegion>

@@ -34,12 +34,6 @@ export default class MugarDonateConfirmationPage extends React.PureComponent<Pro
 	}
 	render() {
 
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
-			: ""
-		);
-
 		const paymentElement = <SquarePaymentForm {...this.props.paymentPropsAsync} orderAppAlias="Donate" handleSuccess={() => {
 			this.props.goNext()
 		}} setPaymentErrors={(errors) => {

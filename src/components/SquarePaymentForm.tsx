@@ -225,11 +225,11 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const showOnlyRecurring = (intent == "STORE" || intentProvided == "CHARGE_AND_STORE")
     const tabGroupsMapped = Object.values(PAYMENT_TYPES).map(paymentType => ({...paymentType, disabled: isPaymentDisabled(propsToUse, paymentType)}))
     .filter((a) => (a.key == PAYMENT_TYPES.CREDIT_CARD.key || a.key == PAYMENT_TYPES.STORED_CARD.key || !showOnlyRecurring))
-    const isFree = order && order.squareOrderPriceInCents == 0
+    const isFree = order && order.squareOrderPriceInCents == 0 && order.staggeredSquareOrderPriceInCents == 0
     const isLoading = props.fetchOrderLate && propsToUse.order == undefined
     const isPaymentAvailable = !isLoading && !buttonDisableOverride
 
-    if(isFree && (intent != "STORE"))
+    if(isFree)
         return <FactaButton forceSpinner={doPoll} text="Your order is free! Click to complete it now" spinnerOnClick onClick={() => {
             if(!isPaymentAvailable){
                 propsToUse.setPaymentErrors(["Payment is loading, please wait"])

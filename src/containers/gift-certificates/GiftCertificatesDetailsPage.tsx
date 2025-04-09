@@ -17,14 +17,10 @@ import { makePostJSON, PostURLEncoded } from 'core/APIWrapperUtil';
 import {postWrapper as getProtoPersonCookie} from "async/check-proto-person-cookie"
 import {validator as gcValidator} from "async/member/gc-purchase"
 import { orderStatusValidator } from "async/order-status"
-import newPopWin from "util/newPopWin";
-import standaloneLoginPath from "app/paths/common/standalone-signin"
-import {apiw as detach} from "async/proto-detach-member"
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import FactaButton from 'theme/facta/FactaButton';
-import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
-import { FactaInfoDiv } from 'theme/facta/FactaInfoDiv';
+import StandalonePurchaserInfo from 'components/StandalonePurchaserInfo';
 
 type Prices = t.TypeOf<typeof pricesValidator>;
 type GC = t.TypeOf<typeof gcValidator>;
@@ -65,6 +61,7 @@ export type Form = {
 type State = {
 	formData: Form,
 	validationErrors: string[],
+	hasPersonWarning: boolean
 }
 
 class FormInput extends TextInput<Form> {}
@@ -92,7 +89,8 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 				city: props.gc.city,
 				state: props.gc.state,
 				zip: props.gc.zip,
-			}
+			},
+			hasPersonWarning: false
 		};
 	}
 	getPriceForId(id: number){
@@ -128,7 +126,6 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 		this.clearErrors();
 		const errors = this.doValidations();
 		if (errors.length > 0) {
-			window.scrollTo(0, 0);
 			this.setState({
 				...this.state,
 				validationErrors: errors
@@ -144,18 +141,23 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 				if (ret.type == "Success") {
 					self.props.goNext();
 				} else {
-					window.scrollTo(0, 0);
-					self.setState({
-						...self.state,
-						validationErrors: ret.message.split("\\n") // TODO
-					});
+					if(ret.message == "ACCOUNT_EXISTS"){
+						self.setState((s) => ({...s,
+							hasPersonWarning: true
+						}))
+					}else{
+						self.setState({
+							...self.state,
+							validationErrors: ret.message.split("\\n") // TODO
+						})
+					}
 				}
 			});
 		}
 	}
 	render() {
 		const self = this
-		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
+		const updateState = (id: string, value: string) => {formUpdateState(this.state, this.setState.bind(this), "formData")(id.replace("email", "purchaserEmail"), value)};
 		const memRows = [
 			["Full Year Membership", MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.FULL_YEAR],
 			["60-Day Boating Pass", MAGIC_NUMBERS.MEMBERSHIP_TYPE_ID.MEM_60_DAY],
@@ -262,12 +264,6 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 			If you require immediate mailing, purchasing a gift certificate to be e-mailed is highly recommended.
 		</React.Fragment>;
 
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
-			: ""
-		);
-
 		return (
 			<FactaMainPage setBGImage={setCheckoutImage} errors={this.state.validationErrors}>
 				<FactaArticleRegion title={"Purchase a gift certificate to Community Boating!"}>
@@ -323,51 +319,7 @@ export default class GiftCertificatesDetailsPage extends React.PureComponent<Pro
 				</FactaArticleRegion>
 				<table><tbody><tr>
 					<td style={{verticalAlign: "top"}}>
-						<FactaArticleRegion title="Purchaser Information">
-							{!self.props.orderStatus.authedAsRealPerson
-								? <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
-									If you have an online account already, <a href="#" onClick={() => newPopWin(standaloneLoginPath.getPathFromArgs({}), 1100, 800)}>
-										click here to sign in</a>!
-								</span>
-								: <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
-									Thank you for signing in! <a href="#" onClick={() => detach.send(PostURLEncoded("")).then(() => {
-										self.props.history.push("/redirect" + window.location.pathname)
-									})}>Click here if you would like to sign back out</a>.
-								</span>
-							}
-							<table><tbody>
-								<FormInput
-									id="purchaserNameFirst"
-									label="Your First Name"
-									value={this.state.formData.purchaserNameFirst}
-									updateAction={updateState}
-									size={30}
-									maxLength={255}
-									isRequired
-									disabled={this.props.orderStatus.authedAsRealPerson}
-								/>
-								<FormInput
-									id="purchaserNameLast"
-									label="Your Last Name"
-									value={this.state.formData.purchaserNameLast}
-									updateAction={updateState}
-									size={30}
-									maxLength={255}
-									isRequired
-									disabled={this.props.orderStatus.authedAsRealPerson}
-								/>
-								<FormInput
-									id="purchaserEmail"
-									label="Your Email"
-									value={this.state.formData.purchaserEmail}
-									updateAction={updateState}
-									size={30}
-									maxLength={255}
-									isRequired
-									disabled={this.props.orderStatus.authedAsRealPerson}
-								/>
-							</tbody></table>
-						</FactaArticleRegion>
+						<StandalonePurchaserInfo authedAsRealPerson={this.props.orderStatus.authedAsRealPerson} state={{...this.state, formData: {...this.state.formData, email: this.state.formData.purchaserEmail}}} updateState={updateState} history={this.props.history} hasPersonWarning={this.state.hasPersonWarning}/>
 					</td>
 					<td style={{paddingLeft: "30px", verticalAlign: "top"}}>
 						<FactaArticleRegion title="Recipient Information">

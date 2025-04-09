@@ -18,14 +18,13 @@ import { CartItem } from 'async/get-cart-items-donate';
 import { PageFlavor } from 'components/Page';
 import { Either, left, right } from 'fp-ts/lib/Either';
 import { orderStatusValidator } from "async/order-status"
-import standaloneLoginPath from "app/paths/common/standalone-signin"
-import {apiw as detach} from "async/proto-detach-member"
 import {postWrapper as savePersonData } from "async/member/donate-set-person"
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import FactaButton from 'theme/facta/FactaButton';
 import { MAGIC_NUMBERS } from 'app/magicNumbers';
 import optionify from 'util/optionify';
+import StandalonePurchaserInfo from 'components/StandalonePurchaserInfo';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
 
@@ -47,8 +46,8 @@ type Form = {
 	gcNumber: Option<string>,
 	gcCode: Option<string>,
 	inMemory: Option<string>,
-	firstName: Option<string>,
-	lastName: Option<string>,
+	purchaserNameFirst: Option<string>,
+	purchaserNameLast: Option<string>,
 	email: Option<string>,
 	doRecurring: Option<string>,
 }
@@ -57,6 +56,7 @@ type State = {
 	availableFunds: DonationFund[],
 	formData: Form,
 	validationErrors: string[],
+	hasPersonWarning: boolean
 }
 
 class FormInput extends TextInput<Form> {}
@@ -113,12 +113,13 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				gcNumber: none,
 				gcCode: none,
 				inMemory: none,
-				firstName: props.orderStatus.nameFirst,
-				lastName: props.orderStatus.nameLast,
+				purchaserNameFirst: props.orderStatus.nameFirst,
+				purchaserNameLast: props.orderStatus.nameLast,
 				email: props.orderStatus.email,
 				doRecurring: this.props.orderStatus.paymentMethodRequired ? some(Recurring.RECURRING) : some(Recurring.ONCE),
 			},
 			validationErrors: [],
+			hasPersonWarning: false
 		}
 	}
 	validateDonationOtherAmt(): Either<string, number> {
@@ -167,8 +168,8 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				fundId: this.state.formData.selectedFund.map(Number).getOrElse(null),
 				amount: errorOrOtherAmt.getOrElse(null),
 				inMemoryOf: this.state.formData.inMemory,
-				nameFirst: this.state.formData.firstName,
-				nameLast: this.state.formData.lastName,
+				nameFirst: this.state.formData.purchaserNameFirst,
+				nameLast: this.state.formData.purchaserNameLast,
 				email: this.state.formData.email,
 				doRecurring: some(false),//this.state.formData.doRecurring.map(r => r == Recurring.RECURRING)
 			})))
@@ -188,21 +189,25 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 	doSubmit(): Promise<any> {
 		const self = this;
 		this.clearErrors();
-
 		return getProtoPersonCookie.send(PostURLEncoded({})).then(() => savePersonData.send(makePostJSON({
-			nameFirst: self.state.formData.firstName,
-			nameLast: self.state.formData.lastName,
+			nameFirst: self.state.formData.purchaserNameFirst,
+			nameLast: self.state.formData.purchaserNameLast,
 			email: self.state.formData.email,
 			doRecurring: false//self.state.formData.doRecurring.map(r => r == Recurring.RECURRING).getOrElse(false),
 		}))).then(ret => {
 			if (ret.type == "Success") {
 				self.props.goNext();
 			} else {
-				window.scrollTo(0, 0);
-				self.setState({
-					...self.state,
-					validationErrors: ret.message.split("\\n") // TODO
-				});
+				if(ret.message == "ACCOUNT_EXISTS"){
+					self.setState((s) => ({...s,
+						hasPersonWarning: true
+					}))
+				}else{
+					self.setState({
+						...self.state,
+						validationErrors: ret.message.split("\\n") // TODO
+					})
+				}
 			}
 		});
 		
@@ -324,51 +329,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					</td>
 				</tr></tbody></table> */}
 			</FactaArticleRegion>
-			<FactaArticleRegion title="Personal Info">
-				{!self.props.orderStatus.authedAsRealPerson
-					? <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
-						If you have an online account already, <a href="#" onClick={() => newPopWin(standaloneLoginPath.getPathFromArgs({}), 1100, 800)}>
-							click here to sign in</a>!
-					</span>
-					: <span style={{color: "#555", fontSize: "0.9em", fontStyle: "italic"}}>
-						Thank you for signing in! <a href="#" onClick={() => detach.send(PostURLEncoded("")).then(() => {
-							self.props.history.push("/redirect" + window.location.pathname)
-						})}>Click here if you would like to sign back out</a>.
-					</span>
-				}
-				<table><tbody>
-					<FormInput
-						id="firstName"
-						label="First Name"
-						value={this.state.formData.firstName}
-						updateAction={updateState}
-						size={30}
-						maxLength={255}
-						isRequired
-						disabled={this.props.orderStatus.authedAsRealPerson}
-					/>
-					<FormInput
-						id="lastName"
-						label="Last Name"
-						value={this.state.formData.lastName}
-						updateAction={updateState}
-						size={30}
-						maxLength={255}
-						isRequired
-						disabled={this.props.orderStatus.authedAsRealPerson}
-					/>
-					<FormInput
-						id="email"
-						label="Email"
-						value={this.state.formData.email}
-						updateAction={updateState}
-						size={30}
-						maxLength={255}
-						isRequired
-						disabled={this.props.orderStatus.authedAsRealPerson}
-					/>
-				</tbody></table>
-			</FactaArticleRegion>
+			<StandalonePurchaserInfo authedAsRealPerson={this.props.orderStatus.authedAsRealPerson} state={this.state} updateState={updateState} history={this.props.history} hasPersonWarning={this.state.hasPersonWarning}/>
 			<FactaButton text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)} />
 		</React.Fragment>;
 

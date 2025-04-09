@@ -36,7 +36,7 @@ type State = {
 	appProps: AppProps
 	login: {
 		authenticatedUserName: Option<string>
-	},
+	}
 	justLoggedIn: boolean,
 	jpRegistrationClosed: boolean,
 	jpReservationAllowed: boolean
