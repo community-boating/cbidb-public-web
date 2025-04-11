@@ -6,10 +6,13 @@ import RouteWrapper from "core/RouteWrapper";
 import { setAPImage } from 'util/set-bg-image';
 import ManageStaggeredPayments from 'containers/ManageStaggeredPayments';
 import { PageFlavor } from 'components/Page';
-import {getWrapper, validator} from "async/member/open-order-details-ap"
+import {Payment, validator} from "async/member/open-order-details-ap"
+import {getWrapper as getPaymentsNew} from "async/member/square/get-staggered-payment-invoices"
 import { apBasePath } from 'app/paths/ap/_base';
 import { none } from 'fp-ts/lib/Option';
 import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
+import { makePostJSON } from 'core/APIWrapperUtil';
+import { ApiResult } from 'core/APIWrapperTypes';
 
 
 export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayments, history => <PageWrapper
@@ -23,15 +26,29 @@ export const apManageStaggeredPaymentsRoute = new RouteWrapper(true, apPathPayme
 	/>}
 	urlProps={{}}
 	getAsyncProps={(urlProps: {}) => {
-		return getWrapper.send(null)
-		.then(r => {
-			if (r.type != "Success" || r.success.length == 0) {
-				history.push(apBasePath.getPathFromArgs({}));
+		return getPaymentsNew.send(makePostJSON({orderAppAlias: PageFlavor.AP})).then(r => {
+			if (r.type != "Success" || r.success.invoices.length == 0) {
+				//history.push(apBasePath.getPathFromArgs({}));
+				return {
+					type: "Failure"
+				} as ApiResult<Payment[]>
 			} else {
-				return r;
+				return {
+					type: "Success",
+					success: r.success.invoices[0].map (a => {
+						return {
+							amountCents: a.staggeredPrice,
+							expectedDate: a.paymentDueDate,
+							orderId: -1,
+							paid: a.paid == 'Y',
+							staggerId: a.staggerId,
+							failedCron: a.cronError == 'Y'
+						} as Payment
+					})
+				} as ApiResult<Payment[]>
 			}
 		})
-		.catch(err => Promise.resolve(null));
+		.catch(err => Promise.resolve({type: "Failure"} as ApiResult<Payment[]>));
 	}}
 	shadowComponent={<FactaLoadingPage setBGImage={setAPImage} />}
 />);

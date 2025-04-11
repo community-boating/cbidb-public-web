@@ -2,6 +2,8 @@ import * as t from 'io-ts';
 import APIWrapper from 'core/APIWrapper';
 import { HttpMethod } from "core/HttpMethod";
 
+export type Payment = t.TypeOf<typeof paymentValidator>
+export type PaymentList = t.TypeOf<typeof validator>
 
 export const paymentValidator = t.type({
 	amountCents: t.number,

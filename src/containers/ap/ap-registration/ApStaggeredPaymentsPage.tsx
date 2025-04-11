@@ -20,7 +20,7 @@ import { RadioGroup } from "components/InputGroup";
 import FactaButton from "theme/facta/FactaButton";
 import StandardReport from "theme/facta/StandardReport";
 
-type Plan = t.TypeOf<typeof planValidator>
+export type Plan = t.TypeOf<typeof planValidator>
 
 interface Props {
 	membershipTypeId: number,

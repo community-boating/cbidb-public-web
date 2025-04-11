@@ -1,10 +1,9 @@
 import { History } from 'history';
 import * as React from "react";
-import * as t from 'io-ts';
 
 import { setAPImage, setCheckoutImage, setJPImage } from 'util/set-bg-image';
 import { PageFlavor } from 'components/Page';
-import { paymentValidator, validator } from 'async/member/open-order-details-ap';
+import { Payment, PaymentList } from 'async/member/open-order-details-ap';
 import StandardReport from 'theme/facta/StandardReport';
 import * as moment from 'moment';
 import Currency from 'util/Currency';
@@ -18,9 +17,6 @@ import FactaButton from 'theme/facta/FactaButton';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import SquarePaymentForm, { getPaymentPropsAsync, SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
-
-type Payment = t.TypeOf<typeof paymentValidator>
-type PaymentList = t.TypeOf<typeof validator>
 
 
 type Props = {
