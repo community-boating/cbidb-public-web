@@ -12,6 +12,7 @@ export const paymentValidator = t.type({
 	paid: t.boolean,
 	staggerId: t.number,
 	failedCron: t.boolean,
+	squareInvoiceId: t.union([t.string, t.null, t.undefined])
 });
 
 export const validator = t.array(paymentValidator);

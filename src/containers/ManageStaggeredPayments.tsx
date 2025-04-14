@@ -8,15 +8,14 @@ import StandardReport from 'theme/facta/StandardReport';
 import * as moment from 'moment';
 import Currency from 'util/Currency';
 import { makePostJSON } from 'core/APIWrapperUtil';
-import {postWrapper as finishOrderAP} from "async/member/finish-open-order-ap"
-import {postWrapper as finishOrderJP} from "async/member/finish-open-order-jp"
+import { postWrapper as payInvoiceNow } from "async/member/square/pay-invoice-now"
 import { apBasePath } from 'app/paths/ap/_base';
 import { jpBasePath } from 'app/paths/jp/_base';
 import { Option } from 'fp-ts/lib/Option';
 import FactaButton from 'theme/facta/FactaButton';
 import FactaMainPage from 'theme/facta/FactaMainPage';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
-import SquarePaymentForm, { getPaymentPropsAsync, SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
+import SquarePaymentForm, { getPaymentPropsAsyncNoOrder, SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
 
 
 type Props = {
@@ -41,7 +40,7 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 		}
 	}
 	componentDidMount(): void {
-		getPaymentPropsAsync(this.props.program).then((a) => {
+		getPaymentPropsAsyncNoOrder(this.props.program).then((a) => {
 			if(a.type == "Success")
 				this.setState(s => ({...s, paymentPropsAsync: a.success}))
 			else
@@ -64,19 +63,19 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 
 		const outstandingTotal = Currency.cents(this.props.payments.filter(p => !p.paid).reduce((s, p) => s + p.amountCents, 0))
 
+		console.log(this.props.payments[0])
+
 		const clickPayAll = () => {
 			const confirmText =
 				"This will immediately charge your credit card on file in the amount of " + 
 				outstandingTotal.format() + " and complete your membership purchase; do you wish to continue?";
-
-			const finishOrder = (
-				self.props.program == PageFlavor.JP && self.props.juniorId.isSome()
-				? finishOrderJP(self.props.juniorId.getOrElse(null))
-				: finishOrderAP
-			)
+			const finishOrder = () => payInvoiceNow.send(makePostJSON({
+				orderAppAlias: this.props.program,
+				invoiceId: this.props.payments[0].squareInvoiceId
+			}))
 
 			if (confirm(confirmText)) {
-				return finishOrder.send(makePostJSON({})).then(r => {
+				return finishOrder().then(r => {
 					if (r.type == "Success") {
 						self.props.history.push("/redirect" + window.location.pathname)
 					} else {
@@ -122,10 +121,10 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 					})}
 				/>
 				<br /><br />
-				{/* <table><tbody><tr> TODO fix this
+				{<table><tbody><tr>
 					<td><b>Total Outstanding: {outstandingTotal.format()}</b></td>	
 					<td style={{paddingLeft: "10px"}}><FactaButton text="Pay All" onClick={clickPayAll} spinnerOnClick/></td>
-				</tr></tbody></table> */}
+				</tr></tbody></table>}
 			</FactaArticleRegion>
 			<FactaArticleRegion title="Update Payment Method">
 				{ paymentElement }

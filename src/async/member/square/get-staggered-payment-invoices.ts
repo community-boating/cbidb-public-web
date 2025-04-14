@@ -3,17 +3,20 @@ import APIWrapper from 'core/APIWrapper';
 import { HttpMethod } from "core/HttpMethod";
 
 export const StaggeredPaymentChargeData = t.type({
-    staggeredPrice: t.number,
+    staggerPricePaid: t.union([t.number, t.null, t.undefined]),
+    staggerPrice: t.number,
     extraPrice: t.union([t.number, t.null, t.undefined]),
     staggerSeq: t.number,
     staggerId: t.union([t.number, t.null, t.undefined]),
     paymentDueDate: t.string,
     paid: t.union([t.string, t.null, t.undefined]),
-    cronError: t.union([t.string, t.null, t.undefined]) 
+    cronError: t.union([t.string, t.null, t.undefined]),
+    squareInvoiceId: t.union([t.string, t.null, t.undefined])
 })
 
 export const validator = t.type({
-    orderAppAlias: t.string
+    orderAppAlias: t.string,
+    membershipPersonId: t.union([t.number, t.null, t.undefined])
 })
 
 const resultValidator = t.type({

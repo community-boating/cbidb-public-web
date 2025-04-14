@@ -61,7 +61,8 @@ const resultValidator = t.type({
         "customerInitiatedOverride": OptionalString,
         "sellerKeyedInOverride": OptionalString
     }),
-    cardsOnFile: t.array(SquareCard)
+    cardsOnFile: t.array(SquareCard),
+    defaultCardId: t.union([t.string, t.null, t.undefined])
 })
 
 export type SquareCustomerInfo = t.TypeOf<typeof resultValidator>

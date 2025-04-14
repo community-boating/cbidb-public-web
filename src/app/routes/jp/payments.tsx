@@ -6,10 +6,14 @@ import RouteWrapper from "core/RouteWrapper";
 import { setJPImage } from 'util/set-bg-image';
 import ManageStaggeredPayments from 'containers/ManageStaggeredPayments';
 import { PageFlavor } from 'components/Page';
-import {getWrapper, validator} from "async/member/open-order-details-jp"
+import { validator } from "async/member/open-order-details-jp"
 import { some } from 'fp-ts/lib/Option';
-import { jpBasePath } from 'app/paths/jp/_base';
+import {getWrapper as getPaymentsNew} from "async/member/square/get-staggered-payment-invoices"
 import FactaLoadingPage from 'theme/facta/FactaLoadingPage';
+import { makePostJSON } from 'core/APIWrapperUtil';
+import { ApiResult } from 'core/APIWrapperTypes';
+import { Payment } from 'async/member/open-order-details-ap';
+import { jpBasePath } from 'app/paths/jp/_base';
 export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayments, history => <PageWrapper
 	key="jp-payments"
 	history={history}
@@ -23,15 +27,32 @@ export const jpManageStaggeredPaymentsRoute = new RouteWrapper(true, jpPathPayme
 		juniorId: Number(jpPathPayments.extractURLParams(history.location.pathname).juniorId),
 	}}
 	getAsyncProps={(urlProps: {juniorId: number}) => {
-		return getWrapper(urlProps.juniorId).send(null)
-		.then(r => {
-			if (r.type != "Success" || r.success.length == 0) {
-				history.push(jpBasePath.getPathFromArgs({}));
-			} else {
-				return r;
-			}
-		})
-		.catch(err => Promise.resolve(null));
-	}}
+			return getPaymentsNew.send(makePostJSON({orderAppAlias: PageFlavor.JP, membershipPersonId: urlProps.juniorId})).then(r => {
+				if (r.type != "Success" || r.success.invoices.length == 0) {
+					console.log("WHAT ME BIG TIME HELLO")
+					console.log(r)
+					history.push(jpBasePath.getPathFromArgs({}));
+					return {
+						type: "Failure"
+					} as ApiResult<Payment[]>
+				} else {
+					return {
+						type: "Success",
+						success: r.success.invoices[0].map (a => {
+							return {
+								amountCents: a.staggerPrice,
+								expectedDate: a.paymentDueDate,
+								orderId: -1,
+								paid: a.paid == 'Y',
+								staggerId: a.staggerId,
+								failedCron: a.cronError == 'Y',
+								squareInvoiceId: a.squareInvoiceId
+							} as Payment
+						})
+					} as ApiResult<Payment[]>
+				}
+			})
+			.catch(err => Promise.resolve({type: "Failure"} as ApiResult<Payment[]>));
+		}}
 	shadowComponent={<FactaLoadingPage setBGImage={setJPImage} />}
 />);

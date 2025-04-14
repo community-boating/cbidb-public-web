@@ -1,12 +1,13 @@
 import { CardDetails, ChargeVerifyBuyerDetails, PaymentRequestOptions, StoreVerifyBuyerDetails, TokenResult, VerifyBuyerResponseDetails } from "@square/web-payments-sdk-types"
 import { APIConstants } from "async/member/square/fetch-api-constants"
 import { SquareOrderInfo } from "async/member/square/upsert-compass-order"
-import { SquareCustomerInfo } from "async/member/square/upsert-square-customer"
+import { SquareCard, SquareCustomerInfo } from "async/member/square/upsert-square-customer"
 import { postWrapper as storeCard } from "async/member/square/store-card"
 import * as React from "react"
 import { ApplePay, CreditCard, GooglePay, PaymentForm } from "react-square-web-payments-sdk"
 import { makePostJSON } from "core/APIWrapperUtil"
-import { none, some } from "fp-ts/lib/Option"
+import { none, Option, some } from "fp-ts/lib/Option"
+import {getWrapper as publishInvoice} from "async/member/square/create-staggered-payment-invoice"
 import {postWrapper as payOrderViaPaymentSource} from "async/member/square/pay-order-via-payment-source"
 import {postWrapper as payOrderFree} from "async/member/square/pay-order-free"
 import { postWrapper as pollOrderStatus } from "async/member/square/poll-order-status"
@@ -33,7 +34,7 @@ export type SquarePaymentFormProps = SquarePaymentFormPropsAsync & {
     fetchOrderLate?: boolean
 }
 
-type IntentTypes = "CHARGE" | "CHARGE_AND_STORE" | "STORE"
+export type IntentTypes = "CHARGE" | "CHARGE_AND_STORE" | "STORE"
 
 function isIntentValid(intent: string): intent is IntentTypes {
     return ["CHARGE", "CHARGE_AND_STORE", "STORE"].contains(intent)
@@ -110,7 +111,7 @@ const PAYMENT_TYPES = {
     }
 }
 
-function isPaymentDisabled(props: SquarePaymentFormProps, paymentType: typeof PAYMENT_TYPES.CREDIT_CARD){
+function isPaymentDisabled(props: SquarePaymentFormProps, paymentType: typeof PAYMENT_TYPES.CREDIT_CARD, cardsOnFileFiltered: SquareCard[]){
     switch(paymentType){
         case PAYMENT_TYPES.APPLE_PAY:
             if((window as any).ApplePaySession == undefined) return true
@@ -121,7 +122,7 @@ function isPaymentDisabled(props: SquarePaymentFormProps, paymentType: typeof PA
         case PAYMENT_TYPES.GIFT_CARD:
             return props.orderAppAlias == "GC"
         case PAYMENT_TYPES.STORED_CARD:
-            return props.squareInfo.cardsOnFile.length == 0
+            return cardsOnFileFiltered.length == 0
     }
 }
 
@@ -172,6 +173,8 @@ export function getPaymentPropsAsync(orderAppAlias: string): Promise<ApiResult<S
 }
 
 export default function SquarePaymentForm(props: SquarePaymentFormProps){
+    const [deletedCardIds, setDeletedCardIds] = React.useState<string[]>([])
+    const [addedCards, setAddedCards] = React.useState<SquareCard[]>([])
     const [order, setOrder] = props.fetchOrderLate ? React.useState(props.order) : [props.order, () => {}]
     const propsToUse = props.fetchOrderLate ? {...props, order: order} : props
     const setPaymentErrors = props.setPaymentErrors
@@ -188,6 +191,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
             })
         }, [])
     }
+    const [defaultCardId, setDefaultCardId] = React.useState<string>(propsToUse.squareInfo.defaultCardId)
     const [paymentType, setPaymentType] = React.useState(PAYMENT_TYPES.CREDIT_CARD.key)
     const [buttonDisableOverride, setButtonDisableOverride] = React.useState(false)
     const [storePayment, setStorePayment] = React.useState(propsToUse.intentOverride == "STORE" || propsToUse.intentOverride == "CHARGE_AND_STORE")
@@ -195,19 +199,30 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const pollingRef = React.useRef<NodeJS.Timeout>()
     React.useEffect(() => {
         if(doPoll){
-            pollingRef.current = setInterval(() => {
-                pollOrderStatus.send(makePostJSON({
-                    orderAppAlias: propsToUse.orderAppAlias,
-                    compassOrderId: propsToUse.order.compassOrderId
-                })).then((a) => {
-                    if(a.type == "Success" && a.success){
-                        propsToUse.handleSuccess()
-                        setDoPoll(false)
-                        clearInterval(pollingRef.current)
-                        setButtonDisableOverride(false)
-                    }
-                })
-            }, 2000)
+            if(propsToUse.order == undefined){
+                console.log("ORDER IS BLANK, PLEASE WAIT")
+                setDoPoll(false)
+                setButtonDisableOverride(false)
+            }else if(propsToUse.order.compassOrderId == undefined){
+                console.log("WE ARE GOOD NOW")
+                propsToUse.handleSuccess()
+                setDoPoll(false)
+                setButtonDisableOverride(false)
+            }else{
+                pollingRef.current = setInterval(() => {
+                    pollOrderStatus.send(makePostJSON({
+                        orderAppAlias: propsToUse.orderAppAlias,
+                        compassOrderId: propsToUse.order.compassOrderId
+                    })).then((a) => {
+                        if(a.type == "Success" && a.success){
+                            propsToUse.handleSuccess()
+                            setDoPoll(false)
+                            clearInterval(pollingRef.current)
+                            setButtonDisableOverride(false)
+                        }
+                    })
+                }, 2000)
+            }
         }else{
             if(pollingRef.current)
                 clearInterval(pollingRef.current)
@@ -218,22 +233,75 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                 clearInterval(pollingRef.current)
         }
     }, [doPoll])
+
+    const cardsOnFileFiltered = propsToUse.squareInfo.cardsOnFile.filter(card => !deletedCardIds.contains(card.id)).concat(addedCards)
+
     const intentProvided = propsToUse.squareInfo.verificationDetails.intentOverride.getOrElse(propsToUse.intentOverride)
     const intent = isIntentValid(intentProvided) ? intentProvided : (storePayment ? "CHARGE_AND_STORE" : "CHARGE")
     const verificationDetails = mapVertificationDetails(propsToUse, intent)
     const paymentRequest = mapPaymentRequest(propsToUse, intent)
     const showOnlyRecurring = (intent == "STORE" || intentProvided == "CHARGE_AND_STORE")
-    const tabGroupsMapped = Object.values(PAYMENT_TYPES).map(paymentType => ({...paymentType, disabled: isPaymentDisabled(propsToUse, paymentType)}))
+    const tabGroupsMapped = Object.values(PAYMENT_TYPES).map(paymentType => ({...paymentType, disabled: isPaymentDisabled(propsToUse, paymentType, cardsOnFileFiltered)}))
     .filter((a) => (a.key == PAYMENT_TYPES.CREDIT_CARD.key || a.key == PAYMENT_TYPES.STORED_CARD.key || !showOnlyRecurring))
     const isFree = order && order.squareOrderPriceInCents == 0 && order.staggeredSquareOrderPriceInCents == 0
     const isLoading = props.fetchOrderLate && propsToUse.order == undefined
     const isPaymentAvailable = !isLoading && !buttonDisableOverride
 
+    const doCharge = (sourceId: string, verificationTokenOpt: Option<string> = none) => {
+        if(!isPaymentAvailable){
+            propsToUse.setPaymentErrors(["Payment is loading, please wait"])
+            return Promise.resolve()
+        }
+
+        const payOrderNonStaggered = order.compassOrderId != undefined ? payOrderViaPaymentSource.send(makePostJSON({
+            orderAppAlias: propsToUse.orderAppAlias,
+            paymentSourceId: sourceId,
+            partialPayment: false,
+            verificationToken: verificationTokenOpt
+        })) : Promise.resolve(undefined)
+        const payOrderStaggered = order.staggeredCompassOrderId != undefined ? publishInvoice.send(makePostJSON({
+            orderAppAlias: propsToUse.orderAppAlias,
+            staggeredCompassOrderId: order.staggeredCompassOrderId,
+            cardId: sourceId
+        })) : Promise.resolve(undefined)
+        return Promise.all([payOrderStaggered, payOrderNonStaggered]).then((a) => {
+            if(a[0] != undefined){
+                if(a[0].type != "Success"){
+                    setPaymentErrors(["Payment failed, please try again later. If the issue keeps happening please send us an email and we will fix the problem as soon as we can"])
+                    return Promise.resolve()
+                }
+            }
+            if(a[1] != undefined){
+                if(a[1].type != "Success"){
+                    setPaymentErrors(["Payment failed, please try again later. If the issue keeps happening please send us an email and we will fix the problem as soon as we can"])
+                    return Promise.resolve()
+                }
+            }
+            return Promise.resolve()
+        })
+    }
+
+
+    const handleResult = (promise: Promise<any>) => {
+        console.log("CALLING HANDLE RESULT")
+        return promise.catch(e => {
+            console.log("Error processing payment", e)
+            setPaymentErrors(["Error handling payment"])
+        }).finally(() => {
+            (intent == "STORE") && setButtonDisableOverride(false)
+            console.log("SETTING POLL ENABLED")
+            setDoPoll(true)
+        }).then(() => {
+            console.log("WHAT")
+        })
+    }
+
+
     if(isFree)
         return <FactaButton forceSpinner={doPoll} text="Your order is free! Click to complete it now" spinnerOnClick onClick={() => {
             if(!isPaymentAvailable){
                 propsToUse.setPaymentErrors(["Payment is loading, please wait"])
-                return Promise.reject()
+                return Promise.resolve()
             }
             return payOrderFree.send(makePostJSON({
                 orderAppAlias: propsToUse.orderAppAlias
@@ -248,36 +316,27 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
         }}/>
     return <PaymentForm applicationId={propsToUse.apiConstants.squareApplicationId} locationId={propsToUse.apiConstants.squareLocationId} cardTokenizeResponseReceived={function (result: TokenResult, verifiedBuyer?: VerifyBuyerResponseDetails | null): void {
         if(result.errors == null && result.token != null && paymentType != PAYMENT_TYPES.GIFT_CARD.key){
+
             setButtonDisableOverride(true)
+
             const verificationTokenOpt = (verifiedBuyer && verifiedBuyer.token) ? some(verifiedBuyer.token) : none
-            const doCharge = (sourceId: string) => {
-                setDoPoll(true)
-                return payOrderViaPaymentSource.send(makePostJSON({
-                    orderAppAlias: propsToUse.orderAppAlias,
-                    paymentSourceId: sourceId,
-                    partialPayment: false,
-                    //Token will be used by doStore, square will be angry if we try and reuse it
-                    verificationToken: (intent != "CHARGE_AND_STORE") ? verificationTokenOpt : none
-                }))
-            }
+
             const doStore = (card: CardDetails) => {
                 return storeCard.send(makePostJSON({
                     orderAppAlias: propsToUse.orderAppAlias,
                     sourceId: result.token,
                     cardToSave: card as any,
                     verificationToken: verificationTokenOpt
-                }))
-            }
-            const handleResult = (promise: Promise<any>) => {
-                promise.catch(e => {
-                    console.log("Error processing payment", e)
-                    setPaymentErrors(["Error handling payment"])
-                }).finally(() => {
-                    (intent == "STORE") && setButtonDisableOverride(false)
+                })).then((a) => {
+                    if(a.type == "Success"){
+                        setAddedCards(cards => cards.concat(a.success.card))
+                    }
+                    return a
                 })
             }
+            
             if(intent == "CHARGE"){
-                handleResult(doCharge(result.token))
+                handleResult(doCharge(result.token, verificationTokenOpt))
             }else{
                 if(paymentType == PAYMENT_TYPES.CREDIT_CARD.key && result.details && result.details.card){
                     const card = result.details.card
@@ -285,14 +344,14 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                         handleResult(doStore(card).then((a) => {
                                 if(a.type == "Success")
                                         return doCharge(a.success.card.id)
-                                    return Promise.reject()
+                                    return Promise.resolve()
                                 }
                             ))
                     }else{
                         handleResult(doStore(card))
                     }
                 }else{
-                    handleResult(doCharge(result.token))
+                    handleResult(doCharge(result.token, verificationTokenOpt))
                 }
             }
         }else{
@@ -319,44 +378,13 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                     </div>}
                 </div>
                 <div key={PAYMENT_TYPES.STORED_CARD.key}>
-                    <StoredCards orderAppAlias={propsToUse.orderAppAlias} cardsOnFile={propsToUse.squareInfo.cardsOnFile} payWithCard={cardId => {
-                        if(!isPaymentAvailable){
-                            propsToUse.setPaymentErrors(["Payment is loading, please wait"])
-                            return Promise.reject()
-                        }
-                        return payOrderViaPaymentSource.send(makePostJSON({
-                            orderAppAlias: propsToUse.orderAppAlias,
-                            paymentSourceId: cardId,
-                            partialPayment: false,
-                            verificationToken: null
-                        })).then(a => {
-                            if(a.type == "Success")
-                                setDoPoll(true)
-                            else
-                                setPaymentErrors(["Payment failed, please try again"])
-                            setButtonDisableOverride(false)
-                        })
+                    <StoredCards orderAppAlias={propsToUse.orderAppAlias} intent={intent} defaultCardId={defaultCardId} cardsOnFile={cardsOnFileFiltered} setErrors={setPaymentErrors} setDeletedCardIds={setDeletedCardIds} setDefaultCardId={setDefaultCardId} payWithCard={cardId => {
+                        return handleResult(doCharge(cardId))
                     }}/>
                 </div>
                 <div key={PAYMENT_TYPES.GIFT_CARD.key}>
                     <GiftCardInput orderAppAlias={propsToUse.orderAppAlias} handleSubmit={cardId => {
-                        if(!isPaymentAvailable){
-                            propsToUse.setPaymentErrors(["Payment is loading, please wait"])
-                            return Promise.reject()
-                        }
-                        setButtonDisableOverride(true)
-                        return payOrderViaPaymentSource.send(makePostJSON({
-                            orderAppAlias: propsToUse.orderAppAlias,
-                            paymentSourceId: cardId,
-                            partialPayment: false,
-                            verificationToken: null
-                        })).then(a => {
-                            if(a.type == "Success")
-                                setDoPoll(true)
-                            else
-                                setPaymentErrors(["Payment failed, please try again"])
-                            setButtonDisableOverride(false)
-                        })
+                        return handleResult(doCharge(cardId))
                     }}/>
                 </div>
                 <div key={PAYMENT_TYPES.APPLE_PAY.key}>
