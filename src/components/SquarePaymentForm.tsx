@@ -14,6 +14,7 @@ import { postWrapper as pollOrderStatus } from "async/member/square/poll-order-s
 import { getWrapper as upsertCompassOrderAPI } from "async/member/square/upsert-compass-order"
 import { getWrapper as upsertSquareCustomerAPI } from "async/member/square/upsert-square-customer"
 import { getWrapper as getAPIConstants } from "async/member/square/fetch-api-constants"
+import { postWrapper as payRecurringDonations } from "async/member/square/pay-recurring-donations"
 import TabGroup from "./TabGroup"
 import StoredCards from "./StoredCards"
 import GiftCardInput from "./GiftCardInput"
@@ -203,7 +204,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                 console.log("ORDER IS BLANK, PLEASE WAIT")
                 setDoPoll(false)
                 setButtonDisableOverride(false)
-            }else if(propsToUse.order.compassOrderId == undefined){
+            }else if(propsToUse.order.compassOrderId == undefined || donationIsRecurring){
                 console.log("WE ARE GOOD NOW")
                 propsToUse.handleSuccess()
                 setDoPoll(false)
@@ -236,11 +237,14 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
 
     const cardsOnFileFiltered = propsToUse.squareInfo.cardsOnFile.filter(card => !deletedCardIds.contains(card.id)).concat(addedCards)
 
+    const donationIsRecurring = propsToUse.order && propsToUse.order.doRecurring
+
     const intentProvided = propsToUse.squareInfo.verificationDetails.intentOverride.getOrElse(propsToUse.intentOverride)
-    const intent = isIntentValid(intentProvided) ? intentProvided : (storePayment ? "CHARGE_AND_STORE" : "CHARGE")
+    const intent = donationIsRecurring ? "CHARGE_AND_STORE" : (isIntentValid(intentProvided) ? intentProvided : (storePayment ? "CHARGE_AND_STORE" : "CHARGE"))
+
     const verificationDetails = mapVertificationDetails(propsToUse, intent)
     const paymentRequest = mapPaymentRequest(propsToUse, intent)
-    const showOnlyRecurring = (intent == "STORE" || intentProvided == "CHARGE_AND_STORE")
+    const showOnlyRecurring = (intent == "STORE" || intentProvided == "CHARGE_AND_STORE" || donationIsRecurring)
     const tabGroupsMapped = Object.values(PAYMENT_TYPES).map(paymentType => ({...paymentType, disabled: isPaymentDisabled(propsToUse, paymentType, cardsOnFileFiltered)}))
     .filter((a) => (a.key == PAYMENT_TYPES.CREDIT_CARD.key || a.key == PAYMENT_TYPES.STORED_CARD.key || !showOnlyRecurring))
     const isFree = order && order.squareOrderPriceInCents == 0 && order.staggeredSquareOrderPriceInCents == 0
@@ -251,6 +255,18 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
         if(!isPaymentAvailable){
             propsToUse.setPaymentErrors(["Payment is loading, please wait"])
             return Promise.resolve()
+        }
+
+        if(donationIsRecurring){
+            return payRecurringDonations.send(makePostJSON({
+                orderAppAlias: propsToUse.orderAppAlias,
+                cardId: sourceId
+            })).then((a) => {
+                if(a.type == "Success"){
+                    return Promise.resolve()
+                }
+                return Promise.reject()
+            })
         }
 
         const payOrderNonStaggered = order.compassOrderId != undefined ? payOrderViaPaymentSource.send(makePostJSON({
@@ -342,11 +358,11 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                     const card = result.details.card
                     if(intent == "CHARGE_AND_STORE"){
                         handleResult(doStore(card).then((a) => {
-                                if(a.type == "Success")
-                                        return doCharge(a.success.card.id)
-                                    return Promise.resolve()
-                                }
-                            ))
+                            if(a.type == "Success")
+                                    return doCharge(a.success.card.id)
+                                return Promise.resolve()
+                            }
+                        ))
                     }else{
                         handleResult(doStore(card))
                     }

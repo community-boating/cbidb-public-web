@@ -24,6 +24,7 @@ import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import FactaButton from 'theme/facta/FactaButton';
 import { MAGIC_NUMBERS } from 'app/magicNumbers';
 import optionify from 'util/optionify';
+import {apiw as detach} from "async/proto-detach-member"
 import StandalonePurchaserInfo from 'components/StandalonePurchaserInfo';
 
 type DonationFund = t.TypeOf<typeof donationFundValidator>;
@@ -144,7 +145,6 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 	doAddDonation() {
 		const self = this;
 		this.clearErrors();
-
 		const errorOrOtherAmt: Either<string, number> = (function() {
 			const selectedAmount = self.state.formData.selectedDonationAmount.getOrElse("None");
 			if (selectedAmount == "None") {
@@ -171,13 +171,18 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 				nameFirst: this.state.formData.purchaserNameFirst,
 				nameLast: this.state.formData.purchaserNameLast,
 				email: this.state.formData.email,
-				doRecurring: some(false),//this.state.formData.doRecurring.map(r => r == Recurring.RECURRING)
+				doRecurring: this.state.formData.doRecurring.map(r => r == Recurring.RECURRING)
 			})))
 			.then(ret => {
 				if (ret.type == "Success") {
 					self.props.history.push("/redirect" + window.location.pathname)
 				} else {
-					window.scrollTo(0, 0);
+					if(ret.message == "ACCOUNT_EXISTS"){
+						detach.send(PostURLEncoded("")).then(() => {
+							self.props.history.push("/redirect" + window.location.pathname)
+						})
+						return
+					}
 					self.setState({
 						...self.state,
 						validationErrors: ret.message.split("\\n") // TODO
@@ -193,7 +198,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 			nameFirst: self.state.formData.purchaserNameFirst,
 			nameLast: self.state.formData.purchaserNameLast,
 			email: self.state.formData.email,
-			doRecurring: false//self.state.formData.doRecurring.map(r => r == Recurring.RECURRING).getOrElse(false),
+			doRecurring: self.state.formData.doRecurring.map(r => r == Recurring.RECURRING).getOrElse(false),
 		}))).then(ret => {
 			if (ret.type == "Success") {
 				self.props.goNext();
@@ -312,7 +317,7 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 					pageFlavor={PageFlavor.DONATE}
 				/>
 				<br />
-				{/* <table><tbody><tr> TODO Reenable it
+				{ <table><tbody><tr>
 					<td>Would you like to repeat this donation monthly? </td>
 					<td style={{width: "10%"}}></td>
 					<td>
@@ -327,14 +332,14 @@ export default class DonateDetailsPage extends React.PureComponent<Props, State>
 							updateAction={updateState}
 						/>
 					</td>
-				</tr></tbody></table> */}
+				</tr></tbody></table>}
 			</FactaArticleRegion>
 			<StandalonePurchaserInfo authedAsRealPerson={this.props.orderStatus.authedAsRealPerson} state={this.state} updateState={updateState} history={this.props.history} hasPersonWarning={this.state.hasPersonWarning}/>
 			<FactaButton text="Next >" spinnerOnClick onClick={this.doSubmit.bind(this)} />
 		</React.Fragment>;
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImageForDonations} infosOverride={["Recurring donations are currently unavailable, we expect the recurring donations system to be back online by April 1st 2025."]} errors={this.state.validationErrors}>
+			<FactaMainPage setBGImage={setCheckoutImageForDonations} errors={this.state.validationErrors}>
 				<FactaArticleRegion title={<span>Support Community Boating by making a donation today!</span>}>
 					{/* <DonationThirdPartyWidget /> */}
 					<br />

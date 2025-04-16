@@ -11,40 +11,45 @@ import { PageFlavor } from 'components/Page';
 import { makePostJSON } from 'core/APIWrapperUtil';
 import FactaButton from 'theme/facta/FactaButton';
 import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
-import {validator as getRecurringDonationsValidator, postWrapper as setRecurringDonations} from "async/member/recurring-donations";
+import {RecurringDonationData} from "async/member/square/get-recurring-donations"
 import { validator as donationFundsValidator } from 'async/donation-funds';
+import { getWrapper as updateRecurringDonation } from 'async/member/square/update-recurring-donation';
+import { getWrapper as deleteRecurringDonation } from 'async/member/square/delete-recurring-donation';
 import { Select } from 'components/Select';
 import formUpdateState from 'util/form-update-state';
 import { RadioGroup } from 'components/InputGroup';
 import TextInput from 'components/TextInput';
 import Currency from 'util/Currency';
 import { Either, left, right } from 'fp-ts/lib/Either';
-import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import { apDonatePath } from 'app/paths/ap/donate';
 import { validator as donationHistoryValidator} from "async/member/recurring-donation-history";
 import { apBasePath } from 'app/paths/ap/_base';
 
+type RecurringDontionType = t.TypeOf<typeof RecurringDonationData>
+
 type Props = {
 	history: History<any>,
 	program: PageFlavor,
-	initialDonationPlan: t.TypeOf<typeof getRecurringDonationsValidator>,
+	existingDonations: RecurringDontionType[],
 	fundInfo: t.TypeOf<typeof donationFundsValidator>,
 	donationHistory: t.TypeOf<typeof donationHistoryValidator>,
 }
 
 const formDefault = {
-	selectedFund: none as Option<string>,
+	selectedDonationId: none as Option<number>,
 	selectedDonationAmount: none as Option<string>,
+	selectedFundId: none as Option<string>,
 	otherAmount: none as Option<string>,
+	inMemoryOf: none as Option<string>
 }
 
 type Form = typeof formDefault;
 
 type State = {
-	stagedDonationPlan: t.TypeOf<typeof getRecurringDonationsValidator>
-	formData: Form,
-	formDirty: boolean,
-	validationErrors: string[],
+	donations: RecurringDontionType[]
+	formData: Form
+	formDirty: boolean
+	validationErrors: string[]
 }
 
 class FormSelect extends Select<Form> {}
@@ -92,7 +97,7 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 		super(props);
 		this.state = {
 			formData: formDefault,
-			stagedDonationPlan: this.props.initialDonationPlan,
+			donations: props.existingDonations,
 			formDirty: false,
 			validationErrors: [],
 		}
@@ -100,16 +105,16 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 			...this.state,
 			formData: {
 				...this.state.formData,
-				selectedFund: this.getDefaultFund()
+				selectedDonationId: none
 			}
 		}
 	}
-	createMode = this.props.initialDonationPlan.recurringDonations.length == 0;
+	createMode = this.props.existingDonations.length == 0;
 	componentWillUnmount() {
 		undirty();
 	}
 	goBack() {
-		if (this.props.donationHistory.nextChargeDate.isNone() && this.state.stagedDonationPlan.recurringDonations.length == 0) {
+		if (this.props.donationHistory.nextChargeDate.isNone() && this.state.donations.length == 0) {
 			return Promise.resolve(this.props.history.push(apBasePath.getPathFromArgs({})))
 		} else {
 			return Promise.resolve(this.props.history.push(apDonatePath.getPathFromArgs({})))
@@ -126,18 +131,6 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 			return this.goBack()
 		}
 	}
-	submit() {
-		return setRecurringDonations.send(makePostJSON({recurringDonations: this.state.stagedDonationPlan.recurringDonations} as any)).then(res => {
-			if (res.type == "Success") {
-				if (this.state.stagedDonationPlan.recurringDonations.length == 0) {
-					return this.props.history.push(apBasePath.getPathFromArgs({}))
-				} else {
-					return this.goBack();
-				}
-				
-			}
-		})
-	}
 	validateDonationOtherAmt(): Either<string, number> {
 		if (this.state.formData.selectedDonationAmount.getOrElse(null) != "Other") {
 			return right(null);
@@ -153,9 +146,9 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 	}
 	getAvailableFunds(newFund?: Option<string>) {
 		const newFundNonNull = newFund || none;
-		console.log(newFundNonNull)
-		const state = (this.state && this.state.stagedDonationPlan && this.state.stagedDonationPlan.recurringDonations) || [];
-		return this.props.fundInfo.filter(f => newFundNonNull.map(nf => nf != String(f.fundId)).getOrElse(true) && state.find(ff => ff.fundId == f.fundId) == null)
+		const donations = (this.state && this.state.donations) || [];
+		console.log(donations)
+		return this.props.fundInfo//.filter(f => newFundNonNull.map(nf => nf != String(f.fundId)).getOrElse(true) && donations.find(ff => ff.donationData.fundId == f.fundId) == null)
 			.map(fund => ({
 				key: String(fund.fundId),
 				display: fund.fundName
@@ -180,7 +173,7 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 			}
 		}());
 
-		if (self.state.formData.selectedFund.isNone()) {
+		if (self.state.formData.selectedFundId.isNone()) {
 			this.setState({
 				...this.state,
 				validationErrors: ["Please select a fund to donate to."]
@@ -191,38 +184,63 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 				validationErrors: [errorOrOtherAmt.swap().getOrElse("")]
 			});
 		} else {
-			this.setState({
-				...this.state,
-				stagedDonationPlan: {
-					...this.state.stagedDonationPlan,
-					recurringDonations: this.state.stagedDonationPlan.recurringDonations.concat([{
-						fundId: Number(this.state.formData.selectedFund.getOrElse(null)),
-						amountInCents: errorOrOtherAmt.getOrElse(1)
-					}])
-				},
-				formData: {
-					...this.state.formData,
-					selectedFund: self.getDefaultFund(self.state.formData.selectedFund),
-					selectedDonationAmount: none,
-				},
-				formDirty: true,
-				validationErrors: [],
-			});
+			//TODO fix this
+			/*updateRecurringDonation.send(makePostJSON({
+				orderAppAlias: PageFlavor.AP,
+				recurringDonationId: 0,
+				data: null,
+				updatePayment: false
+			})).then((a) => {
+
+			})*/
 		}
 
 		return Promise.resolve(null);
+	}
+	saveDonation(){
+		const self = this
+		const donationId = self.state.formData.selectedDonationId.getOrElse(undefined)
+		const existingDonation = self.state.donations.find(d => d.recurringDonationId == donationId)
+		if(existingDonation == undefined){
+			console.log(self.state.donations)
+			console.log(donationId)
+			console.log("Returning")
+			return Promise.reject()
+		}
+		const selectedPrice = self.state.formData.selectedDonationAmount.getOrElse("Other")
+		const otherPrice = self.state.formData.otherAmount.getOrElse((existingDonation.donationData.price/100).toString())
+		const priceNew = parseInt(selectedPrice == "Other" ? otherPrice : selectedPrice) * 100
+		const fundIdNew = parseInt(self.state.formData.selectedFundId.getOrElse(existingDonation.donationData.fundId.toString()))
+		const inMemoryOfNew = self.state.formData.inMemoryOf.getOrElse(existingDonation.donationData.inMemoryOf)
+		return updateRecurringDonation.send(makePostJSON({
+			orderAppAlias: PageFlavor.AP,
+			data: {...existingDonation.donationData,
+				price: priceNew,
+				fundId: fundIdNew,
+				inMemoryOf: inMemoryOfNew
+			},
+			recurringDonationId: donationId,
+			updatePayment: false
+		})).then((a) => {
+			if(a.type == "Success"){
+				self.setState({
+					...self.state,
+					donations: self.state.donations.filter(a => a.recurringDonationId != donationId).concat([a.success])
+				})
+		}else{
+			self.setState({
+				...self.state,
+				validationErrors: ["Failed to update donation"]
+			})
+		}
+		return Promise.resolve()
+		})
 	}
 	render() {
 		const self = this;
 		
 
 		const updateState = formUpdateState(this.state, this.setState.bind(this), "formData");
-
-		if (this.state.formDirty) {
-			dirty();
-		} else {
-			undirty();
-		}
 
 		// const basePath = (function() {
 		// 	switch (self.props.program) {
@@ -234,6 +252,10 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 		// 		return null;
 		// 	}
 		// }());
+
+		//const addDonationButton = <FactaButton text="Add Donation" spinnerOnClick onClick={this.addDonation.bind(this)}/>
+
+		const updateDonationButton = <FactaButton text="Update Donation" spinnerOnClick onClick={this.saveDonation.bind(this)}/>
 
 		const donationAmountCell = (<div>
 			How much can you give this season?<br />
@@ -258,88 +280,106 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 				/>
 				: null
 			}
-			<div style={{margin: "20px 0"}}><FactaButton text="Add Donation" onClick={this.addDonation.bind(this)}/></div>
+			<FormInput
+						id="inMemoryOf"
+						label="In Memory Of"
+						value={this.state.formData.inMemoryOf}
+						updateAction={updateState}
+						size={38}
+						maxLength={500}
+					/>
+			<div style={{margin: "20px 0"}}>{self.state.formData.selectedDonationId.isSome() ? updateDonationButton : <></>}</div>
 		</div>)
 
-		const deleteFund = (fundId: number) => {
-			self.setState({
-				...self.state,
-				stagedDonationPlan: {
-					...self.state.stagedDonationPlan,
-					recurringDonations: self.state.stagedDonationPlan.recurringDonations.filter(d => d.fundId != fundId)
-				},
-				formDirty: true
-			});
+		const deleteDonation = (donationId: number) => {
+			return deleteRecurringDonation.send(makePostJSON({
+				orderAppAlias: PageFlavor.AP,
+				recurringDonationId: donationId
+			})).then((a) => {
+				if(a.type == "Success"){
+					self.setState({
+						...self.state,
+						donations: self.state.donations.filter(a => a.recurringDonationId != donationId)
+					});
+				}else{
+					self.setState({
+						...self.state,
+						validationErrors: ["Failed to delete donation"]
+					});
+				}
+				return Promise.resolve()
+			})
 		}
 
-		const editFund = (fundId: number) => {
-			const existingAmount = self.state.stagedDonationPlan.recurringDonations.find(d => d.fundId == fundId).amountInCents;
+		const editDonation = (donationId: number) => {
+			const existingDonation = self.state.donations.find(d => d.recurringDonationId == donationId)
+			if(existingDonation == undefined){
+				return
+			}
+			const existingFundId = (existingDonation.donationData || {}).fundId
+			const existingAmount = (existingDonation.donationData || {}).price
+			const existingInMemoryOf = (existingDonation.donationData || {}).inMemoryOf
 			const amountIsPreset = amounts.find(a => a.key == String(existingAmount)) != null;
 			const formDataPiece = (
 				amountIsPreset
 				? {selectedDonationAmount: some(String(existingAmount)) }
 				: {selectedDonationAmount: some("Other"), otherAmount: some(String(existingAmount/100))}
 			)
+			console.log(existingFundId)
+			console.log(this.getAvailableFunds())
+			
 			self.setState({
 				...self.state,
-				stagedDonationPlan: {
-					...self.state.stagedDonationPlan,
-					recurringDonations: self.state.stagedDonationPlan.recurringDonations.filter(d => d.fundId != fundId)
-				},
 				formData: {
 					...self.state.formData,
-					selectedFund: some(String(fundId)),
+					selectedDonationId: some(donationId),
+					selectedFundId: existingFundId ? some(existingFundId.toString()) : none,
+					inMemoryOf: existingInMemoryOf ? some(existingInMemoryOf) : none,
 					...formDataPiece
 				},
 				formDirty: true
 			});
+				
+			
 		}
 
-		const errorPopup = (
-			(this.state.validationErrors.length > 0)
-			? <FactaErrorDiv errors={this.state.validationErrors}/>
-			: ""
-		);
+		console.log(self.state.formData.selectedFundId)
 
 		return <FactaMainPage setBGImage={setCheckoutImage} errors={this.state.validationErrors}>
 			<table width="100%"><tbody><tr>
 				<td style={{verticalAlign: "top", width: "50%"}}>
 					<FactaArticleRegion title="Active Monthly Donations">
 						{
-							this.state.stagedDonationPlan.recurringDonations.length == 0
+							this.state.donations.length == 0
 							? "No recurring donations yet."
 							: (<table cellPadding="5"><tbody>
-								<tr><th></th><th>Fund Name</th><th>Amount</th></tr>
-								{this.state.stagedDonationPlan.recurringDonations.map((d, i) => <tr key={"row_" + i}>
+								<tr><th></th><th>Fund Name</th><th>In Memory Of</th><th>Amount</th></tr>
+								{this.state.donations.map((d, i) => <tr key={"row_" + i}>
 									<td>
-										<a href="#" onClick={() => editFund(d.fundId)}><img style={{height: "20px"}} src="/images/edit.png" /></a>
+										<a href="#" onClick={() => editDonation(d.recurringDonationId)}><img style={{height: "20px"}} src="/images/edit.png" /></a>
 										&nbsp;&nbsp;
-										<a href="#" onClick={() => deleteFund(d.fundId)}><img src="/images/delete.png" /></a></td>
-									<td>{self.props.fundInfo.find(f => f.fundId == d.fundId).fundName}</td>
-									<td>{Currency.cents(d.amountInCents).format()}</td>
+										<a href="#" onClick={() => deleteDonation(d.recurringDonationId)}><img src="/images/delete.png" /></a></td>
+									<td>{self.props.fundInfo.find(f => f.fundId == d.donationData.fundId).fundName}</td>
+									<td>{d.donationData.inMemoryOf}</td>
+									<td>{Currency.cents(d.donationData.price).format()}</td>
 								</tr>)}
 							</tbody></table>)
 						}
 						<br /><br />
 						<FactaButton text="< Cancel" onClick={this.maybeGoPrev.bind(this)}/>
-						{(
-							this.state.formDirty
-							? <FactaButton text="Save Changes" onClick={this.submit.bind(this)}/>
-							: null
-						)}
 						
 					</FactaArticleRegion>	
 				</td>
 				<td style={{verticalAlign: "top"}}>
-					<FactaArticleRegion title="Add Donation">
+					<FactaArticleRegion title="Update Donation">
 						Fund:&nbsp;&nbsp;&nbsp;&nbsp;
 						<FormSelect	
-							id="selectedFund"
+							id="selectedFundId"
 							label=""
-							value={this.state.formData.selectedFund}
+							value={self.state.formData.selectedFundId}
 							updateAction={updateState}
 							options={this.getAvailableFunds()}
-							nullDisplay="- Select a fund -"
+							nullDisplay="-"
 							justElement={true}
 						/>
 						{donationAmountCell}

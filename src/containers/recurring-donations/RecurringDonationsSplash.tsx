@@ -12,14 +12,13 @@ import FactaArticleRegion from 'theme/facta/FactaArticleRegion';
 import {validator as getRecurringDonationsValidator} from "async/member/recurring-donations";
 import { validator as donationFundsValidator } from 'async/donation-funds';
 import Currency from 'util/Currency';
-import { FactaErrorDiv } from 'theme/facta/FactaErrorDiv';
 import { apDonateEditPath } from 'app/paths/ap/donate-edit';
 import { validator as donationHistoryValidator} from "async/member/recurring-donation-history";
 import StandardReport from 'theme/facta/StandardReport';
 import { toMomentFromLocalDate } from 'util/dateUtil';
 import { Option } from 'fp-ts/lib/Option';
 import { FactaSuccessDiv } from 'theme/facta/FactaSuccessDiv';
-import SquarePaymentForm, { getPaymentPropsAsync, getPaymentPropsAsyncNoOrder, SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
+import SquarePaymentForm, { getPaymentPropsAsyncNoOrder, SquarePaymentFormPropsAsync } from 'components/SquarePaymentForm';
 
 type Props = {
 	history: History<any>,
@@ -71,7 +70,7 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 			}
 		}());
 
-		const createMode = self.props.donationHistory.nextChargeDate.isNone();
+		const createMode = false//self.props.donationHistory.nextChargeDate.isNone();
 
 		const buttonText = (
 			this.props.currentDonationPlan.recurringDonations.length == 0

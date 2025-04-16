@@ -4,14 +4,16 @@ import { HttpMethod } from "core/HttpMethod";
 
 export const validator = t.type({
     orderAppAlias: t.string,
-    invoiceId: t.string
+    recurringDonationId: t.number
 })
 
 const resultValidator = t.boolean
 
-const path = "/member/pay-invoice-now"
+export type APIConstants = t.TypeOf<typeof resultValidator>
 
-export const postWrapper = new APIWrapper<typeof resultValidator, t.TypeOf<typeof validator>, {}>({
+const path = "/member/delete-recurring-donation"
+
+export const getWrapper = new APIWrapper<typeof resultValidator, t.TypeOf<typeof validator>, {}>({
     path,
     type: HttpMethod.POST,
     resultValidator

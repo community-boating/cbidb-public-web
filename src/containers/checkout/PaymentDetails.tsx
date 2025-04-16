@@ -149,6 +149,8 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				program: this.props.flavor
 			}))
 			.then(ret => {
+				alert("DONE WITH ADD DONATION")
+				console.log(ret)
 				if (ret.type == "Success") {
 					self.props.history.push("/redirect" + window.location.pathname)
 				} else {

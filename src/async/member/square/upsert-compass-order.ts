@@ -72,7 +72,8 @@ const resultValidator = t.type({
     compassOrderId: t.union([t.number, t.null, t.undefined]),
     squareOrderPriceInCents: t.union([t.number, t.null, t.undefined]),
     staggeredCompassOrderId: t.union([t.number, t.null, t.undefined]),
-    staggeredSquareOrderPriceInCents: t.union([t.number, t.null, t.undefined])
+    staggeredSquareOrderPriceInCents: t.union([t.number, t.null, t.undefined]),
+    doRecurring: t.boolean
 })
 
 export type SquareOrderInfo = t.TypeOf<typeof resultValidator>

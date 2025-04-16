@@ -57,7 +57,7 @@ export default class DonateConfirmationPage extends React.PureComponent<Props, S
 		}}/>
 
 		return (
-			<FactaMainPage setBGImage={setCheckoutImageForDonations} infosOverride={["Recurring donations are currently unavailable, we expect the recurring donations system to be back online by April 1st 2025."]} errors={this.state.validationErrors}>
+			<FactaMainPage setBGImage={setCheckoutImageForDonations} errors={this.state.validationErrors}>
 				<FactaArticleRegion title={"Donation Summary"}>
 					<FullCartReport
 						cartItems={this.props.cartItems}

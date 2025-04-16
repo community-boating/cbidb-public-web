@@ -67,8 +67,8 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 
 		const clickPayAll = () => {
 			const confirmText =
-				"This will immediately charge your credit card on file in the amount of " + 
-				outstandingTotal.format() + " and complete your membership purchase; do you wish to continue?";
+				"This will immediately charge your default credit card on file in the amount of " + 
+				outstandingTotal.format() + " and complete your membership purchase(s); do you wish to continue? (You can change the default card under the saved cards tab below)";
 			const finishOrder = () => payInvoiceNow.send(makePostJSON({
 				orderAppAlias: this.props.program,
 				invoiceId: this.props.payments[0].squareInvoiceId
@@ -76,8 +76,11 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 
 			if (confirm(confirmText)) {
 				return finishOrder().then(r => {
+					//We will wait 6 seconds for the webhooks and stuff to balance out (hopefully thats long enough, if not they gonna have to reload)
 					if (r.type == "Success") {
-						self.props.history.push("/redirect" + window.location.pathname)
+						setTimeout(() => {
+							self.props.history.push("/redirect" + window.location.pathname)
+						}, 6000)
 					} else {
 						self.setState(s => ({
 							...s,
