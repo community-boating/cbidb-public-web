@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/browser"
+import * as Sentry from "@sentry/react"
 
 // TODO: Figure out how to get this to actually send a stacktrace to sentry
 export const assertUniqueKeys: <T extends any>(es: T[]) => T[] = es => {
