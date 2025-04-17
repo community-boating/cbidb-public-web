@@ -1,5 +1,5 @@
 import { none, Option, some } from 'fp-ts/lib/Option';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 
 import { makePostString } from 'core/APIWrapperUtil';
 import { PostString } from 'core/APIWrapperTypes';
@@ -71,7 +71,7 @@ export class AppStateContainer {
 						authenticatedUserName: some(userName)
 					}
 				});
-				Sentry.configureScope(function(scope) {
+				Sentry.withScope(function(scope) {
 					scope.setUser({"username": userName});
 				});
 			}).bind(this),
