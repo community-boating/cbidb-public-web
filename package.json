@@ -14,7 +14,7 @@
     "not dead"
   ],
   "dependencies": {
-    "@sentry/browser": "^6.2.4",
+    "@sentry/react": "^9.13.0",
     "@square/web-payments-sdk-types": "^1.70.0",
     "axios": "^1.6.7",
     "fp-ts": "^1.18.1",

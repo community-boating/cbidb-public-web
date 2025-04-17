@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import { History } from 'history';
 import * as React from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router';
