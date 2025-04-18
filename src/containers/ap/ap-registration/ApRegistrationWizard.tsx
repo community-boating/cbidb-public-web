@@ -54,7 +54,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 		this.state = {
 			...this.state,
 			membershipTypeId: null,
-			paymentPlanAllowed: false,///*props.canRenew &&*/ true,
+			paymentPlanAllowed: props.canRenew,
 			guestPrivsAuto: false,
 			guestPrivsNA: false,
 			damageWavierAuto: false
@@ -66,7 +66,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 			...this.state,
 			membershipTypeId,
 			...fromServer,
-			paymentPlanAllowed: fromServer.paymentPlanAllowed
+			paymentPlanAllowed: false//fromServer.paymentPlanAllowed
 		})
 	}
 	calculateNodes(): WizardNode[] {
