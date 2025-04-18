@@ -54,7 +54,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 		this.state = {
 			...this.state,
 			membershipTypeId: null,
-			paymentPlanAllowed: /*props.canRenew &&*/ true,
+			paymentPlanAllowed: false,///*props.canRenew &&*/ true,
 			guestPrivsAuto: false,
 			guestPrivsNA: false,
 			damageWavierAuto: false
