@@ -360,10 +360,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                     const card = result.details.card
                     if(intent == "CHARGE_AND_STORE"){
                         handleResult(doStore(card).then((a) => {
-                            if(a.type == "Success"){
-                                return doCharge(a.success.card.id)
-                            }
-                            return Promise.resolve()
+                            return doCharge(a.card.id)
                             }
                         ))
                     }else{
