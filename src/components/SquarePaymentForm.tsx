@@ -300,14 +300,14 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
 
     const handleResult = (promise: Promise<any>) => {
         console.log("CALLING HANDLE RESULT")
-        return promise.catch(e => {
+        return promise.then(() => {
+            console.log("SETTING POLL ENABLED")
+            setDoPoll(true)
+        }).catch(e => {
             console.log("Error processing payment", e)
             setPaymentErrors(["Error handling payment"])
         }).finally(() => {
             (intent == "STORE") && setButtonDisableOverride(false)
-        }).then(() => {
-            console.log("SETTING POLL ENABLED")
-            setDoPoll(true)
         })
     }
 
