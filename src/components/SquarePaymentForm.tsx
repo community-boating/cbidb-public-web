@@ -343,12 +343,13 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                     cardToSave: card as any,
                     verificationToken: verificationTokenOpt
                 })).then((a) => {
-                    if(a.type == "Success"){
+                    if(a.type == "Success"){    
                         setAddedCards(cards => cards.concat(a.success.card))
+                        return Promise.resolve(a.success)
                     }else{
                         setPaymentErrors(["Failed to store card, please try again and if the issue persists use the 'Report a Bug' button below to notify staff. We will fix the problem as soon as we are able"])
+                        return Promise.reject()    
                     }
-                    return a
                 })
             }
             
@@ -361,8 +362,6 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                         handleResult(doStore(card).then((a) => {
                             if(a.type == "Success"){
                                 return doCharge(a.success.card.id)
-                            }else{
-                                setPaymentErrors(["Failed pay for order, please try again and if the issue persists use the 'Report a Bug' button below to notify staff. We will fix the problem as soon as we are able"])
                             }
                             return Promise.resolve()
                             }
