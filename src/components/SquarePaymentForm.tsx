@@ -305,10 +305,9 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
             setPaymentErrors(["Error handling payment"])
         }).finally(() => {
             (intent == "STORE") && setButtonDisableOverride(false)
+        }).then(() => {
             console.log("SETTING POLL ENABLED")
             setDoPoll(true)
-        }).then(() => {
-            console.log("WHAT")
         })
     }
 
@@ -346,6 +345,8 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                 })).then((a) => {
                     if(a.type == "Success"){
                         setAddedCards(cards => cards.concat(a.success.card))
+                    }else{
+                        setPaymentErrors(["Failed to store card, please try again and if the issue persists use the 'Report a Bug' button below to notify staff. We will fix the problem as soon as we are able"])
                     }
                     return a
                 })
@@ -358,9 +359,12 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                     const card = result.details.card
                     if(intent == "CHARGE_AND_STORE"){
                         handleResult(doStore(card).then((a) => {
-                            if(a.type == "Success")
-                                    return doCharge(a.success.card.id)
-                                return Promise.resolve()
+                            if(a.type == "Success"){
+                                return doCharge(a.success.card.id)
+                            }else{
+                                setPaymentErrors(["Failed pay for order, please try again and if the issue persists use the 'Report a Bug' button below to notify staff. We will fix the problem as soon as we are able"])
+                            }
+                            return Promise.resolve()
                             }
                         ))
                     }else{
