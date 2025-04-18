@@ -254,7 +254,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const doCharge = (sourceId: string, verificationTokenOpt: Option<string> = none) => {
         if(!isPaymentAvailable){
             propsToUse.setPaymentErrors(["Payment is loading, please wait"])
-            return Promise.resolve()
+            return Promise.reject()
         }
 
         if(donationIsRecurring){
@@ -264,6 +264,8 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
             })).then((a) => {
                 if(a.type == "Success"){
                     return Promise.resolve()
+                }else{
+                    setPaymentErrors(["Failed to pay for recurring donation"])
                 }
                 return Promise.reject()
             })
@@ -284,13 +286,13 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
             if(a[0] != undefined){
                 if(a[0].type != "Success"){
                     setPaymentErrors(["Payment failed, please try again later. If the issue keeps happening please send us an email and we will fix the problem as soon as we can"])
-                    return Promise.resolve()
+                    return Promise.reject()
                 }
             }
             if(a[1] != undefined){
                 if(a[1].type != "Success"){
                     setPaymentErrors(["Payment failed, please try again later. If the issue keeps happening please send us an email and we will fix the problem as soon as we can"])
-                    return Promise.resolve()
+                    return Promise.reject()
                 }
             }
             return Promise.resolve()
@@ -299,13 +301,12 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
 
 
     const handleResult = (promise: Promise<any>) => {
-        console.log("CALLING HANDLE RESULT")
         return promise.then(() => {
             console.log("SETTING POLL ENABLED")
             setDoPoll(true)
         }).catch(e => {
             console.log("Error processing payment", e)
-            setPaymentErrors(["Error handling payment"])
+            //setPaymentErrors(["Error handling payment"])
         }).finally(() => {
             (intent == "STORE") && setButtonDisableOverride(false)
         })
