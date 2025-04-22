@@ -8,7 +8,10 @@ export const validator = t.type({
     orderAppAlias: t.string,
     sourceId: t.string,
     cardToSave: SquareCard,
-    verificationToken: OptionalString
+    verificationToken: OptionalString,
+    updateInvoices: t.boolean,
+    updateRecurringDonations: t.boolean,
+    setAsDefault: t.boolean
 })
   
 

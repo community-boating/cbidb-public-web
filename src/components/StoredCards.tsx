@@ -16,6 +16,8 @@ export type StoredCardsProps = {
     setErrors: (errors: string[]) => void
     setDeletedCardIds: React.Dispatch<React.SetStateAction<string[]>>
     setDefaultCardId: React.Dispatch<React.SetStateAction<string>>
+    updateInvoices: boolean,
+    updateRecurringDonations: boolean
 }
 
 export default function StoredCards(props: StoredCardsProps) {
@@ -53,7 +55,9 @@ export default function StoredCards(props: StoredCardsProps) {
                 e.preventDefault()
                 return saveDefaultCard.send(makePostJSON({
                     orderAppAlias: props.orderAppAlias,
-                    defaultCardId: card.id
+                    defaultCardId: card.id,
+                    updateInvoices: props.updateInvoices,
+                    updateRecurringDonations: props.updateRecurringDonations
                 })).then((a) => {
                     if(a.type == "Success"){
                         props.setDefaultCardId(card.id)

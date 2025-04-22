@@ -103,7 +103,7 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 
 		const success = this.props.successMsg.map(msg => <FactaSuccessDiv msg="Your recurring donation was successfully created!" />).getOrElse(null);
 
-		const paymentElement = this.state.paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...this.state.paymentPropsAsync} intentOverride="STORE" orderAppAlias={this.props.program} handleSuccess={() => {}}
+		const paymentElement = this.state.paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...this.state.paymentPropsAsync} updateRecurringDonations intentOverride="STORE" orderAppAlias={this.props.program} handleSuccess={() => {}}
 				setPaymentErrors={(errors) => {
 					this.setState((s) => ({...s, validationErrors: errors}))
 				}}/>

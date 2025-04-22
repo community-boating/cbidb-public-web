@@ -5,7 +5,8 @@ import { HttpMethod } from "core/HttpMethod";
 export const validator = t.type({
 	fundId: t.number,
 	amount: t.number,
-	program: t.string
+	program: t.string,
+	inMemoryOf: t.union([t.string, t.null, t.undefined])
 })
 
 const path = "/member/add-donation"

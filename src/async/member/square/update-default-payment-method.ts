@@ -5,6 +5,8 @@ import { HttpMethod } from "core/HttpMethod";
 export const validator = t.type({
     orderAppAlias: t.string,
     defaultCardId: t.string,
+    updateInvoices: t.boolean,
+    updateRecurringDonations: t.boolean
 })
   
 

@@ -33,6 +33,8 @@ export type SquarePaymentFormProps = SquarePaymentFormPropsAsync & {
     handleSuccess: () => void
     setPaymentErrors: (errors: string[]) => void
     fetchOrderLate?: boolean
+    updateInvoices?: boolean
+    updateRecurringDonations?: boolean
 }
 
 export type IntentTypes = "CHARGE" | "CHARGE_AND_STORE" | "STORE"
@@ -68,7 +70,7 @@ function mapVertificationDetails(props: SquarePaymentFormProps, intent: IntentTy
 }
 
 function mapPaymentRequest(props: SquarePaymentFormProps, intent: IntentTypes): PaymentRequestOptions {
-    if(!props.order){
+    if(props.order == undefined){
         return undefined
     }
     return {
@@ -117,7 +119,7 @@ function isPaymentDisabled(props: SquarePaymentFormProps, paymentType: typeof PA
         case PAYMENT_TYPES.APPLE_PAY:
             if((window as any).ApplePaySession == undefined) return true
         case PAYMENT_TYPES.GOOGLE_PAY:
-            return (!props.order)
+            return (props.order == undefined || props.order.compassOrderId == undefined)
         case PAYMENT_TYPES.CREDIT_CARD:
             return false
         case PAYMENT_TYPES.GIFT_CARD:
@@ -179,9 +181,10 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const [order, setOrder] = props.fetchOrderLate ? React.useState(props.order) : [props.order, () => {}]
     const propsToUse = props.fetchOrderLate ? {...props, order: order} : props
     const setPaymentErrors = props.setPaymentErrors
-    if(propsToUse.fetchOrderLate){
+    var effector = React.useRef<Promise<any>>()
+    /*if(propsToUse.fetchOrderLate){
         React.useEffect(() => {
-            upsertCompassOrderAPI.send(makePostJSON({
+            effector.current = upsertCompassOrderAPI.send(makePostJSON({
                 orderAppAlias: propsToUse.orderAppAlias
             })).then((a) => {
                 if(a.type == "Success"){
@@ -191,7 +194,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                 }
             })
         }, [])
-    }
+    }*/
     const [defaultCardId, setDefaultCardId] = React.useState<string>(propsToUse.squareInfo.defaultCardId)
     const [paymentType, setPaymentType] = React.useState(PAYMENT_TYPES.CREDIT_CARD.key)
     const [buttonDisableOverride, setButtonDisableOverride] = React.useState(false)
@@ -243,6 +246,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const intent = donationIsRecurring ? "CHARGE_AND_STORE" : (isIntentValid(intentProvided) ? intentProvided : (storePayment ? "CHARGE_AND_STORE" : "CHARGE"))
 
     const verificationDetails = mapVertificationDetails(propsToUse, intent)
+    console.log(propsToUse)
     const paymentRequest = mapPaymentRequest(propsToUse, intent)
     const showOnlyRecurring = (intent == "STORE" || intentProvided == "CHARGE_AND_STORE" || donationIsRecurring)
     const tabGroupsMapped = Object.values(PAYMENT_TYPES).map(paymentType => ({...paymentType, disabled: isPaymentDisabled(propsToUse, paymentType, cardsOnFileFiltered)}))
@@ -250,7 +254,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const isFree = order && order.squareOrderPriceInCents == 0 && order.staggeredSquareOrderPriceInCents == 0
     const isLoading = props.fetchOrderLate && propsToUse.order == undefined
     const isPaymentAvailable = !isLoading && !buttonDisableOverride
-
+    console.log(paymentRequest)
     const doCharge = (sourceId: string, verificationTokenOpt: Option<string> = none) => {
         if(!isPaymentAvailable){
             propsToUse.setPaymentErrors(["Payment is loading, please wait"])
@@ -329,7 +333,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                     setPaymentErrors(["Payment Error, please contact staff at CBI"])
                 }
             })
-        }}/>
+        }}/>  
     return <PaymentForm applicationId={propsToUse.apiConstants.squareApplicationId} locationId={propsToUse.apiConstants.squareLocationId} cardTokenizeResponseReceived={function (result: TokenResult, verifiedBuyer?: VerifyBuyerResponseDetails | null): void {
         if(result.errors == null && result.token != null && paymentType != PAYMENT_TYPES.GIFT_CARD.key){
 
@@ -342,7 +346,10 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                     orderAppAlias: propsToUse.orderAppAlias,
                     sourceId: result.token,
                     cardToSave: card as any,
-                    verificationToken: verificationTokenOpt
+                    verificationToken: verificationTokenOpt,
+                    updateInvoices: propsToUse.updateInvoices == true,
+                    updateRecurringDonations: propsToUse.updateRecurringDonations == true,
+                    setAsDefault: true
                 })).then((a) => {
                     if(a.type == "Success"){    
                         setAddedCards(cards => cards.concat(a.success.card))
@@ -374,7 +381,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
         }else{
             setButtonDisableOverride(false)
         }
-    }} createVerificationDetails={() => verificationDetails} createPaymentRequest={() => paymentRequest}>
+    }} createVerificationDetails={() => verificationDetails} createPaymentRequest={() => {return paymentRequest}}>
         <TabGroup tabGroups={tabGroupsMapped} locked={buttonDisableOverride} controlled={{tabKey: paymentType, setTabKey: setPaymentType}}>
             <div key={PAYMENT_TYPES.CREDIT_CARD.key}>
                 <CreditCard buttonProps={{
@@ -387,6 +394,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                         <div style={{paddingTop: "12px", height: "24px", paddingRight: "24px"}}>
                             <input type="checkbox" id="savePayment" checked={storePayment} onChange={(e) => {
                                 setStorePayment(e.target.checked)
+                                
                             }}/>
                             <label htmlFor="savePayment">
                                 Save Payment For Future Orders?
@@ -395,7 +403,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
                     </div>}
                 </div>
                 <div key={PAYMENT_TYPES.STORED_CARD.key}>
-                    <StoredCards orderAppAlias={propsToUse.orderAppAlias} intent={intent} defaultCardId={defaultCardId} cardsOnFile={cardsOnFileFiltered} setErrors={setPaymentErrors} setDeletedCardIds={setDeletedCardIds} setDefaultCardId={setDefaultCardId} payWithCard={cardId => {
+                    <StoredCards orderAppAlias={propsToUse.orderAppAlias} intent={intent} defaultCardId={defaultCardId} cardsOnFile={cardsOnFileFiltered} setErrors={setPaymentErrors} setDeletedCardIds={setDeletedCardIds} setDefaultCardId={setDefaultCardId} updateInvoices={propsToUse.updateInvoices == true} updateRecurringDonations={propsToUse.updateRecurringDonations == true} payWithCard={cardId => {
                         return handleResult(doCharge(cardId))
                     }}/>
                 </div>

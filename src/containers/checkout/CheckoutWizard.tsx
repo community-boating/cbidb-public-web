@@ -14,7 +14,7 @@ import {getWrapper as getDonationFunds} from "async/donation-funds"
 import ThankYouPage from "./ThankYou";
 import { PageFlavor } from "components/Page";
 import FactaLoadingPage from "theme/facta/FactaLoadingPage";
-import { getPaymentPropsAsyncNoOrder } from "components/SquarePaymentForm";
+import { getPaymentPropsAsync } from "components/SquarePaymentForm";
 
 const mapWizardProps = (fromWizard: ComponentPropsFromWizard) => ({
 	goPrev: fromWizard.goPrev,
@@ -93,7 +93,7 @@ export default class CheckoutWizard extends React.Component<Props, State> {
 						orderStatus(this.props.flavor).send(null),
 						getCartItems(this.props.flavor).send(null),
 						getDonationFunds.send(null),
-						getPaymentPropsAsyncNoOrder(this.props.flavor)
+						getPaymentPropsAsync(this.props.flavor)
 					]).then(([welcome, order, cart, funds, paymentPropsAsync]) => {
 						if (welcome.type == "Success" && !welcome.success.canCheckout) {
 							self.props.history.push(jpBasePath.getPathFromArgs({}));

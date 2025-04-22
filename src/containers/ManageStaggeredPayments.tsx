@@ -76,11 +76,11 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 
 			if (confirm(confirmText)) {
 				return finishOrder().then(r => {
-					//We will wait 6 seconds for the webhooks and stuff to balance out (hopefully thats long enough, if not they gonna have to reload)
+					//We will wait 12 seconds for the webhooks and stuff to balance out (hopefully thats long enough, if not they gonna have to reload)
 					if (r.type == "Success") {
 						setTimeout(() => {
 							self.props.history.push("/redirect" + window.location.pathname)
-						}, 6000)
+						}, 12000)
 					} else {
 						self.setState(s => ({
 							...s,
@@ -99,9 +99,9 @@ export default class ManageStaggeredPayments extends React.PureComponent<Props, 
 		)
 
 		const paid = <span style={{color:"#22772d"}}>Paid</span>
-		const failed = <span style={{color:"#ff0000"}}>Failed</span>
+		const failed = <span style={{color:"#ff0000"}}>Reenter Payment Information</span>
 
-		const paymentElement = this.state.paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...this.state.paymentPropsAsync} intentOverride="STORE" orderAppAlias={this.props.program} handleSuccess={() => {}}
+		const paymentElement = this.state.paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...this.state.paymentPropsAsync} intentOverride="STORE" updateInvoices orderAppAlias={this.props.program} handleSuccess={() => {}}
 		setPaymentErrors={(errors) => {
 			this.setState((s) => ({...s, validationErrors: errors}))
 		}}/>

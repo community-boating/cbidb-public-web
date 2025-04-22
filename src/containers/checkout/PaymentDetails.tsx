@@ -146,7 +146,8 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 			return addDonation.send(makePostJSON({
 				fundId: this.state.formData.selectedFund.map(Number).getOrElse(null),
 				amount: errorOrOtherAmt.getOrElse(null),
-				program: this.props.flavor
+				program: this.props.flavor,
+				inMemoryOf: undefined
 			}))
 			.then(ret => {
 				if (ret.type == "Success") {
@@ -389,7 +390,7 @@ export default class PaymentDetailsPage extends React.PureComponent<Props, State
 				</td>
 			</tr></tbody></table>
 			<FactaArticleRegion title="Payment">
-				<SquarePaymentForm fetchOrderLate {...this.props.paymentPropsAsync} intentOverride={currentlyDoingStaggered ? "CHARGE_AND_STORE" : undefined} orderAppAlias={this.props.flavor} handleSuccess={() => {
+				<SquarePaymentForm {...this.props.paymentPropsAsync} intentOverride={currentlyDoingStaggered ? "CHARGE_AND_STORE" : undefined} orderAppAlias={this.props.flavor} handleSuccess={() => {
 					this.props.goNext()
 				}} setPaymentErrors={(errors) => {
 					this.setState((s) => ({...s, validationErrors: errors}))
