@@ -228,8 +228,8 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 	}
 	getPriceNew(existingDonation?: RecurringDontionType, convert: boolean = true){
 		const selectedPrice = this.state.formData.selectedDonationAmount.getOrElse("Other")
-		const otherPrice = this.state.formData.otherAmount.getOrElse(((existingDonation || {donationData: {price: 0}}).donationData.price/100).toString())
-		return parseInt(selectedPrice == "Other" ? otherPrice : selectedPrice) * (convert ? 100 : 1)
+		const otherPrice = parseInt(this.state.formData.otherAmount.getOrElse(((existingDonation || {donationData: {price: 0}}).donationData.price/100).toString())) * 100
+		return selectedPrice == "Other" ? otherPrice : parseInt(selectedPrice)
 	}
 	saveDonation(){
 		const self = this
@@ -293,9 +293,6 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 							excludeMemberName={true}
 							pageFlavor={PageFlavor.AUTO_DONATE}
 						/></FactaArticleRegion></td></tr>
-
-		const isAdding = self.props.cartItems.length > 1
-
 
 		const addDonationButton = <FactaButton text="Add Donation" spinnerOnClick onClick={this.addDonation.bind(this)}/>
 

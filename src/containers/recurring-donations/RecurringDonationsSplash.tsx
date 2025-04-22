@@ -134,13 +134,6 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 						<FactaButton text="< Back" onClick={() => Promise.resolve(self.props.history.push(basePath))}/>
 						<FactaButton text={buttonText} onClick={() => Promise.resolve(self.props.history.push(apDonateEditPath.getPathFromArgs({})))} />
 					</FactaArticleRegion>
-					{
-						this.props.currentDonationPlan.recurringDonations.length == 0
-						? null
-						: <FactaArticleRegion title="Payment Method">
-							{ paymentElement }
-						</FactaArticleRegion>
-					}
 				</td>
 				<td style={{width: "10%"}}></td>
 				<td style={{verticalAlign: "top"}}>
@@ -148,7 +141,15 @@ export default class RecurringDonationsSplash extends React.PureComponent<Props,
 						{this.props.donationHistory.donationHistory.length > 0 ? donationHistoryTable : "No donations have been made yet."}
 					</FactaArticleRegion>
 				</td>
-			</tr></tbody></table>
+			</tr>
+			</tbody></table>
+			{
+				this.props.currentDonationPlan.recurringDonations.length == 0
+				? null
+				: <FactaArticleRegion title="Payment Method">
+					{ paymentElement }
+				</FactaArticleRegion>
+			}
 		</FactaMainPage>
 	}
 }
