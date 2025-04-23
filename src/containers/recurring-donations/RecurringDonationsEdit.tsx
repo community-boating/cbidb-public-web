@@ -408,7 +408,7 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 					</FactaArticleRegion>
 				</td>
 				<td style={{verticalAlign: "top"}}>
-					<FactaArticleRegion title="Update Donation">
+					<FactaArticleRegion title={self.state.formData.selectedDonationId.isSome() ? "Update Donation" : "Create Donation"}>
 						Fund:&nbsp;&nbsp;&nbsp;&nbsp;
 						<FormSelect	
 							id="selectedFundId"
