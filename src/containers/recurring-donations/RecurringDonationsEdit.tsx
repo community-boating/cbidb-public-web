@@ -136,15 +136,15 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 		}
 	}
 	maybeGoPrev() {
-		/*if (this.state.formDirty) {
+		if (this.state.formDirty) {
 			if (confirm("Discard changes to recurring donations?")) {
 				return this.goBack();
 			} else {
 				return Promise.resolve();
 			}
-		} else {*/
+		} else {
 			return this.goBack()
-		//}
+		}
 	}
 	validateDonationOtherAmt(): Either<string, number> {
 		if (this.state.formData.selectedDonationAmount.getOrElse(null) != "Other") {
@@ -213,15 +213,6 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 					return Promise.reject()
 				}
 			})
-			//TODO fix this
-			/*updateRecurringDonation.send(makePostJSON({
-				orderAppAlias: PageFlavor.AP,
-				recurringDonationId: 0,
-				data: null,
-				updatePayment: false
-			})).then((a) => {
-
-			})*/
 		}
 
 		return Promise.resolve(null);
@@ -296,7 +287,7 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 
 		const addDonationButton = <FactaButton text="Add Donation" spinnerOnClick onClick={this.addDonation.bind(this)}/>
 
-		const paymentElement = this.state.paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm {...self.state.paymentPropsAsync} updateRecurringDonations orderAppAlias={PageFlavor.AUTO_DONATE} handleSuccess={function (): void {
+		const paymentElement = this.state.paymentPropsAsync == undefined ? <h3>Payment Loading...</h3> : <SquarePaymentForm intentOverride={self.props.cartItems.length > 0 ? "CHARGE_AND_STORE" : "STORE"} {...self.state.paymentPropsAsync} updateRecurringDonations orderAppAlias={PageFlavor.AUTO_DONATE} handleSuccess={function (): void {
 			self.props.history.push("/redirect" + window.location.pathname);
 		} } setPaymentErrors={function (errors: string[]): void {
 			self.setState(s => ({...s, validationErrors: errors}));

@@ -243,7 +243,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const donationIsRecurring = propsToUse.order && propsToUse.order.doRecurring
 
     const intentProvided = propsToUse.squareInfo.verificationDetails.intentOverride.getOrElse(propsToUse.intentOverride)
-    const intent = donationIsRecurring ? "CHARGE_AND_STORE" : (isIntentValid(intentProvided) ? intentProvided : (storePayment ? "CHARGE_AND_STORE" : "CHARGE"))
+    const intent = (donationIsRecurring && !propsToUse.intentOverride) ? "CHARGE_AND_STORE" : (isIntentValid(intentProvided) ? intentProvided : (storePayment ? "CHARGE_AND_STORE" : "CHARGE"))
 
     const verificationDetails = mapVertificationDetails(propsToUse, intent)
     console.log(propsToUse)
@@ -255,6 +255,7 @@ export default function SquarePaymentForm(props: SquarePaymentFormProps){
     const isLoading = props.fetchOrderLate && propsToUse.order == undefined
     const isPaymentAvailable = !isLoading && !buttonDisableOverride
     console.log(paymentRequest)
+    console.log(intent)
     const doCharge = (sourceId: string, verificationTokenOpt: Option<string> = none) => {
         if(!isPaymentAvailable){
             propsToUse.setPaymentErrors(["Payment is loading, please wait"])
