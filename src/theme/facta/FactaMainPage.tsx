@@ -12,7 +12,7 @@ interface Props {
 export default class FactaMainPage extends Page<Props> {
 	render() {
 		const errors = (this.props.errors && this.props.errors.length > 0) ? this.props.errors : undefined
-		const infos = errors ? undefined : this.props.infosOverride || ["Gift cards issued before March 25 2025 are currently being imported into the new payments system and will not work temporarily. We have not yet received a timeline from Square on the import process."]
+		const infos = errors ? undefined : this.props.infosOverride || []
 		
 		return <div className="main-single-wrapper">
 			<div className="container">
