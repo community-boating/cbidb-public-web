@@ -12,7 +12,7 @@ interface Props {
 export default class FactaMainPage extends Page<Props> {
 	render() {
 		const errors = (this.props.errors && this.props.errors.length > 0) ? this.props.errors : undefined
-		const infos = errors ? undefined : this.props.infosOverride || []
+		const infos = errors ? undefined : this.props.infosOverride
 		
 		return <div className="main-single-wrapper">
 			<div className="container">
