@@ -248,7 +248,8 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 			if(a.type == "Success"){
 				self.setState({
 					...self.state,
-					donations: self.state.donations.filter(a => a.recurringDonationId != donationId).concat([a.success])
+					donations: self.state.donations.filter(a => a.recurringDonationId != donationId).concat([a.success]),
+					formDirty: false
 				})
 		}else{
 			self.setState({
@@ -331,7 +332,7 @@ export default class RecurringDonationsEdit extends React.PureComponent<Props, S
 
 		const deleteDonation = (donationId: number) => {
 			return deleteRecurringDonation.send(makePostJSON({
-				orderAppAlias: PageFlavor.AP,
+				orderAppAlias: PageFlavor.AUTO_DONATE,
 				recurringDonationId: donationId
 			})).then((a) => {
 				if(a.type == "Success"){
