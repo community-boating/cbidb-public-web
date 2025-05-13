@@ -66,7 +66,7 @@ export default class ApRegistrationWizard extends WizardPageflowAbstract<Props, 
 			...this.state,
 			membershipTypeId,
 			...fromServer,
-			paymentPlanAllowed: false//fromServer.paymentPlanAllowed
+			paymentPlanAllowed: fromServer.paymentPlanAllowed
 		})
 	}
 	calculateNodes(): WizardNode[] {
