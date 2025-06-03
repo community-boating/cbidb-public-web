@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "mocha --require ts-node/register test/**/*.ts"
+    "test": "mocha --require ts-node/register test/**/*.ts",
+    "testgen": "npx playwright codegen localhost"
   },
   "browserslist": [
     "> 0.25%",
@@ -32,6 +33,7 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@types/lodash": "^4.14.167",
