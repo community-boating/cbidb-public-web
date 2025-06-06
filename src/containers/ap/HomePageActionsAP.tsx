@@ -168,7 +168,7 @@ export default (
 		place: 6,
 		getElements: [
 			LINKS.edit,
-			() => (show4th ? <a target="_blank" href={`https://www.eventbrite.com/e/796271949837/?discount=FYADULT`}>Buy 4th of July Tickets</a> : null)
+			() => (show4th ? <a target="_blank" href={`https://www.eventbrite.com/e/july-4th-sailabration-on-bostons-charles-river-esplanade-tickets-1302164020639?discount=AMEM9799065`}>Buy 4th of July Tickets</a> : null)
 		]
 	}, {
 		place: 7,
